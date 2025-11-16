@@ -529,7 +529,7 @@ export class GeometryAPI implements WorkerAPI {
     const sy = toNumberOr(params?.sy ?? params?.scaleY ?? scaleVector?.y ?? uniformScale, 1);
     const sz = toNumberOr(params?.sz ?? params?.scaleZ ?? scaleVector?.z ?? uniformScale, 1);
 
-    const raw = this.occtWrapper.transform(shapeId, tx, ty, tz, rx, ry, rz, sx, sy, sz);
+    const raw = this.occtWrapper.transform(shapeId, { tx, ty, tz, rx, ry, rz, sx, sy, sz });
     return this.registerHandle(raw, handle.type ?? 'solid');
   }
 
@@ -545,10 +545,6 @@ export class GeometryAPI implements WorkerAPI {
   }
 
   // === Shape management ===
-
-  private getShapeCount(): number {
-    return this.occtWrapper.getShapeCount();
-  }
 
   private deleteShape(params: any): number {
     const target = params?.shapeId ?? params?.shape;
@@ -589,8 +585,8 @@ export class GeometryAPI implements WorkerAPI {
     return {
       healthy: this.initialized,
       timestamp: new Date().toISOString(),
-      shapeCount: this.getShapeCount(),
-      occtVersion: this.occtWrapper.getOCCTVersion(),
+      shapeCount: this.handleRegistry.size,
+      occtVersion: this.occtWrapper.getVersion(),
     };
   }
 
@@ -613,7 +609,7 @@ export class GeometryAPI implements WorkerAPI {
       };
     }
 
-    const mesh = this.occtWrapper.tessellateWithParams(shapeId, precisionValue, angleValue);
+    const mesh = this.occtWrapper.tessellate(shapeId, precisionValue, angleValue);
     this.meshCache.set(cacheKey, mesh);
 
     return {
