@@ -15,7 +15,11 @@ interface AlphaShapeOutputs {
   simplices: unknown;
 }
 
-export const AlgorithmicGeometryAlphaShapeNode: NodeDefinition<AlphaShapeInputs, AlphaShapeOutputs, AlphaShapeParams> = {
+export const AlgorithmicGeometryAlphaShapeNode: NodeDefinition<
+  AlphaShapeInputs,
+  AlphaShapeOutputs,
+  AlphaShapeParams
+> = {
   id: 'Algorithmic::AlphaShape',
   category: 'Algorithmic',
   label: 'AlphaShape',
@@ -24,22 +28,22 @@ export const AlgorithmicGeometryAlphaShapeNode: NodeDefinition<AlphaShapeInputs,
     points: {
       type: 'Point[]',
       label: 'Points',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shape: {
       type: 'Shape',
-      label: 'Shape'
+      label: 'Shape',
     },
     boundary: {
       type: 'Wire[]',
-      label: 'Boundary'
+      label: 'Boundary',
     },
     simplices: {
       type: 'Properties[]',
-      label: 'Simplices'
-    }
+      label: 'Simplices',
+    },
   },
   params: {
     alpha: {
@@ -47,14 +51,14 @@ export const AlgorithmicGeometryAlphaShapeNode: NodeDefinition<AlphaShapeInputs,
       label: 'Alpha',
       default: 1,
       min: 0.1,
-      max: 100
+      max: 100,
     },
     mode: {
       type: 'enum',
       label: 'Mode',
-      default: "3D",
-      options: ["3D","2D"]
-    }
+      default: '3D',
+      options: ['3D', '2D'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -62,14 +66,14 @@ export const AlgorithmicGeometryAlphaShapeNode: NodeDefinition<AlphaShapeInputs,
       params: {
         points: inputs.points,
         alpha: params.alpha,
-        mode: params.mode
-      }
+        mode: params.mode,
+      },
     });
-    
+
     return {
       shape: results.shape,
       boundary: results.boundary,
-      simplices: results.simplices
+      simplices: results.simplices,
     };
   },
 };

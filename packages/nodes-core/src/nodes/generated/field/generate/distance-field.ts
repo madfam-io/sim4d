@@ -14,7 +14,11 @@ interface DistanceFieldOutputs {
   field: unknown;
 }
 
-export const FieldGenerateDistanceFieldNode: NodeDefinition<DistanceFieldInputs, DistanceFieldOutputs, DistanceFieldParams> = {
+export const FieldGenerateDistanceFieldNode: NodeDefinition<
+  DistanceFieldInputs,
+  DistanceFieldOutputs,
+  DistanceFieldParams
+> = {
   id: 'Field::DistanceField',
   type: 'Field::DistanceField',
   category: 'Field',
@@ -24,32 +28,32 @@ export const FieldGenerateDistanceFieldNode: NodeDefinition<DistanceFieldInputs,
     geometry: {
       type: 'Shape',
       label: 'Geometry',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     field: {
       type: 'ScalarField',
-      label: 'Field'
-    }
+      label: 'Field',
+    },
   },
   params: {
     maxDistance: {
       type: 'number',
       label: 'Max Distance',
       default: 100,
-      min: 0.1
+      min: 0.1,
     },
     inside: {
       type: 'boolean',
       label: 'Inside',
-      default: false
+      default: false,
     },
     signed: {
       type: 'boolean',
       label: 'Signed',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -58,12 +62,12 @@ export const FieldGenerateDistanceFieldNode: NodeDefinition<DistanceFieldInputs,
         geometry: inputs.geometry,
         maxDistance: params.maxDistance,
         inside: params.inside,
-        signed: params.signed
-      }
+        signed: params.signed,
+      },
     });
-    
+
     return {
-      field: result
+      field: result,
     };
   },
 };

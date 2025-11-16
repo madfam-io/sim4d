@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -16,73 +15,62 @@ interface Outputs {
   stepData: Data;
 }
 
-export const ExportSTEPNode: NodeDefinition<ExportSTEPInputs, ExportSTEPOutputs, ExportSTEPParams> = {
-  type: 'IO::ExportSTEP',
-  category: 'IO',
-  subcategory: 'CAD',
+export const ExportSTEPNode: NodeDefinition<ExportSTEPInputs, ExportSTEPOutputs, ExportSTEPParams> =
+  {
+    type: 'IO::ExportSTEP',
+    category: 'IO',
+    subcategory: 'CAD',
 
-  metadata: {
-    label: 'ExportSTEP',
-    description: 'Export to STEP format',
-    
-    
-  },
-
-  params: {
-        version: {
-      "default": "AP214",
-      "options": [
-        "AP203",
-        "AP214",
-        "AP242"
-      ]
+    metadata: {
+      label: 'ExportSTEP',
+      description: 'Export to STEP format',
     },
-    writeColors: {
-      "default": true
+
+    params: {
+      version: {
+        default: 'AP214',
+        options: ['AP203', 'AP214', 'AP242'],
+      },
+      writeColors: {
+        default: true,
+      },
+      writeNames: {
+        default: true,
+      },
+      writeLayers: {
+        default: true,
+      },
+      units: {
+        default: 'mm',
+        options: ['mm', 'cm', 'm', 'inch'],
+      },
     },
-    writeNames: {
-      "default": true
+
+    inputs: {
+      shape: 'Shape',
+      metadata: 'Data',
     },
-    writeLayers: {
-      "default": true
+
+    outputs: {
+      stepData: 'Data',
     },
-    units: {
-      "default": "mm",
-      "options": [
-        "mm",
-        "cm",
-        "m",
-        "inch"
-      ]
-    }
-  },
 
-  inputs: {
-        shape: 'Shape',
-    metadata: 'Data'
-  },
+    async evaluate(context, inputs, params) {
+      const result = await context.geometry.execute({
+        type: 'exportSTEP',
+        params: {
+          shape: inputs.shape,
+          metadata: inputs.metadata,
+          version: params.version,
+          writeColors: params.writeColors,
+          writeNames: params.writeNames,
+          writeLayers: params.writeLayers,
+          units: params.units,
+        },
+      });
 
-  outputs: {
-        stepData: 'Data'
-  },
-
-  async evaluate(context, inputs, params) {
-    
-    const result = await context.geometry.execute({
-      type: 'exportSTEP',
-      params: {
-        shape: inputs.shape,
-        metadata: inputs.metadata,
-        version: params.version,
-        writeColors: params.writeColors,
-        writeNames: params.writeNames,
-        writeLayers: params.writeLayers,
-        units: params.units
-      }
-    });
-
-    return {
-      stepData: result
-    };
-  }
-};
+      return {
+        stepData: result,
+      };
+    },
+  };

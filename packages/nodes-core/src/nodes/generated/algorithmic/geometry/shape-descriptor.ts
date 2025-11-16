@@ -16,7 +16,11 @@ interface ShapeDescriptorOutputs {
   similarity: unknown;
 }
 
-export const AlgorithmicGeometryShapeDescriptorNode: NodeDefinition<ShapeDescriptorInputs, ShapeDescriptorOutputs, ShapeDescriptorParams> = {
+export const AlgorithmicGeometryShapeDescriptorNode: NodeDefinition<
+  ShapeDescriptorInputs,
+  ShapeDescriptorOutputs,
+  ShapeDescriptorParams
+> = {
   id: 'Algorithmic::ShapeDescriptor',
   type: 'Algorithmic::ShapeDescriptor',
   category: 'Algorithmic',
@@ -26,42 +30,42 @@ export const AlgorithmicGeometryShapeDescriptorNode: NodeDefinition<ShapeDescrip
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     descriptor: {
       type: 'number[]',
-      label: 'Descriptor'
+      label: 'Descriptor',
     },
     features: {
       type: 'Properties',
-      label: 'Features'
+      label: 'Features',
     },
     similarity: {
       type: 'number',
-      label: 'Similarity'
-    }
+      label: 'Similarity',
+    },
   },
   params: {
     descriptor: {
       type: 'enum',
       label: 'Descriptor',
-      default: "moments",
-      options: ["moments","fourier","histogram"]
+      default: 'moments',
+      options: ['moments', 'fourier', 'histogram'],
     },
     resolution: {
       type: 'number',
       label: 'Resolution',
       default: 32,
       min: 8,
-      max: 128
+      max: 128,
     },
     normalize: {
       type: 'boolean',
       label: 'Normalize',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -70,14 +74,14 @@ export const AlgorithmicGeometryShapeDescriptorNode: NodeDefinition<ShapeDescrip
         shape: inputs.shape,
         descriptor: params.descriptor,
         resolution: params.resolution,
-        normalize: params.normalize
-      }
+        normalize: params.normalize,
+      },
     });
-    
+
     return {
       descriptor: results.descriptor,
       features: results.features,
-      similarity: results.similarity
+      similarity: results.similarity,
     };
   },
 };

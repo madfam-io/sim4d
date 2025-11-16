@@ -18,7 +18,7 @@ export {
   createHorizontalConstraint,
   createVerticalConstraint,
   createFixedConstraint,
-  createEqualConstraint
+  createEqualConstraint,
 } from './constraints';
 
 // Export evaluators

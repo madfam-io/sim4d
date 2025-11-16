@@ -60,7 +60,7 @@ export class NodeRegistry {
     if (!types) return [];
 
     return Array.from(types)
-      .map(type => this.nodes.get(type))
+      .map((type) => this.nodes.get(type))
       .filter(Boolean) as NodeDefinition[];
   }
 

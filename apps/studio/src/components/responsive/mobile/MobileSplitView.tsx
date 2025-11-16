@@ -20,7 +20,7 @@ export const MobileSplitView: React.FC<MobileSplitViewProps> = ({
   secondaryContent,
   primaryLabel = 'Primary',
   secondaryLabel = 'Secondary',
-  splitRatio = 0.5
+  splitRatio = 0.5,
 }) => {
   const [actualRatio, setActualRatio] = useState(splitRatio);
   const [isDragging, setIsDragging] = useState(false);
@@ -44,13 +44,13 @@ export const MobileSplitView: React.FC<MobileSplitViewProps> = ({
 
     const handleMove = (e: TouchEvent | MouseEvent) => {
       if (!isDragging || !containerRef.current) return;
-      
+
       const pos = 'touches' in e ? e.touches[0] : e;
       const container = containerRef.current.getBoundingClientRect();
-      
+
       let delta: number;
       let totalSize: number;
-      
+
       if (mode === 'split-horizontal') {
         delta = pos.clientX - startPos;
         totalSize = container.width;
@@ -58,7 +58,7 @@ export const MobileSplitView: React.FC<MobileSplitViewProps> = ({
         delta = pos.clientY - startPos;
         totalSize = container.height;
       }
-      
+
       const deltaRatio = delta / totalSize;
       const newRatio = Math.max(0.2, Math.min(0.8, startRatio + deltaRatio));
       setActualRatio(newRatio);
@@ -69,12 +69,12 @@ export const MobileSplitView: React.FC<MobileSplitViewProps> = ({
     };
 
     const divider = dividerRef.current;
-    
+
     // Touch events
     divider.addEventListener('touchstart', handleStart, { passive: false });
     window.addEventListener('touchmove', handleMove, { passive: false });
     window.addEventListener('touchend', handleEnd);
-    
+
     // Mouse events (for testing in browser)
     divider.addEventListener('mousedown', handleStart);
     window.addEventListener('mousemove', handleMove);
@@ -103,9 +103,7 @@ export const MobileSplitView: React.FC<MobileSplitViewProps> = ({
             <span className="panel-title">{label}</span>
           </div>
         )}
-        <div className="split-panel-content">
-          {content}
-        </div>
+        <div className="split-panel-content">{content}</div>
       </div>
     );
   };
@@ -133,12 +131,13 @@ export const MobileSplitView: React.FC<MobileSplitViewProps> = ({
 
   // Split modes
   const splitClass = mode === 'split-horizontal' ? 'horizontal' : 'vertical';
-  const splitStyle = mode === 'split-horizontal'
-    ? { gridTemplateColumns: `${actualRatio}fr ${1 - actualRatio}fr` }
-    : { gridTemplateRows: `${actualRatio}fr ${1 - actualRatio}fr` };
+  const splitStyle =
+    mode === 'split-horizontal'
+      ? { gridTemplateColumns: `${actualRatio}fr ${1 - actualRatio}fr` }
+      : { gridTemplateRows: `${actualRatio}fr ${1 - actualRatio}fr` };
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className={`mobile-split-view split-mode ${splitClass} ${isDragging ? 'dragging' : ''}`}
       style={splitStyle}

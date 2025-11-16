@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { SheetMetalCornersBendReliefNode } from './bend-relief.node';
 import { createTestContext } from '../test-utils';
@@ -8,12 +7,12 @@ describe('SheetMetalCornersBendReliefNode', () => {
     const context = createTestContext();
     const inputs = {
       sheet: undefined,
-      bends: undefined
+      bends: undefined,
     } as any;
     const params = {
-      reliefType: "rectangular",
+      reliefType: 'rectangular',
       reliefDepth: 5,
-      reliefWidth: 2
+      reliefWidth: 2,
     } as any;
 
     const result = await SheetMetalCornersBendReliefNode.evaluate(context, inputs, params);

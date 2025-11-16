@@ -12,7 +12,11 @@ interface StringTrimOutputs {
   trimmed: unknown;
 }
 
-export const DataStringStringTrimNode: NodeDefinition<StringTrimInputs, StringTrimOutputs, StringTrimParams> = {
+export const DataStringStringTrimNode: NodeDefinition<
+  StringTrimInputs,
+  StringTrimOutputs,
+  StringTrimParams
+> = {
   id: 'Data::StringTrim',
   category: 'Data',
   label: 'StringTrim',
@@ -21,34 +25,34 @@ export const DataStringStringTrimNode: NodeDefinition<StringTrimInputs, StringTr
     string: {
       type: 'string',
       label: 'String',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     trimmed: {
       type: 'string',
-      label: 'Trimmed'
-    }
+      label: 'Trimmed',
+    },
   },
   params: {
     mode: {
       type: 'enum',
       label: 'Mode',
-      default: "both",
-      options: ["both","start","end"]
-    }
+      default: 'both',
+      options: ['both', 'start', 'end'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'stringTrim',
       params: {
         string: inputs.string,
-        mode: params.mode
-      }
+        mode: params.mode,
+      },
     });
-    
+
     return {
-      trimmed: result
+      trimmed: result,
     };
   },
 };

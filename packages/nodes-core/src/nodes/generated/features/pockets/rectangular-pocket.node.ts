@@ -17,7 +17,11 @@ interface RectangularPocketOutputs {
   shape: unknown;
 }
 
-export const FeaturesPocketsRectangularPocketNode: NodeDefinition<RectangularPocketInputs, RectangularPocketOutputs, RectangularPocketParams> = {
+export const FeaturesPocketsRectangularPocketNode: NodeDefinition<
+  RectangularPocketInputs,
+  RectangularPocketOutputs,
+  RectangularPocketParams
+> = {
   id: 'Features::RectangularPocket',
   category: 'Features',
   label: 'RectangularPocket',
@@ -26,19 +30,19 @@ export const FeaturesPocketsRectangularPocketNode: NodeDefinition<RectangularPoc
     face: {
       type: 'Face',
       label: 'Face',
-      required: true
+      required: true,
     },
     position: {
       type: 'Point',
       label: 'Position',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shape: {
       type: 'Shape',
-      label: 'Shape'
-    }
+      label: 'Shape',
+    },
   },
   params: {
     width: {
@@ -46,36 +50,36 @@ export const FeaturesPocketsRectangularPocketNode: NodeDefinition<RectangularPoc
       label: 'Width',
       default: 50,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     height: {
       type: 'number',
       label: 'Height',
       default: 30,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     depth: {
       type: 'number',
       label: 'Depth',
       default: 10,
       min: 0.1,
-      max: 1000
+      max: 1000,
     },
     cornerRadius: {
       type: 'number',
       label: 'Corner Radius',
       default: 0,
       min: 0,
-      max: 100
+      max: 100,
     },
     draftAngle: {
       type: 'number',
       label: 'Draft Angle',
       default: 0,
       min: 0,
-      max: 45
-    }
+      max: 45,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -87,12 +91,12 @@ export const FeaturesPocketsRectangularPocketNode: NodeDefinition<RectangularPoc
         height: params.height,
         depth: params.depth,
         cornerRadius: params.cornerRadius,
-        draftAngle: params.draftAngle
-      }
+        draftAngle: params.draftAngle,
+      },
     });
-    
+
     return {
-      shape: result
+      shape: result,
     };
   },
 };

@@ -17,7 +17,11 @@ interface IGESImportOutputs {
   metadata: unknown;
 }
 
-export const InteroperabilityImportIGESImportNode: NodeDefinition<IGESImportInputs, IGESImportOutputs, IGESImportParams> = {
+export const InteroperabilityImportIGESImportNode: NodeDefinition<
+  IGESImportInputs,
+  IGESImportOutputs,
+  IGESImportParams
+> = {
   id: 'Interoperability::IGESImport',
   type: 'Interoperability::IGESImport',
   category: 'Interoperability',
@@ -27,44 +31,44 @@ export const InteroperabilityImportIGESImportNode: NodeDefinition<IGESImportInpu
     filePath: {
       type: 'string',
       label: 'File Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shapes: {
       type: 'Shape[]',
-      label: 'Shapes'
+      label: 'Shapes',
     },
     curves: {
       type: 'Wire[]',
-      label: 'Curves'
+      label: 'Curves',
     },
     surfaces: {
       type: 'Face[]',
-      label: 'Surfaces'
+      label: 'Surfaces',
     },
     metadata: {
       type: 'Properties',
-      label: 'Metadata'
-    }
+      label: 'Metadata',
+    },
   },
   params: {
     units: {
       type: 'enum',
       label: 'Units',
-      default: "auto",
-      options: ["auto","mm","cm","m","inch"]
+      default: 'auto',
+      options: ['auto', 'mm', 'cm', 'm', 'inch'],
     },
     readFailed: {
       type: 'boolean',
       label: 'Read Failed',
-      default: false
+      default: false,
     },
     oneObject: {
       type: 'boolean',
       label: 'One Object',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -73,15 +77,15 @@ export const InteroperabilityImportIGESImportNode: NodeDefinition<IGESImportInpu
         filePath: inputs.filePath,
         units: params.units,
         readFailed: params.readFailed,
-        oneObject: params.oneObject
-      }
+        oneObject: params.oneObject,
+      },
     });
-    
+
     return {
       shapes: results.shapes,
       curves: results.curves,
       surfaces: results.surfaces,
-      metadata: results.metadata
+      metadata: results.metadata,
     };
   },
 };

@@ -106,7 +106,7 @@ export function Comparison() {
     <section id="comparison" className="relative py-32 px-4 overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-900/5 to-transparent" />
-      
+
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section header */}
         <motion.div
@@ -144,13 +144,15 @@ export function Comparison() {
                   animate={inView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.4, delay: idx * 0.1 }}
                   className={`text-center p-4 rounded-xl ${
-                    comp.highlight 
-                      ? 'bg-gradient-to-br from-blue-500/20 to-purple-500/20 border-2 border-purple-500/50' 
+                    comp.highlight
+                      ? 'bg-gradient-to-br from-blue-500/20 to-purple-500/20 border-2 border-purple-500/50'
                       : 'bg-gray-800/30'
                   }`}
                 >
                   <div className="text-3xl mb-2">{comp.logo}</div>
-                  <div className={`font-semibold ${comp.highlight ? 'text-purple-400' : 'text-gray-300'}`}>
+                  <div
+                    className={`font-semibold ${comp.highlight ? 'text-purple-400' : 'text-gray-300'}`}
+                  >
                     {comp.name}
                   </div>
                   {comp.highlight && (
@@ -178,7 +180,7 @@ export function Comparison() {
                   <div
                     key={`${comp.name}-${key}`}
                     className={`p-4 text-center transition-colors ${
-                      comp.features[key as keyof typeof comp.features] !== undefined 
+                      comp.features[key as keyof typeof comp.features] !== undefined
                         ? comp.features[key as keyof typeof comp.features]
                           ? 'bg-green-100 text-green-800'
                           : 'bg-red-100 text-red-800'
@@ -207,7 +209,8 @@ export function Comparison() {
             <div className="text-4xl mb-4">🌐</div>
             <h3 className="text-xl font-semibold mb-2 text-white">No Installation</h3>
             <p className="text-gray-400">
-              Start modeling instantly in your browser. No downloads, no setup, no compatibility issues.
+              Start modeling instantly in your browser. No downloads, no setup, no compatibility
+              issues.
             </p>
           </div>
 

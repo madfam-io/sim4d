@@ -88,7 +88,9 @@ export class CSRFCollaborationClient {
       return data.token;
     } catch (error) {
       console.error('[CSRF] Token fetch failed:', error);
-      throw new Error(`CSRF token fetch failed: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `CSRF token fetch failed: ${error instanceof Error ? error.message : String(error)}`
+      );
     }
   }
 
@@ -120,7 +122,9 @@ export class CSRFCollaborationClient {
       return data.token;
     } catch (error) {
       console.error('[CSRF] Token refresh failed:', error);
-      throw new Error(`CSRF token refresh failed: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `CSRF token refresh failed: ${error instanceof Error ? error.message : String(error)}`
+      );
     }
   }
 
@@ -136,7 +140,7 @@ export class CSRFCollaborationClient {
 
     // Calculate refresh time (5 minutes before expiration by default)
     const refreshInterval = this.options.csrfRefreshInterval || 55 * 60 * 1000; // 55 minutes in ms
-    const timeUntilRefresh = this.tokenExpiresAt - Date.now() - (5 * 60 * 1000);
+    const timeUntilRefresh = this.tokenExpiresAt - Date.now() - 5 * 60 * 1000;
 
     // Don't set timer if token expires too soon
     if (timeUntilRefresh < 0) {
@@ -145,11 +149,18 @@ export class CSRFCollaborationClient {
       return;
     }
 
-    this.refreshTimer = setTimeout(() => {
-      this.handleTokenRefresh();
-    }, Math.min(timeUntilRefresh, refreshInterval));
+    this.refreshTimer = setTimeout(
+      () => {
+        this.handleTokenRefresh();
+      },
+      Math.min(timeUntilRefresh, refreshInterval)
+    );
 
-    console.log('[CSRF] Token refresh scheduled in', Math.round(timeUntilRefresh / 1000), 'seconds');
+    console.log(
+      '[CSRF] Token refresh scheduled in',
+      Math.round(timeUntilRefresh / 1000),
+      'seconds'
+    );
   }
 
   /**
@@ -171,7 +182,6 @@ export class CSRFCollaborationClient {
 
       // Setup next refresh
       this.setupTokenRefreshTimer();
-
     } catch (error) {
       console.error('[CSRF] Token refresh failed:', error);
       this.eventHandlers.onCSRFError?.(error instanceof Error ? error : new Error(String(error)));
@@ -180,7 +190,9 @@ export class CSRFCollaborationClient {
       if (this.retryAttempts < this.maxRetries) {
         this.retryAttempts++;
         const backoff = Math.pow(2, this.retryAttempts) * 1000;
-        console.log(`[CSRF] Retrying token refresh in ${backoff}ms (attempt ${this.retryAttempts}/${this.maxRetries})`);
+        console.log(
+          `[CSRF] Retrying token refresh in ${backoff}ms (attempt ${this.retryAttempts}/${this.maxRetries})`
+        );
         setTimeout(() => this.handleTokenRefresh(), backoff);
       } else {
         console.error('[CSRF] Max retry attempts reached, giving up');
@@ -286,7 +298,6 @@ export class CSRFCollaborationClient {
       // Reconnect with new token
       this.disconnect();
       await this.connect();
-
     } catch (refreshError) {
       console.error('[CSRF] Failed to recover from CSRF error:', refreshError);
       this.eventHandlers.onError?.(new Error('CSRF authentication failed'));
@@ -325,7 +336,6 @@ export class CSRFCollaborationClient {
 
       // Setup token refresh timer
       this.setupTokenRefreshTimer();
-
     } catch (error) {
       console.error('[CSRF] Failed to connect:', error);
       this.eventHandlers.onError?.(error instanceof Error ? error : new Error(String(error)));
@@ -384,11 +394,7 @@ export class CSRFCollaborationClient {
     this.socket?.emit('document:request-sync');
   }
 
-  private throttledPresenceUpdate(
-    type: string,
-    data: any,
-    callback: () => void
-  ): void {
+  private throttledPresenceUpdate(type: string, data: any, callback: () => void): void {
     if (this.presenceThrottle.has(type)) {
       clearTimeout(this.presenceThrottle.get(type));
     }
@@ -420,9 +426,7 @@ export class CSRFCollaborationClient {
         );
         break;
       case 'UPDATE_NODE':
-        const nodeIndex = this.document.graph.nodes.findIndex(
-          (n) => n.id === operation.nodeId
-        );
+        const nodeIndex = this.document.graph.nodes.findIndex((n) => n.id === operation.nodeId);
         if (nodeIndex >= 0) {
           this.document.graph.nodes[nodeIndex] = {
             ...this.document.graph.nodes[nodeIndex],

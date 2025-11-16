@@ -13,7 +13,11 @@ interface CoastingSetupOutputs {
   coastingPoints: Array<[number, number, number]>;
 }
 
-export const Fabrication3DPrintingCoastingSetupNode: NodeDefinition<CoastingSetupInputs, CoastingSetupOutputs, CoastingSetupParams> = {
+export const Fabrication3DPrintingCoastingSetupNode: NodeDefinition<
+  CoastingSetupInputs,
+  CoastingSetupOutputs,
+  CoastingSetupParams
+> = {
   id: 'Fabrication::CoastingSetup',
   category: 'Fabrication',
   label: 'CoastingSetup',
@@ -22,14 +26,14 @@ export const Fabrication3DPrintingCoastingSetupNode: NodeDefinition<CoastingSetu
     extrusions: {
       type: 'Wire[]',
       label: 'Extrusions',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     coastingPoints: {
       type: 'Point[]',
-      label: 'Coasting Points'
-    }
+      label: 'Coasting Points',
+    },
   },
   params: {
     coastVolume: {
@@ -37,15 +41,15 @@ export const Fabrication3DPrintingCoastingSetupNode: NodeDefinition<CoastingSetu
       label: 'Coast Volume',
       default: 0.064,
       min: 0,
-      max: 1
+      max: 1,
     },
     minVolume: {
       type: 'number',
       label: 'Min Volume',
       default: 0.8,
       min: 0.1,
-      max: 5
-    }
+      max: 5,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const Fabrication3DPrintingCoastingSetupNode: NodeDefinition<CoastingSetu
       params: {
         extrusions: inputs.extrusions,
         coastVolume: params.coastVolume,
-        minVolume: params.minVolume
-      }
+        minVolume: params.minVolume,
+      },
     });
-    
+
     return {
-      coastingPoints: result
+      coastingPoints: result,
     };
   },
 };

@@ -16,7 +16,11 @@ interface MotionDriverOutputs {
   drivenJoint: unknown;
 }
 
-export const SimulationKinematicsMotionDriverNode: NodeDefinition<MotionDriverInputs, MotionDriverOutputs, MotionDriverParams> = {
+export const SimulationKinematicsMotionDriverNode: NodeDefinition<
+  MotionDriverInputs,
+  MotionDriverOutputs,
+  MotionDriverParams
+> = {
   id: 'Simulation::MotionDriver',
   category: 'Simulation',
   label: 'MotionDriver',
@@ -25,48 +29,48 @@ export const SimulationKinematicsMotionDriverNode: NodeDefinition<MotionDriverIn
     joint: {
       type: 'Data',
       label: 'Joint',
-      required: true
+      required: true,
     },
     motionProfile: {
       type: 'Data',
       label: 'Motion Profile',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     drivenJoint: {
       type: 'Data',
-      label: 'Driven Joint'
-    }
+      label: 'Driven Joint',
+    },
   },
   params: {
     motionType: {
       type: 'enum',
       label: 'Motion Type',
-      default: "constant",
-      options: ["constant","harmonic","profile","expression"]
+      default: 'constant',
+      options: ['constant', 'harmonic', 'profile', 'expression'],
     },
     velocity: {
       type: 'number',
       label: 'Velocity',
       default: 1,
       min: -1000,
-      max: 1000
+      max: 1000,
     },
     acceleration: {
       type: 'number',
       label: 'Acceleration',
       default: 0,
       min: -1000,
-      max: 1000
+      max: 1000,
     },
     period: {
       type: 'number',
       label: 'Period',
       default: 1,
       min: 0.001,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -77,12 +81,12 @@ export const SimulationKinematicsMotionDriverNode: NodeDefinition<MotionDriverIn
         motionType: params.motionType,
         velocity: params.velocity,
         acceleration: params.acceleration,
-        period: params.period
-      }
+        period: params.period,
+      },
     });
-    
+
     return {
-      drivenJoint: result
+      drivenJoint: result,
     };
   },
 };

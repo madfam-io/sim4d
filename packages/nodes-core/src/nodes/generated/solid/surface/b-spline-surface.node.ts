@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -16,7 +15,11 @@ interface Outputs {
   surface: Face;
 }
 
-export const BSplineSurfaceNode: NodeDefinition<BSplineSurfaceInputs, BSplineSurfaceOutputs, BSplineSurfaceParams> = {
+export const BSplineSurfaceNode: NodeDefinition<
+  BSplineSurfaceInputs,
+  BSplineSurfaceOutputs,
+  BSplineSurfaceParams
+> = {
   type: 'Solid::BSplineSurface',
   category: 'Solid',
   subcategory: 'Surface',
@@ -24,41 +27,38 @@ export const BSplineSurfaceNode: NodeDefinition<BSplineSurfaceInputs, BSplineSur
   metadata: {
     label: 'BSplineSurface',
     description: 'Create a B-Spline surface',
-    
-    
   },
 
   params: {
-        uDegree: {
-      "default": 3,
-      "min": 1,
-      "max": 10
+    uDegree: {
+      default: 3,
+      min: 1,
+      max: 10,
     },
     vDegree: {
-      "default": 3,
-      "min": 1,
-      "max": 10
+      default: 3,
+      min: 1,
+      max: 10,
     },
     uPeriodic: {
-      "default": false
+      default: false,
     },
     vPeriodic: {
-      "default": false
-    }
+      default: false,
+    },
   },
 
   inputs: {
-        controlPoints: 'Point[][]',
+    controlPoints: 'Point[][]',
     uKnots: 'number[]',
-    vKnots: 'number[]'
+    vKnots: 'number[]',
   },
 
   outputs: {
-        surface: 'Face'
+    surface: 'Face',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'makeBSplineSurface',
       params: {
@@ -68,12 +68,12 @@ export const BSplineSurfaceNode: NodeDefinition<BSplineSurfaceInputs, BSplineSur
         uDegree: params.uDegree,
         vDegree: params.vDegree,
         uPeriodic: params.uPeriodic,
-        vPeriodic: params.vPeriodic
-      }
+        vPeriodic: params.vPeriodic,
+      },
     });
 
     return {
-      surface: result
+      surface: result,
     };
-  }
+  },
 };

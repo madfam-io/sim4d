@@ -17,7 +17,11 @@ interface EdgeFlangeOutputs {
   result: unknown;
 }
 
-export const SheetMetalFlangesEdgeFlangeNode: NodeDefinition<EdgeFlangeInputs, EdgeFlangeOutputs, EdgeFlangeParams> = {
+export const SheetMetalFlangesEdgeFlangeNode: NodeDefinition<
+  EdgeFlangeInputs,
+  EdgeFlangeOutputs,
+  EdgeFlangeParams
+> = {
   id: 'SheetMetal::EdgeFlange',
   type: 'SheetMetal::EdgeFlange',
   category: 'SheetMetal',
@@ -27,19 +31,19 @@ export const SheetMetalFlangesEdgeFlangeNode: NodeDefinition<EdgeFlangeInputs, E
     sheet: {
       type: 'Shape',
       label: 'Sheet',
-      required: true
+      required: true,
     },
     edge: {
       type: 'Edge',
       label: 'Edge',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'Shape',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {
     height: {
@@ -47,35 +51,35 @@ export const SheetMetalFlangesEdgeFlangeNode: NodeDefinition<EdgeFlangeInputs, E
       label: 'Height',
       default: 25,
       min: 0.1,
-      max: 1000
+      max: 1000,
     },
     angle: {
       type: 'number',
       label: 'Angle',
       default: 90,
       min: 0,
-      max: 180
+      max: 180,
     },
     bendRadius: {
       type: 'number',
       label: 'Bend Radius',
       default: 3,
       min: 0.1,
-      max: 100
+      max: 100,
     },
     bendRelief: {
       type: 'enum',
       label: 'Bend Relief',
-      default: "rectangular",
-      options: ["rectangular","obround","tear"]
+      default: 'rectangular',
+      options: ['rectangular', 'obround', 'tear'],
     },
     reliefRatio: {
       type: 'number',
       label: 'Relief Ratio',
       default: 0.5,
       min: 0.1,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -87,12 +91,12 @@ export const SheetMetalFlangesEdgeFlangeNode: NodeDefinition<EdgeFlangeInputs, E
         angle: params.angle,
         bendRadius: params.bendRadius,
         bendRelief: params.bendRelief,
-        reliefRatio: params.reliefRatio
-      }
+        reliefRatio: params.reliefRatio,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

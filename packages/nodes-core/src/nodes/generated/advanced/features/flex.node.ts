@@ -25,24 +25,24 @@ export const AdvancedFeaturesFlexNode: NodeDefinition<FlexInputs, FlexOutputs, F
     solid: {
       type: 'Shape',
       label: 'Solid',
-      required: true
+      required: true,
     },
     bendPlane: {
       type: 'Plane',
       label: 'Bend Plane',
-      required: true
+      required: true,
     },
     trimPlanes: {
       type: 'Plane[]',
       label: 'Trim Planes',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     flexed: {
       type: 'Shape',
-      label: 'Flexed'
-    }
+      label: 'Flexed',
+    },
   },
   params: {
     bendAngle: {
@@ -50,22 +50,22 @@ export const AdvancedFeaturesFlexNode: NodeDefinition<FlexInputs, FlexOutputs, F
       label: 'Bend Angle',
       default: 90,
       min: 0,
-      max: 180
+      max: 180,
     },
     bendRadius: {
       type: 'number',
       label: 'Bend Radius',
       default: 10,
       min: 0.1,
-      max: 1000
+      max: 1000,
     },
     accuracy: {
       type: 'number',
       label: 'Accuracy',
       default: 1,
       min: 0.1,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -76,12 +76,12 @@ export const AdvancedFeaturesFlexNode: NodeDefinition<FlexInputs, FlexOutputs, F
         trimPlanes: inputs.trimPlanes,
         bendAngle: params.bendAngle,
         bendRadius: params.bendRadius,
-        accuracy: params.accuracy
-      }
+        accuracy: params.accuracy,
+      },
     });
-    
+
     return {
-      flexed: result
+      flexed: result,
     };
   },
 };

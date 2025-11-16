@@ -13,7 +13,11 @@ interface SierpinskiTriangleOutputs {
   fractal: unknown;
 }
 
-export const PatternsFractalsSierpinskiTriangleNode: NodeDefinition<SierpinskiTriangleInputs, SierpinskiTriangleOutputs, SierpinskiTriangleParams> = {
+export const PatternsFractalsSierpinskiTriangleNode: NodeDefinition<
+  SierpinskiTriangleInputs,
+  SierpinskiTriangleOutputs,
+  SierpinskiTriangleParams
+> = {
   id: 'Patterns::SierpinskiTriangle',
   category: 'Patterns',
   label: 'SierpinskiTriangle',
@@ -22,14 +26,14 @@ export const PatternsFractalsSierpinskiTriangleNode: NodeDefinition<SierpinskiTr
     triangle: {
       type: 'Face',
       label: 'Triangle',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     fractal: {
       type: 'Face[]',
-      label: 'Fractal'
-    }
+      label: 'Fractal',
+    },
   },
   params: {
     iterations: {
@@ -38,13 +42,13 @@ export const PatternsFractalsSierpinskiTriangleNode: NodeDefinition<SierpinskiTr
       default: 5,
       min: 0,
       max: 10,
-      step: 1
+      step: 1,
     },
     filled: {
       type: 'boolean',
       label: 'Filled',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -52,12 +56,12 @@ export const PatternsFractalsSierpinskiTriangleNode: NodeDefinition<SierpinskiTr
       params: {
         triangle: inputs.triangle,
         iterations: params.iterations,
-        filled: params.filled
-      }
+        filled: params.filled,
+      },
     });
-    
+
     return {
-      fractal: result
+      fractal: result,
     };
   },
 };

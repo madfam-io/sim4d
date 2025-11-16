@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { TransformPolarArrayNode } from './polar-array.node';
 import { createTestContext } from '../test-utils';
@@ -7,7 +6,7 @@ describe('TransformPolarArrayNode', () => {
   it('should evaluate without throwing', async () => {
     const context = createTestContext();
     const inputs = {
-      shape: undefined
+      shape: undefined,
     } as any;
     const params = {
       count: 8,
@@ -19,7 +18,7 @@ describe('TransformPolarArrayNode', () => {
       axisY: 0,
       axisZ: 1,
       rotateItems: true,
-      merge: false
+      merge: false,
     } as any;
 
     const result = await TransformPolarArrayNode.evaluate(context, inputs, params);

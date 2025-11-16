@@ -13,7 +13,11 @@ interface ChargeFieldOutputs {
   field: unknown;
 }
 
-export const FieldGenerateChargeFieldNode: NodeDefinition<ChargeFieldInputs, ChargeFieldOutputs, ChargeFieldParams> = {
+export const FieldGenerateChargeFieldNode: NodeDefinition<
+  ChargeFieldInputs,
+  ChargeFieldOutputs,
+  ChargeFieldParams
+> = {
   id: 'Field::ChargeField',
   type: 'Field::ChargeField',
   category: 'Field',
@@ -23,14 +27,14 @@ export const FieldGenerateChargeFieldNode: NodeDefinition<ChargeFieldInputs, Cha
     points: {
       type: 'Point[]',
       label: 'Points',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     field: {
       type: 'ScalarField',
-      label: 'Field'
-    }
+      label: 'Field',
+    },
   },
   params: {
     charge: {
@@ -38,14 +42,14 @@ export const FieldGenerateChargeFieldNode: NodeDefinition<ChargeFieldInputs, Cha
       label: 'Charge',
       default: 1,
       min: -10,
-      max: 10
+      max: 10,
     },
     falloff: {
       type: 'enum',
       label: 'Falloff',
-      default: "inverse-square",
-      options: ["inverse","inverse-square","exponential"]
-    }
+      default: 'inverse-square',
+      options: ['inverse', 'inverse-square', 'exponential'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const FieldGenerateChargeFieldNode: NodeDefinition<ChargeFieldInputs, Cha
       params: {
         points: inputs.points,
         charge: params.charge,
-        falloff: params.falloff
-      }
+        falloff: params.falloff,
+      },
     });
-    
+
     return {
-      field: result
+      field: result,
     };
   },
 };

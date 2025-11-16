@@ -103,16 +103,28 @@ export function Community() {
               whileHover={{ scale: 1.02, y: -5 }}
               className="group relative p-6 rounded-2xl bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700 hover:border-purple-500/50 transition-all duration-300"
             >
-              <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${resource.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`} />
-              
+              <div
+                className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${resource.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
+              />
+
               <div className="relative z-10">
                 <resource.icon className="w-10 h-10 mb-4 text-purple-400 group-hover:text-purple-300 transition-colors" />
                 <h3 className="text-xl font-semibold mb-2 text-white">{resource.title}</h3>
                 <p className="text-gray-400 mb-4">{resource.description}</p>
                 <span className="text-purple-400 group-hover:text-purple-300 transition-colors flex items-center gap-1">
                   Learn more
-                  <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  <svg
+                    className="w-4 h-4 group-hover:translate-x-1 transition-transform"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
                   </svg>
                 </span>
               </div>
@@ -129,29 +141,24 @@ export function Community() {
         >
           <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 opacity-90" />
           <div className="absolute inset-0 bg-gradient-mesh opacity-30" />
-          
+
           <div className="relative z-10 p-12 text-center">
-            <h3 className="text-3xl font-bold mb-4 text-white">
-              Stay Updated
-            </h3>
+            <h3 className="text-3xl font-bold mb-4 text-white">Stay Updated</h3>
             <p className="text-xl text-gray-200 mb-8 max-w-2xl mx-auto">
               Get the latest updates, tutorials, and community highlights delivered to your inbox
             </p>
-            
+
             <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
               <input
                 type="email"
                 placeholder="Enter your email"
                 className="flex-1 px-6 py-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               />
-              <GlowButton
-                href="mailto:hello@brepflow.com"
-                variant="primary"
-              >
+              <GlowButton href="mailto:hello@brepflow.com" variant="primary">
                 Contact Us
               </GlowButton>
             </form>
-            
+
             <p className="mt-4 text-sm text-gray-300">
               Join 10,000+ developers and designers. Unsubscribe anytime.
             </p>

@@ -11,7 +11,11 @@ interface ComplexNumberOutputs {
   complex: unknown;
 }
 
-export const MathComplexComplexNumberNode: NodeDefinition<ComplexNumberInputs, ComplexNumberOutputs, ComplexNumberParams> = {
+export const MathComplexComplexNumberNode: NodeDefinition<
+  ComplexNumberInputs,
+  ComplexNumberOutputs,
+  ComplexNumberParams
+> = {
   id: 'Math::ComplexNumber',
   type: 'Math::ComplexNumber',
   category: 'Math',
@@ -21,19 +25,19 @@ export const MathComplexComplexNumberNode: NodeDefinition<ComplexNumberInputs, C
     real: {
       type: 'number',
       label: 'Real',
-      required: true
+      required: true,
     },
     imaginary: {
       type: 'number',
       label: 'Imaginary',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     complex: {
       type: 'Complex',
-      label: 'Complex'
-    }
+      label: 'Complex',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -41,12 +45,12 @@ export const MathComplexComplexNumberNode: NodeDefinition<ComplexNumberInputs, C
       type: 'mathComplex',
       params: {
         real: inputs.real,
-        imaginary: inputs.imaginary
-      }
+        imaginary: inputs.imaginary,
+      },
     });
-    
+
     return {
-      complex: result
+      complex: result,
     };
   },
 };

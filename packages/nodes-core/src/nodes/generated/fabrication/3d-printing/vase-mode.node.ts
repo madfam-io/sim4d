@@ -12,7 +12,11 @@ interface VaseModeOutputs {
   spiralPath: unknown;
 }
 
-export const Fabrication3DPrintingVaseModeNode: NodeDefinition<VaseModeInputs, VaseModeOutputs, VaseModeParams> = {
+export const Fabrication3DPrintingVaseModeNode: NodeDefinition<
+  VaseModeInputs,
+  VaseModeOutputs,
+  VaseModeParams
+> = {
   id: 'Fabrication::VaseMode',
   category: 'Fabrication',
   label: 'VaseMode',
@@ -21,14 +25,14 @@ export const Fabrication3DPrintingVaseModeNode: NodeDefinition<VaseModeInputs, V
     model: {
       type: 'Shape',
       label: 'Model',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     spiralPath: {
       type: 'Wire',
-      label: 'Spiral Path'
-    }
+      label: 'Spiral Path',
+    },
   },
   params: {
     bottomLayers: {
@@ -37,20 +41,20 @@ export const Fabrication3DPrintingVaseModeNode: NodeDefinition<VaseModeInputs, V
       default: 3,
       min: 0,
       max: 10,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'vaseMode',
       params: {
         model: inputs.model,
-        bottomLayers: params.bottomLayers
-      }
+        bottomLayers: params.bottomLayers,
+      },
     });
-    
+
     return {
-      spiralPath: result
+      spiralPath: result,
     };
   },
 };

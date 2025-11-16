@@ -12,7 +12,11 @@ interface RoundToDecimalOutputs {
   result: unknown;
 }
 
-export const MathRoundingRoundToDecimalNode: NodeDefinition<RoundToDecimalInputs, RoundToDecimalOutputs, RoundToDecimalParams> = {
+export const MathRoundingRoundToDecimalNode: NodeDefinition<
+  RoundToDecimalInputs,
+  RoundToDecimalOutputs,
+  RoundToDecimalParams
+> = {
   id: 'Math::RoundToDecimal',
   type: 'Math::RoundToDecimal',
   category: 'Math',
@@ -22,14 +26,14 @@ export const MathRoundingRoundToDecimalNode: NodeDefinition<RoundToDecimalInputs
     value: {
       type: 'number',
       label: 'Value',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'number',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {
     decimals: {
@@ -38,20 +42,20 @@ export const MathRoundingRoundToDecimalNode: NodeDefinition<RoundToDecimalInputs
       default: 2,
       min: 0,
       max: 10,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathRoundDecimal',
       params: {
         value: inputs.value,
-        decimals: params.decimals
-      }
+        decimals: params.decimals,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

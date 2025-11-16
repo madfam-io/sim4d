@@ -1,4 +1,3 @@
-
 # TreeBranch Node
 
 **Category:** Data / Tree
@@ -11,25 +10,18 @@ This node has no parameters.
 
 ## Inputs
 
-
 ### Tree
+
 - **Type:** DataTree
 - **Required:** Yes
 
-
-
 ### Path
+
 - **Type:** string
 - **Required:** Yes
 
-
-
 ## Outputs
 
-
 ### Branch
+
 - **Type:** Data[]
-
-
-
-

@@ -26,7 +26,7 @@ async function ensureOCCTModuleLoaded(): Promise<void> {
       () => new URL(/* @vite-ignore */ '../wasm/occt.js', import.meta.url).href,
       () => new URL(/* @vite-ignore */ '../wasm/occt-core.js', import.meta.url).href,
       () => '/wasm/occt.js',
-      () => '/wasm/occt-core.js'
+      () => '/wasm/occt-core.js',
     ];
 
     let lastError: unknown = null;
@@ -42,18 +42,22 @@ async function ensureOCCTModuleLoaded(): Promise<void> {
 
       try {
         const moduleImport = await import(/* @vite-ignore */ specifier);
-        const factory = moduleImport.default || moduleImport.createOCCTCoreModule || moduleImport.createOCCTModule;
+        const factory =
+          moduleImport.default ||
+          moduleImport.createOCCTCoreModule ||
+          moduleImport.createOCCTModule;
 
         if (typeof factory !== 'function') {
           throw new Error(`OCCT factory missing in ${specifier}`);
         }
 
-        const baseUrl = new URL('.', new URL(specifier, (self as any)?.location?.href ?? 'file://')).href;
+        const baseUrl = new URL('.', new URL(specifier, (self as any)?.location?.href ?? 'file://'))
+          .href;
 
         const moduleInstance = await factory({
           locateFile: (filename: string) => new URL(filename, baseUrl).href,
           print: (text: string) => console.log('[OCCT Worker WASM]', text),
-          printErr: (text: string) => console.error('[OCCT Worker WASM Error]', text)
+          printErr: (text: string) => console.error('[OCCT Worker WASM Error]', text),
         });
 
         (globalThis as any).Module = moduleInstance;
@@ -97,7 +101,7 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
 
           result = {
             initialized: true,
-            version: 'OCCT 7.8.0'
+            version: 'OCCT 7.8.0',
           };
         } else {
           result = { initialized: true };
@@ -129,7 +133,6 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
     };
 
     self.postMessage(response);
-
   } catch (error) {
     console.error('[OCCTWorker] Operation failed:', error);
 
@@ -140,7 +143,7 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
       error: {
         code: 'OPERATION_FAILED',
         message: error instanceof Error ? error.message : String(error),
-        details: error
+        details: error,
       },
     };
 

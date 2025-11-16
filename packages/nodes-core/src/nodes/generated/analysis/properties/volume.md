@@ -1,4 +1,3 @@
-
 # Volume Node
 
 **Category:** Analysis / Properties
@@ -11,19 +10,14 @@ This node has no parameters.
 
 ## Inputs
 
-
 ### solid
+
 - **Type:** Solid
 - **Required:** Yes
 
-
-
 ## Outputs
 
-
 ### volume
+
 - **Type:** number
 - **Description:** Volume
-
-
-

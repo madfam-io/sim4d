@@ -14,7 +14,11 @@ interface HermiteInterpOutputs {
   result: unknown;
 }
 
-export const MathInterpolationHermiteInterpNode: NodeDefinition<HermiteInterpInputs, HermiteInterpOutputs, HermiteInterpParams> = {
+export const MathInterpolationHermiteInterpNode: NodeDefinition<
+  HermiteInterpInputs,
+  HermiteInterpOutputs,
+  HermiteInterpParams
+> = {
   id: 'Math::HermiteInterp',
   type: 'Math::HermiteInterp',
   category: 'Math',
@@ -24,34 +28,34 @@ export const MathInterpolationHermiteInterpNode: NodeDefinition<HermiteInterpInp
     p0: {
       type: 'number',
       label: 'P0',
-      required: true
+      required: true,
     },
     p1: {
       type: 'number',
       label: 'P1',
-      required: true
+      required: true,
     },
     m0: {
       type: 'number',
       label: 'M0',
-      required: true
+      required: true,
     },
     m1: {
       type: 'number',
       label: 'M1',
-      required: true
+      required: true,
     },
     t: {
       type: 'number',
       label: 'T',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'number',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -62,12 +66,12 @@ export const MathInterpolationHermiteInterpNode: NodeDefinition<HermiteInterpInp
         p1: inputs.p1,
         m0: inputs.m0,
         m1: inputs.m1,
-        t: inputs.t
-      }
+        t: inputs.t,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

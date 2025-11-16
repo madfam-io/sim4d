@@ -14,7 +14,11 @@ interface LivingHingeOutputs {
   hingePattern: unknown;
 }
 
-export const FabricationLaserLivingHingeNode: NodeDefinition<LivingHingeInputs, LivingHingeOutputs, LivingHingeParams> = {
+export const FabricationLaserLivingHingeNode: NodeDefinition<
+  LivingHingeInputs,
+  LivingHingeOutputs,
+  LivingHingeParams
+> = {
   id: 'Fabrication::LivingHinge',
   category: 'Fabrication',
   label: 'LivingHinge',
@@ -23,36 +27,36 @@ export const FabricationLaserLivingHingeNode: NodeDefinition<LivingHingeInputs, 
     hingeArea: {
       type: 'Face',
       label: 'Hinge Area',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     hingePattern: {
       type: 'Wire[]',
-      label: 'Hinge Pattern'
-    }
+      label: 'Hinge Pattern',
+    },
   },
   params: {
     pattern: {
       type: 'enum',
       label: 'Pattern',
-      default: "straight",
-      options: ["straight","wave","diamond","honeycomb"]
+      default: 'straight',
+      options: ['straight', 'wave', 'diamond', 'honeycomb'],
     },
     spacing: {
       type: 'number',
       label: 'Spacing',
       default: 2,
       min: 0.5,
-      max: 10
+      max: 10,
     },
     cutLength: {
       type: 'number',
       label: 'Cut Length',
       default: 10,
       min: 1,
-      max: 50
-    }
+      max: 50,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -61,12 +65,12 @@ export const FabricationLaserLivingHingeNode: NodeDefinition<LivingHingeInputs, 
         hingeArea: inputs.hingeArea,
         pattern: params.pattern,
         spacing: params.spacing,
-        cutLength: params.cutLength
-      }
+        cutLength: params.cutLength,
+      },
     });
-    
+
     return {
-      hingePattern: result
+      hingePattern: result,
     };
   },
 };

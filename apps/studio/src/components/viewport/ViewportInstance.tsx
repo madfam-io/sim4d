@@ -1,15 +1,22 @@
 import React, { useCallback, useRef, useEffect, useState } from 'react';
 import { Enhanced3DViewport } from './Enhanced3DViewport';
 import { IconButton } from '../ui/Button';
-import type { ViewportInstanceProps, ViewportRenderMode, ViewportViewType } from './multi-viewport-interfaces';
+import type {
+  ViewportInstanceProps,
+  ViewportRenderMode,
+  ViewportViewType,
+} from './multi-viewport-interfaces';
 import './ViewportInstance.css';
 
-const RENDER_MODE_ICONS: Record<ViewportRenderMode, 'grid-3x3' | 'sun' | 'image' | 'eye' | 'camera'> = {
+const RENDER_MODE_ICONS: Record<
+  ViewportRenderMode,
+  'grid-3x3' | 'sun' | 'image' | 'eye' | 'camera'
+> = {
   wireframe: 'grid-3x3',
   shaded: 'sun',
   textured: 'image',
   xray: 'eye',
-  realistic: 'camera'
+  realistic: 'camera',
 };
 
 const VIEW_TYPE_ICONS: Record<ViewportViewType, 'box' | 'square'> = {
@@ -20,7 +27,7 @@ const VIEW_TYPE_ICONS: Record<ViewportViewType, 'box' | 'square'> = {
   right: 'square',
   top: 'square',
   bottom: 'square',
-  iso: 'box'
+  iso: 'box',
 };
 
 export const ViewportInstance: React.FC<ViewportInstanceProps> = ({
@@ -31,54 +38,69 @@ export const ViewportInstance: React.FC<ViewportInstanceProps> = ({
   onSelect,
   onRenderModeChange,
   onViewTypeChange,
-  className = ''
+  className = '',
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [showControls, setShowControls] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
   // Handle viewport selection
-  const handleClick = useCallback((event: React.MouseEvent) => {
-    event.stopPropagation();
-    onSelect?.();
-  }, [onSelect]);
+  const handleClick = useCallback(
+    (event: React.MouseEvent) => {
+      event.stopPropagation();
+      onSelect?.();
+    },
+    [onSelect]
+  );
 
   // Handle render mode cycling
-  const handleRenderModeToggle = useCallback((event: React.MouseEvent) => {
-    event.stopPropagation();
-    const modes: ViewportRenderMode[] = ['wireframe', 'shaded', 'textured', 'xray', 'realistic'];
-    const currentIndex = modes.indexOf(viewport.renderMode);
-    const nextMode = modes[(currentIndex + 1) % modes.length];
-    onRenderModeChange?.(nextMode);
-  }, [viewport.renderMode, onRenderModeChange]);
+  const handleRenderModeToggle = useCallback(
+    (event: React.MouseEvent) => {
+      event.stopPropagation();
+      const modes: ViewportRenderMode[] = ['wireframe', 'shaded', 'textured', 'xray', 'realistic'];
+      const currentIndex = modes.indexOf(viewport.renderMode);
+      const nextMode = modes[(currentIndex + 1) % modes.length];
+      onRenderModeChange?.(nextMode);
+    },
+    [viewport.renderMode, onRenderModeChange]
+  );
 
   // Handle view type change
-  const handleViewTypeChange = useCallback((viewType: ViewportViewType) => {
-    onViewTypeChange?.(viewType);
-    setShowControls(false);
-  }, [onViewTypeChange]);
+  const handleViewTypeChange = useCallback(
+    (viewType: ViewportViewType) => {
+      onViewTypeChange?.(viewType);
+      setShowControls(false);
+    },
+    [onViewTypeChange]
+  );
 
   // Handle camera changes from Enhanced3DViewport
-  const handleToolChange = useCallback((toolId: string) => {
-    // This will be connected to actual camera controls later
-    console.log(`Viewport ${viewport.id}: Tool changed to ${toolId}`);
-  }, [viewport.id]);
+  const handleToolChange = useCallback(
+    (toolId: string) => {
+      // This will be connected to actual camera controls later
+      console.log(`Viewport ${viewport.id}: Tool changed to ${toolId}`);
+    },
+    [viewport.id]
+  );
 
-  const handleViewChange = useCallback((view: string) => {
-    // Map string view to ViewportViewType
-    const viewTypeMap: Record<string, ViewportViewType> = {
-      'iso': 'iso',
-      'front': 'front',
-      'back': 'back',
-      'left': 'left',
-      'right': 'right',
-      'top': 'top',
-      'bottom': 'bottom'
-    };
+  const handleViewChange = useCallback(
+    (view: string) => {
+      // Map string view to ViewportViewType
+      const viewTypeMap: Record<string, ViewportViewType> = {
+        iso: 'iso',
+        front: 'front',
+        back: 'back',
+        left: 'left',
+        right: 'right',
+        top: 'top',
+        bottom: 'bottom',
+      };
 
-    const viewType = viewTypeMap[view] || 'perspective';
-    onViewTypeChange?.(viewType);
-  }, [onViewTypeChange]);
+      const viewType = viewTypeMap[view] || 'perspective';
+      onViewTypeChange?.(viewType);
+    },
+    [onViewTypeChange]
+  );
 
   // Handle mouse events for hover state
   const handleMouseEnter = useCallback(() => {
@@ -144,8 +166,10 @@ export const ViewportInstance: React.FC<ViewportInstanceProps> = ({
     isHovered && 'hovered',
     viewport.locked && 'locked',
     !viewport.visible && 'hidden',
-    className
-  ].filter(Boolean).join(' ');
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <div
@@ -201,7 +225,12 @@ export const ViewportInstance: React.FC<ViewportInstanceProps> = ({
                       handleViewTypeChange(viewType as ViewportViewType);
                     }}
                   >
-                    <IconButton icon={icon} size="sm" variant="ghost" aria-label={`Switch to ${viewType} view`} />
+                    <IconButton
+                      icon={icon}
+                      size="sm"
+                      variant="ghost"
+                      aria-label={`Switch to ${viewType} view`}
+                    />
                     <span>{viewType}</span>
                   </button>
                 ))}
@@ -216,16 +245,15 @@ export const ViewportInstance: React.FC<ViewportInstanceProps> = ({
               size="sm"
               variant="ghost"
               className="viewport-control-btn locked"
-              title="Viewport Locked" aria-label="Viewport Locked"
+              title="Viewport Locked"
+              aria-label="Viewport Locked"
             />
           )}
         </div>
       </div>
 
       {/* Active Viewport Indicator */}
-      {isActive && (
-        <div className="viewport-active-indicator" />
-      )}
+      {isActive && <div className="viewport-active-indicator" />}
 
       {/* Viewport Content */}
       <div className="viewport-content">
@@ -242,9 +270,7 @@ export const ViewportInstance: React.FC<ViewportInstanceProps> = ({
           <span className="camera-mode">
             {viewport.camera.isOrthographic ? 'Orthographic' : 'Perspective'}
           </span>
-          <span className="camera-zoom">
-            Zoom: {(viewport.camera.zoom * 100).toFixed(0)}%
-          </span>
+          <span className="camera-zoom">Zoom: {(viewport.camera.zoom * 100).toFixed(0)}%</span>
         </div>
 
         <div className="viewport-quality">

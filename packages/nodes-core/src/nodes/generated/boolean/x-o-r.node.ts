@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -15,47 +14,43 @@ interface Outputs {
 export const XORNode: NodeDefinition<XORInputs, XOROutputs, XORParams> = {
   type: 'Boolean::XOR',
   category: 'Boolean',
-  
 
   metadata: {
     label: 'XOR',
     description: 'Exclusive OR - keep non-overlapping regions',
-    
-    
   },
 
   params: {
-        keepOriginals: {
-      "default": false
+    keepOriginals: {
+      default: false,
     },
     fuzzyValue: {
-      "default": 1e-7,
-      "min": 0,
-      "max": 1
-    }
+      default: 1e-7,
+      min: 0,
+      max: 1,
+    },
   },
 
   inputs: {
-        shapes: 'Shape[]'
+    shapes: 'Shape[]',
   },
 
   outputs: {
-        result: 'Shape'
+    result: 'Shape',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'booleanXOR',
       params: {
         shapes: inputs.shapes,
         keepOriginals: params.keepOriginals,
-        fuzzyValue: params.fuzzyValue
-      }
+        fuzzyValue: params.fuzzyValue,
+      },
     });
 
     return {
-      result: result
+      result: result,
     };
-  }
+  },
 };

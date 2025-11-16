@@ -15,7 +15,11 @@ interface MazeGeneratorOutputs {
   path: unknown;
 }
 
-export const PatternsAlgorithmicMazeGeneratorNode: NodeDefinition<MazeGeneratorInputs, MazeGeneratorOutputs, MazeGeneratorParams> = {
+export const PatternsAlgorithmicMazeGeneratorNode: NodeDefinition<
+  MazeGeneratorInputs,
+  MazeGeneratorOutputs,
+  MazeGeneratorParams
+> = {
   id: 'Patterns::MazeGenerator',
   type: 'Patterns::MazeGenerator',
   category: 'Patterns',
@@ -25,25 +29,25 @@ export const PatternsAlgorithmicMazeGeneratorNode: NodeDefinition<MazeGeneratorI
     boundary: {
       type: 'Wire',
       label: 'Boundary',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     walls: {
       type: 'Wire[]',
-      label: 'Walls'
+      label: 'Walls',
     },
     path: {
       type: 'Wire',
-      label: 'Path'
-    }
+      label: 'Path',
+    },
   },
   params: {
     algorithm: {
       type: 'enum',
       label: 'Algorithm',
-      default: "recursive-backtracker",
-      options: ["recursive-backtracker","prims","kruskals","wilsons"]
+      default: 'recursive-backtracker',
+      options: ['recursive-backtracker', 'prims', 'kruskals', 'wilsons'],
     },
     width: {
       type: 'number',
@@ -51,7 +55,7 @@ export const PatternsAlgorithmicMazeGeneratorNode: NodeDefinition<MazeGeneratorI
       default: 20,
       min: 5,
       max: 100,
-      step: 1
+      step: 1,
     },
     height: {
       type: 'number',
@@ -59,8 +63,8 @@ export const PatternsAlgorithmicMazeGeneratorNode: NodeDefinition<MazeGeneratorI
       default: 20,
       min: 5,
       max: 100,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -69,13 +73,13 @@ export const PatternsAlgorithmicMazeGeneratorNode: NodeDefinition<MazeGeneratorI
         boundary: inputs.boundary,
         algorithm: params.algorithm,
         width: params.width,
-        height: params.height
-      }
+        height: params.height,
+      },
     });
-    
+
     return {
       walls: results.walls,
-      path: results.path
+      path: results.path,
     };
   },
 };

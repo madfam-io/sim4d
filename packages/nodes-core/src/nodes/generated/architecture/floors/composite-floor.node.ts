@@ -15,7 +15,11 @@ interface CompositeFloorOutputs {
   deck: unknown;
 }
 
-export const ArchitectureFloorsCompositeFloorNode: NodeDefinition<CompositeFloorInputs, CompositeFloorOutputs, CompositeFloorParams> = {
+export const ArchitectureFloorsCompositeFloorNode: NodeDefinition<
+  CompositeFloorInputs,
+  CompositeFloorOutputs,
+  CompositeFloorParams
+> = {
   id: 'Architecture::CompositeFloor',
   category: 'Architecture',
   label: 'CompositeFloor',
@@ -24,38 +28,38 @@ export const ArchitectureFloorsCompositeFloorNode: NodeDefinition<CompositeFloor
     floorOutline: {
       type: 'Wire',
       label: 'Floor Outline',
-      required: true
+      required: true,
     },
     beams: {
       type: 'Wire[]',
       label: 'Beams',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     compositeFloor: {
       type: 'Shape',
-      label: 'Composite Floor'
+      label: 'Composite Floor',
     },
     deck: {
       type: 'Shape',
-      label: 'Deck'
-    }
+      label: 'Deck',
+    },
   },
   params: {
     deckType: {
       type: 'enum',
       label: 'Deck Type',
-      default: "3-inch",
-      options: ["2-inch","3-inch","cellular"]
+      default: '3-inch',
+      options: ['2-inch', '3-inch', 'cellular'],
     },
     concreteThickness: {
       type: 'number',
       label: 'Concrete Thickness',
       default: 100,
       min: 75,
-      max: 200
-    }
+      max: 200,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -64,13 +68,13 @@ export const ArchitectureFloorsCompositeFloorNode: NodeDefinition<CompositeFloor
         floorOutline: inputs.floorOutline,
         beams: inputs.beams,
         deckType: params.deckType,
-        concreteThickness: params.concreteThickness
-      }
+        concreteThickness: params.concreteThickness,
+      },
     });
-    
+
     return {
       compositeFloor: results.compositeFloor,
-      deck: results.deck
+      deck: results.deck,
     };
   },
 };

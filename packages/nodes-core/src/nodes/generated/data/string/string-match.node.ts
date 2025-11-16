@@ -13,7 +13,11 @@ interface StringMatchOutputs {
   matches: unknown;
 }
 
-export const DataStringStringMatchNode: NodeDefinition<StringMatchInputs, StringMatchOutputs, StringMatchParams> = {
+export const DataStringStringMatchNode: NodeDefinition<
+  StringMatchInputs,
+  StringMatchOutputs,
+  StringMatchParams
+> = {
   id: 'Data::StringMatch',
   category: 'Data',
   label: 'StringMatch',
@@ -22,26 +26,26 @@ export const DataStringStringMatchNode: NodeDefinition<StringMatchInputs, String
     string: {
       type: 'string',
       label: 'String',
-      required: true
+      required: true,
     },
     pattern: {
       type: 'string',
       label: 'Pattern',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     matches: {
       type: 'string[]',
-      label: 'Matches'
-    }
+      label: 'Matches',
+    },
   },
   params: {
     global: {
       type: 'boolean',
       label: 'Global',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -49,12 +53,12 @@ export const DataStringStringMatchNode: NodeDefinition<StringMatchInputs, String
       params: {
         string: inputs.string,
         pattern: inputs.pattern,
-        global: params.global
-      }
+        global: params.global,
+      },
     });
-    
+
     return {
-      matches: result
+      matches: result,
     };
   },
 };

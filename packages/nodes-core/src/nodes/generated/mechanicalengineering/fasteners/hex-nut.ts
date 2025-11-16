@@ -15,7 +15,11 @@ interface HexNutOutputs {
   thread: unknown;
 }
 
-export const MechanicalEngineeringFastenersHexNutNode: NodeDefinition<HexNutInputs, HexNutOutputs, HexNutParams> = {
+export const MechanicalEngineeringFastenersHexNutNode: NodeDefinition<
+  HexNutInputs,
+  HexNutOutputs,
+  HexNutParams
+> = {
   id: 'MechanicalEngineering::HexNut',
   type: 'MechanicalEngineering::HexNut',
   category: 'MechanicalEngineering',
@@ -25,39 +29,39 @@ export const MechanicalEngineeringFastenersHexNutNode: NodeDefinition<HexNutInpu
     position: {
       type: 'Point',
       label: 'Position',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     nut: {
       type: 'Shape',
-      label: 'Nut'
+      label: 'Nut',
     },
     thread: {
       type: 'Wire',
-      label: 'Thread'
-    }
+      label: 'Thread',
+    },
   },
   params: {
     size: {
       type: 'enum',
       label: 'Size',
-      default: "M6",
-      options: ["M3","M4","M5","M6","M8","M10","M12"]
+      default: 'M6',
+      options: ['M3', 'M4', 'M5', 'M6', 'M8', 'M10', 'M12'],
     },
     height: {
       type: 'number',
       label: 'Height',
       default: 5,
       min: 2,
-      max: 20
+      max: 20,
     },
     style: {
       type: 'enum',
       label: 'Style',
-      default: "standard",
-      options: ["standard","nylon-insert","castle","wing"]
-    }
+      default: 'standard',
+      options: ['standard', 'nylon-insert', 'castle', 'wing'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -66,13 +70,13 @@ export const MechanicalEngineeringFastenersHexNutNode: NodeDefinition<HexNutInpu
         position: inputs.position,
         size: params.size,
         height: params.height,
-        style: params.style
-      }
+        style: params.style,
+      },
     });
-    
+
     return {
       nut: results.nut,
-      thread: results.thread
+      thread: results.thread,
     };
   },
 };

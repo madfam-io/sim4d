@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -12,48 +11,46 @@ interface Outputs {
   shape: Shape;
 }
 
-export const ImportACISNode: NodeDefinition<ImportACISInputs, ImportACISOutputs, ImportACISParams> = {
-  type: 'IO::ImportACIS',
-  category: 'IO',
-  subcategory: 'CAD',
+export const ImportACISNode: NodeDefinition<ImportACISInputs, ImportACISOutputs, ImportACISParams> =
+  {
+    type: 'IO::ImportACIS',
+    category: 'IO',
+    subcategory: 'CAD',
 
-  metadata: {
-    label: 'ImportACIS',
-    description: 'Import ACIS SAT file',
-    
-    
-  },
-
-  params: {
-        version: {
-      "default": "auto"
+    metadata: {
+      label: 'ImportACIS',
+      description: 'Import ACIS SAT file',
     },
-    healGeometry: {
-      "default": true
-    }
-  },
 
-  inputs: {
-        fileData: 'Data'
-  },
+    params: {
+      version: {
+        default: 'auto',
+      },
+      healGeometry: {
+        default: true,
+      },
+    },
 
-  outputs: {
-        shape: 'Shape'
-  },
+    inputs: {
+      fileData: 'Data',
+    },
 
-  async evaluate(context, inputs, params) {
-    
-    const result = await context.geometry.execute({
-      type: 'importACIS',
-      params: {
-        fileData: inputs.fileData,
-        version: params.version,
-        healGeometry: params.healGeometry
-      }
-    });
+    outputs: {
+      shape: 'Shape',
+    },
 
-    return {
-      shape: result
-    };
-  }
-};
+    async evaluate(context, inputs, params) {
+      const result = await context.geometry.execute({
+        type: 'importACIS',
+        params: {
+          fileData: inputs.fileData,
+          version: params.version,
+          healGeometry: params.healGeometry,
+        },
+      });
+
+      return {
+        shape: result,
+      };
+    },
+  };

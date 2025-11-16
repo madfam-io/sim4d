@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { MathInterpolationRemapNode } from './remap.node';
 import { createTestContext } from '../test-utils';
@@ -11,11 +10,9 @@ describe('MathInterpolationRemapNode', () => {
       fromMin: undefined,
       fromMax: undefined,
       toMin: undefined,
-      toMax: undefined
+      toMax: undefined,
     } as any;
-    const params = {
-
-    } as any;
+    const params = {} as any;
 
     const result = await MathInterpolationRemapNode.evaluate(context, inputs, params);
     expect(result).toBeDefined();

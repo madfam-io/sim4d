@@ -20,7 +20,11 @@ interface NeuralNetworkOutputs {
   predictions: unknown;
 }
 
-export const AlgorithmicMachineLearningNeuralNetworkNode: NodeDefinition<NeuralNetworkInputs, NeuralNetworkOutputs, NeuralNetworkParams> = {
+export const AlgorithmicMachineLearningNeuralNetworkNode: NodeDefinition<
+  NeuralNetworkInputs,
+  NeuralNetworkOutputs,
+  NeuralNetworkParams
+> = {
   id: 'Algorithmic::NeuralNetwork',
   type: 'Algorithmic::NeuralNetwork',
   category: 'Algorithmic',
@@ -30,63 +34,63 @@ export const AlgorithmicMachineLearningNeuralNetworkNode: NodeDefinition<NeuralN
     trainingData: {
       type: 'Properties[]',
       label: 'Training Data',
-      required: true
+      required: true,
     },
     features: {
       type: 'string[]',
       label: 'Features',
-      required: true
+      required: true,
     },
     target: {
       type: 'string',
       label: 'Target',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     model: {
       type: 'Properties',
-      label: 'Model'
+      label: 'Model',
     },
     loss: {
       type: 'number[]',
-      label: 'Loss'
+      label: 'Loss',
     },
     accuracy: {
       type: 'number',
-      label: 'Accuracy'
+      label: 'Accuracy',
     },
     predictions: {
       type: 'number[]',
-      label: 'Predictions'
-    }
+      label: 'Predictions',
+    },
   },
   params: {
     hiddenLayers: {
       type: 'string',
       label: 'Hidden Layers',
-      default: "10,5"
+      default: '10,5',
     },
     activation: {
       type: 'enum',
       label: 'Activation',
-      default: "relu",
-      options: ["relu","sigmoid","tanh"]
+      default: 'relu',
+      options: ['relu', 'sigmoid', 'tanh'],
     },
     learningRate: {
       type: 'number',
       label: 'Learning Rate',
       default: 0.01,
       min: 0.001,
-      max: 1
+      max: 1,
     },
     epochs: {
       type: 'number',
       label: 'Epochs',
       default: 100,
       min: 10,
-      max: 1000
-    }
+      max: 1000,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -98,15 +102,15 @@ export const AlgorithmicMachineLearningNeuralNetworkNode: NodeDefinition<NeuralN
         hiddenLayers: params.hiddenLayers,
         activation: params.activation,
         learningRate: params.learningRate,
-        epochs: params.epochs
-      }
+        epochs: params.epochs,
+      },
     });
-    
+
     return {
       model: results.model,
       loss: results.loss,
       accuracy: results.accuracy,
-      predictions: results.predictions
+      predictions: results.predictions,
     };
   },
 };

@@ -28,7 +28,7 @@ export const MonitoredButton: React.FC<{
     recordUserInteraction({
       type: 'button_click',
       target: operation,
-      data: { timestamp: Date.now() }
+      data: { timestamp: Date.now() },
     });
 
     setIsLoading(true);
@@ -47,8 +47,8 @@ export const MonitoredButton: React.FC<{
           enableRetry: true,
           retryConfig: {
             maxAttempts: 3,
-            baseDelay: 1000
-          }
+            baseDelay: 1000,
+          },
         }
       );
     } finally {
@@ -87,8 +87,8 @@ export const GeometryPreview: React.FC<{
     try {
       // Measure and execute WASM operation
       const result = await measureAsync(
-        () => executeWasmOperation(
-          () => {
+        () =>
+          executeWasmOperation(() => {
             // Simulate geometry computation
             return new Promise((resolve, reject) => {
               setTimeout(() => {
@@ -99,9 +99,7 @@ export const GeometryPreview: React.FC<{
                 }
               }, 1000);
             });
-          },
-          'geometry_preview_computation'
-        ),
+          }, 'geometry_preview_computation'),
         'geometry_preview_render',
         { geometryType: geometryData.type }
       );
@@ -154,25 +152,28 @@ export const MonitoredForm: React.FC<{
   // Track render performance
   useRenderTiming('MonitoredForm');
 
-  const handleInputChange = useCallback((field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+  const handleInputChange = useCallback(
+    (field: string, value: string) => {
+      setFormData((prev) => ({ ...prev, [field]: value }));
 
-    // Clear error when user starts typing
-    if (errors[field]) {
-      setErrors(prev => {
-        const newErrors = { ...prev };
-        delete newErrors[field];
-        return newErrors;
+      // Clear error when user starts typing
+      if (errors[field]) {
+        setErrors((prev) => {
+          const newErrors = { ...prev };
+          delete newErrors[field];
+          return newErrors;
+        });
+      }
+
+      // Record user input (debounced)
+      recordUserInteraction({
+        type: 'form_input',
+        target: field,
+        data: { valueLength: value.length },
       });
-    }
-
-    // Record user input (debounced)
-    recordUserInteraction({
-      type: 'form_input',
-      target: field,
-      data: { valueLength: value.length }
-    });
-  }, [errors, recordUserInteraction]);
+    },
+    [errors, recordUserInteraction]
+  );
 
   const validateForm = useCallback(() => {
     const newErrors: Record<string, string> = {};
@@ -189,47 +190,47 @@ export const MonitoredForm: React.FC<{
     return Object.keys(newErrors).length === 0;
   }, [formData]);
 
-  const handleSubmit = useCallback(async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
 
-    // Record form submission attempt
-    recordUserInteraction({
-      type: 'form_submit',
-      target: 'monitored_form',
-      data: { fieldCount: Object.keys(formData).length }
-    });
-
-    if (!validateForm()) {
+      // Record form submission attempt
       recordUserInteraction({
-        type: 'form_validation_error',
+        type: 'form_submit',
         target: 'monitored_form',
-        data: { errorCount: Object.keys(errors).length }
+        data: { fieldCount: Object.keys(formData).length },
       });
-      return;
-    }
 
-    try {
-      // Execute with network monitoring
-      await executeNetworkOperation(
-        () => onSubmit(formData),
-        'form_submission'
-      );
+      if (!validateForm()) {
+        recordUserInteraction({
+          type: 'form_validation_error',
+          target: 'monitored_form',
+          data: { errorCount: Object.keys(errors).length },
+        });
+        return;
+      }
 
-      // Reset form on success
-      setFormData({ name: '', value: '' });
+      try {
+        // Execute with network monitoring
+        await executeNetworkOperation(() => onSubmit(formData), 'form_submission');
 
-      recordUserInteraction({
-        type: 'form_submit_success',
-        target: 'monitored_form'
-      });
-    } catch (error) {
-      recordUserInteraction({
-        type: 'form_submit_error',
-        target: 'monitored_form',
-        data: { error: error instanceof Error ? error.message : String(error) }
-      });
-    }
-  }, [formData, validateForm, errors, recordUserInteraction, executeNetworkOperation, onSubmit]);
+        // Reset form on success
+        setFormData({ name: '', value: '' });
+
+        recordUserInteraction({
+          type: 'form_submit_success',
+          target: 'monitored_form',
+        });
+      } catch (error) {
+        recordUserInteraction({
+          type: 'form_submit_error',
+          target: 'monitored_form',
+          data: { error: error instanceof Error ? error.message : String(error) },
+        });
+      }
+    },
+    [formData, validateForm, errors, recordUserInteraction, executeNetworkOperation, onSubmit]
+  );
 
   return (
     <ErrorBoundary>
@@ -300,7 +301,7 @@ export const DataProcessor: React.FC<{
       // Record processing start
       recordUserInteraction({
         type: 'data_processing_start',
-        data: { itemCount: data.length }
+        data: { itemCount: data.length },
       });
 
       // Simulate processing
@@ -312,7 +313,7 @@ export const DataProcessor: React.FC<{
         return {
           ...item,
           processed: true,
-          processedAt: new Date().toISOString()
+          processedAt: new Date().toISOString(),
         };
       });
 
@@ -320,16 +321,15 @@ export const DataProcessor: React.FC<{
 
       recordUserInteraction({
         type: 'data_processing_success',
-        data: { processedCount: processed.length }
+        data: { processedCount: processed.length },
       });
-
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : String(err);
       setError(errorMessage);
 
       recordUserInteraction({
         type: 'data_processing_error',
-        data: { error: errorMessage }
+        data: { error: errorMessage },
       });
     }
   }, [data, recordUserInteraction]);
@@ -345,10 +345,7 @@ export const DataProcessor: React.FC<{
       <div className="error-display">
         <h3>Processing Error</h3>
         <p>{error}</p>
-        <MonitoredButton
-          onClick={processData}
-          operation="data_processor_retry"
-        >
+        <MonitoredButton onClick={processData} operation="data_processor_retry">
           Retry
         </MonitoredButton>
       </div>
@@ -381,9 +378,9 @@ export const MonitoredPage: React.FC = () => {
 
   const handleFormSubmit = useCallback(async (formData: any) => {
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    setData(prev => [...prev, { ...formData, id: Date.now() }]);
+    setData((prev) => [...prev, { ...formData, id: Date.now() }]);
   }, []);
 
   const handleGeometryError = useCallback((error: Error) => {

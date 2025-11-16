@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -23,53 +22,50 @@ export const SQLQueryNode: NodeDefinition<SQLQueryInputs, SQLQueryOutputs, SQLQu
   metadata: {
     label: 'SQLQuery',
     description: 'Execute SQL database queries',
-    
-    
   },
 
   params: {
-        connectionString: {
-      "default": "",
-      "description": "Database connection string"
+    connectionString: {
+      default: '',
+      description: 'Database connection string',
     },
     query: {
-      "default": "SELECT * FROM table",
-      "description": "SQL query"
+      default: 'SELECT * FROM table',
+      description: 'SQL query',
     },
     timeout: {
-      "default": 30,
-      "min": 1,
-      "max": 300,
-      "description": "Timeout in seconds"
-    }
+      default: 30,
+      min: 1,
+      max: 300,
+      description: 'Timeout in seconds',
+    },
   },
 
   inputs: {
-        parameters: 'Properties'
+    parameters: 'Properties',
   },
 
   outputs: {
-        data: 'Properties[]',
+    data: 'Properties[]',
     rowCount: 'number',
-    columns: 'string[]'
+    columns: 'string[]',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'sqlQuery',
       params: {
         parameters: inputs.parameters,
         connectionString: params.connectionString,
         query: params.query,
-        timeout: params.timeout
-      }
+        timeout: params.timeout,
+      },
     });
 
     return {
       data: result,
       rowCount: result,
-      columns: result
+      columns: result,
     };
-  }
+  },
 };

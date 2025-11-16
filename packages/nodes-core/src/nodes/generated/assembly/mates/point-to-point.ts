@@ -12,7 +12,11 @@ interface PointToPointOutputs {
   mate: unknown;
 }
 
-export const AssemblyMatesPointToPointNode: NodeDefinition<PointToPointInputs, PointToPointOutputs, PointToPointParams> = {
+export const AssemblyMatesPointToPointNode: NodeDefinition<
+  PointToPointInputs,
+  PointToPointOutputs,
+  PointToPointParams
+> = {
   id: 'Assembly::PointToPoint',
   type: 'Assembly::PointToPoint',
   category: 'Assembly',
@@ -22,23 +26,23 @@ export const AssemblyMatesPointToPointNode: NodeDefinition<PointToPointInputs, P
     point1: {
       type: 'Point',
       label: 'Point1',
-      required: true
+      required: true,
     },
     point2: {
       type: 'Point',
       label: 'Point2',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     mated: {
       type: 'Shape[]',
-      label: 'Mated'
+      label: 'Mated',
     },
     mate: {
       type: 'Mate',
-      label: 'Mate'
-    }
+      label: 'Mate',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -46,13 +50,13 @@ export const AssemblyMatesPointToPointNode: NodeDefinition<PointToPointInputs, P
       type: 'matePointToPoint',
       params: {
         point1: inputs.point1,
-        point2: inputs.point2
-      }
+        point2: inputs.point2,
+      },
     });
-    
+
     return {
       mated: results.mated,
-      mate: results.mate
+      mate: results.mate,
     };
   },
 };

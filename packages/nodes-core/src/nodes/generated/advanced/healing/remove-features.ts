@@ -15,7 +15,11 @@ interface RemoveFeaturesOutputs {
   simplified: unknown;
 }
 
-export const AdvancedHealingRemoveFeaturesNode: NodeDefinition<RemoveFeaturesInputs, RemoveFeaturesOutputs, RemoveFeaturesParams> = {
+export const AdvancedHealingRemoveFeaturesNode: NodeDefinition<
+  RemoveFeaturesInputs,
+  RemoveFeaturesOutputs,
+  RemoveFeaturesParams
+> = {
   id: 'Advanced::RemoveFeatures',
   type: 'Advanced::RemoveFeatures',
   category: 'Advanced',
@@ -25,14 +29,14 @@ export const AdvancedHealingRemoveFeaturesNode: NodeDefinition<RemoveFeaturesInp
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     simplified: {
       type: 'Shape',
-      label: 'Simplified'
-    }
+      label: 'Simplified',
+    },
   },
   params: {
     minSize: {
@@ -40,23 +44,23 @@ export const AdvancedHealingRemoveFeaturesNode: NodeDefinition<RemoveFeaturesInp
       label: 'Min Size',
       default: 0.5,
       min: 0.01,
-      max: 100
+      max: 100,
     },
     removeHoles: {
       type: 'boolean',
       label: 'Remove Holes',
-      default: true
+      default: true,
     },
     removeFillets: {
       type: 'boolean',
       label: 'Remove Fillets',
-      default: false
+      default: false,
     },
     removeChamfers: {
       type: 'boolean',
       label: 'Remove Chamfers',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -66,12 +70,12 @@ export const AdvancedHealingRemoveFeaturesNode: NodeDefinition<RemoveFeaturesInp
         minSize: params.minSize,
         removeHoles: params.removeHoles,
         removeFillets: params.removeFillets,
-        removeChamfers: params.removeChamfers
-      }
+        removeChamfers: params.removeChamfers,
+      },
     });
-    
+
     return {
-      simplified: result
+      simplified: result,
     };
   },
 };

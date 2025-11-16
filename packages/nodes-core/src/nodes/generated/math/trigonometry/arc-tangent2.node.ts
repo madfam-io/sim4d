@@ -13,7 +13,11 @@ interface ArcTangent2Outputs {
   angle: unknown;
 }
 
-export const MathTrigonometryArcTangent2Node: NodeDefinition<ArcTangent2Inputs, ArcTangent2Outputs, ArcTangent2Params> = {
+export const MathTrigonometryArcTangent2Node: NodeDefinition<
+  ArcTangent2Inputs,
+  ArcTangent2Outputs,
+  ArcTangent2Params
+> = {
   id: 'Math::ArcTangent2',
   category: 'Math',
   label: 'ArcTangent2',
@@ -22,27 +26,27 @@ export const MathTrigonometryArcTangent2Node: NodeDefinition<ArcTangent2Inputs, 
     y: {
       type: 'number',
       label: 'Y',
-      required: true
+      required: true,
     },
     x: {
       type: 'number',
       label: 'X',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     angle: {
       type: 'number',
-      label: 'Angle'
-    }
+      label: 'Angle',
+    },
   },
   params: {
     angleUnit: {
       type: 'enum',
       label: 'Angle Unit',
-      default: "radians",
-      options: ["radians","degrees"]
-    }
+      default: 'radians',
+      options: ['radians', 'degrees'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -50,12 +54,12 @@ export const MathTrigonometryArcTangent2Node: NodeDefinition<ArcTangent2Inputs, 
       params: {
         y: inputs.y,
         x: inputs.x,
-        angleUnit: params.angleUnit
-      }
+        angleUnit: params.angleUnit,
+      },
     });
-    
+
     return {
-      angle: result
+      angle: result,
     };
   },
 };

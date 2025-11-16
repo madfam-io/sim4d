@@ -13,7 +13,11 @@ interface IslamicGridOutputs {
   grid: unknown;
 }
 
-export const PatternsIslamicIslamicGridNode: NodeDefinition<IslamicGridInputs, IslamicGridOutputs, IslamicGridParams> = {
+export const PatternsIslamicIslamicGridNode: NodeDefinition<
+  IslamicGridInputs,
+  IslamicGridOutputs,
+  IslamicGridParams
+> = {
   id: 'Patterns::IslamicGrid',
   category: 'Patterns',
   label: 'IslamicGrid',
@@ -22,28 +26,28 @@ export const PatternsIslamicIslamicGridNode: NodeDefinition<IslamicGridInputs, I
     boundary: {
       type: 'Wire',
       label: 'Boundary',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     grid: {
       type: 'Wire[]',
-      label: 'Grid'
-    }
+      label: 'Grid',
+    },
   },
   params: {
     gridType: {
       type: 'enum',
       label: 'Grid Type',
-      default: "octagonal",
-      options: ["square","hexagonal","octagonal"]
+      default: 'octagonal',
+      options: ['square', 'hexagonal', 'octagonal'],
     },
     spacing: {
       type: 'number',
       label: 'Spacing',
       default: 10,
-      min: 1
-    }
+      min: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -51,12 +55,12 @@ export const PatternsIslamicIslamicGridNode: NodeDefinition<IslamicGridInputs, I
       params: {
         boundary: inputs.boundary,
         gridType: params.gridType,
-        spacing: params.spacing
-      }
+        spacing: params.spacing,
+      },
     });
-    
+
     return {
-      grid: result
+      grid: result,
     };
   },
 };

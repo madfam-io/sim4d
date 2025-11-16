@@ -3,6 +3,7 @@
 ## Component Architecture
 
 ### Main Component Structure
+
 ```tsx
 // Enhanced Node Palette Root Component
 export interface EnhancedNodePaletteProps {
@@ -20,7 +21,7 @@ export function EnhancedNodePalette({
   onFavoriteToggle,
   recentNodes,
   favoriteNodes,
-  className
+  className,
 }: EnhancedNodePaletteProps) {
   // Implementation
 }
@@ -29,6 +30,7 @@ export function EnhancedNodePalette({
 ## Sub-Components
 
 ### 1. SearchFilterBar Component
+
 ```tsx
 interface SearchFilterBarProps {
   searchQuery: string;
@@ -74,11 +76,7 @@ function SearchFilterBar({
         availableCategories={availableCategories}
         availableTags={availableTags}
       />
-      <SortDropdown
-        value={sortBy}
-        onChange={onSortChange}
-        options={sortOptions}
-      />
+      <SortDropdown value={sortBy} onChange={onSortChange} options={sortOptions} />
       <ViewModeToggle
         value={viewMode}
         onChange={onViewModeChange}
@@ -90,6 +88,7 @@ function SearchFilterBar({
 ```
 
 ### 2. QuickAccessToolbar Component
+
 ```tsx
 interface QuickAccessToolbarProps {
   favoriteNodes: string[];
@@ -106,7 +105,7 @@ function QuickAccessToolbar({
   suggestedNodes,
   onNodeSelect,
   onTabChange,
-  activeTab
+  activeTab,
 }: QuickAccessToolbarProps) {
   return (
     <div className="quick-access-toolbar">
@@ -127,6 +126,7 @@ function QuickAccessToolbar({
 ```
 
 ### 3. CategoryTreeSidebar Component
+
 ```tsx
 interface CategoryTreeSidebarProps {
   categoryTree: CategoryTree;
@@ -143,7 +143,7 @@ function CategoryTreeSidebar({
   expandedCategories,
   onCategorySelect,
   onCategoryExpand,
-  searchQuery
+  searchQuery,
 }: CategoryTreeSidebarProps) {
   return (
     <div className="category-tree-sidebar">
@@ -191,16 +191,13 @@ function CategoryNode({
   onSelect,
   onExpand,
   searchHighlight,
-  level = 0
+  level = 0,
 }: CategoryNodeProps) {
   const hasSubcategories = Object.keys(subcategories).length > 0;
 
   return (
     <div className={`category-node level-${level}`}>
-      <div
-        className={`category-header ${isSelected ? 'selected' : ''}`}
-        onClick={onSelect}
-      >
+      <div className={`category-header ${isSelected ? 'selected' : ''}`} onClick={onSelect}>
         {hasSubcategories && (
           <button
             className={`expand-toggle ${isExpanded ? 'expanded' : ''}`}
@@ -243,6 +240,7 @@ function CategoryNode({
 ```
 
 ### 4. NodeDisplayArea Component
+
 ```tsx
 interface NodeDisplayAreaProps {
   nodes: NodeDefinition[];
@@ -267,7 +265,7 @@ function NodeDisplayArea({
   onFavoriteToggle,
   searchQuery,
   loading,
-  error
+  error,
 }: NodeDisplayAreaProps) {
   if (loading) {
     return <NodeDisplayLoading />;
@@ -288,7 +286,7 @@ function NodeDisplayArea({
     selectedNode,
     favoriteNodes,
     onFavoriteToggle,
-    searchQuery
+    searchQuery,
   };
 
   switch (viewMode) {
@@ -307,6 +305,7 @@ function NodeDisplayArea({
 ### 5. Node Display Modes
 
 #### Grid View Component
+
 ```tsx
 interface NodeGridProps {
   nodes: NodeDefinition[];
@@ -325,15 +324,15 @@ function NodeGrid({
   selectedNode,
   favoriteNodes,
   onFavoriteToggle,
-  searchQuery
+  searchQuery,
 }: NodeGridProps) {
   return (
     <div className="node-grid">
       <VirtualizedGrid
         items={nodes}
         itemHeight={96} // Height of each node card
-        itemWidth={88}  // Width of each node card
-        overscan={5}    // Render extra items for smooth scrolling
+        itemWidth={88} // Width of each node card
+        overscan={5} // Render extra items for smooth scrolling
         renderItem={({ index, style }) => (
           <div style={style}>
             <NodeCard
@@ -369,7 +368,7 @@ function NodeCard({
   onSelect,
   onHover,
   onFavoriteToggle,
-  searchHighlight
+  searchHighlight,
 }: NodeCardProps) {
   const [isDragging, setIsDragging] = useState(false);
   const metadata = useNodeMetadata(node);
@@ -402,20 +401,17 @@ function NodeCard({
 
       <div className="node-card-content">
         <div className="node-title">
-          <HighlightText
-            text={metadata.label}
-            highlight={searchHighlight}
-          />
+          <HighlightText text={metadata.label} highlight={searchHighlight} />
         </div>
-        <div className="node-category">
-          {metadata.category}
-        </div>
+        <div className="node-category">{metadata.category}</div>
       </div>
 
       {metadata.tags.length > 0 && (
         <div className="node-tags">
-          {metadata.tags.slice(0, 2).map(tag => (
-            <span key={tag} className="node-tag">{tag}</span>
+          {metadata.tags.slice(0, 2).map((tag) => (
+            <span key={tag} className="node-tag">
+              {tag}
+            </span>
           ))}
           {metadata.tags.length > 2 && (
             <span className="node-tag-more">+{metadata.tags.length - 2}</span>
@@ -428,6 +424,7 @@ function NodeCard({
 ```
 
 #### List View Component
+
 ```tsx
 function NodeList({
   nodes,
@@ -436,7 +433,7 @@ function NodeList({
   selectedNode,
   favoriteNodes,
   onFavoriteToggle,
-  searchQuery
+  searchQuery,
 }: NodeGridProps) {
   return (
     <div className="node-list">
@@ -469,7 +466,7 @@ function NodeListItem({
   onSelect,
   onHover,
   onFavoriteToggle,
-  searchHighlight
+  searchHighlight,
 }: NodeCardProps) {
   const metadata = useNodeMetadata(node);
 
@@ -494,8 +491,10 @@ function NodeListItem({
 
       <div className="node-metadata">
         <span className="node-category-badge">{metadata.category}</span>
-        {metadata.tags.slice(0, 3).map(tag => (
-          <span key={tag} className="node-tag-badge">{tag}</span>
+        {metadata.tags.slice(0, 3).map((tag) => (
+          <span key={tag} className="node-tag-badge">
+            {tag}
+          </span>
         ))}
       </div>
 
@@ -514,6 +513,7 @@ function NodeListItem({
 ```
 
 ### 6. NodeDetailsPanel Component
+
 ```tsx
 interface NodeDetailsPanelProps {
   selectedNode: string | null;
@@ -526,7 +526,7 @@ function NodeDetailsPanel({
   selectedNode,
   registry,
   onExampleClick,
-  onDocumentationClick
+  onDocumentationClick,
 }: NodeDetailsPanelProps) {
   if (!selectedNode) {
     return (
@@ -570,8 +570,10 @@ function NodeDetailsPanel({
           <div className="details-section">
             <h5>Tags</h5>
             <div className="tag-list">
-              {metadata.tags.map(tag => (
-                <span key={tag} className="detail-tag">{tag}</span>
+              {metadata.tags.map((tag) => (
+                <span key={tag} className="detail-tag">
+                  {tag}
+                </span>
               ))}
             </div>
           </div>
@@ -614,6 +616,7 @@ function NodeDetailsPanel({
 ## Utility Components
 
 ### VirtualizedGrid Component
+
 ```tsx
 interface VirtualizedGridProps<T> {
   items: T[];
@@ -628,7 +631,7 @@ function VirtualizedGrid<T>({
   itemHeight,
   itemWidth,
   overscan = 5,
-  renderItem
+  renderItem,
 }: VirtualizedGridProps<T>) {
   // Implementation using react-window or similar
   // This handles efficient rendering of large lists
@@ -636,6 +639,7 @@ function VirtualizedGrid<T>({
 ```
 
 ### HighlightText Component
+
 ```tsx
 interface HighlightTextProps {
   text: string;
@@ -655,7 +659,9 @@ function HighlightText({ text, highlight, className }: HighlightTextProps) {
     <span className={className}>
       {parts.map((part, index) =>
         regex.test(part) ? (
-          <mark key={index} className="search-highlight">{part}</mark>
+          <mark key={index} className="search-highlight">
+            {part}
+          </mark>
         ) : (
           <span key={index}>{part}</span>
         )
@@ -668,6 +674,7 @@ function HighlightText({ text, highlight, className }: HighlightTextProps) {
 ## Custom Hooks
 
 ### useNodePalette Hook
+
 ```tsx
 interface UseNodePaletteOptions {
   registry: EnhancedNodeRegistry;
@@ -680,7 +687,7 @@ function useNodePalette({
   registry,
   initialFilters = {},
   initialSort = 'name',
-  initialView = 'grid'
+  initialView = 'grid',
 }: UseNodePaletteOptions) {
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState<NodeFilters>({
@@ -689,7 +696,7 @@ function useNodePalette({
     complexity: [],
     showFavoritesOnly: false,
     showRecentOnly: false,
-    ...initialFilters
+    ...initialFilters,
   });
   const [sortBy, setSortBy] = useState<SortOption>(initialSort);
   const [viewMode, setViewMode] = useState<ViewMode>(initialView);
@@ -698,19 +705,17 @@ function useNodePalette({
 
   // Search and filter logic
   const filteredNodes = useMemo(() => {
-    let nodes = searchQuery
-      ? registry.searchNodes(searchQuery)
-      : registry.getAllNodes();
+    let nodes = searchQuery ? registry.searchNodes(searchQuery) : registry.getAllNodes();
 
     // Apply filters
     if (filters.categories.length > 0) {
-      nodes = nodes.filter(node => filters.categories.includes(node.category));
+      nodes = nodes.filter((node) => filters.categories.includes(node.category));
     }
 
     if (filters.tags.length > 0) {
-      nodes = nodes.filter(node => {
+      nodes = nodes.filter((node) => {
         const metadata = registry.getNodeMetadata(node.type);
-        return metadata?.tags.some(tag => filters.tags.includes(tag));
+        return metadata?.tags.some((tag) => filters.tags.includes(tag));
       });
     }
 
@@ -741,7 +746,7 @@ function useNodePalette({
     setViewMode,
     setSelectedCategory,
     toggleCategoryExpansion: (category: string) => {
-      setExpandedCategories(prev => {
+      setExpandedCategories((prev) => {
         const next = new Set(prev);
         if (next.has(category)) {
           next.delete(category);
@@ -750,12 +755,13 @@ function useNodePalette({
         }
         return next;
       });
-    }
+    },
   };
 }
 ```
 
 ### useNodeSearch Hook
+
 ```tsx
 function useNodeSearch(registry: EnhancedNodeRegistry) {
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
@@ -775,22 +781,25 @@ function useNodeSearch(registry: EnhancedNodeRegistry) {
     [registry]
   );
 
-  const performSearch = useCallback((query: string) => {
-    // Add to search history
-    setSearchHistory(prev => {
-      const updated = [query, ...prev.filter(q => q !== query)];
-      return updated.slice(0, 10); // Keep only last 10 searches
-    });
+  const performSearch = useCallback(
+    (query: string) => {
+      // Add to search history
+      setSearchHistory((prev) => {
+        const updated = [query, ...prev.filter((q) => q !== query)];
+        return updated.slice(0, 10); // Keep only last 10 searches
+      });
 
-    // Perform the search
-    return registry.searchNodes(query);
-  }, [registry]);
+      // Perform the search
+      return registry.searchNodes(query);
+    },
+    [registry]
+  );
 
   return {
     searchHistory,
     suggestions,
     performSearch,
-    debouncedSearch
+    debouncedSearch,
   };
 }
 ```

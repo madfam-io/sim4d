@@ -51,10 +51,12 @@ async function fixDuplicateExports() {
 
   // Also need to rebuild the registry object at the end
   const uniqueExports = Array.from(seenExports);
-  const registryEntries = uniqueExports.map(name => `  '${name}': ${name},`).join('\n');
+  const registryEntries = uniqueExports.map((name) => `  '${name}': ${name},`).join('\n');
 
   // Find the registry section and replace it
-  const registryStartIndex = filteredLines.findIndex(line => line.includes('export const nodeRegistry = {'));
+  const registryStartIndex = filteredLines.findIndex((line) =>
+    line.includes('export const nodeRegistry = {')
+  );
   if (registryStartIndex !== -1) {
     // Find the end of the registry object
     let registryEndIndex = registryStartIndex + 1;
@@ -67,13 +69,13 @@ async function fixDuplicateExports() {
     }
 
     // Replace the registry section
-    const newRegistrySection = [
-      'export const nodeRegistry = {',
-      registryEntries,
-      '};'
-    ];
+    const newRegistrySection = ['export const nodeRegistry = {', registryEntries, '};'];
 
-    filteredLines.splice(registryStartIndex, registryEndIndex - registryStartIndex, ...newRegistrySection);
+    filteredLines.splice(
+      registryStartIndex,
+      registryEndIndex - registryStartIndex,
+      ...newRegistrySection
+    );
     console.log(`🔧 Rebuilt registry with ${uniqueExports.length} entries`);
   }
 

@@ -14,7 +14,11 @@ interface RevolvingDoorOutputs {
   revolvingDoor: unknown;
 }
 
-export const ArchitectureDoorsRevolvingDoorNode: NodeDefinition<RevolvingDoorInputs, RevolvingDoorOutputs, RevolvingDoorParams> = {
+export const ArchitectureDoorsRevolvingDoorNode: NodeDefinition<
+  RevolvingDoorInputs,
+  RevolvingDoorOutputs,
+  RevolvingDoorParams
+> = {
   id: 'Architecture::RevolvingDoor',
   category: 'Architecture',
   label: 'RevolvingDoor',
@@ -23,14 +27,14 @@ export const ArchitectureDoorsRevolvingDoorNode: NodeDefinition<RevolvingDoorInp
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     revolvingDoor: {
       type: 'Shape',
-      label: 'Revolving Door'
-    }
+      label: 'Revolving Door',
+    },
   },
   params: {
     diameter: {
@@ -38,7 +42,7 @@ export const ArchitectureDoorsRevolvingDoorNode: NodeDefinition<RevolvingDoorInp
       label: 'Diameter',
       default: 2000,
       min: 1800,
-      max: 3000
+      max: 3000,
     },
     wings: {
       type: 'number',
@@ -46,15 +50,15 @@ export const ArchitectureDoorsRevolvingDoorNode: NodeDefinition<RevolvingDoorInp
       default: 4,
       min: 3,
       max: 4,
-      step: 1
+      step: 1,
     },
     rotation: {
       type: 'number',
       label: 'Rotation',
       default: 0,
       min: 0,
-      max: 360
-    }
+      max: 360,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -63,12 +67,12 @@ export const ArchitectureDoorsRevolvingDoorNode: NodeDefinition<RevolvingDoorInp
         center: inputs.center,
         diameter: params.diameter,
         wings: params.wings,
-        rotation: params.rotation
-      }
+        rotation: params.rotation,
+      },
     });
-    
+
     return {
-      revolvingDoor: result
+      revolvingDoor: result,
     };
   },
 };

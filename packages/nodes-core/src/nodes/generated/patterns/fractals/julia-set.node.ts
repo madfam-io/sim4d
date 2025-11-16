@@ -15,7 +15,11 @@ interface JuliaSetOutputs {
   fractal: unknown;
 }
 
-export const PatternsFractalsJuliaSetNode: NodeDefinition<JuliaSetInputs, JuliaSetOutputs, JuliaSetParams> = {
+export const PatternsFractalsJuliaSetNode: NodeDefinition<
+  JuliaSetInputs,
+  JuliaSetOutputs,
+  JuliaSetParams
+> = {
   id: 'Patterns::JuliaSet',
   category: 'Patterns',
   label: 'JuliaSet',
@@ -24,14 +28,14 @@ export const PatternsFractalsJuliaSetNode: NodeDefinition<JuliaSetInputs, JuliaS
     bounds: {
       type: 'Box',
       label: 'Bounds',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     fractal: {
       type: 'Mesh',
-      label: 'Fractal'
-    }
+      label: 'Fractal',
+    },
   },
   params: {
     cReal: {
@@ -39,14 +43,14 @@ export const PatternsFractalsJuliaSetNode: NodeDefinition<JuliaSetInputs, JuliaS
       label: 'C Real',
       default: -0.7,
       min: -2,
-      max: 2
+      max: 2,
     },
     cImag: {
       type: 'number',
       label: 'C Imag',
       default: 0.27,
       min: -2,
-      max: 2
+      max: 2,
     },
     iterations: {
       type: 'number',
@@ -54,7 +58,7 @@ export const PatternsFractalsJuliaSetNode: NodeDefinition<JuliaSetInputs, JuliaS
       default: 100,
       min: 10,
       max: 1000,
-      step: 10
+      step: 10,
     },
     resolution: {
       type: 'number',
@@ -62,8 +66,8 @@ export const PatternsFractalsJuliaSetNode: NodeDefinition<JuliaSetInputs, JuliaS
       default: 100,
       min: 50,
       max: 500,
-      step: 10
-    }
+      step: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -73,12 +77,12 @@ export const PatternsFractalsJuliaSetNode: NodeDefinition<JuliaSetInputs, JuliaS
         cReal: params.cReal,
         cImag: params.cImag,
         iterations: params.iterations,
-        resolution: params.resolution
-      }
+        resolution: params.resolution,
+      },
     });
-    
+
     return {
-      fractal: result
+      fractal: result,
     };
   },
 };

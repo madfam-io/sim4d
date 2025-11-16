@@ -11,7 +11,11 @@ interface FieldAddOutputs {
   field: unknown;
 }
 
-export const FieldOperationsFieldAddNode: NodeDefinition<FieldAddInputs, FieldAddOutputs, FieldAddParams> = {
+export const FieldOperationsFieldAddNode: NodeDefinition<
+  FieldAddInputs,
+  FieldAddOutputs,
+  FieldAddParams
+> = {
   id: 'Field::FieldAdd',
   type: 'Field::FieldAdd',
   category: 'Field',
@@ -21,19 +25,19 @@ export const FieldOperationsFieldAddNode: NodeDefinition<FieldAddInputs, FieldAd
     fieldA: {
       type: 'ScalarField',
       label: 'Field A',
-      required: true
+      required: true,
     },
     fieldB: {
       type: 'ScalarField',
       label: 'Field B',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     field: {
       type: 'ScalarField',
-      label: 'Field'
-    }
+      label: 'Field',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -41,12 +45,12 @@ export const FieldOperationsFieldAddNode: NodeDefinition<FieldAddInputs, FieldAd
       type: 'fieldAdd',
       params: {
         fieldA: inputs.fieldA,
-        fieldB: inputs.fieldB
-      }
+        fieldB: inputs.fieldB,
+      },
     });
-    
+
     return {
-      field: result
+      field: result,
     };
   },
 };

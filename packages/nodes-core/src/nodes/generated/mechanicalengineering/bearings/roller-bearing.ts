@@ -16,7 +16,11 @@ interface RollerBearingOutputs {
   rollers: unknown;
 }
 
-export const MechanicalEngineeringBearingsRollerBearingNode: NodeDefinition<RollerBearingInputs, RollerBearingOutputs, RollerBearingParams> = {
+export const MechanicalEngineeringBearingsRollerBearingNode: NodeDefinition<
+  RollerBearingInputs,
+  RollerBearingOutputs,
+  RollerBearingParams
+> = {
   id: 'MechanicalEngineering::RollerBearing',
   type: 'MechanicalEngineering::RollerBearing',
   category: 'MechanicalEngineering',
@@ -26,18 +30,18 @@ export const MechanicalEngineeringBearingsRollerBearingNode: NodeDefinition<Roll
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     bearing: {
       type: 'Shape',
-      label: 'Bearing'
+      label: 'Bearing',
     },
     rollers: {
       type: 'Shape[]',
-      label: 'Rollers'
-    }
+      label: 'Rollers',
+    },
   },
   params: {
     innerDiameter: {
@@ -45,28 +49,28 @@ export const MechanicalEngineeringBearingsRollerBearingNode: NodeDefinition<Roll
       label: 'Inner Diameter',
       default: 25,
       min: 5,
-      max: 200
+      max: 200,
     },
     outerDiameter: {
       type: 'number',
       label: 'Outer Diameter',
       default: 52,
       min: 15,
-      max: 400
+      max: 400,
     },
     width: {
       type: 'number',
       label: 'Width',
       default: 15,
       min: 5,
-      max: 100
+      max: 100,
     },
     rollerType: {
       type: 'enum',
       label: 'Roller Type',
-      default: "cylindrical",
-      options: ["cylindrical","tapered","spherical"]
-    }
+      default: 'cylindrical',
+      options: ['cylindrical', 'tapered', 'spherical'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -76,13 +80,13 @@ export const MechanicalEngineeringBearingsRollerBearingNode: NodeDefinition<Roll
         innerDiameter: params.innerDiameter,
         outerDiameter: params.outerDiameter,
         width: params.width,
-        rollerType: params.rollerType
-      }
+        rollerType: params.rollerType,
+      },
     });
-    
+
     return {
       bearing: results.bearing,
-      rollers: results.rollers
+      rollers: results.rollers,
     };
   },
 };

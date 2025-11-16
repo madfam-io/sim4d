@@ -11,7 +11,11 @@ interface ListFilterOutputs {
   filtered: unknown;
 }
 
-export const DataListListFilterNode: NodeDefinition<ListFilterInputs, ListFilterOutputs, ListFilterParams> = {
+export const DataListListFilterNode: NodeDefinition<
+  ListFilterInputs,
+  ListFilterOutputs,
+  ListFilterParams
+> = {
   id: 'Data::ListFilter',
   category: 'Data',
   label: 'ListFilter',
@@ -20,19 +24,19 @@ export const DataListListFilterNode: NodeDefinition<ListFilterInputs, ListFilter
     list: {
       type: 'Data[]',
       label: 'List',
-      required: true
+      required: true,
     },
     mask: {
       type: 'boolean[]',
       label: 'Mask',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     filtered: {
       type: 'Data[]',
-      label: 'Filtered'
-    }
+      label: 'Filtered',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -40,12 +44,12 @@ export const DataListListFilterNode: NodeDefinition<ListFilterInputs, ListFilter
       type: 'listFilter',
       params: {
         list: inputs.list,
-        mask: inputs.mask
-      }
+        mask: inputs.mask,
+      },
     });
-    
+
     return {
-      filtered: result
+      filtered: result,
     };
   },
 };

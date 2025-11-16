@@ -11,6 +11,7 @@ This policy was established on 2025-11-13 and ALL mock geometry code has been el
 ### 1. Engine-OCCT Package (`packages/engine-occt/`)
 
 **Files Modified:**
+
 - `src/occt-worker.ts` - Removed `useMock: false` flags from responses
 - `src/production-safety.ts` - Completely rewritten to enforce ONLY real OCCT
   - Removed `allowMockGeometry` flag
@@ -25,20 +26,23 @@ This policy was established on 2025-11-13 and ALL mock geometry code has been el
 ### 2. Engine-Core Package (`packages/engine-core/`)
 
 **Already Clean:**
+
 - `src/geometry-api-factory.ts` - Already enforces real OCCT only
 - No mock geometry references found
 
 ### 3. Key Error Message Changes
 
 **Before:**
+
 ```
 "Using mock geometry"
 "Run pnpm run build:wasm to enable real geometry"
-"Falling back to mock geometry"  
+"Falling back to mock geometry"
 "This is expected if WASM hasn't been compiled yet"
 ```
 
 **After:**
+
 ```
 "CRITICAL: Real OCCT WASM MUST be available. ONLY real geometry is supported."
 "PRODUCTION SAFETY VIOLATION: Real OCCT geometry not available"
@@ -47,11 +51,13 @@ This policy was established on 2025-11-13 and ALL mock geometry code has been el
 ### 4. Production Safety Rewrite
 
 **Old Behavior:**
+
 - Allow mock in development/test
 - Warn in production
 - Provide fallback paths
 
 **New Behavior:**
+
 - NO mock allowed ANYWHERE
 - Throw ProductionSafetyError if real OCCT not available
 - FAIL HARD - no fallbacks, no "helpful" messages
@@ -59,6 +65,7 @@ This policy was established on 2025-11-13 and ALL mock geometry code has been el
 ## WASM Status
 
 **OCCT WASM is BUILT and READY:**
+
 ```
 packages/engine-occt/wasm/
 ├── occt.wasm (13 MB)
@@ -77,6 +84,7 @@ Libraries: 47 OCCT libraries linked
 ## Testing Impact
 
 **Integration Tests:**
+
 - Tests that relied on "mock fallback" will now FAIL
 - This is CORRECT behavior
 - Tests must either:
@@ -85,6 +93,7 @@ Libraries: 47 OCCT libraries linked
   3. Be removed if they were testing mock behavior
 
 **Expected Test Failures:**
+
 - Any test checking "mock vs real" behavior → DELETE
 - Any test with "useMock" flags → UPDATE to expect only real
 - Any test that says "skip if WASM not available" → WASM IS AVAILABLE
@@ -92,6 +101,7 @@ Libraries: 47 OCCT libraries linked
 ## Code Patterns to NEVER Use Again
 
 ❌ **FORBIDDEN:**
+
 ```typescript
 // NO!
 if (wasmAvailable) {
@@ -104,17 +114,18 @@ if (wasmAvailable) {
 const geometry = mock || real;
 
 // NO!
-console.log("Using mock geometry");
+console.log('Using mock geometry');
 
 // NO!
-console.log("Run build:wasm to enable real geometry");
+console.log('Run build:wasm to enable real geometry');
 ```
 
 ✅ **REQUIRED:**
+
 ```typescript
 // YES!
 if (!realOCCTAvailable) {
-  throw new Error("CRITICAL: ONLY real OCCT is supported");
+  throw new Error('CRITICAL: ONLY real OCCT is supported');
 }
 
 // YES!

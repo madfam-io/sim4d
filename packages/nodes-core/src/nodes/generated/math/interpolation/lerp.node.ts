@@ -21,24 +21,24 @@ export const MathInterpolationLerpNode: NodeDefinition<LerpInputs, LerpOutputs, 
     a: {
       type: 'number',
       label: 'A',
-      required: true
+      required: true,
     },
     b: {
       type: 'number',
       label: 'B',
-      required: true
+      required: true,
     },
     t: {
       type: 'number',
       label: 'T',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'number',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -47,12 +47,12 @@ export const MathInterpolationLerpNode: NodeDefinition<LerpInputs, LerpOutputs, 
       params: {
         a: inputs.a,
         b: inputs.b,
-        t: inputs.t
-      }
+        t: inputs.t,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

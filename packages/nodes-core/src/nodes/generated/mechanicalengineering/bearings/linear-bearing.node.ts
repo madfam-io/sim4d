@@ -17,7 +17,11 @@ interface LinearBearingOutputs {
   bore: unknown;
 }
 
-export const MechanicalEngineeringBearingsLinearBearingNode: NodeDefinition<LinearBearingInputs, LinearBearingOutputs, LinearBearingParams> = {
+export const MechanicalEngineeringBearingsLinearBearingNode: NodeDefinition<
+  LinearBearingInputs,
+  LinearBearingOutputs,
+  LinearBearingParams
+> = {
   id: 'MechanicalEngineering::LinearBearing',
   category: 'MechanicalEngineering',
   label: 'LinearBearing',
@@ -26,23 +30,23 @@ export const MechanicalEngineeringBearingsLinearBearingNode: NodeDefinition<Line
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
+      required: true,
     },
     axis: {
       type: 'Vector',
       label: 'Axis',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     bearing: {
       type: 'Shape',
-      label: 'Bearing'
+      label: 'Bearing',
     },
     bore: {
       type: 'Wire',
-      label: 'Bore'
-    }
+      label: 'Bore',
+    },
   },
   params: {
     shaftDiameter: {
@@ -50,28 +54,28 @@ export const MechanicalEngineeringBearingsLinearBearingNode: NodeDefinition<Line
       label: 'Shaft Diameter',
       default: 8,
       min: 3,
-      max: 50
+      max: 50,
     },
     outerDiameter: {
       type: 'number',
       label: 'Outer Diameter',
       default: 15,
       min: 8,
-      max: 80
+      max: 80,
     },
     length: {
       type: 'number',
       label: 'Length',
       default: 24,
       min: 10,
-      max: 100
+      max: 100,
     },
     type: {
       type: 'enum',
       label: 'Type',
-      default: "ball",
-      options: ["ball","plain","roller"]
-    }
+      default: 'ball',
+      options: ['ball', 'plain', 'roller'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -82,13 +86,13 @@ export const MechanicalEngineeringBearingsLinearBearingNode: NodeDefinition<Line
         shaftDiameter: params.shaftDiameter,
         outerDiameter: params.outerDiameter,
         length: params.length,
-        type: params.type
-      }
+        type: params.type,
+      },
     });
-    
+
     return {
       bearing: results.bearing,
-      bore: results.bore
+      bore: results.bore,
     };
   },
 };

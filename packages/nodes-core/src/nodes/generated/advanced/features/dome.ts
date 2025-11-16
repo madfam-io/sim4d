@@ -23,14 +23,14 @@ export const AdvancedFeaturesDomeNode: NodeDefinition<DomeInputs, DomeOutputs, D
     face: {
       type: 'Face',
       label: 'Face',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     dome: {
       type: 'Shape',
-      label: 'Dome'
-    }
+      label: 'Dome',
+    },
   },
   params: {
     height: {
@@ -38,14 +38,14 @@ export const AdvancedFeaturesDomeNode: NodeDefinition<DomeInputs, DomeOutputs, D
       label: 'Height',
       default: 10,
       min: 0.1,
-      max: 1000
+      max: 1000,
     },
     constraintType: {
       type: 'enum',
       label: 'Constraint Type',
-      default: "tangent",
-      options: ["none","tangent","elliptical"]
-    }
+      default: 'tangent',
+      options: ['none', 'tangent', 'elliptical'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +53,12 @@ export const AdvancedFeaturesDomeNode: NodeDefinition<DomeInputs, DomeOutputs, D
       params: {
         face: inputs.face,
         height: params.height,
-        constraintType: params.constraintType
-      }
+        constraintType: params.constraintType,
+      },
     });
-    
+
     return {
-      dome: result
+      dome: result,
     };
   },
 };

@@ -13,7 +13,11 @@ interface StairNosingOutputs {
   nosing: unknown;
 }
 
-export const ArchitectureStairsStairNosingNode: NodeDefinition<StairNosingInputs, StairNosingOutputs, StairNosingParams> = {
+export const ArchitectureStairsStairNosingNode: NodeDefinition<
+  StairNosingInputs,
+  StairNosingOutputs,
+  StairNosingParams
+> = {
   id: 'Architecture::StairNosing',
   type: 'Architecture::StairNosing',
   category: 'Architecture',
@@ -23,14 +27,14 @@ export const ArchitectureStairsStairNosingNode: NodeDefinition<StairNosingInputs
     treadEdges: {
       type: 'Edge[]',
       label: 'Tread Edges',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     nosing: {
       type: 'Shape[]',
-      label: 'Nosing'
-    }
+      label: 'Nosing',
+    },
   },
   params: {
     projection: {
@@ -38,14 +42,14 @@ export const ArchitectureStairsStairNosingNode: NodeDefinition<StairNosingInputs
       label: 'Projection',
       default: 25,
       min: 20,
-      max: 40
+      max: 40,
     },
     material: {
       type: 'enum',
       label: 'Material',
-      default: "aluminum",
-      options: ["aluminum","rubber","wood","stone"]
-    }
+      default: 'aluminum',
+      options: ['aluminum', 'rubber', 'wood', 'stone'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const ArchitectureStairsStairNosingNode: NodeDefinition<StairNosingInputs
       params: {
         treadEdges: inputs.treadEdges,
         projection: params.projection,
-        material: params.material
-      }
+        material: params.material,
+      },
     });
-    
+
     return {
-      nosing: result
+      nosing: result,
     };
   },
 };

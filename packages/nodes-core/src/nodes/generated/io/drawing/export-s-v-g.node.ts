@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -23,52 +22,44 @@ export const ExportSVGNode: NodeDefinition<ExportSVGInputs, ExportSVGOutputs, Ex
   metadata: {
     label: 'ExportSVG',
     description: 'Export to SVG format',
-    
-    
   },
 
   params: {
-        projection: {
-      "default": "top",
-      "options": [
-        "top",
-        "front",
-        "right",
-        "iso"
-      ]
+    projection: {
+      default: 'top',
+      options: ['top', 'front', 'right', 'iso'],
     },
     width: {
-      "default": 800,
-      "min": 100,
-      "max": 10000
+      default: 800,
+      min: 100,
+      max: 10000,
     },
     height: {
-      "default": 600,
-      "min": 100,
-      "max": 10000
+      default: 600,
+      min: 100,
+      max: 10000,
     },
     strokeWidth: {
-      "default": 1,
-      "min": 0.1,
-      "max": 10
+      default: 1,
+      min: 0.1,
+      max: 10,
     },
     fillOpacity: {
-      "default": 0.3,
-      "min": 0,
-      "max": 1
-    }
+      default: 0.3,
+      min: 0,
+      max: 1,
+    },
   },
 
   inputs: {
-        shapes: 'Shape[]'
+    shapes: 'Shape[]',
   },
 
   outputs: {
-        svgData: 'string'
+    svgData: 'string',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'exportSVG',
       params: {
@@ -77,12 +68,12 @@ export const ExportSVGNode: NodeDefinition<ExportSVGInputs, ExportSVGOutputs, Ex
         width: params.width,
         height: params.height,
         strokeWidth: params.strokeWidth,
-        fillOpacity: params.fillOpacity
-      }
+        fillOpacity: params.fillOpacity,
+      },
     });
 
     return {
-      svgData: result
+      svgData: result,
     };
-  }
+  },
 };

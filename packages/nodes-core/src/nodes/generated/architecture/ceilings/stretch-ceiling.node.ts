@@ -14,7 +14,11 @@ interface StretchCeilingOutputs {
   track: unknown;
 }
 
-export const ArchitectureCeilingsStretchCeilingNode: NodeDefinition<StretchCeilingInputs, StretchCeilingOutputs, StretchCeilingParams> = {
+export const ArchitectureCeilingsStretchCeilingNode: NodeDefinition<
+  StretchCeilingInputs,
+  StretchCeilingOutputs,
+  StretchCeilingParams
+> = {
   id: 'Architecture::StretchCeiling',
   category: 'Architecture',
   label: 'StretchCeiling',
@@ -23,31 +27,31 @@ export const ArchitectureCeilingsStretchCeilingNode: NodeDefinition<StretchCeili
     ceilingBoundary: {
       type: 'Wire',
       label: 'Ceiling Boundary',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     stretchCeiling: {
       type: 'Face',
-      label: 'Stretch Ceiling'
+      label: 'Stretch Ceiling',
     },
     track: {
       type: 'Wire',
-      label: 'Track'
-    }
+      label: 'Track',
+    },
   },
   params: {
     fabricType: {
       type: 'enum',
       label: 'Fabric Type',
-      default: "matte",
-      options: ["matte","satin","gloss","translucent"]
+      default: 'matte',
+      options: ['matte', 'satin', 'gloss', 'translucent'],
     },
     backlighting: {
       type: 'boolean',
       label: 'Backlighting',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -55,13 +59,13 @@ export const ArchitectureCeilingsStretchCeilingNode: NodeDefinition<StretchCeili
       params: {
         ceilingBoundary: inputs.ceilingBoundary,
         fabricType: params.fabricType,
-        backlighting: params.backlighting
-      }
+        backlighting: params.backlighting,
+      },
     });
-    
+
     return {
       stretchCeiling: results.stretchCeiling,
-      track: results.track
+      track: results.track,
     };
   },
 };

@@ -58,8 +58,18 @@ const config: CloudSyncConfig = {
 
 const createApiMock = () => ({
   getProjectVersion: vi.fn(async () => versionVector),
-  getProjectState: vi.fn(async () => ({ operations: [], version: versionVector, metadata: { id: 'proj-1' } })),
-  getSyncDelta: vi.fn(async () => ({ operations: [], versionVector, conflicts: [], size: 0, compressed: false })),
+  getProjectState: vi.fn(async () => ({
+    operations: [],
+    version: versionVector,
+    metadata: { id: 'proj-1' },
+  })),
+  getSyncDelta: vi.fn(async () => ({
+    operations: [],
+    versionVector,
+    conflicts: [],
+    size: 0,
+    compressed: false,
+  })),
   sendOperations: vi.fn(async () => {}),
 });
 
@@ -122,12 +132,9 @@ describe('CloudSyncManager', () => {
     const operations = (manager as any).generateOperationsFromGraph(projectId, modifiedGraph);
     const types = operations.map((op: any) => op.type);
 
-    expect(types).toEqual(expect.arrayContaining([
-      'UPDATE_NODE',
-      'ADD_NODE',
-      'ADD_EDGE',
-      'UPDATE_GRAPH_SETTINGS',
-    ]));
+    expect(types).toEqual(
+      expect.arrayContaining(['UPDATE_NODE', 'ADD_NODE', 'ADD_EDGE', 'UPDATE_GRAPH_SETTINGS'])
+    );
 
     const storedGraph = (manager as any).lastGraphs.get(projectId);
     expect(storedGraph).toBeDefined();
@@ -152,4 +159,3 @@ describe('CloudSyncManager', () => {
     expect((manager as any).lastGraphs.has('cleanup')).toBe(false);
   });
 });
-

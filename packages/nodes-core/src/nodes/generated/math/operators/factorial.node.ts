@@ -10,7 +10,11 @@ interface FactorialOutputs {
   result: unknown;
 }
 
-export const MathOperatorsFactorialNode: NodeDefinition<FactorialInputs, FactorialOutputs, FactorialParams> = {
+export const MathOperatorsFactorialNode: NodeDefinition<
+  FactorialInputs,
+  FactorialOutputs,
+  FactorialParams
+> = {
   id: 'Math::Factorial',
   category: 'Math',
   label: 'Factorial',
@@ -19,26 +23,26 @@ export const MathOperatorsFactorialNode: NodeDefinition<FactorialInputs, Factori
     n: {
       type: 'number',
       label: 'N',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'number',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathFactorial',
       params: {
-        n: inputs.n
-      }
+        n: inputs.n,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

@@ -21,33 +21,33 @@ export const DataConvertToJSONNode: NodeDefinition<ToJSONInputs, ToJSONOutputs, 
     data: {
       type: 'Data',
       label: 'Data',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     json: {
       type: 'string',
-      label: 'Json'
-    }
+      label: 'Json',
+    },
   },
   params: {
     pretty: {
       type: 'boolean',
       label: 'Pretty',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'convertToJSON',
       params: {
         data: inputs.data,
-        pretty: params.pretty
-      }
+        pretty: params.pretty,
+      },
     });
-    
+
     return {
-      json: result
+      json: result,
     };
   },
 };

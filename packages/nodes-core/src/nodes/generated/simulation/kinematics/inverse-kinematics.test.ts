@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { SimulationKinematicsInverseKinematicsNode } from './inverse-kinematics.node';
 import { createTestContext } from '../test-utils';
@@ -8,15 +7,19 @@ describe('SimulationKinematicsInverseKinematicsNode', () => {
     const context = createTestContext();
     const inputs = {
       mechanism: undefined,
-      targetPose: undefined
+      targetPose: undefined,
     } as any;
     const params = {
-      solver: "jacobian",
+      solver: 'jacobian',
       maxIterations: 100,
-      tolerance: 0.001
+      tolerance: 0.001,
     } as any;
 
-    const result = await SimulationKinematicsInverseKinematicsNode.evaluate(context, inputs, params);
+    const result = await SimulationKinematicsInverseKinematicsNode.evaluate(
+      context,
+      inputs,
+      params
+    );
     expect(result).toBeDefined();
   });
 });

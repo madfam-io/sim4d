@@ -13,7 +13,11 @@ interface FieldWarpOutputs {
   warpedField: unknown;
 }
 
-export const FieldsAdvancedFieldWarpNode: NodeDefinition<FieldWarpInputs, FieldWarpOutputs, FieldWarpParams> = {
+export const FieldsAdvancedFieldWarpNode: NodeDefinition<
+  FieldWarpInputs,
+  FieldWarpOutputs,
+  FieldWarpParams
+> = {
   id: 'Fields::FieldWarp',
   type: 'Fields::FieldWarp',
   category: 'Fields',
@@ -23,19 +27,19 @@ export const FieldsAdvancedFieldWarpNode: NodeDefinition<FieldWarpInputs, FieldW
     field: {
       type: 'Field',
       label: 'Field',
-      optional: true
+      optional: true,
     },
     deformation: {
       type: 'VectorField',
       label: 'Deformation',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     warpedField: {
       type: 'Field',
-      label: 'Warped Field'
-    }
+      label: 'Warped Field',
+    },
   },
   params: {
     strength: {
@@ -43,8 +47,8 @@ export const FieldsAdvancedFieldWarpNode: NodeDefinition<FieldWarpInputs, FieldW
       label: 'Strength',
       default: 1,
       min: 0,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -52,12 +56,12 @@ export const FieldsAdvancedFieldWarpNode: NodeDefinition<FieldWarpInputs, FieldW
       params: {
         field: inputs.field,
         deformation: inputs.deformation,
-        strength: params.strength
-      }
+        strength: params.strength,
+      },
     });
-    
+
     return {
-      warpedField: result
+      warpedField: result,
     };
   },
 };

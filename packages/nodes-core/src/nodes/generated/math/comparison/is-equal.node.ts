@@ -13,7 +13,11 @@ interface IsEqualOutputs {
   equal: unknown;
 }
 
-export const MathComparisonIsEqualNode: NodeDefinition<IsEqualInputs, IsEqualOutputs, IsEqualParams> = {
+export const MathComparisonIsEqualNode: NodeDefinition<
+  IsEqualInputs,
+  IsEqualOutputs,
+  IsEqualParams
+> = {
   id: 'Math::IsEqual',
   category: 'Math',
   label: 'IsEqual',
@@ -22,19 +26,19 @@ export const MathComparisonIsEqualNode: NodeDefinition<IsEqualInputs, IsEqualOut
     a: {
       type: 'number',
       label: 'A',
-      required: true
+      required: true,
     },
     b: {
       type: 'number',
       label: 'B',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     equal: {
       type: 'boolean',
-      label: 'Equal'
-    }
+      label: 'Equal',
+    },
   },
   params: {
     tolerance: {
@@ -42,8 +46,8 @@ export const MathComparisonIsEqualNode: NodeDefinition<IsEqualInputs, IsEqualOut
       label: 'Tolerance',
       default: 0.0001,
       min: 0,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -51,12 +55,12 @@ export const MathComparisonIsEqualNode: NodeDefinition<IsEqualInputs, IsEqualOut
       params: {
         a: inputs.a,
         b: inputs.b,
-        tolerance: params.tolerance
-      }
+        tolerance: params.tolerance,
+      },
     });
-    
+
     return {
-      equal: result
+      equal: result,
     };
   },
 };

@@ -10,7 +10,11 @@ interface TreePruneOutputs {
   pruned: unknown;
 }
 
-export const DataTreeTreePruneNode: NodeDefinition<TreePruneInputs, TreePruneOutputs, TreePruneParams> = {
+export const DataTreeTreePruneNode: NodeDefinition<
+  TreePruneInputs,
+  TreePruneOutputs,
+  TreePruneParams
+> = {
   id: 'Data::TreePrune',
   category: 'Data',
   label: 'TreePrune',
@@ -19,26 +23,26 @@ export const DataTreeTreePruneNode: NodeDefinition<TreePruneInputs, TreePruneOut
     tree: {
       type: 'DataTree',
       label: 'Tree',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     pruned: {
       type: 'DataTree',
-      label: 'Pruned'
-    }
+      label: 'Pruned',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'treePrune',
       params: {
-        tree: inputs.tree
-      }
+        tree: inputs.tree,
+      },
     });
-    
+
     return {
-      pruned: result
+      pruned: result,
     };
   },
 };

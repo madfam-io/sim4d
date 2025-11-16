@@ -13,7 +13,11 @@ interface WorkCellSetupOutputs {
   workCell: unknown;
 }
 
-export const FabricationRoboticsWorkCellSetupNode: NodeDefinition<WorkCellSetupInputs, WorkCellSetupOutputs, WorkCellSetupParams> = {
+export const FabricationRoboticsWorkCellSetupNode: NodeDefinition<
+  WorkCellSetupInputs,
+  WorkCellSetupOutputs,
+  WorkCellSetupParams
+> = {
   id: 'Fabrication::WorkCellSetup',
   type: 'Fabrication::WorkCellSetup',
   category: 'Fabrication',
@@ -23,19 +27,19 @@ export const FabricationRoboticsWorkCellSetupNode: NodeDefinition<WorkCellSetupI
     cellBoundary: {
       type: 'Box',
       label: 'Cell Boundary',
-      required: true
+      required: true,
     },
     fixtures: {
       type: 'Shape[]',
       label: 'Fixtures',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     workCell: {
       type: 'Data',
-      label: 'Work Cell'
-    }
+      label: 'Work Cell',
+    },
   },
   params: {
     robotCount: {
@@ -44,8 +48,8 @@ export const FabricationRoboticsWorkCellSetupNode: NodeDefinition<WorkCellSetupI
       default: 1,
       min: 1,
       max: 4,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const FabricationRoboticsWorkCellSetupNode: NodeDefinition<WorkCellSetupI
       params: {
         cellBoundary: inputs.cellBoundary,
         fixtures: inputs.fixtures,
-        robotCount: params.robotCount
-      }
+        robotCount: params.robotCount,
+      },
     });
-    
+
     return {
-      workCell: result
+      workCell: result,
     };
   },
 };

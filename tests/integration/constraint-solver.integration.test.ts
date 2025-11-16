@@ -153,9 +153,13 @@ describe('Constraint solver and geometry integration', () => {
     });
     const system = setupRectangleSystem(manager, 120, 60);
 
-    const conflicting = manager.addConstraint(ConstraintType.DISTANCE, [system.points.p1, system.points.p2], {
-      distance: 40,
-    });
+    const conflicting = manager.addConstraint(
+      ConstraintType.DISTANCE,
+      [system.points.p1, system.points.p2],
+      {
+        distance: 40,
+      }
+    );
 
     const result = await manager.solve();
 
@@ -186,8 +190,12 @@ describe('Constraint solver and geometry integration', () => {
     manager.setConstraintEnabled(system.distances.p1p2, false);
     manager.setConstraintEnabled(system.distances.p3p4, false);
 
-    manager.addConstraint(ConstraintType.DISTANCE, [system.points.p1, system.points.p2], { distance: 0 });
-    manager.addConstraint(ConstraintType.DISTANCE, [system.points.p3, system.points.p4], { distance: 0 });
+    manager.addConstraint(ConstraintType.DISTANCE, [system.points.p1, system.points.p2], {
+      distance: 0,
+    });
+    manager.addConstraint(ConstraintType.DISTANCE, [system.points.p3, system.points.p4], {
+      distance: 0,
+    });
 
     const result = await manager.solve();
     expect(result.success).toBe(true);

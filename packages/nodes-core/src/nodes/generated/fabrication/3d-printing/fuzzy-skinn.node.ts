@@ -13,7 +13,11 @@ interface FuzzySkinnOutputs {
   fuzzyPerimeters: unknown;
 }
 
-export const Fabrication3DPrintingFuzzySkinnNode: NodeDefinition<FuzzySkinnInputs, FuzzySkinnOutputs, FuzzySkinnParams> = {
+export const Fabrication3DPrintingFuzzySkinnNode: NodeDefinition<
+  FuzzySkinnInputs,
+  FuzzySkinnOutputs,
+  FuzzySkinnParams
+> = {
   id: 'Fabrication::FuzzySkinn',
   category: 'Fabrication',
   label: 'FuzzySkinn',
@@ -22,14 +26,14 @@ export const Fabrication3DPrintingFuzzySkinnNode: NodeDefinition<FuzzySkinnInput
     perimeters: {
       type: 'Wire[]',
       label: 'Perimeters',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     fuzzyPerimeters: {
       type: 'Wire[]',
-      label: 'Fuzzy Perimeters'
-    }
+      label: 'Fuzzy Perimeters',
+    },
   },
   params: {
     thickness: {
@@ -37,15 +41,15 @@ export const Fabrication3DPrintingFuzzySkinnNode: NodeDefinition<FuzzySkinnInput
       label: 'Thickness',
       default: 0.3,
       min: 0.1,
-      max: 1
+      max: 1,
     },
     pointDistance: {
       type: 'number',
       label: 'Point Distance',
       default: 0.75,
       min: 0.1,
-      max: 2
-    }
+      max: 2,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const Fabrication3DPrintingFuzzySkinnNode: NodeDefinition<FuzzySkinnInput
       params: {
         perimeters: inputs.perimeters,
         thickness: params.thickness,
-        pointDistance: params.pointDistance
-      }
+        pointDistance: params.pointDistance,
+      },
     });
-    
+
     return {
-      fuzzyPerimeters: result
+      fuzzyPerimeters: result,
     };
   },
 };

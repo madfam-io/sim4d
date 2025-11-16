@@ -15,7 +15,11 @@ interface LightweightStructureOutputs {
   weightReduction: unknown;
 }
 
-export const SpecializedOptimizationLightweightStructureNode: NodeDefinition<LightweightStructureInputs, LightweightStructureOutputs, LightweightStructureParams> = {
+export const SpecializedOptimizationLightweightStructureNode: NodeDefinition<
+  LightweightStructureInputs,
+  LightweightStructureOutputs,
+  LightweightStructureParams
+> = {
   id: 'Specialized::LightweightStructure',
   category: 'Specialized',
   label: 'LightweightStructure',
@@ -24,23 +28,23 @@ export const SpecializedOptimizationLightweightStructureNode: NodeDefinition<Lig
     solid: {
       type: 'Shape',
       label: 'Solid',
-      required: true
+      required: true,
     },
     loadPaths: {
       type: 'Data',
       label: 'Load Paths',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     lightweighted: {
       type: 'Shape',
-      label: 'Lightweighted'
+      label: 'Lightweighted',
     },
     weightReduction: {
       type: 'number',
-      label: 'Weight Reduction'
-    }
+      label: 'Weight Reduction',
+    },
   },
   params: {
     targetWeight: {
@@ -48,14 +52,14 @@ export const SpecializedOptimizationLightweightStructureNode: NodeDefinition<Lig
       label: 'Target Weight',
       default: 0.5,
       min: 0.1,
-      max: 0.9
+      max: 0.9,
     },
     structureType: {
       type: 'enum',
       label: 'Structure Type',
-      default: "hybrid",
-      options: ["ribs","shells","lattice","hybrid"]
-    }
+      default: 'hybrid',
+      options: ['ribs', 'shells', 'lattice', 'hybrid'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -64,13 +68,13 @@ export const SpecializedOptimizationLightweightStructureNode: NodeDefinition<Lig
         solid: inputs.solid,
         loadPaths: inputs.loadPaths,
         targetWeight: params.targetWeight,
-        structureType: params.structureType
-      }
+        structureType: params.structureType,
+      },
     });
-    
+
     return {
       lightweighted: results.lightweighted,
-      weightReduction: results.weightReduction
+      weightReduction: results.weightReduction,
     };
   },
 };

@@ -15,7 +15,11 @@ interface InfillOptimizationOutputs {
   adaptiveInfill: unknown;
 }
 
-export const Fabrication3DPrintingInfillOptimizationNode: NodeDefinition<InfillOptimizationInputs, InfillOptimizationOutputs, InfillOptimizationParams> = {
+export const Fabrication3DPrintingInfillOptimizationNode: NodeDefinition<
+  InfillOptimizationInputs,
+  InfillOptimizationOutputs,
+  InfillOptimizationParams
+> = {
   id: 'Fabrication::InfillOptimization',
   type: 'Fabrication::InfillOptimization',
   category: 'Fabrication',
@@ -25,19 +29,19 @@ export const Fabrication3DPrintingInfillOptimizationNode: NodeDefinition<InfillO
     model: {
       type: 'Shape',
       label: 'Model',
-      required: true
+      required: true,
     },
     stressMap: {
       type: 'Data',
       label: 'Stress Map',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     adaptiveInfill: {
       type: 'Wire[]',
-      label: 'Adaptive Infill'
-    }
+      label: 'Adaptive Infill',
+    },
   },
   params: {
     minDensity: {
@@ -45,22 +49,22 @@ export const Fabrication3DPrintingInfillOptimizationNode: NodeDefinition<InfillO
       label: 'Min Density',
       default: 0.1,
       min: 0,
-      max: 1
+      max: 1,
     },
     maxDensity: {
       type: 'number',
       label: 'Max Density',
       default: 0.5,
       min: 0,
-      max: 1
+      max: 1,
     },
     gradientDistance: {
       type: 'number',
       label: 'Gradient Distance',
       default: 5,
       min: 1,
-      max: 20
-    }
+      max: 20,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -70,12 +74,12 @@ export const Fabrication3DPrintingInfillOptimizationNode: NodeDefinition<InfillO
         stressMap: inputs.stressMap,
         minDensity: params.minDensity,
         maxDensity: params.maxDensity,
-        gradientDistance: params.gradientDistance
-      }
+        gradientDistance: params.gradientDistance,
+      },
     });
-    
+
     return {
-      adaptiveInfill: result
+      adaptiveInfill: result,
     };
   },
 };

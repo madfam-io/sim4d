@@ -1,6 +1,7 @@
 # BrepFlow Codebase Structure
 
 ## Monorepo Layout
+
 ```
 /brepflow
   /apps
@@ -27,6 +28,7 @@
 ```
 
 ## Key Package Dependencies
+
 - **apps/studio** depends on: viewport, engine-core, nodes-core, types
 - **engine-core** depends on: types, schemas
 - **engine-occt** depends on: engine-core, types
@@ -34,6 +36,7 @@
 - **cli** depends on: engine-core, engine-occt, nodes-core
 
 ## Build Pipeline (Turbo)
+
 1. **types** - Built first (foundational)
 2. **schemas** - JSON schemas for validation
 3. **engine-core** - Core evaluation engine
@@ -45,6 +48,7 @@
 9. **apps/studio** - Main React application
 
 ## Configuration Files
+
 - **Root**: package.json, turbo.json, tsconfig.json, .eslintrc.json
 - **TypeScript**: tsconfig.base.json with path aliases
 - **Testing**: vitest.config.ts, playwright.config.ts

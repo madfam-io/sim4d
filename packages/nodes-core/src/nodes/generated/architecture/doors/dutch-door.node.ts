@@ -15,7 +15,11 @@ interface DutchDoorOutputs {
   bottomDoor: unknown;
 }
 
-export const ArchitectureDoorsDutchDoorNode: NodeDefinition<DutchDoorInputs, DutchDoorOutputs, DutchDoorParams> = {
+export const ArchitectureDoorsDutchDoorNode: NodeDefinition<
+  DutchDoorInputs,
+  DutchDoorOutputs,
+  DutchDoorParams
+> = {
   id: 'Architecture::DutchDoor',
   category: 'Architecture',
   label: 'DutchDoor',
@@ -24,18 +28,18 @@ export const ArchitectureDoorsDutchDoorNode: NodeDefinition<DutchDoorInputs, Dut
     opening: {
       type: 'Wire',
       label: 'Opening',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     topDoor: {
       type: 'Shape',
-      label: 'Top Door'
+      label: 'Top Door',
     },
     bottomDoor: {
       type: 'Shape',
-      label: 'Bottom Door'
-    }
+      label: 'Bottom Door',
+    },
   },
   params: {
     splitHeight: {
@@ -43,18 +47,18 @@ export const ArchitectureDoorsDutchDoorNode: NodeDefinition<DutchDoorInputs, Dut
       label: 'Split Height',
       default: 1050,
       min: 900,
-      max: 1200
+      max: 1200,
     },
     topOpen: {
       type: 'boolean',
       label: 'Top Open',
-      default: false
+      default: false,
     },
     bottomOpen: {
       type: 'boolean',
       label: 'Bottom Open',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -63,13 +67,13 @@ export const ArchitectureDoorsDutchDoorNode: NodeDefinition<DutchDoorInputs, Dut
         opening: inputs.opening,
         splitHeight: params.splitHeight,
         topOpen: params.topOpen,
-        bottomOpen: params.bottomOpen
-      }
+        bottomOpen: params.bottomOpen,
+      },
     });
-    
+
     return {
       topDoor: results.topDoor,
-      bottomDoor: results.bottomDoor
+      bottomDoor: results.bottomDoor,
     };
   },
 };

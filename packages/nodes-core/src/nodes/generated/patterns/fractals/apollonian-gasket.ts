@@ -13,7 +13,11 @@ interface ApollonianGasketOutputs {
   circles: unknown;
 }
 
-export const PatternsFractalsApollonianGasketNode: NodeDefinition<ApollonianGasketInputs, ApollonianGasketOutputs, ApollonianGasketParams> = {
+export const PatternsFractalsApollonianGasketNode: NodeDefinition<
+  ApollonianGasketInputs,
+  ApollonianGasketOutputs,
+  ApollonianGasketParams
+> = {
   id: 'Patterns::ApollonianGasket',
   type: 'Patterns::ApollonianGasket',
   category: 'Patterns',
@@ -23,14 +27,14 @@ export const PatternsFractalsApollonianGasketNode: NodeDefinition<ApollonianGask
     outerCircle: {
       type: 'Wire',
       label: 'Outer Circle',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     circles: {
       type: 'Wire[]',
-      label: 'Circles'
-    }
+      label: 'Circles',
+    },
   },
   params: {
     depth: {
@@ -39,14 +43,14 @@ export const PatternsFractalsApollonianGasketNode: NodeDefinition<ApollonianGask
       default: 5,
       min: 1,
       max: 10,
-      step: 1
+      step: 1,
     },
     minRadius: {
       type: 'number',
       label: 'Min Radius',
       default: 0.1,
-      min: 0.01
-    }
+      min: 0.01,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -54,12 +58,12 @@ export const PatternsFractalsApollonianGasketNode: NodeDefinition<ApollonianGask
       params: {
         outerCircle: inputs.outerCircle,
         depth: params.depth,
-        minRadius: params.minRadius
-      }
+        minRadius: params.minRadius,
+      },
     });
-    
+
     return {
-      circles: result
+      circles: result,
     };
   },
 };

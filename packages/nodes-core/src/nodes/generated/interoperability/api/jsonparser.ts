@@ -15,7 +15,11 @@ interface JSONParserOutputs {
   values: unknown;
 }
 
-export const InteroperabilityAPIJSONParserNode: NodeDefinition<JSONParserInputs, JSONParserOutputs, JSONParserParams> = {
+export const InteroperabilityAPIJSONParserNode: NodeDefinition<
+  JSONParserInputs,
+  JSONParserOutputs,
+  JSONParserParams
+> = {
   id: 'Interoperability::JSONParser',
   type: 'Interoperability::JSONParser',
   category: 'Interoperability',
@@ -25,34 +29,34 @@ export const InteroperabilityAPIJSONParserNode: NodeDefinition<JSONParserInputs,
     jsonData: {
       type: 'string',
       label: 'Json Data',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     data: {
       type: 'Properties',
-      label: 'Data'
+      label: 'Data',
     },
     arrays: {
       type: 'Properties[]',
-      label: 'Arrays'
+      label: 'Arrays',
     },
     values: {
       type: 'string[]',
-      label: 'Values'
-    }
+      label: 'Values',
+    },
   },
   params: {
     path: {
       type: 'string',
       label: 'Path',
-      default: ""
+      default: '',
     },
     flatten: {
       type: 'boolean',
       label: 'Flatten',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -60,14 +64,14 @@ export const InteroperabilityAPIJSONParserNode: NodeDefinition<JSONParserInputs,
       params: {
         jsonData: inputs.jsonData,
         path: params.path,
-        flatten: params.flatten
-      }
+        flatten: params.flatten,
+      },
     });
-    
+
     return {
       data: results.data,
       arrays: results.arrays,
-      values: results.values
+      values: results.values,
     };
   },
 };

@@ -9,14 +9,14 @@ const stubShape = (type: string): ShapeHandle => ({
   type,
   bbox: {
     min: { x: 0, y: 0, z: 0 },
-    max: { x: 1, y: 1, z: 1 }
-  }
+    max: { x: 1, y: 1, z: 1 },
+  },
 });
 
 const stubMesh = (): MeshData => ({
   positions: new Float32Array([0, 0, 0, 1, 0, 0, 0, 1, 0]),
   normals: new Float32Array([0, 0, 1, 0, 0, 1, 0, 0, 1]),
-  indices: new Uint32Array([0, 1, 2])
+  indices: new Uint32Array([0, 1, 2]),
 });
 
 const wrapperStub = {
@@ -48,17 +48,17 @@ const wrapperStub = {
   deleteShape: vi.fn(),
   clearAllShapes: vi.fn(),
   getShapeCount: vi.fn(() => 0),
-  getOCCTVersion: vi.fn(() => 'stub-occt')
+  getOCCTVersion: vi.fn(() => 'stub-occt'),
 };
 
 vi.mock('./occt-wrapper', () => ({
-  getOCCTWrapper: () => wrapperStub
+  getOCCTWrapper: () => wrapperStub,
 }));
 
 describe('GeometryAPI', () => {
   beforeEach(() => {
     shapeCounter = 0;
-    Object.values(wrapperStub).forEach(value => {
+    Object.values(wrapperStub).forEach((value) => {
       if (typeof value === 'function' && 'mockReset' in value) {
         (value as vi.Mock).mockClear();
       }

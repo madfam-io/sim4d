@@ -27,17 +27,23 @@ describe('Boolean Operations', () => {
       await geometryAPI.init();
 
       const box1 = await geometryAPI.invoke('MAKE_BOX', {
-        width: 100, height: 100, depth: 100
+        width: 100,
+        height: 100,
+        depth: 100,
       });
 
       const box2 = await geometryAPI.invoke('MAKE_BOX_WITH_ORIGIN', {
-        x: 50, y: 0, z: 0,
-        width: 100, height: 100, depth: 100
+        x: 50,
+        y: 0,
+        z: 0,
+        width: 100,
+        height: 100,
+        depth: 100,
       });
 
       const union = await geometryAPI.invoke('BOOLEAN_UNION', {
         shape1: box1,
-        shape2: box2
+        shape2: box2,
       });
 
       expect(union).toBeDefined();
@@ -52,17 +58,21 @@ describe('Boolean Operations', () => {
       await geometryAPI.init();
 
       const box = await geometryAPI.invoke('MAKE_BOX', {
-        width: 50, height: 50, depth: 50
+        width: 50,
+        height: 50,
+        depth: 50,
       });
 
       const sphere = await geometryAPI.invoke('MAKE_SPHERE_WITH_CENTER', {
-        centerX: 100, centerY: 0, centerZ: 0,
-        radius: 25
+        centerX: 100,
+        centerY: 0,
+        centerZ: 0,
+        radius: 25,
       });
 
       const union = await geometryAPI.invoke('BOOLEAN_UNION', {
         shape1: box,
-        shape2: sphere
+        shape2: sphere,
       });
 
       expect(union).toBeDefined();
@@ -75,16 +85,20 @@ describe('Boolean Operations', () => {
       await geometryAPI.init();
 
       const box1 = await geometryAPI.invoke('MAKE_BOX', {
-        width: 100, height: 100, depth: 100
+        width: 100,
+        height: 100,
+        depth: 100,
       });
 
       const box2 = await geometryAPI.invoke('MAKE_BOX', {
-        width: 100, height: 100, depth: 100
+        width: 100,
+        height: 100,
+        depth: 100,
       });
 
       const union = await geometryAPI.invoke('BOOLEAN_UNION', {
         shape1: box1,
-        shape2: box2
+        shape2: box2,
       });
 
       expect(union).toBeDefined();
@@ -97,16 +111,18 @@ describe('Boolean Operations', () => {
       await geometryAPI.init();
 
       const box = await geometryAPI.invoke('MAKE_BOX', {
-        width: 100, height: 100, depth: 100
+        width: 100,
+        height: 100,
+        depth: 100,
       });
 
       const sphere = await geometryAPI.invoke('MAKE_SPHERE', {
-        radius: 30
+        radius: 30,
       });
 
       const result = await geometryAPI.invoke('BOOLEAN_SUBTRACT', {
         shape1: box,
-        shape2: sphere
+        shape2: sphere,
       });
 
       expect(result).toBeDefined();
@@ -123,16 +139,20 @@ describe('Boolean Operations', () => {
       await geometryAPI.init();
 
       const smallBox = await geometryAPI.invoke('MAKE_BOX', {
-        width: 50, height: 50, depth: 50
+        width: 50,
+        height: 50,
+        depth: 50,
       });
 
       const largeBox = await geometryAPI.invoke('MAKE_BOX', {
-        width: 100, height: 100, depth: 100
+        width: 100,
+        height: 100,
+        depth: 100,
       });
 
       const result = await geometryAPI.invoke('BOOLEAN_SUBTRACT', {
         shape1: smallBox,
-        shape2: largeBox
+        shape2: largeBox,
       });
 
       expect(result).toBeDefined();
@@ -143,17 +163,21 @@ describe('Boolean Operations', () => {
       await geometryAPI.init();
 
       const box = await geometryAPI.invoke('MAKE_BOX', {
-        width: 50, height: 50, depth: 50
+        width: 50,
+        height: 50,
+        depth: 50,
       });
 
       const sphere = await geometryAPI.invoke('MAKE_SPHERE_WITH_CENTER', {
-        centerX: 100, centerY: 0, centerZ: 0,
-        radius: 25
+        centerX: 100,
+        centerY: 0,
+        centerZ: 0,
+        radius: 25,
       });
 
       const result = await geometryAPI.invoke('BOOLEAN_SUBTRACT', {
         shape1: box,
-        shape2: sphere
+        shape2: sphere,
       });
 
       expect(result).toBeDefined();
@@ -166,17 +190,23 @@ describe('Boolean Operations', () => {
       await geometryAPI.init();
 
       const box1 = await geometryAPI.invoke('MAKE_BOX', {
-        width: 100, height: 100, depth: 100
+        width: 100,
+        height: 100,
+        depth: 100,
       });
 
       const box2 = await geometryAPI.invoke('MAKE_BOX_WITH_ORIGIN', {
-        x: 50, y: 0, z: 0,
-        width: 100, height: 100, depth: 100
+        x: 50,
+        y: 0,
+        z: 0,
+        width: 100,
+        height: 100,
+        depth: 100,
       });
 
       const intersection = await geometryAPI.invoke('BOOLEAN_INTERSECT', {
         shape1: box1,
-        shape2: box2
+        shape2: box2,
       });
 
       expect(intersection).toBeDefined();
@@ -191,16 +221,18 @@ describe('Boolean Operations', () => {
       await geometryAPI.init();
 
       const box = await geometryAPI.invoke('MAKE_BOX', {
-        width: 100, height: 100, depth: 100
+        width: 100,
+        height: 100,
+        depth: 100,
       });
 
       const sphere = await geometryAPI.invoke('MAKE_SPHERE', {
-        radius: 40
+        radius: 40,
       });
 
       const intersection = await geometryAPI.invoke('BOOLEAN_INTERSECT', {
         shape1: box,
-        shape2: sphere
+        shape2: sphere,
       });
 
       expect(intersection).toBeDefined();
@@ -215,17 +247,21 @@ describe('Boolean Operations', () => {
       await geometryAPI.init();
 
       const box = await geometryAPI.invoke('MAKE_BOX', {
-        width: 50, height: 50, depth: 50
+        width: 50,
+        height: 50,
+        depth: 50,
       });
 
       const sphere = await geometryAPI.invoke('MAKE_SPHERE_WITH_CENTER', {
-        centerX: 100, centerY: 0, centerZ: 0,
-        radius: 25
+        centerX: 100,
+        centerY: 0,
+        centerZ: 0,
+        radius: 25,
       });
 
       const intersection = await geometryAPI.invoke('BOOLEAN_INTERSECT', {
         shape1: box,
-        shape2: sphere
+        shape2: sphere,
       });
 
       expect(intersection).toBeDefined();
@@ -239,30 +275,35 @@ describe('Boolean Operations', () => {
 
       // Create base box
       const base = await geometryAPI.invoke('MAKE_BOX', {
-        width: 200, height: 100, depth: 50
+        width: 200,
+        height: 100,
+        depth: 50,
       });
 
       // Create hole cylinder
       const hole = await geometryAPI.invoke('MAKE_CYLINDER', {
-        radius: 20, height: 60
+        radius: 20,
+        height: 60,
       });
 
       // Subtract hole from base
       const withHole = await geometryAPI.invoke('BOOLEAN_SUBTRACT', {
         shape1: base,
-        shape2: hole
+        shape2: hole,
       });
 
       // Add a feature sphere
       const feature = await geometryAPI.invoke('MAKE_SPHERE_WITH_CENTER', {
-        centerX: 150, centerY: 0, centerZ: 25,
-        radius: 30
+        centerX: 150,
+        centerY: 0,
+        centerZ: 25,
+        radius: 30,
       });
 
       // Union with feature
       const final = await geometryAPI.invoke('BOOLEAN_UNION', {
         shape1: withHole,
-        shape2: feature
+        shape2: feature,
       });
 
       expect(final).toBeDefined();
@@ -275,28 +316,32 @@ describe('Boolean Operations', () => {
 
       // Box base
       const box = await geometryAPI.invoke('MAKE_BOX', {
-        width: 100, height: 100, depth: 100
+        width: 100,
+        height: 100,
+        depth: 100,
       });
 
       // Cylinder feature
       const cylinder = await geometryAPI.invoke('MAKE_CYLINDER', {
-        radius: 30, height: 120
+        radius: 30,
+        height: 120,
       });
 
       // Torus detail
       const torus = await geometryAPI.invoke('MAKE_TORUS', {
-        majorRadius: 40, minorRadius: 10
+        majorRadius: 40,
+        minorRadius: 10,
       });
 
       // Complex operation: (box ∪ cylinder) - torus
       const intermediate = await geometryAPI.invoke('BOOLEAN_UNION', {
         shape1: box,
-        shape2: cylinder
+        shape2: cylinder,
       });
 
       const final = await geometryAPI.invoke('BOOLEAN_SUBTRACT', {
         shape1: intermediate,
-        shape2: torus
+        shape2: torus,
       });
 
       expect(final).toBeDefined();
@@ -309,22 +354,28 @@ describe('Boolean Operations', () => {
       await geometryAPI.init();
 
       const box = await geometryAPI.invoke('MAKE_BOX', {
-        width: 100, height: 100, depth: 100
+        width: 100,
+        height: 100,
+        depth: 100,
       });
 
-      await expect(geometryAPI.invoke('BOOLEAN_UNION', {
-        shape1: box,
-        shape2: { id: 'invalid-shape', type: 'solid' } as ShapeHandle
-      })).rejects.toThrow();
+      await expect(
+        geometryAPI.invoke('BOOLEAN_UNION', {
+          shape1: box,
+          shape2: { id: 'invalid-shape', type: 'solid' } as ShapeHandle,
+        })
+      ).rejects.toThrow();
     });
 
     it('should validate boolean operation parameters', async () => {
       await geometryAPI.init();
 
-      await expect(geometryAPI.invoke('BOOLEAN_UNION', {
-        shape1: null as any,
-        shape2: null as any
-      })).rejects.toThrow();
+      await expect(
+        geometryAPI.invoke('BOOLEAN_UNION', {
+          shape1: null as any,
+          shape2: null as any,
+        })
+      ).rejects.toThrow();
     });
   });
 
@@ -333,26 +384,32 @@ describe('Boolean Operations', () => {
       await geometryAPI.init();
 
       const targets = {
-        'BOOLEAN_UNION': 100,      // ms
-        'BOOLEAN_SUBTRACT': 100,   // ms
-        'BOOLEAN_INTERSECT': 150   // ms (more complex)
+        BOOLEAN_UNION: 100, // ms
+        BOOLEAN_SUBTRACT: 100, // ms
+        BOOLEAN_INTERSECT: 150, // ms (more complex)
       };
 
       for (const [operation, targetTime] of Object.entries(targets)) {
         const endMeasurement = GeometryPerformanceTracker.startMeasurement(operation);
 
         const box1 = await geometryAPI.invoke('MAKE_BOX', {
-          width: 100, height: 100, depth: 100
+          width: 100,
+          height: 100,
+          depth: 100,
         });
 
         const box2 = await geometryAPI.invoke('MAKE_BOX_WITH_ORIGIN', {
-          x: 50, y: 0, z: 0,
-          width: 100, height: 100, depth: 100
+          x: 50,
+          y: 0,
+          z: 0,
+          width: 100,
+          height: 100,
+          depth: 100,
         });
 
         await geometryAPI.invoke(operation as any, {
           shape1: box1,
-          shape2: box2
+          shape2: box2,
         });
 
         const duration = endMeasurement();
@@ -367,7 +424,7 @@ describe('Boolean Operations', () => {
         const box1 = await geometryAPI.invoke('MAKE_BOX', {
           width: Math.random() * 50 + 25,
           height: Math.random() * 50 + 25,
-          depth: Math.random() * 50 + 25
+          depth: Math.random() * 50 + 25,
         });
 
         const box2 = await geometryAPI.invoke('MAKE_BOX_WITH_ORIGIN', {
@@ -376,12 +433,12 @@ describe('Boolean Operations', () => {
           z: 0,
           width: Math.random() * 50 + 25,
           height: Math.random() * 50 + 25,
-          depth: Math.random() * 50 + 25
+          depth: Math.random() * 50 + 25,
         });
 
         return geometryAPI.invoke('BOOLEAN_UNION', {
           shape1: box1,
-          shape2: box2
+          shape2: box2,
         });
       };
 
@@ -391,12 +448,12 @@ describe('Boolean Operations', () => {
         createAndUnion(),
         createAndUnion(),
         createAndUnion(),
-        createAndUnion()
+        createAndUnion(),
       ]);
       const endTime = performance.now();
 
       expect(results).toHaveLength(5);
-      expect(results.every(r => r && r.id && r.volume > 0)).toBe(true);
+      expect(results.every((r) => r && r.id && r.volume > 0)).toBe(true);
       expect(endTime - startTime).toBeLessThan(1000); // 5 operations in < 1s
     });
   });
@@ -409,17 +466,23 @@ describe('Boolean Operations', () => {
 
       // Create shapes for boolean operations
       const box1 = await geometryAPI.invoke('MAKE_BOX', {
-        width: 100, height: 100, depth: 100
+        width: 100,
+        height: 100,
+        depth: 100,
       });
 
       const box2 = await geometryAPI.invoke('MAKE_BOX_WITH_ORIGIN', {
-        x: 50, y: 0, z: 0,
-        width: 100, height: 100, depth: 100
+        x: 50,
+        y: 0,
+        z: 0,
+        width: 100,
+        height: 100,
+        depth: 100,
       });
 
       const union = await geometryAPI.invoke('BOOLEAN_UNION', {
         shape1: box1,
-        shape2: box2
+        shape2: box2,
       });
 
       const currentCount = await geometryAPI.invoke('GET_SHAPE_COUNT', {});

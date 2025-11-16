@@ -11,7 +11,11 @@ interface FieldFluxOutputs {
   flux: number;
 }
 
-export const FieldsAnalysisFieldFluxNode: NodeDefinition<FieldFluxInputs, FieldFluxOutputs, FieldFluxParams> = {
+export const FieldsAnalysisFieldFluxNode: NodeDefinition<
+  FieldFluxInputs,
+  FieldFluxOutputs,
+  FieldFluxParams
+> = {
   id: 'Fields::FieldFlux',
   type: 'Fields::FieldFlux',
   category: 'Fields',
@@ -21,19 +25,19 @@ export const FieldsAnalysisFieldFluxNode: NodeDefinition<FieldFluxInputs, FieldF
     vectorField: {
       type: 'VectorField',
       label: 'Vector Field',
-      optional: true
+      optional: true,
     },
     surface: {
       type: 'Surface',
       label: 'Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     flux: {
       type: 'Number',
-      label: 'Flux'
-    }
+      label: 'Flux',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -41,12 +45,12 @@ export const FieldsAnalysisFieldFluxNode: NodeDefinition<FieldFluxInputs, FieldF
       type: 'calculateFlux',
       params: {
         vectorField: inputs.vectorField,
-        surface: inputs.surface
-      }
+        surface: inputs.surface,
+      },
     });
-    
+
     return {
-      flux: result
+      flux: result,
     };
   },
 };

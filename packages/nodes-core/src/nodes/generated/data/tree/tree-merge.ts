@@ -11,7 +11,11 @@ interface TreeMergeOutputs {
   merged: unknown;
 }
 
-export const DataTreeTreeMergeNode: NodeDefinition<TreeMergeInputs, TreeMergeOutputs, TreeMergeParams> = {
+export const DataTreeTreeMergeNode: NodeDefinition<
+  TreeMergeInputs,
+  TreeMergeOutputs,
+  TreeMergeParams
+> = {
   id: 'Data::TreeMerge',
   type: 'Data::TreeMerge',
   category: 'Data',
@@ -21,19 +25,19 @@ export const DataTreeTreeMergeNode: NodeDefinition<TreeMergeInputs, TreeMergeOut
     treeA: {
       type: 'DataTree',
       label: 'Tree A',
-      required: true
+      required: true,
     },
     treeB: {
       type: 'DataTree',
       label: 'Tree B',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     merged: {
       type: 'DataTree',
-      label: 'Merged'
-    }
+      label: 'Merged',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -41,12 +45,12 @@ export const DataTreeTreeMergeNode: NodeDefinition<TreeMergeInputs, TreeMergeOut
       type: 'treeMerge',
       params: {
         treeA: inputs.treeA,
-        treeB: inputs.treeB
-      }
+        treeB: inputs.treeB,
+      },
     });
-    
+
     return {
-      merged: result
+      merged: result,
     };
   },
 };

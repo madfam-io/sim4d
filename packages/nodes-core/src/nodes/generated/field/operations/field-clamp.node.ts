@@ -13,7 +13,11 @@ interface FieldClampOutputs {
   clamped: unknown;
 }
 
-export const FieldOperationsFieldClampNode: NodeDefinition<FieldClampInputs, FieldClampOutputs, FieldClampParams> = {
+export const FieldOperationsFieldClampNode: NodeDefinition<
+  FieldClampInputs,
+  FieldClampOutputs,
+  FieldClampParams
+> = {
   id: 'Field::FieldClamp',
   category: 'Field',
   label: 'FieldClamp',
@@ -22,26 +26,26 @@ export const FieldOperationsFieldClampNode: NodeDefinition<FieldClampInputs, Fie
     field: {
       type: 'ScalarField',
       label: 'Field',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     clamped: {
       type: 'ScalarField',
-      label: 'Clamped'
-    }
+      label: 'Clamped',
+    },
   },
   params: {
     min: {
       type: 'number',
       label: 'Min',
-      default: 0
+      default: 0,
     },
     max: {
       type: 'number',
       label: 'Max',
-      default: 1
-    }
+      default: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -49,12 +53,12 @@ export const FieldOperationsFieldClampNode: NodeDefinition<FieldClampInputs, Fie
       params: {
         field: inputs.field,
         min: params.min,
-        max: params.max
-      }
+        max: params.max,
+      },
     });
-    
+
     return {
-      clamped: result
+      clamped: result,
     };
   },
 };

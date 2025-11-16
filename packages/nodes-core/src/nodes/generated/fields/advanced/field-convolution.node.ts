@@ -13,7 +13,11 @@ interface FieldConvolutionOutputs {
   convolvedField: unknown;
 }
 
-export const FieldsAdvancedFieldConvolutionNode: NodeDefinition<FieldConvolutionInputs, FieldConvolutionOutputs, FieldConvolutionParams> = {
+export const FieldsAdvancedFieldConvolutionNode: NodeDefinition<
+  FieldConvolutionInputs,
+  FieldConvolutionOutputs,
+  FieldConvolutionParams
+> = {
   id: 'Fields::FieldConvolution',
   category: 'Fields',
   label: 'FieldConvolution',
@@ -22,19 +26,19 @@ export const FieldsAdvancedFieldConvolutionNode: NodeDefinition<FieldConvolution
     field: {
       type: 'Field',
       label: 'Field',
-      optional: true
+      optional: true,
     },
     kernel: {
       type: 'Field',
       label: 'Kernel',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     convolvedField: {
       type: 'Field',
-      label: 'Convolved Field'
-    }
+      label: 'Convolved Field',
+    },
   },
   params: {
     kernelSize: {
@@ -43,8 +47,8 @@ export const FieldsAdvancedFieldConvolutionNode: NodeDefinition<FieldConvolution
       default: 3,
       min: 3,
       max: 11,
-      step: 2
-    }
+      step: 2,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -52,12 +56,12 @@ export const FieldsAdvancedFieldConvolutionNode: NodeDefinition<FieldConvolution
       params: {
         field: inputs.field,
         kernel: inputs.kernel,
-        kernelSize: params.kernelSize
-      }
+        kernelSize: params.kernelSize,
+      },
     });
-    
+
     return {
-      convolvedField: result
+      convolvedField: result,
     };
   },
 };

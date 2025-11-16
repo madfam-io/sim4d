@@ -1,6 +1,6 @@
 /**
  * MVP Workflow E2E Tests
- * 
+ *
  * Tests the complete user journey:
  * 1. Create session
  * 2. Build geometry with nodes
@@ -11,17 +11,16 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('MVP Workflow', () => {
-  
   test('should create new session automatically', async ({ page }) => {
     // Navigate to home
     await page.goto('http://localhost:5173');
 
     // Should auto-redirect to session URL
     await page.waitForURL(/\/session\/[a-f0-9-]+/, { timeout: 10000 });
-    
+
     const url = page.url();
     expect(url).toMatch(/\/session\/[a-f0-9-]+/);
-    
+
     // Should show empty canvas
     await page.waitForSelector('.node-canvas, canvas', { timeout: 5000 });
   });
@@ -33,7 +32,7 @@ test.describe('MVP Workflow', () => {
 
     // Add a Box node (if node palette exists)
     const nodePalette = page.locator('[data-testid="node-palette"], .node-palette');
-    const hasPalette = await nodePalette.count() > 0;
+    const hasPalette = (await nodePalette.count()) > 0;
 
     if (hasPalette) {
       // Open node palette
@@ -41,7 +40,7 @@ test.describe('MVP Workflow', () => {
 
       // Search for Box
       const searchInput = page.locator('input[placeholder*="Search"], input[type="search"]');
-      if (await searchInput.count() > 0) {
+      if ((await searchInput.count()) > 0) {
         await searchInput.fill('Box');
       }
 
@@ -60,13 +59,13 @@ test.describe('MVP Workflow', () => {
 
     // Wait for session controls
     const exportButton = page.locator('button:has-text("Export STEP")');
-    
+
     // Button should exist
     await expect(exportButton).toBeVisible({ timeout: 10000 });
 
     // Listen for download
     const downloadPromise = page.waitForEvent('download', { timeout: 30000 });
-    
+
     // Click export
     await exportButton.click();
 
@@ -81,13 +80,13 @@ test.describe('MVP Workflow', () => {
 
     // Wait for session controls
     const exportButton = page.locator('button:has-text("Export STL")');
-    
+
     // Button should exist
     await expect(exportButton).toBeVisible({ timeout: 10000 });
 
     // Listen for download
     const downloadPromise = page.waitForEvent('download', { timeout: 30000 });
-    
+
     // Click export
     await exportButton.click();
 
@@ -102,7 +101,7 @@ test.describe('MVP Workflow', () => {
 
     // Get session URL
     const currentUrl = page.url();
-    
+
     // Click share button
     const shareButton = page.locator('button:has-text("Share")');
     await expect(shareButton).toBeVisible({ timeout: 10000 });
@@ -120,17 +119,17 @@ test.describe('MVP Workflow', () => {
     // User 1: Create session
     await page.goto('http://localhost:5173');
     await page.waitForURL(/\/session\/[a-f0-9-]+/);
-    
+
     const sessionUrl = page.url();
 
     // User 2: Open same session in new tab
     const page2 = await context.newPage();
     await page2.goto(sessionUrl);
-    
+
     // Should load same session
     await page2.waitForURL(sessionUrl);
     await page2.waitForSelector('.node-canvas, canvas', { timeout: 5000 });
-    
+
     // Verify session ID matches
     expect(page2.url()).toBe(sessionUrl);
   });
@@ -147,7 +146,7 @@ test.describe('MVP Workflow', () => {
     // Should display session ID in UI
     const sessionDisplay = page.locator('text=/Session:/');
     await expect(sessionDisplay).toBeVisible({ timeout: 5000 });
-    
+
     // Should show first 8 characters of session ID
     await expect(sessionDisplay).toHaveText(new RegExp(sessionId.slice(0, 8)));
   });
@@ -164,7 +163,7 @@ test.describe('MVP Workflow', () => {
     // Step 3: Export STEP
     const exportStepButton = page.locator('button:has-text("Export STEP")');
     await expect(exportStepButton).toBeVisible({ timeout: 10000 });
-    
+
     const stepDownloadPromise = page.waitForEvent('download', { timeout: 30000 });
     await exportStepButton.click();
     const stepDownload = await stepDownloadPromise;

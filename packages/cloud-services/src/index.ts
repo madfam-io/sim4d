@@ -24,15 +24,9 @@ export { ParameterSynchronizer } from '@brepflow/engine-core/src/collaboration/p
 export * from '@brepflow/cloud-api/src/types';
 
 // Configuration interfaces
-export type {
-  CloudSyncConfig,
-  SyncResult,
-} from './sync/cloud-sync-manager';
+export type { CloudSyncConfig, SyncResult } from './sync/cloud-sync-manager';
 
-export type {
-  ProjectSharingConfig,
-  SharingResult,
-} from './sharing/project-sharing-manager';
+export type { ProjectSharingConfig, SharingResult } from './sharing/project-sharing-manager';
 
 export type {
   PluginManagerConfig,
@@ -40,10 +34,7 @@ export type {
   PluginSandbox,
 } from './plugins/plugin-manager';
 
-export type {
-  CloudApiConfig,
-  RequestOptions,
-} from './api/cloud-api-client';
+export type { CloudApiConfig, RequestOptions } from './api/cloud-api-client';
 
 export type {
   WebSocketConfig,

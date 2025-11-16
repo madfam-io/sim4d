@@ -16,7 +16,11 @@ interface SurfaceRoughnessOutputs {
   roughnessMap: unknown;
 }
 
-export const AnalysisSurfacesSurfaceRoughnessNode: NodeDefinition<SurfaceRoughnessInputs, SurfaceRoughnessOutputs, SurfaceRoughnessParams> = {
+export const AnalysisSurfacesSurfaceRoughnessNode: NodeDefinition<
+  SurfaceRoughnessInputs,
+  SurfaceRoughnessOutputs,
+  SurfaceRoughnessParams
+> = {
   id: 'Analysis::SurfaceRoughness',
   category: 'Analysis',
   label: 'SurfaceRoughness',
@@ -25,26 +29,26 @@ export const AnalysisSurfacesSurfaceRoughnessNode: NodeDefinition<SurfaceRoughne
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     roughnessRa: {
       type: 'number',
-      label: 'Roughness Ra'
+      label: 'Roughness Ra',
     },
     roughnessRz: {
       type: 'number',
-      label: 'Roughness Rz'
+      label: 'Roughness Rz',
     },
     roughnessRq: {
       type: 'number',
-      label: 'Roughness Rq'
+      label: 'Roughness Rq',
     },
     roughnessMap: {
       type: 'Shape',
-      label: 'Roughness Map'
-    }
+      label: 'Roughness Map',
+    },
   },
   params: {
     sampleDensity: {
@@ -52,14 +56,14 @@ export const AnalysisSurfacesSurfaceRoughnessNode: NodeDefinition<SurfaceRoughne
       label: 'Sample Density',
       default: 50,
       min: 10,
-      max: 200
+      max: 200,
     },
     analysisType: {
       type: 'enum',
       label: 'Analysis Type',
-      default: "all",
-      options: ["Ra","Rz","Rq","all"]
-    }
+      default: 'all',
+      options: ['Ra', 'Rz', 'Rq', 'all'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -67,15 +71,15 @@ export const AnalysisSurfacesSurfaceRoughnessNode: NodeDefinition<SurfaceRoughne
       params: {
         surface: inputs.surface,
         sampleDensity: params.sampleDensity,
-        analysisType: params.analysisType
-      }
+        analysisType: params.analysisType,
+      },
     });
-    
+
     return {
       roughnessRa: results.roughnessRa,
       roughnessRz: results.roughnessRz,
       roughnessRq: results.roughnessRq,
-      roughnessMap: results.roughnessMap
+      roughnessMap: results.roughnessMap,
     };
   },
 };

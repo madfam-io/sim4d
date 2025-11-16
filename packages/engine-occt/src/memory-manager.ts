@@ -12,7 +12,7 @@ export enum MemoryPressure {
   LOW = 'low',
   MEDIUM = 'medium',
   HIGH = 'high',
-  CRITICAL = 'critical'
+  CRITICAL = 'critical',
 }
 
 // Default cache configuration
@@ -23,18 +23,18 @@ export const DEFAULT_CACHE_CONFIG: Partial<MemoryConfig> = {
   meshLODLevels: 3,
   cleanupThresholdMB: 400,
   aggressiveCleanupMB: 450,
-  gcIntervalMs: 30000
+  gcIntervalMs: 30000,
 };
 
 // Memory configuration
 export interface MemoryConfig {
-  maxShapeCacheSize: number;      // Max shapes in memory
-  maxMeshCacheSize: number;       // Max meshes in memory
-  maxMemoryMB: number;           // Total memory limit in MB
-  meshLODLevels: number;         // Number of detail levels for meshes
-  cleanupThresholdMB: number;    // When to trigger cleanup
-  aggressiveCleanupMB: number;   // When to do aggressive cleanup
-  gcIntervalMs: number;          // Garbage collection interval
+  maxShapeCacheSize: number; // Max shapes in memory
+  maxMeshCacheSize: number; // Max meshes in memory
+  maxMemoryMB: number; // Total memory limit in MB
+  meshLODLevels: number; // Number of detail levels for meshes
+  cleanupThresholdMB: number; // When to trigger cleanup
+  aggressiveCleanupMB: number; // When to do aggressive cleanup
+  gcIntervalMs: number; // Garbage collection interval
 }
 
 // Cache entry with metadata
@@ -49,10 +49,10 @@ interface CacheEntry<T> {
 
 // Mesh with multiple levels of detail
 interface MeshLOD {
-  high: MeshData;    // Full resolution
+  high: MeshData; // Full resolution
   medium?: MeshData; // 50% triangles
-  low?: MeshData;    // 25% triangles
-  bounds: MeshData;  // Bounding box only
+  low?: MeshData; // 25% triangles
+  bounds: MeshData; // Bounding box only
 }
 
 export class AdvancedMemoryManager {
@@ -68,7 +68,7 @@ export class AdvancedMemoryManager {
     lastCleanup: 0,
     workersMemoryMB: 0,
     cacheHitRate: 0,
-    evictionCount: 0
+    evictionCount: 0,
   };
 
   private gcTimer: NodeJS.Timeout | null = null;
@@ -77,7 +77,7 @@ export class AdvancedMemoryManager {
     cacheHits: 0,
     cacheMisses: 0,
     evictions: 0,
-    cleanupDuration: 0
+    cleanupDuration: 0,
   };
 
   constructor(private config: MemoryConfig) {
@@ -101,14 +101,16 @@ export class AdvancedMemoryManager {
       accessCount: 1,
       size,
       priority,
-      pinned: priority >= 10 // High priority shapes are pinned
+      pinned: priority >= 10, // High priority shapes are pinned
     };
 
     this.shapeCache.set(id, entry);
     this.memoryStats.shapeCacheMB += size / (1024 * 1024);
 
     if (endMeasurement) endMeasurement();
-    console.log(`[MemoryManager] Cached shape ${id} (${Math.round(size/1024)}KB, priority: ${priority})`);
+    console.log(
+      `[MemoryManager] Cached shape ${id} (${Math.round(size / 1024)}KB, priority: ${priority})`
+    );
   }
 
   /**
@@ -126,14 +128,14 @@ export class AdvancedMemoryManager {
       accessCount: 1,
       size,
       priority,
-      pinned: priority >= 10
+      pinned: priority >= 10,
     };
 
     this.resultCache.set(operationKey, entry);
     this.memoryStats.resultCacheMB += size / (1024 * 1024);
 
     if (endMeasurement) endMeasurement();
-    console.log(`[MemoryManager] Cached result ${operationKey} (${Math.round(size/1024)}KB)`);
+    console.log(`[MemoryManager] Cached result ${operationKey} (${Math.round(size / 1024)}KB)`);
   }
 
   /**
@@ -165,7 +167,7 @@ export class AdvancedMemoryManager {
     // Generate LOD levels
     const meshLOD: MeshLOD = {
       high: meshData,
-      bounds: this.generateBoundingBoxMesh(meshData)
+      bounds: this.generateBoundingBoxMesh(meshData),
     };
 
     // Generate medium and low detail versions for large meshes
@@ -183,13 +185,15 @@ export class AdvancedMemoryManager {
       accessCount: 1,
       size,
       priority,
-      pinned: priority >= 10
+      pinned: priority >= 10,
     };
 
     this.meshCache.set(id, entry);
     this.memoryStats.meshCacheMB += size / (1024 * 1024);
 
-    console.log(`[MemoryManager] Cached mesh LOD ${id} (${Math.round(size/1024)}KB, priority: ${priority})`);
+    console.log(
+      `[MemoryManager] Cached mesh LOD ${id} (${Math.round(size / 1024)}KB, priority: ${priority})`
+    );
   }
 
   /**
@@ -299,7 +303,7 @@ export class AdvancedMemoryManager {
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
       const char = str.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
+      hash = (hash << 5) - hash + char;
       hash = hash & hash; // Convert to 32-bit integer
     }
     return Math.abs(hash).toString(36);
@@ -356,7 +360,10 @@ export class AdvancedMemoryManager {
     }
 
     // Check if we exceed limits
-    if (cache.size >= maxSize || (currentMemory + requiredSize / (1024 * 1024)) > this.config.maxMemoryMB * 0.8) {
+    if (
+      cache.size >= maxSize ||
+      currentMemory + requiredSize / (1024 * 1024) > this.config.maxMemoryMB * 0.8
+    ) {
       this.evictLRU(type, requiredSize);
     }
   }
@@ -416,7 +423,9 @@ export class AdvancedMemoryManager {
 
     this.performanceMetrics.evictions += evicted;
     if (endMeasurement) endMeasurement();
-    console.log(`[MemoryManager] Evicted ${evicted} ${type} entries, freed ${Math.round(freedSize/1024)}KB`);
+    console.log(
+      `[MemoryManager] Evicted ${evicted} ${type} entries, freed ${Math.round(freedSize / 1024)}KB`
+    );
   }
 
   /**
@@ -485,7 +494,10 @@ export class AdvancedMemoryManager {
     // Skip if cleaned up recently
     if (cleanupStart - this.memoryStats.lastCleanup < 30000) return;
 
-    if (this.pressureLevel === MemoryPressure.HIGH || this.pressureLevel === MemoryPressure.CRITICAL) {
+    if (
+      this.pressureLevel === MemoryPressure.HIGH ||
+      this.pressureLevel === MemoryPressure.CRITICAL
+    ) {
       console.log(`[MemoryManager] Performing ${this.pressureLevel} pressure cleanup`);
 
       // Aggressive cleanup - remove older, less used entries
@@ -516,7 +528,7 @@ export class AdvancedMemoryManager {
     let cleaned = 0;
 
     for (const [id, entry] of this.resultCache.entries()) {
-      if (!entry.pinned && (now - entry.lastAccessed) > maxAgeMs) {
+      if (!entry.pinned && now - entry.lastAccessed > maxAgeMs) {
         this.memoryStats.resultCacheMB -= entry.size / (1024 * 1024);
         this.resultCache.delete(id);
         cleaned++;
@@ -537,7 +549,7 @@ export class AdvancedMemoryManager {
 
     // Clean shape cache
     for (const [id, entry] of this.shapeCache.entries()) {
-      if (!entry.pinned && (now - entry.lastAccessed) > maxAgeMs) {
+      if (!entry.pinned && now - entry.lastAccessed > maxAgeMs) {
         this.memoryStats.shapeCacheMB -= entry.size / (1024 * 1024);
         this.shapeCache.delete(id);
         evicted++;
@@ -546,7 +558,7 @@ export class AdvancedMemoryManager {
 
     // Clean mesh cache
     for (const [id, entry] of this.meshCache.entries()) {
-      if (!entry.pinned && (now - entry.lastAccessed) > maxAgeMs) {
+      if (!entry.pinned && now - entry.lastAccessed > maxAgeMs) {
         this.memoryStats.meshCacheMB -= entry.size / (1024 * 1024);
         this.meshCache.delete(id);
         evicted++;
@@ -580,8 +592,8 @@ export class AdvancedMemoryManager {
    */
   private async decimateMesh(mesh: MeshData, factor: number): Promise<MeshData> {
     // Simple decimation - take every nth triangle
-    const targetTriangles = Math.floor(mesh.indices.length / 3 * factor);
-    const step = Math.max(1, Math.floor((mesh.indices.length / 3) / targetTriangles));
+    const targetTriangles = Math.floor((mesh.indices.length / 3) * factor);
+    const step = Math.max(1, Math.floor(mesh.indices.length / 3 / targetTriangles));
 
     const newIndices: number[] = [];
     for (let i = 0; i < mesh.indices.length; i += step * 3) {
@@ -597,7 +609,7 @@ export class AdvancedMemoryManager {
       edges: mesh.edges, // Could also decimate edges
       vertexCount: mesh.vertexCount,
       triangleCount: newIndices.length / 3,
-      edgeCount: mesh.edgeCount
+      edgeCount: mesh.edgeCount,
     };
   }
 
@@ -606,8 +618,12 @@ export class AdvancedMemoryManager {
    */
   private generateBoundingBoxMesh(mesh: MeshData): MeshData {
     // Find bounds
-    let minX = Infinity, minY = Infinity, minZ = Infinity;
-    let maxX = -Infinity, maxY = -Infinity, maxZ = -Infinity;
+    let minX = Infinity,
+      minY = Infinity,
+      minZ = Infinity;
+    let maxX = -Infinity,
+      maxY = -Infinity,
+      maxZ = -Infinity;
 
     for (let i = 0; i < mesh.positions.length; i += 3) {
       minX = Math.min(minX, mesh.positions[i]);
@@ -620,24 +636,75 @@ export class AdvancedMemoryManager {
 
     // Create box vertices
     const positions = new Float32Array([
-      minX, minY, minZ,  maxX, minY, minZ,  maxX, maxY, minZ,  minX, maxY, minZ, // Bottom
-      minX, minY, maxZ,  maxX, minY, maxZ,  maxX, maxY, maxZ,  minX, maxY, maxZ  // Top
+      minX,
+      minY,
+      minZ,
+      maxX,
+      minY,
+      minZ,
+      maxX,
+      maxY,
+      minZ,
+      minX,
+      maxY,
+      minZ, // Bottom
+      minX,
+      minY,
+      maxZ,
+      maxX,
+      minY,
+      maxZ,
+      maxX,
+      maxY,
+      maxZ,
+      minX,
+      maxY,
+      maxZ, // Top
     ]);
 
     // Create box normals (simple)
     const normals = new Float32Array([
-      0, 0, -1,  0, 0, -1,  0, 0, -1,  0, 0, -1,
-      0, 0,  1,  0, 0,  1,  0, 0,  1,  0, 0,  1
+      0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
     ]);
 
     // Create box indices (12 triangles)
     const indices = new Uint32Array([
-      0, 1, 2, 0, 2, 3,  // Bottom
-      4, 7, 6, 4, 6, 5,  // Top
-      0, 3, 7, 0, 7, 4,  // Left
-      1, 5, 6, 1, 6, 2,  // Right
-      3, 2, 6, 3, 6, 7,  // Front
-      0, 4, 5, 0, 5, 1   // Back
+      0,
+      1,
+      2,
+      0,
+      2,
+      3, // Bottom
+      4,
+      7,
+      6,
+      4,
+      6,
+      5, // Top
+      0,
+      3,
+      7,
+      0,
+      7,
+      4, // Left
+      1,
+      5,
+      6,
+      1,
+      6,
+      2, // Right
+      3,
+      2,
+      6,
+      3,
+      6,
+      7, // Front
+      0,
+      4,
+      5,
+      0,
+      5,
+      1, // Back
     ]);
 
     return {
@@ -647,7 +714,7 @@ export class AdvancedMemoryManager {
       edges: new Uint32Array([]), // No edges for bounds
       vertexCount: 8,
       triangleCount: 12,
-      edgeCount: 0
+      edgeCount: 0,
     };
   }
 
@@ -721,7 +788,8 @@ export class AdvancedMemoryManager {
   getStats() {
     // Update cache hit rate
     const totalCacheOps = this.performanceMetrics.cacheHits + this.performanceMetrics.cacheMisses;
-    this.memoryStats.cacheHitRate = totalCacheOps > 0 ? this.performanceMetrics.cacheHits / totalCacheOps : 0;
+    this.memoryStats.cacheHitRate =
+      totalCacheOps > 0 ? this.performanceMetrics.cacheHits / totalCacheOps : 0;
 
     return {
       ...this.memoryStats,
@@ -732,14 +800,14 @@ export class AdvancedMemoryManager {
       performance: {
         ...this.performanceMetrics,
         cacheHitRate: this.memoryStats.cacheHitRate,
-        avgCleanupDuration: this.performanceMetrics.cleanupDuration
+        avgCleanupDuration: this.performanceMetrics.cleanupDuration,
       },
       breakdown: {
         shapes: `${this.shapeCache.size} entries, ${this.memoryStats.shapeCacheMB.toFixed(1)}MB`,
         meshes: `${this.meshCache.size} entries, ${this.memoryStats.meshCacheMB.toFixed(1)}MB`,
         results: `${this.resultCache.size} entries, ${this.memoryStats.resultCacheMB.toFixed(1)}MB`,
-        workers: `${this.memoryStats.workersMemoryMB.toFixed(1)}MB`
-      }
+        workers: `${this.memoryStats.workersMemoryMB.toFixed(1)}MB`,
+      },
     };
   }
 
@@ -832,7 +900,7 @@ export const DEFAULT_MEMORY_CONFIG: MemoryConfig = {
   meshLODLevels: 4,
   cleanupThresholdMB: 1200,
   aggressiveCleanupMB: 1400,
-  gcIntervalMs: 15000 // 15 seconds
+  gcIntervalMs: 15000, // 15 seconds
 };
 
 // Global memory manager instance

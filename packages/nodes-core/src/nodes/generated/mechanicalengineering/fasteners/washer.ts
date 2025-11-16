@@ -15,7 +15,11 @@ interface WasherOutputs {
   washer: unknown;
 }
 
-export const MechanicalEngineeringFastenersWasherNode: NodeDefinition<WasherInputs, WasherOutputs, WasherParams> = {
+export const MechanicalEngineeringFastenersWasherNode: NodeDefinition<
+  WasherInputs,
+  WasherOutputs,
+  WasherParams
+> = {
   id: 'MechanicalEngineering::Washer',
   type: 'MechanicalEngineering::Washer',
   category: 'MechanicalEngineering',
@@ -25,14 +29,14 @@ export const MechanicalEngineeringFastenersWasherNode: NodeDefinition<WasherInpu
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     washer: {
       type: 'Shape',
-      label: 'Washer'
-    }
+      label: 'Washer',
+    },
   },
   params: {
     innerDiameter: {
@@ -40,28 +44,28 @@ export const MechanicalEngineeringFastenersWasherNode: NodeDefinition<WasherInpu
       label: 'Inner Diameter',
       default: 6.4,
       min: 2,
-      max: 50
+      max: 50,
     },
     outerDiameter: {
       type: 'number',
       label: 'Outer Diameter',
       default: 12,
       min: 4,
-      max: 100
+      max: 100,
     },
     thickness: {
       type: 'number',
       label: 'Thickness',
       default: 1.6,
       min: 0.5,
-      max: 5
+      max: 5,
     },
     type: {
       type: 'enum',
       label: 'Type',
-      default: "flat",
-      options: ["flat","spring","lock","fender"]
-    }
+      default: 'flat',
+      options: ['flat', 'spring', 'lock', 'fender'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -71,12 +75,12 @@ export const MechanicalEngineeringFastenersWasherNode: NodeDefinition<WasherInpu
         innerDiameter: params.innerDiameter,
         outerDiameter: params.outerDiameter,
         thickness: params.thickness,
-        type: params.type
-      }
+        type: params.type,
+      },
     });
-    
+
     return {
-      washer: result
+      washer: result,
     };
   },
 };

@@ -23,8 +23,8 @@ export const SolidHelicalSpringNode: NodeDefinition<SpringInputs, SpringOutputs,
   outputs: {
     spring: {
       type: 'Solid',
-      label: 'Spring'
-    }
+      label: 'Spring',
+    },
   },
   params: {
     radius: {
@@ -32,34 +32,34 @@ export const SolidHelicalSpringNode: NodeDefinition<SpringInputs, SpringOutputs,
       label: 'Radius',
       default: 50,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     pitch: {
       type: 'number',
       label: 'Pitch',
       default: 20,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     height: {
       type: 'number',
       label: 'Height',
       default: 100,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     wireRadius: {
       type: 'number',
       label: 'Wire Radius',
       default: 5,
       min: 0.1,
-      max: 100
+      max: 100,
     },
     leftHanded: {
       type: 'boolean',
       label: 'Left Handed',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -69,12 +69,12 @@ export const SolidHelicalSpringNode: NodeDefinition<SpringInputs, SpringOutputs,
         pitch: params.pitch,
         height: params.height,
         wireRadius: params.wireRadius,
-        leftHanded: params.leftHanded
-      }
+        leftHanded: params.leftHanded,
+      },
     });
-    
+
     return {
-      spring: result
+      spring: result,
     };
   },
 };

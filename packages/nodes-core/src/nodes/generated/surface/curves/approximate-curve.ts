@@ -14,7 +14,11 @@ interface ApproximateCurveOutputs {
   curve: unknown;
 }
 
-export const SurfaceCurvesApproximateCurveNode: NodeDefinition<ApproximateCurveInputs, ApproximateCurveOutputs, ApproximateCurveParams> = {
+export const SurfaceCurvesApproximateCurveNode: NodeDefinition<
+  ApproximateCurveInputs,
+  ApproximateCurveOutputs,
+  ApproximateCurveParams
+> = {
   id: 'Surface::ApproximateCurve',
   type: 'Surface::ApproximateCurve',
   category: 'Surface',
@@ -24,14 +28,14 @@ export const SurfaceCurvesApproximateCurveNode: NodeDefinition<ApproximateCurveI
     points: {
       type: 'Point[]',
       label: 'Points',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     curve: {
       type: 'Wire',
-      label: 'Curve'
-    }
+      label: 'Curve',
+    },
   },
   params: {
     degree: {
@@ -39,22 +43,22 @@ export const SurfaceCurvesApproximateCurveNode: NodeDefinition<ApproximateCurveI
       label: 'Degree',
       default: 3,
       min: 1,
-      max: 10
+      max: 10,
     },
     tolerance: {
       type: 'number',
       label: 'Tolerance',
       default: 0.01,
       min: 0.0001,
-      max: 1
+      max: 1,
     },
     smoothness: {
       type: 'number',
       label: 'Smoothness',
       default: 0.5,
       min: 0,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -63,12 +67,12 @@ export const SurfaceCurvesApproximateCurveNode: NodeDefinition<ApproximateCurveI
         points: inputs.points,
         degree: params.degree,
         tolerance: params.tolerance,
-        smoothness: params.smoothness
-      }
+        smoothness: params.smoothness,
+      },
     });
-    
+
     return {
-      curve: result
+      curve: result,
     };
   },
 };

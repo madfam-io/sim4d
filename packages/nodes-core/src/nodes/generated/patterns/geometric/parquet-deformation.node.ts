@@ -13,7 +13,11 @@ interface ParquetDeformationOutputs {
   deformation: unknown;
 }
 
-export const PatternsGeometricParquetDeformationNode: NodeDefinition<ParquetDeformationInputs, ParquetDeformationOutputs, ParquetDeformationParams> = {
+export const PatternsGeometricParquetDeformationNode: NodeDefinition<
+  ParquetDeformationInputs,
+  ParquetDeformationOutputs,
+  ParquetDeformationParams
+> = {
   id: 'Patterns::ParquetDeformation',
   category: 'Patterns',
   label: 'ParquetDeformation',
@@ -22,21 +26,21 @@ export const PatternsGeometricParquetDeformationNode: NodeDefinition<ParquetDefo
     baseTile: {
       type: 'Face',
       label: 'Base Tile',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     deformation: {
       type: 'Face[]',
-      label: 'Deformation'
-    }
+      label: 'Deformation',
+    },
   },
   params: {
     deformationType: {
       type: 'enum',
       label: 'Deformation Type',
-      default: "radial",
-      options: ["linear","radial","spiral"]
+      default: 'radial',
+      options: ['linear', 'radial', 'spiral'],
     },
     steps: {
       type: 'number',
@@ -44,8 +48,8 @@ export const PatternsGeometricParquetDeformationNode: NodeDefinition<ParquetDefo
       default: 10,
       min: 3,
       max: 50,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const PatternsGeometricParquetDeformationNode: NodeDefinition<ParquetDefo
       params: {
         baseTile: inputs.baseTile,
         deformationType: params.deformationType,
-        steps: params.steps
-      }
+        steps: params.steps,
+      },
     });
-    
+
     return {
-      deformation: result
+      deformation: result,
     };
   },
 };

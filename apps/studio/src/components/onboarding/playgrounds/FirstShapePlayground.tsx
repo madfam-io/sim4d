@@ -27,9 +27,7 @@ const Objective: React.FC<ObjectiveProps> = ({
     transition={{ duration: 0.3 }}
   >
     <div className="objective-header">
-      <div className="objective-status">
-        {completed ? '✅' : current ? '🎯' : '⏳'}
-      </div>
+      <div className="objective-status">{completed ? '✅' : current ? '🎯' : '⏳'}</div>
       <h4 className="objective-title">{title}</h4>
     </div>
     <p className="objective-description">{description}</p>
@@ -57,7 +55,8 @@ export const FirstShapePlayground: React.FC = () => {
     {
       id: 'locate-node-panel',
       title: 'Find the Node Panel',
-      description: 'Look for the sidebar with building blocks (nodes) on the left side of the screen.',
+      description:
+        'Look for the sidebar with building blocks (nodes) on the left side of the screen.',
     },
     {
       id: 'drag-box-node',
@@ -77,48 +76,52 @@ export const FirstShapePlayground: React.FC = () => {
     {
       id: 'celebrate',
       title: 'Celebrate Your Success!',
-      description: 'You\'ve created your first 3D shape in BrepFlow! 🎉',
+      description: "You've created your first 3D shape in BrepFlow! 🎉",
     },
   ];
 
-  const handleObjectiveComplete = useCallback((objectiveIndex: number) => {
-    const objective = objectives[objectiveIndex];
-    if (!objective) return;
+  const handleObjectiveComplete = useCallback(
+    (objectiveIndex: number) => {
+      const objective = objectives[objectiveIndex];
+      if (!objective) return;
 
-    setCompletedObjectives(prev => new Set([...prev, objectiveIndex]));
-    completeObjective('first-shape', objective.id);
+      setCompletedObjectives((prev) => new Set([...prev, objectiveIndex]));
+      completeObjective('first-shape', objective.id);
 
-    // Show celebration
-    const messages = [
-      "Great job! 🎉",
-      "You're doing amazing! ✨",
-      "Keep it up! 🚀",
-      "Fantastic work! 🌟",
-      "You're a natural! 💫"
-    ];
-    const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-    if (randomMessage) {
-      setCelebrationMessage(randomMessage);
-    }
-    setShowCelebration(true);
-    setTimeout(() => setShowCelebration(false), 3000);
+      // Show celebration
+      const messages = [
+        'Great job! 🎉',
+        "You're doing amazing! ✨",
+        'Keep it up! 🚀',
+        'Fantastic work! 🌟',
+        "You're a natural! 💫",
+      ];
+      const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+      if (randomMessage) {
+        setCelebrationMessage(randomMessage);
+      }
+      setShowCelebration(true);
+      setTimeout(() => setShowCelebration(false), 3000);
 
-    // Move to next objective
-    if (objectiveIndex < objectives.length - 1) {
-      setTimeout(() => setCurrentObjective(objectiveIndex + 1), 1000);
-    } else {
-      // Completed all objectives
-      setTimeout(() => {
-        completeStep('playground_first-shape');
-        setCelebrationMessage("🎊 Playground Complete! You're ready for more advanced shapes!");
-        setShowCelebration(true);
-        setTimeout(() => setShowCelebration(false), 5000);
-      }, 1000);
-    }
-  }, [objectives, completeObjective, completeStep]);
+      // Move to next objective
+      if (objectiveIndex < objectives.length - 1) {
+        setTimeout(() => setCurrentObjective(objectiveIndex + 1), 1000);
+      } else {
+        // Completed all objectives
+        setTimeout(() => {
+          completeStep('playground_first-shape');
+          setCelebrationMessage("🎊 Playground Complete! You're ready for more advanced shapes!");
+          setShowCelebration(true);
+          setTimeout(() => setShowCelebration(false), 5000);
+        }, 1000);
+      }
+    },
+    [objectives, completeObjective, completeStep]
+  );
 
   const isObjectiveCompleted = (index: number) => completedObjectives.has(index);
-  const isObjectiveCurrent = (index: number) => index === currentObjective && !isObjectiveCompleted(index);
+  const isObjectiveCurrent = (index: number) =>
+    index === currentObjective && !isObjectiveCompleted(index);
 
   return (
     <div className="first-shape-playground">
@@ -159,14 +162,23 @@ export const FirstShapePlayground: React.FC = () => {
           >
             <h4>💡 Need Help?</h4>
             <div className="help-tips">
-              <p><strong>🔍 Can't find the Node Panel?</strong><br />
-              It should be on the left side of the screen with colorful blocks.</p>
+              <p>
+                <strong>🔍 Can't find the Node Panel?</strong>
+                <br />
+                It should be on the left side of the screen with colorful blocks.
+              </p>
 
-              <p><strong>🎲 Looking for the Box node?</strong><br />
-              Look for a cube icon in the "Primitives" or "Basic Shapes" section.</p>
+              <p>
+                <strong>🎲 Looking for the Box node?</strong>
+                <br />
+                Look for a cube icon in the "Primitives" or "Basic Shapes" section.
+              </p>
 
-              <p><strong>👁️ Where's the 3D view?</strong><br />
-              The 3D viewport is usually the large area on the right side of the screen.</p>
+              <p>
+                <strong>👁️ Where's the 3D view?</strong>
+                <br />
+                The 3D viewport is usually the large area on the right side of the screen.
+              </p>
             </div>
           </motion.div>
 
@@ -205,9 +217,9 @@ export const FirstShapePlayground: React.FC = () => {
                 <motion.div
                   className="node-panel-demo"
                   animate={{
-                    boxShadow: isObjectiveCurrent(0) ?
-                      "0 0 20px rgba(16, 185, 129, 0.5)" :
-                      "0 4px 6px rgba(0, 0, 0, 0.1)"
+                    boxShadow: isObjectiveCurrent(0)
+                      ? '0 0 20px rgba(16, 185, 129, 0.5)'
+                      : '0 4px 6px rgba(0, 0, 0, 0.1)',
                   }}
                   transition={{ duration: 0.3 }}
                 >
@@ -217,9 +229,9 @@ export const FirstShapePlayground: React.FC = () => {
                       className="demo-node box-node"
                       animate={{
                         scale: isObjectiveCurrent(1) ? 1.1 : 1,
-                        boxShadow: isObjectiveCurrent(1) ?
-                          "0 0 15px rgba(99, 102, 241, 0.5)" :
-                          "0 2px 4px rgba(0, 0, 0, 0.1)"
+                        boxShadow: isObjectiveCurrent(1)
+                          ? '0 0 15px rgba(99, 102, 241, 0.5)'
+                          : '0 2px 4px rgba(0, 0, 0, 0.1)',
                       }}
                       transition={{ duration: 0.3 }}
                     >
@@ -233,9 +245,9 @@ export const FirstShapePlayground: React.FC = () => {
                 <motion.div
                   className="viewport-demo"
                   animate={{
-                    boxShadow: isObjectiveCurrent(3) ?
-                      "0 0 20px rgba(16, 185, 129, 0.5)" :
-                      "0 4px 6px rgba(0, 0, 0, 0.1)"
+                    boxShadow: isObjectiveCurrent(3)
+                      ? '0 0 20px rgba(16, 185, 129, 0.5)'
+                      : '0 4px 6px rgba(0, 0, 0, 0.1)',
                   }}
                   transition={{ duration: 0.3 }}
                 >
@@ -275,7 +287,7 @@ export const FirstShapePlayground: React.FC = () => {
               className="celebration-message"
               animate={{
                 scale: [1, 1.1, 1],
-                rotate: [0, 5, -5, 0]
+                rotate: [0, 5, -5, 0],
               }}
               transition={{ duration: 0.5 }}
             >
@@ -284,7 +296,6 @@ export const FirstShapePlayground: React.FC = () => {
           </motion.div>
         )}
       </AnimatePresence>
-
     </div>
   );
 };

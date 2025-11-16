@@ -17,7 +17,11 @@ interface GasSpringOutputs {
   rod: unknown;
 }
 
-export const MechanicalEngineeringSpringsGasSpringNode: NodeDefinition<GasSpringInputs, GasSpringOutputs, GasSpringParams> = {
+export const MechanicalEngineeringSpringsGasSpringNode: NodeDefinition<
+  GasSpringInputs,
+  GasSpringOutputs,
+  GasSpringParams
+> = {
   id: 'MechanicalEngineering::GasSpring',
   type: 'MechanicalEngineering::GasSpring',
   category: 'MechanicalEngineering',
@@ -27,22 +31,22 @@ export const MechanicalEngineeringSpringsGasSpringNode: NodeDefinition<GasSpring
     mountPoint: {
       type: 'Point',
       label: 'Mount Point',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     gasSpring: {
       type: 'Shape',
-      label: 'Gas Spring'
+      label: 'Gas Spring',
     },
     cylinder: {
       type: 'Shape',
-      label: 'Cylinder'
+      label: 'Cylinder',
     },
     rod: {
       type: 'Shape',
-      label: 'Rod'
-    }
+      label: 'Rod',
+    },
   },
   params: {
     cylinderDiameter: {
@@ -50,29 +54,29 @@ export const MechanicalEngineeringSpringsGasSpringNode: NodeDefinition<GasSpring
       label: 'Cylinder Diameter',
       default: 20,
       min: 10,
-      max: 50
+      max: 50,
     },
     strokeLength: {
       type: 'number',
       label: 'Stroke Length',
       default: 100,
       min: 30,
-      max: 300
+      max: 300,
     },
     extendedLength: {
       type: 'number',
       label: 'Extended Length',
       default: 250,
       min: 100,
-      max: 600
+      max: 600,
     },
     rodDiameter: {
       type: 'number',
       label: 'Rod Diameter',
       default: 8,
       min: 4,
-      max: 20
-    }
+      max: 20,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -82,14 +86,14 @@ export const MechanicalEngineeringSpringsGasSpringNode: NodeDefinition<GasSpring
         cylinderDiameter: params.cylinderDiameter,
         strokeLength: params.strokeLength,
         extendedLength: params.extendedLength,
-        rodDiameter: params.rodDiameter
-      }
+        rodDiameter: params.rodDiameter,
+      },
     });
-    
+
     return {
       gasSpring: results.gasSpring,
       cylinder: results.cylinder,
-      rod: results.rod
+      rod: results.rod,
     };
   },
 };

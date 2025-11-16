@@ -12,7 +12,11 @@ interface FastenedOutputs {
   mate: unknown;
 }
 
-export const AssemblyMatesFastenedNode: NodeDefinition<FastenedInputs, FastenedOutputs, FastenedParams> = {
+export const AssemblyMatesFastenedNode: NodeDefinition<
+  FastenedInputs,
+  FastenedOutputs,
+  FastenedParams
+> = {
   id: 'Assembly::Fastened',
   type: 'Assembly::Fastened',
   category: 'Assembly',
@@ -22,23 +26,23 @@ export const AssemblyMatesFastenedNode: NodeDefinition<FastenedInputs, FastenedO
     component1: {
       type: 'Shape',
       label: 'Component1',
-      required: true
+      required: true,
     },
     component2: {
       type: 'Shape',
       label: 'Component2',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     fastened: {
       type: 'Shape[]',
-      label: 'Fastened'
+      label: 'Fastened',
     },
     mate: {
       type: 'Mate',
-      label: 'Mate'
-    }
+      label: 'Mate',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -46,13 +50,13 @@ export const AssemblyMatesFastenedNode: NodeDefinition<FastenedInputs, FastenedO
       type: 'mateFastened',
       params: {
         component1: inputs.component1,
-        component2: inputs.component2
-      }
+        component2: inputs.component2,
+      },
     });
-    
+
     return {
       fastened: results.fastened,
-      mate: results.mate
+      mate: results.mate,
     };
   },
 };

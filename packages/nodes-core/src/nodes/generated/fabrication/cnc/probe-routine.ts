@@ -13,7 +13,11 @@ interface ProbeRoutineOutputs {
   probeCycle: unknown;
 }
 
-export const FabricationCNCProbeRoutineNode: NodeDefinition<ProbeRoutineInputs, ProbeRoutineOutputs, ProbeRoutineParams> = {
+export const FabricationCNCProbeRoutineNode: NodeDefinition<
+  ProbeRoutineInputs,
+  ProbeRoutineOutputs,
+  ProbeRoutineParams
+> = {
   id: 'Fabrication::ProbeRoutine',
   type: 'Fabrication::ProbeRoutine',
   category: 'Fabrication',
@@ -23,39 +27,39 @@ export const FabricationCNCProbeRoutineNode: NodeDefinition<ProbeRoutineInputs, 
     feature: {
       type: 'Shape',
       label: 'Feature',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     probePoints: {
       type: 'Point[]',
-      label: 'Probe Points'
+      label: 'Probe Points',
     },
     probeCycle: {
       type: 'Data',
-      label: 'Probe Cycle'
-    }
+      label: 'Probe Cycle',
+    },
   },
   params: {
     probeType: {
       type: 'enum',
       label: 'Probe Type',
-      default: "corner",
-      options: ["corner","bore","boss","plane","edge"]
-    }
+      default: 'corner',
+      options: ['corner', 'bore', 'boss', 'plane', 'edge'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
       type: 'probeRoutine',
       params: {
         feature: inputs.feature,
-        probeType: params.probeType
-      }
+        probeType: params.probeType,
+      },
     });
-    
+
     return {
       probePoints: results.probePoints,
-      probeCycle: results.probeCycle
+      probeCycle: results.probeCycle,
     };
   },
 };

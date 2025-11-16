@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { MathInterpolationCubicInterpNode } from './cubic-interp.node';
 import { createTestContext } from '../test-utils';
@@ -11,11 +10,9 @@ describe('MathInterpolationCubicInterpNode', () => {
       v1: undefined,
       v2: undefined,
       v3: undefined,
-      t: undefined
+      t: undefined,
     } as any;
-    const params = {
-
-    } as any;
+    const params = {} as any;
 
     const result = await MathInterpolationCubicInterpNode.evaluate(context, inputs, params);
     expect(result).toBeDefined();

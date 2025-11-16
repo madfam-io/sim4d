@@ -14,7 +14,11 @@ interface ContactSetOutputs {
   contactSet: unknown;
 }
 
-export const AssemblyPatternsContactSetNode: NodeDefinition<ContactSetInputs, ContactSetOutputs, ContactSetParams> = {
+export const AssemblyPatternsContactSetNode: NodeDefinition<
+  ContactSetInputs,
+  ContactSetOutputs,
+  ContactSetParams
+> = {
   id: 'Assembly::ContactSet',
   category: 'Assembly',
   label: 'ContactSet',
@@ -23,34 +27,34 @@ export const AssemblyPatternsContactSetNode: NodeDefinition<ContactSetInputs, Co
     faces1: {
       type: 'Face[]',
       label: 'Faces1',
-      required: true
+      required: true,
     },
     faces2: {
       type: 'Face[]',
       label: 'Faces2',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     contactSet: {
       type: 'ContactSet',
-      label: 'Contact Set'
-    }
+      label: 'Contact Set',
+    },
   },
   params: {
     type: {
       type: 'enum',
       label: 'Type',
-      default: "no_penetration",
-      options: ["bonded","no_penetration","frictionless"]
+      default: 'no_penetration',
+      options: ['bonded', 'no_penetration', 'frictionless'],
     },
     friction: {
       type: 'number',
       label: 'Friction',
       default: 0.3,
       min: 0,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -59,12 +63,12 @@ export const AssemblyPatternsContactSetNode: NodeDefinition<ContactSetInputs, Co
         faces1: inputs.faces1,
         faces2: inputs.faces2,
         type: params.type,
-        friction: params.friction
-      }
+        friction: params.friction,
+      },
     });
-    
+
     return {
-      contactSet: result
+      contactSet: result,
     };
   },
 };

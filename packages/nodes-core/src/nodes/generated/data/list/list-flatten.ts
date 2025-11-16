@@ -12,7 +12,11 @@ interface ListFlattenOutputs {
   flattened: unknown;
 }
 
-export const DataListListFlattenNode: NodeDefinition<ListFlattenInputs, ListFlattenOutputs, ListFlattenParams> = {
+export const DataListListFlattenNode: NodeDefinition<
+  ListFlattenInputs,
+  ListFlattenOutputs,
+  ListFlattenParams
+> = {
   id: 'Data::ListFlatten',
   type: 'Data::ListFlatten',
   category: 'Data',
@@ -22,14 +26,14 @@ export const DataListListFlattenNode: NodeDefinition<ListFlattenInputs, ListFlat
     list: {
       type: 'Data[]',
       label: 'List',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     flattened: {
       type: 'Data[]',
-      label: 'Flattened'
-    }
+      label: 'Flattened',
+    },
   },
   params: {
     depth: {
@@ -37,20 +41,20 @@ export const DataListListFlattenNode: NodeDefinition<ListFlattenInputs, ListFlat
       label: 'Depth',
       default: 1,
       min: 1,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'listFlatten',
       params: {
         list: inputs.list,
-        depth: params.depth
-      }
+        depth: params.depth,
+      },
     });
-    
+
     return {
-      flattened: result
+      flattened: result,
     };
   },
 };

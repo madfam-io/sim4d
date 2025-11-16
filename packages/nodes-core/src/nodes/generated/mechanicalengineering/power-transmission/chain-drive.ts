@@ -18,7 +18,11 @@ interface ChainDriveOutputs {
   chain: unknown;
 }
 
-export const MechanicalEngineeringPowerTransmissionChainDriveNode: NodeDefinition<ChainDriveInputs, ChainDriveOutputs, ChainDriveParams> = {
+export const MechanicalEngineeringPowerTransmissionChainDriveNode: NodeDefinition<
+  ChainDriveInputs,
+  ChainDriveOutputs,
+  ChainDriveParams
+> = {
   id: 'MechanicalEngineering::ChainDrive',
   type: 'MechanicalEngineering::ChainDrive',
   category: 'MechanicalEngineering',
@@ -28,27 +32,27 @@ export const MechanicalEngineeringPowerTransmissionChainDriveNode: NodeDefinitio
     sprocket1Center: {
       type: 'Point',
       label: 'Sprocket1 Center',
-      required: true
+      required: true,
     },
     sprocket2Center: {
       type: 'Point',
       label: 'Sprocket2 Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     system: {
       type: 'Shape',
-      label: 'System'
+      label: 'System',
     },
     sprockets: {
       type: 'Shape[]',
-      label: 'Sprockets'
+      label: 'Sprockets',
     },
     chain: {
       type: 'Shape',
-      label: 'Chain'
-    }
+      label: 'Chain',
+    },
   },
   params: {
     driveTeeth: {
@@ -56,29 +60,29 @@ export const MechanicalEngineeringPowerTransmissionChainDriveNode: NodeDefinitio
       label: 'Drive Teeth',
       default: 17,
       min: 9,
-      max: 50
+      max: 50,
     },
     drivenTeeth: {
       type: 'number',
       label: 'Driven Teeth',
       default: 42,
       min: 15,
-      max: 120
+      max: 120,
     },
     chainPitch: {
       type: 'number',
       label: 'Chain Pitch',
       default: 12.7,
       min: 6,
-      max: 25.4
+      max: 25.4,
     },
     chainRows: {
       type: 'number',
       label: 'Chain Rows',
       default: 1,
       min: 1,
-      max: 3
-    }
+      max: 3,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -89,14 +93,14 @@ export const MechanicalEngineeringPowerTransmissionChainDriveNode: NodeDefinitio
         driveTeeth: params.driveTeeth,
         drivenTeeth: params.drivenTeeth,
         chainPitch: params.chainPitch,
-        chainRows: params.chainRows
-      }
+        chainRows: params.chainRows,
+      },
     });
-    
+
     return {
       system: results.system,
       sprockets: results.sprockets,
-      chain: results.chain
+      chain: results.chain,
     };
   },
 };

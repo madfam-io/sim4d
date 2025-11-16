@@ -16,7 +16,11 @@ interface ImportSTEPOutputs {
   metadata: unknown;
 }
 
-export const IOCADImportSTEPNode: NodeDefinition<ImportSTEPInputs, ImportSTEPOutputs, ImportSTEPParams> = {
+export const IOCADImportSTEPNode: NodeDefinition<
+  ImportSTEPInputs,
+  ImportSTEPOutputs,
+  ImportSTEPParams
+> = {
   id: 'IO::ImportSTEP',
   category: 'IO',
   label: 'ImportSTEP',
@@ -25,40 +29,40 @@ export const IOCADImportSTEPNode: NodeDefinition<ImportSTEPInputs, ImportSTEPOut
     fileData: {
       type: 'Data',
       label: 'File Data',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shape: {
       type: 'Shape',
-      label: 'Shape'
+      label: 'Shape',
     },
     metadata: {
       type: 'Data',
-      label: 'Metadata'
-    }
+      label: 'Metadata',
+    },
   },
   params: {
     readColors: {
       type: 'boolean',
       label: 'Read Colors',
-      default: true
+      default: true,
     },
     readNames: {
       type: 'boolean',
       label: 'Read Names',
-      default: true
+      default: true,
     },
     readLayers: {
       type: 'boolean',
       label: 'Read Layers',
-      default: true
+      default: true,
     },
     preferBrep: {
       type: 'boolean',
       label: 'Prefer Brep',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -68,13 +72,13 @@ export const IOCADImportSTEPNode: NodeDefinition<ImportSTEPInputs, ImportSTEPOut
         readColors: params.readColors,
         readNames: params.readNames,
         readLayers: params.readLayers,
-        preferBrep: params.preferBrep
-      }
+        preferBrep: params.preferBrep,
+      },
     });
-    
+
     return {
       shape: results.shape,
-      metadata: results.metadata
+      metadata: results.metadata,
     };
   },
 };

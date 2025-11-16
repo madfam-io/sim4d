@@ -13,7 +13,11 @@ interface BiomimeticStructureOutputs {
   biomimetic: unknown;
 }
 
-export const SpecializedOrganicBiomimeticStructureNode: NodeDefinition<BiomimeticStructureInputs, BiomimeticStructureOutputs, BiomimeticStructureParams> = {
+export const SpecializedOrganicBiomimeticStructureNode: NodeDefinition<
+  BiomimeticStructureInputs,
+  BiomimeticStructureOutputs,
+  BiomimeticStructureParams
+> = {
   id: 'Specialized::BiomimeticStructure',
   category: 'Specialized',
   label: 'BiomimeticStructure',
@@ -22,29 +26,29 @@ export const SpecializedOrganicBiomimeticStructureNode: NodeDefinition<Biomimeti
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     biomimetic: {
       type: 'Shape',
-      label: 'Biomimetic'
-    }
+      label: 'Biomimetic',
+    },
   },
   params: {
     inspiration: {
       type: 'enum',
       label: 'Inspiration',
-      default: "bone",
-      options: ["bone","wood","coral","leaf-veins"]
+      default: 'bone',
+      options: ['bone', 'wood', 'coral', 'leaf-veins'],
     },
     density: {
       type: 'number',
       label: 'Density',
       default: 0.5,
       min: 0.1,
-      max: 0.9
-    }
+      max: 0.9,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -52,12 +56,12 @@ export const SpecializedOrganicBiomimeticStructureNode: NodeDefinition<Biomimeti
       params: {
         shape: inputs.shape,
         inspiration: params.inspiration,
-        density: params.density
-      }
+        density: params.density,
+      },
     });
-    
+
     return {
-      biomimetic: result
+      biomimetic: result,
     };
   },
 };

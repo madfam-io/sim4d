@@ -65,7 +65,8 @@ export class WASMLoader {
 
     // Validate threading requirements
     if (!capabilities.hasCOOP || !capabilities.hasCOEP) {
-      capabilities.error = 'COOP/COEP headers required for SharedArrayBuffer. Check server configuration.';
+      capabilities.error =
+        'COOP/COEP headers required for SharedArrayBuffer. Check server configuration.';
     } else if (!capabilities.hasSharedArrayBuffer) {
       capabilities.error = 'SharedArrayBuffer not available. Threading disabled.';
     } else if (!capabilities.hasAtomics) {
@@ -90,12 +91,16 @@ export class WASMLoader {
 
     // Check if threading is required but not available
     if (options.threadsRequired && !capabilities.hasThreads) {
-      throw new Error(`Threading required but not available: ${capabilities.error || 'Unknown error'}`);
+      throw new Error(
+        `Threading required but not available: ${capabilities.error || 'Unknown error'}`
+      );
     }
 
     // Check memory requirements
     if (capabilities.memoryLimit < options.memoryRequired) {
-      console.warn(`[WASMLoader] Memory limit (${capabilities.memoryLimit}MB) below required (${options.memoryRequired}MB)`);
+      console.warn(
+        `[WASMLoader] Memory limit (${capabilities.memoryLimit}MB) below required (${options.memoryRequired}MB)`
+      );
     }
 
     try {
@@ -106,11 +111,14 @@ export class WASMLoader {
       // Try fallback if available
       if (options.fallbackPath) {
         console.log('[WASMLoader] Attempting fallback load...');
-        return await this.loadWASMModule({
-          ...options,
-          wasmPath: options.fallbackPath,
-          threadsRequired: false
-        }, capabilities);
+        return await this.loadWASMModule(
+          {
+            ...options,
+            wasmPath: options.fallbackPath,
+            threadsRequired: false,
+          },
+          capabilities
+        );
       }
 
       throw error;
@@ -122,9 +130,11 @@ export class WASMLoader {
    */
   private checkWASMSupport(): boolean {
     try {
-      return typeof WebAssembly === 'object' &&
-             typeof WebAssembly.Module === 'function' &&
-             typeof WebAssembly.Instance === 'function';
+      return (
+        typeof WebAssembly === 'object' &&
+        typeof WebAssembly.Module === 'function' &&
+        typeof WebAssembly.Instance === 'function'
+      );
     } catch {
       return false;
     }
@@ -226,20 +236,44 @@ export class WASMLoader {
   private createThreadTestWasm(): Uint8Array {
     // Minimal WASM module that just validates thread support exists
     return new Uint8Array([
-      0x00, 0x61, 0x73, 0x6d, // WASM magic
-      0x01, 0x00, 0x00, 0x00, // WASM version
+      0x00,
+      0x61,
+      0x73,
+      0x6d, // WASM magic
+      0x01,
+      0x00,
+      0x00,
+      0x00, // WASM version
       // Minimal module - just needs to compile
-      0x01, 0x04, 0x01, 0x60, 0x00, 0x00, // Type section
-      0x03, 0x02, 0x01, 0x00, // Function section
-      0x0a, 0x04, 0x01, 0x02, 0x00, 0x0b  // Code section
+      0x01,
+      0x04,
+      0x01,
+      0x60,
+      0x00,
+      0x00, // Type section
+      0x03,
+      0x02,
+      0x01,
+      0x00, // Function section
+      0x0a,
+      0x04,
+      0x01,
+      0x02,
+      0x00,
+      0x0b, // Code section
     ]);
   }
 
   /**
    * Load WASM module with proper initialization
    */
-  private async loadWASMModule(options: WASMLoadOptions, capabilities: WASMCapabilities): Promise<any> {
-    console.log(`[WASMLoader] Loading WASM from ${options.wasmPath} (threads: ${capabilities.hasThreads})`);
+  private async loadWASMModule(
+    options: WASMLoadOptions,
+    capabilities: WASMCapabilities
+  ): Promise<any> {
+    console.log(
+      `[WASMLoader] Loading WASM from ${options.wasmPath} (threads: ${capabilities.hasThreads})`
+    );
 
     return new Promise((resolve, reject) => {
       const timeout = setTimeout(() => {
@@ -247,62 +281,68 @@ export class WASMLoader {
       }, options.timeout);
 
       // Dynamic import of the JS file
-      import(options.jsPath).then(moduleFactory => {
-        const factory = moduleFactory.default || moduleFactory;
+      import(options.jsPath)
+        .then((moduleFactory) => {
+          const factory = moduleFactory.default || moduleFactory;
 
-        // Configure module based on capabilities
-        const moduleConfig: any = {
-          locateFile: (path: string) => {
-            if (path.endsWith('.wasm')) {
-              return options.wasmPath;
-            }
-            return path;
-          },
+          // Configure module based on capabilities
+          const moduleConfig: any = {
+            locateFile: (path: string) => {
+              if (path.endsWith('.wasm')) {
+                return options.wasmPath;
+              }
+              return path;
+            },
 
-          // Thread configuration
-          ...(capabilities.hasThreads && {
-            pthreadPoolSize: Math.min(capabilities.threadCount, 4),
-            pthread: true,
-          }),
+            // Thread configuration
+            ...(capabilities.hasThreads && {
+              pthreadPoolSize: Math.min(capabilities.threadCount, 4),
+              pthread: true,
+            }),
 
-          // Memory configuration
-          INITIAL_MEMORY: Math.min(options.memoryRequired * 1024 * 1024, capabilities.memoryLimit * 1024 * 1024),
-          MAXIMUM_MEMORY: capabilities.memoryLimit * 1024 * 1024,
-          ALLOW_MEMORY_GROWTH: true,
+            // Memory configuration
+            INITIAL_MEMORY: Math.min(
+              options.memoryRequired * 1024 * 1024,
+              capabilities.memoryLimit * 1024 * 1024
+            ),
+            MAXIMUM_MEMORY: capabilities.memoryLimit * 1024 * 1024,
+            ALLOW_MEMORY_GROWTH: true,
 
-          // Progress callback
-          onRuntimeInitialized: () => {
-            console.log('[WASMLoader] WASM runtime initialized');
-          },
+            // Progress callback
+            onRuntimeInitialized: () => {
+              console.log('[WASMLoader] WASM runtime initialized');
+            },
 
-          // Error handling
-          onAbort: (error: any) => {
-            clearTimeout(timeout);
-            reject(new Error(`WASM module aborted: ${error}`));
-          },
+            // Error handling
+            onAbort: (error: any) => {
+              clearTimeout(timeout);
+              reject(new Error(`WASM module aborted: ${error}`));
+            },
 
-          print: (text: string) => console.log('[WASM]', text),
-          printErr: (text: string) => console.error('[WASM]', text),
-        };
+            print: (text: string) => console.log('[WASM]', text),
+            printErr: (text: string) => console.error('[WASM]', text),
+          };
 
-        // Initialize the module
-        factory(moduleConfig).then((module: any) => {
+          // Initialize the module
+          factory(moduleConfig)
+            .then((module: any) => {
+              clearTimeout(timeout);
+
+              // Add capability info to module
+              module._capabilities = capabilities;
+
+              console.log('[WASMLoader] WASM module loaded successfully');
+              resolve(module);
+            })
+            .catch((error: any) => {
+              clearTimeout(timeout);
+              reject(new Error(`WASM instantiation failed: ${error.message || error}`));
+            });
+        })
+        .catch((error) => {
           clearTimeout(timeout);
-
-          // Add capability info to module
-          module._capabilities = capabilities;
-
-          console.log('[WASMLoader] WASM module loaded successfully');
-          resolve(module);
-        }).catch((error: any) => {
-          clearTimeout(timeout);
-          reject(new Error(`WASM instantiation failed: ${error.message || error}`));
+          reject(new Error(`Failed to load WASM JS: ${error.message || error}`));
         });
-
-      }).catch(error => {
-        clearTimeout(timeout);
-        reject(new Error(`Failed to load WASM JS: ${error.message || error}`));
-      });
     });
   }
 
@@ -350,12 +390,14 @@ export class WASMLoader {
     }
 
     if (capabilities.memoryLimit < 512) {
-      issues.push(`Memory limit too low: ${capabilities.memoryLimit}MB (minimum 512MB recommended)`);
+      issues.push(
+        `Memory limit too low: ${capabilities.memoryLimit}MB (minimum 512MB recommended)`
+      );
     }
 
     return {
       valid: issues.length === 0,
-      issues
+      issues,
     };
   }
 
@@ -375,8 +417,10 @@ export class WASMLoader {
       `COOP/COEP: ${caps.hasCOOP && caps.hasCOEP ? '✓' : '✗'}`,
       `Memory: ${caps.memoryLimit}MB`,
       `CPU: ${caps.threadCount} threads`,
-      caps.error ? `Error: ${caps.error}` : ''
-    ].filter(Boolean).join(', ');
+      caps.error ? `Error: ${caps.error}` : '',
+    ]
+      .filter(Boolean)
+      .join(', ');
   }
 }
 

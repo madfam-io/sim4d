@@ -1,4 +1,3 @@
-
 import { describe, it, expect, vi } from 'vitest';
 import { IsoparametricCurveNode } from './isoparametric-curve.node';
 import { createTestContext } from './../../test-utils';
@@ -12,22 +11,24 @@ describe('IsoparametricCurveNode', () => {
     const surface = { id: 'face-1' } as any;
     const params = {
       direction: 'U',
-      parameter: 0.5
+      parameter: 0.5,
     } as any;
 
-    const result = await IsoparametricCurveNode.evaluate(context as any, { surface } as any, params);
+    const result = await IsoparametricCurveNode.evaluate(
+      context as any,
+      { surface } as any,
+      params
+    );
 
     expect(executeSpy).toHaveBeenCalledWith({
       type: 'ISOPARAMETRIC_CURVE',
       params: {
         surface,
         direction: 'U',
-        parameter: 0.5
-      }
+        parameter: 0.5,
+      },
     });
 
     expect(result).toEqual({ isoCurve: { id: 'iso-1' } });
   });
-
-  
 });

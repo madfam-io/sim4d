@@ -1,4 +1,3 @@
-
 # ComplexConjugate Node
 
 **Category:** Math / Complex
@@ -11,19 +10,13 @@ This node has no parameters.
 
 ## Inputs
 
-
 ### Complex
+
 - **Type:** Complex
 - **Required:** Yes
 
-
-
 ## Outputs
 
-
 ### Conjugate
+
 - **Type:** Complex
-
-
-
-

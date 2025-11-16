@@ -19,7 +19,11 @@ interface TopologyOptimizerOutputs {
   compliance: unknown;
 }
 
-export const AlgorithmicOptimizationTopologyOptimizerNode: NodeDefinition<TopologyOptimizerInputs, TopologyOptimizerOutputs, TopologyOptimizerParams> = {
+export const AlgorithmicOptimizationTopologyOptimizerNode: NodeDefinition<
+  TopologyOptimizerInputs,
+  TopologyOptimizerOutputs,
+  TopologyOptimizerParams
+> = {
   id: 'Algorithmic::TopologyOptimizer',
   type: 'Algorithmic::TopologyOptimizer',
   category: 'Algorithmic',
@@ -29,32 +33,32 @@ export const AlgorithmicOptimizationTopologyOptimizerNode: NodeDefinition<Topolo
     designDomain: {
       type: 'Shape',
       label: 'Design Domain',
-      required: true
+      required: true,
     },
     loads: {
       type: 'Properties[]',
       label: 'Loads',
-      required: true
+      required: true,
     },
     supports: {
       type: 'Properties[]',
       label: 'Supports',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     optimizedShape: {
       type: 'Shape',
-      label: 'Optimized Shape'
+      label: 'Optimized Shape',
     },
     densityField: {
       type: 'Properties',
-      label: 'Density Field'
+      label: 'Density Field',
     },
     compliance: {
       type: 'number',
-      label: 'Compliance'
-    }
+      label: 'Compliance',
+    },
   },
   params: {
     densityElements: {
@@ -62,27 +66,27 @@ export const AlgorithmicOptimizationTopologyOptimizerNode: NodeDefinition<Topolo
       label: 'Density Elements',
       default: 100,
       min: 10,
-      max: 1000
+      max: 1000,
     },
     volumeFraction: {
       type: 'number',
       label: 'Volume Fraction',
       default: 0.5,
       min: 0.1,
-      max: 0.9
+      max: 0.9,
     },
     penalization: {
       type: 'number',
       label: 'Penalization',
       default: 3,
       min: 1,
-      max: 5
+      max: 5,
     },
     filter: {
       type: 'boolean',
       label: 'Filter',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -94,14 +98,14 @@ export const AlgorithmicOptimizationTopologyOptimizerNode: NodeDefinition<Topolo
         densityElements: params.densityElements,
         volumeFraction: params.volumeFraction,
         penalization: params.penalization,
-        filter: params.filter
-      }
+        filter: params.filter,
+      },
     });
-    
+
     return {
       optimizedShape: results.optimizedShape,
       densityField: results.densityField,
-      compliance: results.compliance
+      compliance: results.compliance,
     };
   },
 };

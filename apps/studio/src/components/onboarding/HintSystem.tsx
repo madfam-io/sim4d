@@ -25,7 +25,7 @@ const HINT_POSITIONS = {
   'top-right': { top: '2rem', right: '2rem' },
   'bottom-left': { bottom: '2rem', left: '2rem' },
   'bottom-right': { bottom: '2rem', right: '2rem' },
-  'center': { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' },
+  center: { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' },
 };
 
 interface HintCardProps {
@@ -36,73 +36,73 @@ interface HintCardProps {
 
 const HintCard = React.forwardRef<HTMLDivElement, HintCardProps>(
   ({ hint, onDismiss, onToggleHints }, ref) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(false);
 
-  return (
-    <motion.div
-      ref={ref}
-      className={`hint-card hint-${hint.priority || 'medium'}`}
-      style={HINT_POSITIONS[hint.position]}
-      initial={{ opacity: 0, scale: 0.8, y: 20 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.8, y: 20 }}
-      transition={{ duration: 0.3 }}
-      layout
-    >
-      <div className="hint-header">
-        <div className="hint-icon">💡</div>
-        <h4 className="hint-title">{hint.title}</h4>
-        <div className="hint-actions">
-          <motion.button
-            className="hint-expand-button"
-            onClick={() => setIsExpanded(!isExpanded)}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            title={isExpanded ? 'Collapse' : 'Expand'}
-          >
-            {isExpanded ? '−' : '+'}
-          </motion.button>
-          {hint.dismissible !== false && (
+    return (
+      <motion.div
+        ref={ref}
+        className={`hint-card hint-${hint.priority || 'medium'}`}
+        style={HINT_POSITIONS[hint.position]}
+        initial={{ opacity: 0, scale: 0.8, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.8, y: 20 }}
+        transition={{ duration: 0.3 }}
+        layout
+      >
+        <div className="hint-header">
+          <div className="hint-icon">💡</div>
+          <h4 className="hint-title">{hint.title}</h4>
+          <div className="hint-actions">
             <motion.button
-              className="hint-dismiss-button"
-              onClick={onDismiss}
+              className="hint-expand-button"
+              onClick={() => setIsExpanded(!isExpanded)}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              title="Dismiss hint"
+              title={isExpanded ? 'Collapse' : 'Expand'}
             >
-              ×
+              {isExpanded ? '−' : '+'}
             </motion.button>
-          )}
-        </div>
-      </div>
-
-      <AnimatePresence>
-        {isExpanded && (
-          <motion.div
-            className="hint-content"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
-          >
-            <p>{hint.content}</p>
-            <div className="hint-footer">
+            {hint.dismissible !== false && (
               <motion.button
-                className="hint-settings-button"
-                onClick={onToggleHints}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                className="hint-dismiss-button"
+                onClick={onDismiss}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                title="Dismiss hint"
               >
-                ⚙️ Hint Settings
+                ×
               </motion.button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            )}
+          </div>
+        </div>
 
-    </motion.div>
-  );
-});
+        <AnimatePresence>
+          {isExpanded && (
+            <motion.div
+              className="hint-content"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <p>{hint.content}</p>
+              <div className="hint-footer">
+                <motion.button
+                  className="hint-settings-button"
+                  onClick={onToggleHints}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  ⚙️ Hint Settings
+                </motion.button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    );
+  }
+);
 
 HintCard.displayName = 'HintCard';
 
@@ -121,14 +121,14 @@ export const HintSystem: React.FC<HintSystemProps> = ({ hints, enabled = true })
 
         // Apply delay if specified
         if (hint.delay) {
-          await new Promise(resolve => setTimeout(resolve, hint.delay! * 1000));
+          await new Promise((resolve) => setTimeout(resolve, hint.delay! * 1000));
         }
 
         // Check if hint should still be shown (user might have disabled hints)
         if (!state.showHints) break;
 
-        setActiveHints(prev => {
-          if (prev.find(h => h.id === hint.id)) return prev;
+        setActiveHints((prev) => {
+          if (prev.find((h) => h.id === hint.id)) return prev;
           return [...prev, hint];
         });
 
@@ -148,8 +148,8 @@ export const HintSystem: React.FC<HintSystemProps> = ({ hints, enabled = true })
   }, [hints, enabled, state.showHints, dismissedHints, trackEvent]);
 
   const handleDismissHint = (hintId: string) => {
-    setActiveHints(prev => prev.filter(h => h.id !== hintId));
-    setDismissedHints(prev => new Set([...prev, hintId]));
+    setActiveHints((prev) => prev.filter((h) => h.id !== hintId));
+    setDismissedHints((prev) => new Set([...prev, hintId]));
 
     trackEvent({
       type: 'hint_requested',
@@ -179,9 +179,9 @@ export const HintSystem: React.FC<HintSystemProps> = ({ hints, enabled = true })
         {activeHints
           .sort((a, b) => {
             const priorityOrder = { high: 3, medium: 2, low: 1 };
-            return (priorityOrder[b.priority || 'medium']) - (priorityOrder[a.priority || 'medium']);
+            return priorityOrder[b.priority || 'medium'] - priorityOrder[a.priority || 'medium'];
           })
-          .map(hint => (
+          .map((hint) => (
             <HintCard
               key={hint.id}
               hint={hint}
@@ -208,7 +208,6 @@ export const HintSystem: React.FC<HintSystemProps> = ({ hints, enabled = true })
           💡
         </motion.button>
       </motion.div>
-
     </div>
   );
 };

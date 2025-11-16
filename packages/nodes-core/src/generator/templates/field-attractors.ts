@@ -19,14 +19,10 @@ export const fieldGenerationTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'direction', type: 'vector3', default: [1, 0, 0] },
       { name: 'min', type: 'number', default: 0 },
-      { name: 'max', type: 'number', default: 1 }
+      { name: 'max', type: 'number', default: 1 },
     ],
-    inputs: [
-      { name: 'bounds', type: 'Box', required: true }
-    ],
-    outputs: [
-      { name: 'field', type: 'ScalarField' }
-    ]
+    inputs: [{ name: 'bounds', type: 'Box', required: true }],
+    outputs: [{ name: 'field', type: 'ScalarField' }],
   },
   {
     category: 'Field',
@@ -36,16 +32,17 @@ export const fieldGenerationTemplates: NodeTemplate[] = [
     operation: 'FIELD_RADIAL',
     occtBinding: 'fieldRadial',
     parameters: [
-      { name: 'falloff', type: 'enum', options: ['linear', 'quadratic', 'exponential', 'gaussian'], default: 'linear' },
+      {
+        name: 'falloff',
+        type: 'enum',
+        options: ['linear', 'quadratic', 'exponential', 'gaussian'],
+        default: 'linear',
+      },
       { name: 'radius', type: 'number', default: 100, min: 0.1 },
-      { name: 'strength', type: 'number', default: 1, min: 0, max: 10 }
+      { name: 'strength', type: 'number', default: 1, min: 0, max: 10 },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
-    outputs: [
-      { name: 'field', type: 'ScalarField' }
-    ]
+    inputs: [{ name: 'center', type: 'Point', required: true }],
+    outputs: [{ name: 'field', type: 'ScalarField' }],
   },
   {
     category: 'Field',
@@ -57,14 +54,15 @@ export const fieldGenerationTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'innerRadius', type: 'number', default: 10, min: 0 },
       { name: 'outerRadius', type: 'number', default: 100, min: 0.1 },
-      { name: 'falloff', type: 'enum', options: ['linear', 'smooth', 'exponential'], default: 'smooth' }
+      {
+        name: 'falloff',
+        type: 'enum',
+        options: ['linear', 'smooth', 'exponential'],
+        default: 'smooth',
+      },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
-    outputs: [
-      { name: 'field', type: 'ScalarField' }
-    ]
+    inputs: [{ name: 'center', type: 'Point', required: true }],
+    outputs: [{ name: 'field', type: 'ScalarField' }],
   },
   {
     category: 'Field',
@@ -76,14 +74,15 @@ export const fieldGenerationTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'radius', type: 'number', default: 50, min: 0.1 },
       { name: 'height', type: 'number', default: 100, min: 0.1 },
-      { name: 'falloff', type: 'enum', options: ['linear', 'smooth', 'exponential'], default: 'smooth' }
+      {
+        name: 'falloff',
+        type: 'enum',
+        options: ['linear', 'smooth', 'exponential'],
+        default: 'smooth',
+      },
     ],
-    inputs: [
-      { name: 'axis', type: 'Line', required: true }
-    ],
-    outputs: [
-      { name: 'field', type: 'ScalarField' }
-    ]
+    inputs: [{ name: 'axis', type: 'Line', required: true }],
+    outputs: [{ name: 'field', type: 'ScalarField' }],
   },
   {
     category: 'Field',
@@ -93,18 +92,19 @@ export const fieldGenerationTemplates: NodeTemplate[] = [
     operation: 'FIELD_NOISE',
     occtBinding: 'fieldNoise',
     parameters: [
-      { name: 'type', type: 'enum', options: ['perlin', 'simplex', 'worley', 'turbulence'], default: 'perlin' },
+      {
+        name: 'type',
+        type: 'enum',
+        options: ['perlin', 'simplex', 'worley', 'turbulence'],
+        default: 'perlin',
+      },
       { name: 'scale', type: 'number', default: 10, min: 0.1 },
       { name: 'octaves', type: 'number', default: 4, min: 1, max: 8, step: 1 },
       { name: 'persistence', type: 'number', default: 0.5, min: 0, max: 1 },
-      { name: 'seed', type: 'number', default: 0, min: 0, max: 999999 }
+      { name: 'seed', type: 'number', default: 0, min: 0, max: 999999 },
     ],
-    inputs: [
-      { name: 'domain', type: 'Box', required: true }
-    ],
-    outputs: [
-      { name: 'field', type: 'ScalarField' }
-    ]
+    inputs: [{ name: 'domain', type: 'Box', required: true }],
+    outputs: [{ name: 'field', type: 'ScalarField' }],
   },
   {
     category: 'Field',
@@ -116,14 +116,10 @@ export const fieldGenerationTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'frequency', type: 'vector3', default: [0.1, 0.1, 0.1] },
       { name: 'amplitude', type: 'number', default: 1, min: 0 },
-      { name: 'phase', type: 'vector3', default: [0, 0, 0] }
+      { name: 'phase', type: 'vector3', default: [0, 0, 0] },
     ],
-    inputs: [
-      { name: 'domain', type: 'Box', required: true }
-    ],
-    outputs: [
-      { name: 'field', type: 'ScalarField' }
-    ]
+    inputs: [{ name: 'domain', type: 'Box', required: true }],
+    outputs: [{ name: 'field', type: 'ScalarField' }],
   },
   {
     category: 'Field',
@@ -135,14 +131,10 @@ export const fieldGenerationTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'expressionX', type: 'string', default: 'y' },
       { name: 'expressionY', type: 'string', default: '-x' },
-      { name: 'expressionZ', type: 'string', default: '0' }
+      { name: 'expressionZ', type: 'string', default: '0' },
     ],
-    inputs: [
-      { name: 'domain', type: 'Box', required: true }
-    ],
-    outputs: [
-      { name: 'field', type: 'VectorField' }
-    ]
+    inputs: [{ name: 'domain', type: 'Box', required: true }],
+    outputs: [{ name: 'field', type: 'VectorField' }],
   },
   {
     category: 'Field',
@@ -152,16 +144,17 @@ export const fieldGenerationTemplates: NodeTemplate[] = [
     operation: 'FIELD_IMAGE',
     occtBinding: 'fieldImage',
     parameters: [
-      { name: 'channel', type: 'enum', options: ['red', 'green', 'blue', 'alpha', 'luminance'], default: 'luminance' },
+      {
+        name: 'channel',
+        type: 'enum',
+        options: ['red', 'green', 'blue', 'alpha', 'luminance'],
+        default: 'luminance',
+      },
       { name: 'scale', type: 'vector2', default: [100, 100] },
-      { name: 'height', type: 'number', default: 10, min: 0 }
+      { name: 'height', type: 'number', default: 10, min: 0 },
     ],
-    inputs: [
-      { name: 'image', type: 'Data', required: true }
-    ],
-    outputs: [
-      { name: 'field', type: 'ScalarField' }
-    ]
+    inputs: [{ name: 'image', type: 'Data', required: true }],
+    outputs: [{ name: 'field', type: 'ScalarField' }],
   },
   {
     category: 'Field',
@@ -173,14 +166,10 @@ export const fieldGenerationTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'maxDistance', type: 'number', default: 100, min: 0.1 },
       { name: 'inside', type: 'boolean', default: false },
-      { name: 'signed', type: 'boolean', default: true }
+      { name: 'signed', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'geometry', type: 'Shape', required: true }
-    ],
-    outputs: [
-      { name: 'field', type: 'ScalarField' }
-    ]
+    inputs: [{ name: 'geometry', type: 'Shape', required: true }],
+    outputs: [{ name: 'field', type: 'ScalarField' }],
   },
   {
     category: 'Field',
@@ -191,15 +180,16 @@ export const fieldGenerationTemplates: NodeTemplate[] = [
     occtBinding: 'fieldCharge',
     parameters: [
       { name: 'charge', type: 'number', default: 1, min: -10, max: 10 },
-      { name: 'falloff', type: 'enum', options: ['inverse', 'inverse-square', 'exponential'], default: 'inverse-square' }
+      {
+        name: 'falloff',
+        type: 'enum',
+        options: ['inverse', 'inverse-square', 'exponential'],
+        default: 'inverse-square',
+      },
     ],
-    inputs: [
-      { name: 'points', type: 'Point[]', required: true }
-    ],
-    outputs: [
-      { name: 'field', type: 'ScalarField' }
-    ]
-  }
+    inputs: [{ name: 'points', type: 'Point[]', required: true }],
+    outputs: [{ name: 'field', type: 'ScalarField' }],
+  },
 ];
 
 /**
@@ -216,14 +206,15 @@ export const attractorTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'strength', type: 'number', default: 1, min: -10, max: 10 },
       { name: 'radius', type: 'number', default: 100, min: 0.1 },
-      { name: 'falloff', type: 'enum', options: ['linear', 'quadratic', 'exponential', 'gaussian'], default: 'quadratic' }
+      {
+        name: 'falloff',
+        type: 'enum',
+        options: ['linear', 'quadratic', 'exponential', 'gaussian'],
+        default: 'quadratic',
+      },
     ],
-    inputs: [
-      { name: 'points', type: 'Point[]', required: true }
-    ],
-    outputs: [
-      { name: 'field', type: 'ScalarField' }
-    ]
+    inputs: [{ name: 'points', type: 'Point[]', required: true }],
+    outputs: [{ name: 'field', type: 'ScalarField' }],
   },
   {
     category: 'Field',
@@ -235,14 +226,15 @@ export const attractorTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'strength', type: 'number', default: 1, min: -10, max: 10 },
       { name: 'radius', type: 'number', default: 50, min: 0.1 },
-      { name: 'falloff', type: 'enum', options: ['linear', 'smooth', 'exponential'], default: 'smooth' }
+      {
+        name: 'falloff',
+        type: 'enum',
+        options: ['linear', 'smooth', 'exponential'],
+        default: 'smooth',
+      },
     ],
-    inputs: [
-      { name: 'curves', type: 'Wire[]', required: true }
-    ],
-    outputs: [
-      { name: 'field', type: 'ScalarField' }
-    ]
+    inputs: [{ name: 'curves', type: 'Wire[]', required: true }],
+    outputs: [{ name: 'field', type: 'ScalarField' }],
   },
   {
     category: 'Field',
@@ -254,14 +246,15 @@ export const attractorTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'strength', type: 'number', default: 1, min: -10, max: 10 },
       { name: 'radius', type: 'number', default: 30, min: 0.1 },
-      { name: 'falloff', type: 'enum', options: ['linear', 'smooth', 'exponential'], default: 'smooth' }
+      {
+        name: 'falloff',
+        type: 'enum',
+        options: ['linear', 'smooth', 'exponential'],
+        default: 'smooth',
+      },
     ],
-    inputs: [
-      { name: 'surfaces', type: 'Face[]', required: true }
-    ],
-    outputs: [
-      { name: 'field', type: 'ScalarField' }
-    ]
+    inputs: [{ name: 'surfaces', type: 'Face[]', required: true }],
+    outputs: [{ name: 'field', type: 'ScalarField' }],
   },
   {
     category: 'Field',
@@ -273,14 +266,10 @@ export const attractorTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'strength', type: 'number', default: 1, min: -10, max: 10 },
       { name: 'radius', type: 'number', default: 20, min: 0.1 },
-      { name: 'weightByArea', type: 'boolean', default: false }
+      { name: 'weightByArea', type: 'boolean', default: false },
     ],
-    inputs: [
-      { name: 'mesh', type: 'Mesh', required: true }
-    ],
-    outputs: [
-      { name: 'field', type: 'ScalarField' }
-    ]
+    inputs: [{ name: 'mesh', type: 'Mesh', required: true }],
+    outputs: [{ name: 'field', type: 'ScalarField' }],
   },
   {
     category: 'Field',
@@ -293,14 +282,10 @@ export const attractorTemplates: NodeTemplate[] = [
       { name: 'strength', type: 'number', default: 1, min: -10, max: 10 },
       { name: 'radius', type: 'number', default: 100, min: 0.1 },
       { name: 'axis', type: 'vector3', default: [0, 0, 1] },
-      { name: 'decay', type: 'number', default: 0.5, min: 0, max: 1 }
+      { name: 'decay', type: 'number', default: 0.5, min: 0, max: 1 },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
-    outputs: [
-      { name: 'field', type: 'VectorField' }
-    ]
+    inputs: [{ name: 'center', type: 'Point', required: true }],
+    outputs: [{ name: 'field', type: 'VectorField' }],
   },
   {
     category: 'Field',
@@ -312,14 +297,10 @@ export const attractorTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'direction', type: 'vector3', default: [1, 0, 0] },
       { name: 'strength', type: 'number', default: 1, min: -10, max: 10 },
-      { name: 'spread', type: 'number', default: 45, min: 0, max: 180 }
+      { name: 'spread', type: 'number', default: 45, min: 0, max: 180 },
     ],
-    inputs: [
-      { name: 'origin', type: 'Point', required: true }
-    ],
-    outputs: [
-      { name: 'field', type: 'VectorField' }
-    ]
+    inputs: [{ name: 'origin', type: 'Point', required: true }],
+    outputs: [{ name: 'field', type: 'VectorField' }],
   },
   {
     category: 'Field',
@@ -332,14 +313,15 @@ export const attractorTemplates: NodeTemplate[] = [
       { name: 'angle', type: 'number', default: 90, min: -360, max: 360 },
       { name: 'height', type: 'number', default: 100, min: 0.1 },
       { name: 'radius', type: 'number', default: 50, min: 0.1 },
-      { name: 'falloff', type: 'enum', options: ['linear', 'smooth', 'exponential'], default: 'smooth' }
+      {
+        name: 'falloff',
+        type: 'enum',
+        options: ['linear', 'smooth', 'exponential'],
+        default: 'smooth',
+      },
     ],
-    inputs: [
-      { name: 'axis', type: 'Line', required: true }
-    ],
-    outputs: [
-      { name: 'field', type: 'VectorField' }
-    ]
+    inputs: [{ name: 'axis', type: 'Line', required: true }],
+    outputs: [{ name: 'field', type: 'VectorField' }],
   },
   {
     category: 'Field',
@@ -352,14 +334,10 @@ export const attractorTemplates: NodeTemplate[] = [
       { name: 'strength', type: 'number', default: 1, min: -10, max: 10 },
       { name: 'radius', type: 'number', default: 100, min: 0.1 },
       { name: 'coreRadius', type: 'number', default: 10, min: 0.1 },
-      { name: 'height', type: 'number', default: 200, min: 0.1 }
+      { name: 'height', type: 'number', default: 200, min: 0.1 },
     ],
-    inputs: [
-      { name: 'axis', type: 'Line', required: true }
-    ],
-    outputs: [
-      { name: 'field', type: 'VectorField' }
-    ]
+    inputs: [{ name: 'axis', type: 'Line', required: true }],
+    outputs: [{ name: 'field', type: 'VectorField' }],
   },
   {
     category: 'Field',
@@ -370,15 +348,13 @@ export const attractorTemplates: NodeTemplate[] = [
     occtBinding: 'attractorGravity',
     parameters: [
       { name: 'mass', type: 'number', default: 100, min: 0.1 },
-      { name: 'G', type: 'number', default: 1, min: 0.001, description: 'Gravitational constant' }
+      { name: 'G', type: 'number', default: 1, min: 0.001, description: 'Gravitational constant' },
     ],
     inputs: [
       { name: 'bodies', type: 'Point[]', required: true },
-      { name: 'masses', type: 'number[]', required: false }
+      { name: 'masses', type: 'number[]', required: false },
     ],
-    outputs: [
-      { name: 'field', type: 'VectorField' }
-    ]
+    outputs: [{ name: 'field', type: 'VectorField' }],
   },
   {
     category: 'Field',
@@ -390,16 +366,14 @@ export const attractorTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'velocity', type: 'number', default: 10, min: 0 },
       { name: 'turbulence', type: 'number', default: 0.1, min: 0, max: 1 },
-      { name: 'viscosity', type: 'number', default: 0.1, min: 0, max: 1 }
+      { name: 'viscosity', type: 'number', default: 0.1, min: 0, max: 1 },
     ],
     inputs: [
       { name: 'obstacles', type: 'Shape[]', required: false },
-      { name: 'sources', type: 'Point[]', required: false }
+      { name: 'sources', type: 'Point[]', required: false },
     ],
-    outputs: [
-      { name: 'field', type: 'VectorField' }
-    ]
-  }
+    outputs: [{ name: 'field', type: 'VectorField' }],
+  },
 ];
 
 /**
@@ -416,11 +390,9 @@ export const fieldOperationTemplates: NodeTemplate[] = [
     parameters: [],
     inputs: [
       { name: 'fieldA', type: 'ScalarField', required: true },
-      { name: 'fieldB', type: 'ScalarField', required: true }
+      { name: 'fieldB', type: 'ScalarField', required: true },
     ],
-    outputs: [
-      { name: 'field', type: 'ScalarField' }
-    ]
+    outputs: [{ name: 'field', type: 'ScalarField' }],
   },
   {
     category: 'Field',
@@ -432,11 +404,9 @@ export const fieldOperationTemplates: NodeTemplate[] = [
     parameters: [],
     inputs: [
       { name: 'fieldA', type: 'ScalarField', required: true },
-      { name: 'fieldB', type: 'ScalarField', required: true }
+      { name: 'fieldB', type: 'ScalarField', required: true },
     ],
-    outputs: [
-      { name: 'field', type: 'ScalarField' }
-    ]
+    outputs: [{ name: 'field', type: 'ScalarField' }],
   },
   {
     category: 'Field',
@@ -448,11 +418,9 @@ export const fieldOperationTemplates: NodeTemplate[] = [
     parameters: [],
     inputs: [
       { name: 'fieldA', type: 'ScalarField', required: true },
-      { name: 'fieldB', type: 'ScalarField', required: true }
+      { name: 'fieldB', type: 'ScalarField', required: true },
     ],
-    outputs: [
-      { name: 'field', type: 'ScalarField' }
-    ]
+    outputs: [{ name: 'field', type: 'ScalarField' }],
   },
   {
     category: 'Field',
@@ -461,16 +429,12 @@ export const fieldOperationTemplates: NodeTemplate[] = [
     description: 'Divide fields',
     operation: 'FIELD_DIVIDE',
     occtBinding: 'fieldDivide',
-    parameters: [
-      { name: 'epsilon', type: 'number', default: 0.001, min: 0 }
-    ],
+    parameters: [{ name: 'epsilon', type: 'number', default: 0.001, min: 0 }],
     inputs: [
       { name: 'fieldA', type: 'ScalarField', required: true },
-      { name: 'fieldB', type: 'ScalarField', required: true }
+      { name: 'fieldB', type: 'ScalarField', required: true },
     ],
-    outputs: [
-      { name: 'field', type: 'ScalarField' }
-    ]
+    outputs: [{ name: 'field', type: 'ScalarField' }],
   },
   {
     category: 'Field',
@@ -480,12 +444,8 @@ export const fieldOperationTemplates: NodeTemplate[] = [
     operation: 'FIELD_MIN',
     occtBinding: 'fieldMin',
     parameters: [],
-    inputs: [
-      { name: 'fields', type: 'ScalarField[]', required: true }
-    ],
-    outputs: [
-      { name: 'field', type: 'ScalarField' }
-    ]
+    inputs: [{ name: 'fields', type: 'ScalarField[]', required: true }],
+    outputs: [{ name: 'field', type: 'ScalarField' }],
   },
   {
     category: 'Field',
@@ -495,12 +455,8 @@ export const fieldOperationTemplates: NodeTemplate[] = [
     operation: 'FIELD_MAX',
     occtBinding: 'fieldMax',
     parameters: [],
-    inputs: [
-      { name: 'fields', type: 'ScalarField[]', required: true }
-    ],
-    outputs: [
-      { name: 'field', type: 'ScalarField' }
-    ]
+    inputs: [{ name: 'fields', type: 'ScalarField[]', required: true }],
+    outputs: [{ name: 'field', type: 'ScalarField' }],
   },
   {
     category: 'Field',
@@ -510,16 +466,19 @@ export const fieldOperationTemplates: NodeTemplate[] = [
     operation: 'FIELD_BLEND',
     occtBinding: 'fieldBlend',
     parameters: [
-      { name: 'mode', type: 'enum', options: ['linear', 'smooth', 'overlay', 'multiply'], default: 'linear' }
+      {
+        name: 'mode',
+        type: 'enum',
+        options: ['linear', 'smooth', 'overlay', 'multiply'],
+        default: 'linear',
+      },
     ],
     inputs: [
       { name: 'fieldA', type: 'ScalarField', required: true },
       { name: 'fieldB', type: 'ScalarField', required: true },
-      { name: 'factor', type: 'number', required: true }
+      { name: 'factor', type: 'number', required: true },
     ],
-    outputs: [
-      { name: 'field', type: 'ScalarField' }
-    ]
+    outputs: [{ name: 'field', type: 'ScalarField' }],
   },
   {
     category: 'Field',
@@ -532,14 +491,10 @@ export const fieldOperationTemplates: NodeTemplate[] = [
       { name: 'fromMin', type: 'number', default: 0 },
       { name: 'fromMax', type: 'number', default: 1 },
       { name: 'toMin', type: 'number', default: 0 },
-      { name: 'toMax', type: 'number', default: 100 }
+      { name: 'toMax', type: 'number', default: 100 },
     ],
-    inputs: [
-      { name: 'field', type: 'ScalarField', required: true }
-    ],
-    outputs: [
-      { name: 'remapped', type: 'ScalarField' }
-    ]
+    inputs: [{ name: 'field', type: 'ScalarField', required: true }],
+    outputs: [{ name: 'remapped', type: 'ScalarField' }],
   },
   {
     category: 'Field',
@@ -550,14 +505,10 @@ export const fieldOperationTemplates: NodeTemplate[] = [
     occtBinding: 'fieldClamp',
     parameters: [
       { name: 'min', type: 'number', default: 0 },
-      { name: 'max', type: 'number', default: 1 }
+      { name: 'max', type: 'number', default: 1 },
     ],
-    inputs: [
-      { name: 'field', type: 'ScalarField', required: true }
-    ],
-    outputs: [
-      { name: 'clamped', type: 'ScalarField' }
-    ]
+    inputs: [{ name: 'field', type: 'ScalarField', required: true }],
+    outputs: [{ name: 'clamped', type: 'ScalarField' }],
   },
   {
     category: 'Field',
@@ -567,12 +518,8 @@ export const fieldOperationTemplates: NodeTemplate[] = [
     operation: 'FIELD_INVERT',
     occtBinding: 'fieldInvert',
     parameters: [],
-    inputs: [
-      { name: 'field', type: 'ScalarField', required: true }
-    ],
-    outputs: [
-      { name: 'inverted', type: 'ScalarField' }
-    ]
+    inputs: [{ name: 'field', type: 'ScalarField', required: true }],
+    outputs: [{ name: 'inverted', type: 'ScalarField' }],
   },
   {
     category: 'Field',
@@ -582,12 +529,8 @@ export const fieldOperationTemplates: NodeTemplate[] = [
     operation: 'FIELD_GRADIENT',
     occtBinding: 'fieldGradient',
     parameters: [],
-    inputs: [
-      { name: 'field', type: 'ScalarField', required: true }
-    ],
-    outputs: [
-      { name: 'gradient', type: 'VectorField' }
-    ]
+    inputs: [{ name: 'field', type: 'ScalarField', required: true }],
+    outputs: [{ name: 'gradient', type: 'VectorField' }],
   },
   {
     category: 'Field',
@@ -597,12 +540,8 @@ export const fieldOperationTemplates: NodeTemplate[] = [
     operation: 'FIELD_DIVERGENCE',
     occtBinding: 'fieldDivergence',
     parameters: [],
-    inputs: [
-      { name: 'field', type: 'VectorField', required: true }
-    ],
-    outputs: [
-      { name: 'divergence', type: 'ScalarField' }
-    ]
+    inputs: [{ name: 'field', type: 'VectorField', required: true }],
+    outputs: [{ name: 'divergence', type: 'ScalarField' }],
   },
   {
     category: 'Field',
@@ -612,12 +551,8 @@ export const fieldOperationTemplates: NodeTemplate[] = [
     operation: 'FIELD_CURL',
     occtBinding: 'fieldCurl',
     parameters: [],
-    inputs: [
-      { name: 'field', type: 'VectorField', required: true }
-    ],
-    outputs: [
-      { name: 'curl', type: 'VectorField' }
-    ]
+    inputs: [{ name: 'field', type: 'VectorField', required: true }],
+    outputs: [{ name: 'curl', type: 'VectorField' }],
   },
   {
     category: 'Field',
@@ -627,12 +562,8 @@ export const fieldOperationTemplates: NodeTemplate[] = [
     operation: 'FIELD_LAPLACIAN',
     occtBinding: 'fieldLaplacian',
     parameters: [],
-    inputs: [
-      { name: 'field', type: 'ScalarField', required: true }
-    ],
-    outputs: [
-      { name: 'laplacian', type: 'ScalarField' }
-    ]
+    inputs: [{ name: 'field', type: 'ScalarField', required: true }],
+    outputs: [{ name: 'laplacian', type: 'ScalarField' }],
   },
   {
     category: 'Field',
@@ -643,15 +574,11 @@ export const fieldOperationTemplates: NodeTemplate[] = [
     occtBinding: 'fieldSmooth',
     parameters: [
       { name: 'iterations', type: 'number', default: 3, min: 1, max: 10, step: 1 },
-      { name: 'factor', type: 'number', default: 0.5, min: 0, max: 1 }
+      { name: 'factor', type: 'number', default: 0.5, min: 0, max: 1 },
     ],
-    inputs: [
-      { name: 'field', type: 'ScalarField', required: true }
-    ],
-    outputs: [
-      { name: 'smoothed', type: 'ScalarField' }
-    ]
-  }
+    inputs: [{ name: 'field', type: 'ScalarField', required: true }],
+    outputs: [{ name: 'smoothed', type: 'ScalarField' }],
+  },
 ];
 
 /**
@@ -668,11 +595,9 @@ export const fieldSamplingTemplates: NodeTemplate[] = [
     parameters: [],
     inputs: [
       { name: 'field', type: 'ScalarField', required: true },
-      { name: 'points', type: 'Point[]', required: true }
+      { name: 'points', type: 'Point[]', required: true },
     ],
-    outputs: [
-      { name: 'values', type: 'number[]' }
-    ]
+    outputs: [{ name: 'values', type: 'number[]' }],
   },
   {
     category: 'Field',
@@ -684,15 +609,18 @@ export const fieldSamplingTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'stepSize', type: 'number', default: 1, min: 0.01 },
       { name: 'maxSteps', type: 'number', default: 1000, min: 10, max: 10000, step: 10 },
-      { name: 'direction', type: 'enum', options: ['forward', 'backward', 'both'], default: 'forward' }
+      {
+        name: 'direction',
+        type: 'enum',
+        options: ['forward', 'backward', 'both'],
+        default: 'forward',
+      },
     ],
     inputs: [
       { name: 'field', type: 'VectorField', required: true },
-      { name: 'seeds', type: 'Point[]', required: true }
+      { name: 'seeds', type: 'Point[]', required: true },
     ],
-    outputs: [
-      { name: 'lines', type: 'Wire[]' }
-    ]
+    outputs: [{ name: 'lines', type: 'Wire[]' }],
   },
   {
     category: 'Field',
@@ -703,14 +631,10 @@ export const fieldSamplingTemplates: NodeTemplate[] = [
     occtBinding: 'fieldIsoContour',
     parameters: [
       { name: 'value', type: 'number', default: 0.5 },
-      { name: 'smooth', type: 'boolean', default: true }
+      { name: 'smooth', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'field', type: 'ScalarField', required: true }
-    ],
-    outputs: [
-      { name: 'contours', type: 'Wire[]' }
-    ]
+    inputs: [{ name: 'field', type: 'ScalarField', required: true }],
+    outputs: [{ name: 'contours', type: 'Wire[]' }],
   },
   {
     category: 'Field',
@@ -721,14 +645,10 @@ export const fieldSamplingTemplates: NodeTemplate[] = [
     occtBinding: 'fieldIsoSurface',
     parameters: [
       { name: 'value', type: 'number', default: 0.5 },
-      { name: 'resolution', type: 'number', default: 50, min: 10, max: 200, step: 5 }
+      { name: 'resolution', type: 'number', default: 50, min: 10, max: 200, step: 5 },
     ],
-    inputs: [
-      { name: 'field', type: 'ScalarField', required: true }
-    ],
-    outputs: [
-      { name: 'surface', type: 'Mesh' }
-    ]
+    inputs: [{ name: 'field', type: 'ScalarField', required: true }],
+    outputs: [{ name: 'surface', type: 'Mesh' }],
   },
   {
     category: 'Field',
@@ -740,18 +660,18 @@ export const fieldSamplingTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'resolutionX', type: 'number', default: 10, min: 2, max: 100, step: 1 },
       { name: 'resolutionY', type: 'number', default: 10, min: 2, max: 100, step: 1 },
-      { name: 'resolutionZ', type: 'number', default: 10, min: 2, max: 100, step: 1 }
+      { name: 'resolutionZ', type: 'number', default: 10, min: 2, max: 100, step: 1 },
     ],
     inputs: [
       { name: 'field', type: 'ScalarField', required: true },
-      { name: 'bounds', type: 'Box', required: true }
+      { name: 'bounds', type: 'Box', required: true },
     ],
     outputs: [
       { name: 'grid', type: 'Data' },
       { name: 'points', type: 'Point[]' },
-      { name: 'values', type: 'number[]' }
-    ]
-  }
+      { name: 'values', type: 'number[]' },
+    ],
+  },
 ];
 
 /**
@@ -765,16 +685,12 @@ export const fieldDeformationTemplates: NodeTemplate[] = [
     description: 'Deform by field',
     operation: 'FIELD_DEFORM',
     occtBinding: 'fieldDeform',
-    parameters: [
-      { name: 'strength', type: 'number', default: 10, min: -100, max: 100 }
-    ],
+    parameters: [{ name: 'strength', type: 'number', default: 10, min: -100, max: 100 }],
     inputs: [
       { name: 'geometry', type: 'Shape', required: true },
-      { name: 'field', type: 'VectorField', required: true }
+      { name: 'field', type: 'VectorField', required: true },
     ],
-    outputs: [
-      { name: 'deformed', type: 'Shape' }
-    ]
+    outputs: [{ name: 'deformed', type: 'Shape' }],
   },
   {
     category: 'Field',
@@ -783,16 +699,12 @@ export const fieldDeformationTemplates: NodeTemplate[] = [
     description: 'Displace along normals',
     operation: 'FIELD_DISPLACE',
     occtBinding: 'fieldDisplace',
-    parameters: [
-      { name: 'strength', type: 'number', default: 10, min: -100, max: 100 }
-    ],
+    parameters: [{ name: 'strength', type: 'number', default: 10, min: -100, max: 100 }],
     inputs: [
       { name: 'surface', type: 'Face', required: true },
-      { name: 'field', type: 'ScalarField', required: true }
+      { name: 'field', type: 'ScalarField', required: true },
     ],
-    outputs: [
-      { name: 'displaced', type: 'Face' }
-    ]
+    outputs: [{ name: 'displaced', type: 'Face' }],
   },
   {
     category: 'Field',
@@ -803,15 +715,13 @@ export const fieldDeformationTemplates: NodeTemplate[] = [
     occtBinding: 'fieldScale',
     parameters: [
       { name: 'minScale', type: 'number', default: 0.5, min: 0 },
-      { name: 'maxScale', type: 'number', default: 2, min: 0 }
+      { name: 'maxScale', type: 'number', default: 2, min: 0 },
     ],
     inputs: [
       { name: 'geometry', type: 'Shape[]', required: true },
-      { name: 'field', type: 'ScalarField', required: true }
+      { name: 'field', type: 'ScalarField', required: true },
     ],
-    outputs: [
-      { name: 'scaled', type: 'Shape[]' }
-    ]
+    outputs: [{ name: 'scaled', type: 'Shape[]' }],
   },
   {
     category: 'Field',
@@ -820,16 +730,12 @@ export const fieldDeformationTemplates: NodeTemplate[] = [
     description: 'Rotate by field',
     operation: 'FIELD_ROTATE',
     occtBinding: 'fieldRotate',
-    parameters: [
-      { name: 'maxAngle', type: 'number', default: 180, min: -360, max: 360 }
-    ],
+    parameters: [{ name: 'maxAngle', type: 'number', default: 180, min: -360, max: 360 }],
     inputs: [
       { name: 'geometry', type: 'Shape[]', required: true },
-      { name: 'field', type: 'VectorField', required: true }
+      { name: 'field', type: 'VectorField', required: true },
     ],
-    outputs: [
-      { name: 'rotated', type: 'Shape[]' }
-    ]
+    outputs: [{ name: 'rotated', type: 'Shape[]' }],
   },
   {
     category: 'Field',
@@ -839,16 +745,19 @@ export const fieldDeformationTemplates: NodeTemplate[] = [
     operation: 'FIELD_COLOR',
     occtBinding: 'fieldColor',
     parameters: [
-      { name: 'gradient', type: 'enum', options: ['grayscale', 'rainbow', 'heat', 'cool', 'custom'], default: 'rainbow' }
+      {
+        name: 'gradient',
+        type: 'enum',
+        options: ['grayscale', 'rainbow', 'heat', 'cool', 'custom'],
+        default: 'rainbow',
+      },
     ],
     inputs: [
       { name: 'mesh', type: 'Mesh', required: true },
-      { name: 'field', type: 'ScalarField', required: true }
+      { name: 'field', type: 'ScalarField', required: true },
     ],
-    outputs: [
-      { name: 'coloredMesh', type: 'Mesh' }
-    ]
-  }
+    outputs: [{ name: 'coloredMesh', type: 'Mesh' }],
+  },
 ];
 
 // Field visualization templates (5 nodes)
@@ -865,28 +774,26 @@ export const fieldVisualizationTemplates: NodeTemplate[] = [
         type: 'enum',
         default: '"viridis"',
         options: ['viridis', 'plasma', 'inferno', 'magma', 'turbo', 'rainbow'],
-        description: 'Color scheme for visualization'
+        description: 'Color scheme for visualization',
       },
       {
         name: 'minValue',
         type: 'number',
         default: 0,
-        description: 'Minimum field value'
+        description: 'Minimum field value',
       },
       {
         name: 'maxValue',
         type: 'number',
         default: 1,
-        description: 'Maximum field value'
-      }
+        description: 'Maximum field value',
+      },
     ],
     inputs: [
       { name: 'field', type: 'Field', required: false },
-      { name: 'mesh', type: 'Mesh', required: true }
+      { name: 'mesh', type: 'Mesh', required: true },
     ],
-    outputs: [
-      { name: 'coloredMesh', type: 'Mesh' }
-    ]
+    outputs: [{ name: 'coloredMesh', type: 'Mesh' }],
   },
   {
     category: 'Fields',
@@ -901,7 +808,7 @@ export const fieldVisualizationTemplates: NodeTemplate[] = [
         default: 1,
         min: 0.1,
         max: 10,
-        description: 'Scale factor for arrows'
+        description: 'Scale factor for arrows',
       },
       {
         name: 'density',
@@ -909,16 +816,14 @@ export const fieldVisualizationTemplates: NodeTemplate[] = [
         default: 0.5,
         min: 0,
         max: 1,
-        description: 'Display density (0-1)'
-      }
+        description: 'Display density (0-1)',
+      },
     ],
     inputs: [
       { name: 'field', type: 'VectorField', required: false },
-      { name: 'domain', type: 'Geometry', required: true }
+      { name: 'domain', type: 'Geometry', required: true },
     ],
-    outputs: [
-      { name: 'arrows', type: 'GeometrySet' }
-    ]
+    outputs: [{ name: 'arrows', type: 'GeometrySet' }],
   },
   {
     category: 'Fields',
@@ -933,7 +838,7 @@ export const fieldVisualizationTemplates: NodeTemplate[] = [
         default: 20,
         min: 1,
         max: 1000,
-        description: 'Number of streamlines'
+        description: 'Number of streamlines',
       },
       {
         name: 'stepSize',
@@ -941,7 +846,7 @@ export const fieldVisualizationTemplates: NodeTemplate[] = [
         default: 0.1,
         min: 0.01,
         max: 1,
-        description: 'Integration step size'
+        description: 'Integration step size',
       },
       {
         name: 'maxSteps',
@@ -949,16 +854,14 @@ export const fieldVisualizationTemplates: NodeTemplate[] = [
         default: 100,
         min: 10,
         max: 1000,
-        description: 'Maximum steps per line'
-      }
+        description: 'Maximum steps per line',
+      },
     ],
     inputs: [
       { name: 'field', type: 'VectorField', required: false },
-      { name: 'seedPoints', type: 'PointSet', required: false }
+      { name: 'seedPoints', type: 'PointSet', required: false },
     ],
-    outputs: [
-      { name: 'streamlines', type: 'CurveSet' }
-    ]
+    outputs: [{ name: 'streamlines', type: 'CurveSet' }],
   },
   {
     category: 'Fields',
@@ -973,23 +876,21 @@ export const fieldVisualizationTemplates: NodeTemplate[] = [
         default: 50,
         min: 10,
         max: 200,
-        description: 'Grid resolution'
+        description: 'Grid resolution',
       },
       {
         name: 'interpolation',
         type: 'enum',
         default: '"bilinear"',
         options: ['nearest', 'bilinear', 'bicubic'],
-        description: 'Interpolation method'
-      }
+        description: 'Interpolation method',
+      },
     ],
     inputs: [
       { name: 'field', type: 'Field', required: false },
-      { name: 'plane', type: 'Plane', required: true }
+      { name: 'plane', type: 'Plane', required: true },
     ],
-    outputs: [
-      { name: 'heatMap', type: 'Mesh' }
-    ]
+    outputs: [{ name: 'heatMap', type: 'Mesh' }],
   },
   {
     category: 'Fields',
@@ -1004,7 +905,7 @@ export const fieldVisualizationTemplates: NodeTemplate[] = [
         default: 1,
         min: 0.1,
         max: 10,
-        description: 'Size of voxels'
+        description: 'Size of voxels',
       },
       {
         name: 'threshold',
@@ -1012,7 +913,7 @@ export const fieldVisualizationTemplates: NodeTemplate[] = [
         default: 0.5,
         min: 0,
         max: 1,
-        description: 'Display threshold'
+        description: 'Display threshold',
       },
       {
         name: 'opacity',
@@ -1020,17 +921,15 @@ export const fieldVisualizationTemplates: NodeTemplate[] = [
         default: 0.8,
         min: 0,
         max: 1,
-        description: 'Volume opacity'
-      }
+        description: 'Volume opacity',
+      },
     ],
     inputs: [
       { name: 'field', type: 'Field', required: false },
-      { name: 'bounds', type: 'Box', required: true }
+      { name: 'bounds', type: 'Box', required: true },
     ],
-    outputs: [
-      { name: 'volume', type: 'Mesh' }
-    ]
-  }
+    outputs: [{ name: 'volume', type: 'Mesh' }],
+  },
 ];
 
 // Field analysis templates (10 nodes)
@@ -1044,14 +943,14 @@ export const fieldAnalysisTemplates: NodeTemplate[] = [
     parameters: [],
     inputs: [
       { name: 'field', type: 'Field', required: false },
-      { name: 'domain', type: 'Geometry', required: false }
+      { name: 'domain', type: 'Geometry', required: false },
     ],
     outputs: [
       { name: 'min', type: 'Number' },
       { name: 'max', type: 'Number' },
       { name: 'minPoint', type: 'Point' },
-      { name: 'maxPoint', type: 'Point' }
-    ]
+      { name: 'maxPoint', type: 'Point' },
+    ],
   },
   {
     category: 'Fields',
@@ -1066,17 +965,17 @@ export const fieldAnalysisTemplates: NodeTemplate[] = [
         default: 1000,
         min: 100,
         max: 10000,
-        description: 'Number of samples'
-      }
+        description: 'Number of samples',
+      },
     ],
     inputs: [
       { name: 'field', type: 'Field', required: false },
-      { name: 'domain', type: 'Geometry', required: false }
+      { name: 'domain', type: 'Geometry', required: false },
     ],
     outputs: [
       { name: 'average', type: 'Number' },
-      { name: 'standardDeviation', type: 'Number' }
-    ]
+      { name: 'standardDeviation', type: 'Number' },
+    ],
   },
   {
     category: 'Fields',
@@ -1091,25 +990,25 @@ export const fieldAnalysisTemplates: NodeTemplate[] = [
         default: 0.001,
         min: 0,
         max: 1,
-        description: 'Search tolerance'
+        description: 'Search tolerance',
       },
       {
         name: 'type',
         type: 'enum',
         default: '"all"',
         options: ['all', 'minima', 'maxima', 'saddles'],
-        description: 'Type of critical points'
-      }
+        description: 'Type of critical points',
+      },
     ],
     inputs: [
       { name: 'field', type: 'Field', required: false },
-      { name: 'domain', type: 'Geometry', required: false }
+      { name: 'domain', type: 'Geometry', required: false },
     ],
     outputs: [
       { name: 'points', type: 'PointSet' },
       { name: 'types', type: 'StringList' },
-      { name: 'values', type: 'NumberList' }
-    ]
+      { name: 'values', type: 'NumberList' },
+    ],
   },
   {
     category: 'Fields',
@@ -1118,12 +1017,8 @@ export const fieldAnalysisTemplates: NodeTemplate[] = [
     description: 'Calculate divergence of vector field',
     operation: 'calculateDivergenceAnalysis',
     parameters: [],
-    inputs: [
-      { name: 'vectorField', type: 'VectorField', required: false }
-    ],
-    outputs: [
-      { name: 'divergenceField', type: 'Field' }
-    ]
+    inputs: [{ name: 'vectorField', type: 'VectorField', required: false }],
+    outputs: [{ name: 'divergenceField', type: 'Field' }],
   },
   {
     category: 'Fields',
@@ -1132,12 +1027,8 @@ export const fieldAnalysisTemplates: NodeTemplate[] = [
     description: 'Calculate curl of vector field',
     operation: 'calculateCurlAnalysis',
     parameters: [],
-    inputs: [
-      { name: 'vectorField', type: 'VectorField', required: false }
-    ],
-    outputs: [
-      { name: 'curlField', type: 'VectorField' }
-    ]
+    inputs: [{ name: 'vectorField', type: 'VectorField', required: false }],
+    outputs: [{ name: 'curlField', type: 'VectorField' }],
   },
   {
     category: 'Fields',
@@ -1148,11 +1039,9 @@ export const fieldAnalysisTemplates: NodeTemplate[] = [
     parameters: [],
     inputs: [
       { name: 'vectorField', type: 'VectorField', required: false },
-      { name: 'surface', type: 'Surface', required: true }
+      { name: 'surface', type: 'Surface', required: true },
     ],
-    outputs: [
-      { name: 'flux', type: 'Number' }
-    ]
+    outputs: [{ name: 'flux', type: 'Number' }],
   },
   {
     category: 'Fields',
@@ -1163,11 +1052,9 @@ export const fieldAnalysisTemplates: NodeTemplate[] = [
     parameters: [],
     inputs: [
       { name: 'vectorField', type: 'VectorField', required: false },
-      { name: 'curve', type: 'Curve', required: true }
+      { name: 'curve', type: 'Curve', required: true },
     ],
-    outputs: [
-      { name: 'circulation', type: 'Number' }
-    ]
+    outputs: [{ name: 'circulation', type: 'Number' }],
   },
   {
     category: 'Fields',
@@ -1180,16 +1067,14 @@ export const fieldAnalysisTemplates: NodeTemplate[] = [
         name: 'referencePoint',
         type: 'vector3',
         default: '[0, 0, 0]',
-        description: 'Reference point for potential'
-      }
+        description: 'Reference point for potential',
+      },
     ],
-    inputs: [
-      { name: 'vectorField', type: 'VectorField', required: false }
-    ],
+    inputs: [{ name: 'vectorField', type: 'VectorField', required: false }],
     outputs: [
       { name: 'potentialField', type: 'Field' },
-      { name: 'isConservative', type: 'Boolean' }
-    ]
+      { name: 'isConservative', type: 'Boolean' },
+    ],
   },
   {
     category: 'Fields',
@@ -1204,18 +1089,18 @@ export const fieldAnalysisTemplates: NodeTemplate[] = [
         default: 20,
         min: 5,
         max: 100,
-        description: 'Number of histogram bins'
-      }
+        description: 'Number of histogram bins',
+      },
     ],
     inputs: [
       { name: 'field', type: 'Field', required: false },
-      { name: 'domain', type: 'Geometry', required: false }
+      { name: 'domain', type: 'Geometry', required: false },
     ],
     outputs: [
       { name: 'binCenters', type: 'NumberList' },
       { name: 'binCounts', type: 'NumberList' },
-      { name: 'binEdges', type: 'NumberList' }
-    ]
+      { name: 'binEdges', type: 'NumberList' },
+    ],
   },
   {
     category: 'Fields',
@@ -1230,19 +1115,19 @@ export const fieldAnalysisTemplates: NodeTemplate[] = [
         default: 1000,
         min: 100,
         max: 10000,
-        description: 'Number of samples'
-      }
+        description: 'Number of samples',
+      },
     ],
     inputs: [
       { name: 'field1', type: 'Field', required: false },
       { name: 'field2', type: 'Field', required: false },
-      { name: 'domain', type: 'Geometry', required: false }
+      { name: 'domain', type: 'Geometry', required: false },
     ],
     outputs: [
       { name: 'correlation', type: 'Number' },
-      { name: 'covariance', type: 'Number' }
-    ]
-  }
+      { name: 'covariance', type: 'Number' },
+    ],
+  },
 ];
 
 // Advanced field operations (5 nodes)
@@ -1260,23 +1145,21 @@ export const advancedFieldTemplates: NodeTemplate[] = [
         default: 0.5,
         min: 0,
         max: 1,
-        description: 'Morphing factor (0=field1, 1=field2)'
+        description: 'Morphing factor (0=field1, 1=field2)',
       },
       {
         name: 'interpolation',
         type: 'enum',
         default: '"linear"',
         options: ['linear', 'smooth', 'exponential'],
-        description: 'Interpolation method'
-      }
+        description: 'Interpolation method',
+      },
     ],
     inputs: [
       { name: 'field1', type: 'Field', required: false },
-      { name: 'field2', type: 'Field', required: false }
+      { name: 'field2', type: 'Field', required: false },
     ],
-    outputs: [
-      { name: 'morphedField', type: 'Field' }
-    ]
+    outputs: [{ name: 'morphedField', type: 'Field' }],
   },
   {
     category: 'Fields',
@@ -1291,16 +1174,14 @@ export const advancedFieldTemplates: NodeTemplate[] = [
         default: 1,
         min: 0,
         max: 10,
-        description: 'Warping strength'
-      }
+        description: 'Warping strength',
+      },
     ],
     inputs: [
       { name: 'field', type: 'Field', required: false },
-      { name: 'deformation', type: 'VectorField', required: true }
+      { name: 'deformation', type: 'VectorField', required: true },
     ],
-    outputs: [
-      { name: 'warpedField', type: 'Field' }
-    ]
+    outputs: [{ name: 'warpedField', type: 'Field' }],
   },
   {
     category: 'Fields',
@@ -1316,16 +1197,14 @@ export const advancedFieldTemplates: NodeTemplate[] = [
         min: 3,
         max: 11,
         step: 2,
-        description: 'Kernel size (odd number)'
-      }
+        description: 'Kernel size (odd number)',
+      },
     ],
     inputs: [
       { name: 'field', type: 'Field', required: false },
-      { name: 'kernel', type: 'Field', required: true }
+      { name: 'kernel', type: 'Field', required: true },
     ],
-    outputs: [
-      { name: 'convolvedField', type: 'Field' }
-    ]
+    outputs: [{ name: 'convolvedField', type: 'Field' }],
   },
   {
     category: 'Fields',
@@ -1339,17 +1218,15 @@ export const advancedFieldTemplates: NodeTemplate[] = [
         type: 'enum',
         default: '"forward"',
         options: ['forward', 'inverse'],
-        description: 'Transform direction'
-      }
+        description: 'Transform direction',
+      },
     ],
-    inputs: [
-      { name: 'field', type: 'Field', required: false }
-    ],
+    inputs: [{ name: 'field', type: 'Field', required: false }],
     outputs: [
       { name: 'transformedField', type: 'Field' },
       { name: 'phase', type: 'Field' },
-      { name: 'magnitude', type: 'Field' }
-    ]
+      { name: 'magnitude', type: 'Field' },
+    ],
   },
   {
     category: 'Fields',
@@ -1364,14 +1241,14 @@ export const advancedFieldTemplates: NodeTemplate[] = [
         default: 100,
         min: 10,
         max: 1000,
-        description: 'Optimization iterations'
+        description: 'Optimization iterations',
       },
       {
         name: 'objective',
         type: 'enum',
         default: '"minimize"',
         options: ['minimize', 'maximize', 'smooth', 'sharpen'],
-        description: 'Optimization objective'
+        description: 'Optimization objective',
       },
       {
         name: 'learningRate',
@@ -1379,18 +1256,18 @@ export const advancedFieldTemplates: NodeTemplate[] = [
         default: 0.01,
         min: 0.001,
         max: 1,
-        description: 'Learning rate'
-      }
+        description: 'Learning rate',
+      },
     ],
     inputs: [
       { name: 'initialField', type: 'Field', required: false },
-      { name: 'constraints', type: 'Field', required: false }
+      { name: 'constraints', type: 'Field', required: false },
     ],
     outputs: [
       { name: 'optimizedField', type: 'Field' },
-      { name: 'convergence', type: 'NumberList' }
-    ]
-  }
+      { name: 'convergence', type: 'NumberList' },
+    ],
+  },
 ];
 
 // Export all templates
@@ -1402,5 +1279,5 @@ export const allFieldAttractorTemplates = [
   ...fieldDeformationTemplates,
   ...fieldVisualizationTemplates,
   ...fieldAnalysisTemplates,
-  ...advancedFieldTemplates
+  ...advancedFieldTemplates,
 ];

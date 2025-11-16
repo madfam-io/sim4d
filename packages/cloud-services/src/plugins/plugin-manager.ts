@@ -223,7 +223,7 @@ export class PluginManager extends EventEmitter {
    */
   getInstalledPlugins(userId: UserId): Plugin[] {
     // Filter plugins by user ownership and permissions
-    return Array.from(this.installedPlugins.values()).filter(plugin => {
+    return Array.from(this.installedPlugins.values()).filter((plugin) => {
       // In production, would check plugin.metadata.installedBy === userId
       // and user's permission to access plugin
       // For now, return all plugins (future enhancement: add user-plugin relationship tracking)
@@ -251,16 +251,16 @@ export class PluginManager extends EventEmitter {
   /**
    * Update plugin to new version
    */
-  async updatePlugin(
-    pluginId: PluginId,
-    newVersion: string,
-    userId: UserId
-  ): Promise<Plugin> {
+  async updatePlugin(pluginId: PluginId, newVersion: string, userId: UserId): Promise<Plugin> {
     try {
       this.emit('plugin-update-started', { pluginId, newVersion, userId });
 
       // 1. Fetch new version
-      const newPlugin = await this.fetchPlugin(pluginId, { version: newVersion, source: 'marketplace', verify: true });
+      const newPlugin = await this.fetchPlugin(pluginId, {
+        version: newVersion,
+        source: 'marketplace',
+        verify: true,
+      });
 
       // 2. Verify compatibility
       await this.validatePluginUpdate(pluginId, newPlugin);
@@ -452,7 +452,7 @@ export class PluginManager extends EventEmitter {
       // Fetch from remote marketplace
       const response = await fetch(source, {
         headers: {
-          'Accept': 'application/json',
+          Accept: 'application/json',
         },
       });
 
@@ -471,10 +471,7 @@ export class PluginManager extends EventEmitter {
 
   private async verifyPlugin(plugin: Plugin): Promise<void> {
     // 1. Verify cryptographic signature
-    const isValidSignature = await this.verifySignature(
-      plugin.bundle,
-      plugin.manifest.signature
-    );
+    const isValidSignature = await this.verifySignature(plugin.bundle, plugin.manifest.signature);
 
     if (!isValidSignature) {
       throw new Error('Invalid plugin signature');
@@ -487,7 +484,7 @@ export class PluginManager extends EventEmitter {
     }
 
     // 3. Check for known vulnerabilities
-    if (plugin.security.vulnerabilities.some(v => v.severity === 'critical')) {
+    if (plugin.security.vulnerabilities.some((v) => v.severity === 'critical')) {
       throw new Error('Plugin contains critical security vulnerabilities');
     }
   }
@@ -496,7 +493,9 @@ export class PluginManager extends EventEmitter {
     // Check BrepFlow version compatibility
     const engineVersion = this.config.engineVersion;
     if (!this.isVersionCompatible(plugin.manifest.engines.brepflow, engineVersion)) {
-      throw new Error(`Plugin requires BrepFlow ${plugin.manifest.engines.brepflow}, current: ${engineVersion}`);
+      throw new Error(
+        `Plugin requires BrepFlow ${plugin.manifest.engines.brepflow}, current: ${engineVersion}`
+      );
     }
 
     // Validate permissions
@@ -510,7 +509,7 @@ export class PluginManager extends EventEmitter {
     const sandbox: PluginSandbox = {
       workerId: `worker_${plugin.id}_${Date.now()}`,
       memoryLimit: plugin.manifest.permissions.wasmMemory * 1024 * 1024, // Convert MB to bytes
-      networkAllowlist: plugin.manifest.permissions.networkAccess.map(n => n.domain),
+      networkAllowlist: plugin.manifest.permissions.networkAccess.map((n) => n.domain),
       storageQuota: plugin.manifest.permissions.storageQuota * 1024 * 1024, // Convert MB to bytes
       timeoutMs: this.config.defaultTimeout,
       isolated: true,
@@ -570,10 +569,10 @@ export class PluginManager extends EventEmitter {
   private async installPluginBundle(plugin: Plugin, sandbox: PluginSandbox): Promise<void> {
     // In production, would send plugin bundle to worker and wait for initialization
     // The worker would receive the bundle code and capabilities, then execute it
-    
+
     // Prepare capabilities API for plugin
     const capabilities = this.buildCapabilitiesAPI(plugin);
-    
+
     // Send initialization message to worker (simulated for now)
     const initMessage = {
       type: 'INIT',
@@ -583,18 +582,18 @@ export class PluginManager extends EventEmitter {
         capabilities,
       },
     };
-    
+
     // In production, would:
     // 1. Post message to worker
     // 2. Wait for INIT_SUCCESS response
     // 3. Handle initialization errors
-    
+
     console.log(`Installed plugin bundle for ${plugin.id} in sandbox ${sandbox.workerId}`);
   }
 
   private buildCapabilitiesAPI(plugin: Plugin): Record<string, any> {
     const api: Record<string, any> = {};
-    
+
     // Add requested capabilities
     for (const capability of plugin.manifest.permissions.capabilities) {
       const capHandler = this.capabilities.get(capability.name);
@@ -602,7 +601,7 @@ export class PluginManager extends EventEmitter {
         api[capability.name] = capHandler.handler;
       }
     }
-    
+
     return api;
   }
 
@@ -619,12 +618,14 @@ export class PluginManager extends EventEmitter {
             args: [],
           },
         };
-        
+
         // Simulate execution for now
         console.log(`Initialized plugin ${plugin.id} with onLoad hook`);
         this.emit('plugin-initialized', { pluginId: plugin.id });
       } catch (error) {
-        throw new Error(`Plugin initialization failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        throw new Error(
+          `Plugin initialization failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+        );
       }
     } else {
       console.log(`Initialized plugin ${plugin.id} (no onLoad hook)`);
@@ -639,9 +640,9 @@ export class PluginManager extends EventEmitter {
       // 2. Wait brief moment for cleanup
       // 3. Force terminate worker
       // 4. Clear worker reference
-      
+
       console.log(`Destroyed sandbox ${sandbox.workerId}`);
-      
+
       // Clean up any sandbox-specific resources
       // (memory, storage, network connections, etc.)
     } catch (error) {
@@ -652,18 +653,18 @@ export class PluginManager extends EventEmitter {
 
   private async stopPluginExecutions(pluginId: PluginId): Promise<void> {
     // Remove pending executions for this plugin
-    this.executionQueue = this.executionQueue.filter(task => task.pluginId !== pluginId);
+    this.executionQueue = this.executionQueue.filter((task) => task.pluginId !== pluginId);
   }
 
   private async cleanupPluginResources(plugin: Plugin): Promise<void> {
     const pluginId = plugin.id;
-    
+
     // 1. Clear plugin storage (IndexedDB/localStorage)
     if (typeof indexedDB !== 'undefined') {
       try {
         const dbName = `plugin_storage_${pluginId}`;
         const deleteRequest = indexedDB.deleteDatabase(dbName);
-        
+
         await new Promise((resolve, reject) => {
           deleteRequest.onsuccess = () => resolve(undefined);
           deleteRequest.onerror = () => reject(deleteRequest.error);
@@ -681,15 +682,15 @@ export class PluginManager extends EventEmitter {
     if (typeof localStorage !== 'undefined') {
       const pluginPrefix = `plugin_${pluginId}_`;
       const keysToRemove: string[] = [];
-      
+
       for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
         if (key?.startsWith(pluginPrefix)) {
           keysToRemove.push(key);
         }
       }
-      
-      keysToRemove.forEach(key => localStorage.removeItem(key));
+
+      keysToRemove.forEach((key) => localStorage.removeItem(key));
     }
 
     // 3. Clear any cached data
@@ -706,7 +707,10 @@ export class PluginManager extends EventEmitter {
     this.emit('plugin-cleanup-complete', { pluginId });
   }
 
-  private async verifySignature(bundle: PluginBundle, signature: Ed25519Signature): Promise<boolean> {
+  private async verifySignature(
+    bundle: PluginBundle,
+    signature: Ed25519Signature
+  ): Promise<boolean> {
     try {
       // Import subtle crypto for Ed25519 verification
       const crypto = globalThis.crypto;
@@ -772,7 +776,10 @@ export class PluginManager extends EventEmitter {
     const hasNetworkAccess = plugin.manifest.permissions.networkAccess.length > 0;
     if (hasNetworkAccess) {
       const suspiciousDomains = plugin.manifest.permissions.networkAccess.filter(
-        n => !n.domain.match(/^https:\/\//) || n.domain.includes('localhost') || n.domain.includes('127.0.0.1')
+        (n) =>
+          !n.domain.match(/^https:\/\//) ||
+          n.domain.includes('localhost') ||
+          n.domain.includes('127.0.0.1')
       );
       if (suspiciousDomains.length > 0) {
         issues.push(`Warning: Suspicious network access to ${suspiciousDomains.length} domains`);
@@ -856,18 +863,20 @@ export class PluginManager extends EventEmitter {
     // Handle different operators
     if (operator === '^') {
       // Caret: compatible with same major version
-      return cur.major === req.major && (
-        cur.minor > req.minor ||
-        (cur.minor === req.minor && cur.patch >= req.patch)
+      return (
+        cur.major === req.major &&
+        (cur.minor > req.minor || (cur.minor === req.minor && cur.patch >= req.patch))
       );
     } else if (operator === '~') {
       // Tilde: compatible with same major.minor version
       return cur.major === req.major && cur.minor === req.minor && cur.patch >= req.patch;
     } else if (operator === '>=') {
       // Greater than or equal
-      return cur.major > req.major ||
+      return (
+        cur.major > req.major ||
         (cur.major === req.major && cur.minor > req.minor) ||
-        (cur.major === req.major && cur.minor === req.minor && cur.patch >= req.patch);
+        (cur.major === req.major && cur.minor === req.minor && cur.patch >= req.patch)
+      );
     } else {
       // Exact match
       return cur.major === req.major && cur.minor === req.minor && cur.patch === req.patch;
@@ -893,7 +902,7 @@ export class PluginManager extends EventEmitter {
 
     // Validate individual permission scopes
     const dangerousPermissions = permissions.networkAccess.filter(
-      n => n.scope === 'unrestricted' || n.domain === '*'
+      (n) => n.scope === 'unrestricted' || n.domain === '*'
     );
 
     if (dangerousPermissions.length > 0) {
@@ -1045,7 +1054,9 @@ export class PluginManager extends EventEmitter {
     const newEngineReq = newPlugin.manifest.engines.brepflow;
 
     if (!this.isVersionCompatible(newEngineReq, this.config.engineVersion)) {
-      throw new Error(`Update requires engine version ${newEngineReq}, current is ${this.config.engineVersion}`);
+      throw new Error(
+        `Update requires engine version ${newEngineReq}, current is ${this.config.engineVersion}`
+      );
     }
 
     // 4. Validate that new permissions don't exceed current significantly
@@ -1087,7 +1098,9 @@ export class PluginManager extends EventEmitter {
     return (
       newVer.major > curVer.major ||
       (newVer.major === curVer.major && newVer.minor > curVer.minor) ||
-      (newVer.major === curVer.major && newVer.minor === curVer.minor && newVer.patch > curVer.patch)
+      (newVer.major === curVer.major &&
+        newVer.minor === curVer.minor &&
+        newVer.patch > curVer.patch)
     );
   }
 
@@ -1124,7 +1137,7 @@ export class PluginManager extends EventEmitter {
       }
 
       const hasGeometryPerm = plugin.manifest.permissions.capabilities.some(
-        cap => cap.name === 'geometry'
+        (cap) => cap.name === 'geometry'
       );
 
       if (!hasGeometryPerm) {
@@ -1136,17 +1149,17 @@ export class PluginManager extends EventEmitter {
       switch (operation) {
         case 'createBox':
           return { type: 'shape', id: 'box_' + Date.now(), ...params };
-        
+
         case 'createSphere':
           return { type: 'shape', id: 'sphere_' + Date.now(), ...params };
-        
+
         case 'boolean':
           return { type: 'shape', id: 'boolean_' + Date.now(), ...params };
-        
+
         case 'tessellate':
           // Would call OCCT tessellation
           return { vertices: [], indices: [], normals: [] };
-        
+
         default:
           throw new Error(`Unknown geometry operation: ${operation}`);
       }
@@ -1162,7 +1175,7 @@ export class PluginManager extends EventEmitter {
       }
 
       const hasStoragePerm = plugin.manifest.permissions.capabilities.some(
-        cap => cap.name === 'storage'
+        (cap) => cap.name === 'storage'
       );
 
       if (!hasStoragePerm) {
@@ -1178,27 +1191,27 @@ export class PluginManager extends EventEmitter {
             return localStorage.getItem(storagePrefix + params.key);
           }
           return null;
-        
+
         case 'set':
           if (typeof localStorage !== 'undefined') {
             // Check storage quota
             const currentUsage = await this.getPluginStorageUsage(context.pluginId);
             const quota = plugin.manifest.permissions.storageQuota;
-            
+
             if (currentUsage >= quota) {
               throw new Error(`Storage quota exceeded (${quota}MB)`);
             }
-            
+
             localStorage.setItem(storagePrefix + params.key, params.value);
           }
           return true;
-        
+
         case 'remove':
           if (typeof localStorage !== 'undefined') {
             localStorage.removeItem(storagePrefix + params.key);
           }
           return true;
-        
+
         case 'clear':
           if (typeof localStorage !== 'undefined') {
             const keysToRemove: string[] = [];
@@ -1208,10 +1221,10 @@ export class PluginManager extends EventEmitter {
                 keysToRemove.push(key);
               }
             }
-            keysToRemove.forEach(key => localStorage.removeItem(key));
+            keysToRemove.forEach((key) => localStorage.removeItem(key));
           }
           return true;
-        
+
         default:
           throw new Error(`Unknown storage operation: ${operation}`);
       }
@@ -1227,7 +1240,7 @@ export class PluginManager extends EventEmitter {
       }
 
       const hasNetworkPerm = plugin.manifest.permissions.capabilities.some(
-        cap => cap.name === 'network'
+        (cap) => cap.name === 'network'
       );
 
       if (!hasNetworkPerm) {
@@ -1238,12 +1251,12 @@ export class PluginManager extends EventEmitter {
       switch (operation) {
         case 'fetch': {
           const { url, options } = params;
-          
+
           // Validate URL against whitelist
           const urlObj = new URL(url);
           const allowedDomains = plugin.manifest.permissions.networkAccess;
-          
-          const isAllowed = allowedDomains.some(access => {
+
+          const isAllowed = allowedDomains.some((access) => {
             const domainPattern = access.domain.replace('*', '.*');
             const regex = new RegExp(`^${domainPattern}$`);
             return regex.test(urlObj.hostname);
@@ -1273,10 +1286,12 @@ export class PluginManager extends EventEmitter {
             };
           } catch (error) {
             clearTimeout(timeoutId);
-            throw new Error(`Network request failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+            throw new Error(
+              `Network request failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+            );
           }
         }
-        
+
         default:
           throw new Error(`Unknown network operation: ${operation}`);
       }

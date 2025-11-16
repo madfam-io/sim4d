@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -22,40 +21,37 @@ export const LSystem3DNode: NodeDefinition<LSystem3DInputs, LSystem3DOutputs, LS
   metadata: {
     label: 'LSystem3D',
     description: '3D L-system generator',
-    
-    
   },
 
   params: {
-        axiom: {
-      "default": "F"
+    axiom: {
+      default: 'F',
     },
     rules: {
-      "default": "F=F[+F]F[-F]F"
+      default: 'F=F[+F]F[-F]F',
     },
     angle: {
-      "default": 25,
-      "min": 0,
-      "max": 360
+      default: 25,
+      min: 0,
+      max: 360,
     },
     iterations: {
-      "default": 4,
-      "min": 1,
-      "max": 8,
-      "step": 1
-    }
+      default: 4,
+      min: 1,
+      max: 8,
+      step: 1,
+    },
   },
 
   inputs: {
-        startPoint: 'Point'
+    startPoint: 'Point',
   },
 
   outputs: {
-        branches: 'Wire[]'
+    branches: 'Wire[]',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'lsystem3D',
       params: {
@@ -63,12 +59,12 @@ export const LSystem3DNode: NodeDefinition<LSystem3DInputs, LSystem3DOutputs, LS
         axiom: params.axiom,
         rules: params.rules,
         angle: params.angle,
-        iterations: params.iterations
-      }
+        iterations: params.iterations,
+      },
     });
 
     return {
-      branches: result
+      branches: result,
     };
-  }
+  },
 };

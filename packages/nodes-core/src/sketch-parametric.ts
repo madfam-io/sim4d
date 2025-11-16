@@ -3,7 +3,14 @@
  * These enhanced nodes automatically register geometry with the constraint system
  */
 
-import type { NodeDefinition, Vec3, ShapeHandle, EvalContext, ConstraintElement, ConstraintInfo } from '@brepflow/types';
+import type {
+  NodeDefinition,
+  Vec3,
+  ShapeHandle,
+  EvalContext,
+  ConstraintElement,
+  ConstraintInfo,
+} from '@brepflow/types';
 
 /**
  * Enhanced LineNode with constraint integration
@@ -51,7 +58,7 @@ export const ParametricLineNode: NodeDefinition<
 
     // Register with constraint system if available and enabled
     let constraintInfo: ConstraintInfo | undefined = undefined;
-    
+
     if (params.enableConstraints && ctx.constraintManager) {
       try {
         // Create constraint elements
@@ -62,7 +69,7 @@ export const ParametricLineNode: NodeDefinition<
         // Register points with constraint manager
         ctx.constraintManager.createPoint(startPointId, start.x, start.y, false);
         ctx.constraintManager.createPoint(endPointId, end.x, end.y, false);
-        
+
         // Register line with constraint manager
         ctx.constraintManager.createLine(lineId, startPointId, endPointId);
 
@@ -71,33 +78,32 @@ export const ParametricLineNode: NodeDefinition<
           {
             id: startPointId,
             type: 'point',
-            data: { position: start, nodeId: ctx.nodeId, role: 'start' }
+            data: { position: start, nodeId: ctx.nodeId, role: 'start' },
           },
           {
             id: endPointId,
             type: 'point',
-            data: { position: end, nodeId: ctx.nodeId, role: 'end' }
+            data: { position: end, nodeId: ctx.nodeId, role: 'end' },
           },
           {
             id: lineId,
             type: 'line',
-            data: { start: startPointId, end: endPointId, nodeId: ctx.nodeId }
-          }
+            data: { start: startPointId, end: endPointId, nodeId: ctx.nodeId },
+          },
         ];
 
         constraintInfo = {
           elements: constraintElements,
-          activeConstraints: [] // No constraints added automatically
+          activeConstraints: [], // No constraints added automatically
         };
-
       } catch (error) {
         console.warn('Failed to register line with constraint system:', error);
       }
     }
 
-    return { 
+    return {
       curve: result,
-      ...(constraintInfo && { constraints: constraintInfo })
+      ...(constraintInfo && { constraints: constraintInfo }),
     };
   },
 };
@@ -158,7 +164,7 @@ export const ParametricCircleNode: NodeDefinition<
 
     // Register with constraint system if available and enabled
     let constraintInfo: ConstraintInfo | undefined = undefined;
-    
+
     if (params.enableConstraints && ctx.constraintManager) {
       try {
         // Create constraint elements
@@ -167,7 +173,7 @@ export const ParametricCircleNode: NodeDefinition<
 
         // Register center point with constraint manager
         ctx.constraintManager.createPoint(centerPointId, center.x, center.y, false);
-        
+
         // Register circle with constraint manager
         ctx.constraintManager.createCircle(circleId, centerPointId, params.radius);
 
@@ -176,28 +182,27 @@ export const ParametricCircleNode: NodeDefinition<
           {
             id: centerPointId,
             type: 'point',
-            data: { position: center, nodeId: ctx.nodeId, role: 'center' }
+            data: { position: center, nodeId: ctx.nodeId, role: 'center' },
           },
           {
             id: circleId,
             type: 'circle',
-            data: { center: centerPointId, radius: params.radius, nodeId: ctx.nodeId }
-          }
+            data: { center: centerPointId, radius: params.radius, nodeId: ctx.nodeId },
+          },
         ];
 
         constraintInfo = {
           elements: constraintElements,
-          activeConstraints: [] // No constraints added automatically
+          activeConstraints: [], // No constraints added automatically
         };
-
       } catch (error) {
         console.warn('Failed to register circle with constraint system:', error);
       }
     }
 
-    return { 
+    return {
       curve: result,
-      ...(constraintInfo && { constraints: constraintInfo })
+      ...(constraintInfo && { constraints: constraintInfo }),
     };
   },
 };
@@ -260,7 +265,7 @@ export const ParametricPointNode: NodeDefinition<
 
     // Register with constraint system if available and enabled
     let constraintInfo: ConstraintInfo | undefined = undefined;
-    
+
     if (params.enableConstraints && ctx.constraintManager) {
       try {
         // Create constraint elements
@@ -274,23 +279,22 @@ export const ParametricPointNode: NodeDefinition<
           {
             id: pointId,
             type: 'point',
-            data: { position, nodeId: ctx.nodeId, fixed: params.fixed }
-          }
+            data: { position, nodeId: ctx.nodeId, fixed: params.fixed },
+          },
         ];
 
         constraintInfo = {
           elements: constraintElements,
-          activeConstraints: [] // No constraints added automatically
+          activeConstraints: [], // No constraints added automatically
         };
-
       } catch (error) {
         console.warn('Failed to register point with constraint system:', error);
       }
     }
 
-    return { 
+    return {
       point: result,
-      ...(constraintInfo && { constraints: constraintInfo })
+      ...(constraintInfo && { constraints: constraintInfo }),
     };
   },
 };
@@ -299,14 +303,20 @@ export const ParametricPointNode: NodeDefinition<
  * Constraint Application Node - applies constraints between geometry elements
  */
 export const ConstraintNode: NodeDefinition<
-  { 
-    element1?: ConstraintInfo; 
+  {
+    element1?: ConstraintInfo;
     element2?: ConstraintInfo;
-    element3?: ConstraintInfo; 
+    element3?: ConstraintInfo;
   },
   { result: boolean },
-  { 
-    constraintType: 'distance' | 'coincident' | 'parallel' | 'perpendicular' | 'horizontal' | 'vertical';
+  {
+    constraintType:
+      | 'distance'
+      | 'coincident'
+      | 'parallel'
+      | 'perpendicular'
+      | 'horizontal'
+      | 'vertical';
     value?: number;
     priority: number;
   }
@@ -352,15 +362,15 @@ export const ConstraintNode: NodeDefinition<
     try {
       // Extract element IDs from constraint info
       const elementIds: string[] = [];
-      
+
       if (inputs.element1?.elements) {
-        elementIds.push(...inputs.element1.elements.map(e => e.id));
+        elementIds.push(...inputs.element1.elements.map((e) => e.id));
       }
       if (inputs.element2?.elements) {
-        elementIds.push(...inputs.element2.elements.map(e => e.id));
+        elementIds.push(...inputs.element2.elements.map((e) => e.id));
       }
       if (inputs.element3?.elements) {
-        elementIds.push(...inputs.element3.elements.map(e => e.id));
+        elementIds.push(...inputs.element3.elements.map((e) => e.id));
       }
 
       if (elementIds.length < 1) {
@@ -399,7 +409,6 @@ export const ConstraintNode: NodeDefinition<
 
       // Applied constraint ${constraintId} of type ${params.constraintType}
       return { result: true };
-
     } catch (error) {
       console.error('Failed to apply constraint:', error);
       return { result: false };
@@ -472,7 +481,6 @@ export const SolverNode: NodeDefinition<
         iterations: result.iterations,
         residual: result.residual,
       };
-
     } catch (error) {
       console.error('Failed to solve constraints:', error);
       return { solved: false, iterations: 0, residual: Infinity };

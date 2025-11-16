@@ -13,7 +13,11 @@ interface MeshToShapeOutputs {
   shape: unknown;
 }
 
-export const MeshFilesMeshToShapeNode: NodeDefinition<MeshToShapeInputs, MeshToShapeOutputs, MeshToShapeParams> = {
+export const MeshFilesMeshToShapeNode: NodeDefinition<
+  MeshToShapeInputs,
+  MeshToShapeOutputs,
+  MeshToShapeParams
+> = {
   id: 'Mesh::MeshToShape',
   category: 'Mesh',
   label: 'MeshToShape',
@@ -22,14 +26,14 @@ export const MeshFilesMeshToShapeNode: NodeDefinition<MeshToShapeInputs, MeshToS
     mesh: {
       type: 'Mesh',
       label: 'Mesh',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shape: {
       type: 'Shape',
-      label: 'Shape'
-    }
+      label: 'Shape',
+    },
   },
   params: {
     tolerance: {
@@ -37,13 +41,13 @@ export const MeshFilesMeshToShapeNode: NodeDefinition<MeshToShapeInputs, MeshToS
       label: 'Tolerance',
       default: 0.01,
       min: 0.0001,
-      max: 1
+      max: 1,
     },
     sewFaces: {
       type: 'boolean',
       label: 'Sew Faces',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -51,12 +55,12 @@ export const MeshFilesMeshToShapeNode: NodeDefinition<MeshToShapeInputs, MeshToS
       params: {
         mesh: inputs.mesh,
         tolerance: params.tolerance,
-        sewFaces: params.sewFaces
-      }
+        sewFaces: params.sewFaces,
+      },
     });
-    
+
     return {
-      shape: result
+      shape: result,
     };
   },
 };

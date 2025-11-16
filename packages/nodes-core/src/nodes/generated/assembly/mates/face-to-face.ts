@@ -15,7 +15,11 @@ interface FaceToFaceOutputs {
   mate: unknown;
 }
 
-export const AssemblyMatesFaceToFaceNode: NodeDefinition<FaceToFaceInputs, FaceToFaceOutputs, FaceToFaceParams> = {
+export const AssemblyMatesFaceToFaceNode: NodeDefinition<
+  FaceToFaceInputs,
+  FaceToFaceOutputs,
+  FaceToFaceParams
+> = {
   id: 'Assembly::FaceToFace',
   type: 'Assembly::FaceToFace',
   category: 'Assembly',
@@ -25,23 +29,23 @@ export const AssemblyMatesFaceToFaceNode: NodeDefinition<FaceToFaceInputs, FaceT
     face1: {
       type: 'Face',
       label: 'Face1',
-      required: true
+      required: true,
     },
     face2: {
       type: 'Face',
       label: 'Face2',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     mated: {
       type: 'Shape[]',
-      label: 'Mated'
+      label: 'Mated',
     },
     mate: {
       type: 'Mate',
-      label: 'Mate'
-    }
+      label: 'Mate',
+    },
   },
   params: {
     offset: {
@@ -49,13 +53,13 @@ export const AssemblyMatesFaceToFaceNode: NodeDefinition<FaceToFaceInputs, FaceT
       label: 'Offset',
       default: 0,
       min: -1000,
-      max: 1000
+      max: 1000,
     },
     flip: {
       type: 'boolean',
       label: 'Flip',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -64,13 +68,13 @@ export const AssemblyMatesFaceToFaceNode: NodeDefinition<FaceToFaceInputs, FaceT
         face1: inputs.face1,
         face2: inputs.face2,
         offset: params.offset,
-        flip: params.flip
-      }
+        flip: params.flip,
+      },
     });
-    
+
     return {
       mated: results.mated,
-      mate: results.mate
+      mate: results.mate,
     };
   },
 };

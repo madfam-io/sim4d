@@ -13,7 +13,7 @@ import type {
   ViewportLayoutType,
   ViewportCameraState,
   ViewportRenderMode,
-  CameraSyncMode
+  CameraSyncMode,
 } from './multi-viewport-interfaces';
 import './CameraSyncDemo.css';
 
@@ -36,7 +36,7 @@ const DEMO_SCENARIOS = [
     description: 'Synchronized orbit/rotation while preserving orthographic view constraints',
     syncMode: 'rotation' as CameraSyncMode,
     layout: 'quad' as ViewportLayoutType,
-    icon: 'rotate-3d'
+    icon: 'rotate-3d',
   },
   {
     id: 'pan',
@@ -44,7 +44,7 @@ const DEMO_SCENARIOS = [
     description: 'Coordinated panning across viewports with view-plane projection',
     syncMode: 'pan' as CameraSyncMode,
     layout: 'horizontal' as ViewportLayoutType,
-    icon: 'move'
+    icon: 'move',
   },
   {
     id: 'zoom',
@@ -52,7 +52,7 @@ const DEMO_SCENARIOS = [
     description: 'Proportional zoom synchronization with scale adaptation',
     syncMode: 'zoom' as CameraSyncMode,
     layout: 'vertical' as ViewportLayoutType,
-    icon: 'zoom-in'
+    icon: 'zoom-in',
   },
   {
     id: 'orthographic',
@@ -60,7 +60,7 @@ const DEMO_SCENARIOS = [
     description: 'Maintains axis alignment for orthographic views during sync',
     syncMode: 'orthographic-lock' as CameraSyncMode,
     layout: 'quad' as ViewportLayoutType,
-    icon: 'lock'
+    icon: 'lock',
   },
   {
     id: 'mixed',
@@ -68,14 +68,14 @@ const DEMO_SCENARIOS = [
     description: 'Complete camera coordination with intelligent view preservation',
     syncMode: 'full' as CameraSyncMode,
     layout: 'quad' as ViewportLayoutType,
-    icon: 'link'
-  }
+    icon: 'link',
+  },
 ] as const;
 
 const PERFORMANCE_TARGETS = {
   syncLatency: { good: 16, acceptable: 33, poor: 100 }, // milliseconds
   updatesPerSecond: { good: 60, acceptable: 30, poor: 15 },
-  frameTime: { good: 16.7, acceptable: 33.3, poor: 66.7 } // milliseconds
+  frameTime: { good: 16.7, acceptable: 33.3, poor: 66.7 }, // milliseconds
 };
 
 export const CameraSyncDemo: React.FC = () => {
@@ -86,9 +86,9 @@ export const CameraSyncDemo: React.FC = () => {
     performance: {
       syncLatency: 0,
       updatesPerSecond: 0,
-      averageFrameTime: 16.7
+      averageFrameTime: 16.7,
     },
-    cameraStates: {}
+    cameraStates: {},
   });
 
   const [showPerformancePanel, setShowPerformancePanel] = useState(false);
@@ -97,56 +97,56 @@ export const CameraSyncDemo: React.FC = () => {
     meshes: [
       { id: 'cube', type: 'box', vertices: 1728, triangles: 2880 },
       { id: 'sphere', type: 'sphere', vertices: 2562, triangles: 5120 },
-      { id: 'cylinder', type: 'cylinder', vertices: 1440, triangles: 2880 }
+      { id: 'cylinder', type: 'cylinder', vertices: 1440, triangles: 2880 },
     ],
     totalTriangles: 10880,
     boundingBox: {
       min: [-50, -50, -50],
-      max: [50, 50, 50]
-    }
+      max: [50, 50, 50],
+    },
   }));
 
   // Handle demo scenario activation
-  const handleDemoActivation = useCallback((demoId: typeof DEMO_SCENARIOS[number]['id']) => {
-    const scenario = DEMO_SCENARIOS.find(s => s.id === demoId);
+  const handleDemoActivation = useCallback((demoId: (typeof DEMO_SCENARIOS)[number]['id']) => {
+    const scenario = DEMO_SCENARIOS.find((s) => s.id === demoId);
     if (!scenario) return;
 
-    setDemoState(prev => ({
+    setDemoState((prev) => ({
       ...prev,
       layout: scenario.layout,
       syncMode: scenario.syncMode,
-      activeDemo: demoId
+      activeDemo: demoId,
     }));
 
     // Simulate performance metrics update
     setTimeout(() => {
-      setDemoState(prev => ({
+      setDemoState((prev) => ({
         ...prev,
         performance: {
           syncLatency: Math.random() * 20 + 5,
           updatesPerSecond: Math.random() * 20 + 50,
-          averageFrameTime: Math.random() * 10 + 12
-        }
+          averageFrameTime: Math.random() * 10 + 12,
+        },
       }));
     }, 100);
   }, []);
 
   // Handle camera changes from viewports
   const handleCameraChange = useCallback((viewportId: string, camera: ViewportCameraState) => {
-    setDemoState(prev => ({
+    setDemoState((prev) => ({
       ...prev,
       cameraStates: {
         ...prev.cameraStates,
-        [viewportId]: camera
-      }
+        [viewportId]: camera,
+      },
     }));
   }, []);
 
   // Handle layout changes
   const handleLayoutChange = useCallback((layoutConfig: any) => {
-    setDemoState(prev => ({
+    setDemoState((prev) => ({
       ...prev,
-      layout: layoutConfig.type
+      layout: layoutConfig.type,
     }));
   }, []);
 
@@ -205,11 +205,13 @@ export const CameraSyncDemo: React.FC = () => {
       <div className="demo-actions">
         <button
           className="demo-action-btn reset"
-          onClick={() => setDemoState(prev => ({
-            ...prev,
-            activeDemo: null,
-            syncMode: 'none'
-          }))}
+          onClick={() =>
+            setDemoState((prev) => ({
+              ...prev,
+              activeDemo: null,
+              syncMode: 'none',
+            }))
+          }
         >
           <IconButton icon="refresh-cw" size="sm" variant="ghost" aria-label="Reset Demo" />
           Reset Demo
@@ -251,19 +253,25 @@ export const CameraSyncDemo: React.FC = () => {
             <div className="metrics-grid">
               <div className="metric-item">
                 <div className="metric-label">Sync Latency</div>
-                <div className={`metric-value ${getPerformanceStatus('syncLatency', demoState.performance.syncLatency)}`}>
+                <div
+                  className={`metric-value ${getPerformanceStatus('syncLatency', demoState.performance.syncLatency)}`}
+                >
                   {demoState.performance.syncLatency.toFixed(1)}ms
                 </div>
               </div>
               <div className="metric-item">
                 <div className="metric-label">Updates/sec</div>
-                <div className={`metric-value ${getPerformanceStatus('updatesPerSecond', demoState.performance.updatesPerSecond)}`}>
+                <div
+                  className={`metric-value ${getPerformanceStatus('updatesPerSecond', demoState.performance.updatesPerSecond)}`}
+                >
                   {demoState.performance.updatesPerSecond.toFixed(0)}
                 </div>
               </div>
               <div className="metric-item">
                 <div className="metric-label">Frame Time</div>
-                <div className={`metric-value ${getPerformanceStatus('frameTime', demoState.performance.averageFrameTime)}`}>
+                <div
+                  className={`metric-value ${getPerformanceStatus('frameTime', demoState.performance.averageFrameTime)}`}
+                >
                   {demoState.performance.averageFrameTime.toFixed(1)}ms
                 </div>
               </div>
@@ -329,13 +337,13 @@ export const CameraSyncDemo: React.FC = () => {
                 <div className="camera-property">
                   <span className="property-label">Position:</span>
                   <span className="property-value">
-                    [{camera.position.map(v => v.toFixed(1)).join(', ')}]
+                    [{camera.position.map((v) => v.toFixed(1)).join(', ')}]
                   </span>
                 </div>
                 <div className="camera-property">
                   <span className="property-label">Target:</span>
                   <span className="property-value">
-                    [{camera.target.map(v => v.toFixed(1)).join(', ')}]
+                    [{camera.target.map((v) => v.toFixed(1)).join(', ')}]
                   </span>
                 </div>
                 <div className="camera-property">
@@ -382,7 +390,7 @@ export const CameraSyncDemo: React.FC = () => {
         <div className="demo-overlay">
           <div className="demo-info">
             <div className="demo-title">
-              Demo: {DEMO_SCENARIOS.find(s => s.id === demoState.activeDemo)?.title}
+              Demo: {DEMO_SCENARIOS.find((s) => s.id === demoState.activeDemo)?.title}
             </div>
             <div className="demo-hint">
               Try interacting with the viewports to see camera synchronization in action

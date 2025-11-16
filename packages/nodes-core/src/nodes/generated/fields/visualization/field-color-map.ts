@@ -15,7 +15,11 @@ interface FieldColorMapOutputs {
   coloredMesh: unknown;
 }
 
-export const FieldsVisualizationFieldColorMapNode: NodeDefinition<FieldColorMapInputs, FieldColorMapOutputs, FieldColorMapParams> = {
+export const FieldsVisualizationFieldColorMapNode: NodeDefinition<
+  FieldColorMapInputs,
+  FieldColorMapOutputs,
+  FieldColorMapParams
+> = {
   id: 'Fields::FieldColorMap',
   type: 'Fields::FieldColorMap',
   category: 'Fields',
@@ -25,37 +29,37 @@ export const FieldsVisualizationFieldColorMapNode: NodeDefinition<FieldColorMapI
     field: {
       type: 'Field',
       label: 'Field',
-      optional: true
+      optional: true,
     },
     mesh: {
       type: 'Mesh',
       label: 'Mesh',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     coloredMesh: {
       type: 'Mesh',
-      label: 'Colored Mesh'
-    }
+      label: 'Colored Mesh',
+    },
   },
   params: {
     colorScheme: {
       type: 'enum',
       label: 'Color Scheme',
-      default: "\"viridis\"",
-      options: ["viridis","plasma","inferno","magma","turbo","rainbow"]
+      default: '"viridis"',
+      options: ['viridis', 'plasma', 'inferno', 'magma', 'turbo', 'rainbow'],
     },
     minValue: {
       type: 'number',
       label: 'Min Value',
-      default: 0
+      default: 0,
     },
     maxValue: {
       type: 'number',
       label: 'Max Value',
-      default: 1
-    }
+      default: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -65,12 +69,12 @@ export const FieldsVisualizationFieldColorMapNode: NodeDefinition<FieldColorMapI
         mesh: inputs.mesh,
         colorScheme: params.colorScheme,
         minValue: params.minValue,
-        maxValue: params.maxValue
-      }
+        maxValue: params.maxValue,
+      },
     });
-    
+
     return {
-      coloredMesh: result
+      coloredMesh: result,
     };
   },
 };

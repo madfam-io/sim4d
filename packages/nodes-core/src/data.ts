@@ -53,7 +53,7 @@ export const listItemNode: NodeDefinition = {
     if (params.multiple) {
       // Return multiple items based on indices
       const indices = Array.isArray(params.index) ? params.index : [params.index];
-      const items = indices.map(i => {
+      const items = indices.map((i) => {
         const idx = params.wrap ? ((i % list.length) + list.length) % list.length : i;
         return list[idx];
       });
@@ -226,7 +226,8 @@ export const seriesNode: NodeDefinition = {
         series.push(start * Math.pow(step, i));
       }
     } else if (type === 'fibonacci') {
-      let a = 0, b = 1;
+      let a = 0,
+        b = 1;
       for (let i = 0; i < count; i++) {
         series.push(a);
         [a, b] = [b, a + b];
@@ -323,7 +324,7 @@ export const partitionNode: NodeDefinition = {
     const list = inputs.list;
     const size = params.size;
     const step = Math.max(1, size - params.overlap);
-    
+
     const partitions = [];
     for (let i = 0; i < list.length; i += step) {
       const partition = list.slice(i, i + size);
@@ -333,7 +334,7 @@ export const partitionNode: NodeDefinition = {
         partitions.push(partition);
       }
     }
-    
+
     return { partitions };
   },
   execute: async (inputs, params, context) => {
@@ -377,11 +378,13 @@ export const sortListNode: NodeDefinition = {
   },
   evaluate: async (ctx, inputs, params) => {
     const list = [...inputs.list];
-    const keys = inputs.keys || list.map((item, i) => {
-      if (typeof item === 'number') return item;
-      if (typeof item === 'string') return item.charCodeAt(0);
-      return i;
-    });
+    const keys =
+      inputs.keys ||
+      list.map((item, i) => {
+        if (typeof item === 'number') return item;
+        if (typeof item === 'string') return item.charCodeAt(0);
+        return i;
+      });
 
     // Create array of indices
     const indexed = list.map((item, i) => ({ item, key: keys[i], index: i }));
@@ -393,8 +396,8 @@ export const sortListNode: NodeDefinition = {
     });
 
     // Extract sorted items and indices
-    const sorted = indexed.map(x => x.item);
-    const indices = indexed.map(x => x.index);
+    const sorted = indexed.map((x) => x.item);
+    const indices = indexed.map((x) => x.index);
 
     return { sorted, indices };
   },
@@ -475,7 +478,9 @@ export const shiftListNode: NodeDefinition = {
         shifted = [...list.slice(-offset), ...list.slice(0, -offset)];
       }
     } else {
-      shifted = Array(Math.abs(offset)).fill(null).concat(list.slice(0, -Math.abs(offset)));
+      shifted = Array(Math.abs(offset))
+        .fill(null)
+        .concat(list.slice(0, -Math.abs(offset)));
     }
 
     return { shifted };
@@ -573,7 +578,7 @@ export const weaveNode: NodeDefinition = {
     const pattern = inputs.pattern || lists.map((_, i) => i);
 
     const woven = [];
-    const maxLength = Math.max(...lists.map(l => l.length));
+    const maxLength = Math.max(...lists.map((l) => l.length));
     const indices = new Array(lists.length).fill(0);
 
     for (let i = 0; i < maxLength * lists.length; i++) {

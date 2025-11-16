@@ -16,7 +16,11 @@ interface GeometrySimplificationOutputs {
   error: unknown;
 }
 
-export const AlgorithmicGeometryGeometrySimplificationNode: NodeDefinition<GeometrySimplificationInputs, GeometrySimplificationOutputs, GeometrySimplificationParams> = {
+export const AlgorithmicGeometryGeometrySimplificationNode: NodeDefinition<
+  GeometrySimplificationInputs,
+  GeometrySimplificationOutputs,
+  GeometrySimplificationParams
+> = {
   id: 'Algorithmic::GeometrySimplification',
   category: 'Algorithmic',
   label: 'GeometrySimplification',
@@ -25,42 +29,42 @@ export const AlgorithmicGeometryGeometrySimplificationNode: NodeDefinition<Geome
     geometry: {
       type: 'Shape',
       label: 'Geometry',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     simplified: {
       type: 'Shape',
-      label: 'Simplified'
+      label: 'Simplified',
     },
     reductionRatio: {
       type: 'number',
-      label: 'Reduction Ratio'
+      label: 'Reduction Ratio',
     },
     error: {
       type: 'number',
-      label: 'Error'
-    }
+      label: 'Error',
+    },
   },
   params: {
     algorithm: {
       type: 'enum',
       label: 'Algorithm',
-      default: "quadric",
-      options: ["decimate","quadric","vertex"]
+      default: 'quadric',
+      options: ['decimate', 'quadric', 'vertex'],
     },
     reduction: {
       type: 'number',
       label: 'Reduction',
       default: 0.5,
       min: 0.1,
-      max: 0.9
+      max: 0.9,
     },
     preserveBoundary: {
       type: 'boolean',
       label: 'Preserve Boundary',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -69,14 +73,14 @@ export const AlgorithmicGeometryGeometrySimplificationNode: NodeDefinition<Geome
         geometry: inputs.geometry,
         algorithm: params.algorithm,
         reduction: params.reduction,
-        preserveBoundary: params.preserveBoundary
-      }
+        preserveBoundary: params.preserveBoundary,
+      },
     });
-    
+
     return {
       simplified: results.simplified,
       reductionRatio: results.reductionRatio,
-      error: results.error
+      error: results.error,
     };
   },
 };

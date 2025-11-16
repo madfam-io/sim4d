@@ -26,19 +26,19 @@ test.describe('Plugin Marketplace Integration', () => {
         id: 'geometry-tools',
         name: 'Advanced Geometry Tools',
         description: 'Professional CAD geometry manipulation tools',
-        permissions: ['node_creation', 'parameter_access', 'geometry_operations']
+        permissions: ['node_creation', 'parameter_access', 'geometry_operations'],
       }),
       mockServices.generateTestPlugin({
         id: 'mesh-generator',
         name: 'Mesh Generator Pro',
         description: 'High-quality mesh generation for manufacturing',
-        permissions: ['node_creation', 'file_system_read']
+        permissions: ['node_creation', 'file_system_read'],
       }),
       mockServices.generateTestPlugin({
         id: 'visualization-suite',
         name: 'Visualization Suite',
         description: 'Advanced rendering and visualization tools',
-        permissions: ['node_creation', 'viewport_access']
+        permissions: ['node_creation', 'viewport_access'],
       })
     );
 
@@ -61,7 +61,9 @@ test.describe('Plugin Marketplace Integration', () => {
       // Verify marketplace interface elements
       await expect(page.locator('[data-testid="plugin-marketplace"]')).toBeVisible();
       await expect(page.locator('[data-testid="plugin-search"]')).toBeVisible();
-      await expect(page.locator('[data-testid="plugin-categories"], [data-testid="plugin-filters"]')).toBeVisible();
+      await expect(
+        page.locator('[data-testid="plugin-categories"], [data-testid="plugin-filters"]')
+      ).toBeVisible();
 
       // Check plugin grid layout
       const pluginCards = page.locator('[data-testid="plugin-card"]');
@@ -81,15 +83,15 @@ test.describe('Plugin Marketplace Integration', () => {
       // Test exact name search
       let results = await pluginHelper.searchPlugins('Geometry Tools');
       expect(results.length).toBeGreaterThan(0);
-      expect(results.some(id => id.includes('geometry-tools'))).toBe(true);
+      expect(results.some((id) => id.includes('geometry-tools'))).toBe(true);
 
       // Test partial search
       results = await pluginHelper.searchPlugins('mesh');
-      expect(results.some(id => id.includes('mesh-generator'))).toBe(true);
+      expect(results.some((id) => id.includes('mesh-generator'))).toBe(true);
 
       // Test category/description search
       results = await pluginHelper.searchPlugins('visualization');
-      expect(results.some(id => id.includes('visualization-suite'))).toBe(true);
+      expect(results.some((id) => id.includes('visualization-suite'))).toBe(true);
 
       // Test empty search (should show all)
       results = await pluginHelper.searchPlugins('');
@@ -104,7 +106,9 @@ test.describe('Plugin Marketplace Integration', () => {
       await pluginHelper.openPluginMarketplace();
 
       // Test category filtering if available
-      const categoryFilter = page.locator('[data-testid="category-filter"], [data-testid="plugin-categories"] select');
+      const categoryFilter = page.locator(
+        '[data-testid="category-filter"], [data-testid="plugin-categories"] select'
+      );
       if (await categoryFilter.isVisible()) {
         await categoryFilter.selectOption('geometry');
         await page.waitForSelector('[data-testid="plugin-card"]');
@@ -115,7 +119,9 @@ test.describe('Plugin Marketplace Integration', () => {
       }
 
       // Test sorting if available
-      const sortFilter = page.locator('[data-testid="sort-filter"], [data-testid="plugin-sort"] select');
+      const sortFilter = page.locator(
+        '[data-testid="sort-filter"], [data-testid="plugin-sort"] select'
+      );
       if (await sortFilter.isVisible()) {
         await sortFilter.selectOption('name');
         await page.waitForTimeout(500); // Allow sort to apply
@@ -134,11 +140,15 @@ test.describe('Plugin Marketplace Integration', () => {
       await geometryPlugin.click();
 
       // Verify detailed view opens
-      const detailView = page.locator('[data-testid="plugin-detail"], [data-testid="plugin-modal"]');
+      const detailView = page.locator(
+        '[data-testid="plugin-detail"], [data-testid="plugin-modal"]'
+      );
       await expect(detailView).toBeVisible();
 
       // Check comprehensive plugin information
-      await expect(detailView.locator('[data-testid="plugin-name"]')).toContainText('Geometry Tools');
+      await expect(detailView.locator('[data-testid="plugin-name"]')).toContainText(
+        'Geometry Tools'
+      );
       await expect(detailView.locator('[data-testid="plugin-description"]')).toBeVisible();
       await expect(detailView.locator('[data-testid="plugin-version"]')).toBeVisible();
       await expect(detailView.locator('[data-testid="plugin-author"]')).toBeVisible();
@@ -255,7 +265,9 @@ test.describe('Plugin Marketplace Integration', () => {
       await pluginHelper.openPluginMarketplace();
 
       // Check if rating system is implemented
-      const ratingElements = page.locator('[data-testid="plugin-rating"], .plugin-rating, .star-rating');
+      const ratingElements = page.locator(
+        '[data-testid="plugin-rating"], .plugin-rating, .star-rating'
+      );
       const firstRating = ratingElements.first();
 
       if (await firstRating.isVisible({ timeout: 2000 })) {
@@ -282,7 +294,9 @@ test.describe('Plugin Marketplace Integration', () => {
       const geometryPlugin = page.locator('[data-plugin-id="geometry-tools"]');
       await geometryPlugin.click();
 
-      const detailView = page.locator('[data-testid="plugin-detail"], [data-testid="plugin-modal"]');
+      const detailView = page.locator(
+        '[data-testid="plugin-detail"], [data-testid="plugin-modal"]'
+      );
       await expect(detailView).toBeVisible();
 
       // Check for reviews section
@@ -292,7 +306,7 @@ test.describe('Plugin Marketplace Integration', () => {
 
         // Check for individual reviews
         const reviewItems = reviewsSection.locator('[data-testid="review-item"], .review');
-        if (await reviewItems.count() > 0) {
+        if ((await reviewItems.count()) > 0) {
           const firstReview = reviewItems.first();
           await expect(firstReview).toBeVisible();
         }
@@ -310,8 +324,12 @@ test.describe('Plugin Marketplace Integration', () => {
       const geometryPlugin = page.locator('[data-plugin-id="geometry-tools"]');
       await geometryPlugin.click();
 
-      const detailView = page.locator('[data-testid="plugin-detail"], [data-testid="plugin-modal"]');
-      const reviewButton = detailView.locator('[data-testid="write-review"], button:has-text("Review")');
+      const detailView = page.locator(
+        '[data-testid="plugin-detail"], [data-testid="plugin-modal"]'
+      );
+      const reviewButton = detailView.locator(
+        '[data-testid="write-review"], button:has-text("Review")'
+      );
 
       if (await reviewButton.isVisible({ timeout: 2000 })) {
         await reviewButton.click();
@@ -319,7 +337,9 @@ test.describe('Plugin Marketplace Integration', () => {
         // Fill review form if available
         const reviewForm = page.locator('[data-testid="review-form"], .review-form');
         if (await reviewForm.isVisible()) {
-          const ratingInput = reviewForm.locator('[data-testid="rating-input"], input[type="range"], .star-input');
+          const ratingInput = reviewForm.locator(
+            '[data-testid="rating-input"], input[type="range"], .star-input'
+          );
           const reviewText = reviewForm.locator('[data-testid="review-text"], textarea');
 
           if (await ratingInput.isVisible()) {
@@ -329,7 +349,9 @@ test.describe('Plugin Marketplace Integration', () => {
             await reviewText.fill('Great plugin for geometry operations!');
           }
 
-          const submitButton = reviewForm.locator('[data-testid="submit-review"], button:has-text("Submit")');
+          const submitButton = reviewForm.locator(
+            '[data-testid="submit-review"], button:has-text("Submit")'
+          );
           if (await submitButton.isVisible()) {
             await submitButton.click();
           }
@@ -345,7 +367,9 @@ test.describe('Plugin Marketplace Integration', () => {
       await pluginHelper.activatePlugin('geometry-tools');
 
       // Close marketplace and return to main workspace
-      const closeButton = page.locator('[data-testid="close-marketplace"], .close-button, [aria-label="Close"]');
+      const closeButton = page.locator(
+        '[data-testid="close-marketplace"], .close-button, [aria-label="Close"]'
+      );
       if (await closeButton.isVisible()) {
         await closeButton.click();
       } else {
@@ -360,7 +384,10 @@ test.describe('Plugin Marketplace Integration', () => {
 
       // Create a plugin node
       if (nodeTypes.length > 0) {
-        const nodeId = await pluginHelper.createPluginNode('geometry-tools', nodeTypes[0], { x: 400, y: 300 });
+        const nodeId = await pluginHelper.createPluginNode('geometry-tools', nodeTypes[0], {
+          x: 400,
+          y: 300,
+        });
 
         // Verify node integrates with Inspector
         await page.click(`[data-node-id="${nodeId}"]`);
@@ -400,21 +427,28 @@ test.describe('Plugin Marketplace Integration', () => {
       // Create node with plugin
       const nodeTypes = await pluginHelper.getPluginNodes('geometry-tools');
       if (nodeTypes.length > 0) {
-        const nodeId = await pluginHelper.createPluginNode('geometry-tools', nodeTypes[0], { x: 400, y: 300 });
+        const nodeId = await pluginHelper.createPluginNode('geometry-tools', nodeTypes[0], {
+          x: 400,
+          y: 300,
+        });
 
         // Simulate plugin update check
         await pluginHelper.openPluginMarketplace();
         await pluginHelper.navigateToInstalledPlugins();
 
         const pluginRow = page.locator('[data-plugin-id="geometry-tools"]');
-        const updateButton = pluginRow.locator('[data-testid="update-plugin"], button:has-text("Update")');
+        const updateButton = pluginRow.locator(
+          '[data-testid="update-plugin"], button:has-text("Update")'
+        );
 
         if (await updateButton.isVisible({ timeout: 2000 })) {
           // Update available - test update workflow
           await updateButton.click();
 
           // Verify update process
-          await expect(page.locator('[data-testid="updating-plugin"], .update-progress')).toBeVisible({ timeout: 5000 });
+          await expect(
+            page.locator('[data-testid="updating-plugin"], .update-progress')
+          ).toBeVisible({ timeout: 5000 });
         }
 
         // Verify plugin node still works after update check
@@ -467,7 +501,9 @@ test.describe('Plugin Marketplace Integration', () => {
       await pluginHelper.openPluginMarketplace();
 
       // Should still load, just slower
-      await expect(page.locator('[data-testid="plugin-marketplace"]')).toBeVisible({ timeout: 10000 });
+      await expect(page.locator('[data-testid="plugin-marketplace"]')).toBeVisible({
+        timeout: 10000,
+      });
 
       // Test with offline
       await mockServices.setNetworkCondition('offline');
@@ -510,7 +546,9 @@ test.describe('Plugin Marketplace Integration', () => {
         await pluginHelper.installPlugin(pluginId, { acceptPermissions: true });
 
         // Should show installation progress or success
-        const feedback = page.locator('[data-testid="installation-progress"], [data-testid="installation-success"], .notification');
+        const feedback = page.locator(
+          '[data-testid="installation-progress"], [data-testid="installation-success"], .notification'
+        );
         if (await feedback.isVisible({ timeout: 5000 })) {
           await expect(feedback).toBeVisible();
         }

@@ -16,7 +16,11 @@ interface ChainSprocketOutputs {
   pitchCircle: unknown;
 }
 
-export const MechanicalEngineeringGearsChainSprocketNode: NodeDefinition<ChainSprocketInputs, ChainSprocketOutputs, ChainSprocketParams> = {
+export const MechanicalEngineeringGearsChainSprocketNode: NodeDefinition<
+  ChainSprocketInputs,
+  ChainSprocketOutputs,
+  ChainSprocketParams
+> = {
   id: 'MechanicalEngineering::ChainSprocket',
   category: 'MechanicalEngineering',
   label: 'ChainSprocket',
@@ -25,18 +29,18 @@ export const MechanicalEngineeringGearsChainSprocketNode: NodeDefinition<ChainSp
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     sprocket: {
       type: 'Shape',
-      label: 'Sprocket'
+      label: 'Sprocket',
     },
     pitchCircle: {
       type: 'Wire',
-      label: 'Pitch Circle'
-    }
+      label: 'Pitch Circle',
+    },
   },
   params: {
     chainPitch: {
@@ -44,29 +48,29 @@ export const MechanicalEngineeringGearsChainSprocketNode: NodeDefinition<ChainSp
       label: 'Chain Pitch',
       default: 12.7,
       min: 6,
-      max: 50
+      max: 50,
     },
     teeth: {
       type: 'number',
       label: 'Teeth',
       default: 18,
       min: 9,
-      max: 100
+      max: 100,
     },
     rollerDiameter: {
       type: 'number',
       label: 'Roller Diameter',
       default: 7.92,
       min: 3,
-      max: 30
+      max: 30,
     },
     width: {
       type: 'number',
       label: 'Width',
       default: 7.85,
       min: 3,
-      max: 30
-    }
+      max: 30,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -76,13 +80,13 @@ export const MechanicalEngineeringGearsChainSprocketNode: NodeDefinition<ChainSp
         chainPitch: params.chainPitch,
         teeth: params.teeth,
         rollerDiameter: params.rollerDiameter,
-        width: params.width
-      }
+        width: params.width,
+      },
     });
-    
+
     return {
       sprocket: results.sprocket,
-      pitchCircle: results.pitchCircle
+      pitchCircle: results.pitchCircle,
     };
   },
 };

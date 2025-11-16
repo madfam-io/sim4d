@@ -31,9 +31,7 @@ export class ProductionLogger {
     this.context = context;
     // Default to debug in development, error in production
     // Remove getConfig dependency to avoid circular imports
-    const isDev = typeof process !== 'undefined' ? 
-      process.env?.NODE_ENV !== 'production' : 
-      true; // Assume development in browser
+    const isDev = typeof process !== 'undefined' ? process.env?.NODE_ENV !== 'production' : true; // Assume development in browser
     this.logLevel = isDev ? 'debug' : 'error';
   }
 
@@ -186,13 +184,15 @@ export class ProductionLogger {
     return () => {
       const duration = performance.now() - start;
       this.debug(`${label} took ${duration.toFixed(2)}ms`);
-      
+
       if (getConfig?.()?.enablePerformanceMonitoring) {
-        this.emit(this.createEntry('info', 'performance', {
-          label,
-          duration,
-          timestamp: Date.now(),
-        }));
+        this.emit(
+          this.createEntry('info', 'performance', {
+            label,
+            duration,
+            timestamp: Date.now(),
+          })
+        );
       }
     };
   }

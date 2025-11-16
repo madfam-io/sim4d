@@ -11,7 +11,11 @@ interface BezierInterpOutputs {
   result: unknown;
 }
 
-export const MathInterpolationBezierInterpNode: NodeDefinition<BezierInterpInputs, BezierInterpOutputs, BezierInterpParams> = {
+export const MathInterpolationBezierInterpNode: NodeDefinition<
+  BezierInterpInputs,
+  BezierInterpOutputs,
+  BezierInterpParams
+> = {
   id: 'Math::BezierInterp',
   type: 'Math::BezierInterp',
   category: 'Math',
@@ -21,19 +25,19 @@ export const MathInterpolationBezierInterpNode: NodeDefinition<BezierInterpInput
     points: {
       type: 'number[]',
       label: 'Points',
-      required: true
+      required: true,
     },
     t: {
       type: 'number',
       label: 'T',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'number',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -41,12 +45,12 @@ export const MathInterpolationBezierInterpNode: NodeDefinition<BezierInterpInput
       type: 'mathBezierInterp',
       params: {
         points: inputs.points,
-        t: inputs.t
-      }
+        t: inputs.t,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

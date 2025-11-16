@@ -14,7 +14,11 @@ interface FireDoorOutputs {
   fireDoor: unknown;
 }
 
-export const ArchitectureDoorsFireDoorNode: NodeDefinition<FireDoorInputs, FireDoorOutputs, FireDoorParams> = {
+export const ArchitectureDoorsFireDoorNode: NodeDefinition<
+  FireDoorInputs,
+  FireDoorOutputs,
+  FireDoorParams
+> = {
   id: 'Architecture::FireDoor',
   category: 'Architecture',
   label: 'FireDoor',
@@ -23,32 +27,32 @@ export const ArchitectureDoorsFireDoorNode: NodeDefinition<FireDoorInputs, FireD
     opening: {
       type: 'Wire',
       label: 'Opening',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     fireDoor: {
       type: 'Shape',
-      label: 'Fire Door'
-    }
+      label: 'Fire Door',
+    },
   },
   params: {
     rating: {
       type: 'enum',
       label: 'Rating',
-      default: "60-min",
-      options: ["20-min","45-min","60-min","90-min"]
+      default: '60-min',
+      options: ['20-min', '45-min', '60-min', '90-min'],
     },
     closer: {
       type: 'boolean',
       label: 'Closer',
-      default: true
+      default: true,
     },
     panic: {
       type: 'boolean',
       label: 'Panic',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -57,12 +61,12 @@ export const ArchitectureDoorsFireDoorNode: NodeDefinition<FireDoorInputs, FireD
         opening: inputs.opening,
         rating: params.rating,
         closer: params.closer,
-        panic: params.panic
-      }
+        panic: params.panic,
+      },
     });
-    
+
     return {
-      fireDoor: result
+      fireDoor: result,
     };
   },
 };

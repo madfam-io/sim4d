@@ -51,7 +51,7 @@ export class PerformanceMonitor {
       maxRenderTime: 16.67, // 60 FPS target
       maxNodeCount: 500,
       maxTriangleCount: 2000000,
-      ...thresholds
+      ...thresholds,
     };
 
     this.metrics = this.getInitialMetrics();
@@ -65,19 +65,19 @@ export class PerformanceMonitor {
       memory: {
         used: 0,
         limit: 0,
-        percentage: 0
+        percentage: 0,
       },
       renderMetrics: {
         nodeCount: 0,
         triangleCount: 0,
         drawCalls: 0,
-        renderTime: 0
+        renderTime: 0,
       },
       componentMetrics: {
         panelCount: 0,
         inputCount: 0,
-        updateTime: 0
-      }
+        updateTime: 0,
+      },
     };
   }
 
@@ -167,7 +167,7 @@ export class PerformanceMonitor {
       this.metrics.memory = {
         used: memory.usedJSHeapSize,
         limit: memory.jsHeapSizeLimit,
-        percentage: memory.usedJSHeapSize / memory.jsHeapSizeLimit
+        percentage: memory.usedJSHeapSize / memory.jsHeapSizeLimit,
       };
     }
   }
@@ -181,7 +181,7 @@ export class PerformanceMonitor {
   public updateRenderMetrics(metrics: Partial<PerformanceMetrics['renderMetrics']>): void {
     this.metrics.renderMetrics = {
       ...this.metrics.renderMetrics,
-      ...metrics
+      ...metrics,
     };
   }
 
@@ -205,7 +205,9 @@ export class PerformanceMonitor {
     }
 
     if (this.metrics.renderMetrics.triangleCount > this.thresholds.maxTriangleCount) {
-      warnings.push(`Triangle count exceeds threshold: ${this.metrics.renderMetrics.triangleCount}`);
+      warnings.push(
+        `Triangle count exceeds threshold: ${this.metrics.renderMetrics.triangleCount}`
+      );
     }
 
     if (warnings.length > 0) {
@@ -226,12 +228,14 @@ export class PerformanceMonitor {
     console.warn('Triggering emergency performance optimization');
 
     // Dispatch custom event for the application to handle
-    window.dispatchEvent(new CustomEvent('performance-critical', {
-      detail: {
-        metrics: this.metrics,
-        action: 'reduce-quality'
-      }
-    }));
+    window.dispatchEvent(
+      new CustomEvent('performance-critical', {
+        detail: {
+          metrics: this.metrics,
+          action: 'reduce-quality',
+        },
+      })
+    );
   }
 
   public observe(callback: (metrics: PerformanceMetrics) => void): () => void {
@@ -240,7 +244,7 @@ export class PerformanceMonitor {
   }
 
   private notifyObservers(): void {
-    this.observers.forEach(callback => callback(this.metrics));
+    this.observers.forEach((callback) => callback(this.metrics));
   }
 
   public getMetrics(): PerformanceMetrics {
@@ -258,7 +262,7 @@ export class PerformanceMonitor {
       `Render Time: ${this.metrics.renderMetrics.renderTime.toFixed(2)}ms`,
       `Panels: ${this.metrics.componentMetrics.panelCount}`,
       `Inputs: ${this.metrics.componentMetrics.inputCount}`,
-      '========================='
+      '=========================',
     ].join('\n');
 
     return report;
@@ -309,7 +313,7 @@ export class PerformanceMonitor {
 
     return {
       duration: endTime - startTime,
-      memory: endMemory - startMemory
+      memory: endMemory - startMemory,
     };
   }
 }
@@ -364,7 +368,7 @@ export const PerformanceOptimizer = {
         shadows: false,
         antialiasing: false,
         maxTriangles: 100000,
-        lodBias: 2
+        lodBias: 2,
       };
     } else if (metrics.fps < 30) {
       // Low quality
@@ -372,7 +376,7 @@ export const PerformanceOptimizer = {
         shadows: false,
         antialiasing: true,
         maxTriangles: 500000,
-        lodBias: 1
+        lodBias: 1,
       };
     } else if (metrics.fps < 45) {
       // Medium quality
@@ -380,7 +384,7 @@ export const PerformanceOptimizer = {
         shadows: true,
         antialiasing: true,
         maxTriangles: 1000000,
-        lodBias: 0.5
+        lodBias: 0.5,
       };
     } else {
       // High quality
@@ -388,15 +392,12 @@ export const PerformanceOptimizer = {
         shadows: true,
         antialiasing: true,
         maxTriangles: 2000000,
-        lodBias: 0
+        lodBias: 0,
       };
     }
   },
 
-  throttleUpdates<T extends (...args: any[]) => void>(
-    fn: T,
-    delay: number
-  ): T {
+  throttleUpdates<T extends (...args: any[]) => void>(fn: T, delay: number): T {
     let lastCall = 0;
     let timeout: NodeJS.Timeout | null = null;
 
@@ -407,12 +408,15 @@ export const PerformanceOptimizer = {
         lastCall = now;
         fn(...args);
       } else if (!timeout) {
-        timeout = setTimeout(() => {
-          lastCall = Date.now();
-          fn(...args);
-          timeout = null;
-        }, delay - (now - lastCall));
+        timeout = setTimeout(
+          () => {
+            lastCall = Date.now();
+            fn(...args);
+            timeout = null;
+          },
+          delay - (now - lastCall)
+        );
       }
     }) as T;
-  }
+  },
 };

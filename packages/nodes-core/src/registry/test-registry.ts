@@ -30,10 +30,10 @@ export async function testNodeRegistry(): Promise<void> {
 
     // Show nodes by category
     console.log('📂 Nodes by Category:');
-    stats.nodesByCategory.forEach(cat => {
+    stats.nodesByCategory.forEach((cat) => {
       console.log(`   ${cat.category}: ${cat.count} nodes`);
       if (cat.subcategories.length > 0) {
-        cat.subcategories.forEach(subcat => {
+        cat.subcategories.forEach((subcat) => {
           console.log(`     ├─ ${subcat.subcategory}: ${subcat.count} nodes`);
         });
       }
@@ -87,7 +87,6 @@ export async function testNodeRegistry(): Promise<void> {
 
     console.log('\n🎉 Registry test completed successfully!');
     console.log(`🚀 Ready to expose ${status.nodeCount} nodes to Studio UI!`);
-
   } catch (error) {
     console.error('❌ Registry test failed:', error);
     throw error;

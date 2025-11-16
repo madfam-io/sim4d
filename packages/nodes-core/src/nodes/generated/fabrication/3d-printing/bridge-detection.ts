@@ -14,7 +14,11 @@ interface BridgeDetectionOutputs {
   overhangs: unknown;
 }
 
-export const Fabrication3DPrintingBridgeDetectionNode: NodeDefinition<BridgeDetectionInputs, BridgeDetectionOutputs, BridgeDetectionParams> = {
+export const Fabrication3DPrintingBridgeDetectionNode: NodeDefinition<
+  BridgeDetectionInputs,
+  BridgeDetectionOutputs,
+  BridgeDetectionParams
+> = {
   id: 'Fabrication::BridgeDetection',
   type: 'Fabrication::BridgeDetection',
   category: 'Fabrication',
@@ -24,18 +28,18 @@ export const Fabrication3DPrintingBridgeDetectionNode: NodeDefinition<BridgeDete
     model: {
       type: 'Shape',
       label: 'Model',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     bridges: {
       type: 'Face[]',
-      label: 'Bridges'
+      label: 'Bridges',
     },
     overhangs: {
       type: 'Face[]',
-      label: 'Overhangs'
-    }
+      label: 'Overhangs',
+    },
   },
   params: {
     maxBridge: {
@@ -43,15 +47,15 @@ export const Fabrication3DPrintingBridgeDetectionNode: NodeDefinition<BridgeDete
       label: 'Max Bridge',
       default: 5,
       min: 0,
-      max: 50
+      max: 50,
     },
     overhangAngle: {
       type: 'number',
       label: 'Overhang Angle',
       default: 45,
       min: 0,
-      max: 90
-    }
+      max: 90,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -59,13 +63,13 @@ export const Fabrication3DPrintingBridgeDetectionNode: NodeDefinition<BridgeDete
       params: {
         model: inputs.model,
         maxBridge: params.maxBridge,
-        overhangAngle: params.overhangAngle
-      }
+        overhangAngle: params.overhangAngle,
+      },
     });
-    
+
     return {
       bridges: results.bridges,
-      overhangs: results.overhangs
+      overhangs: results.overhangs,
     };
   },
 };

@@ -41,7 +41,13 @@ export interface SelectionActions {
   endBoxSelection: (nodeIds: string[]) => void;
 
   // Bulk operations
-  selectNodesInRegion: (x: number, y: number, width: number, height: number, nodePositions: { [id: string]: { x: number; y: number } }) => void;
+  selectNodesInRegion: (
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    nodePositions: { [id: string]: { x: number; y: number } }
+  ) => void;
   selectNodesByType: (nodeType: string, availableNodes: { id: string; type: string }[]) => void;
   selectDownstreamNodes: (nodeId: string, edges: { source: string; target: string }[]) => void;
   selectUpstreamNodes: (nodeId: string, edges: { source: string; target: string }[]) => void;
@@ -82,7 +88,10 @@ export const useSelectionStore = create<SelectionState & SelectionActions>()(
 
           return {
             selectedNodes: newSelectedNodes,
-            lastSelected: newSelectedNodes.size > 0 ? Array.from(newSelectedNodes)[newSelectedNodes.size - 1] : null,
+            lastSelected:
+              newSelectedNodes.size > 0
+                ? Array.from(newSelectedNodes)[newSelectedNodes.size - 1]
+                : null,
           };
         });
       },
@@ -155,10 +164,10 @@ export const useSelectionStore = create<SelectionState & SelectionActions>()(
       invertSelection: (availableNodeIds: string[], availableEdgeIds: string[]) => {
         set((state) => {
           const invertedNodes = new Set(
-            availableNodeIds.filter(id => !state.selectedNodes.has(id))
+            availableNodeIds.filter((id) => !state.selectedNodes.has(id))
           );
           const invertedEdges = new Set(
-            availableEdgeIds.filter(id => !state.selectedEdges.has(id))
+            availableEdgeIds.filter((id) => !state.selectedEdges.has(id))
           );
 
           return {
@@ -184,11 +193,13 @@ export const useSelectionStore = create<SelectionState & SelectionActions>()(
 
       updateBoxSelection: (x: number, y: number) => {
         set((state) => ({
-          selectionBox: state.selectionBox ? {
-            ...state.selectionBox,
-            endX: x,
-            endY: y,
-          } : undefined,
+          selectionBox: state.selectionBox
+            ? {
+                ...state.selectionBox,
+                endX: x,
+                endY: y,
+              }
+            : undefined,
         }));
       },
 
@@ -202,11 +213,16 @@ export const useSelectionStore = create<SelectionState & SelectionActions>()(
       },
 
       // Bulk operations
-      selectNodesInRegion: (x: number, y: number, width: number, height: number, nodePositions: { [id: string]: { x: number; y: number } }) => {
+      selectNodesInRegion: (
+        x: number,
+        y: number,
+        width: number,
+        height: number,
+        nodePositions: { [id: string]: { x: number; y: number } }
+      ) => {
         const nodesInRegion = Object.entries(nodePositions)
-          .filter(([id, pos]) =>
-            pos.x >= x && pos.x <= x + width &&
-            pos.y >= y && pos.y <= y + height
+          .filter(
+            ([id, pos]) => pos.x >= x && pos.x <= x + width && pos.y >= y && pos.y <= y + height
           )
           .map(([id]) => id);
 
@@ -215,8 +231,8 @@ export const useSelectionStore = create<SelectionState & SelectionActions>()(
 
       selectNodesByType: (nodeType: string, availableNodes: { id: string; type: string }[]) => {
         const nodeIds = availableNodes
-          .filter(node => node.type === nodeType)
-          .map(node => node.id);
+          .filter((node) => node.type === nodeType)
+          .map((node) => node.id);
 
         get().selectMultipleNodes(nodeIds);
       },
@@ -232,7 +248,7 @@ export const useSelectionStore = create<SelectionState & SelectionActions>()(
           visited.add(currentNode);
 
           // Find all edges where this node is the source
-          const outgoingEdges = edges.filter(edge => edge.source === currentNode);
+          const outgoingEdges = edges.filter((edge) => edge.source === currentNode);
           for (const edge of outgoingEdges) {
             if (!visited.has(edge.target)) {
               toVisit.push(edge.target);
@@ -254,7 +270,7 @@ export const useSelectionStore = create<SelectionState & SelectionActions>()(
           visited.add(currentNode);
 
           // Find all edges where this node is the target
-          const incomingEdges = edges.filter(edge => edge.target === currentNode);
+          const incomingEdges = edges.filter((edge) => edge.target === currentNode);
           for (const edge of incomingEdges) {
             if (!visited.has(edge.source)) {
               toVisit.push(edge.source);

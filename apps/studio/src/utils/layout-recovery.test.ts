@@ -5,7 +5,7 @@ import {
   clearLayoutStorage,
   getSafeLayout,
   forceResetLayout,
-  type LayoutValidationResult
+  type LayoutValidationResult,
 } from './layout-recovery';
 
 // Mock the layout-presets module
@@ -15,28 +15,78 @@ vi.mock('../config/layout-presets', () => ({
       id: 'desktop-default',
       name: 'Desktop Default',
       panels: {
-        nodePanel: { visible: true, minimized: false, position: { x: 0, y: 0 }, size: { width: 300, height: 400 } },
-        nodeEditor: { visible: true, minimized: false, position: { x: 300, y: 0 }, size: { width: 800, height: 600 } },
-        viewport3d: { visible: true, minimized: false, position: { x: 1100, y: 0 }, size: { width: 600, height: 400 } },
-        inspector: { visible: true, minimized: false, position: { x: 1100, y: 400 }, size: { width: 600, height: 200 } },
-        toolbar: { visible: true, minimized: false, position: { x: 0, y: 600 }, size: { width: 1700, height: 50 } },
+        nodePanel: {
+          visible: true,
+          minimized: false,
+          position: { x: 0, y: 0 },
+          size: { width: 300, height: 400 },
+        },
+        nodeEditor: {
+          visible: true,
+          minimized: false,
+          position: { x: 300, y: 0 },
+          size: { width: 800, height: 600 },
+        },
+        viewport3d: {
+          visible: true,
+          minimized: false,
+          position: { x: 1100, y: 0 },
+          size: { width: 600, height: 400 },
+        },
+        inspector: {
+          visible: true,
+          minimized: false,
+          position: { x: 1100, y: 400 },
+          size: { width: 600, height: 200 },
+        },
+        toolbar: {
+          visible: true,
+          minimized: false,
+          position: { x: 0, y: 600 },
+          size: { width: 1700, height: 50 },
+        },
       },
-      metadata: { created: new Date('2023-01-01'), modified: new Date('2023-01-01') }
-    }
+      metadata: { created: new Date('2023-01-01'), modified: new Date('2023-01-01') },
+    },
   },
   getDefaultLayoutForScreenSize: vi.fn((screenSize: string) => ({
     id: 'desktop-default',
     name: 'Desktop Default',
     panels: {
-      nodePanel: { visible: true, minimized: false, position: { x: 0, y: 0 }, size: { width: 300, height: 400 } },
-      nodeEditor: { visible: true, minimized: false, position: { x: 300, y: 0 }, size: { width: 800, height: 600 } },
-      viewport3d: { visible: true, minimized: false, position: { x: 1100, y: 0 }, size: { width: 600, height: 400 } },
-      inspector: { visible: true, minimized: false, position: { x: 1100, y: 400 }, size: { width: 600, height: 200 } },
-      toolbar: { visible: true, minimized: false, position: { x: 0, y: 600 }, size: { width: 1700, height: 50 } },
+      nodePanel: {
+        visible: true,
+        minimized: false,
+        position: { x: 0, y: 0 },
+        size: { width: 300, height: 400 },
+      },
+      nodeEditor: {
+        visible: true,
+        minimized: false,
+        position: { x: 300, y: 0 },
+        size: { width: 800, height: 600 },
+      },
+      viewport3d: {
+        visible: true,
+        minimized: false,
+        position: { x: 1100, y: 0 },
+        size: { width: 600, height: 400 },
+      },
+      inspector: {
+        visible: true,
+        minimized: false,
+        position: { x: 1100, y: 400 },
+        size: { width: 600, height: 200 },
+      },
+      toolbar: {
+        visible: true,
+        minimized: false,
+        position: { x: 0, y: 600 },
+        size: { width: 1700, height: 50 },
+      },
     },
-    metadata: { created: new Date('2023-01-01'), modified: new Date('2023-01-01') }
+    metadata: { created: new Date('2023-01-01'), modified: new Date('2023-01-01') },
   })),
-  getScreenSizeFromWidth: vi.fn((width: number) => width >= 1024 ? 'desktop' : 'mobile')
+  getScreenSizeFromWidth: vi.fn((width: number) => (width >= 1024 ? 'desktop' : 'mobile')),
 }));
 
 describe('layout-recovery', () => {
@@ -77,12 +127,12 @@ describe('layout-recovery', () => {
     it('returns invalid for null/undefined layout', () => {
       expect(validateLayout(null)).toEqual({
         isValid: false,
-        issues: ['Layout is null or undefined']
+        issues: ['Layout is null or undefined'],
       });
 
       expect(validateLayout(undefined)).toEqual({
         isValid: false,
-        issues: ['Layout is null or undefined']
+        issues: ['Layout is null or undefined'],
       });
     });
 
@@ -107,11 +157,11 @@ describe('layout-recovery', () => {
             visible: 'not-boolean', // Wrong type
             minimized: true,
             position: { x: 0, y: 0 },
-            size: { width: 100, height: 100 }
-          }
+            size: { width: 100, height: 100 },
+          },
           // Missing required panels
         },
-        metadata: {}
+        metadata: {},
       };
 
       const result = validateLayout(layoutWithBadPanels);
@@ -130,13 +180,38 @@ describe('layout-recovery', () => {
         id: 'test-layout',
         name: 'Test Layout',
         panels: {
-          nodePanel: { visible: true, minimized: false, position: { x: 0, y: 0 }, size: { width: 300, height: 400 } },
-          nodeEditor: { visible: true, minimized: false, position: { x: 300, y: 0 }, size: { width: 800, height: 600 } },
-          viewport3d: { visible: true, minimized: false, position: { x: 1100, y: 0 }, size: { width: 600, height: 400 } },
-          inspector: { visible: true, minimized: false, position: { x: 1100, y: 400 }, size: { width: 600, height: 200 } },
-          toolbar: { visible: true, minimized: false, position: { x: 0, y: 600 }, size: { width: 1700, height: 50 } },
+          nodePanel: {
+            visible: true,
+            minimized: false,
+            position: { x: 0, y: 0 },
+            size: { width: 300, height: 400 },
+          },
+          nodeEditor: {
+            visible: true,
+            minimized: false,
+            position: { x: 300, y: 0 },
+            size: { width: 800, height: 600 },
+          },
+          viewport3d: {
+            visible: true,
+            minimized: false,
+            position: { x: 1100, y: 0 },
+            size: { width: 600, height: 400 },
+          },
+          inspector: {
+            visible: true,
+            minimized: false,
+            position: { x: 1100, y: 400 },
+            size: { width: 600, height: 200 },
+          },
+          toolbar: {
+            visible: true,
+            minimized: false,
+            position: { x: 0, y: 600 },
+            size: { width: 1700, height: 50 },
+          },
         },
-        metadata: { created: new Date(), modified: new Date() }
+        metadata: { created: new Date(), modified: new Date() },
       };
 
       const result = validateLayout(validLayout);
@@ -151,12 +226,32 @@ describe('layout-recovery', () => {
         name: 'Test',
         panels: {
           nodePanel: { visible: true, position: { x: 0, y: 0 }, size: { width: 100, height: 100 } },
-          nodeEditor: { visible: true, minimized: false, position: { x: 0, y: 0 }, size: { width: 100, height: 100 } },
-          viewport3d: { visible: true, minimized: false, position: { x: 0, y: 0 }, size: { width: 100, height: 100 } },
-          inspector: { visible: true, minimized: false, position: { x: 0, y: 0 }, size: { width: 100, height: 100 } },
-          toolbar: { visible: true, minimized: false, position: { x: 0, y: 0 }, size: { width: 100, height: 100 } },
+          nodeEditor: {
+            visible: true,
+            minimized: false,
+            position: { x: 0, y: 0 },
+            size: { width: 100, height: 100 },
+          },
+          viewport3d: {
+            visible: true,
+            minimized: false,
+            position: { x: 0, y: 0 },
+            size: { width: 100, height: 100 },
+          },
+          inspector: {
+            visible: true,
+            minimized: false,
+            position: { x: 0, y: 0 },
+            size: { width: 100, height: 100 },
+          },
+          toolbar: {
+            visible: true,
+            minimized: false,
+            position: { x: 0, y: 0 },
+            size: { width: 100, height: 100 },
+          },
         },
-        metadata: {}
+        metadata: {},
       };
 
       const result = validateLayout(layoutMissingMinimized);
@@ -180,8 +275,8 @@ describe('layout-recovery', () => {
         panels: {
           nodePanel: { visible: false, minimized: true, position: { x: 10, y: 20 } },
           nodeEditor: { visible: true, minimized: false },
-          invalidPanel: { some: 'data' }
-        }
+          invalidPanel: { some: 'data' },
+        },
       };
 
       const recovered = recoverLayout(partiallyCorruptedLayout);
@@ -205,8 +300,8 @@ describe('layout-recovery', () => {
       const layoutWithBadProperties = {
         panels: {
           nodePanel: { visible: 'yes', minimized: 'no' },
-          nodeEditor: { visible: 1, minimized: 0 }
-        }
+          nodeEditor: { visible: 1, minimized: 0 },
+        },
       };
 
       const recovered = recoverLayout(layoutWithBadProperties);
@@ -256,13 +351,38 @@ describe('layout-recovery', () => {
         id: 'stored-layout',
         name: 'Stored Layout',
         panels: {
-          nodePanel: { visible: true, minimized: false, position: { x: 0, y: 0 }, size: { width: 300, height: 400 } },
-          nodeEditor: { visible: true, minimized: false, position: { x: 300, y: 0 }, size: { width: 800, height: 600 } },
-          viewport3d: { visible: true, minimized: false, position: { x: 1100, y: 0 }, size: { width: 600, height: 400 } },
-          inspector: { visible: true, minimized: false, position: { x: 1100, y: 400 }, size: { width: 600, height: 200 } },
-          toolbar: { visible: true, minimized: false, position: { x: 0, y: 600 }, size: { width: 1700, height: 50 } },
+          nodePanel: {
+            visible: true,
+            minimized: false,
+            position: { x: 0, y: 0 },
+            size: { width: 300, height: 400 },
+          },
+          nodeEditor: {
+            visible: true,
+            minimized: false,
+            position: { x: 300, y: 0 },
+            size: { width: 800, height: 600 },
+          },
+          viewport3d: {
+            visible: true,
+            minimized: false,
+            position: { x: 1100, y: 0 },
+            size: { width: 600, height: 400 },
+          },
+          inspector: {
+            visible: true,
+            minimized: false,
+            position: { x: 1100, y: 400 },
+            size: { width: 600, height: 200 },
+          },
+          toolbar: {
+            visible: true,
+            minimized: false,
+            position: { x: 0, y: 600 },
+            size: { width: 1700, height: 50 },
+          },
         },
-        metadata: { created: new Date(), modified: new Date() }
+        metadata: { created: new Date(), modified: new Date() },
       };
 
       mockLocalStorage['brepflow-layout-state'] = JSON.stringify(validLayout);
@@ -359,9 +479,14 @@ describe('layout-recovery', () => {
         name: 'Test',
         panels: {
           nodePanel: null,
-          nodeEditor: { visible: true, minimized: false, position: { x: 0, y: 0 }, size: { width: 100, height: 100 } }
+          nodeEditor: {
+            visible: true,
+            minimized: false,
+            position: { x: 0, y: 0 },
+            size: { width: 100, height: 100 },
+          },
         },
-        metadata: {}
+        metadata: {},
       };
 
       const result = validateLayout(layoutWithNullPanels);
@@ -389,7 +514,7 @@ describe('layout-recovery', () => {
         panels: {
           nodePanel: { visible: false }, // Only visible property
           nodeEditor: { minimized: true }, // Only minimized property
-        }
+        },
       };
 
       const recovered = recoverLayout(partialLayout);

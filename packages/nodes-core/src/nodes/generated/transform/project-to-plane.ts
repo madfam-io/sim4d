@@ -17,7 +17,11 @@ interface ProjectToPlaneOutputs {
   projected: unknown;
 }
 
-export const TransformProjectToPlaneNode: NodeDefinition<ProjectToPlaneInputs, ProjectToPlaneOutputs, ProjectToPlaneParams> = {
+export const TransformProjectToPlaneNode: NodeDefinition<
+  ProjectToPlaneInputs,
+  ProjectToPlaneOutputs,
+  ProjectToPlaneParams
+> = {
   id: 'Transform::ProjectToPlane',
   type: 'Transform::ProjectToPlane',
   category: 'Transform',
@@ -27,46 +31,46 @@ export const TransformProjectToPlaneNode: NodeDefinition<ProjectToPlaneInputs, P
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     projected: {
       type: 'Shape',
-      label: 'Projected'
-    }
+      label: 'Projected',
+    },
   },
   params: {
     planeOriginX: {
       type: 'number',
       label: 'Plane Origin X',
-      default: 0
+      default: 0,
     },
     planeOriginY: {
       type: 'number',
       label: 'Plane Origin Y',
-      default: 0
+      default: 0,
     },
     planeOriginZ: {
       type: 'number',
       label: 'Plane Origin Z',
-      default: 0
+      default: 0,
     },
     planeNormalX: {
       type: 'number',
       label: 'Plane Normal X',
-      default: 0
+      default: 0,
     },
     planeNormalY: {
       type: 'number',
       label: 'Plane Normal Y',
-      default: 0
+      default: 0,
     },
     planeNormalZ: {
       type: 'number',
       label: 'Plane Normal Z',
-      default: 1
-    }
+      default: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -78,12 +82,12 @@ export const TransformProjectToPlaneNode: NodeDefinition<ProjectToPlaneInputs, P
         planeOriginZ: params.planeOriginZ,
         planeNormalX: params.planeNormalX,
         planeNormalY: params.planeNormalY,
-        planeNormalZ: params.planeNormalZ
-      }
+        planeNormalZ: params.planeNormalZ,
+      },
     });
-    
+
     return {
-      projected: result
+      projected: result,
     };
   },
 };

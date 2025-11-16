@@ -13,7 +13,11 @@ interface MinimalSurfaceOutputs {
   surface: unknown;
 }
 
-export const PatternsGeometricMinimalSurfaceNode: NodeDefinition<MinimalSurfaceInputs, MinimalSurfaceOutputs, MinimalSurfaceParams> = {
+export const PatternsGeometricMinimalSurfaceNode: NodeDefinition<
+  MinimalSurfaceInputs,
+  MinimalSurfaceOutputs,
+  MinimalSurfaceParams
+> = {
   id: 'Patterns::MinimalSurface',
   category: 'Patterns',
   label: 'MinimalSurface',
@@ -22,28 +26,28 @@ export const PatternsGeometricMinimalSurfaceNode: NodeDefinition<MinimalSurfaceI
     box: {
       type: 'Box',
       label: 'Box',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     surface: {
       type: 'Face[]',
-      label: 'Surface'
-    }
+      label: 'Surface',
+    },
   },
   params: {
     type: {
       type: 'enum',
       label: 'Type',
-      default: "gyroid",
-      options: ["gyroid","schwarz","diamond","neovius"]
+      default: 'gyroid',
+      options: ['gyroid', 'schwarz', 'diamond', 'neovius'],
     },
     period: {
       type: 'number',
       label: 'Period',
       default: 10,
-      min: 1
-    }
+      min: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -51,12 +55,12 @@ export const PatternsGeometricMinimalSurfaceNode: NodeDefinition<MinimalSurfaceI
       params: {
         box: inputs.box,
         type: params.type,
-        period: params.period
-      }
+        period: params.period,
+      },
     });
-    
+
     return {
-      surface: result
+      surface: result,
     };
   },
 };

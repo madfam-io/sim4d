@@ -10,7 +10,11 @@ interface ComplexMagnitudeOutputs {
   magnitude: unknown;
 }
 
-export const MathComplexComplexMagnitudeNode: NodeDefinition<ComplexMagnitudeInputs, ComplexMagnitudeOutputs, ComplexMagnitudeParams> = {
+export const MathComplexComplexMagnitudeNode: NodeDefinition<
+  ComplexMagnitudeInputs,
+  ComplexMagnitudeOutputs,
+  ComplexMagnitudeParams
+> = {
   id: 'Math::ComplexMagnitude',
   type: 'Math::ComplexMagnitude',
   category: 'Math',
@@ -20,26 +24,26 @@ export const MathComplexComplexMagnitudeNode: NodeDefinition<ComplexMagnitudeInp
     complex: {
       type: 'Complex',
       label: 'Complex',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     magnitude: {
       type: 'number',
-      label: 'Magnitude'
-    }
+      label: 'Magnitude',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathComplexMagnitude',
       params: {
-        complex: inputs.complex
-      }
+        complex: inputs.complex,
+      },
     });
-    
+
     return {
-      magnitude: result
+      magnitude: result,
     };
   },
 };

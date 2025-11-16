@@ -10,7 +10,11 @@ interface FieldMaxOutputs {
   field: unknown;
 }
 
-export const FieldOperationsFieldMaxNode: NodeDefinition<FieldMaxInputs, FieldMaxOutputs, FieldMaxParams> = {
+export const FieldOperationsFieldMaxNode: NodeDefinition<
+  FieldMaxInputs,
+  FieldMaxOutputs,
+  FieldMaxParams
+> = {
   id: 'Field::FieldMax',
   category: 'Field',
   label: 'FieldMax',
@@ -19,26 +23,26 @@ export const FieldOperationsFieldMaxNode: NodeDefinition<FieldMaxInputs, FieldMa
     fields: {
       type: 'ScalarField[]',
       label: 'Fields',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     field: {
       type: 'ScalarField',
-      label: 'Field'
-    }
+      label: 'Field',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'fieldMax',
       params: {
-        fields: inputs.fields
-      }
+        fields: inputs.fields,
+      },
     });
-    
+
     return {
-      field: result
+      field: result,
     };
   },
 };

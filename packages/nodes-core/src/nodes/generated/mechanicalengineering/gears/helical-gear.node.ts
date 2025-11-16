@@ -17,7 +17,11 @@ interface HelicalGearOutputs {
   profile: unknown;
 }
 
-export const MechanicalEngineeringGearsHelicalGearNode: NodeDefinition<HelicalGearInputs, HelicalGearOutputs, HelicalGearParams> = {
+export const MechanicalEngineeringGearsHelicalGearNode: NodeDefinition<
+  HelicalGearInputs,
+  HelicalGearOutputs,
+  HelicalGearParams
+> = {
   id: 'MechanicalEngineering::HelicalGear',
   category: 'MechanicalEngineering',
   label: 'HelicalGear',
@@ -26,18 +30,18 @@ export const MechanicalEngineeringGearsHelicalGearNode: NodeDefinition<HelicalGe
     center: {
       type: 'Point',
       label: 'Center',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     gear: {
       type: 'Shape',
-      label: 'Gear'
+      label: 'Gear',
     },
     profile: {
       type: 'Wire',
-      label: 'Profile'
-    }
+      label: 'Profile',
+    },
   },
   params: {
     module: {
@@ -46,35 +50,35 @@ export const MechanicalEngineeringGearsHelicalGearNode: NodeDefinition<HelicalGe
       default: 2,
       min: 0.5,
       max: 20,
-      step: 0.1
+      step: 0.1,
     },
     teeth: {
       type: 'number',
       label: 'Teeth',
       default: 20,
       min: 6,
-      max: 200
+      max: 200,
     },
     helixAngle: {
       type: 'number',
       label: 'Helix Angle',
       default: 15,
       min: 0,
-      max: 45
+      max: 45,
     },
     width: {
       type: 'number',
       label: 'Width',
       default: 20,
       min: 1,
-      max: 200
+      max: 200,
     },
     handedness: {
       type: 'enum',
       label: 'Handedness',
-      default: "right",
-      options: ["left","right"]
-    }
+      default: 'right',
+      options: ['left', 'right'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -85,13 +89,13 @@ export const MechanicalEngineeringGearsHelicalGearNode: NodeDefinition<HelicalGe
         teeth: params.teeth,
         helixAngle: params.helixAngle,
         width: params.width,
-        handedness: params.handedness
-      }
+        handedness: params.handedness,
+      },
     });
-    
+
     return {
       gear: results.gear,
-      profile: results.profile
+      profile: results.profile,
     };
   },
 };

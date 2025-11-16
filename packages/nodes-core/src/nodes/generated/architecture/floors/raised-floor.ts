@@ -16,7 +16,11 @@ interface RaisedFloorOutputs {
   panels: unknown;
 }
 
-export const ArchitectureFloorsRaisedFloorNode: NodeDefinition<RaisedFloorInputs, RaisedFloorOutputs, RaisedFloorParams> = {
+export const ArchitectureFloorsRaisedFloorNode: NodeDefinition<
+  RaisedFloorInputs,
+  RaisedFloorOutputs,
+  RaisedFloorParams
+> = {
   id: 'Architecture::RaisedFloor',
   type: 'Architecture::RaisedFloor',
   category: 'Architecture',
@@ -26,22 +30,22 @@ export const ArchitectureFloorsRaisedFloorNode: NodeDefinition<RaisedFloorInputs
     roomBoundary: {
       type: 'Wire',
       label: 'Room Boundary',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     raisedFloor: {
       type: 'Shape',
-      label: 'Raised Floor'
+      label: 'Raised Floor',
     },
     pedestals: {
       type: 'Shape[]',
-      label: 'Pedestals'
+      label: 'Pedestals',
     },
     panels: {
       type: 'Face[]',
-      label: 'Panels'
-    }
+      label: 'Panels',
+    },
   },
   params: {
     height: {
@@ -49,22 +53,22 @@ export const ArchitectureFloorsRaisedFloorNode: NodeDefinition<RaisedFloorInputs
       label: 'Height',
       default: 300,
       min: 150,
-      max: 600
+      max: 600,
     },
     panelSize: {
       type: 'number',
       label: 'Panel Size',
       default: 600,
       min: 500,
-      max: 1200
+      max: 1200,
     },
     loadRating: {
       type: 'number',
       label: 'Load Rating',
       default: 1250,
       min: 500,
-      max: 2000
-    }
+      max: 2000,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -73,14 +77,14 @@ export const ArchitectureFloorsRaisedFloorNode: NodeDefinition<RaisedFloorInputs
         roomBoundary: inputs.roomBoundary,
         height: params.height,
         panelSize: params.panelSize,
-        loadRating: params.loadRating
-      }
+        loadRating: params.loadRating,
+      },
     });
-    
+
     return {
       raisedFloor: results.raisedFloor,
       pedestals: results.pedestals,
-      panels: results.panels
+      panels: results.panels,
     };
   },
 };

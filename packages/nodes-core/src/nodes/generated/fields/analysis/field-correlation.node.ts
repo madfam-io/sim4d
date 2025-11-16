@@ -15,7 +15,11 @@ interface FieldCorrelationOutputs {
   covariance: number;
 }
 
-export const FieldsAnalysisFieldCorrelationNode: NodeDefinition<FieldCorrelationInputs, FieldCorrelationOutputs, FieldCorrelationParams> = {
+export const FieldsAnalysisFieldCorrelationNode: NodeDefinition<
+  FieldCorrelationInputs,
+  FieldCorrelationOutputs,
+  FieldCorrelationParams
+> = {
   id: 'Fields::FieldCorrelation',
   category: 'Fields',
   label: 'FieldCorrelation',
@@ -24,28 +28,28 @@ export const FieldsAnalysisFieldCorrelationNode: NodeDefinition<FieldCorrelation
     field1: {
       type: 'Field',
       label: 'Field1',
-      optional: true
+      optional: true,
     },
     field2: {
       type: 'Field',
       label: 'Field2',
-      optional: true
+      optional: true,
     },
     domain: {
       type: 'Geometry',
       label: 'Domain',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     correlation: {
       type: 'Number',
-      label: 'Correlation'
+      label: 'Correlation',
     },
     covariance: {
       type: 'Number',
-      label: 'Covariance'
-    }
+      label: 'Covariance',
+    },
   },
   params: {
     sampleCount: {
@@ -53,8 +57,8 @@ export const FieldsAnalysisFieldCorrelationNode: NodeDefinition<FieldCorrelation
       label: 'Sample Count',
       default: 1000,
       min: 100,
-      max: 10000
-    }
+      max: 10000,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -63,13 +67,13 @@ export const FieldsAnalysisFieldCorrelationNode: NodeDefinition<FieldCorrelation
         field1: inputs.field1,
         field2: inputs.field2,
         domain: inputs.domain,
-        sampleCount: params.sampleCount
-      }
+        sampleCount: params.sampleCount,
+      },
     });
-    
+
     return {
       correlation: results.correlation,
-      covariance: results.covariance
+      covariance: results.covariance,
     };
   },
 };

@@ -6,7 +6,7 @@ export enum ErrorSeverity {
   LOW = 'low',
   MEDIUM = 'medium',
   HIGH = 'high',
-  CRITICAL = 'critical'
+  CRITICAL = 'critical',
 }
 
 export enum ErrorCategory {
@@ -17,7 +17,7 @@ export enum ErrorCategory {
   RUNTIME = 'runtime',
   USER_INPUT = 'user_input',
   SYSTEM = 'system',
-  UI = 'ui'
+  UI = 'ui',
 }
 
 export enum ErrorCode {
@@ -61,7 +61,7 @@ export enum ErrorCode {
   // UI errors
   COMPONENT_RENDER_ERROR = 'COMPONENT_RENDER_ERROR',
   EVENT_HANDLER_ERROR = 'EVENT_HANDLER_ERROR',
-  LAYOUT_UPDATE_FAILED = 'LAYOUT_UPDATE_FAILED'
+  LAYOUT_UPDATE_FAILED = 'LAYOUT_UPDATE_FAILED',
 }
 
 export interface ErrorContext {

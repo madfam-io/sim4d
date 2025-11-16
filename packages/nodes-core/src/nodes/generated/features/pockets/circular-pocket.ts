@@ -15,7 +15,11 @@ interface CircularPocketOutputs {
   shape: unknown;
 }
 
-export const FeaturesPocketsCircularPocketNode: NodeDefinition<CircularPocketInputs, CircularPocketOutputs, CircularPocketParams> = {
+export const FeaturesPocketsCircularPocketNode: NodeDefinition<
+  CircularPocketInputs,
+  CircularPocketOutputs,
+  CircularPocketParams
+> = {
   id: 'Features::CircularPocket',
   type: 'Features::CircularPocket',
   category: 'Features',
@@ -25,19 +29,19 @@ export const FeaturesPocketsCircularPocketNode: NodeDefinition<CircularPocketInp
     face: {
       type: 'Face',
       label: 'Face',
-      required: true
+      required: true,
     },
     position: {
       type: 'Point',
       label: 'Position',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shape: {
       type: 'Shape',
-      label: 'Shape'
-    }
+      label: 'Shape',
+    },
   },
   params: {
     diameter: {
@@ -45,22 +49,22 @@ export const FeaturesPocketsCircularPocketNode: NodeDefinition<CircularPocketInp
       label: 'Diameter',
       default: 40,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     depth: {
       type: 'number',
       label: 'Depth',
       default: 10,
       min: 0.1,
-      max: 1000
+      max: 1000,
     },
     draftAngle: {
       type: 'number',
       label: 'Draft Angle',
       default: 0,
       min: 0,
-      max: 45
-    }
+      max: 45,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -70,12 +74,12 @@ export const FeaturesPocketsCircularPocketNode: NodeDefinition<CircularPocketInp
         position: inputs.position,
         diameter: params.diameter,
         depth: params.depth,
-        draftAngle: params.draftAngle
-      }
+        draftAngle: params.draftAngle,
+      },
     });
-    
+
     return {
-      shape: result
+      shape: result,
     };
   },
 };

@@ -10,11 +10,13 @@ This guide provides step-by-step instructions for enabling all integration tests
 ## Current Test Status
 
 ### Test Results Summary
+
 - **Test Files**: 4 failed | 2 passed (6 total)
 - **Tests**: 5 failed | 20 passed | 32 skipped (57 total)
 - **Duration**: ~181s
 
 ### Passing Tests ✅
+
 - **UI Components** (9/9 tests) - `apps/studio/src/tests/integration/ui-components-simple.test.tsx`
   - Button component rendering and interactions
   - Panel component layout
@@ -23,9 +25,11 @@ This guide provides step-by-step instructions for enabling all integration tests
 ### Failing/Skipped Tests ❌⏭️
 
 #### 1. Constraint Solver Tests (FAIL)
+
 **Location**: `tests/integration/constraint-solver.integration.test.ts:119`
 
 **Error**:
+
 ```
 Error: [OCCTWrapper] Real OCCT WASM module is not available.
 Run "pnpm run build:wasm" to compile the bindings.
@@ -34,6 +38,7 @@ Run "pnpm run build:wasm" to compile the bindings.
 **Impact**: Blocks geometric constraint validation tests
 
 #### 2. Collaboration Tests (SKIP - 32 tests)
+
 **Location**: `tests/integration/collaboration.integration.test.ts`
 
 **Cause**: Collaboration server not accessible at `http://localhost:8080`
@@ -41,6 +46,7 @@ Run "pnpm run build:wasm" to compile the bindings.
 **Impact**: Real-time collaboration features untested
 
 #### 3. Abacus Integration Tests (SKIP - ~11 tests)
+
 **Location**: `tests/integration/abacus.integration.test.ts`
 
 **Cause**: Requires OCCT WASM for parametric geometry generation
@@ -52,12 +58,14 @@ Run "pnpm run build:wasm" to compile the bindings.
 ### Prerequisites
 
 ✅ **Already Available** (verified in `third_party/`):
+
 - Emscripten SDK at `third_party/emsdk/`
 - OCCT source (v7.8.0) at `third_party/occt/`
 
 ### Build Process
 
 #### Option A: Quick Build (Recommended for Testing)
+
 ```bash
 # From project root
 pnpm run build:wasm
@@ -70,6 +78,7 @@ pnpm run build:wasm
 ```
 
 #### Option B: Manual Build (Advanced)
+
 ```bash
 # Activate Emscripten environment
 source third_party/emsdk/emsdk_env.sh
@@ -84,6 +93,7 @@ ls -lh packages/engine-occt/wasm/
 ### Build Configuration
 
 The build script (`scripts/build-occt.sh`) configures OCCT with:
+
 - **Modules Enabled**: FoundationClasses, ModelingData, ModelingAlgorithms, DataExchange
 - **Modules Disabled**: Visualization, ApplicationFramework, Draw
 - **Thread Pool**: 4 workers (configurable via `OCCT_THREAD_POOL_SIZE`)
@@ -93,6 +103,7 @@ The build script (`scripts/build-occt.sh`) configures OCCT with:
 ### Expected Output
 
 After successful compilation:
+
 ```
 packages/engine-occt/wasm/
 ├── occt.js          # Web worker bundle
@@ -117,6 +128,7 @@ pnpm vitest run tests/integration/constraint-solver.integration.test.ts
 ### Expected Impact
 
 With OCCT WASM compiled:
+
 - ✅ **Constraint solver tests** (1 test)
 - ✅ **Abacus integration tests** (~11 tests)
 - ✅ **CLI headless tests** (geometry export)
@@ -129,6 +141,7 @@ With OCCT WASM compiled:
 ### Current Status
 
 Docker collaboration service is **running** but tests cannot connect:
+
 ```bash
 # Service status
 docker-compose ps
@@ -142,6 +155,7 @@ curl http://localhost:8080/health
 ### Root Cause
 
 The collaboration server package exports modules but doesn't include a standalone HTTP server implementation. The service needs:
+
 1. HTTP/WebSocket server setup
 2. Health check endpoint (`/health`)
 3. Collaboration API routes
@@ -153,6 +167,7 @@ The collaboration server package exports modules but doesn't include a standalon
 **Location**: `packages/collaboration/src/server/`
 
 **Required Implementation**:
+
 ```typescript
 // packages/collaboration/src/server/app.ts
 import express from 'express';
@@ -164,14 +179,14 @@ export function createCollaborationServer(port = 8080) {
   const app = express();
   const httpServer = createServer(app);
   const io = new Server(httpServer, {
-    cors: { origin: '*' }
+    cors: { origin: '*' },
   });
 
   // Health check endpoint
   app.get('/health', (req, res) => {
     res.json({
       status: 'healthy',
-      sessions: sessionManager.getSessionCount()
+      sessions: sessionManager.getSessionCount(),
     });
   });
 
@@ -192,6 +207,7 @@ export function createCollaborationServer(port = 8080) {
 #### Option B: Skip Collaboration Tests (Short-term)
 
 For MVP testing without real-time collaboration:
+
 ```bash
 # Run integration tests excluding collaboration
 pnpm vitest run tests/integration/ --exclude "**/collaboration.integration.test.ts"
@@ -219,6 +235,7 @@ pnpm vitest run tests/integration/collaboration.integration.test.ts
 ## Complete Test Enablement Workflow
 
 ### Step 1: Build OCCT WASM
+
 ```bash
 # Ensure dependencies
 pnpm install
@@ -231,6 +248,7 @@ ls packages/engine-occt/wasm/*.wasm
 ```
 
 ### Step 2: Run Integration Tests
+
 ```bash
 # All integration tests
 pnpm vitest run tests/integration/
@@ -244,6 +262,7 @@ pnpm vitest run tests/integration/
 ```
 
 ### Step 3: Generate Coverage Report
+
 ```bash
 # Run with coverage analysis
 pnpm vitest run tests/integration/ --coverage
@@ -258,11 +277,13 @@ pnpm vitest run tests/integration/ --coverage
 ## Performance Expectations
 
 ### OCCT WASM Build Time
+
 - **First build**: 5-15 minutes (depends on CPU)
 - **Incremental**: ~1-2 minutes (if source unchanged)
 - **Parallel jobs**: Auto-detected (uses all CPU cores)
 
 ### Test Execution Time
+
 - **UI Components**: ~0.5s
 - **Constraint Solver**: ~10s (with WASM)
 - **Abacus Integration**: ~30-60s (parametric generation)
@@ -276,6 +297,7 @@ pnpm vitest run tests/integration/ --coverage
 **Symptom**: CMake configuration errors or compilation failures
 
 **Solutions**:
+
 ```bash
 # Clean build artifacts
 rm -rf build-occt/
@@ -293,6 +315,7 @@ pnpm run build:wasm
 **Symptom**: Tests skip with "OCCT not available" despite WASM files present
 
 **Solutions**:
+
 ```bash
 # Rebuild engine-occt package
 pnpm --filter @brepflow/engine-occt run build
@@ -309,6 +332,7 @@ pnpm vitest run tests/integration/constraint-solver.integration.test.ts --report
 **Symptom**: Tests hang waiting for server connection
 
 **Solutions**:
+
 ```bash
 # Check Docker service logs
 docker-compose logs collaboration
@@ -325,24 +349,28 @@ docker-compose restart collaboration
 After completing setup, verify all gates pass:
 
 ✅ **Compilation**
+
 ```bash
 pnpm run build
 # All packages build successfully
 ```
 
 ✅ **Type Safety**
+
 ```bash
 pnpm run typecheck
 # No TypeScript errors
 ```
 
 ✅ **Linting**
+
 ```bash
 pnpm run lint
 # No ESLint errors
 ```
 
 ✅ **Integration Tests**
+
 ```bash
 pnpm vitest run tests/integration/
 # Minimum: 50+ tests passing
@@ -351,6 +379,7 @@ pnpm vitest run tests/integration/
 ```
 
 ✅ **Coverage**
+
 ```bash
 pnpm vitest run tests/integration/ --coverage
 # Lines: >80%

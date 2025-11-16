@@ -7,6 +7,7 @@
 ## Detailed Node Count
 
 ### 📊 Total Node Infrastructure
+
 - **913** auto-generated node files (`packages/nodes-core/src/nodes/generated/*.node.ts`)
 - **1,274** total node-related code occurrences across the codebase
 - **992** files containing node definitions or registrations
@@ -15,29 +16,37 @@
 ### 🎨 Studio UI Exposure
 
 #### Visible in Node Panel (27 nodes)
+
 Only these nodes are directly draggable from the side panel:
 
 **Sketch (4 nodes)**
+
 - Line, Circle, Rectangle, Arc
 
 **Solid (7 nodes)**
+
 - Extrude, Revolve, Sweep, Loft
 - Box, Cylinder, Sphere
 
 **Boolean (3 nodes)**
+
 - Union, Subtract, Intersect
 
 **Features (4 nodes)**
+
 - Fillet, Chamfer, Shell, Draft
 
 **Transform (6 nodes)**
+
 - Move, Rotate, Scale, Mirror
 - Linear Array, Circular Array
 
 **I/O (3 nodes)**
+
 - Import STEP, Export STEP, Export STL
 
 #### Accessible via Command Palette (All 913 nodes)
+
 - **✅ Good News**: The Command Palette (Ctrl+K) can access ALL nodes through the NodeRegistry
 - Users can search and add any of the 913 nodes via fuzzy search
 - But this is not discoverable - users don't know these exist!
@@ -45,6 +54,7 @@ Only these nodes are directly draggable from the side panel:
 ## Node Categories Available but Hidden
 
 ### Advanced Operations (100+ nodes)
+
 - Boundary operations
 - Surface healing & repair
 - Variable thickness operations
@@ -52,12 +62,14 @@ Only these nodes are directly draggable from the side panel:
 - Complex lofts and blends
 
 ### Manufacturing Features (80+ nodes)
+
 - Sheet metal operations (bend, unfold, corner relief)
 - Mold/die features (draft analysis, parting lines)
 - CNC-specific features (toolpath generation)
 - Additive manufacturing prep
 
 ### Analysis Tools (60+ nodes)
+
 - Curvature analysis
 - Mass properties
 - Interference detection
@@ -65,6 +77,7 @@ Only these nodes are directly draggable from the side panel:
 - FEA/CFD preparation
 
 ### Surface Modeling (90+ nodes)
+
 - NURBS surfaces and curves
 - Gordon surfaces
 - Network surfaces
@@ -72,6 +85,7 @@ Only these nodes are directly draggable from the side panel:
 - Geodesic curves
 
 ### Mesh Operations (50+ nodes)
+
 - Tessellation control
 - Mesh repair (fill holes, smooth, decimate)
 - Mesh boolean operations
@@ -79,29 +93,34 @@ Only these nodes are directly draggable from the side panel:
 - Quad meshing
 
 ### Simulation Prep (40+ nodes)
+
 - Fluid domain setup
 - Boundary conditions
 - Kinematics/dynamics
 - Thermal analysis prep
 
 ### Data Management (30+ nodes)
+
 - Version control operations
 - Parametric constraints
 - Expression evaluation
 - Data tables and lists
 
 ### Interoperability (20+ nodes)
+
 - CAD formats: ACIS, Parasolid, BREP
 - Exchange formats: GLTF, JSON, DXF
 - Messaging: Slack, Email notifications
 
 ### Pattern Generation (40+ nodes)
+
 - Mathematical patterns (fractals, spirals)
 - Architectural patterns
 - Field-driven patterns
 - Attractor-based deformation
 
 ### Assembly Features (30+ nodes)
+
 - Mate constraints (coincident, parallel, tangent)
 - Motion simulation
 - Collision detection
@@ -117,11 +136,13 @@ Only these nodes are directly draggable from the side panel:
 ## Impact Assessment
 
 ### Current State (3% Visibility)
+
 - Users see 27/913 nodes = **2.96% of available functionality**
 - Professional users miss industry-specific tools
 - Competitive disadvantage vs. Grasshopper/Dynamo
 
 ### With Command Palette (100% Accessible)
+
 - All nodes technically accessible but not discoverable
 - Requires users to know what to search for
 - No visual browsing of capabilities
@@ -129,18 +150,21 @@ Only these nodes are directly draggable from the side panel:
 ## Recommendations
 
 ### Immediate (1 day)
+
 1. **Add "Show All Nodes" toggle** to Node Panel
 2. **Create category browser** with expandable groups
 3. **Add node count badge** showing "27 of 913 nodes"
 4. **Quick access favorites** for frequently used hidden nodes
 
 ### Short-term (1 week)
+
 1. **Smart categorization** with professional/beginner modes
 2. **Node search in panel** (not just command palette)
 3. **Recent nodes section** for quick re-use
 4. **Context-sensitive suggestions** based on current graph
 
 ### Long-term (1 month)
+
 1. **Progressive disclosure system** revealing nodes as users advance
 2. **Node marketplace/gallery** for discovering capabilities
 3. **Template system** showcasing node combinations
@@ -149,12 +173,14 @@ Only these nodes are directly draggable from the side panel:
 ## Business Impact
 
 ### Lost Opportunity Cost
+
 - **913 nodes × $10/node development = $9,130 hidden value**
 - Users comparing to competitors see limited capability
 - Advanced users can't access professional features
 - Marketing can't showcase true platform power
 
 ### Competitive Analysis
+
 - Grasshopper: ~1000 nodes, all visible in categorized panels
 - Dynamo: ~2000 nodes, searchable library
 - BrepFlow: 913 nodes built, 27 visible = **major competitive disadvantage**

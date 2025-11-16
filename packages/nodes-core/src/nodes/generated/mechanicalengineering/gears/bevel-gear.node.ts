@@ -16,7 +16,11 @@ interface BevelGearOutputs {
   pitchCone: unknown;
 }
 
-export const MechanicalEngineeringGearsBevelGearNode: NodeDefinition<BevelGearInputs, BevelGearOutputs, BevelGearParams> = {
+export const MechanicalEngineeringGearsBevelGearNode: NodeDefinition<
+  BevelGearInputs,
+  BevelGearOutputs,
+  BevelGearParams
+> = {
   id: 'MechanicalEngineering::BevelGear',
   category: 'MechanicalEngineering',
   label: 'BevelGear',
@@ -25,18 +29,18 @@ export const MechanicalEngineeringGearsBevelGearNode: NodeDefinition<BevelGearIn
     apex: {
       type: 'Point',
       label: 'Apex',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     gear: {
       type: 'Shape',
-      label: 'Gear'
+      label: 'Gear',
     },
     pitchCone: {
       type: 'Surface',
-      label: 'Pitch Cone'
-    }
+      label: 'Pitch Cone',
+    },
   },
   params: {
     module: {
@@ -44,29 +48,29 @@ export const MechanicalEngineeringGearsBevelGearNode: NodeDefinition<BevelGearIn
       label: 'Module',
       default: 3,
       min: 1,
-      max: 20
+      max: 20,
     },
     teeth: {
       type: 'number',
       label: 'Teeth',
       default: 25,
       min: 10,
-      max: 100
+      max: 100,
     },
     coneAngle: {
       type: 'number',
       label: 'Cone Angle',
       default: 45,
       min: 10,
-      max: 80
+      max: 80,
     },
     faceWidth: {
       type: 'number',
       label: 'Face Width',
       default: 15,
       min: 5,
-      max: 50
-    }
+      max: 50,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -76,13 +80,13 @@ export const MechanicalEngineeringGearsBevelGearNode: NodeDefinition<BevelGearIn
         module: params.module,
         teeth: params.teeth,
         coneAngle: params.coneAngle,
-        faceWidth: params.faceWidth
-      }
+        faceWidth: params.faceWidth,
+      },
     });
-    
+
     return {
       gear: results.gear,
-      pitchCone: results.pitchCone
+      pitchCone: results.pitchCone,
     };
   },
 };

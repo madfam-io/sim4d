@@ -15,7 +15,11 @@ interface InterpolateCurveOutputs {
   curve: unknown;
 }
 
-export const SurfaceCurvesInterpolateCurveNode: NodeDefinition<InterpolateCurveInputs, InterpolateCurveOutputs, InterpolateCurveParams> = {
+export const SurfaceCurvesInterpolateCurveNode: NodeDefinition<
+  InterpolateCurveInputs,
+  InterpolateCurveOutputs,
+  InterpolateCurveParams
+> = {
   id: 'Surface::InterpolateCurve',
   type: 'Surface::InterpolateCurve',
   category: 'Surface',
@@ -25,14 +29,14 @@ export const SurfaceCurvesInterpolateCurveNode: NodeDefinition<InterpolateCurveI
     points: {
       type: 'Point[]',
       label: 'Points',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     curve: {
       type: 'Wire',
-      label: 'Curve'
-    }
+      label: 'Curve',
+    },
   },
   params: {
     degree: {
@@ -40,23 +44,23 @@ export const SurfaceCurvesInterpolateCurveNode: NodeDefinition<InterpolateCurveI
       label: 'Degree',
       default: 3,
       min: 1,
-      max: 10
+      max: 10,
     },
     periodic: {
       type: 'boolean',
       label: 'Periodic',
-      default: false
+      default: false,
     },
     tangentStart: {
       type: 'vec3',
       label: 'Tangent Start',
-      default: null
+      default: null,
     },
     tangentEnd: {
       type: 'vec3',
       label: 'Tangent End',
-      default: null
-    }
+      default: null,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -66,12 +70,12 @@ export const SurfaceCurvesInterpolateCurveNode: NodeDefinition<InterpolateCurveI
         degree: params.degree,
         periodic: params.periodic,
         tangentStart: params.tangentStart,
-        tangentEnd: params.tangentEnd
-      }
+        tangentEnd: params.tangentEnd,
+      },
     });
-    
+
     return {
-      curve: result
+      curve: result,
     };
   },
 };

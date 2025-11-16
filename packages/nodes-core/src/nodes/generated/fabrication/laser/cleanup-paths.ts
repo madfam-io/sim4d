@@ -13,7 +13,11 @@ interface CleanupPathsOutputs {
   cleanPaths: unknown;
 }
 
-export const FabricationLaserCleanupPathsNode: NodeDefinition<CleanupPathsInputs, CleanupPathsOutputs, CleanupPathsParams> = {
+export const FabricationLaserCleanupPathsNode: NodeDefinition<
+  CleanupPathsInputs,
+  CleanupPathsOutputs,
+  CleanupPathsParams
+> = {
   id: 'Fabrication::CleanupPaths',
   type: 'Fabrication::CleanupPaths',
   category: 'Fabrication',
@@ -23,14 +27,14 @@ export const FabricationLaserCleanupPathsNode: NodeDefinition<CleanupPathsInputs
     paths: {
       type: 'Wire[]',
       label: 'Paths',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     cleanPaths: {
       type: 'Wire[]',
-      label: 'Clean Paths'
-    }
+      label: 'Clean Paths',
+    },
   },
   params: {
     tolerance: {
@@ -38,13 +42,13 @@ export const FabricationLaserCleanupPathsNode: NodeDefinition<CleanupPathsInputs
       label: 'Tolerance',
       default: 0.01,
       min: 0.001,
-      max: 0.1
+      max: 0.1,
     },
     removeDoubles: {
       type: 'boolean',
       label: 'Remove Doubles',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -52,12 +56,12 @@ export const FabricationLaserCleanupPathsNode: NodeDefinition<CleanupPathsInputs
       params: {
         paths: inputs.paths,
         tolerance: params.tolerance,
-        removeDoubles: params.removeDoubles
-      }
+        removeDoubles: params.removeDoubles,
+      },
     });
-    
+
     return {
-      cleanPaths: result
+      cleanPaths: result,
     };
   },
 };

@@ -22,14 +22,14 @@ export const BooleanGlueNode: NodeDefinition<GlueInputs, GlueOutputs, GlueParams
     shapes: {
       type: 'Shape[]',
       label: 'Shapes',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'Shape',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {
     tolerance: {
@@ -37,20 +37,20 @@ export const BooleanGlueNode: NodeDefinition<GlueInputs, GlueOutputs, GlueParams
       label: 'Tolerance',
       default: 1e-7,
       min: 0,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'booleanGlue',
       params: {
         shapes: inputs.shapes,
-        tolerance: params.tolerance
-      }
+        tolerance: params.tolerance,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

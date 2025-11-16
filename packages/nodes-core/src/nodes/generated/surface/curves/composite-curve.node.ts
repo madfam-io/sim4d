@@ -13,7 +13,11 @@ interface CompositeCurveOutputs {
   composite: unknown;
 }
 
-export const SurfaceCurvesCompositeCurveNode: NodeDefinition<CompositeCurveInputs, CompositeCurveOutputs, CompositeCurveParams> = {
+export const SurfaceCurvesCompositeCurveNode: NodeDefinition<
+  CompositeCurveInputs,
+  CompositeCurveOutputs,
+  CompositeCurveParams
+> = {
   id: 'Surface::CompositeCurve',
   category: 'Surface',
   label: 'CompositeCurve',
@@ -22,29 +26,29 @@ export const SurfaceCurvesCompositeCurveNode: NodeDefinition<CompositeCurveInput
     curves: {
       type: 'Wire[]',
       label: 'Curves',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     composite: {
       type: 'Wire',
-      label: 'Composite'
-    }
+      label: 'Composite',
+    },
   },
   params: {
     continuity: {
       type: 'enum',
       label: 'Continuity',
-      default: "G1",
-      options: ["G0","G1","G2"]
+      default: 'G1',
+      options: ['G0', 'G1', 'G2'],
     },
     mergeTolerance: {
       type: 'number',
       label: 'Merge Tolerance',
       default: 0.01,
       min: 0.0001,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -52,12 +56,12 @@ export const SurfaceCurvesCompositeCurveNode: NodeDefinition<CompositeCurveInput
       params: {
         curves: inputs.curves,
         continuity: params.continuity,
-        mergeTolerance: params.mergeTolerance
-      }
+        mergeTolerance: params.mergeTolerance,
+      },
     });
-    
+
     return {
-      composite: result
+      composite: result,
     };
   },
 };

@@ -12,7 +12,11 @@ interface SmootherStepOutputs {
   result: unknown;
 }
 
-export const MathInterpolationSmootherStepNode: NodeDefinition<SmootherStepInputs, SmootherStepOutputs, SmootherStepParams> = {
+export const MathInterpolationSmootherStepNode: NodeDefinition<
+  SmootherStepInputs,
+  SmootherStepOutputs,
+  SmootherStepParams
+> = {
   id: 'Math::SmootherStep',
   category: 'Math',
   label: 'SmootherStep',
@@ -21,24 +25,24 @@ export const MathInterpolationSmootherStepNode: NodeDefinition<SmootherStepInput
     edge0: {
       type: 'number',
       label: 'Edge0',
-      required: true
+      required: true,
     },
     edge1: {
       type: 'number',
       label: 'Edge1',
-      required: true
+      required: true,
     },
     x: {
       type: 'number',
       label: 'X',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'number',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -47,12 +51,12 @@ export const MathInterpolationSmootherStepNode: NodeDefinition<SmootherStepInput
       params: {
         edge0: inputs.edge0,
         edge1: inputs.edge1,
-        x: inputs.x
-      }
+        x: inputs.x,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

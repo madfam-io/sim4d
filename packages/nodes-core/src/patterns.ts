@@ -54,7 +54,7 @@ export const LinearPatternNode: NodeDefinition<
   },
   async evaluate(ctx, inputs, params) {
     const direction = inputs.direction || params.direction;
-    
+
     const result = await ctx.worker.invoke('CREATE_LINEAR_PATTERN', {
       shape: inputs.shape,
       count: params.count,
@@ -70,7 +70,14 @@ export const LinearPatternNode: NodeDefinition<
 export const CircularPatternNode: NodeDefinition<
   { shape: ShapeHandle; axis?: Vec3; center?: Vec3 },
   { shapes: ShapeHandle[] },
-  { count: number; angle: number; center: Vec3; axis: Vec3; keepOriginal: boolean; rotateInstances: boolean }
+  {
+    count: number;
+    angle: number;
+    center: Vec3;
+    axis: Vec3;
+    keepOriginal: boolean;
+    rotateInstances: boolean;
+  }
 > = {
   id: 'Pattern::Circular',
   category: 'Pattern',
@@ -123,7 +130,7 @@ export const CircularPatternNode: NodeDefinition<
   async evaluate(ctx, inputs, params) {
     const center = inputs.center || params.center;
     const axis = inputs.axis || params.axis;
-    
+
     const result = await ctx.worker.invoke('CREATE_CIRCULAR_PATTERN', {
       shape: inputs.shape,
       count: params.count,
@@ -140,7 +147,15 @@ export const CircularPatternNode: NodeDefinition<
 export const RectangularPatternNode: NodeDefinition<
   { shape: ShapeHandle; direction1?: Vec3; direction2?: Vec3 },
   { shapes: ShapeHandle[] },
-  { count1: number; count2: number; spacing1: number; spacing2: number; direction1: Vec3; direction2: Vec3; keepOriginal: boolean }
+  {
+    count1: number;
+    count2: number;
+    spacing1: number;
+    spacing2: number;
+    direction1: Vec3;
+    direction2: Vec3;
+    keepOriginal: boolean;
+  }
 > = {
   id: 'Pattern::Rectangular',
   category: 'Pattern',
@@ -200,7 +215,7 @@ export const RectangularPatternNode: NodeDefinition<
   async evaluate(ctx, inputs, params) {
     const direction1 = inputs.direction1 || params.direction1;
     const direction2 = inputs.direction2 || params.direction2;
-    
+
     const result = await ctx.worker.invoke('CREATE_RECTANGULAR_PATTERN', {
       shape: inputs.shape,
       count1: params.count1,
@@ -398,7 +413,7 @@ export const HexPatternNode: NodeDefinition<
   },
   async evaluate(ctx, inputs, params) {
     const center = inputs.center || params.center;
-    
+
     const result = await ctx.worker.invoke('CREATE_HEX_PATTERN', {
       shape: inputs.shape,
       rings: params.rings,

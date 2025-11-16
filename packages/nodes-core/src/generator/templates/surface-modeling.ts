@@ -20,17 +20,15 @@ export const nurbsSurfaceTemplates: NodeTemplate[] = [
       { name: 'degreeU', type: 'number', default: 3, min: 1, max: 10, step: 1 },
       { name: 'degreeV', type: 'number', default: 3, min: 1, max: 10, step: 1 },
       { name: 'periodicU', type: 'boolean', default: false },
-      { name: 'periodicV', type: 'boolean', default: false }
+      { name: 'periodicV', type: 'boolean', default: false },
     ],
     inputs: [
       { name: 'controlPoints', type: 'Point[][]', required: true },
       { name: 'weights', type: 'number[][]', required: false },
       { name: 'knotsU', type: 'number[]', required: false },
-      { name: 'knotsV', type: 'number[]', required: false }
+      { name: 'knotsV', type: 'number[]', required: false },
     ],
-    outputs: [
-      { name: 'surface', type: 'Face' }
-    ]
+    outputs: [{ name: 'surface', type: 'Face' }],
   },
 
   {
@@ -42,15 +40,13 @@ export const nurbsSurfaceTemplates: NodeTemplate[] = [
     occtBinding: 'networkSurface',
     parameters: [
       { name: 'continuity', type: 'enum', options: ['G0', 'G1', 'G2'], default: 'G1' },
-      { name: 'tolerance', type: 'number', default: 0.01, min: 0.0001, max: 1 }
+      { name: 'tolerance', type: 'number', default: 0.01, min: 0.0001, max: 1 },
     ],
     inputs: [
       { name: 'uCurves', type: 'Wire[]', required: true },
-      { name: 'vCurves', type: 'Wire[]', required: true }
+      { name: 'vCurves', type: 'Wire[]', required: true },
     ],
-    outputs: [
-      { name: 'surface', type: 'Face' }
-    ]
+    outputs: [{ name: 'surface', type: 'Face' }],
   },
 
   {
@@ -63,16 +59,14 @@ export const nurbsSurfaceTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'degreeU', type: 'number', default: 3, min: 1, max: 10 },
       { name: 'degreeV', type: 'number', default: 3, min: 1, max: 10 },
-      { name: 'smoothness', type: 'number', default: 0.5, min: 0, max: 1 }
+      { name: 'smoothness', type: 'number', default: 0.5, min: 0, max: 1 },
     ],
     inputs: [
       { name: 'points', type: 'Point[]', required: true },
       { name: 'uCount', type: 'number', required: true },
-      { name: 'vCount', type: 'number', required: true }
+      { name: 'vCount', type: 'number', required: true },
     ],
-    outputs: [
-      { name: 'surface', type: 'Face' }
-    ]
+    outputs: [{ name: 'surface', type: 'Face' }],
   },
 
   {
@@ -87,11 +81,9 @@ export const nurbsSurfaceTemplates: NodeTemplate[] = [
       { name: 'edge1', type: 'Edge', required: true },
       { name: 'edge2', type: 'Edge', required: true },
       { name: 'edge3', type: 'Edge', required: true },
-      { name: 'edge4', type: 'Edge', required: true }
+      { name: 'edge4', type: 'Edge', required: true },
     ],
-    outputs: [
-      { name: 'surface', type: 'Face' }
-    ]
+    outputs: [{ name: 'surface', type: 'Face' }],
   },
 
   {
@@ -105,12 +97,10 @@ export const nurbsSurfaceTemplates: NodeTemplate[] = [
     inputs: [
       { name: 'uCurves', type: 'Wire[]', required: true },
       { name: 'vCurves', type: 'Wire[]', required: true },
-      { name: 'points', type: 'Point[][]', required: false }
+      { name: 'points', type: 'Point[][]', required: false },
     ],
-    outputs: [
-      { name: 'surface', type: 'Face' }
-    ]
-  }
+    outputs: [{ name: 'surface', type: 'Face' }],
+  },
 ];
 
 /**
@@ -126,16 +116,14 @@ export const nurbsCurveTemplates: NodeTemplate[] = [
     occtBinding: 'nurbsCurve',
     parameters: [
       { name: 'degree', type: 'number', default: 3, min: 1, max: 10, step: 1 },
-      { name: 'periodic', type: 'boolean', default: false }
+      { name: 'periodic', type: 'boolean', default: false },
     ],
     inputs: [
       { name: 'controlPoints', type: 'Point[]', required: true },
       { name: 'weights', type: 'number[]', required: false },
-      { name: 'knots', type: 'number[]', required: false }
+      { name: 'knots', type: 'number[]', required: false },
     ],
-    outputs: [
-      { name: 'curve', type: 'Wire' }
-    ]
+    outputs: [{ name: 'curve', type: 'Wire' }],
   },
 
   {
@@ -149,14 +137,10 @@ export const nurbsCurveTemplates: NodeTemplate[] = [
       { name: 'degree', type: 'number', default: 3, min: 1, max: 10 },
       { name: 'periodic', type: 'boolean', default: false },
       { name: 'tangentStart', type: 'vector3', default: null },
-      { name: 'tangentEnd', type: 'vector3', default: null }
+      { name: 'tangentEnd', type: 'vector3', default: null },
     ],
-    inputs: [
-      { name: 'points', type: 'Point[]', required: true }
-    ],
-    outputs: [
-      { name: 'curve', type: 'Wire' }
-    ]
+    inputs: [{ name: 'points', type: 'Point[]', required: true }],
+    outputs: [{ name: 'curve', type: 'Wire' }],
   },
 
   {
@@ -169,14 +153,10 @@ export const nurbsCurveTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'degree', type: 'number', default: 3, min: 1, max: 10 },
       { name: 'tolerance', type: 'number', default: 0.01, min: 0.0001, max: 1 },
-      { name: 'smoothness', type: 'number', default: 0.5, min: 0, max: 1 }
+      { name: 'smoothness', type: 'number', default: 0.5, min: 0, max: 1 },
     ],
-    inputs: [
-      { name: 'points', type: 'Point[]', required: true }
-    ],
-    outputs: [
-      { name: 'curve', type: 'Wire' }
-    ]
+    inputs: [{ name: 'points', type: 'Point[]', required: true }],
+    outputs: [{ name: 'curve', type: 'Wire' }],
   },
 
   {
@@ -189,17 +169,15 @@ export const nurbsCurveTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'continuityStart', type: 'enum', options: ['G0', 'G1', 'G2', 'G3'], default: 'G1' },
       { name: 'continuityEnd', type: 'enum', options: ['G0', 'G1', 'G2', 'G3'], default: 'G1' },
-      { name: 'bulge', type: 'number', default: 1, min: 0.1, max: 10 }
+      { name: 'bulge', type: 'number', default: 1, min: 0.1, max: 10 },
     ],
     inputs: [
       { name: 'curve1', type: 'Wire', required: true },
       { name: 'curve2', type: 'Wire', required: true },
       { name: 'point1', type: 'Point', required: false },
-      { name: 'point2', type: 'Point', required: false }
+      { name: 'point2', type: 'Point', required: false },
     ],
-    outputs: [
-      { name: 'blendCurve', type: 'Wire' }
-    ]
+    outputs: [{ name: 'blendCurve', type: 'Wire' }],
   },
 
   {
@@ -211,15 +189,11 @@ export const nurbsCurveTemplates: NodeTemplate[] = [
     occtBinding: 'compositeCurve',
     parameters: [
       { name: 'continuity', type: 'enum', options: ['G0', 'G1', 'G2'], default: 'G1' },
-      { name: 'mergeTolerance', type: 'number', default: 0.01, min: 0.0001, max: 1 }
+      { name: 'mergeTolerance', type: 'number', default: 0.01, min: 0.0001, max: 1 },
     ],
-    inputs: [
-      { name: 'curves', type: 'Wire[]', required: true }
-    ],
-    outputs: [
-      { name: 'composite', type: 'Wire' }
-    ]
-  }
+    inputs: [{ name: 'curves', type: 'Wire[]', required: true }],
+    outputs: [{ name: 'composite', type: 'Wire' }],
+  },
 ];
 
 /**
@@ -234,16 +208,19 @@ export const surfaceAnalysisTemplates: NodeTemplate[] = [
     operation: 'CURVATURE_ANALYSIS',
     occtBinding: 'curvatureAnalysis',
     parameters: [
-      { name: 'analysisType', type: 'enum', options: ['gaussian', 'mean', 'principal', 'radius'], default: 'gaussian' },
-      { name: 'sampleDensity', type: 'number', default: 50, min: 10, max: 200, step: 1 }
+      {
+        name: 'analysisType',
+        type: 'enum',
+        options: ['gaussian', 'mean', 'principal', 'radius'],
+        default: 'gaussian',
+      },
+      { name: 'sampleDensity', type: 'number', default: 50, min: 10, max: 200, step: 1 },
     ],
-    inputs: [
-      { name: 'surface', type: 'Face', required: true }
-    ],
+    inputs: [{ name: 'surface', type: 'Face', required: true }],
     outputs: [
       { name: 'analysis', type: 'Data' },
-      { name: 'visualization', type: 'Shape' }
-    ]
+      { name: 'visualization', type: 'Shape' },
+    ],
   },
 
   {
@@ -256,14 +233,10 @@ export const surfaceAnalysisTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'stripeCount', type: 'number', default: 20, min: 5, max: 100, step: 1 },
       { name: 'stripeDirection', type: 'vector3', default: [0, 0, 1] },
-      { name: 'stripeWidth', type: 'number', default: 1, min: 0.1, max: 10 }
+      { name: 'stripeWidth', type: 'number', default: 1, min: 0.1, max: 10 },
     ],
-    inputs: [
-      { name: 'surface', type: 'Face', required: true }
-    ],
-    outputs: [
-      { name: 'stripes', type: 'Wire[]' }
-    ]
+    inputs: [{ name: 'surface', type: 'Face', required: true }],
+    outputs: [{ name: 'stripes', type: 'Wire[]' }],
   },
 
   {
@@ -276,15 +249,13 @@ export const surfaceAnalysisTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'pullDirection', type: 'vector3', default: [0, 0, 1] },
       { name: 'requiredAngle', type: 'number', default: 3, min: 0, max: 90 },
-      { name: 'colorMapping', type: 'boolean', default: true }
+      { name: 'colorMapping', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'shape', type: 'Shape', required: true }
-    ],
+    inputs: [{ name: 'shape', type: 'Shape', required: true }],
     outputs: [
       { name: 'analysis', type: 'Data' },
-      { name: 'problematicFaces', type: 'Face[]' }
-    ]
+      { name: 'problematicFaces', type: 'Face[]' },
+    ],
   },
 
   {
@@ -296,17 +267,17 @@ export const surfaceAnalysisTemplates: NodeTemplate[] = [
     occtBinding: 'continuityCheck',
     parameters: [
       { name: 'checkType', type: 'enum', options: ['G0', 'G1', 'G2', 'G3'], default: 'G1' },
-      { name: 'tolerance', type: 'number', default: 0.01, min: 0.0001, max: 1 }
+      { name: 'tolerance', type: 'number', default: 0.01, min: 0.0001, max: 1 },
     ],
     inputs: [
       { name: 'surface1', type: 'Face', required: true },
       { name: 'surface2', type: 'Face', required: true },
-      { name: 'edge', type: 'Edge', required: false }
+      { name: 'edge', type: 'Edge', required: false },
     ],
     outputs: [
       { name: 'isContinuous', type: 'boolean' },
-      { name: 'deviations', type: 'Data' }
-    ]
+      { name: 'deviations', type: 'Data' },
+    ],
   },
 
   {
@@ -317,17 +288,17 @@ export const surfaceAnalysisTemplates: NodeTemplate[] = [
     operation: 'SURFACE_DEVIATION',
     occtBinding: 'surfaceDeviation',
     parameters: [
-      { name: 'sampleCount', type: 'number', default: 1000, min: 100, max: 10000, step: 100 }
+      { name: 'sampleCount', type: 'number', default: 1000, min: 100, max: 10000, step: 100 },
     ],
     inputs: [
       { name: 'surface1', type: 'Face', required: true },
-      { name: 'surface2', type: 'Face', required: true }
+      { name: 'surface2', type: 'Face', required: true },
     ],
     outputs: [
       { name: 'maxDeviation', type: 'number' },
       { name: 'avgDeviation', type: 'number' },
-      { name: 'deviationMap', type: 'Data' }
-    ]
+      { name: 'deviationMap', type: 'Data' },
+    ],
   },
 
   {
@@ -339,14 +310,10 @@ export const surfaceAnalysisTemplates: NodeTemplate[] = [
     occtBinding: 'reflectionLines',
     parameters: [
       { name: 'lineCount', type: 'number', default: 10, min: 3, max: 50, step: 1 },
-      { name: 'viewDirection', type: 'vector3', default: [0, 0, 1] }
+      { name: 'viewDirection', type: 'vector3', default: [0, 0, 1] },
     ],
-    inputs: [
-      { name: 'surface', type: 'Face', required: true }
-    ],
-    outputs: [
-      { name: 'reflectionLines', type: 'Wire[]' }
-    ]
+    inputs: [{ name: 'surface', type: 'Face', required: true }],
+    outputs: [{ name: 'reflectionLines', type: 'Wire[]' }],
   },
 
   {
@@ -358,14 +325,10 @@ export const surfaceAnalysisTemplates: NodeTemplate[] = [
     occtBinding: 'isocurveExtract',
     parameters: [
       { name: 'direction', type: 'enum', options: ['U', 'V', 'both'], default: 'both' },
-      { name: 'count', type: 'number', default: 10, min: 1, max: 100, step: 1 }
+      { name: 'count', type: 'number', default: 10, min: 1, max: 100, step: 1 },
     ],
-    inputs: [
-      { name: 'surface', type: 'Face', required: true }
-    ],
-    outputs: [
-      { name: 'isocurves', type: 'Wire[]' }
-    ]
+    inputs: [{ name: 'surface', type: 'Face', required: true }],
+    outputs: [{ name: 'isocurves', type: 'Wire[]' }],
   },
 
   {
@@ -378,15 +341,11 @@ export const surfaceAnalysisTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'planeNormal', type: 'vector3', default: [0, 0, 1] },
       { name: 'spacing', type: 'number', default: 10, min: 0.1, max: 1000 },
-      { name: 'count', type: 'number', default: 10, min: 1, max: 100, step: 1 }
+      { name: 'count', type: 'number', default: 10, min: 1, max: 100, step: 1 },
     ],
-    inputs: [
-      { name: 'shape', type: 'Shape', required: true }
-    ],
-    outputs: [
-      { name: 'sections', type: 'Wire[]' }
-    ]
-  }
+    inputs: [{ name: 'shape', type: 'Shape', required: true }],
+    outputs: [{ name: 'sections', type: 'Wire[]' }],
+  },
 ];
 
 /**
@@ -402,15 +361,13 @@ export const curveOperationTemplates: NodeTemplate[] = [
     occtBinding: 'projectCurve',
     parameters: [
       { name: 'projectionDirection', type: 'vector3', default: [0, 0, -1] },
-      { name: 'projectBoth', type: 'boolean', default: false }
+      { name: 'projectBoth', type: 'boolean', default: false },
     ],
     inputs: [
       { name: 'curve', type: 'Wire', required: true },
-      { name: 'surface', type: 'Face', required: true }
+      { name: 'surface', type: 'Face', required: true },
     ],
-    outputs: [
-      { name: 'projectedCurve', type: 'Wire' }
-    ]
+    outputs: [{ name: 'projectedCurve', type: 'Wire' }],
   },
 
   {
@@ -422,15 +379,13 @@ export const curveOperationTemplates: NodeTemplate[] = [
     occtBinding: 'intersectCurves',
     parameters: [
       { name: 'tolerance', type: 'number', default: 0.01, min: 0.0001, max: 1 },
-      { name: 'extend', type: 'boolean', default: false }
+      { name: 'extend', type: 'boolean', default: false },
     ],
     inputs: [
       { name: 'curve1', type: 'Wire', required: true },
-      { name: 'curve2', type: 'Wire', required: true }
+      { name: 'curve2', type: 'Wire', required: true },
     ],
-    outputs: [
-      { name: 'intersectionPoints', type: 'Point[]' }
-    ]
+    outputs: [{ name: 'intersectionPoints', type: 'Point[]' }],
   },
 
   {
@@ -443,11 +398,9 @@ export const curveOperationTemplates: NodeTemplate[] = [
     parameters: [],
     inputs: [
       { name: 'surface', type: 'Face', required: true },
-      { name: 'uvPoints', type: 'Point2D[]', required: true }
+      { name: 'uvPoints', type: 'Point2D[]', required: true },
     ],
-    outputs: [
-      { name: 'curve', type: 'Wire' }
-    ]
+    outputs: [{ name: 'curve', type: 'Wire' }],
   },
 
   {
@@ -461,11 +414,9 @@ export const curveOperationTemplates: NodeTemplate[] = [
     inputs: [
       { name: 'surface', type: 'Face', required: true },
       { name: 'startPoint', type: 'Point', required: true },
-      { name: 'endPoint', type: 'Point', required: true }
+      { name: 'endPoint', type: 'Point', required: true },
     ],
-    outputs: [
-      { name: 'geodesic', type: 'Wire' }
-    ]
+    outputs: [{ name: 'geodesic', type: 'Wire' }],
   },
 
   {
@@ -477,15 +428,11 @@ export const curveOperationTemplates: NodeTemplate[] = [
     occtBinding: 'isoparametricCurve',
     parameters: [
       { name: 'direction', type: 'enum', options: ['U', 'V'], default: 'U' },
-      { name: 'parameter', type: 'number', default: 0.5, min: 0, max: 1 }
+      { name: 'parameter', type: 'number', default: 0.5, min: 0, max: 1 },
     ],
-    inputs: [
-      { name: 'surface', type: 'Face', required: true }
-    ],
-    outputs: [
-      { name: 'isoCurve', type: 'Wire' }
-    ]
-  }
+    inputs: [{ name: 'surface', type: 'Face', required: true }],
+    outputs: [{ name: 'isoCurve', type: 'Wire' }],
+  },
 ];
 
 // Export all templates
@@ -493,5 +440,5 @@ export const allSurfaceModelingTemplates = [
   ...nurbsSurfaceTemplates,
   ...nurbsCurveTemplates,
   ...surfaceAnalysisTemplates,
-  ...curveOperationTemplates
+  ...curveOperationTemplates,
 ];

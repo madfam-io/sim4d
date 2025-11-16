@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -13,7 +12,11 @@ interface Outputs {
   intersectionPoints: Point[];
 }
 
-export const IntersectCurvesNode: NodeDefinition<IntersectCurvesInputs, IntersectCurvesOutputs, IntersectCurvesParams> = {
+export const IntersectCurvesNode: NodeDefinition<
+  IntersectCurvesInputs,
+  IntersectCurvesOutputs,
+  IntersectCurvesParams
+> = {
   type: 'Surface::IntersectCurves',
   category: 'Surface',
   subcategory: 'CurveOps',
@@ -21,44 +24,41 @@ export const IntersectCurvesNode: NodeDefinition<IntersectCurvesInputs, Intersec
   metadata: {
     label: 'IntersectCurves',
     description: 'Find curve intersections',
-    
-    
   },
 
   params: {
-        tolerance: {
-      "default": 0.01,
-      "min": 0.0001,
-      "max": 1
+    tolerance: {
+      default: 0.01,
+      min: 0.0001,
+      max: 1,
     },
     extend: {
-      "default": false
-    }
+      default: false,
+    },
   },
 
   inputs: {
-        curve1: 'Wire',
-    curve2: 'Wire'
+    curve1: 'Wire',
+    curve2: 'Wire',
   },
 
   outputs: {
-        intersectionPoints: 'Point[]'
+    intersectionPoints: 'Point[]',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'intersectCurves',
       params: {
         curve1: inputs.curve1,
         curve2: inputs.curve2,
         tolerance: params.tolerance,
-        extend: params.extend
-      }
+        extend: params.extend,
+      },
     });
 
     return {
-      intersectionPoints: result
+      intersectionPoints: result,
     };
-  }
+  },
 };

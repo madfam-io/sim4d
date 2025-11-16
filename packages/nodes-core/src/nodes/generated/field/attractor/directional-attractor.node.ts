@@ -14,7 +14,11 @@ interface DirectionalAttractorOutputs {
   field: unknown;
 }
 
-export const FieldAttractorDirectionalAttractorNode: NodeDefinition<DirectionalAttractorInputs, DirectionalAttractorOutputs, DirectionalAttractorParams> = {
+export const FieldAttractorDirectionalAttractorNode: NodeDefinition<
+  DirectionalAttractorInputs,
+  DirectionalAttractorOutputs,
+  DirectionalAttractorParams
+> = {
   id: 'Field::DirectionalAttractor',
   category: 'Field',
   label: 'DirectionalAttractor',
@@ -23,35 +27,35 @@ export const FieldAttractorDirectionalAttractorNode: NodeDefinition<DirectionalA
     origin: {
       type: 'Point',
       label: 'Origin',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     field: {
       type: 'VectorField',
-      label: 'Field'
-    }
+      label: 'Field',
+    },
   },
   params: {
     direction: {
       type: 'vec3',
       label: 'Direction',
-      default: [1,0,0]
+      default: [1, 0, 0],
     },
     strength: {
       type: 'number',
       label: 'Strength',
       default: 1,
       min: -10,
-      max: 10
+      max: 10,
     },
     spread: {
       type: 'number',
       label: 'Spread',
       default: 45,
       min: 0,
-      max: 180
-    }
+      max: 180,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -60,12 +64,12 @@ export const FieldAttractorDirectionalAttractorNode: NodeDefinition<DirectionalA
         origin: inputs.origin,
         direction: params.direction,
         strength: params.strength,
-        spread: params.spread
-      }
+        spread: params.spread,
+      },
     });
-    
+
     return {
-      field: result
+      field: result,
     };
   },
 };

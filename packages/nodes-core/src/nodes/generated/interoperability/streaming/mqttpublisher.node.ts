@@ -16,7 +16,11 @@ interface MQTTPublisherOutputs {
   messageId: unknown;
 }
 
-export const InteroperabilityStreamingMQTTPublisherNode: NodeDefinition<MQTTPublisherInputs, MQTTPublisherOutputs, MQTTPublisherParams> = {
+export const InteroperabilityStreamingMQTTPublisherNode: NodeDefinition<
+  MQTTPublisherInputs,
+  MQTTPublisherOutputs,
+  MQTTPublisherParams
+> = {
   id: 'Interoperability::MQTTPublisher',
   category: 'Interoperability',
   label: 'MQTTPublisher',
@@ -25,43 +29,43 @@ export const InteroperabilityStreamingMQTTPublisherNode: NodeDefinition<MQTTPubl
     payload: {
       type: 'string',
       label: 'Payload',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     published: {
       type: 'boolean',
-      label: 'Published'
+      label: 'Published',
     },
     messageId: {
       type: 'string',
-      label: 'Message Id'
-    }
+      label: 'Message Id',
+    },
   },
   params: {
     broker: {
       type: 'string',
       label: 'Broker',
-      default: ""
+      default: '',
     },
     port: {
       type: 'number',
       label: 'Port',
       default: 1883,
       min: 1,
-      max: 65535
+      max: 65535,
     },
     topic: {
       type: 'string',
       label: 'Topic',
-      default: ""
+      default: '',
     },
     qos: {
       type: 'enum',
       label: 'Qos',
-      default: "0",
-      options: ["0","1","2"]
-    }
+      default: '0',
+      options: ['0', '1', '2'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -71,13 +75,13 @@ export const InteroperabilityStreamingMQTTPublisherNode: NodeDefinition<MQTTPubl
         broker: params.broker,
         port: params.port,
         topic: params.topic,
-        qos: params.qos
-      }
+        qos: params.qos,
+      },
     });
-    
+
     return {
       published: results.published,
-      messageId: results.messageId
+      messageId: results.messageId,
     };
   },
 };

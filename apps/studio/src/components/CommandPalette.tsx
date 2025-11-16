@@ -43,44 +43,47 @@ export function CommandPalette({ isOpen, onClose, position }: CommandPaletteProp
   }, []);
 
   // Add system commands
-  const systemCommands: SearchResult[] = useMemo(() => [
-    {
-      id: 'cmd:evaluate',
-      label: 'Evaluate Graph',
-      category: 'Commands',
-      description: 'Run graph evaluation (Ctrl+E)',
-      type: 'command',
-      action: evaluateGraph,
-    },
-    {
-      id: 'cmd:undo',
-      label: 'Undo',
-      category: 'Commands',
-      description: 'Undo last action (Ctrl+Z)',
-      type: 'command',
-      action: () => canUndo() && undo(),
-    },
-    {
-      id: 'cmd:redo',
-      label: 'Redo',
-      category: 'Commands',
-      description: 'Redo last action (Ctrl+Shift+Z)',
-      type: 'command',
-      action: () => canRedo() && redo(),
-    },
-    {
-      id: 'cmd:clear',
-      label: 'Clear Graph',
-      category: 'Commands',
-      description: 'Remove all nodes and edges',
-      type: 'command',
-      action: () => {
-        if (window.confirm('Clear all nodes and edges?')) {
-          clearGraph();
-        }
+  const systemCommands: SearchResult[] = useMemo(
+    () => [
+      {
+        id: 'cmd:evaluate',
+        label: 'Evaluate Graph',
+        category: 'Commands',
+        description: 'Run graph evaluation (Ctrl+E)',
+        type: 'command',
+        action: evaluateGraph,
       },
-    },
-  ], [evaluateGraph, undo, redo, canUndo, canRedo, clearGraph]);
+      {
+        id: 'cmd:undo',
+        label: 'Undo',
+        category: 'Commands',
+        description: 'Undo last action (Ctrl+Z)',
+        type: 'command',
+        action: () => canUndo() && undo(),
+      },
+      {
+        id: 'cmd:redo',
+        label: 'Redo',
+        category: 'Commands',
+        description: 'Redo last action (Ctrl+Shift+Z)',
+        type: 'command',
+        action: () => canRedo() && redo(),
+      },
+      {
+        id: 'cmd:clear',
+        label: 'Clear Graph',
+        category: 'Commands',
+        description: 'Remove all nodes and edges',
+        type: 'command',
+        action: () => {
+          if (window.confirm('Clear all nodes and edges?')) {
+            clearGraph();
+          }
+        },
+      },
+    ],
+    [evaluateGraph, undo, redo, canUndo, canRedo, clearGraph]
+  );
 
   // Filter results based on search
   const filteredResults = useMemo(() => {
@@ -92,7 +95,7 @@ export function CommandPalette({ isOpen, onClose, position }: CommandPaletteProp
     const allItems = [...availableNodes, ...systemCommands];
 
     // Score each item
-    const scored = allItems.map(item => {
+    const scored = allItems.map((item) => {
       let score = 0;
       const label = item.label.toLowerCase();
       const category = item.category.toLowerCase();
@@ -158,15 +161,11 @@ export function CommandPalette({ isOpen, onClose, position }: CommandPaletteProp
       switch (e.key) {
         case 'ArrowDown':
           e.preventDefault();
-          setSelectedIndex(prev =>
-            prev < filteredResults.length - 1 ? prev + 1 : 0
-          );
+          setSelectedIndex((prev) => (prev < filteredResults.length - 1 ? prev + 1 : 0));
           break;
         case 'ArrowUp':
           e.preventDefault();
-          setSelectedIndex(prev =>
-            prev > 0 ? prev - 1 : filteredResults.length - 1
-          );
+          setSelectedIndex((prev) => (prev > 0 ? prev - 1 : filteredResults.length - 1));
           break;
         case 'Enter':
           e.preventDefault();
@@ -217,7 +216,10 @@ export function CommandPalette({ isOpen, onClose, position }: CommandPaletteProp
   return (
     <>
       <div className="command-palette-backdrop" onClick={onClose} />
-      <div className="command-palette" style={position ? { left: position.x, top: position.y } : undefined}>
+      <div
+        className="command-palette"
+        style={position ? { left: position.x, top: position.y } : undefined}
+      >
         <div className="command-palette-header">
           <input
             ref={inputRef}
@@ -232,9 +234,7 @@ export function CommandPalette({ isOpen, onClose, position }: CommandPaletteProp
 
         <div className="command-palette-results">
           {filteredResults.length === 0 ? (
-            <div className="command-palette-empty">
-              No results found for "{search}"
-            </div>
+            <div className="command-palette-empty">No results found for "{search}"</div>
           ) : (
             filteredResults.map((result, index) => (
               <div
@@ -252,9 +252,7 @@ export function CommandPalette({ isOpen, onClose, position }: CommandPaletteProp
                     <span className="command-palette-item-category">{result.category}</span>
                   </div>
                   {result.description && (
-                    <div className="command-palette-item-description">
-                      {result.description}
-                    </div>
+                    <div className="command-palette-item-description">{result.description}</div>
                   )}
                 </div>
               </div>

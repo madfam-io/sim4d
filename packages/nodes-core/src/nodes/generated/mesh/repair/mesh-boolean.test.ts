@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { MeshRepairMeshBooleanNode } from './mesh-boolean.node';
 import { createTestContext } from '../test-utils';
@@ -8,11 +7,11 @@ describe('MeshRepairMeshBooleanNode', () => {
     const context = createTestContext();
     const inputs = {
       mesh1: undefined,
-      mesh2: undefined
+      mesh2: undefined,
     } as any;
     const params = {
-      operation: "union",
-      tolerance: 0.01
+      operation: 'union',
+      tolerance: 0.01,
     } as any;
 
     const result = await MeshRepairMeshBooleanNode.evaluate(context, inputs, params);

@@ -1,6 +1,11 @@
-
 import { NodeDefinition } from '@brepflow/types';
-import { NumberParam, BoolParam, StringParam, EnumParam, Vector3Param } from '../../../../utils/param-utils.js';
+import {
+  NumberParam,
+  BoolParam,
+  StringParam,
+  EnumParam,
+  Vector3Param,
+} from '../../../../utils/param-utils.js';
 
 interface Params {
   minThickness: number;
@@ -15,7 +20,11 @@ interface Outputs {
   averageThickness: number;
 }
 
-export const WallThicknessNode: NodeDefinition<WallThicknessInputs, WallThicknessOutputs, WallThicknessParams> = {
+export const WallThicknessNode: NodeDefinition<
+  WallThicknessInputs,
+  WallThicknessOutputs,
+  WallThicknessParams
+> = {
   type: 'Analysis::WallThickness',
   category: 'Analysis',
   subcategory: 'Geometry',
@@ -23,48 +32,45 @@ export const WallThicknessNode: NodeDefinition<WallThicknessInputs, WallThicknes
   metadata: {
     label: 'WallThickness',
     description: 'Analyze wall thickness',
-    
-    
   },
 
   params: {
-        minThickness: NumberParam({
-      "default": 1,
-      "min": 0.01,
-      "max": 1000
+    minThickness: NumberParam({
+      default: 1,
+      min: 0.01,
+      max: 1000,
     }),
     maxThickness: NumberParam({
-      "default": 10,
-      "min": 0.01,
-      "max": 1000
-    })
+      default: 10,
+      min: 0.01,
+      max: 1000,
+    }),
   },
 
   inputs: {
-        solid: 'Solid'
+    solid: 'Solid',
   },
 
   outputs: {
-        thinAreas: 'Face[]',
+    thinAreas: 'Face[]',
     thickAreas: 'Face[]',
-    averageThickness: 'number'
+    averageThickness: 'number',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'analyzeWallThickness',
       params: {
         solid: inputs.solid,
         minThickness: params.minThickness,
-        maxThickness: params.maxThickness
-      }
+        maxThickness: params.maxThickness,
+      },
     });
 
     return {
       thinAreas: result,
       thickAreas: result,
-      averageThickness: result
+      averageThickness: result,
     };
-  }
+  },
 };

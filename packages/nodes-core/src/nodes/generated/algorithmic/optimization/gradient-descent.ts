@@ -19,7 +19,11 @@ interface GradientDescentOutputs {
   convergence: unknown;
 }
 
-export const AlgorithmicOptimizationGradientDescentNode: NodeDefinition<GradientDescentInputs, GradientDescentOutputs, GradientDescentParams> = {
+export const AlgorithmicOptimizationGradientDescentNode: NodeDefinition<
+  GradientDescentInputs,
+  GradientDescentOutputs,
+  GradientDescentParams
+> = {
   id: 'Algorithmic::GradientDescent',
   type: 'Algorithmic::GradientDescent',
   category: 'Algorithmic',
@@ -29,31 +33,31 @@ export const AlgorithmicOptimizationGradientDescentNode: NodeDefinition<Gradient
     objective: {
       type: 'Properties',
       label: 'Objective',
-      required: true
+      required: true,
     },
     initialPoint: {
       type: 'Point',
       label: 'Initial Point',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     optimumPoint: {
       type: 'Point',
-      label: 'Optimum Point'
+      label: 'Optimum Point',
     },
     optimumValue: {
       type: 'number',
-      label: 'Optimum Value'
+      label: 'Optimum Value',
     },
     trajectory: {
       type: 'Point[]',
-      label: 'Trajectory'
+      label: 'Trajectory',
     },
     convergence: {
       type: 'number[]',
-      label: 'Convergence'
-    }
+      label: 'Convergence',
+    },
   },
   params: {
     learningRate: {
@@ -61,29 +65,29 @@ export const AlgorithmicOptimizationGradientDescentNode: NodeDefinition<Gradient
       label: 'Learning Rate',
       default: 0.01,
       min: 0.001,
-      max: 1
+      max: 1,
     },
     maxIterations: {
       type: 'number',
       label: 'Max Iterations',
       default: 1000,
       min: 10,
-      max: 10000
+      max: 10000,
     },
     tolerance: {
       type: 'number',
       label: 'Tolerance',
       default: 0.001,
       min: 0.000001,
-      max: 0.1
+      max: 0.1,
     },
     momentum: {
       type: 'number',
       label: 'Momentum',
       default: 0.9,
       min: 0,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -94,15 +98,15 @@ export const AlgorithmicOptimizationGradientDescentNode: NodeDefinition<Gradient
         learningRate: params.learningRate,
         maxIterations: params.maxIterations,
         tolerance: params.tolerance,
-        momentum: params.momentum
-      }
+        momentum: params.momentum,
+      },
     });
-    
+
     return {
       optimumPoint: results.optimumPoint,
       optimumValue: results.optimumValue,
       trajectory: results.trajectory,
-      convergence: results.convergence
+      convergence: results.convergence,
     };
   },
 };

@@ -128,11 +128,7 @@ export interface ScriptedNodeDefinition extends NodeDefinition {
   };
 
   // Enhanced evaluation with script execution
-  evaluate: (
-    ctx: ScriptContext,
-    inputs: any,
-    params: any
-  ) => Promise<any>;
+  evaluate: (ctx: ScriptContext, inputs: any, params: any) => Promise<any>;
 
   // Script lifecycle hooks
   onInitialize?: (ctx: ScriptContext) => Promise<void>;
@@ -205,10 +201,7 @@ export interface ScriptSandbox {
 
 export interface ScriptEngine {
   // Language management
-  registerLanguage: (
-    language: ScriptLanguage,
-    executor: ScriptExecutor
-  ) => void;
+  registerLanguage: (language: ScriptLanguage, executor: ScriptExecutor) => void;
 
   getSupportedLanguages: () => ScriptLanguage[];
 
@@ -224,10 +217,7 @@ export interface ScriptEngine {
     permissions: ScriptPermissions
   ) => Promise<ScriptedNodeDefinition>;
 
-  updateNodeScript: (
-    nodeId: NodeId,
-    script: string
-  ) => Promise<ScriptedNodeDefinition>;
+  updateNodeScript: (nodeId: NodeId, script: string) => Promise<ScriptedNodeDefinition>;
 
   // Template management
   getTemplates: (category?: string) => ScriptTemplate[];

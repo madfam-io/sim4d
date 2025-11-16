@@ -19,26 +19,26 @@ export const MathLogarithmicLog10Node: NodeDefinition<Log10Inputs, Log10Outputs,
     value: {
       type: 'number',
       label: 'Value',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'number',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathLog10',
       params: {
-        value: inputs.value
-      }
+        value: inputs.value,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

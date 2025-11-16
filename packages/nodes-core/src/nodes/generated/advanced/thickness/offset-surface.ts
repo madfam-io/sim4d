@@ -14,7 +14,11 @@ interface OffsetSurfaceOutputs {
   offsetShape: unknown;
 }
 
-export const AdvancedThicknessOffsetSurfaceNode: NodeDefinition<OffsetSurfaceInputs, OffsetSurfaceOutputs, OffsetSurfaceParams> = {
+export const AdvancedThicknessOffsetSurfaceNode: NodeDefinition<
+  OffsetSurfaceInputs,
+  OffsetSurfaceOutputs,
+  OffsetSurfaceParams
+> = {
   id: 'Advanced::OffsetSurface',
   type: 'Advanced::OffsetSurface',
   category: 'Advanced',
@@ -24,14 +28,14 @@ export const AdvancedThicknessOffsetSurfaceNode: NodeDefinition<OffsetSurfaceInp
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     offsetShape: {
       type: 'Shape',
-      label: 'Offset Shape'
-    }
+      label: 'Offset Shape',
+    },
   },
   params: {
     offset: {
@@ -39,18 +43,18 @@ export const AdvancedThicknessOffsetSurfaceNode: NodeDefinition<OffsetSurfaceInp
       label: 'Offset',
       default: 5,
       min: -1000,
-      max: 1000
+      max: 1000,
     },
     fillGaps: {
       type: 'boolean',
       label: 'Fill Gaps',
-      default: true
+      default: true,
     },
     extend: {
       type: 'boolean',
       label: 'Extend',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -59,12 +63,12 @@ export const AdvancedThicknessOffsetSurfaceNode: NodeDefinition<OffsetSurfaceInp
         shape: inputs.shape,
         offset: params.offset,
         fillGaps: params.fillGaps,
-        extend: params.extend
-      }
+        extend: params.extend,
+      },
     });
-    
+
     return {
-      offsetShape: result
+      offsetShape: result,
     };
   },
 };

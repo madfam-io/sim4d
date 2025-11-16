@@ -15,7 +15,11 @@ interface ExportDXFOutputs {
   dxfData: unknown;
 }
 
-export const SheetMetalUnfoldExportDXFNode: NodeDefinition<ExportDXFInputs, ExportDXFOutputs, ExportDXFParams> = {
+export const SheetMetalUnfoldExportDXFNode: NodeDefinition<
+  ExportDXFInputs,
+  ExportDXFOutputs,
+  ExportDXFParams
+> = {
   id: 'SheetMetal::ExportDXF',
   type: 'SheetMetal::ExportDXF',
   category: 'SheetMetal',
@@ -25,37 +29,37 @@ export const SheetMetalUnfoldExportDXFNode: NodeDefinition<ExportDXFInputs, Expo
     flatPattern: {
       type: 'Shape',
       label: 'Flat Pattern',
-      required: true
+      required: true,
     },
     annotations: {
       type: 'Data',
       label: 'Annotations',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     dxfData: {
       type: 'Data',
-      label: 'Dxf Data'
-    }
+      label: 'Dxf Data',
+    },
   },
   params: {
     inclueBendLines: {
       type: 'boolean',
       label: 'Inclue Bend Lines',
-      default: true
+      default: true,
     },
     includeFormingTools: {
       type: 'boolean',
       label: 'Include Forming Tools',
-      default: true
+      default: true,
     },
     layerMapping: {
       type: 'enum',
       label: 'Layer Mapping',
-      default: "by-type",
-      options: ["by-feature","by-type","single"]
-    }
+      default: 'by-type',
+      options: ['by-feature', 'by-type', 'single'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -65,12 +69,12 @@ export const SheetMetalUnfoldExportDXFNode: NodeDefinition<ExportDXFInputs, Expo
         annotations: inputs.annotations,
         inclueBendLines: params.inclueBendLines,
         includeFormingTools: params.includeFormingTools,
-        layerMapping: params.layerMapping
-      }
+        layerMapping: params.layerMapping,
+      },
     });
-    
+
     return {
-      dxfData: result
+      dxfData: result,
     };
   },
 };

@@ -12,7 +12,11 @@ interface UntrimSurfaceOutputs {
   untrimmedSurface: unknown;
 }
 
-export const AdvancedSurfaceUntrimSurfaceNode: NodeDefinition<UntrimSurfaceInputs, UntrimSurfaceOutputs, UntrimSurfaceParams> = {
+export const AdvancedSurfaceUntrimSurfaceNode: NodeDefinition<
+  UntrimSurfaceInputs,
+  UntrimSurfaceOutputs,
+  UntrimSurfaceParams
+> = {
   id: 'Advanced::UntrimSurface',
   category: 'Advanced',
   label: 'UntrimSurface',
@@ -21,33 +25,33 @@ export const AdvancedSurfaceUntrimSurfaceNode: NodeDefinition<UntrimSurfaceInput
     trimmedSurface: {
       type: 'Face',
       label: 'Trimmed Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     untrimmedSurface: {
       type: 'Face',
-      label: 'Untrimmed Surface'
-    }
+      label: 'Untrimmed Surface',
+    },
   },
   params: {
     keepHoles: {
       type: 'boolean',
       label: 'Keep Holes',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'untrimSurface',
       params: {
         trimmedSurface: inputs.trimmedSurface,
-        keepHoles: params.keepHoles
-      }
+        keepHoles: params.keepHoles,
+      },
     });
-    
+
     return {
-      untrimmedSurface: result
+      untrimmedSurface: result,
     };
   },
 };

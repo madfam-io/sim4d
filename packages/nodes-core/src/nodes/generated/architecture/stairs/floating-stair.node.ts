@@ -15,7 +15,11 @@ interface FloatingStairOutputs {
   anchors: Array<[number, number, number]>;
 }
 
-export const ArchitectureStairsFloatingStairNode: NodeDefinition<FloatingStairInputs, FloatingStairOutputs, FloatingStairParams> = {
+export const ArchitectureStairsFloatingStairNode: NodeDefinition<
+  FloatingStairInputs,
+  FloatingStairOutputs,
+  FloatingStairParams
+> = {
   id: 'Architecture::FloatingStair',
   category: 'Architecture',
   label: 'FloatingStair',
@@ -24,23 +28,23 @@ export const ArchitectureStairsFloatingStairNode: NodeDefinition<FloatingStairIn
     wallLine: {
       type: 'Wire',
       label: 'Wall Line',
-      required: true
+      required: true,
     },
     riseRun: {
       type: 'Vector',
       label: 'Rise Run',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     floatingStair: {
       type: 'Shape',
-      label: 'Floating Stair'
+      label: 'Floating Stair',
     },
     anchors: {
       type: 'Point[]',
-      label: 'Anchors'
-    }
+      label: 'Anchors',
+    },
   },
   params: {
     cantileverDepth: {
@@ -48,15 +52,15 @@ export const ArchitectureStairsFloatingStairNode: NodeDefinition<FloatingStairIn
       label: 'Cantilever Depth',
       default: 100,
       min: 50,
-      max: 200
+      max: 200,
     },
     treadThickness: {
       type: 'number',
       label: 'Tread Thickness',
       default: 60,
       min: 40,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -65,13 +69,13 @@ export const ArchitectureStairsFloatingStairNode: NodeDefinition<FloatingStairIn
         wallLine: inputs.wallLine,
         riseRun: inputs.riseRun,
         cantileverDepth: params.cantileverDepth,
-        treadThickness: params.treadThickness
-      }
+        treadThickness: params.treadThickness,
+      },
     });
-    
+
     return {
       floatingStair: results.floatingStair,
-      anchors: results.anchors
+      anchors: results.anchors,
     };
   },
 };

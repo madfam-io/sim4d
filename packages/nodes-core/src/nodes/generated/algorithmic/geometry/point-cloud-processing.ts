@@ -16,7 +16,11 @@ interface PointCloudProcessingOutputs {
   indices: unknown;
 }
 
-export const AlgorithmicGeometryPointCloudProcessingNode: NodeDefinition<PointCloudProcessingInputs, PointCloudProcessingOutputs, PointCloudProcessingParams> = {
+export const AlgorithmicGeometryPointCloudProcessingNode: NodeDefinition<
+  PointCloudProcessingInputs,
+  PointCloudProcessingOutputs,
+  PointCloudProcessingParams
+> = {
   id: 'Algorithmic::PointCloudProcessing',
   type: 'Algorithmic::PointCloudProcessing',
   category: 'Algorithmic',
@@ -26,44 +30,44 @@ export const AlgorithmicGeometryPointCloudProcessingNode: NodeDefinition<PointCl
     points: {
       type: 'Point[]',
       label: 'Points',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     processed: {
       type: 'Point[]',
-      label: 'Processed'
+      label: 'Processed',
     },
     normals: {
       type: 'Vector[]',
-      label: 'Normals'
+      label: 'Normals',
     },
     indices: {
       type: 'number[]',
-      label: 'Indices'
-    }
+      label: 'Indices',
+    },
   },
   params: {
     operation: {
       type: 'enum',
       label: 'Operation',
-      default: "filter",
-      options: ["filter","downsample","normal","cluster"]
+      default: 'filter',
+      options: ['filter', 'downsample', 'normal', 'cluster'],
     },
     radius: {
       type: 'number',
       label: 'Radius',
       default: 1,
       min: 0.1,
-      max: 10
+      max: 10,
     },
     neighbors: {
       type: 'number',
       label: 'Neighbors',
       default: 6,
       min: 3,
-      max: 50
-    }
+      max: 50,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -72,14 +76,14 @@ export const AlgorithmicGeometryPointCloudProcessingNode: NodeDefinition<PointCl
         points: inputs.points,
         operation: params.operation,
         radius: params.radius,
-        neighbors: params.neighbors
-      }
+        neighbors: params.neighbors,
+      },
     });
-    
+
     return {
       processed: results.processed,
       normals: results.normals,
-      indices: results.indices
+      indices: results.indices,
     };
   },
 };

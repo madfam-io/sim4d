@@ -12,7 +12,11 @@ interface PostProcessorRobotOutputs {
   robotCode: unknown;
 }
 
-export const FabricationRoboticsPostProcessorRobotNode: NodeDefinition<PostProcessorRobotInputs, PostProcessorRobotOutputs, PostProcessorRobotParams> = {
+export const FabricationRoboticsPostProcessorRobotNode: NodeDefinition<
+  PostProcessorRobotInputs,
+  PostProcessorRobotOutputs,
+  PostProcessorRobotParams
+> = {
   id: 'Fabrication::PostProcessorRobot',
   category: 'Fabrication',
   label: 'PostProcessorRobot',
@@ -21,34 +25,34 @@ export const FabricationRoboticsPostProcessorRobotNode: NodeDefinition<PostProce
     trajectory: {
       type: 'Transform[]',
       label: 'Trajectory',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     robotCode: {
       type: 'Data',
-      label: 'Robot Code'
-    }
+      label: 'Robot Code',
+    },
   },
   params: {
     robotBrand: {
       type: 'enum',
       label: 'Robot Brand',
-      default: "abb",
-      options: ["abb","kuka","fanuc","yaskawa","ur"]
-    }
+      default: 'abb',
+      options: ['abb', 'kuka', 'fanuc', 'yaskawa', 'ur'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'postProcessorRobot',
       params: {
         trajectory: inputs.trajectory,
-        robotBrand: params.robotBrand
-      }
+        robotBrand: params.robotBrand,
+      },
     });
-    
+
     return {
-      robotCode: result
+      robotCode: result,
     };
   },
 };

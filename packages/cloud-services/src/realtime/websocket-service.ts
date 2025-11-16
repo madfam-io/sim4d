@@ -202,7 +202,6 @@ export class WebSocketService extends EventEmitter {
 
       // Route message by type
       await this.routeMessage(connectionId, message);
-
     } catch (error) {
       this.sendError(connectionId, 'MESSAGE_ERROR', error.message);
     }
@@ -279,14 +278,21 @@ export class WebSocketService extends EventEmitter {
         break;
 
       default:
-        this.sendError(connectionId, 'UNKNOWN_MESSAGE_TYPE', `Unknown message type: ${message.type}`);
+        this.sendError(
+          connectionId,
+          'UNKNOWN_MESSAGE_TYPE',
+          `Unknown message type: ${message.type}`
+        );
     }
   }
 
   /**
    * Authentication
    */
-  private async handleAuthentication(connectionId: string, message: WebSocketMessage): Promise<void> {
+  private async handleAuthentication(
+    connectionId: string,
+    message: WebSocketMessage
+  ): Promise<void> {
     const connection = this.connections.get(connectionId);
     if (!connection) return;
 
@@ -399,14 +405,18 @@ export class WebSocketService extends EventEmitter {
     }
 
     // Broadcast to other project subscribers
-    this.broadcastToProject(projectId, {
-      id: this.generateMessageId(),
-      type: 'operation',
-      timestamp: Date.now(),
-      userId: connection.userId,
+    this.broadcastToProject(
       projectId,
-      data: { operation },
-    }, connectionId);
+      {
+        id: this.generateMessageId(),
+        type: 'operation',
+        timestamp: Date.now(),
+        userId: connection.userId,
+        projectId,
+        data: { operation },
+      },
+      connectionId
+    );
 
     this.emit('operation-received', {
       userId: connection.userId,
@@ -426,14 +436,18 @@ export class WebSocketService extends EventEmitter {
     }
 
     // Broadcast cursor position (throttled)
-    this.broadcastToProject(projectId, {
-      id: this.generateMessageId(),
-      type: 'cursor',
-      timestamp: Date.now(),
-      userId: connection.userId,
+    this.broadcastToProject(
       projectId,
-      data: { cursor },
-    }, connectionId);
+      {
+        id: this.generateMessageId(),
+        type: 'cursor',
+        timestamp: Date.now(),
+        userId: connection.userId,
+        projectId,
+        data: { cursor },
+      },
+      connectionId
+    );
   }
 
   private async handleSelection(connectionId: string, message: WebSocketMessage): Promise<void> {
@@ -446,14 +460,18 @@ export class WebSocketService extends EventEmitter {
       return;
     }
 
-    this.broadcastToProject(projectId, {
-      id: this.generateMessageId(),
-      type: 'selection',
-      timestamp: Date.now(),
-      userId: connection.userId,
+    this.broadcastToProject(
       projectId,
-      data: { selection },
-    }, connectionId);
+      {
+        id: this.generateMessageId(),
+        type: 'selection',
+        timestamp: Date.now(),
+        userId: connection.userId,
+        projectId,
+        data: { selection },
+      },
+      connectionId
+    );
   }
 
   private async handleTyping(connectionId: string, message: WebSocketMessage): Promise<void> {
@@ -466,14 +484,18 @@ export class WebSocketService extends EventEmitter {
       return;
     }
 
-    this.broadcastToProject(projectId, {
-      id: this.generateMessageId(),
-      type: 'typing',
-      timestamp: Date.now(),
-      userId: connection.userId,
+    this.broadcastToProject(
       projectId,
-      data: { isTyping, nodeId },
-    }, connectionId);
+      {
+        id: this.generateMessageId(),
+        type: 'typing',
+        timestamp: Date.now(),
+        userId: connection.userId,
+        projectId,
+        data: { isTyping, nodeId },
+      },
+      connectionId
+    );
   }
 
   /**
@@ -560,9 +582,7 @@ export class WebSocketService extends EventEmitter {
     const windowSize = this.config.messageRateLimit.windowSize;
 
     // Clean old entries
-    connection.messageWindow = connection.messageWindow.filter(
-      time => now - time < windowSize
-    );
+    connection.messageWindow = connection.messageWindow.filter((time) => now - time < windowSize);
 
     // Check limit
     if (connection.messageWindow.length >= this.config.messageRateLimit.maxPerSecond) {
@@ -595,8 +615,7 @@ export class WebSocketService extends EventEmitter {
       for (const [connectionId, connection] of this.connections) {
         const timeSinceActivity = now - connection.lastActivity.getTime();
 
-        if (timeSinceActivity > staleThreshold ||
-            connection.socket.readyState !== WebSocket.OPEN) {
+        if (timeSinceActivity > staleThreshold || connection.socket.readyState !== WebSocket.OPEN) {
           this.handleDisconnection(connectionId);
         }
       }
@@ -633,8 +652,10 @@ export class WebSocketService extends EventEmitter {
     sessions: number;
     messagesPerSecond: number;
   } {
-    const totalMessages = Array.from(this.connections.values())
-      .reduce((total, conn) => total + conn.messageCount, 0);
+    const totalMessages = Array.from(this.connections.values()).reduce(
+      (total, conn) => total + conn.messageCount,
+      0
+    );
 
     return {
       connections: this.connections.size,

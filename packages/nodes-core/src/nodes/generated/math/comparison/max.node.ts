@@ -19,26 +19,26 @@ export const MathComparisonMaxNode: NodeDefinition<MaxInputs, MaxOutputs, MaxPar
     values: {
       type: 'number[]',
       label: 'Values',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     max: {
       type: 'number',
-      label: 'Max'
-    }
+      label: 'Max',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathMax',
       params: {
-        values: inputs.values
-      }
+        values: inputs.values,
+      },
     });
-    
+
     return {
-      max: result
+      max: result,
     };
   },
 };

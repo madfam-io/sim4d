@@ -21,8 +21,8 @@ export const SketchBasicPointNode: NodeDefinition<PointInputs, PointOutputs, Poi
   outputs: {
     point: {
       type: 'Point',
-      label: 'Point'
-    }
+      label: 'Point',
+    },
   },
   params: {
     x: {
@@ -30,22 +30,22 @@ export const SketchBasicPointNode: NodeDefinition<PointInputs, PointOutputs, Poi
       label: 'X',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     y: {
       type: 'number',
       label: 'Y',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     z: {
       type: 'number',
       label: 'Z',
       default: 0,
       min: -10000,
-      max: 10000
-    }
+      max: 10000,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +53,12 @@ export const SketchBasicPointNode: NodeDefinition<PointInputs, PointOutputs, Poi
       params: {
         x: params.x,
         y: params.y,
-        z: params.z
-      }
+        z: params.z,
+      },
     });
-    
+
     return {
-      point: result
+      point: result,
     };
   },
 };

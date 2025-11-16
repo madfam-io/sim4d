@@ -27,11 +27,11 @@ interface BentoCardProps {
   onClick?: () => void;
 }
 
-export function BentoCard({ 
-  children, 
+export function BentoCard({
+  children,
   className,
   gradient = 'from-gray-800 to-gray-900',
-  onClick 
+  onClick,
 }: BentoCardProps) {
   return (
     <motion.div
@@ -53,16 +53,14 @@ export function BentoCard({
       <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-500">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-pink-500/10" />
       </div>
-      
+
       {/* Glowing border effect */}
       <div className="absolute inset-0 rounded-2xl opacity-0 hover:opacity-100 transition-opacity duration-500">
         <div className="absolute inset-[1px] rounded-2xl bg-gradient-to-br from-gray-900 to-gray-800" />
       </div>
-      
+
       {/* Content */}
-      <div className="relative z-10">
-        {children}
-      </div>
+      <div className="relative z-10">{children}</div>
     </motion.div>
   );
 }

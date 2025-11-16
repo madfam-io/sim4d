@@ -14,7 +14,11 @@ interface KerfBendingOutputs {
   kerfPattern: unknown;
 }
 
-export const FabricationLaserKerfBendingNode: NodeDefinition<KerfBendingInputs, KerfBendingOutputs, KerfBendingParams> = {
+export const FabricationLaserKerfBendingNode: NodeDefinition<
+  KerfBendingInputs,
+  KerfBendingOutputs,
+  KerfBendingParams
+> = {
   id: 'Fabrication::KerfBending',
   type: 'Fabrication::KerfBending',
   category: 'Fabrication',
@@ -24,14 +28,14 @@ export const FabricationLaserKerfBendingNode: NodeDefinition<KerfBendingInputs, 
     bendZone: {
       type: 'Face',
       label: 'Bend Zone',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     kerfPattern: {
       type: 'Wire[]',
-      label: 'Kerf Pattern'
-    }
+      label: 'Kerf Pattern',
+    },
   },
   params: {
     bendRadius: {
@@ -39,22 +43,22 @@ export const FabricationLaserKerfBendingNode: NodeDefinition<KerfBendingInputs, 
       label: 'Bend Radius',
       default: 50,
       min: 10,
-      max: 500
+      max: 500,
     },
     materialThickness: {
       type: 'number',
       label: 'Material Thickness',
       default: 3,
       min: 0.5,
-      max: 20
+      max: 20,
     },
     kerfWidth: {
       type: 'number',
       label: 'Kerf Width',
       default: 0.15,
       min: 0.05,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -63,12 +67,12 @@ export const FabricationLaserKerfBendingNode: NodeDefinition<KerfBendingInputs, 
         bendZone: inputs.bendZone,
         bendRadius: params.bendRadius,
         materialThickness: params.materialThickness,
-        kerfWidth: params.kerfWidth
-      }
+        kerfWidth: params.kerfWidth,
+      },
     });
-    
+
     return {
-      kerfPattern: result
+      kerfPattern: result,
     };
   },
 };

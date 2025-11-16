@@ -14,7 +14,11 @@ interface LoadingDockOutputs {
   leveller: unknown;
 }
 
-export const ArchitectureRampsLoadingDockNode: NodeDefinition<LoadingDockInputs, LoadingDockOutputs, LoadingDockParams> = {
+export const ArchitectureRampsLoadingDockNode: NodeDefinition<
+  LoadingDockInputs,
+  LoadingDockOutputs,
+  LoadingDockParams
+> = {
   id: 'Architecture::LoadingDock',
   category: 'Architecture',
   label: 'LoadingDock',
@@ -23,18 +27,18 @@ export const ArchitectureRampsLoadingDockNode: NodeDefinition<LoadingDockInputs,
     dockPosition: {
       type: 'Point',
       label: 'Dock Position',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     dockRamp: {
       type: 'Shape',
-      label: 'Dock Ramp'
+      label: 'Dock Ramp',
     },
     leveller: {
       type: 'Shape',
-      label: 'Leveller'
-    }
+      label: 'Leveller',
+    },
   },
   params: {
     dockHeight: {
@@ -42,14 +46,14 @@ export const ArchitectureRampsLoadingDockNode: NodeDefinition<LoadingDockInputs,
       label: 'Dock Height',
       default: 1200,
       min: 900,
-      max: 1500
+      max: 1500,
     },
     levellerType: {
       type: 'enum',
       label: 'Leveller Type',
-      default: "hydraulic",
-      options: ["hydraulic","mechanical","air-powered"]
-    }
+      default: 'hydraulic',
+      options: ['hydraulic', 'mechanical', 'air-powered'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -57,13 +61,13 @@ export const ArchitectureRampsLoadingDockNode: NodeDefinition<LoadingDockInputs,
       params: {
         dockPosition: inputs.dockPosition,
         dockHeight: params.dockHeight,
-        levellerType: params.levellerType
-      }
+        levellerType: params.levellerType,
+      },
     });
-    
+
     return {
       dockRamp: results.dockRamp,
-      leveller: results.leveller
+      leveller: results.leveller,
     };
   },
 };

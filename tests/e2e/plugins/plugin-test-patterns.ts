@@ -28,7 +28,11 @@ export class PluginTestPatterns {
    * Basic Node Plugin Test Pattern
    * Tests fundamental node creation, parameter editing, and evaluation
    */
-  async testBasicNodePlugin(pluginId: string, nodeType: string, params: Record<string, any>): Promise<void> {
+  async testBasicNodePlugin(
+    pluginId: string,
+    nodeType: string,
+    params: Record<string, any>
+  ): Promise<void> {
     // Install plugin
     await this.helper.installPlugin(pluginId);
 
@@ -93,17 +97,23 @@ export class PluginTestPatterns {
     await this.helper.installPlugin(pluginId);
 
     // Create source node
-    const sourceNode = await this.helper.nodeHelper.createNode(sourceConfig.type, sourceConfig.params);
+    const sourceNode = await this.helper.nodeHelper.createNode(
+      sourceConfig.type,
+      sourceConfig.params
+    );
 
     // Create target node
-    const targetNode = await this.helper.nodeHelper.createNode(targetConfig.type, targetConfig.params);
+    const targetNode = await this.helper.nodeHelper.createNode(
+      targetConfig.type,
+      targetConfig.params
+    );
 
     // Connect nodes
     await this.helper.nodeHelper.connectNodes({
       sourceId: sourceNode,
       sourceOutput: sourceConfig.output,
       targetId: targetNode,
-      targetInput: targetConfig.input
+      targetInput: targetConfig.input,
     });
 
     // Verify connection
@@ -111,7 +121,7 @@ export class PluginTestPatterns {
       sourceId: sourceNode,
       sourceOutput: sourceConfig.output,
       targetId: targetNode,
-      targetInput: targetConfig.input
+      targetInput: targetConfig.input,
     });
 
     // Evaluate graph
@@ -137,11 +147,9 @@ export class PluginTestPatterns {
     for (const operation of operations) {
       const startTime = Date.now();
 
-      const result = await this.helper.executePluginFunction(
-        pluginId,
-        operation.action,
-        [operation.params]
-      );
+      const result = await this.helper.executePluginFunction(pluginId, operation.action, [
+        operation.params,
+      ]);
 
       const executionTime = Date.now() - startTime;
       performanceResults[operation.action] = executionTime;
@@ -160,7 +168,10 @@ export class PluginTestPatterns {
    * Memory Management Test Pattern
    * Tests for memory leaks and proper cleanup
    */
-  async testMemoryManagement(pluginId: string, stressOperations: number = 100): Promise<{
+  async testMemoryManagement(
+    pluginId: string,
+    stressOperations: number = 100
+  ): Promise<{
     memoryLeak: boolean;
     maxMemoryUsed: number;
     finalMemoryUsed: number;
@@ -172,7 +183,9 @@ export class PluginTestPatterns {
 
     // Perform stress operations
     for (let i = 0; i < stressOperations; i++) {
-      await this.helper.executePluginFunction(pluginId, 'createTestGeometry', [{ complexity: 'medium' }]);
+      await this.helper.executePluginFunction(pluginId, 'createTestGeometry', [
+        { complexity: 'medium' },
+      ]);
 
       const currentMemory = await this.helper.getPluginMemoryUsage(pluginId);
       maxMemoryUsed = Math.max(maxMemoryUsed, currentMemory);
@@ -195,7 +208,7 @@ export class PluginTestPatterns {
     return {
       memoryLeak,
       maxMemoryUsed,
-      finalMemoryUsed
+      finalMemoryUsed,
     };
   }
 
@@ -211,11 +224,9 @@ export class PluginTestPatterns {
 
     for (const scenario of errorScenarios) {
       // Execute operation that should cause error
-      const result = await this.helper.executePluginFunction(
-        pluginId,
-        scenario.action,
-        [scenario.params]
-      );
+      const result = await this.helper.executePluginFunction(pluginId, scenario.action, [
+        scenario.params,
+      ]);
 
       // Verify error occurred
       expect(result.success).toBe(false);
@@ -243,11 +254,7 @@ export class PluginTestPatterns {
     await this.helper.installPlugin(pluginId, { allowUnsigned: true });
 
     for (const operation of maliciousOperations) {
-      const result = await this.helper.executePluginFunction(
-        pluginId,
-        operation.operation,
-        []
-      );
+      const result = await this.helper.executePluginFunction(pluginId, operation.operation, []);
 
       if (operation.shouldFail) {
         expect(result.success).toBe(false);
@@ -274,15 +281,18 @@ export class PluginTestPatterns {
     const session = await this.helper.testMultiUserPluginCollaboration({
       users: ['user1', 'user2'],
       pluginId,
-      workflowActions: userActions.map(action => ({
+      workflowActions: userActions.map((action) => ({
         user: action.user,
         action: action.action,
-        data: action.params
-      }))
+        data: action.params,
+      })),
     });
 
     // Verify synchronization
-    const syncResult = await this.helper.validatePluginStateSynchronization(session.sessionId, pluginId);
+    const syncResult = await this.helper.validatePluginStateSynchronization(
+      session.sessionId,
+      pluginId
+    );
     expect(syncResult.synchronized).toBe(true);
     expect(syncResult.latencyMs).toBeLessThan(2000);
   }
@@ -336,7 +346,7 @@ export class PluginTestPatterns {
         }
         return results;
       },
-      validate: validation
+      validate: validation,
     };
   }
 
@@ -344,7 +354,10 @@ export class PluginTestPatterns {
    * Batch Test Runner
    * Runs multiple test patterns in sequence
    */
-  async runTestPatterns(patterns: PluginTestPattern[], context: any = {}): Promise<{
+  async runTestPatterns(
+    patterns: PluginTestPattern[],
+    context: any = {}
+  ): Promise<{
     passed: number;
     failed: number;
     results: Array<{ pattern: string; success: boolean; error?: string }>;
@@ -365,7 +378,7 @@ export class PluginTestPatterns {
         results.push({
           pattern: pattern.name,
           success: false,
-          error: error.message
+          error: error.message,
         });
         failed++;
       }
@@ -392,7 +405,7 @@ export const STANDARD_PLUGIN_PATTERNS = {
       expect(result.nodeCreated).toBe(true);
       expect(result.parametersWorking).toBe(true);
       expect(result.evaluationSuccessful).toBe(true);
-    }
+    },
   }),
 
   VIEWPORT_INTEGRATION: {
@@ -407,7 +420,7 @@ export const STANDARD_PLUGIN_PATTERNS = {
     validate: (result: any) => {
       expect(result.overlayRendered).toBe(true);
       expect(result.performanceAcceptable).toBe(true);
-    }
+    },
   },
 
   SECURITY_VALIDATION: {
@@ -421,8 +434,8 @@ export const STANDARD_PLUGIN_PATTERNS = {
       expect(result.memoryIsolated).toBe(true);
       expect(result.storageIsolated).toBe(true);
       expect(result.workerIsolated).toBe(true);
-    }
-  }
+    },
+  },
 };
 
 /**

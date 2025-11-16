@@ -5,7 +5,11 @@
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { GeometryAPI } from '@brepflow/engine-occt';
-import { setupWASMTestEnvironment, GeometryPerformanceTracker, GeometryTestDataGenerator } from '../wasm-test-setup';
+import {
+  setupWASMTestEnvironment,
+  GeometryPerformanceTracker,
+  GeometryTestDataGenerator,
+} from '../wasm-test-setup';
 
 describe('Primitive Geometry Operations', () => {
   let geometryAPI: GeometryAPI;
@@ -28,7 +32,7 @@ describe('Primitive Geometry Operations', () => {
       const box = await geometryAPI.invoke('MAKE_BOX', {
         width: 100,
         height: 50,
-        depth: 25
+        depth: 25,
       });
 
       expect(box).toBeDefined();
@@ -49,7 +53,7 @@ describe('Primitive Geometry Operations', () => {
         z: 30,
         width: 100,
         height: 50,
-        depth: 25
+        depth: 25,
       });
 
       expect(box).toBeDefined();
@@ -68,7 +72,7 @@ describe('Primitive Geometry Operations', () => {
       const smallBox = await geometryAPI.invoke('MAKE_BOX', {
         width: 0.001,
         height: 0.001,
-        depth: 0.001
+        depth: 0.001,
       });
       expect(smallBox.volume).toBeCloseTo(0.000000001, 10);
 
@@ -76,7 +80,7 @@ describe('Primitive Geometry Operations', () => {
       const largeBox = await geometryAPI.invoke('MAKE_BOX', {
         width: 10000,
         height: 10000,
-        depth: 10000
+        depth: 10000,
       });
       expect(largeBox.volume).toBe(1000000000000);
     });
@@ -85,18 +89,22 @@ describe('Primitive Geometry Operations', () => {
       await geometryAPI.init();
 
       // Test zero dimensions
-      await expect(geometryAPI.invoke('MAKE_BOX', {
-        width: 0,
-        height: 50,
-        depth: 25
-      })).rejects.toThrow();
+      await expect(
+        geometryAPI.invoke('MAKE_BOX', {
+          width: 0,
+          height: 50,
+          depth: 25,
+        })
+      ).rejects.toThrow();
 
       // Test negative dimensions
-      await expect(geometryAPI.invoke('MAKE_BOX', {
-        width: -100,
-        height: 50,
-        depth: 25
-      })).rejects.toThrow();
+      await expect(
+        geometryAPI.invoke('MAKE_BOX', {
+          width: -100,
+          height: 50,
+          depth: 25,
+        })
+      ).rejects.toThrow();
     });
 
     it('should meet performance targets for box creation', async () => {
@@ -107,7 +115,7 @@ describe('Primitive Geometry Operations', () => {
       const box = await geometryAPI.invoke('MAKE_BOX', {
         width: 100,
         height: 50,
-        depth: 25
+        depth: 25,
       });
 
       const duration = endMeasurement();
@@ -121,12 +129,12 @@ describe('Primitive Geometry Operations', () => {
       await geometryAPI.init();
 
       const sphere = await geometryAPI.invoke('MAKE_SPHERE', {
-        radius: 25
+        radius: 25,
       });
 
       expect(sphere).toBeDefined();
       expect(sphere.type).toBe('solid');
-      expect(sphere.volume).toBeCloseTo((4/3) * Math.PI * Math.pow(25, 3), 1);
+      expect(sphere.volume).toBeCloseTo((4 / 3) * Math.PI * Math.pow(25, 3), 1);
       expect(sphere.bbox_min_x).toBe(-25);
       expect(sphere.bbox_max_x).toBe(25);
     });
@@ -138,14 +146,14 @@ describe('Primitive Geometry Operations', () => {
         centerX: 100,
         centerY: 200,
         centerZ: 300,
-        radius: 50
+        radius: 50,
       });
 
       expect(sphere).toBeDefined();
       expect(sphere.centerX).toBe(100);
       expect(sphere.centerY).toBe(200);
       expect(sphere.centerZ).toBe(300);
-      expect(sphere.bbox_min_x).toBe(50);  // 100 - 50
+      expect(sphere.bbox_min_x).toBe(50); // 100 - 50
       expect(sphere.bbox_max_x).toBe(150); // 100 + 50
     });
 
@@ -154,29 +162,33 @@ describe('Primitive Geometry Operations', () => {
 
       // Very small sphere
       const smallSphere = await geometryAPI.invoke('MAKE_SPHERE', {
-        radius: 0.001
+        radius: 0.001,
       });
-      expect(smallSphere.volume).toBeCloseTo((4/3) * Math.PI * Math.pow(0.001, 3), 12);
+      expect(smallSphere.volume).toBeCloseTo((4 / 3) * Math.PI * Math.pow(0.001, 3), 12);
 
       // Large sphere
       const largeSphere = await geometryAPI.invoke('MAKE_SPHERE', {
-        radius: 1000
+        radius: 1000,
       });
-      expect(largeSphere.volume).toBeCloseTo((4/3) * Math.PI * Math.pow(1000, 3), 1);
+      expect(largeSphere.volume).toBeCloseTo((4 / 3) * Math.PI * Math.pow(1000, 3), 1);
     });
 
     it('should validate sphere parameters', async () => {
       await geometryAPI.init();
 
       // Zero radius
-      await expect(geometryAPI.invoke('MAKE_SPHERE', {
-        radius: 0
-      })).rejects.toThrow();
+      await expect(
+        geometryAPI.invoke('MAKE_SPHERE', {
+          radius: 0,
+        })
+      ).rejects.toThrow();
 
       // Negative radius
-      await expect(geometryAPI.invoke('MAKE_SPHERE', {
-        radius: -25
-      })).rejects.toThrow();
+      await expect(
+        geometryAPI.invoke('MAKE_SPHERE', {
+          radius: -25,
+        })
+      ).rejects.toThrow();
     });
   });
 
@@ -186,7 +198,7 @@ describe('Primitive Geometry Operations', () => {
 
       const cylinder = await geometryAPI.invoke('MAKE_CYLINDER', {
         radius: 25,
-        height: 100
+        height: 100,
       });
 
       expect(cylinder).toBeDefined();
@@ -203,14 +215,14 @@ describe('Primitive Geometry Operations', () => {
       // Very thin cylinder
       const thinCylinder = await geometryAPI.invoke('MAKE_CYLINDER', {
         radius: 0.1,
-        height: 1000
+        height: 1000,
       });
       expect(thinCylinder.volume).toBeCloseTo(Math.PI * 0.01 * 1000, 3);
 
       // Very wide, short cylinder
       const wideCylinder = await geometryAPI.invoke('MAKE_CYLINDER', {
         radius: 1000,
-        height: 0.1
+        height: 0.1,
       });
       expect(wideCylinder.volume).toBeCloseTo(Math.PI * 1000000 * 0.1, 1);
     });
@@ -219,22 +231,28 @@ describe('Primitive Geometry Operations', () => {
       await geometryAPI.init();
 
       // Zero radius
-      await expect(geometryAPI.invoke('MAKE_CYLINDER', {
-        radius: 0,
-        height: 100
-      })).rejects.toThrow();
+      await expect(
+        geometryAPI.invoke('MAKE_CYLINDER', {
+          radius: 0,
+          height: 100,
+        })
+      ).rejects.toThrow();
 
       // Zero height
-      await expect(geometryAPI.invoke('MAKE_CYLINDER', {
-        radius: 25,
-        height: 0
-      })).rejects.toThrow();
+      await expect(
+        geometryAPI.invoke('MAKE_CYLINDER', {
+          radius: 25,
+          height: 0,
+        })
+      ).rejects.toThrow();
 
       // Negative values
-      await expect(geometryAPI.invoke('MAKE_CYLINDER', {
-        radius: -25,
-        height: 100
-      })).rejects.toThrow();
+      await expect(
+        geometryAPI.invoke('MAKE_CYLINDER', {
+          radius: -25,
+          height: 100,
+        })
+      ).rejects.toThrow();
     });
   });
 
@@ -245,14 +263,14 @@ describe('Primitive Geometry Operations', () => {
       const cone = await geometryAPI.invoke('MAKE_CONE', {
         radius1: 50,
         radius2: 25,
-        height: 100
+        height: 100,
       });
 
       expect(cone).toBeDefined();
       expect(cone.type).toBe('solid');
 
       // Volume formula: π * h * (r1² + r1*r2 + r2²) / 3
-      const expectedVolume = (Math.PI * 100 * (50*50 + 50*25 + 25*25)) / 3;
+      const expectedVolume = (Math.PI * 100 * (50 * 50 + 50 * 25 + 25 * 25)) / 3;
       expect(cone.volume).toBeCloseTo(expectedVolume, 1);
     });
 
@@ -262,7 +280,7 @@ describe('Primitive Geometry Operations', () => {
       const cone = await geometryAPI.invoke('MAKE_CONE', {
         radius1: 25,
         radius2: 25,
-        height: 100
+        height: 100,
       });
 
       // Should behave like a cylinder
@@ -275,7 +293,7 @@ describe('Primitive Geometry Operations', () => {
       const cone = await geometryAPI.invoke('MAKE_CONE', {
         radius1: 50,
         radius2: 0,
-        height: 100
+        height: 100,
       });
 
       // True cone volume: π * r² * h / 3
@@ -290,7 +308,7 @@ describe('Primitive Geometry Operations', () => {
 
       const torus = await geometryAPI.invoke('MAKE_TORUS', {
         majorRadius: 50,
-        minorRadius: 10
+        minorRadius: 10,
       });
 
       expect(torus).toBeDefined();
@@ -307,20 +325,24 @@ describe('Primitive Geometry Operations', () => {
       // Minor radius larger than major radius (should work but be unusual)
       const torus = await geometryAPI.invoke('MAKE_TORUS', {
         majorRadius: 10,
-        minorRadius: 50
+        minorRadius: 50,
       });
       expect(torus).toBeDefined();
 
       // Zero radii
-      await expect(geometryAPI.invoke('MAKE_TORUS', {
-        majorRadius: 0,
-        minorRadius: 10
-      })).rejects.toThrow();
+      await expect(
+        geometryAPI.invoke('MAKE_TORUS', {
+          majorRadius: 0,
+          minorRadius: 10,
+        })
+      ).rejects.toThrow();
 
-      await expect(geometryAPI.invoke('MAKE_TORUS', {
-        majorRadius: 50,
-        minorRadius: 0
-      })).rejects.toThrow();
+      await expect(
+        geometryAPI.invoke('MAKE_TORUS', {
+          majorRadius: 50,
+          minorRadius: 0,
+        })
+      ).rejects.toThrow();
     });
   });
 
@@ -329,11 +351,11 @@ describe('Primitive Geometry Operations', () => {
       await geometryAPI.init();
 
       const targets = {
-        'MAKE_BOX': 50,        // ms
-        'MAKE_SPHERE': 50,     // ms
-        'MAKE_CYLINDER': 50,   // ms
-        'MAKE_CONE': 75,       // ms (more complex)
-        'MAKE_TORUS': 75       // ms (more complex)
+        MAKE_BOX: 50, // ms
+        MAKE_SPHERE: 50, // ms
+        MAKE_CYLINDER: 50, // ms
+        MAKE_CONE: 75, // ms (more complex)
+        MAKE_TORUS: 75, // ms (more complex)
       };
 
       for (const [operation, targetTime] of Object.entries(targets)) {
@@ -381,7 +403,7 @@ describe('Primitive Geometry Operations', () => {
       const endTime = performance.now();
 
       expect(results).toHaveLength(10);
-      expect(results.every(r => r && r.id)).toBe(true);
+      expect(results.every((r) => r && r.id)).toBe(true);
       expect(endTime - startTime).toBeLessThan(500); // 50ms per operation * 10
     });
   });

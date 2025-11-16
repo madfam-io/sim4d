@@ -7,23 +7,28 @@
 
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import { generateNodeImplementation, generateNodeTest, generateNodeDocumentation, NodeTemplate, toKebabCase, toPascalCase, getExportIdentifier } from './node-template';
+import {
+  generateNodeImplementation,
+  generateNodeTest,
+  generateNodeDocumentation,
+  NodeTemplate,
+  toKebabCase,
+  toPascalCase,
+  getExportIdentifier,
+} from './node-template';
 
 // Phase 1 - Manufacturing & Analysis
 import {
   holeTemplates,
   pocketTemplates,
   patternTemplates,
-  ribBossTemplates
+  ribBossTemplates,
 } from './templates/manufacturing-features';
 import {
   advancedPrimitiveTemplates,
-  sketchPrimitiveTemplates
+  sketchPrimitiveTemplates,
 } from './templates/primitives-advanced';
-import {
-  measurementTemplates,
-  analysisTemplates
-} from './templates/measurement-analysis';
+import { measurementTemplates, analysisTemplates } from './templates/measurement-analysis';
 
 // Phase 2 - Core Geometry
 import { basicPrimitivesTemplates } from './templates/core-primitives';
@@ -36,7 +41,7 @@ import {
   constraintTemplates,
   mateTemplates,
   jointTemplates,
-  assemblyPatternTemplates
+  assemblyPatternTemplates,
 } from './templates/assembly-constraints';
 
 // Phase 4 - Sheet Metal
@@ -147,11 +152,11 @@ const allTemplates: NodeTemplate[] = [
   ...allFabricationTemplates,
 
   // Phase 16-20 - New Categories for 1000+ Nodes (340 nodes total)
-  ...allArchitectureTemplates,       // 80 nodes
-  ...mechanicalEngineeringNodes,     // 100 nodes
-  ...curveSurfaceAnalysisNodes,      // 60 nodes
-  ...interoperabilityNodes,          // 50 nodes
-  ...additionalAlgorithmicNodes      // 50 nodes
+  ...allArchitectureTemplates, // 80 nodes
+  ...mechanicalEngineeringNodes, // 100 nodes
+  ...curveSurfaceAnalysisNodes, // 60 nodes
+  ...interoperabilityNodes, // 50 nodes
+  ...additionalAlgorithmicNodes, // 50 nodes
 ];
 
 async function ensureDirectory(dir: string): Promise<void> {
@@ -204,22 +209,25 @@ async function generateIndex(templates: NodeTemplate[], outputDir: string): Prom
   const registryEntries: string[] = [];
 
   // Group by category
-  const byCategory = templates.reduce((acc, template) => {
-    if (!acc[template.category]) {
-      acc[template.category] = [];
-    }
-    acc[template.category].push(template);
-    return acc;
-  }, {} as Record<string, NodeTemplate[]>);
+  const byCategory = templates.reduce(
+    (acc, template) => {
+      if (!acc[template.category]) {
+        acc[template.category] = [];
+      }
+      acc[template.category].push(template);
+      return acc;
+    },
+    {} as Record<string, NodeTemplate[]>
+  );
 
   Object.entries(byCategory).forEach(([category, categoryTemplates]) => {
-  categoryTemplates.forEach(template => {
-    const exportIdentifier = getExportIdentifier(template);
-    const constantName = `${exportIdentifier}Node`;
-    const kebabName = toKebabCase(template.name);
-    const importPath = template.subcategory
-      ? `./${category.toLowerCase()}/${toKebabCase(template.subcategory)}/${kebabName}`
-      : `./${category.toLowerCase()}/${kebabName}`;
+    categoryTemplates.forEach((template) => {
+      const exportIdentifier = getExportIdentifier(template);
+      const constantName = `${exportIdentifier}Node`;
+      const kebabName = toKebabCase(template.name);
+      const importPath = template.subcategory
+        ? `./${category.toLowerCase()}/${toKebabCase(template.subcategory)}/${kebabName}`
+        : `./${category.toLowerCase()}/${kebabName}`;
 
       imports.push(`import { ${constantName} } from '${importPath}';`);
       exports.push(`  ${constantName},`);
@@ -270,7 +278,7 @@ async function main() {
 
 // Run if executed directly
 if (require.main === module) {
-  main().catch(err => {
+  main().catch((err) => {
     console.error('❌ Generation failed:', err);
     process.exit(1);
   });

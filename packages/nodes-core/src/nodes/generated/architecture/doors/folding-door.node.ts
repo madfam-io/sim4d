@@ -13,7 +13,11 @@ interface FoldingDoorOutputs {
   foldingDoor: unknown;
 }
 
-export const ArchitectureDoorsFoldingDoorNode: NodeDefinition<FoldingDoorInputs, FoldingDoorOutputs, FoldingDoorParams> = {
+export const ArchitectureDoorsFoldingDoorNode: NodeDefinition<
+  FoldingDoorInputs,
+  FoldingDoorOutputs,
+  FoldingDoorParams
+> = {
   id: 'Architecture::FoldingDoor',
   category: 'Architecture',
   label: 'FoldingDoor',
@@ -22,14 +26,14 @@ export const ArchitectureDoorsFoldingDoorNode: NodeDefinition<FoldingDoorInputs,
     opening: {
       type: 'Wire',
       label: 'Opening',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     foldingDoor: {
       type: 'Shape[]',
-      label: 'Folding Door'
-    }
+      label: 'Folding Door',
+    },
   },
   params: {
     panels: {
@@ -38,14 +42,14 @@ export const ArchitectureDoorsFoldingDoorNode: NodeDefinition<FoldingDoorInputs,
       default: 4,
       min: 2,
       max: 8,
-      step: 2
+      step: 2,
     },
     foldDirection: {
       type: 'enum',
       label: 'Fold Direction',
-      default: "left",
-      options: ["left","right","center"]
-    }
+      default: 'left',
+      options: ['left', 'right', 'center'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const ArchitectureDoorsFoldingDoorNode: NodeDefinition<FoldingDoorInputs,
       params: {
         opening: inputs.opening,
         panels: params.panels,
-        foldDirection: params.foldDirection
-      }
+        foldDirection: params.foldDirection,
+      },
     });
-    
+
     return {
-      foldingDoor: result
+      foldingDoor: result,
     };
   },
 };

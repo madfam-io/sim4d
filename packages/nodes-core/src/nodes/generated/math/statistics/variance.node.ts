@@ -12,7 +12,11 @@ interface VarianceOutputs {
   variance: unknown;
 }
 
-export const MathStatisticsVarianceNode: NodeDefinition<VarianceInputs, VarianceOutputs, VarianceParams> = {
+export const MathStatisticsVarianceNode: NodeDefinition<
+  VarianceInputs,
+  VarianceOutputs,
+  VarianceParams
+> = {
   id: 'Math::Variance',
   category: 'Math',
   label: 'Variance',
@@ -21,33 +25,33 @@ export const MathStatisticsVarianceNode: NodeDefinition<VarianceInputs, Variance
     values: {
       type: 'number[]',
       label: 'Values',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     variance: {
       type: 'number',
-      label: 'Variance'
-    }
+      label: 'Variance',
+    },
   },
   params: {
     sample: {
       type: 'boolean',
       label: 'Sample',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathVariance',
       params: {
         values: inputs.values,
-        sample: params.sample
-      }
+        sample: params.sample,
+      },
     });
-    
+
     return {
-      variance: result
+      variance: result,
     };
   },
 };

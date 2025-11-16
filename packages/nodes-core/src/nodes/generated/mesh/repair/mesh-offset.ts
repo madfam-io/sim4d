@@ -13,7 +13,11 @@ interface MeshOffsetOutputs {
   offset: unknown;
 }
 
-export const MeshRepairMeshOffsetNode: NodeDefinition<MeshOffsetInputs, MeshOffsetOutputs, MeshOffsetParams> = {
+export const MeshRepairMeshOffsetNode: NodeDefinition<
+  MeshOffsetInputs,
+  MeshOffsetOutputs,
+  MeshOffsetParams
+> = {
   id: 'Mesh::MeshOffset',
   type: 'Mesh::MeshOffset',
   category: 'Mesh',
@@ -23,14 +27,14 @@ export const MeshRepairMeshOffsetNode: NodeDefinition<MeshOffsetInputs, MeshOffs
     mesh: {
       type: 'Mesh',
       label: 'Mesh',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     offset: {
       type: 'Mesh',
-      label: 'Offset'
-    }
+      label: 'Offset',
+    },
   },
   params: {
     offsetDistance: {
@@ -38,13 +42,13 @@ export const MeshRepairMeshOffsetNode: NodeDefinition<MeshOffsetInputs, MeshOffs
       label: 'Offset Distance',
       default: 1,
       min: -100,
-      max: 100
+      max: 100,
     },
     solidify: {
       type: 'boolean',
       label: 'Solidify',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -52,12 +56,12 @@ export const MeshRepairMeshOffsetNode: NodeDefinition<MeshOffsetInputs, MeshOffs
       params: {
         mesh: inputs.mesh,
         offsetDistance: params.offsetDistance,
-        solidify: params.solidify
-      }
+        solidify: params.solidify,
+      },
     });
-    
+
     return {
-      offset: result
+      offset: result,
     };
   },
 };

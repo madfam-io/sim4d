@@ -13,7 +13,11 @@ interface ForceControlOutputs {
   forceProfile: unknown;
 }
 
-export const FabricationRoboticsForceControlNode: NodeDefinition<ForceControlInputs, ForceControlOutputs, ForceControlParams> = {
+export const FabricationRoboticsForceControlNode: NodeDefinition<
+  ForceControlInputs,
+  ForceControlOutputs,
+  ForceControlParams
+> = {
   id: 'Fabrication::ForceControl',
   type: 'Fabrication::ForceControl',
   category: 'Fabrication',
@@ -23,14 +27,14 @@ export const FabricationRoboticsForceControlNode: NodeDefinition<ForceControlInp
     contactSurface: {
       type: 'Face',
       label: 'Contact Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     forceProfile: {
       type: 'Data',
-      label: 'Force Profile'
-    }
+      label: 'Force Profile',
+    },
   },
   params: {
     forceLimit: {
@@ -38,15 +42,15 @@ export const FabricationRoboticsForceControlNode: NodeDefinition<ForceControlInp
       label: 'Force Limit',
       default: 100,
       min: 1,
-      max: 1000
+      max: 1000,
     },
     compliance: {
       type: 'number',
       label: 'Compliance',
       default: 0.5,
       min: 0,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -54,12 +58,12 @@ export const FabricationRoboticsForceControlNode: NodeDefinition<ForceControlInp
       params: {
         contactSurface: inputs.contactSurface,
         forceLimit: params.forceLimit,
-        compliance: params.compliance
-      }
+        compliance: params.compliance,
+      },
     });
-    
+
     return {
-      forceProfile: result
+      forceProfile: result,
     };
   },
 };

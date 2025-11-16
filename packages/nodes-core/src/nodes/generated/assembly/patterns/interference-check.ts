@@ -13,7 +13,11 @@ interface InterferenceCheckOutputs {
   hasInterference: unknown;
 }
 
-export const AssemblyPatternsInterferenceCheckNode: NodeDefinition<InterferenceCheckInputs, InterferenceCheckOutputs, InterferenceCheckParams> = {
+export const AssemblyPatternsInterferenceCheckNode: NodeDefinition<
+  InterferenceCheckInputs,
+  InterferenceCheckOutputs,
+  InterferenceCheckParams
+> = {
   id: 'Assembly::InterferenceCheck',
   type: 'Assembly::InterferenceCheck',
   category: 'Assembly',
@@ -23,18 +27,18 @@ export const AssemblyPatternsInterferenceCheckNode: NodeDefinition<InterferenceC
     assembly: {
       type: 'Assembly',
       label: 'Assembly',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     interferences: {
       type: 'Interference[]',
-      label: 'Interferences'
+      label: 'Interferences',
     },
     hasInterference: {
       type: 'boolean',
-      label: 'Has Interference'
-    }
+      label: 'Has Interference',
+    },
   },
   params: {
     clearance: {
@@ -42,21 +46,21 @@ export const AssemblyPatternsInterferenceCheckNode: NodeDefinition<InterferenceC
       label: 'Clearance',
       default: 0,
       min: 0,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
       type: 'assemblyInterference',
       params: {
         assembly: inputs.assembly,
-        clearance: params.clearance
-      }
+        clearance: params.clearance,
+      },
     });
-    
+
     return {
       interferences: results.interferences,
-      hasInterference: results.hasInterference
+      hasInterference: results.hasInterference,
     };
   },
 };

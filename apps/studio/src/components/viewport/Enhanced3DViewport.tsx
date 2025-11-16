@@ -22,7 +22,14 @@ export interface ViewportProps {
 
 const VIEWPORT_TOOLS: ViewportToolConfig[] = [
   // Navigation Tools
-  { id: 'orbit', icon: 'rotate-3d', label: 'Orbit', shortcut: 'O', group: 'navigation', active: true },
+  {
+    id: 'orbit',
+    icon: 'rotate-3d',
+    label: 'Orbit',
+    shortcut: 'O',
+    group: 'navigation',
+    active: true,
+  },
   { id: 'pan', icon: 'move', label: 'Pan', shortcut: 'P', group: 'navigation' },
   { id: 'zoom', icon: 'zoom-in', label: 'Zoom', shortcut: 'Z', group: 'navigation' },
   { id: 'fit', icon: 'maximize', label: 'Fit All', shortcut: 'F', group: 'navigation' },
@@ -56,50 +63,58 @@ export const Enhanced3DViewport: React.FC<ViewportProps> = ({
   className = '',
   onToolChange,
   onViewChange,
-  onMeasurement
+  onMeasurement,
 }) => {
   const [activeTool, setActiveTool] = useState('orbit');
   const [activeView, setActiveView] = useState('iso');
   const [showMeasurementPanel, setShowMeasurementPanel] = useState(false);
-  const [measurements, setMeasurements] = useState<Array<{
-    id: string;
-    type: string;
-    value: number;
-    unit: string;
-  }>>([]);
+  const [measurements, setMeasurements] = useState<
+    Array<{
+      id: string;
+      type: string;
+      value: number;
+      unit: string;
+    }>
+  >([]);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0, z: 0 });
   const [performanceStats, setPerformanceStats] = useState({
     fps: 60,
     triangles: 125000,
-    renderTime: 16.7
+    renderTime: 16.7,
   });
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
 
   // Handle tool selection
-  const handleToolSelect = useCallback((toolId: string) => {
-    setActiveTool(toolId);
-    onToolChange?.(toolId);
+  const handleToolSelect = useCallback(
+    (toolId: string) => {
+      setActiveTool(toolId);
+      onToolChange?.(toolId);
 
-    // Auto-show measurement panel for measurement tools
-    if (toolId.startsWith('measure-')) {
-      setShowMeasurementPanel(true);
-    }
-  }, [onToolChange]);
+      // Auto-show measurement panel for measurement tools
+      if (toolId.startsWith('measure-')) {
+        setShowMeasurementPanel(true);
+      }
+    },
+    [onToolChange]
+  );
 
   // Handle view change
-  const handleViewChange = useCallback((viewId: string) => {
-    setActiveView(viewId);
-    onViewChange?.(viewId);
-  }, [onViewChange]);
+  const handleViewChange = useCallback(
+    (viewId: string) => {
+      setActiveView(viewId);
+      onViewChange?.(viewId);
+    },
+    [onViewChange]
+  );
 
   // Handle keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.ctrlKey || e.metaKey || e.altKey) return;
 
-      const tool = VIEWPORT_TOOLS.find(t => t.shortcut?.toLowerCase() === e.key.toLowerCase());
+      const tool = VIEWPORT_TOOLS.find((t) => t.shortcut?.toLowerCase() === e.key.toLowerCase());
       if (tool) {
         e.preventDefault();
         handleToolSelect(tool.id);
@@ -128,7 +143,7 @@ export const Enhanced3DViewport: React.FC<ViewportProps> = ({
         setMousePosition({
           x: Math.round((x - rect.width / 2) * 0.1),
           y: Math.round((rect.height / 2 - y) * 0.1),
-          z: 0
+          z: 0,
         });
       }
     };
@@ -146,7 +161,7 @@ export const Enhanced3DViewport: React.FC<ViewportProps> = ({
       setPerformanceStats({
         fps: 58 + Math.random() * 4,
         triangles: 125000 + Math.random() * 10000,
-        renderTime: 16 + Math.random() * 2
+        renderTime: 16 + Math.random() * 2,
       });
     }, 1000);
 
@@ -158,23 +173,26 @@ export const Enhanced3DViewport: React.FC<ViewportProps> = ({
       id: Date.now().toString(),
       type,
       value,
-      unit: 'mm'
+      unit: 'mm',
     };
-    setMeasurements(prev => [...prev, newMeasurement]);
+    setMeasurements((prev) => [...prev, newMeasurement]);
     onMeasurement?.(type, newMeasurement);
   };
 
   const removeMeasurement = (id: string) => {
-    setMeasurements(prev => prev.filter(m => m.id !== id));
+    setMeasurements((prev) => prev.filter((m) => m.id !== id));
   };
 
-  const groupedTools = VIEWPORT_TOOLS.reduce((groups, tool) => {
-    if (!groups[tool.group]) {
-      groups[tool.group] = [];
-    }
-    groups[tool.group].push(tool);
-    return groups;
-  }, {} as Record<string, ViewportToolConfig[]>);
+  const groupedTools = VIEWPORT_TOOLS.reduce(
+    (groups, tool) => {
+      if (!groups[tool.group]) {
+        groups[tool.group] = [];
+      }
+      groups[tool.group].push(tool);
+      return groups;
+    },
+    {} as Record<string, ViewportToolConfig[]>
+  );
 
   return (
     <div ref={viewportRef} className={`enhanced-viewport ${className}`}>
@@ -182,7 +200,9 @@ export const Enhanced3DViewport: React.FC<ViewportProps> = ({
       <canvas
         ref={canvasRef}
         className="viewport-canvas"
-        style={{ cursor: activeTool === 'pan' ? 'grab' : activeTool === 'zoom' ? 'zoom-in' : 'default' }}
+        style={{
+          cursor: activeTool === 'pan' ? 'grab' : activeTool === 'zoom' ? 'zoom-in' : 'default',
+        }}
       />
 
       {/* Enhanced Toolbar */}
@@ -218,11 +238,7 @@ export const Enhanced3DViewport: React.FC<ViewportProps> = ({
               {view.label}
             </button>
           ))}
-          <button
-            className="cube-center"
-            onClick={() => handleViewChange('iso')}
-            title="Home View"
-          >
+          <button className="cube-center" onClick={() => handleViewChange('iso')} title="Home View">
             🏠
           </button>
         </div>
@@ -259,21 +275,19 @@ export const Enhanced3DViewport: React.FC<ViewportProps> = ({
       <div className="performance-monitor">
         <div className="perf-item">
           <span className="perf-label">FPS</span>
-          <span className={`perf-value ${performanceStats.fps > 55 ? 'good' : performanceStats.fps > 30 ? '' : 'bad'}`}>
+          <span
+            className={`perf-value ${performanceStats.fps > 55 ? 'good' : performanceStats.fps > 30 ? '' : 'bad'}`}
+          >
             {performanceStats.fps.toFixed(0)}
           </span>
         </div>
         <div className="perf-item">
           <span className="perf-label">Triangles</span>
-          <span className="perf-value">
-            {(performanceStats.triangles / 1000).toFixed(0)}K
-          </span>
+          <span className="perf-value">{(performanceStats.triangles / 1000).toFixed(0)}K</span>
         </div>
         <div className="perf-item">
           <span className="perf-label">Render</span>
-          <span className="perf-value">
-            {performanceStats.renderTime.toFixed(1)}ms
-          </span>
+          <span className="perf-value">{performanceStats.renderTime.toFixed(1)}ms</span>
         </div>
       </div>
 
@@ -304,7 +318,12 @@ export const Enhanced3DViewport: React.FC<ViewportProps> = ({
                   onClick={() => handleToolSelect(tool.id)}
                 >
                   <div className="tool-icon">
-                    <IconButton icon={tool.icon} size="sm" variant="ghost" aria-label={tool.label} />
+                    <IconButton
+                      icon={tool.icon}
+                      size="sm"
+                      variant="ghost"
+                      aria-label={tool.label}
+                    />
                   </div>
                   <span className="tool-label">{tool.label}</span>
                 </button>
@@ -333,7 +352,11 @@ export const Enhanced3DViewport: React.FC<ViewportProps> = ({
                         size="sm"
                         variant="ghost"
                         className="measurement-action-btn"
-                        onClick={() => navigator.clipboard.writeText(`${measurement.value.toFixed(2)}${measurement.unit}`)}
+                        onClick={() =>
+                          navigator.clipboard.writeText(
+                            `${measurement.value.toFixed(2)}${measurement.unit}`
+                          )
+                        }
                         aria-label="Copy measurement"
                       />
                       <IconButton

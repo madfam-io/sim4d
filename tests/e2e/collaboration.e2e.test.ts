@@ -81,8 +81,12 @@ test.describe('Collaborative Editing', () => {
     await joinCollaborativeSession(user2, sessionId!, 'User Two');
 
     // Verify both users see each other in the user list
-    await expect(user1.locator('[data-testid="user-list"] [data-user-name="User Two"]')).toBeVisible();
-    await expect(user2.locator('[data-testid="user-list"] [data-user-name="User One"]')).toBeVisible();
+    await expect(
+      user1.locator('[data-testid="user-list"] [data-user-name="User Two"]')
+    ).toBeVisible();
+    await expect(
+      user2.locator('[data-testid="user-list"] [data-user-name="User One"]')
+    ).toBeVisible();
 
     // User 1 creates a node
     await createNode(user1, 'Math::Add', 200, 150);
@@ -116,17 +120,23 @@ test.describe('Collaborative Editing', () => {
     await updateNodeParameter(user1, nodeId!, 'a', '5');
 
     // User 2 should see the parameter update
-    await expect(user2.locator(`[data-node-id="${nodeId}"] [data-param="a"] input`)).toHaveValue('5', {
-      timeout: COLLABORATION_TIMEOUT,
-    });
+    await expect(user2.locator(`[data-node-id="${nodeId}"] [data-param="a"] input`)).toHaveValue(
+      '5',
+      {
+        timeout: COLLABORATION_TIMEOUT,
+      }
+    );
 
     // User 2 updates a different parameter
     await updateNodeParameter(user2, nodeId!, 'b', '3');
 
     // User 1 should see the parameter update
-    await expect(user1.locator(`[data-node-id="${nodeId}"] [data-param="b"] input`)).toHaveValue('3', {
-      timeout: COLLABORATION_TIMEOUT,
-    });
+    await expect(user1.locator(`[data-node-id="${nodeId}"] [data-param="b"] input`)).toHaveValue(
+      '3',
+      {
+        timeout: COLLABORATION_TIMEOUT,
+      }
+    );
   });
 
   test('should handle parameter conflicts with last-writer-wins', async () => {
@@ -194,7 +204,11 @@ test.describe('Collaborative Editing', () => {
     await selectNode(user1, nodeId!);
 
     // User 2 should see the selection highlight
-    await expect(user2.locator(`[data-testid="selection-highlight"][data-node-id="${nodeId}"][data-user="User One"]`)).toBeVisible({
+    await expect(
+      user2.locator(
+        `[data-testid="selection-highlight"][data-node-id="${nodeId}"][data-user="User One"]`
+      )
+    ).toBeVisible({
       timeout: COLLABORATION_TIMEOUT,
     });
 
@@ -202,7 +216,11 @@ test.describe('Collaborative Editing', () => {
     await selectNode(user2, nodeId!);
 
     // User 1 should see User 2's selection
-    await expect(user1.locator(`[data-testid="selection-highlight"][data-node-id="${nodeId}"][data-user="User Two"]`)).toBeVisible({
+    await expect(
+      user1.locator(
+        `[data-testid="selection-highlight"][data-node-id="${nodeId}"][data-user="User Two"]`
+      )
+    ).toBeVisible({
       timeout: COLLABORATION_TIMEOUT,
     });
   });
@@ -217,14 +235,20 @@ test.describe('Collaborative Editing', () => {
     await joinCollaborativeSession(user2, sessionId!, 'User Two');
 
     // Both users should see each other
-    await expect(user1.locator('[data-testid="user-list"] [data-user-name="User Two"]')).toBeVisible();
-    await expect(user2.locator('[data-testid="user-list"] [data-user-name="User One"]')).toBeVisible();
+    await expect(
+      user1.locator('[data-testid="user-list"] [data-user-name="User Two"]')
+    ).toBeVisible();
+    await expect(
+      user2.locator('[data-testid="user-list"] [data-user-name="User One"]')
+    ).toBeVisible();
 
     // User 2 leaves (closes browser)
     await user2.close();
 
     // User 1 should see User 2 go offline
-    await expect(user1.locator('[data-testid="user-list"] [data-user-name="User Two"][data-status="offline"]')).toBeVisible({
+    await expect(
+      user1.locator('[data-testid="user-list"] [data-user-name="User Two"][data-status="offline"]')
+    ).toBeVisible({
       timeout: COLLABORATION_TIMEOUT,
     });
   });
@@ -324,7 +348,10 @@ test.describe('Collaboration Performance', () => {
       // User 0 creates project
       await createNewProject(users[0], 'Multi-User Test');
       await users[0].click('[data-testid="start-collaboration-button"]');
-      const sessionId = await users[0].getAttribute('[data-testid="session-id"]', 'data-session-id');
+      const sessionId = await users[0].getAttribute(
+        '[data-testid="session-id"]',
+        'data-session-id'
+      );
 
       // All other users join
       for (let i = 1; i < userCount; i++) {

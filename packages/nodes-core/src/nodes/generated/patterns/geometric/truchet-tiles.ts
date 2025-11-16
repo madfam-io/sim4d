@@ -13,7 +13,11 @@ interface TruchetTilesOutputs {
   pattern: unknown;
 }
 
-export const PatternsGeometricTruchetTilesNode: NodeDefinition<TruchetTilesInputs, TruchetTilesOutputs, TruchetTilesParams> = {
+export const PatternsGeometricTruchetTilesNode: NodeDefinition<
+  TruchetTilesInputs,
+  TruchetTilesOutputs,
+  TruchetTilesParams
+> = {
   id: 'Patterns::TruchetTiles',
   type: 'Patterns::TruchetTiles',
   category: 'Patterns',
@@ -23,29 +27,29 @@ export const PatternsGeometricTruchetTilesNode: NodeDefinition<TruchetTilesInput
     grid: {
       type: 'Face[]',
       label: 'Grid',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     pattern: {
       type: 'Wire[]',
-      label: 'Pattern'
-    }
+      label: 'Pattern',
+    },
   },
   params: {
     tileType: {
       type: 'enum',
       label: 'Tile Type',
-      default: "arc",
-      options: ["arc","diagonal","smith","multi"]
+      default: 'arc',
+      options: ['arc', 'diagonal', 'smith', 'multi'],
     },
     randomSeed: {
       type: 'number',
       label: 'Random Seed',
       default: 0,
       min: 0,
-      max: 999999
-    }
+      max: 999999,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const PatternsGeometricTruchetTilesNode: NodeDefinition<TruchetTilesInput
       params: {
         grid: inputs.grid,
         tileType: params.tileType,
-        randomSeed: params.randomSeed
-      }
+        randomSeed: params.randomSeed,
+      },
     });
-    
+
     return {
-      pattern: result
+      pattern: result,
     };
   },
 };

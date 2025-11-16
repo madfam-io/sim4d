@@ -217,9 +217,9 @@ class HealthCheckService {
 
   async checkHealth(): Promise<HealthStatus> {
     const checkResults: HealthCheckResult[] = [];
-    
+
     // Run all checks in parallel
-    const checkPromises = Array.from(this.checks.values()).map(check => check());
+    const checkPromises = Array.from(this.checks.values()).map((check) => check());
     const results = await Promise.allSettled(checkPromises);
 
     for (const result of results) {
@@ -236,8 +236,8 @@ class HealthCheckService {
     }
 
     // Determine overall status
-    const failedChecks = checkResults.filter(r => r.status === 'fail');
-    const warnChecks = checkResults.filter(r => r.status === 'warn');
+    const failedChecks = checkResults.filter((r) => r.status === 'fail');
+    const warnChecks = checkResults.filter((r) => r.status === 'warn');
 
     let overallStatus: 'healthy' | 'degraded' | 'unhealthy';
     if (failedChecks.length > 0) {
@@ -282,9 +282,7 @@ class HealthCheckService {
   async checkReadiness(): Promise<{ ready: boolean; timestamp: string; checks: string[] }> {
     const health = await this.checkHealth();
     const ready = health.status !== 'unhealthy';
-    const failedChecks = health.checks
-      .filter(c => c.status === 'fail')
-      .map(c => c.name);
+    const failedChecks = health.checks.filter((c) => c.status === 'fail').map((c) => c.name);
 
     return {
       ready,
@@ -308,14 +306,14 @@ export const healthEndpoints = {
 
     try {
       const status = await healthCheckService.checkHealth();
-      const httpStatus = status.status === 'healthy' ? 200 : 
-                         status.status === 'degraded' ? 200 : 503;
+      const httpStatus =
+        status.status === 'healthy' ? 200 : status.status === 'degraded' ? 200 : 503;
       return { status: httpStatus, body: status };
     } catch (error) {
       logger.error('Health check endpoint error', error);
-      return { 
-        status: 503, 
-        body: { 
+      return {
+        status: 503,
+        body: {
           error: 'Health check failed',
           message: error instanceof Error ? error.message : 'Unknown error',
         },
@@ -345,9 +343,9 @@ export const healthEndpoints = {
       const httpStatus = result.ready ? 200 : 503;
       return { status: httpStatus, body: result };
     } catch (error) {
-      return { 
-        status: 503, 
-        body: { 
+      return {
+        status: 503,
+        body: {
           ready: false,
           error: error instanceof Error ? error.message : 'Unknown error',
         },

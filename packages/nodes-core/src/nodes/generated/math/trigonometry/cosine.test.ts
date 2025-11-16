@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { MathTrigonometryCosineNode } from './cosine.node';
 import { createTestContext } from '../test-utils';
@@ -7,10 +6,10 @@ describe('MathTrigonometryCosineNode', () => {
   it('should evaluate without throwing', async () => {
     const context = createTestContext();
     const inputs = {
-      angle: undefined
+      angle: undefined,
     } as any;
     const params = {
-      angleUnit: "radians"
+      angleUnit: 'radians',
     } as any;
 
     const result = await MathTrigonometryCosineNode.evaluate(context, inputs, params);

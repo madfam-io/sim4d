@@ -21,24 +21,24 @@ export const MathComparisonClampNode: NodeDefinition<ClampInputs, ClampOutputs, 
     value: {
       type: 'number',
       label: 'Value',
-      required: true
+      required: true,
     },
     min: {
       type: 'number',
       label: 'Min',
-      required: true
+      required: true,
     },
     max: {
       type: 'number',
       label: 'Max',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'number',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -47,12 +47,12 @@ export const MathComparisonClampNode: NodeDefinition<ClampInputs, ClampOutputs, 
       params: {
         value: inputs.value,
         min: inputs.min,
-        max: inputs.max
-      }
+        max: inputs.max,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

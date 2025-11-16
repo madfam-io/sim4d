@@ -1,6 +1,11 @@
-
 import { NodeDefinition } from '@brepflow/types';
-import { NumberParam, BoolParam, StringParam, EnumParam, Vector3Param } from '../../../../utils/param-utils.js';
+import {
+  NumberParam,
+  BoolParam,
+  StringParam,
+  EnumParam,
+  Vector3Param,
+} from '../../../../utils/param-utils.js';
 
 type Params = {};
 interface Inputs {
@@ -10,7 +15,11 @@ interface Outputs {
   length: number;
 }
 
-export const CurveLengthNode: NodeDefinition<CurveLengthInputs, CurveLengthOutputs, CurveLengthParams> = {
+export const CurveLengthNode: NodeDefinition<
+  CurveLengthInputs,
+  CurveLengthOutputs,
+  CurveLengthParams
+> = {
   type: 'Analysis::CurveLength',
   category: 'Analysis',
   subcategory: 'Properties',
@@ -18,34 +27,28 @@ export const CurveLengthNode: NodeDefinition<CurveLengthInputs, CurveLengthOutpu
   metadata: {
     label: 'CurveLength',
     description: 'Measure the length of a curve',
-    
-    
   },
 
-  params: {
-    
-  },
+  params: {},
 
   inputs: {
-        curve: 'Wire'
+    curve: 'Wire',
   },
 
   outputs: {
-        length: 'number'
+    length: 'number',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'measureCurveLength',
       params: {
-        curve: inputs.curve
-        
-      }
+        curve: inputs.curve,
+      },
     });
 
     return {
-      length: result
+      length: result,
     };
-  }
+  },
 };

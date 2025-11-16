@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -17,7 +16,11 @@ interface Outputs {
   accuracy: number;
 }
 
-export const SupportVectorMachineNode: NodeDefinition<SupportVectorMachineInputs, SupportVectorMachineOutputs, SupportVectorMachineParams> = {
+export const SupportVectorMachineNode: NodeDefinition<
+  SupportVectorMachineInputs,
+  SupportVectorMachineOutputs,
+  SupportVectorMachineParams
+> = {
   type: 'Algorithmic::SupportVectorMachine',
   category: 'Algorithmic',
   subcategory: 'MachineLearning',
@@ -25,47 +28,37 @@ export const SupportVectorMachineNode: NodeDefinition<SupportVectorMachineInputs
   metadata: {
     label: 'SupportVectorMachine',
     description: 'Support Vector Machine classifier',
-    
-    
   },
 
   params: {
-        kernel: {
-      "default": "rbf",
-      "options": [
-        "linear",
-        "rbf",
-        "poly"
-      ]
+    kernel: {
+      default: 'rbf',
+      options: ['linear', 'rbf', 'poly'],
     },
     c: {
-      "default": 1,
-      "min": 0.001,
-      "max": 1000
+      default: 1,
+      min: 0.001,
+      max: 1000,
     },
     gamma: {
-      "default": "scale",
-      "options": [
-        "scale",
-        "auto"
-      ]
-    }
+      default: 'scale',
+      options: ['scale', 'auto'],
+    },
   },
 
   inputs: {
-        trainingData: 'Properties[]',
+    trainingData: 'Properties[]',
     features: 'string[]',
-    target: 'string'
+    target: 'string',
   },
 
   outputs: {
-        model: 'Properties',
+    model: 'Properties',
     supportVectors: 'Properties[]',
-    accuracy: 'number'
+    accuracy: 'number',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'supportVectorMachine',
       params: {
@@ -74,14 +67,14 @@ export const SupportVectorMachineNode: NodeDefinition<SupportVectorMachineInputs
         target: inputs.target,
         kernel: params.kernel,
         c: params.c,
-        gamma: params.gamma
-      }
+        gamma: params.gamma,
+      },
     });
 
     return {
       model: result,
       supportVectors: result,
-      accuracy: result
+      accuracy: result,
     };
-  }
+  },
 };

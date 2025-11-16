@@ -13,7 +13,11 @@ interface WipeTowerOutputs {
   tower: unknown;
 }
 
-export const Fabrication3DPrintingWipeTowerNode: NodeDefinition<WipeTowerInputs, WipeTowerOutputs, WipeTowerParams> = {
+export const Fabrication3DPrintingWipeTowerNode: NodeDefinition<
+  WipeTowerInputs,
+  WipeTowerOutputs,
+  WipeTowerParams
+> = {
   id: 'Fabrication::WipeTower',
   type: 'Fabrication::WipeTower',
   category: 'Fabrication',
@@ -23,14 +27,14 @@ export const Fabrication3DPrintingWipeTowerNode: NodeDefinition<WipeTowerInputs,
     printHeight: {
       type: 'Number',
       label: 'Print Height',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     tower: {
       type: 'Shape',
-      label: 'Tower'
-    }
+      label: 'Tower',
+    },
   },
   params: {
     towerWidth: {
@@ -38,15 +42,15 @@ export const Fabrication3DPrintingWipeTowerNode: NodeDefinition<WipeTowerInputs,
       label: 'Tower Width',
       default: 60,
       min: 20,
-      max: 100
+      max: 100,
     },
     wipeVolume: {
       type: 'number',
       label: 'Wipe Volume',
       default: 15,
       min: 5,
-      max: 50
-    }
+      max: 50,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -54,12 +58,12 @@ export const Fabrication3DPrintingWipeTowerNode: NodeDefinition<WipeTowerInputs,
       params: {
         printHeight: inputs.printHeight,
         towerWidth: params.towerWidth,
-        wipeVolume: params.wipeVolume
-      }
+        wipeVolume: params.wipeVolume,
+      },
     });
-    
+
     return {
-      tower: result
+      tower: result,
     };
   },
 };

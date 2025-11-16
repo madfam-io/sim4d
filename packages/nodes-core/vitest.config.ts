@@ -13,12 +13,7 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
-      exclude: [
-        'tests/**',
-        '**/*.test.{js,ts,jsx,tsx}',
-        '**/*.spec.{js,ts,jsx,tsx}',
-        'dist/**',
-      ],
+      exclude: ['tests/**', '**/*.test.{js,ts,jsx,tsx}', '**/*.spec.{js,ts,jsx,tsx}', 'dist/**'],
     },
   },
   resolve: {

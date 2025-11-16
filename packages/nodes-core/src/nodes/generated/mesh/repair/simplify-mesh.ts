@@ -16,7 +16,11 @@ interface SimplifyMeshOutputs {
   triangleCount: unknown;
 }
 
-export const MeshRepairSimplifyMeshNode: NodeDefinition<SimplifyMeshInputs, SimplifyMeshOutputs, SimplifyMeshParams> = {
+export const MeshRepairSimplifyMeshNode: NodeDefinition<
+  SimplifyMeshInputs,
+  SimplifyMeshOutputs,
+  SimplifyMeshParams
+> = {
   id: 'Mesh::SimplifyMesh',
   type: 'Mesh::SimplifyMesh',
   category: 'Mesh',
@@ -26,18 +30,18 @@ export const MeshRepairSimplifyMeshNode: NodeDefinition<SimplifyMeshInputs, Simp
     mesh: {
       type: 'Mesh',
       label: 'Mesh',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     simplified: {
       type: 'Mesh',
-      label: 'Simplified'
+      label: 'Simplified',
     },
     triangleCount: {
       type: 'number',
-      label: 'Triangle Count'
-    }
+      label: 'Triangle Count',
+    },
   },
   params: {
     targetRatio: {
@@ -45,25 +49,25 @@ export const MeshRepairSimplifyMeshNode: NodeDefinition<SimplifyMeshInputs, Simp
       label: 'Target Ratio',
       default: 0.5,
       min: 0.01,
-      max: 1
+      max: 1,
     },
     preserveBoundaries: {
       type: 'boolean',
       label: 'Preserve Boundaries',
-      default: true
+      default: true,
     },
     preserveTopology: {
       type: 'boolean',
       label: 'Preserve Topology',
-      default: false
+      default: false,
     },
     maxError: {
       type: 'number',
       label: 'Max Error',
       default: 0.1,
       min: 0.001,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -73,13 +77,13 @@ export const MeshRepairSimplifyMeshNode: NodeDefinition<SimplifyMeshInputs, Simp
         targetRatio: params.targetRatio,
         preserveBoundaries: params.preserveBoundaries,
         preserveTopology: params.preserveTopology,
-        maxError: params.maxError
-      }
+        maxError: params.maxError,
+      },
     });
-    
+
     return {
       simplified: results.simplified,
-      triangleCount: results.triangleCount
+      triangleCount: results.triangleCount,
     };
   },
 };

@@ -11,7 +11,11 @@ interface RuledSurfaceOutputs {
   surface: unknown;
 }
 
-export const SolidSurfaceRuledSurfaceNode: NodeDefinition<RuledSurfaceInputs, RuledSurfaceOutputs, RuledSurfaceParams> = {
+export const SolidSurfaceRuledSurfaceNode: NodeDefinition<
+  RuledSurfaceInputs,
+  RuledSurfaceOutputs,
+  RuledSurfaceParams
+> = {
   id: 'Solid::RuledSurface',
   category: 'Solid',
   label: 'RuledSurface',
@@ -20,19 +24,19 @@ export const SolidSurfaceRuledSurfaceNode: NodeDefinition<RuledSurfaceInputs, Ru
     curve1: {
       type: 'Wire',
       label: 'Curve1',
-      required: true
+      required: true,
     },
     curve2: {
       type: 'Wire',
       label: 'Curve2',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     surface: {
       type: 'Face',
-      label: 'Surface'
-    }
+      label: 'Surface',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -40,12 +44,12 @@ export const SolidSurfaceRuledSurfaceNode: NodeDefinition<RuledSurfaceInputs, Ru
       type: 'makeRuledSurface',
       params: {
         curve1: inputs.curve1,
-        curve2: inputs.curve2
-      }
+        curve2: inputs.curve2,
+      },
     });
-    
+
     return {
-      surface: result
+      surface: result,
     };
   },
 };

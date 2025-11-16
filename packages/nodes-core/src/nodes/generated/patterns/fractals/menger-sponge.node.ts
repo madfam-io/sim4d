@@ -12,7 +12,11 @@ interface MengerSpongeOutputs {
   fractal: unknown;
 }
 
-export const PatternsFractalsMengerSpongeNode: NodeDefinition<MengerSpongeInputs, MengerSpongeOutputs, MengerSpongeParams> = {
+export const PatternsFractalsMengerSpongeNode: NodeDefinition<
+  MengerSpongeInputs,
+  MengerSpongeOutputs,
+  MengerSpongeParams
+> = {
   id: 'Patterns::MengerSponge',
   category: 'Patterns',
   label: 'MengerSponge',
@@ -21,14 +25,14 @@ export const PatternsFractalsMengerSpongeNode: NodeDefinition<MengerSpongeInputs
     cube: {
       type: 'Shape',
       label: 'Cube',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     fractal: {
       type: 'Shape',
-      label: 'Fractal'
-    }
+      label: 'Fractal',
+    },
   },
   params: {
     iterations: {
@@ -37,20 +41,20 @@ export const PatternsFractalsMengerSpongeNode: NodeDefinition<MengerSpongeInputs
       default: 3,
       min: 0,
       max: 4,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mengerSponge',
       params: {
         cube: inputs.cube,
-        iterations: params.iterations
-      }
+        iterations: params.iterations,
+      },
     });
-    
+
     return {
-      fractal: result
+      fractal: result,
     };
   },
 };

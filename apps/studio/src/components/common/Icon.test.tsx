@@ -29,7 +29,7 @@ describe('Icon', () => {
   it('renders different icon names', () => {
     const icons = ['save', 'close', 'settings', 'warning', 'error', 'success'];
 
-    icons.forEach(iconName => {
+    icons.forEach((iconName) => {
       const { container } = render(<Icon name={iconName as any} />);
       const svg = container.querySelector('svg');
       expect(svg).toBeInTheDocument();

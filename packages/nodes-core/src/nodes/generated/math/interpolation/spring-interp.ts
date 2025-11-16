@@ -17,7 +17,11 @@ interface SpringInterpOutputs {
   velocity: unknown;
 }
 
-export const MathInterpolationSpringInterpNode: NodeDefinition<SpringInterpInputs, SpringInterpOutputs, SpringInterpParams> = {
+export const MathInterpolationSpringInterpNode: NodeDefinition<
+  SpringInterpInputs,
+  SpringInterpOutputs,
+  SpringInterpParams
+> = {
   id: 'Math::SpringInterp',
   type: 'Math::SpringInterp',
   category: 'Math',
@@ -27,33 +31,33 @@ export const MathInterpolationSpringInterpNode: NodeDefinition<SpringInterpInput
     current: {
       type: 'number',
       label: 'Current',
-      required: true
+      required: true,
     },
     target: {
       type: 'number',
       label: 'Target',
-      required: true
+      required: true,
     },
     velocity: {
       type: 'number',
       label: 'Velocity',
-      required: true
+      required: true,
     },
     deltaTime: {
       type: 'number',
       label: 'Delta Time',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     position: {
       type: 'number',
-      label: 'Position'
+      label: 'Position',
     },
     velocity: {
       type: 'number',
-      label: 'Velocity'
-    }
+      label: 'Velocity',
+    },
   },
   params: {
     stiffness: {
@@ -61,15 +65,15 @@ export const MathInterpolationSpringInterpNode: NodeDefinition<SpringInterpInput
       label: 'Stiffness',
       default: 100,
       min: 1,
-      max: 1000
+      max: 1000,
     },
     damping: {
       type: 'number',
       label: 'Damping',
       default: 10,
       min: 0,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -80,13 +84,13 @@ export const MathInterpolationSpringInterpNode: NodeDefinition<SpringInterpInput
         velocity: inputs.velocity,
         deltaTime: inputs.deltaTime,
         stiffness: params.stiffness,
-        damping: params.damping
-      }
+        damping: params.damping,
+      },
     });
-    
+
     return {
       position: results.position,
-      velocity: results.velocity
+      velocity: results.velocity,
     };
   },
 };

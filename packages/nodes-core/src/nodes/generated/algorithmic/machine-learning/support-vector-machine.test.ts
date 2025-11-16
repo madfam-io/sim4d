@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { AlgorithmicMachineLearningSupportVectorMachineNode } from './support-vector-machine.node';
 import { createTestContext } from '../test-utils';
@@ -9,15 +8,19 @@ describe('AlgorithmicMachineLearningSupportVectorMachineNode', () => {
     const inputs = {
       trainingData: undefined,
       features: undefined,
-      target: undefined
+      target: undefined,
     } as any;
     const params = {
-      kernel: "rbf",
+      kernel: 'rbf',
       c: 1,
-      gamma: "scale"
+      gamma: 'scale',
     } as any;
 
-    const result = await AlgorithmicMachineLearningSupportVectorMachineNode.evaluate(context, inputs, params);
+    const result = await AlgorithmicMachineLearningSupportVectorMachineNode.evaluate(
+      context,
+      inputs,
+      params
+    );
     expect(result).toBeDefined();
   });
 });

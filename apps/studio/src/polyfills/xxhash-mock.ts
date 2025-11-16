@@ -13,7 +13,7 @@ export default function xxhash() {
         hash ^= bytes[i]!;
         hash = Math.imul(hash, 16777619);
       }
-      return (hash >>> 0);
+      return hash >>> 0;
     },
     h64: (data: Uint8Array | string, seed = 0) => {
       // For 64-bit hash, we'll just use the 32-bit hash twice with different seeds
@@ -30,6 +30,6 @@ export default function xxhash() {
 
       // Return as string representation of 64-bit hash
       return ((hash1 >>> 0) * 0x100000000 + (hash2 >>> 0)).toString(16);
-    }
+    },
   });
 }

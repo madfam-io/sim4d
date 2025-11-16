@@ -75,17 +75,14 @@ test('should install and use geometry plugin', async ({ page }) => {
 
   // Initialize mock services
   await mockServices.initialize({
-    marketplace: TEST_PLUGIN_CONFIGS.BASIC_MARKETPLACE
+    marketplace: TEST_PLUGIN_CONFIGS.BASIC_MARKETPLACE,
   });
 
   // Install plugin
   const context = await pluginHelper.installPlugin('basic-geometry');
 
   // Test node integration
-  const result = await pluginHelper.testPluginNodeIntegration(
-    'basic-geometry',
-    'Basic::Box'
-  );
+  const result = await pluginHelper.testPluginNodeIntegration('basic-geometry', 'Basic::Box');
 
   expect(result.nodeCreated).toBe(true);
   expect(result.evaluationSuccessful).toBe(true);
@@ -119,8 +116,8 @@ test('should synchronize plugin states across users', async ({ page }) => {
     pluginId: 'basic-geometry',
     workflowActions: [
       { user: 'user1', action: 'createNode', data: { type: 'Basic::Box' } },
-      { user: 'user2', action: 'editParameter', data: { param: 'width', value: 150 } }
-    ]
+      { user: 'user2', action: 'editParameter', data: { param: 'width', value: 150 } },
+    ],
   });
 
   const syncResult = await pluginHelper.validatePluginStateSynchronization(
@@ -140,11 +137,11 @@ import { PluginTestPatterns } from './plugin-test-patterns';
 test('should pass geometry node test pattern', async ({ page }) => {
   const patterns = new PluginTestPatterns(page);
 
-  await patterns.testBasicNodePlugin(
-    'basic-geometry',
-    'Basic::Box',
-    { width: 100, height: 50, depth: 25 }
-  );
+  await patterns.testBasicNodePlugin('basic-geometry', 'Basic::Box', {
+    width: 100,
+    height: 50,
+    depth: 25,
+  });
 });
 ```
 
@@ -192,8 +189,8 @@ launchOptions: {
     '--enable-webgl',
     '--enable-shared-array-buffer',
     '--disable-web-security', // For plugin sandbox testing
-    '--enable-features=SharedArrayBuffer'
-  ]
+    '--enable-features=SharedArrayBuffer',
+  ];
 }
 ```
 

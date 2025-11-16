@@ -59,7 +59,11 @@ export class MetricsCollector {
   /**
    * Record a counter metric
    */
-  public incrementCounter(name: string, labels: Record<string, string> = {}, value: number = 1): void {
+  public incrementCounter(
+    name: string,
+    labels: Record<string, string> = {},
+    value: number = 1
+  ): void {
     const key = this.createMetricKey(name, labels);
     const currentValue = this.counters.get(key) || 0;
     this.counters.set(key, currentValue + value);
@@ -69,7 +73,7 @@ export class MetricsCollector {
       value: currentValue + value,
       unit: 'count',
       timestamp: Date.now(),
-      labels
+      labels,
     });
   }
 
@@ -85,7 +89,7 @@ export class MetricsCollector {
       value,
       unit: 'gauge',
       timestamp: Date.now(),
-      labels
+      labels,
     });
   }
 
@@ -108,7 +112,7 @@ export class MetricsCollector {
       value,
       unit: 'histogram',
       timestamp: Date.now(),
-      labels
+      labels,
     });
   }
 
@@ -137,7 +141,7 @@ export class MetricsCollector {
   public recordUserEvent(event: Omit<UserEvent, 'timestamp'>): void {
     const fullEvent: UserEvent = {
       ...event,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
 
     this.logger.info('User event', fullEvent);
@@ -145,7 +149,7 @@ export class MetricsCollector {
     // Track user interaction metrics
     this.incrementCounter('user_events_total', {
       type: event.type,
-      target: event.target || 'unknown'
+      target: event.target || 'unknown',
     });
   }
 
@@ -163,7 +167,7 @@ export class MetricsCollector {
       activeWorkers: this.getActiveWorkerCount(),
       errorRate,
       averageResponseTime: avgResponseTime,
-      lastHealthCheck: Date.now()
+      lastHealthCheck: Date.now(),
     };
   }
 
@@ -200,7 +204,10 @@ export class MetricsCollector {
   /**
    * Get histogram statistics
    */
-  public getHistogramStats(name: string, labels: Record<string, string> = {}): {
+  public getHistogramStats(
+    name: string,
+    labels: Record<string, string> = {}
+  ): {
     count: number;
     sum: number;
     avg: number;
@@ -226,7 +233,7 @@ export class MetricsCollector {
       min: sorted[0] ?? 0,
       max: sorted[sorted.length - 1] ?? 0,
       p95: sorted[Math.floor(sorted.length * 0.95)] ?? 0,
-      p99: sorted[Math.floor(sorted.length * 0.99)] ?? 0
+      p99: sorted[Math.floor(sorted.length * 0.99)] ?? 0,
     };
   }
 
@@ -250,7 +257,7 @@ export class MetricsCollector {
       counters: Object.fromEntries(this.counters),
       gauges: Object.fromEntries(this.gauges),
       histograms: histogramStats,
-      systemHealth: this.getSystemHealth()
+      systemHealth: this.getSystemHealth(),
     };
   }
 
@@ -321,7 +328,9 @@ export class MetricsCollector {
    */
   private collectNavigationMetrics(): void {
     if ('performance' in window && 'getEntriesByType' in performance) {
-      const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+      const navigation = performance.getEntriesByType(
+        'navigation'
+      )[0] as PerformanceNavigationTiming;
 
       if (navigation) {
         const startTime = (navigation as any).navigationStart || navigation.fetchStart || 0;
@@ -344,7 +353,7 @@ export class MetricsCollector {
             const resourceEntry = entry as PerformanceResourceTiming;
             this.recordTiming('resource_load_time_ms', entry.duration, {
               resource_type: resourceEntry.initiatorType,
-              resource_name: entry.name.split('/').pop() || 'unknown'
+              resource_name: entry.name.split('/').pop() || 'unknown',
             });
           }
         }
@@ -411,7 +420,7 @@ export class MetricsCollector {
    * Calculate error rate over the last 5 minutes
    */
   private calculateErrorRate(): number {
-    const fiveMinutesAgo = Date.now() - (5 * 60 * 1000);
+    const fiveMinutesAgo = Date.now() - 5 * 60 * 1000;
     const totalErrors = this.getCounter('errors_total');
     const totalRequests = this.getCounter('requests_total');
 

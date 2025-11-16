@@ -14,7 +14,11 @@ interface GreenWallOutputs {
   modules: unknown;
 }
 
-export const ArchitectureWallsGreenWallNode: NodeDefinition<GreenWallInputs, GreenWallOutputs, GreenWallParams> = {
+export const ArchitectureWallsGreenWallNode: NodeDefinition<
+  GreenWallInputs,
+  GreenWallOutputs,
+  GreenWallParams
+> = {
   id: 'Architecture::GreenWall',
   type: 'Architecture::GreenWall',
   category: 'Architecture',
@@ -24,18 +28,18 @@ export const ArchitectureWallsGreenWallNode: NodeDefinition<GreenWallInputs, Gre
     wallSurface: {
       type: 'Face',
       label: 'Wall Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     greenWall: {
       type: 'Shape',
-      label: 'Green Wall'
+      label: 'Green Wall',
     },
     modules: {
       type: 'Shape[]',
-      label: 'Modules'
-    }
+      label: 'Modules',
+    },
   },
   params: {
     moduleSize: {
@@ -43,14 +47,14 @@ export const ArchitectureWallsGreenWallNode: NodeDefinition<GreenWallInputs, Gre
       label: 'Module Size',
       default: 600,
       min: 300,
-      max: 1200
+      max: 1200,
     },
     irrigationType: {
       type: 'enum',
       label: 'Irrigation Type',
-      default: "drip",
-      options: ["drip","hydroponic","aeroponic"]
-    }
+      default: 'drip',
+      options: ['drip', 'hydroponic', 'aeroponic'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -58,13 +62,13 @@ export const ArchitectureWallsGreenWallNode: NodeDefinition<GreenWallInputs, Gre
       params: {
         wallSurface: inputs.wallSurface,
         moduleSize: params.moduleSize,
-        irrigationType: params.irrigationType
-      }
+        irrigationType: params.irrigationType,
+      },
     });
-    
+
     return {
       greenWall: results.greenWall,
-      modules: results.modules
+      modules: results.modules,
     };
   },
 };

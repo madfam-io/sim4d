@@ -16,7 +16,11 @@ interface IGESExportOutputs {
   entityCount: unknown;
 }
 
-export const InteroperabilityExportIGESExportNode: NodeDefinition<IGESExportInputs, IGESExportOutputs, IGESExportParams> = {
+export const InteroperabilityExportIGESExportNode: NodeDefinition<
+  IGESExportInputs,
+  IGESExportOutputs,
+  IGESExportParams
+> = {
   id: 'Interoperability::IGESExport',
   category: 'Interoperability',
   label: 'IGESExport',
@@ -25,44 +29,44 @@ export const InteroperabilityExportIGESExportNode: NodeDefinition<IGESExportInpu
     shapes: {
       type: 'Shape[]',
       label: 'Shapes',
-      required: true
+      required: true,
     },
     filePath: {
       type: 'string',
       label: 'File Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     success: {
       type: 'boolean',
-      label: 'Success'
+      label: 'Success',
     },
     entityCount: {
       type: 'number',
-      label: 'Entity Count'
-    }
+      label: 'Entity Count',
+    },
   },
   params: {
     units: {
       type: 'enum',
       label: 'Units',
-      default: "mm",
-      options: ["mm","cm","m","inch"]
+      default: 'mm',
+      options: ['mm', 'cm', 'm', 'inch'],
     },
     precision: {
       type: 'number',
       label: 'Precision',
       default: 0.01,
       min: 0.001,
-      max: 1
+      max: 1,
     },
     writeMode: {
       type: 'enum',
       label: 'Write Mode',
-      default: "brep",
-      options: ["brep","faces"]
-    }
+      default: 'brep',
+      options: ['brep', 'faces'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -72,13 +76,13 @@ export const InteroperabilityExportIGESExportNode: NodeDefinition<IGESExportInpu
         filePath: inputs.filePath,
         units: params.units,
         precision: params.precision,
-        writeMode: params.writeMode
-      }
+        writeMode: params.writeMode,
+      },
     });
-    
+
     return {
       success: results.success,
-      entityCount: results.entityCount
+      entityCount: results.entityCount,
     };
   },
 };

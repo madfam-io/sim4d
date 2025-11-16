@@ -11,7 +11,11 @@ interface ComplexAddOutputs {
   result: unknown;
 }
 
-export const MathComplexComplexAddNode: NodeDefinition<ComplexAddInputs, ComplexAddOutputs, ComplexAddParams> = {
+export const MathComplexComplexAddNode: NodeDefinition<
+  ComplexAddInputs,
+  ComplexAddOutputs,
+  ComplexAddParams
+> = {
   id: 'Math::ComplexAdd',
   type: 'Math::ComplexAdd',
   category: 'Math',
@@ -21,19 +25,19 @@ export const MathComplexComplexAddNode: NodeDefinition<ComplexAddInputs, Complex
     a: {
       type: 'Complex',
       label: 'A',
-      required: true
+      required: true,
     },
     b: {
       type: 'Complex',
       label: 'B',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'Complex',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -41,12 +45,12 @@ export const MathComplexComplexAddNode: NodeDefinition<ComplexAddInputs, Complex
       type: 'mathComplexAdd',
       params: {
         a: inputs.a,
-        b: inputs.b
-      }
+        b: inputs.b,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

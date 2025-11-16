@@ -14,7 +14,11 @@ interface SheetMetalStyleOutputs {
   style: unknown;
 }
 
-export const SheetMetalPropertiesSheetMetalStyleNode: NodeDefinition<SheetMetalStyleInputs, SheetMetalStyleOutputs, SheetMetalStyleParams> = {
+export const SheetMetalPropertiesSheetMetalStyleNode: NodeDefinition<
+  SheetMetalStyleInputs,
+  SheetMetalStyleOutputs,
+  SheetMetalStyleParams
+> = {
   id: 'SheetMetal::SheetMetalStyle',
   type: 'SheetMetal::SheetMetalStyle',
   category: 'SheetMetal',
@@ -24,8 +28,8 @@ export const SheetMetalPropertiesSheetMetalStyleNode: NodeDefinition<SheetMetalS
   outputs: {
     style: {
       type: 'Data',
-      label: 'Style'
-    }
+      label: 'Style',
+    },
   },
   params: {
     thickness: {
@@ -33,34 +37,34 @@ export const SheetMetalPropertiesSheetMetalStyleNode: NodeDefinition<SheetMetalS
       label: 'Thickness',
       default: 2,
       min: 0.1,
-      max: 50
+      max: 50,
     },
     material: {
       type: 'enum',
       label: 'Material',
-      default: "steel",
-      options: ["steel","aluminum","stainless","copper","brass"]
+      default: 'steel',
+      options: ['steel', 'aluminum', 'stainless', 'copper', 'brass'],
     },
     kFactor: {
       type: 'number',
       label: 'K Factor',
       default: 0.44,
       min: 0,
-      max: 1
+      max: 1,
     },
     minBendRadius: {
       type: 'number',
       label: 'Min Bend Radius',
       default: 2,
       min: 0.1,
-      max: 50
+      max: 50,
     },
     reliefType: {
       type: 'enum',
       label: 'Relief Type',
-      default: "rectangular",
-      options: ["rectangular","obround","tear"]
-    }
+      default: 'rectangular',
+      options: ['rectangular', 'obround', 'tear'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -70,12 +74,12 @@ export const SheetMetalPropertiesSheetMetalStyleNode: NodeDefinition<SheetMetalS
         material: params.material,
         kFactor: params.kFactor,
         minBendRadius: params.minBendRadius,
-        reliefType: params.reliefType
-      }
+        reliefType: params.reliefType,
+      },
     });
-    
+
     return {
-      style: result
+      style: result,
     };
   },
 };

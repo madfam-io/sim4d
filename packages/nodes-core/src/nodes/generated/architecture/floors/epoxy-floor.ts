@@ -13,7 +13,11 @@ interface EpoxyFloorOutputs {
   epoxyFloor: unknown;
 }
 
-export const ArchitectureFloorsEpoxyFloorNode: NodeDefinition<EpoxyFloorInputs, EpoxyFloorOutputs, EpoxyFloorParams> = {
+export const ArchitectureFloorsEpoxyFloorNode: NodeDefinition<
+  EpoxyFloorInputs,
+  EpoxyFloorOutputs,
+  EpoxyFloorParams
+> = {
   id: 'Architecture::EpoxyFloor',
   type: 'Architecture::EpoxyFloor',
   category: 'Architecture',
@@ -23,14 +27,14 @@ export const ArchitectureFloorsEpoxyFloorNode: NodeDefinition<EpoxyFloorInputs, 
     floorSurface: {
       type: 'Face',
       label: 'Floor Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     epoxyFloor: {
       type: 'Face',
-      label: 'Epoxy Floor'
-    }
+      label: 'Epoxy Floor',
+    },
   },
   params: {
     thickness: {
@@ -38,14 +42,14 @@ export const ArchitectureFloorsEpoxyFloorNode: NodeDefinition<EpoxyFloorInputs, 
       label: 'Thickness',
       default: 3,
       min: 2,
-      max: 10
+      max: 10,
     },
     texture: {
       type: 'enum',
       label: 'Texture',
-      default: "smooth",
-      options: ["smooth","orange-peel","quartz","flake"]
-    }
+      default: 'smooth',
+      options: ['smooth', 'orange-peel', 'quartz', 'flake'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const ArchitectureFloorsEpoxyFloorNode: NodeDefinition<EpoxyFloorInputs, 
       params: {
         floorSurface: inputs.floorSurface,
         thickness: params.thickness,
-        texture: params.texture
-      }
+        texture: params.texture,
+      },
     });
-    
+
     return {
-      epoxyFloor: result
+      epoxyFloor: result,
     };
   },
 };

@@ -15,7 +15,11 @@ interface DraftAnalysisOutputs {
   problematicFaces: unknown;
 }
 
-export const SurfaceAnalysisDraftAnalysisNode: NodeDefinition<DraftAnalysisInputs, DraftAnalysisOutputs, DraftAnalysisParams> = {
+export const SurfaceAnalysisDraftAnalysisNode: NodeDefinition<
+  DraftAnalysisInputs,
+  DraftAnalysisOutputs,
+  DraftAnalysisParams
+> = {
   id: 'Surface::DraftAnalysis',
   category: 'Surface',
   label: 'DraftAnalysis',
@@ -24,37 +28,37 @@ export const SurfaceAnalysisDraftAnalysisNode: NodeDefinition<DraftAnalysisInput
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     analysis: {
       type: 'Data',
-      label: 'Analysis'
+      label: 'Analysis',
     },
     problematicFaces: {
       type: 'Face[]',
-      label: 'Problematic Faces'
-    }
+      label: 'Problematic Faces',
+    },
   },
   params: {
     pullDirection: {
       type: 'vec3',
       label: 'Pull Direction',
-      default: [0,0,1]
+      default: [0, 0, 1],
     },
     requiredAngle: {
       type: 'number',
       label: 'Required Angle',
       default: 3,
       min: 0,
-      max: 90
+      max: 90,
     },
     colorMapping: {
       type: 'boolean',
       label: 'Color Mapping',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -63,13 +67,13 @@ export const SurfaceAnalysisDraftAnalysisNode: NodeDefinition<DraftAnalysisInput
         shape: inputs.shape,
         pullDirection: params.pullDirection,
         requiredAngle: params.requiredAngle,
-        colorMapping: params.colorMapping
-      }
+        colorMapping: params.colorMapping,
+      },
     });
-    
+
     return {
       analysis: results.analysis,
-      problematicFaces: results.problematicFaces
+      problematicFaces: results.problematicFaces,
     };
   },
 };

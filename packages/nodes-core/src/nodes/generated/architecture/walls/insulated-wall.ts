@@ -13,7 +13,11 @@ interface InsulatedWallOutputs {
   insulatedWall: unknown;
 }
 
-export const ArchitectureWallsInsulatedWallNode: NodeDefinition<InsulatedWallInputs, InsulatedWallOutputs, InsulatedWallParams> = {
+export const ArchitectureWallsInsulatedWallNode: NodeDefinition<
+  InsulatedWallInputs,
+  InsulatedWallOutputs,
+  InsulatedWallParams
+> = {
   id: 'Architecture::InsulatedWall',
   type: 'Architecture::InsulatedWall',
   category: 'Architecture',
@@ -23,29 +27,29 @@ export const ArchitectureWallsInsulatedWallNode: NodeDefinition<InsulatedWallInp
     wallCavity: {
       type: 'Shape',
       label: 'Wall Cavity',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     insulatedWall: {
       type: 'Shape',
-      label: 'Insulated Wall'
-    }
+      label: 'Insulated Wall',
+    },
   },
   params: {
     insulationType: {
       type: 'enum',
       label: 'Insulation Type',
-      default: "batt",
-      options: ["batt","rigid","spray","blown"]
+      default: 'batt',
+      options: ['batt', 'rigid', 'spray', 'blown'],
     },
     rValue: {
       type: 'number',
       label: 'R Value',
       default: 19,
       min: 5,
-      max: 50
-    }
+      max: 50,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const ArchitectureWallsInsulatedWallNode: NodeDefinition<InsulatedWallInp
       params: {
         wallCavity: inputs.wallCavity,
         insulationType: params.insulationType,
-        rValue: params.rValue
-      }
+        rValue: params.rValue,
+      },
     });
-    
+
     return {
-      insulatedWall: result
+      insulatedWall: result,
     };
   },
 };

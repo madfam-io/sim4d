@@ -13,7 +13,11 @@ interface CelticBraidOutputs {
   braid: unknown;
 }
 
-export const PatternsCelticCelticBraidNode: NodeDefinition<CelticBraidInputs, CelticBraidOutputs, CelticBraidParams> = {
+export const PatternsCelticCelticBraidNode: NodeDefinition<
+  CelticBraidInputs,
+  CelticBraidOutputs,
+  CelticBraidParams
+> = {
   id: 'Patterns::CelticBraid',
   category: 'Patterns',
   label: 'CelticBraid',
@@ -22,14 +26,14 @@ export const PatternsCelticCelticBraidNode: NodeDefinition<CelticBraidInputs, Ce
     centerline: {
       type: 'Wire',
       label: 'Centerline',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     braid: {
       type: 'Wire[]',
-      label: 'Braid'
-    }
+      label: 'Braid',
+    },
   },
   params: {
     strands: {
@@ -38,7 +42,7 @@ export const PatternsCelticCelticBraidNode: NodeDefinition<CelticBraidInputs, Ce
       default: 3,
       min: 2,
       max: 8,
-      step: 1
+      step: 1,
     },
     crossings: {
       type: 'number',
@@ -46,8 +50,8 @@ export const PatternsCelticCelticBraidNode: NodeDefinition<CelticBraidInputs, Ce
       default: 5,
       min: 1,
       max: 20,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -55,12 +59,12 @@ export const PatternsCelticCelticBraidNode: NodeDefinition<CelticBraidInputs, Ce
       params: {
         centerline: inputs.centerline,
         strands: params.strands,
-        crossings: params.crossings
-      }
+        crossings: params.crossings,
+      },
     });
-    
+
     return {
-      braid: result
+      braid: result,
     };
   },
 };

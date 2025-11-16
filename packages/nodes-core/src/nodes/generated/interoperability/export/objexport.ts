@@ -17,7 +17,11 @@ interface OBJExportOutputs {
   faceCount: unknown;
 }
 
-export const InteroperabilityExportOBJExportNode: NodeDefinition<OBJExportInputs, OBJExportOutputs, OBJExportParams> = {
+export const InteroperabilityExportOBJExportNode: NodeDefinition<
+  OBJExportInputs,
+  OBJExportOutputs,
+  OBJExportParams
+> = {
   id: 'Interoperability::OBJExport',
   type: 'Interoperability::OBJExport',
   category: 'Interoperability',
@@ -27,44 +31,44 @@ export const InteroperabilityExportOBJExportNode: NodeDefinition<OBJExportInputs
     meshes: {
       type: 'Shape[]',
       label: 'Meshes',
-      required: true
+      required: true,
     },
     filePath: {
       type: 'string',
       label: 'File Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     success: {
       type: 'boolean',
-      label: 'Success'
+      label: 'Success',
     },
     vertexCount: {
       type: 'number',
-      label: 'Vertex Count'
+      label: 'Vertex Count',
     },
     faceCount: {
       type: 'number',
-      label: 'Face Count'
-    }
+      label: 'Face Count',
+    },
   },
   params: {
     includeNormals: {
       type: 'boolean',
       label: 'Include Normals',
-      default: true
+      default: true,
     },
     includeTexCoords: {
       type: 'boolean',
       label: 'Include Tex Coords',
-      default: false
+      default: false,
     },
     smoothing: {
       type: 'boolean',
       label: 'Smoothing',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -74,14 +78,14 @@ export const InteroperabilityExportOBJExportNode: NodeDefinition<OBJExportInputs
         filePath: inputs.filePath,
         includeNormals: params.includeNormals,
         includeTexCoords: params.includeTexCoords,
-        smoothing: params.smoothing
-      }
+        smoothing: params.smoothing,
+      },
     });
-    
+
     return {
       success: results.success,
       vertexCount: results.vertexCount,
-      faceCount: results.faceCount
+      faceCount: results.faceCount,
     };
   },
 };

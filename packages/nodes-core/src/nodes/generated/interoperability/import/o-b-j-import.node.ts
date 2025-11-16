@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -23,50 +22,47 @@ export const OBJImportNode: NodeDefinition<OBJImportInputs, OBJImportOutputs, OB
   metadata: {
     label: 'OBJImport',
     description: 'Import Wavefront OBJ files',
-    
-    
   },
 
   params: {
-        scale: {
-      "default": 1,
-      "min": 0.001,
-      "max": 1000
+    scale: {
+      default: 1,
+      min: 0.001,
+      max: 1000,
     },
     flipNormals: {
-      "default": false
+      default: false,
     },
     loadMaterials: {
-      "default": true
-    }
+      default: true,
+    },
   },
 
   inputs: {
-        filePath: 'string'
+    filePath: 'string',
   },
 
   outputs: {
-        meshes: 'Shape[]',
+    meshes: 'Shape[]',
     materials: 'Properties[]',
-    groups: 'string[]'
+    groups: 'string[]',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'objImport',
       params: {
         filePath: inputs.filePath,
         scale: params.scale,
         flipNormals: params.flipNormals,
-        loadMaterials: params.loadMaterials
-      }
+        loadMaterials: params.loadMaterials,
+      },
     });
 
     return {
       meshes: result,
       materials: result,
-      groups: result
+      groups: result,
     };
-  }
+  },
 };

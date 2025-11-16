@@ -14,7 +14,11 @@ interface RemeshUniformOutputs {
   remeshed: unknown;
 }
 
-export const MeshTessellationRemeshUniformNode: NodeDefinition<RemeshUniformInputs, RemeshUniformOutputs, RemeshUniformParams> = {
+export const MeshTessellationRemeshUniformNode: NodeDefinition<
+  RemeshUniformInputs,
+  RemeshUniformOutputs,
+  RemeshUniformParams
+> = {
   id: 'Mesh::RemeshUniform',
   category: 'Mesh',
   label: 'RemeshUniform',
@@ -23,14 +27,14 @@ export const MeshTessellationRemeshUniformNode: NodeDefinition<RemeshUniformInpu
     mesh: {
       type: 'Mesh',
       label: 'Mesh',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     remeshed: {
       type: 'Mesh',
-      label: 'Remeshed'
-    }
+      label: 'Remeshed',
+    },
   },
   params: {
     targetEdgeLength: {
@@ -38,7 +42,7 @@ export const MeshTessellationRemeshUniformNode: NodeDefinition<RemeshUniformInpu
       label: 'Target Edge Length',
       default: 1,
       min: 0.01,
-      max: 100
+      max: 100,
     },
     iterations: {
       type: 'number',
@@ -46,13 +50,13 @@ export const MeshTessellationRemeshUniformNode: NodeDefinition<RemeshUniformInpu
       default: 3,
       min: 1,
       max: 10,
-      step: 1
+      step: 1,
     },
     preserveFeatures: {
       type: 'boolean',
       label: 'Preserve Features',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -61,12 +65,12 @@ export const MeshTessellationRemeshUniformNode: NodeDefinition<RemeshUniformInpu
         mesh: inputs.mesh,
         targetEdgeLength: params.targetEdgeLength,
         iterations: params.iterations,
-        preserveFeatures: params.preserveFeatures
-      }
+        preserveFeatures: params.preserveFeatures,
+      },
     });
-    
+
     return {
-      remeshed: result
+      remeshed: result,
     };
   },
 };

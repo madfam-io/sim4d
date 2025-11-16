@@ -19,7 +19,11 @@ interface ParticleSwarmOptimizerOutputs {
   swarmHistory: unknown;
 }
 
-export const AlgorithmicOptimizationParticleSwarmOptimizerNode: NodeDefinition<ParticleSwarmOptimizerInputs, ParticleSwarmOptimizerOutputs, ParticleSwarmOptimizerParams> = {
+export const AlgorithmicOptimizationParticleSwarmOptimizerNode: NodeDefinition<
+  ParticleSwarmOptimizerInputs,
+  ParticleSwarmOptimizerOutputs,
+  ParticleSwarmOptimizerParams
+> = {
   id: 'Algorithmic::ParticleSwarmOptimizer',
   category: 'Algorithmic',
   label: 'ParticleSwarmOptimizer',
@@ -28,27 +32,27 @@ export const AlgorithmicOptimizationParticleSwarmOptimizerNode: NodeDefinition<P
     objective: {
       type: 'Properties',
       label: 'Objective',
-      required: true
+      required: true,
     },
     bounds: {
       type: 'Properties',
       label: 'Bounds',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     globalBest: {
       type: 'Properties',
-      label: 'Global Best'
+      label: 'Global Best',
     },
     bestValue: {
       type: 'number',
-      label: 'Best Value'
+      label: 'Best Value',
     },
     swarmHistory: {
       type: 'Properties[]',
-      label: 'Swarm History'
-    }
+      label: 'Swarm History',
+    },
   },
   params: {
     swarmSize: {
@@ -56,36 +60,36 @@ export const AlgorithmicOptimizationParticleSwarmOptimizerNode: NodeDefinition<P
       label: 'Swarm Size',
       default: 50,
       min: 10,
-      max: 500
+      max: 500,
     },
     iterations: {
       type: 'number',
       label: 'Iterations',
       default: 100,
       min: 10,
-      max: 1000
+      max: 1000,
     },
     inertia: {
       type: 'number',
       label: 'Inertia',
       default: 0.7,
       min: 0.1,
-      max: 1
+      max: 1,
     },
     cognitive: {
       type: 'number',
       label: 'Cognitive',
       default: 2,
       min: 0.1,
-      max: 4
+      max: 4,
     },
     social: {
       type: 'number',
       label: 'Social',
       default: 2,
       min: 0.1,
-      max: 4
-    }
+      max: 4,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -97,14 +101,14 @@ export const AlgorithmicOptimizationParticleSwarmOptimizerNode: NodeDefinition<P
         iterations: params.iterations,
         inertia: params.inertia,
         cognitive: params.cognitive,
-        social: params.social
-      }
+        social: params.social,
+      },
     });
-    
+
     return {
       globalBest: results.globalBest,
       bestValue: results.bestValue,
-      swarmHistory: results.swarmHistory
+      swarmHistory: results.swarmHistory,
     };
   },
 };

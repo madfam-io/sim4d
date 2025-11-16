@@ -16,7 +16,11 @@ interface ClearanceCheckOutputs {
   clearanceValues: unknown;
 }
 
-export const AnalysisProximityClearanceCheckNode: NodeDefinition<ClearanceCheckInputs, ClearanceCheckOutputs, ClearanceCheckParams> = {
+export const AnalysisProximityClearanceCheckNode: NodeDefinition<
+  ClearanceCheckInputs,
+  ClearanceCheckOutputs,
+  ClearanceCheckParams
+> = {
   id: 'Analysis::ClearanceCheck',
   type: 'Analysis::ClearanceCheck',
   category: 'Analysis',
@@ -26,27 +30,27 @@ export const AnalysisProximityClearanceCheckNode: NodeDefinition<ClearanceCheckI
     movingObject: {
       type: 'Shape',
       label: 'Moving Object',
-      required: true
+      required: true,
     },
     obstacles: {
       type: 'Shape[]',
       label: 'Obstacles',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     hasViolations: {
       type: 'boolean',
-      label: 'Has Violations'
+      label: 'Has Violations',
     },
     violationPoints: {
       type: 'Point[]',
-      label: 'Violation Points'
+      label: 'Violation Points',
     },
     clearanceValues: {
       type: 'number[]',
-      label: 'Clearance Values'
-    }
+      label: 'Clearance Values',
+    },
   },
   params: {
     requiredClearance: {
@@ -54,13 +58,13 @@ export const AnalysisProximityClearanceCheckNode: NodeDefinition<ClearanceCheckI
       label: 'Required Clearance',
       default: 5,
       min: 0.1,
-      max: 100
+      max: 100,
     },
     highlightViolations: {
       type: 'boolean',
       label: 'Highlight Violations',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -69,14 +73,14 @@ export const AnalysisProximityClearanceCheckNode: NodeDefinition<ClearanceCheckI
         movingObject: inputs.movingObject,
         obstacles: inputs.obstacles,
         requiredClearance: params.requiredClearance,
-        highlightViolations: params.highlightViolations
-      }
+        highlightViolations: params.highlightViolations,
+      },
     });
-    
+
     return {
       hasViolations: results.hasViolations,
       violationPoints: results.violationPoints,
-      clearanceValues: results.clearanceValues
+      clearanceValues: results.clearanceValues,
     };
   },
 };

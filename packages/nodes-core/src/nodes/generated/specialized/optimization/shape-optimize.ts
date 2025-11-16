@@ -15,7 +15,11 @@ interface ShapeOptimizeOutputs {
   optimized: unknown;
 }
 
-export const SpecializedOptimizationShapeOptimizeNode: NodeDefinition<ShapeOptimizeInputs, ShapeOptimizeOutputs, ShapeOptimizeParams> = {
+export const SpecializedOptimizationShapeOptimizeNode: NodeDefinition<
+  ShapeOptimizeInputs,
+  ShapeOptimizeOutputs,
+  ShapeOptimizeParams
+> = {
   id: 'Specialized::ShapeOptimize',
   type: 'Specialized::ShapeOptimize',
   category: 'Specialized',
@@ -25,33 +29,33 @@ export const SpecializedOptimizationShapeOptimizeNode: NodeDefinition<ShapeOptim
     initialShape: {
       type: 'Shape',
       label: 'Initial Shape',
-      required: true
+      required: true,
     },
     boundaryConditions: {
       type: 'Data',
       label: 'Boundary Conditions',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     optimized: {
       type: 'Shape',
-      label: 'Optimized'
-    }
+      label: 'Optimized',
+    },
   },
   params: {
     objective: {
       type: 'enum',
       label: 'Objective',
-      default: "min-weight",
-      options: ["min-weight","max-stiffness","min-stress"]
+      default: 'min-weight',
+      options: ['min-weight', 'max-stiffness', 'min-stress'],
     },
     morphRadius: {
       type: 'number',
       label: 'Morph Radius',
       default: 5,
       min: 0.5,
-      max: 50
+      max: 50,
     },
     iterations: {
       type: 'number',
@@ -59,8 +63,8 @@ export const SpecializedOptimizationShapeOptimizeNode: NodeDefinition<ShapeOptim
       default: 50,
       min: 5,
       max: 200,
-      step: 5
-    }
+      step: 5,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -70,12 +74,12 @@ export const SpecializedOptimizationShapeOptimizeNode: NodeDefinition<ShapeOptim
         boundaryConditions: inputs.boundaryConditions,
         objective: params.objective,
         morphRadius: params.morphRadius,
-        iterations: params.iterations
-      }
+        iterations: params.iterations,
+      },
     });
-    
+
     return {
-      optimized: result
+      optimized: result,
     };
   },
 };

@@ -11,7 +11,11 @@ interface StringFormatOutputs {
   formatted: unknown;
 }
 
-export const DataStringStringFormatNode: NodeDefinition<StringFormatInputs, StringFormatOutputs, StringFormatParams> = {
+export const DataStringStringFormatNode: NodeDefinition<
+  StringFormatInputs,
+  StringFormatOutputs,
+  StringFormatParams
+> = {
   id: 'Data::StringFormat',
   type: 'Data::StringFormat',
   category: 'Data',
@@ -21,19 +25,19 @@ export const DataStringStringFormatNode: NodeDefinition<StringFormatInputs, Stri
     template: {
       type: 'string',
       label: 'Template',
-      required: true
+      required: true,
     },
     values: {
       type: 'Data[]',
       label: 'Values',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     formatted: {
       type: 'string',
-      label: 'Formatted'
-    }
+      label: 'Formatted',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -41,12 +45,12 @@ export const DataStringStringFormatNode: NodeDefinition<StringFormatInputs, Stri
       type: 'stringFormat',
       params: {
         template: inputs.template,
-        values: inputs.values
-      }
+        values: inputs.values,
+      },
     });
-    
+
     return {
-      formatted: result
+      formatted: result,
     };
   },
 };

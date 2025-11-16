@@ -14,7 +14,11 @@ interface ReactionDiffusionOutputs {
   pattern: unknown;
 }
 
-export const PatternsGeometricReactionDiffusionNode: NodeDefinition<ReactionDiffusionInputs, ReactionDiffusionOutputs, ReactionDiffusionParams> = {
+export const PatternsGeometricReactionDiffusionNode: NodeDefinition<
+  ReactionDiffusionInputs,
+  ReactionDiffusionOutputs,
+  ReactionDiffusionParams
+> = {
   id: 'Patterns::ReactionDiffusion',
   type: 'Patterns::ReactionDiffusion',
   category: 'Patterns',
@@ -24,27 +28,27 @@ export const PatternsGeometricReactionDiffusionNode: NodeDefinition<ReactionDiff
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     pattern: {
       type: 'Wire[]',
-      label: 'Pattern'
-    }
+      label: 'Pattern',
+    },
   },
   params: {
     pattern: {
       type: 'enum',
       label: 'Pattern',
-      default: "spots",
-      options: ["spots","stripes","labyrinth","honeycomb"]
+      default: 'spots',
+      options: ['spots', 'stripes', 'labyrinth', 'honeycomb'],
     },
     scale: {
       type: 'number',
       label: 'Scale',
       default: 10,
-      min: 1
+      min: 1,
     },
     iterations: {
       type: 'number',
@@ -52,8 +56,8 @@ export const PatternsGeometricReactionDiffusionNode: NodeDefinition<ReactionDiff
       default: 100,
       min: 10,
       max: 1000,
-      step: 10
-    }
+      step: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -62,12 +66,12 @@ export const PatternsGeometricReactionDiffusionNode: NodeDefinition<ReactionDiff
         surface: inputs.surface,
         pattern: params.pattern,
         scale: params.scale,
-        iterations: params.iterations
-      }
+        iterations: params.iterations,
+      },
     });
-    
+
     return {
-      pattern: result
+      pattern: result,
     };
   },
 };

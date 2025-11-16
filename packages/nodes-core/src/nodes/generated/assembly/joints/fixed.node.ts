@@ -20,19 +20,19 @@ export const AssemblyJointsFixedNode: NodeDefinition<FixedInputs, FixedOutputs, 
     part1: {
       type: 'Shape',
       label: 'Part1',
-      required: true
+      required: true,
     },
     part2: {
       type: 'Shape',
       label: 'Part2',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     joint: {
       type: 'Joint',
-      label: 'Joint'
-    }
+      label: 'Joint',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -40,12 +40,12 @@ export const AssemblyJointsFixedNode: NodeDefinition<FixedInputs, FixedOutputs, 
       type: 'jointFixed',
       params: {
         part1: inputs.part1,
-        part2: inputs.part2
-      }
+        part2: inputs.part2,
+      },
     });
-    
+
     return {
-      joint: result
+      joint: result,
     };
   },
 };

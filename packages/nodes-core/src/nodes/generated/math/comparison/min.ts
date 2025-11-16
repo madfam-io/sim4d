@@ -20,26 +20,26 @@ export const MathComparisonMinNode: NodeDefinition<MinInputs, MinOutputs, MinPar
     values: {
       type: 'number[]',
       label: 'Values',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     min: {
       type: 'number',
-      label: 'Min'
-    }
+      label: 'Min',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathMin',
       params: {
-        values: inputs.values
-      }
+        values: inputs.values,
+      },
     });
-    
+
     return {
-      min: result
+      min: result,
     };
   },
 };

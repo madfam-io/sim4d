@@ -23,30 +23,30 @@ export const AssemblyMatesSlotNode: NodeDefinition<SlotInputs, SlotOutputs, Slot
     slot: {
       type: 'Shape',
       label: 'Slot',
-      required: true
+      required: true,
     },
     slider: {
       type: 'Shape',
       label: 'Slider',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     slotted: {
       type: 'Shape[]',
-      label: 'Slotted'
+      label: 'Slotted',
     },
     mate: {
       type: 'Mate',
-      label: 'Mate'
-    }
+      label: 'Mate',
+    },
   },
   params: {
     freeRotation: {
       type: 'boolean',
       label: 'Free Rotation',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -54,13 +54,13 @@ export const AssemblyMatesSlotNode: NodeDefinition<SlotInputs, SlotOutputs, Slot
       params: {
         slot: inputs.slot,
         slider: inputs.slider,
-        freeRotation: params.freeRotation
-      }
+        freeRotation: params.freeRotation,
+      },
     });
-    
+
     return {
       slotted: results.slotted,
-      mate: results.mate
+      mate: results.mate,
     };
   },
 };

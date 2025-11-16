@@ -25,10 +25,13 @@ export interface EvaluationSummary {
   p95Ms: number;
   maxMs: number;
   slowNodes: Array<Pick<EvaluationSample, 'nodeId' | 'nodeType' | 'durationMs' | 'operation'>>;
-  categoryBreakdown: Record<string, {
-    count: number;
-    averageMs: number;
-  }>;
+  categoryBreakdown: Record<
+    string,
+    {
+      count: number;
+      averageMs: number;
+    }
+  >;
 }
 
 function percentile(values: number[], p: number): number {
@@ -69,19 +72,20 @@ export class EvaluationProfiler {
   }
 
   getSummary(): EvaluationSummary {
-    const successSamples = this.samples.filter(sample => sample.success);
-    const successDurations = successSamples.map(sample => sample.durationMs);
+    const successSamples = this.samples.filter((sample) => sample.success);
+    const successDurations = successSamples.map((sample) => sample.durationMs);
     const failureCount = this.samples.length - successSamples.length;
 
-    const averageMs = successDurations.length === 0
-      ? 0
-      : successDurations.reduce((acc, value) => acc + value, 0) / successDurations.length;
+    const averageMs =
+      successDurations.length === 0
+        ? 0
+        : successDurations.reduce((acc, value) => acc + value, 0) / successDurations.length;
 
     const slowNodes = successSamples
-      .filter(sample => sample.durationMs >= 1500)
+      .filter((sample) => sample.durationMs >= 1500)
       .sort((a, b) => b.durationMs - a.durationMs)
       .slice(0, 5)
-      .map(sample => ({
+      .map((sample) => ({
         nodeId: sample.nodeId,
         nodeType: sample.nodeType,
         durationMs: sample.durationMs,
@@ -90,9 +94,7 @@ export class EvaluationProfiler {
 
     const categoryBreakdown: EvaluationSummary['categoryBreakdown'] = {};
     for (const sample of successSamples) {
-      const category = sample.nodeType.includes('::')
-        ? sample.nodeType.split('::')[0]
-        : 'Unknown';
+      const category = sample.nodeType.includes('::') ? sample.nodeType.split('::')[0] : 'Unknown';
 
       if (!categoryBreakdown[category]) {
         categoryBreakdown[category] = { count: 0, averageMs: 0 };
@@ -121,8 +123,6 @@ export class EvaluationProfiler {
   }
 
   getRecentFailures(limit = 10): EvaluationSample[] {
-    return this.samples
-      .filter(sample => !sample.success)
-      .slice(-limit);
+    return this.samples.filter((sample) => !sample.success).slice(-limit);
   }
 }

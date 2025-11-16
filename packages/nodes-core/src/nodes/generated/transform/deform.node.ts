@@ -23,34 +23,34 @@ export const TransformDeformNode: NodeDefinition<DeformInputs, DeformOutputs, De
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
+      required: true,
     },
     controlPoints: {
       type: 'Point[]',
       label: 'Control Points',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     deformed: {
       type: 'Shape',
-      label: 'Deformed'
-    }
+      label: 'Deformed',
+    },
   },
   params: {
     method: {
       type: 'enum',
       label: 'Method',
-      default: "bend",
-      options: ["bend","twist","taper","stretch"]
+      default: 'bend',
+      options: ['bend', 'twist', 'taper', 'stretch'],
     },
     amount: {
       type: 'number',
       label: 'Amount',
       default: 1,
       min: -10,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -59,12 +59,12 @@ export const TransformDeformNode: NodeDefinition<DeformInputs, DeformOutputs, De
         shape: inputs.shape,
         controlPoints: inputs.controlPoints,
         method: params.method,
-        amount: params.amount
-      }
+        amount: params.amount,
+      },
     });
-    
+
     return {
-      deformed: result
+      deformed: result,
     };
   },
 };

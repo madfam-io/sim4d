@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { AdvancedHealingDeleteFaceNode } from './delete-face.node';
 import { createTestContext } from '../test-utils';
@@ -8,10 +7,10 @@ describe('AdvancedHealingDeleteFaceNode', () => {
     const context = createTestContext();
     const inputs = {
       shape: undefined,
-      facesToDelete: undefined
+      facesToDelete: undefined,
     } as any;
     const params = {
-      healingType: "extend"
+      healingType: 'extend',
     } as any;
 
     const result = await AdvancedHealingDeleteFaceNode.evaluate(context, inputs, params);

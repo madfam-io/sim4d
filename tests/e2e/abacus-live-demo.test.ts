@@ -5,7 +5,6 @@ import { test, expect } from '@playwright/test';
  * Demonstrates real browser interaction with BrepFlow Studio
  */
 test.describe('Abacus Integration Test - Live Demo', () => {
-
   test('Create parametric abacus with real studio interactions', async ({ page }) => {
     console.log('🧮 Starting Live Abacus Integration Test Demo...');
 
@@ -37,12 +36,17 @@ test.describe('Abacus Integration Test - Live Demo', () => {
       '.react-flow',
       '[class*="node-editor"]',
       '[class*="workspace"]',
-      '[class*="canvas"]'
+      '[class*="canvas"]',
     ];
 
     let foundCanvas = false;
     for (const selector of canvasSelectors) {
-      if (await page.locator(selector).isVisible().catch(() => false)) {
+      if (
+        await page
+          .locator(selector)
+          .isVisible()
+          .catch(() => false)
+      ) {
         console.log(`✅ Found canvas/editor: ${selector}`);
         foundCanvas = true;
         break;
@@ -62,7 +66,7 @@ test.describe('Abacus Integration Test - Live Demo', () => {
       beadRadius: 6,
       rodSpacing: 30,
       frameHeight: 80,
-      frameThickness: 4
+      frameThickness: 4,
     };
 
     console.log('📐 Abacus Parameters for Integration Test:');
@@ -74,13 +78,16 @@ test.describe('Abacus Integration Test - Live Demo', () => {
     console.log(`   • Frame Thickness: ${abacusParams.frameThickness}mm`);
 
     // Calculate expected geometry
-    const totalComponents = 2 + abacusParams.rodCount + (abacusParams.rodCount * abacusParams.beadsPerRod);
+    const totalComponents =
+      2 + abacusParams.rodCount + abacusParams.rodCount * abacusParams.beadsPerRod;
     const frameWidth = abacusParams.rodCount * abacusParams.rodSpacing + 20;
 
     console.log('📊 Expected Geometry Results:');
     console.log(`   • Total Components: ${totalComponents}`);
     console.log(`   • Frame Width: ${frameWidth}mm`);
-    console.log(`   • Bounding Box: ${frameWidth} × ${abacusParams.frameThickness} × ${abacusParams.frameHeight + 10}mm`);
+    console.log(
+      `   • Bounding Box: ${frameWidth} × ${abacusParams.frameThickness} × ${abacusParams.frameHeight + 10}mm`
+    );
 
     // Simulate the integration test workflow
     console.log('🔨 Integration Test Workflow:');
@@ -115,7 +122,7 @@ test.describe('Abacus Integration Test - Live Demo', () => {
     const scenarios = [
       { name: 'Increase Rod Count', from: 5, to: 7, impact: 'More vertical structure' },
       { name: 'Adjust Bead Radius', from: 6, to: 8, impact: 'Larger bead volume' },
-      { name: 'Modify Spacing', from: 30, to: 35, impact: 'Wider frame required' }
+      { name: 'Modify Spacing', from: 30, to: 35, impact: 'Wider frame required' },
     ];
 
     scenarios.forEach((scenario, index) => {
@@ -138,11 +145,11 @@ test.describe('Abacus Integration Test - Live Demo', () => {
     const exportFormats = [
       { format: 'STEP', purpose: 'CAD interoperability', status: 'Ready' },
       { format: 'STL', purpose: '3D printing', status: 'Ready' },
-      { format: 'IGES', purpose: 'Legacy CAD systems', status: 'Ready' }
+      { format: 'IGES', purpose: 'Legacy CAD systems', status: 'Ready' },
     ];
 
     console.log('📦 Export Format Validation:');
-    exportFormats.forEach(exp => {
+    exportFormats.forEach((exp) => {
       console.log(`   • ${exp.format}: ${exp.purpose} - ${exp.status}`);
     });
 
@@ -157,5 +164,4 @@ test.describe('Abacus Integration Test - Live Demo', () => {
 
     console.log('✅ Manufacturing validation complete');
   });
-
 });

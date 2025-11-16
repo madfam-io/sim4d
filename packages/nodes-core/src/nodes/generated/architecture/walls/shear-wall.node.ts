@@ -14,7 +14,11 @@ interface ShearWallOutputs {
   reinforcement: unknown;
 }
 
-export const ArchitectureWallsShearWallNode: NodeDefinition<ShearWallInputs, ShearWallOutputs, ShearWallParams> = {
+export const ArchitectureWallsShearWallNode: NodeDefinition<
+  ShearWallInputs,
+  ShearWallOutputs,
+  ShearWallParams
+> = {
   id: 'Architecture::ShearWall',
   category: 'Architecture',
   label: 'ShearWall',
@@ -23,18 +27,18 @@ export const ArchitectureWallsShearWallNode: NodeDefinition<ShearWallInputs, She
     wallOutline: {
       type: 'Wire',
       label: 'Wall Outline',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shearWall: {
       type: 'Shape',
-      label: 'Shear Wall'
+      label: 'Shear Wall',
     },
     reinforcement: {
       type: 'Wire[]',
-      label: 'Reinforcement'
-    }
+      label: 'Reinforcement',
+    },
   },
   params: {
     thickness: {
@@ -42,15 +46,15 @@ export const ArchitectureWallsShearWallNode: NodeDefinition<ShearWallInputs, She
       label: 'Thickness',
       default: 300,
       min: 200,
-      max: 500
+      max: 500,
     },
     reinforcementRatio: {
       type: 'number',
       label: 'Reinforcement Ratio',
       default: 0.025,
       min: 0.01,
-      max: 0.04
-    }
+      max: 0.04,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -58,13 +62,13 @@ export const ArchitectureWallsShearWallNode: NodeDefinition<ShearWallInputs, She
       params: {
         wallOutline: inputs.wallOutline,
         thickness: params.thickness,
-        reinforcementRatio: params.reinforcementRatio
-      }
+        reinforcementRatio: params.reinforcementRatio,
+      },
     });
-    
+
     return {
       shearWall: results.shearWall,
-      reinforcement: results.reinforcement
+      reinforcement: results.reinforcement,
     };
   },
 };

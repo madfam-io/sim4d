@@ -24,14 +24,14 @@ export const SketchCurvesSpiralNode: NodeDefinition<SpiralInputs, SpiralOutputs,
     center: {
       type: 'Point',
       label: 'Center',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     spiral: {
       type: 'Wire',
-      label: 'Spiral'
-    }
+      label: 'Spiral',
+    },
   },
   params: {
     startRadius: {
@@ -39,28 +39,28 @@ export const SketchCurvesSpiralNode: NodeDefinition<SpiralInputs, SpiralOutputs,
       label: 'Start Radius',
       default: 10,
       min: 0,
-      max: 10000
+      max: 10000,
     },
     endRadius: {
       type: 'number',
       label: 'End Radius',
       default: 100,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     turns: {
       type: 'number',
       label: 'Turns',
       default: 3,
       min: 0.1,
-      max: 100
+      max: 100,
     },
     type: {
       type: 'enum',
       label: 'Type',
-      default: "archimedean",
-      options: ["archimedean","logarithmic"]
-    }
+      default: 'archimedean',
+      options: ['archimedean', 'logarithmic'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -70,12 +70,12 @@ export const SketchCurvesSpiralNode: NodeDefinition<SpiralInputs, SpiralOutputs,
         startRadius: params.startRadius,
         endRadius: params.endRadius,
         turns: params.turns,
-        type: params.type
-      }
+        type: params.type,
+      },
     });
-    
+
     return {
-      spiral: result
+      spiral: result,
     };
   },
 };

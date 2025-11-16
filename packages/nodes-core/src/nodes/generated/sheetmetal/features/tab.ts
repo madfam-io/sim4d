@@ -27,24 +27,24 @@ export const SheetMetalFeaturesTabNode: NodeDefinition<TabInputs, TabOutputs, Ta
     sheet: {
       type: 'Shape',
       label: 'Sheet',
-      required: true
+      required: true,
     },
     edge: {
       type: 'Edge',
       label: 'Edge',
-      required: true
+      required: true,
     },
     position: {
       type: 'Point',
       label: 'Position',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'Shape',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {
     tabWidth: {
@@ -52,28 +52,28 @@ export const SheetMetalFeaturesTabNode: NodeDefinition<TabInputs, TabOutputs, Ta
       label: 'Tab Width',
       default: 20,
       min: 0.1,
-      max: 500
+      max: 500,
     },
     tabDepth: {
       type: 'number',
       label: 'Tab Depth',
       default: 10,
       min: 0.1,
-      max: 100
+      max: 100,
     },
     tabType: {
       type: 'enum',
       label: 'Tab Type',
-      default: "rectangular",
-      options: ["rectangular","rounded","trapezoidal"]
+      default: 'rectangular',
+      options: ['rectangular', 'rounded', 'trapezoidal'],
     },
     cornerRadius: {
       type: 'number',
       label: 'Corner Radius',
       default: 2,
       min: 0,
-      max: 50
-    }
+      max: 50,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -85,12 +85,12 @@ export const SheetMetalFeaturesTabNode: NodeDefinition<TabInputs, TabOutputs, Ta
         tabWidth: params.tabWidth,
         tabDepth: params.tabDepth,
         tabType: params.tabType,
-        cornerRadius: params.cornerRadius
-      }
+        cornerRadius: params.cornerRadius,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

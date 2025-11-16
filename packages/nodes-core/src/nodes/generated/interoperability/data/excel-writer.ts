@@ -16,7 +16,11 @@ interface ExcelWriterOutputs {
   cellsWritten: unknown;
 }
 
-export const InteroperabilityDataExcelWriterNode: NodeDefinition<ExcelWriterInputs, ExcelWriterOutputs, ExcelWriterParams> = {
+export const InteroperabilityDataExcelWriterNode: NodeDefinition<
+  ExcelWriterInputs,
+  ExcelWriterOutputs,
+  ExcelWriterParams
+> = {
   id: 'Interoperability::ExcelWriter',
   type: 'Interoperability::ExcelWriter',
   category: 'Interoperability',
@@ -26,40 +30,40 @@ export const InteroperabilityDataExcelWriterNode: NodeDefinition<ExcelWriterInpu
     data: {
       type: 'Properties[]',
       label: 'Data',
-      required: true
+      required: true,
     },
     filePath: {
       type: 'string',
       label: 'File Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     success: {
       type: 'boolean',
-      label: 'Success'
+      label: 'Success',
     },
     cellsWritten: {
       type: 'number',
-      label: 'Cells Written'
-    }
+      label: 'Cells Written',
+    },
   },
   params: {
     sheetName: {
       type: 'string',
       label: 'Sheet Name',
-      default: "Sheet1"
+      default: 'Sheet1',
     },
     includeHeader: {
       type: 'boolean',
       label: 'Include Header',
-      default: true
+      default: true,
     },
     startCell: {
       type: 'string',
       label: 'Start Cell',
-      default: "A1"
-    }
+      default: 'A1',
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -69,13 +73,13 @@ export const InteroperabilityDataExcelWriterNode: NodeDefinition<ExcelWriterInpu
         filePath: inputs.filePath,
         sheetName: params.sheetName,
         includeHeader: params.includeHeader,
-        startCell: params.startCell
-      }
+        startCell: params.startCell,
+      },
     });
-    
+
     return {
       success: results.success,
-      cellsWritten: results.cellsWritten
+      cellsWritten: results.cellsWritten,
     };
   },
 };

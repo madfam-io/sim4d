@@ -26,16 +26,16 @@ export const Console: React.FC = () => {
 
   // Add system messages based on graph state
   useEffect(() => {
-    const dirtyNodes = graph.nodes.filter(n => n.dirty);
+    const dirtyNodes = graph.nodes.filter((n) => n.dirty);
     if (dirtyNodes.length > 0) {
       const newMessage: ConsoleMessage = {
         id: `eval-${Date.now()}`,
         timestamp: new Date(),
         level: 'info',
         message: `Evaluating ${dirtyNodes.length} node${dirtyNodes.length !== 1 ? 's' : ''}...`,
-        source: 'graph' as string
+        source: 'graph' as string,
       };
-      setMessages(prev => [...prev, newMessage]);
+      setMessages((prev) => [...prev, newMessage]);
     }
   }, [graph]);
 
@@ -45,9 +45,9 @@ export const Console: React.FC = () => {
       timestamp: new Date(),
       level,
       message,
-      ...(source !== undefined && { source })
+      ...(source !== undefined && { source }),
     };
-    setMessages(prev => [...prev.slice(-99), newMessage]); // Keep last 100 messages
+    setMessages((prev) => [...prev.slice(-99), newMessage]); // Keep last 100 messages
   };
 
   const clearMessages = () => {
@@ -59,16 +59,20 @@ export const Console: React.FC = () => {
       hour12: false,
       hour: '2-digit',
       minute: '2-digit',
-      second: '2-digit'
+      second: '2-digit',
     });
   };
 
   const getMessageIcon = (level: ConsoleMessage['level']) => {
     switch (level) {
-      case 'info': return 'ℹ️';
-      case 'warn': return '⚠️';
-      case 'error': return '❌';
-      case 'success': return '✅';
+      case 'info':
+        return 'ℹ️';
+      case 'warn':
+        return '⚠️';
+      case 'error':
+        return '❌';
+      case 'success':
+        return '✅';
     }
   };
 
@@ -83,7 +87,7 @@ export const Console: React.FC = () => {
       timestamp: new Date(),
       level: 'info',
       message: 'BrepFlow Studio Console Ready',
-      source: 'system'
+      source: 'system',
     };
     setMessages([welcomeMessage]);
   }, []);
@@ -94,9 +98,7 @@ export const Console: React.FC = () => {
         <div className="console-title">
           <span className="console-icon">💻</span>
           Console
-          {messages.length > 1 && (
-            <span className="console-count">({messages.length - 1})</span>
-          )}
+          {messages.length > 1 && <span className="console-count">({messages.length - 1})</span>}
         </div>
         <div className="console-actions">
           <button
@@ -106,11 +108,7 @@ export const Console: React.FC = () => {
           >
             {isExpanded ? '▼' : '▲'}
           </button>
-          <button
-            className="console-action-btn"
-            onClick={clearMessages}
-            title="Clear console"
-          >
+          <button className="console-action-btn" onClick={clearMessages} title="Clear console">
             🗑️
           </button>
         </div>
@@ -124,9 +122,7 @@ export const Console: React.FC = () => {
                 <span className="console-time">[{formatTime(msg.timestamp)}]</span>
                 <span className="console-icon">{getMessageIcon(msg.level)}</span>
                 <span className="console-text">{msg.message}</span>
-                {msg.source && (
-                  <span className="console-source">({msg.source})</span>
-                )}
+                {msg.source && <span className="console-source">({msg.source})</span>}
               </div>
             ))}
             <div ref={messagesEndRef} />

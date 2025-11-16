@@ -13,21 +13,57 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
     operation: 'SPUR_GEAR',
     occtBinding: 'spurGear',
     parameters: [
-      { name: 'module', type: 'number', default: 2, min: 0.5, max: 20, step: 0.1, description: 'Gear module in mm' },
-      { name: 'teeth', type: 'number', default: 20, min: 6, max: 200, description: 'Number of teeth' },
-      { name: 'pressureAngle', type: 'number', default: 20, min: 14.5, max: 25, description: 'Pressure angle in degrees' },
-      { name: 'width', type: 'number', default: 20, min: 1, max: 200, description: 'Face width in mm' },
-      { name: 'hubDiameter', type: 'number', default: 20, min: 5, max: 100, description: 'Hub bore diameter' }
+      {
+        name: 'module',
+        type: 'number',
+        default: 2,
+        min: 0.5,
+        max: 20,
+        step: 0.1,
+        description: 'Gear module in mm',
+      },
+      {
+        name: 'teeth',
+        type: 'number',
+        default: 20,
+        min: 6,
+        max: 200,
+        description: 'Number of teeth',
+      },
+      {
+        name: 'pressureAngle',
+        type: 'number',
+        default: 20,
+        min: 14.5,
+        max: 25,
+        description: 'Pressure angle in degrees',
+      },
+      {
+        name: 'width',
+        type: 'number',
+        default: 20,
+        min: 1,
+        max: 200,
+        description: 'Face width in mm',
+      },
+      {
+        name: 'hubDiameter',
+        type: 'number',
+        default: 20,
+        min: 5,
+        max: 100,
+        description: 'Hub bore diameter',
+      },
     ],
     inputs: [
       { name: 'center', type: 'Point', required: false },
-      { name: 'axis', type: 'Vector', required: false }
+      { name: 'axis', type: 'Vector', required: false },
     ],
     outputs: [
       { name: 'gear', type: 'Shape' },
       { name: 'pitchCircle', type: 'Wire' },
-      { name: 'properties', type: 'Properties' }
-    ]
+      { name: 'properties', type: 'Properties' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -39,17 +75,22 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
     parameters: [
       { name: 'module', type: 'number', default: 2, min: 0.5, max: 20, step: 0.1 },
       { name: 'teeth', type: 'number', default: 20, min: 6, max: 200 },
-      { name: 'helixAngle', type: 'number', default: 15, min: 0, max: 45, description: 'Helix angle in degrees' },
+      {
+        name: 'helixAngle',
+        type: 'number',
+        default: 15,
+        min: 0,
+        max: 45,
+        description: 'Helix angle in degrees',
+      },
       { name: 'width', type: 'number', default: 20, min: 1, max: 200 },
-      { name: 'handedness', type: 'enum', options: ['left', 'right'], default: 'right' }
+      { name: 'handedness', type: 'enum', options: ['left', 'right'], default: 'right' },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: false }
-    ],
+    inputs: [{ name: 'center', type: 'Point', required: false }],
     outputs: [
       { name: 'gear', type: 'Shape' },
-      { name: 'profile', type: 'Wire' }
-    ]
+      { name: 'profile', type: 'Wire' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -61,16 +102,21 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
     parameters: [
       { name: 'module', type: 'number', default: 3, min: 1, max: 20 },
       { name: 'teeth', type: 'number', default: 25, min: 10, max: 100 },
-      { name: 'coneAngle', type: 'number', default: 45, min: 10, max: 80, description: 'Pitch cone angle' },
-      { name: 'faceWidth', type: 'number', default: 15, min: 5, max: 50 }
+      {
+        name: 'coneAngle',
+        type: 'number',
+        default: 45,
+        min: 10,
+        max: 80,
+        description: 'Pitch cone angle',
+      },
+      { name: 'faceWidth', type: 'number', default: 15, min: 5, max: 50 },
     ],
-    inputs: [
-      { name: 'apex', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'apex', type: 'Point', required: true }],
     outputs: [
       { name: 'gear', type: 'Shape' },
-      { name: 'pitchCone', type: 'Surface' }
-    ]
+      { name: 'pitchCone', type: 'Surface' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -83,15 +129,13 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'module', type: 'number', default: 2, min: 0.5, max: 10 },
       { name: 'teeth', type: 'number', default: 30, min: 20, max: 100 },
       { name: 'diameter', type: 'number', default: 60, min: 20, max: 200 },
-      { name: 'width', type: 'number', default: 20, min: 5, max: 50 }
+      { name: 'width', type: 'number', default: 20, min: 5, max: 50 },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'center', type: 'Point', required: true }],
     outputs: [
       { name: 'gear', type: 'Shape' },
-      { name: 'throat', type: 'Wire' }
-    ]
+      { name: 'throat', type: 'Wire' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -102,17 +146,22 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
     occtBinding: 'wormShaft',
     parameters: [
       { name: 'module', type: 'number', default: 2, min: 0.5, max: 10 },
-      { name: 'starts', type: 'number', default: 1, min: 1, max: 4, description: 'Number of starts' },
+      {
+        name: 'starts',
+        type: 'number',
+        default: 1,
+        min: 1,
+        max: 4,
+        description: 'Number of starts',
+      },
       { name: 'length', type: 'number', default: 50, min: 20, max: 200 },
-      { name: 'leadAngle', type: 'number', default: 5, min: 1, max: 30 }
+      { name: 'leadAngle', type: 'number', default: 5, min: 1, max: 30 },
     ],
-    inputs: [
-      { name: 'axis', type: 'Wire', required: true }
-    ],
+    inputs: [{ name: 'axis', type: 'Wire', required: true }],
     outputs: [
       { name: 'worm', type: 'Shape' },
-      { name: 'helix', type: 'Wire' }
-    ]
+      { name: 'helix', type: 'Wire' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -125,15 +174,13 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'module', type: 'number', default: 2, min: 0.5, max: 10 },
       { name: 'length', type: 'number', default: 100, min: 20, max: 500 },
       { name: 'width', type: 'number', default: 20, min: 5, max: 50 },
-      { name: 'height', type: 'number', default: 15, min: 5, max: 30 }
+      { name: 'height', type: 'number', default: 15, min: 5, max: 30 },
     ],
-    inputs: [
-      { name: 'path', type: 'Wire', required: true }
-    ],
+    inputs: [{ name: 'path', type: 'Wire', required: true }],
     outputs: [
       { name: 'rack', type: 'Shape' },
-      { name: 'pitchLine', type: 'Wire' }
-    ]
+      { name: 'pitchLine', type: 'Wire' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -146,15 +193,13 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'module', type: 'number', default: 2, min: 0.5, max: 10 },
       { name: 'teeth', type: 'number', default: 60, min: 30, max: 200 },
       { name: 'rimThickness', type: 'number', default: 10, min: 5, max: 30 },
-      { name: 'width', type: 'number', default: 20, min: 5, max: 50 }
+      { name: 'width', type: 'number', default: 20, min: 5, max: 50 },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'center', type: 'Point', required: true }],
     outputs: [
       { name: 'gear', type: 'Shape' },
-      { name: 'innerProfile', type: 'Wire' }
-    ]
+      { name: 'innerProfile', type: 'Wire' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -167,17 +212,15 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'sunTeeth', type: 'number', default: 20, min: 12, max: 40 },
       { name: 'planetTeeth', type: 'number', default: 16, min: 8, max: 30 },
       { name: 'planetCount', type: 'number', default: 3, min: 2, max: 6 },
-      { name: 'module', type: 'number', default: 2, min: 0.5, max: 5 }
+      { name: 'module', type: 'number', default: 2, min: 0.5, max: 5 },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'center', type: 'Point', required: true }],
     outputs: [
       { name: 'assembly', type: 'Shape' },
       { name: 'sunGear', type: 'Shape' },
       { name: 'planetGears', type: 'Shape[]' },
-      { name: 'ringGear', type: 'Shape' }
-    ]
+      { name: 'ringGear', type: 'Shape' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -187,18 +230,21 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
     operation: 'TIMING_PULLEY',
     occtBinding: 'timingPulley',
     parameters: [
-      { name: 'pitch', type: 'enum', options: ['MXL', 'XL', 'L', 'H', 'T2.5', 'T5', 'T10', 'GT2'], default: 'GT2' },
+      {
+        name: 'pitch',
+        type: 'enum',
+        options: ['MXL', 'XL', 'L', 'H', 'T2.5', 'T5', 'T10', 'GT2'],
+        default: 'GT2',
+      },
       { name: 'teeth', type: 'number', default: 20, min: 10, max: 100 },
       { name: 'width', type: 'number', default: 10, min: 6, max: 50 },
-      { name: 'flanges', type: 'boolean', default: true }
+      { name: 'flanges', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'center', type: 'Point', required: true }],
     outputs: [
       { name: 'pulley', type: 'Shape' },
-      { name: 'pitchCircle', type: 'Wire' }
-    ]
+      { name: 'pitchCircle', type: 'Wire' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -208,18 +254,23 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
     operation: 'CHAIN_SPROCKET',
     occtBinding: 'chainSprocket',
     parameters: [
-      { name: 'chainPitch', type: 'number', default: 12.7, min: 6, max: 50, description: 'Chain pitch in mm' },
+      {
+        name: 'chainPitch',
+        type: 'number',
+        default: 12.7,
+        min: 6,
+        max: 50,
+        description: 'Chain pitch in mm',
+      },
       { name: 'teeth', type: 'number', default: 18, min: 9, max: 100 },
       { name: 'rollerDiameter', type: 'number', default: 7.92, min: 3, max: 30 },
-      { name: 'width', type: 'number', default: 7.85, min: 3, max: 30 }
+      { name: 'width', type: 'number', default: 7.85, min: 3, max: 30 },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'center', type: 'Point', required: true }],
     outputs: [
       { name: 'sprocket', type: 'Shape' },
-      { name: 'pitchCircle', type: 'Wire' }
-    ]
+      { name: 'pitchCircle', type: 'Wire' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -232,15 +283,13 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'minDiameter', type: 'number', default: 30, min: 20, max: 100 },
       { name: 'maxDiameter', type: 'number', default: 100, min: 50, max: 300 },
       { name: 'coneAngle', type: 'number', default: 11, min: 8, max: 15 },
-      { name: 'shaftDiameter', type: 'number', default: 20, min: 10, max: 50 }
+      { name: 'shaftDiameter', type: 'number', default: 20, min: 10, max: 50 },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'center', type: 'Point', required: true }],
     outputs: [
       { name: 'disc', type: 'Shape' },
-      { name: 'contactSurface', type: 'Surface' }
-    ]
+      { name: 'contactSurface', type: 'Surface' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -253,16 +302,14 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'ringGearTeeth', type: 'number', default: 41, min: 30, max: 60 },
       { name: 'pinionTeeth', type: 'number', default: 13, min: 9, max: 17 },
       { name: 'spiderGearTeeth', type: 'number', default: 10, min: 8, max: 14 },
-      { name: 'module', type: 'number', default: 3, min: 2, max: 5 }
+      { name: 'module', type: 'number', default: 3, min: 2, max: 5 },
     ],
-    inputs: [
-      { name: 'housingCenter', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'housingCenter', type: 'Point', required: true }],
     outputs: [
       { name: 'assembly', type: 'Shape' },
       { name: 'housing', type: 'Shape' },
-      { name: 'gears', type: 'Shape[]' }
-    ]
+      { name: 'gears', type: 'Shape[]' },
+    ],
   },
 
   // ============================================================
@@ -276,21 +323,35 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
     operation: 'BALL_BEARING',
     occtBinding: 'ballBearing',
     parameters: [
-      { name: 'innerDiameter', type: 'number', default: 20, min: 3, max: 200, description: 'Bore diameter in mm' },
-      { name: 'outerDiameter', type: 'number', default: 47, min: 10, max: 400, description: 'Outer diameter in mm' },
+      {
+        name: 'innerDiameter',
+        type: 'number',
+        default: 20,
+        min: 3,
+        max: 200,
+        description: 'Bore diameter in mm',
+      },
+      {
+        name: 'outerDiameter',
+        type: 'number',
+        default: 47,
+        min: 10,
+        max: 400,
+        description: 'Outer diameter in mm',
+      },
       { name: 'width', type: 'number', default: 14, min: 3, max: 100, description: 'Width in mm' },
       { name: 'ballCount', type: 'number', default: 8, min: 5, max: 20 },
-      { name: 'showCage', type: 'boolean', default: true }
+      { name: 'showCage', type: 'boolean', default: true },
     ],
     inputs: [
       { name: 'center', type: 'Point', required: true },
-      { name: 'axis', type: 'Vector', required: false }
+      { name: 'axis', type: 'Vector', required: false },
     ],
     outputs: [
       { name: 'bearing', type: 'Shape' },
       { name: 'innerRace', type: 'Shape' },
-      { name: 'outerRace', type: 'Shape' }
-    ]
+      { name: 'outerRace', type: 'Shape' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -303,15 +364,18 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'innerDiameter', type: 'number', default: 25, min: 5, max: 200 },
       { name: 'outerDiameter', type: 'number', default: 52, min: 15, max: 400 },
       { name: 'width', type: 'number', default: 15, min: 5, max: 100 },
-      { name: 'rollerType', type: 'enum', options: ['cylindrical', 'tapered', 'spherical'], default: 'cylindrical' }
+      {
+        name: 'rollerType',
+        type: 'enum',
+        options: ['cylindrical', 'tapered', 'spherical'],
+        default: 'cylindrical',
+      },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'center', type: 'Point', required: true }],
     outputs: [
       { name: 'bearing', type: 'Shape' },
-      { name: 'rollers', type: 'Shape[]' }
-    ]
+      { name: 'rollers', type: 'Shape[]' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -324,15 +388,13 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'innerDiameter', type: 'number', default: 20, min: 5, max: 150 },
       { name: 'outerDiameter', type: 'number', default: 40, min: 15, max: 300 },
       { name: 'height', type: 'number', default: 10, min: 3, max: 50 },
-      { name: 'type', type: 'enum', options: ['ball', 'roller', 'needle'], default: 'ball' }
+      { name: 'type', type: 'enum', options: ['ball', 'roller', 'needle'], default: 'ball' },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'center', type: 'Point', required: true }],
     outputs: [
       { name: 'bearing', type: 'Shape' },
-      { name: 'raceways', type: 'Shape[]' }
-    ]
+      { name: 'raceways', type: 'Shape[]' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -345,15 +407,13 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'innerDiameter', type: 'number', default: 15, min: 5, max: 100 },
       { name: 'outerDiameter', type: 'number', default: 21, min: 10, max: 150 },
       { name: 'width', type: 'number', default: 12, min: 5, max: 50 },
-      { name: 'needleCount', type: 'number', default: 20, min: 10, max: 50 }
+      { name: 'needleCount', type: 'number', default: 20, min: 10, max: 50 },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'center', type: 'Point', required: true }],
     outputs: [
       { name: 'bearing', type: 'Shape' },
-      { name: 'needles', type: 'Shape[]' }
-    ]
+      { name: 'needles', type: 'Shape[]' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -366,16 +426,16 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'shaftDiameter', type: 'number', default: 8, min: 3, max: 50 },
       { name: 'outerDiameter', type: 'number', default: 15, min: 8, max: 80 },
       { name: 'length', type: 'number', default: 24, min: 10, max: 100 },
-      { name: 'type', type: 'enum', options: ['ball', 'plain', 'roller'], default: 'ball' }
+      { name: 'type', type: 'enum', options: ['ball', 'plain', 'roller'], default: 'ball' },
     ],
     inputs: [
       { name: 'center', type: 'Point', required: true },
-      { name: 'axis', type: 'Vector', required: false }
+      { name: 'axis', type: 'Vector', required: false },
     ],
     outputs: [
       { name: 'bearing', type: 'Shape' },
-      { name: 'bore', type: 'Wire' }
-    ]
+      { name: 'bore', type: 'Wire' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -388,16 +448,14 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'shaftDiameter', type: 'number', default: 20, min: 8, max: 100 },
       { name: 'mountingHoles', type: 'number', default: 2, min: 2, max: 4 },
       { name: 'baseWidth', type: 'number', default: 80, min: 30, max: 200 },
-      { name: 'height', type: 'number', default: 50, min: 20, max: 150 }
+      { name: 'height', type: 'number', default: 50, min: 20, max: 150 },
     ],
-    inputs: [
-      { name: 'position', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'position', type: 'Point', required: true }],
     outputs: [
       { name: 'housing', type: 'Shape' },
       { name: 'bearing', type: 'Shape' },
-      { name: 'mountingPoints', type: 'Point[]' }
-    ]
+      { name: 'mountingPoints', type: 'Point[]' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -410,16 +468,14 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'boreDiameter', type: 'number', default: 12, min: 5, max: 80 },
       { name: 'flangeDiameter', type: 'number', default: 40, min: 20, max: 150 },
       { name: 'thickness', type: 'number', default: 8, min: 3, max: 30 },
-      { name: 'mountingHoles', type: 'number', default: 4, min: 3, max: 8 }
+      { name: 'mountingHoles', type: 'number', default: 4, min: 3, max: 8 },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'center', type: 'Point', required: true }],
     outputs: [
       { name: 'bearing', type: 'Shape' },
       { name: 'flange', type: 'Face' },
-      { name: 'holes', type: 'Wire[]' }
-    ]
+      { name: 'holes', type: 'Wire[]' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -433,15 +489,13 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'outerDiameter', type: 'number', default: 14, min: 5, max: 120 },
       { name: 'length', type: 'number', default: 15, min: 5, max: 100 },
       { name: 'oilGrooves', type: 'boolean', default: true },
-      { name: 'flanged', type: 'boolean', default: false }
+      { name: 'flanged', type: 'boolean', default: false },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'center', type: 'Point', required: true }],
     outputs: [
       { name: 'bushing', type: 'Shape' },
-      { name: 'grooves', type: 'Wire[]' }
-    ]
+      { name: 'grooves', type: 'Wire[]' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -454,16 +508,14 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'ballDiameter', type: 'number', default: 20, min: 5, max: 100 },
       { name: 'boreDiameter', type: 'number', default: 8, min: 3, max: 50 },
       { name: 'housingDiameter', type: 'number', default: 30, min: 10, max: 150 },
-      { name: 'misalignmentAngle', type: 'number', default: 15, min: 5, max: 30 }
+      { name: 'misalignmentAngle', type: 'number', default: 15, min: 5, max: 30 },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'center', type: 'Point', required: true }],
     outputs: [
       { name: 'bearing', type: 'Shape' },
       { name: 'ball', type: 'Shape' },
-      { name: 'housing', type: 'Shape' }
-    ]
+      { name: 'housing', type: 'Shape' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -476,16 +528,19 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'diameter', type: 'number', default: 50, min: 20, max: 200 },
       { name: 'thickness', type: 'number', default: 10, min: 5, max: 30 },
       { name: 'pocketCount', type: 'number', default: 6, min: 3, max: 12 },
-      { name: 'restrictorType', type: 'enum', options: ['orifice', 'porous', 'groove'], default: 'orifice' }
+      {
+        name: 'restrictorType',
+        type: 'enum',
+        options: ['orifice', 'porous', 'groove'],
+        default: 'orifice',
+      },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'center', type: 'Point', required: true }],
     outputs: [
       { name: 'bearing', type: 'Shape' },
       { name: 'pockets', type: 'Face[]' },
-      { name: 'restrictors', type: 'Wire[]' }
-    ]
+      { name: 'restrictors', type: 'Wire[]' },
+    ],
   },
 
   // ============================================================
@@ -499,19 +554,31 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
     operation: 'HEX_BOLT',
     occtBinding: 'hexBolt',
     parameters: [
-      { name: 'diameter', type: 'enum', options: ['M3', 'M4', 'M5', 'M6', 'M8', 'M10', 'M12', 'M16', 'M20'], default: 'M6' },
-      { name: 'length', type: 'number', default: 20, min: 5, max: 200, description: 'Length in mm' },
+      {
+        name: 'diameter',
+        type: 'enum',
+        options: ['M3', 'M4', 'M5', 'M6', 'M8', 'M10', 'M12', 'M16', 'M20'],
+        default: 'M6',
+      },
+      {
+        name: 'length',
+        type: 'number',
+        default: 20,
+        min: 5,
+        max: 200,
+        description: 'Length in mm',
+      },
       { name: 'threadPitch', type: 'number', default: 1, min: 0.5, max: 3, step: 0.25 },
-      { name: 'headHeight', type: 'number', default: 4, min: 2, max: 20 }
+      { name: 'headHeight', type: 'number', default: 4, min: 2, max: 20 },
     ],
     inputs: [
       { name: 'position', type: 'Point', required: true },
-      { name: 'direction', type: 'Vector', required: false }
+      { name: 'direction', type: 'Vector', required: false },
     ],
     outputs: [
       { name: 'bolt', type: 'Shape' },
-      { name: 'thread', type: 'Wire' }
-    ]
+      { name: 'thread', type: 'Wire' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -521,18 +588,21 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
     operation: 'SOCKET_HEAD_SCREW',
     occtBinding: 'socketHeadScrew',
     parameters: [
-      { name: 'diameter', type: 'enum', options: ['M3', 'M4', 'M5', 'M6', 'M8', 'M10'], default: 'M5' },
+      {
+        name: 'diameter',
+        type: 'enum',
+        options: ['M3', 'M4', 'M5', 'M6', 'M8', 'M10'],
+        default: 'M5',
+      },
       { name: 'length', type: 'number', default: 16, min: 6, max: 100 },
       { name: 'socketSize', type: 'number', default: 4, min: 2, max: 10 },
-      { name: 'headDiameter', type: 'number', default: 8.5, min: 5, max: 20 }
+      { name: 'headDiameter', type: 'number', default: 8.5, min: 5, max: 20 },
     ],
-    inputs: [
-      { name: 'position', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'position', type: 'Point', required: true }],
     outputs: [
       { name: 'screw', type: 'Shape' },
-      { name: 'socket', type: 'Wire' }
-    ]
+      { name: 'socket', type: 'Wire' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -542,17 +612,25 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
     operation: 'HEX_NUT',
     occtBinding: 'hexNut',
     parameters: [
-      { name: 'size', type: 'enum', options: ['M3', 'M4', 'M5', 'M6', 'M8', 'M10', 'M12'], default: 'M6' },
+      {
+        name: 'size',
+        type: 'enum',
+        options: ['M3', 'M4', 'M5', 'M6', 'M8', 'M10', 'M12'],
+        default: 'M6',
+      },
       { name: 'height', type: 'number', default: 5, min: 2, max: 20 },
-      { name: 'style', type: 'enum', options: ['standard', 'nylon-insert', 'castle', 'wing'], default: 'standard' }
+      {
+        name: 'style',
+        type: 'enum',
+        options: ['standard', 'nylon-insert', 'castle', 'wing'],
+        default: 'standard',
+      },
     ],
-    inputs: [
-      { name: 'position', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'position', type: 'Point', required: true }],
     outputs: [
       { name: 'nut', type: 'Shape' },
-      { name: 'thread', type: 'Wire' }
-    ]
+      { name: 'thread', type: 'Wire' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -565,14 +643,15 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'innerDiameter', type: 'number', default: 6.4, min: 2, max: 50 },
       { name: 'outerDiameter', type: 'number', default: 12, min: 4, max: 100 },
       { name: 'thickness', type: 'number', default: 1.6, min: 0.5, max: 5 },
-      { name: 'type', type: 'enum', options: ['flat', 'spring', 'lock', 'fender'], default: 'flat' }
+      {
+        name: 'type',
+        type: 'enum',
+        options: ['flat', 'spring', 'lock', 'fender'],
+        default: 'flat',
+      },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
-    outputs: [
-      { name: 'washer', type: 'Shape' }
-    ]
+    inputs: [{ name: 'center', type: 'Point', required: true }],
+    outputs: [{ name: 'washer', type: 'Shape' }],
   },
   {
     category: 'MechanicalEngineering',
@@ -584,15 +663,18 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
     parameters: [
       { name: 'threadSize', type: 'enum', options: ['M3', 'M4', 'M5', 'M6', 'M8'], default: 'M5' },
       { name: 'length', type: 'number', default: 10, min: 5, max: 30 },
-      { name: 'type', type: 'enum', options: ['helicoil', 'heat-set', 'press-fit', 'ultrasonic'], default: 'heat-set' }
+      {
+        name: 'type',
+        type: 'enum',
+        options: ['helicoil', 'heat-set', 'press-fit', 'ultrasonic'],
+        default: 'heat-set',
+      },
     ],
-    inputs: [
-      { name: 'position', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'position', type: 'Point', required: true }],
     outputs: [
       { name: 'insert', type: 'Shape' },
-      { name: 'installation_hole', type: 'Wire' }
-    ]
+      { name: 'installation_hole', type: 'Wire' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -604,15 +686,21 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
     parameters: [
       { name: 'diameter', type: 'number', default: 4, min: 2, max: 10 },
       { name: 'length', type: 'number', default: 10, min: 5, max: 30 },
-      { name: 'headType', type: 'enum', options: ['round', 'flat', 'countersunk', 'pan'], default: 'round' },
-      { name: 'material', type: 'enum', options: ['aluminum', 'steel', 'stainless', 'copper'], default: 'aluminum' }
+      {
+        name: 'headType',
+        type: 'enum',
+        options: ['round', 'flat', 'countersunk', 'pan'],
+        default: 'round',
+      },
+      {
+        name: 'material',
+        type: 'enum',
+        options: ['aluminum', 'steel', 'stainless', 'copper'],
+        default: 'aluminum',
+      },
     ],
-    inputs: [
-      { name: 'position', type: 'Point', required: true }
-    ],
-    outputs: [
-      { name: 'rivet', type: 'Shape' }
-    ]
+    inputs: [{ name: 'position', type: 'Point', required: true }],
+    outputs: [{ name: 'rivet', type: 'Shape' }],
   },
   {
     category: 'MechanicalEngineering',
@@ -625,15 +713,18 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'shaftDiameter', type: 'number', default: 10, min: 3, max: 50 },
       { name: 'outerDiameter', type: 'number', default: 20, min: 8, max: 80 },
       { name: 'width', type: 'number', default: 8, min: 3, max: 20 },
-      { name: 'clampType', type: 'enum', options: ['set-screw', 'split', 'hinged'], default: 'set-screw' }
+      {
+        name: 'clampType',
+        type: 'enum',
+        options: ['set-screw', 'split', 'hinged'],
+        default: 'set-screw',
+      },
     ],
-    inputs: [
-      { name: 'position', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'position', type: 'Point', required: true }],
     outputs: [
       { name: 'collar', type: 'Shape' },
-      { name: 'bore', type: 'Wire' }
-    ]
+      { name: 'bore', type: 'Wire' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -646,15 +737,13 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'diameter', type: 'number', default: 6, min: 2, max: 20 },
       { name: 'length', type: 'number', default: 20, min: 5, max: 100 },
       { name: 'tolerance', type: 'enum', options: ['h6', 'h7', 'h8', 'm6'], default: 'h7' },
-      { name: 'chamfered', type: 'boolean', default: true }
+      { name: 'chamfered', type: 'boolean', default: true },
     ],
     inputs: [
       { name: 'position', type: 'Point', required: true },
-      { name: 'direction', type: 'Vector', required: false }
+      { name: 'direction', type: 'Vector', required: false },
     ],
-    outputs: [
-      { name: 'dowel', type: 'Shape' }
-    ]
+    outputs: [{ name: 'dowel', type: 'Shape' }],
   },
   {
     category: 'MechanicalEngineering',
@@ -667,15 +756,13 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'shaftDiameter', type: 'number', default: 10, min: 3, max: 100 },
       { name: 'type', type: 'enum', options: ['external', 'internal'], default: 'external' },
       { name: 'thickness', type: 'number', default: 1, min: 0.5, max: 3 },
-      { name: 'grooveWidth', type: 'number', default: 1.2, min: 0.6, max: 4 }
+      { name: 'grooveWidth', type: 'number', default: 1.2, min: 0.6, max: 4 },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'center', type: 'Point', required: true }],
     outputs: [
       { name: 'ring', type: 'Shape' },
-      { name: 'groove', type: 'Wire' }
-    ]
+      { name: 'groove', type: 'Wire' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -688,16 +775,14 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'shaftDiameter', type: 'number', default: 20, min: 6, max: 100 },
       { name: 'keyWidth', type: 'number', default: 6, min: 2, max: 30 },
       { name: 'keyHeight', type: 'number', default: 6, min: 2, max: 30 },
-      { name: 'keyLength', type: 'number', default: 25, min: 10, max: 100 }
+      { name: 'keyLength', type: 'number', default: 25, min: 10, max: 100 },
     ],
-    inputs: [
-      { name: 'shaftCenter', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'shaftCenter', type: 'Point', required: true }],
     outputs: [
       { name: 'shaft', type: 'Shape' },
       { name: 'key', type: 'Shape' },
-      { name: 'keyway', type: 'Wire' }
-    ]
+      { name: 'keyway', type: 'Wire' },
+    ],
   },
 
   // ============================================================
@@ -715,16 +800,16 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'coilDiameter', type: 'number', default: 20, min: 5, max: 100 },
       { name: 'freeLength', type: 'number', default: 50, min: 10, max: 200 },
       { name: 'coils', type: 'number', default: 8, min: 3, max: 30 },
-      { name: 'endType', type: 'enum', options: ['closed', 'open', 'ground'], default: 'closed' }
+      { name: 'endType', type: 'enum', options: ['closed', 'open', 'ground'], default: 'closed' },
     ],
     inputs: [
       { name: 'center', type: 'Point', required: true },
-      { name: 'axis', type: 'Vector', required: false }
+      { name: 'axis', type: 'Vector', required: false },
     ],
     outputs: [
       { name: 'spring', type: 'Shape' },
-      { name: 'helix', type: 'Wire' }
-    ]
+      { name: 'helix', type: 'Wire' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -738,15 +823,18 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'coilDiameter', type: 'number', default: 15, min: 5, max: 80 },
       { name: 'bodyLength', type: 'number', default: 40, min: 10, max: 150 },
       { name: 'coils', type: 'number', default: 10, min: 5, max: 40 },
-      { name: 'hookType', type: 'enum', options: ['machine', 'side', 'center'], default: 'machine' }
+      {
+        name: 'hookType',
+        type: 'enum',
+        options: ['machine', 'side', 'center'],
+        default: 'machine',
+      },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'center', type: 'Point', required: true }],
     outputs: [
       { name: 'spring', type: 'Shape' },
-      { name: 'hooks', type: 'Wire[]' }
-    ]
+      { name: 'hooks', type: 'Wire[]' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -760,15 +848,13 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'coilDiameter', type: 'number', default: 20, min: 5, max: 80 },
       { name: 'coils', type: 'number', default: 5, min: 2, max: 20 },
       { name: 'legLength', type: 'number', default: 30, min: 10, max: 100 },
-      { name: 'legAngle', type: 'number', default: 90, min: 0, max: 180 }
+      { name: 'legAngle', type: 'number', default: 90, min: 0, max: 180 },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'center', type: 'Point', required: true }],
     outputs: [
       { name: 'spring', type: 'Shape' },
-      { name: 'legs', type: 'Wire[]' }
-    ]
+      { name: 'legs', type: 'Wire[]' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -782,15 +868,13 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'length', type: 'number', default: 500, min: 100, max: 1500 },
       { name: 'width', type: 'number', default: 50, min: 20, max: 150 },
       { name: 'thickness', type: 'number', default: 6, min: 3, max: 15 },
-      { name: 'camber', type: 'number', default: 50, min: 0, max: 150 }
+      { name: 'camber', type: 'number', default: 50, min: 0, max: 150 },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'center', type: 'Point', required: true }],
     outputs: [
       { name: 'assembly', type: 'Shape' },
-      { name: 'leaves', type: 'Shape[]' }
-    ]
+      { name: 'leaves', type: 'Shape[]' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -803,16 +887,14 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'cylinderDiameter', type: 'number', default: 20, min: 10, max: 50 },
       { name: 'strokeLength', type: 'number', default: 100, min: 30, max: 300 },
       { name: 'extendedLength', type: 'number', default: 250, min: 100, max: 600 },
-      { name: 'rodDiameter', type: 'number', default: 8, min: 4, max: 20 }
+      { name: 'rodDiameter', type: 'number', default: 8, min: 4, max: 20 },
     ],
-    inputs: [
-      { name: 'mountPoint', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'mountPoint', type: 'Point', required: true }],
     outputs: [
       { name: 'gasSpring', type: 'Shape' },
       { name: 'cylinder', type: 'Shape' },
-      { name: 'rod', type: 'Shape' }
-    ]
+      { name: 'rod', type: 'Shape' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -824,17 +906,22 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
     parameters: [
       { name: 'baseRadius', type: 'number', default: 30, min: 10, max: 100 },
       { name: 'lift', type: 'number', default: 10, min: 2, max: 50 },
-      { name: 'profileType', type: 'enum', options: ['harmonic', 'cycloidal', 'parabolic', 'custom'], default: 'harmonic' },
-      { name: 'dwellAngle', type: 'number', default: 60, min: 0, max: 180 }
+      {
+        name: 'profileType',
+        type: 'enum',
+        options: ['harmonic', 'cycloidal', 'parabolic', 'custom'],
+        default: 'harmonic',
+      },
+      { name: 'dwellAngle', type: 'number', default: 60, min: 0, max: 180 },
     ],
     inputs: [
       { name: 'center', type: 'Point', required: true },
-      { name: 'customProfile', type: 'Wire', required: false }
+      { name: 'customProfile', type: 'Wire', required: false },
     ],
     outputs: [
       { name: 'cam', type: 'Shape' },
-      { name: 'profile', type: 'Wire' }
-    ]
+      { name: 'profile', type: 'Wire' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -844,20 +931,23 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
     operation: 'LINKAGE_MECHANISM',
     occtBinding: 'linkageMechanism',
     parameters: [
-      { name: 'type', type: 'enum', options: ['four-bar', 'slider-crank', 'scotch-yoke', 'geneva'], default: 'four-bar' },
+      {
+        name: 'type',
+        type: 'enum',
+        options: ['four-bar', 'slider-crank', 'scotch-yoke', 'geneva'],
+        default: 'four-bar',
+      },
       { name: 'linkLength1', type: 'number', default: 50, min: 10, max: 200 },
       { name: 'linkLength2', type: 'number', default: 80, min: 10, max: 200 },
       { name: 'linkLength3', type: 'number', default: 60, min: 10, max: 200 },
-      { name: 'angle', type: 'number', default: 0, min: 0, max: 360 }
+      { name: 'angle', type: 'number', default: 0, min: 0, max: 360 },
     ],
-    inputs: [
-      { name: 'basePoints', type: 'Point[]', required: true }
-    ],
+    inputs: [{ name: 'basePoints', type: 'Point[]', required: true }],
     outputs: [
       { name: 'mechanism', type: 'Shape' },
       { name: 'links', type: 'Shape[]' },
-      { name: 'joints', type: 'Point[]' }
-    ]
+      { name: 'joints', type: 'Point[]' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -870,16 +960,14 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'wheelDiameter', type: 'number', default: 50, min: 20, max: 150 },
       { name: 'teeth', type: 'number', default: 24, min: 12, max: 60 },
       { name: 'pawlLength', type: 'number', default: 20, min: 10, max: 50 },
-      { name: 'springTension', type: 'number', default: 5, min: 1, max: 20 }
+      { name: 'springTension', type: 'number', default: 5, min: 1, max: 20 },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'center', type: 'Point', required: true }],
     outputs: [
       { name: 'assembly', type: 'Shape' },
       { name: 'wheel', type: 'Shape' },
-      { name: 'pawl', type: 'Shape' }
-    ]
+      { name: 'pawl', type: 'Shape' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -889,18 +977,21 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
     operation: 'CLUTCH_MECHANISM',
     occtBinding: 'clutchMechanism',
     parameters: [
-      { name: 'type', type: 'enum', options: ['friction', 'dog', 'centrifugal', 'electromagnetic'], default: 'friction' },
+      {
+        name: 'type',
+        type: 'enum',
+        options: ['friction', 'dog', 'centrifugal', 'electromagnetic'],
+        default: 'friction',
+      },
       { name: 'outerDiameter', type: 'number', default: 100, min: 30, max: 300 },
       { name: 'innerDiameter', type: 'number', default: 50, min: 20, max: 150 },
-      { name: 'plateCount', type: 'number', default: 3, min: 1, max: 8 }
+      { name: 'plateCount', type: 'number', default: 3, min: 1, max: 8 },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'center', type: 'Point', required: true }],
     outputs: [
       { name: 'clutch', type: 'Shape' },
-      { name: 'plates', type: 'Shape[]' }
-    ]
+      { name: 'plates', type: 'Shape[]' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -913,16 +1004,14 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'yokeDiameter', type: 'number', default: 30, min: 10, max: 80 },
       { name: 'crossPinDiameter', type: 'number', default: 8, min: 3, max: 20 },
       { name: 'length', type: 'number', default: 60, min: 20, max: 150 },
-      { name: 'angle', type: 'number', default: 0, min: 0, max: 45 }
+      { name: 'angle', type: 'number', default: 0, min: 0, max: 45 },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'center', type: 'Point', required: true }],
     outputs: [
       { name: 'joint', type: 'Shape' },
       { name: 'yokes', type: 'Shape[]' },
-      { name: 'cross', type: 'Shape' }
-    ]
+      { name: 'cross', type: 'Shape' },
+    ],
   },
 
   // ============================================================
@@ -936,17 +1025,20 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
     operation: 'STEPPED_SHAFT',
     occtBinding: 'steppedShaft',
     parameters: [
-      { name: 'sections', type: 'string', default: '20x50,25x80,20x30', description: 'Diameter x Length pairs' },
+      {
+        name: 'sections',
+        type: 'string',
+        default: '20x50,25x80,20x30',
+        description: 'Diameter x Length pairs',
+      },
       { name: 'chamfers', type: 'boolean', default: true },
-      { name: 'filletRadius', type: 'number', default: 1, min: 0.5, max: 5 }
+      { name: 'filletRadius', type: 'number', default: 1, min: 0.5, max: 5 },
     ],
-    inputs: [
-      { name: 'centerline', type: 'Wire', required: true }
-    ],
+    inputs: [{ name: 'centerline', type: 'Wire', required: true }],
     outputs: [
       { name: 'shaft', type: 'Shape' },
-      { name: 'sections', type: 'Shape[]' }
-    ]
+      { name: 'sections', type: 'Shape[]' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -959,15 +1051,13 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'majorDiameter', type: 'number', default: 25, min: 10, max: 100 },
       { name: 'minorDiameter', type: 'number', default: 22, min: 8, max: 95 },
       { name: 'splineCount', type: 'number', default: 6, min: 4, max: 20 },
-      { name: 'length', type: 'number', default: 50, min: 10, max: 200 }
+      { name: 'length', type: 'number', default: 50, min: 10, max: 200 },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'center', type: 'Point', required: true }],
     outputs: [
       { name: 'shaft', type: 'Shape' },
-      { name: 'splines', type: 'Wire[]' }
-    ]
+      { name: 'splines', type: 'Wire[]' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -980,15 +1070,13 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'coreDiameter', type: 'number', default: 5, min: 2, max: 20 },
       { name: 'outerDiameter', type: 'number', default: 8, min: 4, max: 30 },
       { name: 'length', type: 'number', default: 300, min: 100, max: 1000 },
-      { name: 'windingAngle', type: 'number', default: 45, min: 30, max: 60 }
+      { name: 'windingAngle', type: 'number', default: 45, min: 30, max: 60 },
     ],
-    inputs: [
-      { name: 'path', type: 'Wire', required: true }
-    ],
+    inputs: [{ name: 'path', type: 'Wire', required: true }],
     outputs: [
       { name: 'shaft', type: 'Shape' },
-      { name: 'centerline', type: 'Wire' }
-    ]
+      { name: 'centerline', type: 'Wire' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -1001,16 +1089,21 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'outerDiameter', type: 'number', default: 40, min: 10, max: 200 },
       { name: 'innerDiameter', type: 'number', default: 30, min: 5, max: 190 },
       { name: 'length', type: 'number', default: 100, min: 20, max: 500 },
-      { name: 'endMachining', type: 'enum', options: ['none', 'threads', 'splines'], default: 'none' }
+      {
+        name: 'endMachining',
+        type: 'enum',
+        options: ['none', 'threads', 'splines'],
+        default: 'none',
+      },
     ],
     inputs: [
       { name: 'center', type: 'Point', required: true },
-      { name: 'axis', type: 'Vector', required: false }
+      { name: 'axis', type: 'Vector', required: false },
     ],
     outputs: [
       { name: 'shaft', type: 'Shape' },
-      { name: 'bore', type: 'Wire' }
-    ]
+      { name: 'bore', type: 'Wire' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -1023,15 +1116,13 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'shaft1Diameter', type: 'number', default: 20, min: 5, max: 100 },
       { name: 'shaft2Diameter', type: 'number', default: 20, min: 5, max: 100 },
       { name: 'couplingDiameter', type: 'number', default: 40, min: 15, max: 150 },
-      { name: 'length', type: 'number', default: 50, min: 20, max: 150 }
+      { name: 'length', type: 'number', default: 50, min: 20, max: 150 },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'center', type: 'Point', required: true }],
     outputs: [
       { name: 'coupling', type: 'Shape' },
-      { name: 'bores', type: 'Wire[]' }
-    ]
+      { name: 'bores', type: 'Wire[]' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -1044,15 +1135,13 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'type', type: 'enum', options: ['jaw', 'disc', 'beam', 'oldham'], default: 'jaw' },
       { name: 'boreDiameter1', type: 'number', default: 10, min: 3, max: 50 },
       { name: 'boreDiameter2', type: 'number', default: 10, min: 3, max: 50 },
-      { name: 'outerDiameter', type: 'number', default: 30, min: 10, max: 100 }
+      { name: 'outerDiameter', type: 'number', default: 30, min: 10, max: 100 },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'center', type: 'Point', required: true }],
     outputs: [
       { name: 'coupling', type: 'Shape' },
-      { name: 'element', type: 'Shape' }
-    ]
+      { name: 'element', type: 'Shape' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -1065,16 +1154,14 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'hubDiameter', type: 'number', default: 40, min: 20, max: 100 },
       { name: 'discDiameter', type: 'number', default: 35, min: 15, max: 90 },
       { name: 'slotWidth', type: 'number', default: 8, min: 3, max: 20 },
-      { name: 'totalLength', type: 'number', default: 40, min: 20, max: 100 }
+      { name: 'totalLength', type: 'number', default: 40, min: 20, max: 100 },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'center', type: 'Point', required: true }],
     outputs: [
       { name: 'assembly', type: 'Shape' },
       { name: 'hubs', type: 'Shape[]' },
-      { name: 'disc', type: 'Shape' }
-    ]
+      { name: 'disc', type: 'Shape' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -1087,16 +1174,21 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'impellerDiameter', type: 'number', default: 150, min: 50, max: 500 },
       { name: 'housingDiameter', type: 'number', default: 180, min: 60, max: 600 },
       { name: 'vaneCount', type: 'number', default: 32, min: 16, max: 64 },
-      { name: 'fluidCapacity', type: 'number', default: 2, min: 0.5, max: 20, description: 'Liters' }
+      {
+        name: 'fluidCapacity',
+        type: 'number',
+        default: 2,
+        min: 0.5,
+        max: 20,
+        description: 'Liters',
+      },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'center', type: 'Point', required: true }],
     outputs: [
       { name: 'coupling', type: 'Shape' },
       { name: 'impeller', type: 'Shape' },
-      { name: 'turbine', type: 'Shape' }
-    ]
+      { name: 'turbine', type: 'Shape' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -1109,17 +1201,17 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'driveDiameter', type: 'number', default: 100, min: 20, max: 500 },
       { name: 'drivenDiameter', type: 'number', default: 200, min: 20, max: 500 },
       { name: 'beltWidth', type: 'number', default: 20, min: 5, max: 100 },
-      { name: 'centerDistance', type: 'number', default: 300, min: 100, max: 1000 }
+      { name: 'centerDistance', type: 'number', default: 300, min: 100, max: 1000 },
     ],
     inputs: [
       { name: 'driveCenter', type: 'Point', required: true },
-      { name: 'drivenCenter', type: 'Point', required: true }
+      { name: 'drivenCenter', type: 'Point', required: true },
     ],
     outputs: [
       { name: 'system', type: 'Shape' },
       { name: 'pulleys', type: 'Shape[]' },
-      { name: 'belt', type: 'Shape' }
-    ]
+      { name: 'belt', type: 'Shape' },
+    ],
   },
   {
     category: 'MechanicalEngineering',
@@ -1132,16 +1224,16 @@ export const mechanicalEngineeringNodes: NodeTemplate[] = [
       { name: 'driveTeeth', type: 'number', default: 17, min: 9, max: 50 },
       { name: 'drivenTeeth', type: 'number', default: 42, min: 15, max: 120 },
       { name: 'chainPitch', type: 'number', default: 12.7, min: 6, max: 25.4 },
-      { name: 'chainRows', type: 'number', default: 1, min: 1, max: 3 }
+      { name: 'chainRows', type: 'number', default: 1, min: 1, max: 3 },
     ],
     inputs: [
       { name: 'sprocket1Center', type: 'Point', required: true },
-      { name: 'sprocket2Center', type: 'Point', required: true }
+      { name: 'sprocket2Center', type: 'Point', required: true },
     ],
     outputs: [
       { name: 'system', type: 'Shape' },
       { name: 'sprockets', type: 'Shape[]' },
-      { name: 'chain', type: 'Shape' }
-    ]
-  }
+      { name: 'chain', type: 'Shape' },
+    ],
+  },
 ];

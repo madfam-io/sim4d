@@ -21,13 +21,13 @@ export const DesktopLayout: React.FC<DesktopLayoutProps> = ({
   isFullscreen,
   onFullscreenToggle,
   dimensions,
-  capabilities
+  capabilities,
 }) => {
   const [layoutMode, setLayoutMode] = useState<LayoutMode>('quad');
   const [collapsedPanels, setCollapsedPanels] = useState<Set<string>>(new Set());
 
   const togglePanelCollapse = (panelId: string) => {
-    setCollapsedPanels(prev => {
+    setCollapsedPanels((prev) => {
       const next = new Set(prev);
       if (next.has(panelId)) {
         next.delete(panelId);
@@ -63,9 +63,7 @@ export const DesktopLayout: React.FC<DesktopLayoutProps> = ({
             >
               {isCollapsed ? '▶' : '▼'}
             </button>
-            {panel.badge && panel.badge > 0 && (
-              <span className="panel-badge">{panel.badge}</span>
-            )}
+            {panel.badge && panel.badge > 0 && <span className="panel-badge">{panel.badge}</span>}
           </div>
         </div>
         {!isCollapsed && (
@@ -120,11 +118,7 @@ export const DesktopLayout: React.FC<DesktopLayoutProps> = ({
 
       {/* Main Content Grid */}
       <div className="desktop-content">
-        {layoutMode === 'single' && (
-          <>
-            {renderPanel('nodeEditor', 'panel-full')}
-          </>
-        )}
+        {layoutMode === 'single' && <>{renderPanel('nodeEditor', 'panel-full')}</>}
 
         {layoutMode === 'dual' && (
           <>
@@ -157,9 +151,7 @@ export const DesktopLayout: React.FC<DesktopLayoutProps> = ({
           <span className="status-item">
             {dimensions.width} × {dimensions.height}
           </span>
-          <span className="status-item">
-            {capabilities.touch ? 'Touch' : 'Mouse'}
-          </span>
+          <span className="status-item">{capabilities.touch ? 'Touch' : 'Mouse'}</span>
         </div>
         <div className="statusbar-section">
           <span className="status-item">Ready</span>

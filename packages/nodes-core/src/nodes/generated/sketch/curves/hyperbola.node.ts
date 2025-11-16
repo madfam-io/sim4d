@@ -15,7 +15,11 @@ interface HyperbolaOutputs {
   curve: unknown;
 }
 
-export const SketchCurvesHyperbolaNode: NodeDefinition<HyperbolaInputs, HyperbolaOutputs, HyperbolaParams> = {
+export const SketchCurvesHyperbolaNode: NodeDefinition<
+  HyperbolaInputs,
+  HyperbolaOutputs,
+  HyperbolaParams
+> = {
   id: 'Sketch::Hyperbola',
   category: 'Sketch',
   label: 'Hyperbola',
@@ -24,14 +28,14 @@ export const SketchCurvesHyperbolaNode: NodeDefinition<HyperbolaInputs, Hyperbol
     center: {
       type: 'Point',
       label: 'Center',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     curve: {
       type: 'Wire',
-      label: 'Curve'
-    }
+      label: 'Curve',
+    },
   },
   params: {
     majorRadius: {
@@ -39,29 +43,29 @@ export const SketchCurvesHyperbolaNode: NodeDefinition<HyperbolaInputs, Hyperbol
       label: 'Major Radius',
       default: 50,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     minorRadius: {
       type: 'number',
       label: 'Minor Radius',
       default: 30,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     startParam: {
       type: 'number',
       label: 'Start Param',
       default: -2,
       min: -10,
-      max: 10
+      max: 10,
     },
     endParam: {
       type: 'number',
       label: 'End Param',
       default: 2,
       min: -10,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -71,12 +75,12 @@ export const SketchCurvesHyperbolaNode: NodeDefinition<HyperbolaInputs, Hyperbol
         majorRadius: params.majorRadius,
         minorRadius: params.minorRadius,
         startParam: params.startParam,
-        endParam: params.endParam
-      }
+        endParam: params.endParam,
+      },
     });
-    
+
     return {
-      curve: result
+      curve: result,
     };
   },
 };

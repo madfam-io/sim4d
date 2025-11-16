@@ -15,7 +15,11 @@ interface BendReliefOutputs {
   result: unknown;
 }
 
-export const SheetMetalCornersBendReliefNode: NodeDefinition<BendReliefInputs, BendReliefOutputs, BendReliefParams> = {
+export const SheetMetalCornersBendReliefNode: NodeDefinition<
+  BendReliefInputs,
+  BendReliefOutputs,
+  BendReliefParams
+> = {
   id: 'SheetMetal::BendRelief',
   category: 'SheetMetal',
   label: 'BendRelief',
@@ -24,41 +28,41 @@ export const SheetMetalCornersBendReliefNode: NodeDefinition<BendReliefInputs, B
     sheet: {
       type: 'Shape',
       label: 'Sheet',
-      required: true
+      required: true,
     },
     bends: {
       type: 'Edge[]',
       label: 'Bends',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'Shape',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {
     reliefType: {
       type: 'enum',
       label: 'Relief Type',
-      default: "rectangular",
-      options: ["rectangular","obround","tear"]
+      default: 'rectangular',
+      options: ['rectangular', 'obround', 'tear'],
     },
     reliefDepth: {
       type: 'number',
       label: 'Relief Depth',
       default: 5,
       min: 0.1,
-      max: 100
+      max: 100,
     },
     reliefWidth: {
       type: 'number',
       label: 'Relief Width',
       default: 2,
       min: 0.1,
-      max: 50
-    }
+      max: 50,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -68,12 +72,12 @@ export const SheetMetalCornersBendReliefNode: NodeDefinition<BendReliefInputs, B
         bends: inputs.bends,
         reliefType: params.reliefType,
         reliefDepth: params.reliefDepth,
-        reliefWidth: params.reliefWidth
-      }
+        reliefWidth: params.reliefWidth,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

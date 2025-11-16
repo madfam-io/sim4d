@@ -1,4 +1,3 @@
-
 # FromBase64 Node
 
 **Category:** Data / Convert
@@ -11,19 +10,13 @@ This node has no parameters.
 
 ## Inputs
 
-
 ### Base64
+
 - **Type:** string
 - **Required:** Yes
 
-
-
 ## Outputs
 
-
 ### Data
+
 - **Type:** Data
-
-
-
-

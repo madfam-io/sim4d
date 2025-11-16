@@ -16,7 +16,11 @@ interface RackGearOutputs {
   pitchLine: unknown;
 }
 
-export const MechanicalEngineeringGearsRackGearNode: NodeDefinition<RackGearInputs, RackGearOutputs, RackGearParams> = {
+export const MechanicalEngineeringGearsRackGearNode: NodeDefinition<
+  RackGearInputs,
+  RackGearOutputs,
+  RackGearParams
+> = {
   id: 'MechanicalEngineering::RackGear',
   type: 'MechanicalEngineering::RackGear',
   category: 'MechanicalEngineering',
@@ -26,18 +30,18 @@ export const MechanicalEngineeringGearsRackGearNode: NodeDefinition<RackGearInpu
     path: {
       type: 'Wire',
       label: 'Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     rack: {
       type: 'Shape',
-      label: 'Rack'
+      label: 'Rack',
     },
     pitchLine: {
       type: 'Wire',
-      label: 'Pitch Line'
-    }
+      label: 'Pitch Line',
+    },
   },
   params: {
     module: {
@@ -45,29 +49,29 @@ export const MechanicalEngineeringGearsRackGearNode: NodeDefinition<RackGearInpu
       label: 'Module',
       default: 2,
       min: 0.5,
-      max: 10
+      max: 10,
     },
     length: {
       type: 'number',
       label: 'Length',
       default: 100,
       min: 20,
-      max: 500
+      max: 500,
     },
     width: {
       type: 'number',
       label: 'Width',
       default: 20,
       min: 5,
-      max: 50
+      max: 50,
     },
     height: {
       type: 'number',
       label: 'Height',
       default: 15,
       min: 5,
-      max: 30
-    }
+      max: 30,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -77,13 +81,13 @@ export const MechanicalEngineeringGearsRackGearNode: NodeDefinition<RackGearInpu
         module: params.module,
         length: params.length,
         width: params.width,
-        height: params.height
-      }
+        height: params.height,
+      },
     });
-    
+
     return {
       rack: results.rack,
-      pitchLine: results.pitchLine
+      pitchLine: results.pitchLine,
     };
   },
 };

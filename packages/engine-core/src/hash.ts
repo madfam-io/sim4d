@@ -73,7 +73,7 @@ export async function hashGeometry(data: ArrayBuffer): Promise<string> {
   if (typeof globalThis !== 'undefined' && globalThis.crypto?.subtle) {
     const hashBuffer = await globalThis.crypto.subtle.digest('SHA-256', data);
     return Array.from(new Uint8Array(hashBuffer))
-      .map(b => b.toString(16).padStart(2, '0'))
+      .map((b) => b.toString(16).padStart(2, '0'))
       .join('')
       .substring(0, 16);
   }

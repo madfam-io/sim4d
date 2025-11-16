@@ -13,7 +13,11 @@ interface MonumentalStairOutputs {
   monumentalStair: unknown;
 }
 
-export const ArchitectureStairsMonumentalStairNode: NodeDefinition<MonumentalStairInputs, MonumentalStairOutputs, MonumentalStairParams> = {
+export const ArchitectureStairsMonumentalStairNode: NodeDefinition<
+  MonumentalStairInputs,
+  MonumentalStairOutputs,
+  MonumentalStairParams
+> = {
   id: 'Architecture::MonumentalStair',
   category: 'Architecture',
   label: 'MonumentalStair',
@@ -22,29 +26,29 @@ export const ArchitectureStairsMonumentalStairNode: NodeDefinition<MonumentalSta
     footprint: {
       type: 'Wire',
       label: 'Footprint',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     monumentalStair: {
       type: 'Shape',
-      label: 'Monumental Stair'
-    }
+      label: 'Monumental Stair',
+    },
   },
   params: {
     style: {
       type: 'enum',
       label: 'Style',
-      default: "imperial",
-      options: ["imperial","bifurcated","horseshoe"]
+      default: 'imperial',
+      options: ['imperial', 'bifurcated', 'horseshoe'],
     },
     width: {
       type: 'number',
       label: 'Width',
       default: 3000,
       min: 2000,
-      max: 6000
-    }
+      max: 6000,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -52,12 +56,12 @@ export const ArchitectureStairsMonumentalStairNode: NodeDefinition<MonumentalSta
       params: {
         footprint: inputs.footprint,
         style: params.style,
-        width: params.width
-      }
+        width: params.width,
+      },
     });
-    
+
     return {
-      monumentalStair: result
+      monumentalStair: result,
     };
   },
 };

@@ -27,34 +27,37 @@ export function TypewriterText({
 
     const currentWord = words[currentWordIndex];
 
-    const timeout = setTimeout(() => {
-      if (isWaiting) {
-        setIsWaiting(false);
-        setIsDeleting(true);
-        return;
-      }
-
-      if (!isDeleting) {
-        // Typing
-        if (currentText.length < currentWord.length) {
-          setCurrentText(currentWord.slice(0, currentText.length + 1));
-        } else {
-          // Finished typing, wait before deleting
-          setIsWaiting(true);
+    const timeout = setTimeout(
+      () => {
+        if (isWaiting) {
+          setIsWaiting(false);
+          setIsDeleting(true);
+          return;
         }
-      } else {
-        // Deleting
-        if (currentText.length > 0) {
-          setCurrentText(currentText.slice(0, -1));
+
+        if (!isDeleting) {
+          // Typing
+          if (currentText.length < currentWord.length) {
+            setCurrentText(currentWord.slice(0, currentText.length + 1));
+          } else {
+            // Finished typing, wait before deleting
+            setIsWaiting(true);
+          }
         } else {
-          // Finished deleting, move to next word
-          setIsDeleting(false);
-          if (loop || currentWordIndex < words.length - 1) {
-            setCurrentWordIndex((prev) => (prev + 1) % words.length);
+          // Deleting
+          if (currentText.length > 0) {
+            setCurrentText(currentText.slice(0, -1));
+          } else {
+            // Finished deleting, move to next word
+            setIsDeleting(false);
+            if (loop || currentWordIndex < words.length - 1) {
+              setCurrentWordIndex((prev) => (prev + 1) % words.length);
+            }
           }
         }
-      }
-    }, isWaiting ? delayBetweenWords : isDeleting ? deleteSpeed : typeSpeed);
+      },
+      isWaiting ? delayBetweenWords : isDeleting ? deleteSpeed : typeSpeed
+    );
 
     return () => clearTimeout(timeout);
   }, [

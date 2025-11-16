@@ -12,7 +12,11 @@ interface SetPermutationsOutputs {
   permutations: unknown;
 }
 
-export const DataSetSetPermutationsNode: NodeDefinition<SetPermutationsInputs, SetPermutationsOutputs, SetPermutationsParams> = {
+export const DataSetSetPermutationsNode: NodeDefinition<
+  SetPermutationsInputs,
+  SetPermutationsOutputs,
+  SetPermutationsParams
+> = {
   id: 'Data::SetPermutations',
   type: 'Data::SetPermutations',
   category: 'Data',
@@ -22,14 +26,14 @@ export const DataSetSetPermutationsNode: NodeDefinition<SetPermutationsInputs, S
     set: {
       type: 'Data[]',
       label: 'Set',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     permutations: {
       type: 'Data[][]',
-      label: 'Permutations'
-    }
+      label: 'Permutations',
+    },
   },
   params: {
     k: {
@@ -37,20 +41,20 @@ export const DataSetSetPermutationsNode: NodeDefinition<SetPermutationsInputs, S
       label: 'K',
       default: -1,
       min: -1,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'setPermutations',
       params: {
         set: inputs.set,
-        k: params.k
-      }
+        k: params.k,
+      },
     });
-    
+
     return {
-      permutations: result
+      permutations: result,
     };
   },
 };

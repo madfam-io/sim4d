@@ -13,7 +13,11 @@ interface MicroJointsOutputs {
   jointedPath: unknown;
 }
 
-export const FabricationLaserMicroJointsNode: NodeDefinition<MicroJointsInputs, MicroJointsOutputs, MicroJointsParams> = {
+export const FabricationLaserMicroJointsNode: NodeDefinition<
+  MicroJointsInputs,
+  MicroJointsOutputs,
+  MicroJointsParams
+> = {
   id: 'Fabrication::MicroJoints',
   category: 'Fabrication',
   label: 'MicroJoints',
@@ -22,14 +26,14 @@ export const FabricationLaserMicroJointsNode: NodeDefinition<MicroJointsInputs, 
     cutPath: {
       type: 'Wire',
       label: 'Cut Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     jointedPath: {
       type: 'Wire[]',
-      label: 'Jointed Path'
-    }
+      label: 'Jointed Path',
+    },
   },
   params: {
     jointWidth: {
@@ -37,15 +41,15 @@ export const FabricationLaserMicroJointsNode: NodeDefinition<MicroJointsInputs, 
       label: 'Joint Width',
       default: 0.2,
       min: 0.1,
-      max: 2
+      max: 2,
     },
     jointSpacing: {
       type: 'number',
       label: 'Joint Spacing',
       default: 30,
       min: 10,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const FabricationLaserMicroJointsNode: NodeDefinition<MicroJointsInputs, 
       params: {
         cutPath: inputs.cutPath,
         jointWidth: params.jointWidth,
-        jointSpacing: params.jointSpacing
-      }
+        jointSpacing: params.jointSpacing,
+      },
     });
-    
+
     return {
-      jointedPath: result
+      jointedPath: result,
     };
   },
 };

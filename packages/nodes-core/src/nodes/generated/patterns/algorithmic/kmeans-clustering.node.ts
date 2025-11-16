@@ -14,7 +14,11 @@ interface KMeansClusteringOutputs {
   centroids: Array<[number, number, number]>;
 }
 
-export const PatternsAlgorithmicKMeansClusteringNode: NodeDefinition<KMeansClusteringInputs, KMeansClusteringOutputs, KMeansClusteringParams> = {
+export const PatternsAlgorithmicKMeansClusteringNode: NodeDefinition<
+  KMeansClusteringInputs,
+  KMeansClusteringOutputs,
+  KMeansClusteringParams
+> = {
   id: 'Patterns::KMeansClustering',
   category: 'Patterns',
   label: 'KMeansClustering',
@@ -23,18 +27,18 @@ export const PatternsAlgorithmicKMeansClusteringNode: NodeDefinition<KMeansClust
     points: {
       type: 'Point[]',
       label: 'Points',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     clusters: {
       type: 'Point[][]',
-      label: 'Clusters'
+      label: 'Clusters',
     },
     centroids: {
       type: 'Point[]',
-      label: 'Centroids'
-    }
+      label: 'Centroids',
+    },
   },
   params: {
     k: {
@@ -43,7 +47,7 @@ export const PatternsAlgorithmicKMeansClusteringNode: NodeDefinition<KMeansClust
       default: 5,
       min: 2,
       max: 20,
-      step: 1
+      step: 1,
     },
     iterations: {
       type: 'number',
@@ -51,8 +55,8 @@ export const PatternsAlgorithmicKMeansClusteringNode: NodeDefinition<KMeansClust
       default: 100,
       min: 10,
       max: 1000,
-      step: 10
-    }
+      step: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -60,13 +64,13 @@ export const PatternsAlgorithmicKMeansClusteringNode: NodeDefinition<KMeansClust
       params: {
         points: inputs.points,
         k: params.k,
-        iterations: params.iterations
-      }
+        iterations: params.iterations,
+      },
     });
-    
+
     return {
       clusters: results.clusters,
-      centroids: results.centroids
+      centroids: results.centroids,
     };
   },
 };

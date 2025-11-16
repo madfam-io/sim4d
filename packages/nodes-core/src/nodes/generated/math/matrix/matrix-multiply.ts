@@ -11,7 +11,11 @@ interface MatrixMultiplyOutputs {
   result: unknown;
 }
 
-export const MathMatrixMatrixMultiplyNode: NodeDefinition<MatrixMultiplyInputs, MatrixMultiplyOutputs, MatrixMultiplyParams> = {
+export const MathMatrixMatrixMultiplyNode: NodeDefinition<
+  MatrixMultiplyInputs,
+  MatrixMultiplyOutputs,
+  MatrixMultiplyParams
+> = {
   id: 'Math::MatrixMultiply',
   type: 'Math::MatrixMultiply',
   category: 'Math',
@@ -21,19 +25,19 @@ export const MathMatrixMatrixMultiplyNode: NodeDefinition<MatrixMultiplyInputs, 
     a: {
       type: 'Matrix',
       label: 'A',
-      required: true
+      required: true,
     },
     b: {
       type: 'Matrix',
       label: 'B',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'Matrix',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -41,12 +45,12 @@ export const MathMatrixMatrixMultiplyNode: NodeDefinition<MatrixMultiplyInputs, 
       type: 'mathMatrixMultiply',
       params: {
         a: inputs.a,
-        b: inputs.b
-      }
+        b: inputs.b,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

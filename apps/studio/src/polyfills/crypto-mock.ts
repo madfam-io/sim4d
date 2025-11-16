@@ -30,15 +30,20 @@ export function createHash(algorithm: string) {
       let hash = 0;
       for (let i = 0; i < str.length; i++) {
         const char = str.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
+        hash = (hash << 5) - hash + char;
         hash = hash & hash; // Convert to 32-bit integer
       }
 
       if (encoding === 'hex') {
         return Math.abs(hash).toString(16);
       }
-      return new Uint8Array([hash & 0xff, (hash >> 8) & 0xff, (hash >> 16) & 0xff, (hash >> 24) & 0xff]);
-    }
+      return new Uint8Array([
+        hash & 0xff,
+        (hash >> 8) & 0xff,
+        (hash >> 16) & 0xff,
+        (hash >> 24) & 0xff,
+      ]);
+    },
   };
 }
 
@@ -58,5 +63,5 @@ export default {
   randomBytes,
   createHash,
   createHmac,
-  constants
+  constants,
 };

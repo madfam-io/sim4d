@@ -14,7 +14,11 @@ interface RollupDoorOutputs {
   guides: unknown;
 }
 
-export const ArchitectureDoorsRollupDoorNode: NodeDefinition<RollupDoorInputs, RollupDoorOutputs, RollupDoorParams> = {
+export const ArchitectureDoorsRollupDoorNode: NodeDefinition<
+  RollupDoorInputs,
+  RollupDoorOutputs,
+  RollupDoorParams
+> = {
   id: 'Architecture::RollupDoor',
   category: 'Architecture',
   label: 'RollupDoor',
@@ -23,18 +27,18 @@ export const ArchitectureDoorsRollupDoorNode: NodeDefinition<RollupDoorInputs, R
     opening: {
       type: 'Wire',
       label: 'Opening',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     rollupDoor: {
       type: 'Shape',
-      label: 'Rollup Door'
+      label: 'Rollup Door',
     },
     guides: {
       type: 'Shape[]',
-      label: 'Guides'
-    }
+      label: 'Guides',
+    },
   },
   params: {
     slatHeight: {
@@ -42,15 +46,15 @@ export const ArchitectureDoorsRollupDoorNode: NodeDefinition<RollupDoorInputs, R
       label: 'Slat Height',
       default: 75,
       min: 50,
-      max: 100
+      max: 100,
     },
     openHeight: {
       type: 'number',
       label: 'Open Height',
       default: 0,
       min: 0,
-      max: 3000
-    }
+      max: 3000,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -58,13 +62,13 @@ export const ArchitectureDoorsRollupDoorNode: NodeDefinition<RollupDoorInputs, R
       params: {
         opening: inputs.opening,
         slatHeight: params.slatHeight,
-        openHeight: params.openHeight
-      }
+        openHeight: params.openHeight,
+      },
     });
-    
+
     return {
       rollupDoor: results.rollupDoor,
-      guides: results.guides
+      guides: results.guides,
     };
   },
 };

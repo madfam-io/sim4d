@@ -13,7 +13,11 @@ interface WorkCoordinateOutputs {
   coordinate: unknown;
 }
 
-export const FabricationCNCWorkCoordinateNode: NodeDefinition<WorkCoordinateInputs, WorkCoordinateOutputs, WorkCoordinateParams> = {
+export const FabricationCNCWorkCoordinateNode: NodeDefinition<
+  WorkCoordinateInputs,
+  WorkCoordinateOutputs,
+  WorkCoordinateParams
+> = {
   id: 'Fabrication::WorkCoordinate',
   category: 'Fabrication',
   label: 'WorkCoordinate',
@@ -22,27 +26,27 @@ export const FabricationCNCWorkCoordinateNode: NodeDefinition<WorkCoordinateInpu
     origin: {
       type: 'Point',
       label: 'Origin',
-      required: true
+      required: true,
     },
     orientation: {
       type: 'Transform',
       label: 'Orientation',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     coordinate: {
       type: 'Transform',
-      label: 'Coordinate'
-    }
+      label: 'Coordinate',
+    },
   },
   params: {
     wcs: {
       type: 'enum',
       label: 'Wcs',
-      default: "G54",
-      options: ["G54","G55","G56","G57","G58","G59"]
-    }
+      default: 'G54',
+      options: ['G54', 'G55', 'G56', 'G57', 'G58', 'G59'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -50,12 +54,12 @@ export const FabricationCNCWorkCoordinateNode: NodeDefinition<WorkCoordinateInpu
       params: {
         origin: inputs.origin,
         orientation: inputs.orientation,
-        wcs: params.wcs
-      }
+        wcs: params.wcs,
+      },
     });
-    
+
     return {
-      coordinate: result
+      coordinate: result,
     };
   },
 };

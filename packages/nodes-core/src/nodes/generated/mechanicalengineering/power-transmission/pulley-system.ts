@@ -18,7 +18,11 @@ interface PulleySystemOutputs {
   belt: unknown;
 }
 
-export const MechanicalEngineeringPowerTransmissionPulleySystemNode: NodeDefinition<PulleySystemInputs, PulleySystemOutputs, PulleySystemParams> = {
+export const MechanicalEngineeringPowerTransmissionPulleySystemNode: NodeDefinition<
+  PulleySystemInputs,
+  PulleySystemOutputs,
+  PulleySystemParams
+> = {
   id: 'MechanicalEngineering::PulleySystem',
   type: 'MechanicalEngineering::PulleySystem',
   category: 'MechanicalEngineering',
@@ -28,27 +32,27 @@ export const MechanicalEngineeringPowerTransmissionPulleySystemNode: NodeDefinit
     driveCenter: {
       type: 'Point',
       label: 'Drive Center',
-      required: true
+      required: true,
     },
     drivenCenter: {
       type: 'Point',
       label: 'Driven Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     system: {
       type: 'Shape',
-      label: 'System'
+      label: 'System',
     },
     pulleys: {
       type: 'Shape[]',
-      label: 'Pulleys'
+      label: 'Pulleys',
     },
     belt: {
       type: 'Shape',
-      label: 'Belt'
-    }
+      label: 'Belt',
+    },
   },
   params: {
     driveDiameter: {
@@ -56,29 +60,29 @@ export const MechanicalEngineeringPowerTransmissionPulleySystemNode: NodeDefinit
       label: 'Drive Diameter',
       default: 100,
       min: 20,
-      max: 500
+      max: 500,
     },
     drivenDiameter: {
       type: 'number',
       label: 'Driven Diameter',
       default: 200,
       min: 20,
-      max: 500
+      max: 500,
     },
     beltWidth: {
       type: 'number',
       label: 'Belt Width',
       default: 20,
       min: 5,
-      max: 100
+      max: 100,
     },
     centerDistance: {
       type: 'number',
       label: 'Center Distance',
       default: 300,
       min: 100,
-      max: 1000
-    }
+      max: 1000,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -89,14 +93,14 @@ export const MechanicalEngineeringPowerTransmissionPulleySystemNode: NodeDefinit
         driveDiameter: params.driveDiameter,
         drivenDiameter: params.drivenDiameter,
         beltWidth: params.beltWidth,
-        centerDistance: params.centerDistance
-      }
+        centerDistance: params.centerDistance,
+      },
     });
-    
+
     return {
       system: results.system,
       pulleys: results.pulleys,
-      belt: results.belt
+      belt: results.belt,
     };
   },
 };

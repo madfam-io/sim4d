@@ -12,7 +12,11 @@ interface ImportBREPOutputs {
   shape: unknown;
 }
 
-export const IOCADImportBREPNode: NodeDefinition<ImportBREPInputs, ImportBREPOutputs, ImportBREPParams> = {
+export const IOCADImportBREPNode: NodeDefinition<
+  ImportBREPInputs,
+  ImportBREPOutputs,
+  ImportBREPParams
+> = {
   id: 'IO::ImportBREP',
   type: 'IO::ImportBREP',
   category: 'IO',
@@ -22,33 +26,33 @@ export const IOCADImportBREPNode: NodeDefinition<ImportBREPInputs, ImportBREPOut
     fileData: {
       type: 'Data',
       label: 'File Data',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shape: {
       type: 'Shape',
-      label: 'Shape'
-    }
+      label: 'Shape',
+    },
   },
   params: {
     version: {
       type: 'string',
       label: 'Version',
-      default: "auto"
-    }
+      default: 'auto',
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'importBREP',
       params: {
         fileData: inputs.fileData,
-        version: params.version
-      }
+        version: params.version,
+      },
     });
-    
+
     return {
-      shape: result
+      shape: result,
     };
   },
 };

@@ -16,7 +16,11 @@ interface PLYImportOutputs {
   normals: Array<[number, number, number]>;
 }
 
-export const InteroperabilityImportPLYImportNode: NodeDefinition<PLYImportInputs, PLYImportOutputs, PLYImportParams> = {
+export const InteroperabilityImportPLYImportNode: NodeDefinition<
+  PLYImportInputs,
+  PLYImportOutputs,
+  PLYImportParams
+> = {
   id: 'Interoperability::PLYImport',
   type: 'Interoperability::PLYImport',
   category: 'Interoperability',
@@ -26,41 +30,41 @@ export const InteroperabilityImportPLYImportNode: NodeDefinition<PLYImportInputs
     filePath: {
       type: 'string',
       label: 'File Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     points: {
       type: 'Point[]',
-      label: 'Points'
+      label: 'Points',
     },
     colors: {
       type: 'number[][]',
-      label: 'Colors'
+      label: 'Colors',
     },
     normals: {
       type: 'Vector[]',
-      label: 'Normals'
-    }
+      label: 'Normals',
+    },
   },
   params: {
     loadColors: {
       type: 'boolean',
       label: 'Load Colors',
-      default: true
+      default: true,
     },
     loadNormals: {
       type: 'boolean',
       label: 'Load Normals',
-      default: true
+      default: true,
     },
     scaleFactor: {
       type: 'number',
       label: 'Scale Factor',
       default: 1,
       min: 0.001,
-      max: 1000
-    }
+      max: 1000,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -69,14 +73,14 @@ export const InteroperabilityImportPLYImportNode: NodeDefinition<PLYImportInputs
         filePath: inputs.filePath,
         loadColors: params.loadColors,
         loadNormals: params.loadNormals,
-        scaleFactor: params.scaleFactor
-      }
+        scaleFactor: params.scaleFactor,
+      },
     });
-    
+
     return {
       points: results.points,
       colors: results.colors,
-      normals: results.normals
+      normals: results.normals,
     };
   },
 };

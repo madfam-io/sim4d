@@ -25,19 +25,19 @@ export const AdvancedShellShellNode: NodeDefinition<ShellInputs, ShellOutputs, S
     solid: {
       type: 'Shape',
       label: 'Solid',
-      required: true
+      required: true,
     },
     facesToRemove: {
       type: 'Face[]',
       label: 'Faces To Remove',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shell: {
       type: 'Shape',
-      label: 'Shell'
-    }
+      label: 'Shell',
+    },
   },
   params: {
     thickness: {
@@ -45,21 +45,21 @@ export const AdvancedShellShellNode: NodeDefinition<ShellInputs, ShellOutputs, S
       label: 'Thickness',
       default: 2,
       min: 0.01,
-      max: 1000
+      max: 1000,
     },
     direction: {
       type: 'enum',
       label: 'Direction',
-      default: "inward",
-      options: ["inward","outward","both"]
+      default: 'inward',
+      options: ['inward', 'outward', 'both'],
     },
     tolerance: {
       type: 'number',
       label: 'Tolerance',
       default: 0.01,
       min: 0.0001,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -69,12 +69,12 @@ export const AdvancedShellShellNode: NodeDefinition<ShellInputs, ShellOutputs, S
         facesToRemove: inputs.facesToRemove,
         thickness: params.thickness,
         direction: params.direction,
-        tolerance: params.tolerance
-      }
+        tolerance: params.tolerance,
+      },
     });
-    
+
     return {
-      shell: result
+      shell: result,
     };
   },
 };

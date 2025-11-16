@@ -13,7 +13,11 @@ interface KnitSurfacesOutputs {
   knittedShape: unknown;
 }
 
-export const AdvancedSurfaceKnitSurfacesNode: NodeDefinition<KnitSurfacesInputs, KnitSurfacesOutputs, KnitSurfacesParams> = {
+export const AdvancedSurfaceKnitSurfacesNode: NodeDefinition<
+  KnitSurfacesInputs,
+  KnitSurfacesOutputs,
+  KnitSurfacesParams
+> = {
   id: 'Advanced::KnitSurfaces',
   category: 'Advanced',
   label: 'KnitSurfaces',
@@ -22,14 +26,14 @@ export const AdvancedSurfaceKnitSurfacesNode: NodeDefinition<KnitSurfacesInputs,
     surfaces: {
       type: 'Face[]',
       label: 'Surfaces',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     knittedShape: {
       type: 'Shape',
-      label: 'Knitted Shape'
-    }
+      label: 'Knitted Shape',
+    },
   },
   params: {
     tolerance: {
@@ -37,13 +41,13 @@ export const AdvancedSurfaceKnitSurfacesNode: NodeDefinition<KnitSurfacesInputs,
       label: 'Tolerance',
       default: 0.01,
       min: 0.0001,
-      max: 1
+      max: 1,
     },
     createSolid: {
       type: 'boolean',
       label: 'Create Solid',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -51,12 +55,12 @@ export const AdvancedSurfaceKnitSurfacesNode: NodeDefinition<KnitSurfacesInputs,
       params: {
         surfaces: inputs.surfaces,
         tolerance: params.tolerance,
-        createSolid: params.createSolid
-      }
+        createSolid: params.createSolid,
+      },
     });
-    
+
     return {
-      knittedShape: result
+      knittedShape: result,
     };
   },
 };

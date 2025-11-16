@@ -24,38 +24,38 @@ export const SheetMetalUnfoldFoldNode: NodeDefinition<FoldInputs, FoldOutputs, F
     flatPattern: {
       type: 'Shape',
       label: 'Flat Pattern',
-      required: true
+      required: true,
     },
     bendLines: {
       type: 'Edge[]',
       label: 'Bend Lines',
-      required: true
+      required: true,
     },
     bendAngles: {
       type: 'number[]',
       label: 'Bend Angles',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     foldedShape: {
       type: 'Shape',
-      label: 'Folded Shape'
-    }
+      label: 'Folded Shape',
+    },
   },
   params: {
     foldSequence: {
       type: 'string',
       label: 'Fold Sequence',
-      default: "auto"
+      default: 'auto',
     },
     partialFold: {
       type: 'number',
       label: 'Partial Fold',
       default: 1,
       min: 0,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -65,12 +65,12 @@ export const SheetMetalUnfoldFoldNode: NodeDefinition<FoldInputs, FoldOutputs, F
         bendLines: inputs.bendLines,
         bendAngles: inputs.bendAngles,
         foldSequence: params.foldSequence,
-        partialFold: params.partialFold
-      }
+        partialFold: params.partialFold,
+      },
     });
-    
+
     return {
-      foldedShape: result
+      foldedShape: result,
     };
   },
 };

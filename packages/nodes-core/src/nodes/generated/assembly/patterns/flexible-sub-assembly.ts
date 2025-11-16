@@ -13,7 +13,11 @@ interface FlexibleSubAssemblyOutputs {
   subAssembly: unknown;
 }
 
-export const AssemblyPatternsFlexibleSubAssemblyNode: NodeDefinition<FlexibleSubAssemblyInputs, FlexibleSubAssemblyOutputs, FlexibleSubAssemblyParams> = {
+export const AssemblyPatternsFlexibleSubAssemblyNode: NodeDefinition<
+  FlexibleSubAssemblyInputs,
+  FlexibleSubAssemblyOutputs,
+  FlexibleSubAssemblyParams
+> = {
   id: 'Assembly::FlexibleSubAssembly',
   type: 'Assembly::FlexibleSubAssembly',
   category: 'Assembly',
@@ -23,27 +27,27 @@ export const AssemblyPatternsFlexibleSubAssemblyNode: NodeDefinition<FlexibleSub
     components: {
       type: 'Shape[]',
       label: 'Components',
-      required: true
+      required: true,
     },
     joints: {
       type: 'Joint[]',
       label: 'Joints',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     subAssembly: {
       type: 'Assembly',
-      label: 'Sub Assembly'
-    }
+      label: 'Sub Assembly',
+    },
   },
   params: {
     flexibility: {
       type: 'enum',
       label: 'Flexibility',
-      default: "flexible",
-      options: ["rigid","flexible"]
-    }
+      default: 'flexible',
+      options: ['rigid', 'flexible'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -51,12 +55,12 @@ export const AssemblyPatternsFlexibleSubAssemblyNode: NodeDefinition<FlexibleSub
       params: {
         components: inputs.components,
         joints: inputs.joints,
-        flexibility: params.flexibility
-      }
+        flexibility: params.flexibility,
+      },
     });
-    
+
     return {
-      subAssembly: result
+      subAssembly: result,
     };
   },
 };

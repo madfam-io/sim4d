@@ -1,7 +1,20 @@
 import { create } from 'zustand';
 import { devtools, subscribeWithSelector } from 'zustand/middleware';
-import type { LayoutStore, WorkbenchLayout, PanelId, PanelConfig, LayoutPresetId, ScreenSize, PanelSize, FocusMode } from '../types/layout';
-import { LAYOUT_PRESETS, getDefaultLayoutForScreenSize, getScreenSizeFromWidth } from '../config/layout-presets';
+import type {
+  LayoutStore,
+  WorkbenchLayout,
+  PanelId,
+  PanelConfig,
+  LayoutPresetId,
+  ScreenSize,
+  PanelSize,
+  FocusMode,
+} from '../types/layout';
+import {
+  LAYOUT_PRESETS,
+  getDefaultLayoutForScreenSize,
+  getScreenSizeFromWidth,
+} from '../config/layout-presets';
 import { getSafeLayout, validateLayout } from '../utils/layout-recovery';
 
 const STORAGE_KEY = 'brepflow-layout-state';
@@ -56,7 +69,7 @@ function getInitialLayout(): WorkbenchLayout {
 
   console.log('🖥️ Layout Initialization:', {
     screenSize,
-    windowWidth: typeof window !== 'undefined' ? window.innerWidth : 'undefined'
+    windowWidth: typeof window !== 'undefined' ? window.innerWidth : 'undefined',
   });
 
   // Use the safe layout recovery function
@@ -71,7 +84,7 @@ function getInitialLayout(): WorkbenchLayout {
       metadata: {
         ...adaptedLayout.metadata,
         modified: new Date(),
-      }
+      },
     };
   }
 
@@ -137,11 +150,9 @@ export const useLayoutStore = create<LayoutStore>()(
       togglePanelVisibility: (panelId: PanelId) => {
         set((state) => {
           const panel = state.currentLayout.panels[panelId];
-          const updatedLayout = createUpdatedLayout(
-            state.currentLayout,
-            panelId,
-            { visible: !panel.visible }
-          );
+          const updatedLayout = createUpdatedLayout(state.currentLayout, panelId, {
+            visible: !panel.visible,
+          });
           saveLayoutToStorage(updatedLayout);
           return { currentLayout: updatedLayout };
         });
@@ -235,7 +246,7 @@ export const useLayoutStore = create<LayoutStore>()(
 
       deletePreset: (layoutId: string) => {
         set((state) => {
-          const updatedLayouts = state.savedLayouts.filter(layout => layout.id !== layoutId);
+          const updatedLayouts = state.savedLayouts.filter((layout) => layout.id !== layoutId);
           saveLayoutsToStorage(updatedLayouts);
           return { savedLayouts: updatedLayouts };
         });
@@ -258,7 +269,7 @@ export const useLayoutStore = create<LayoutStore>()(
 
           // Get appropriate layout for new screen size
           const currentPresetId = Object.keys(LAYOUT_PRESETS).find(
-            key => LAYOUT_PRESETS[key]?.name === state.currentLayout.name
+            (key) => LAYOUT_PRESETS[key]?.name === state.currentLayout.name
           );
 
           let newLayout = state.currentLayout;

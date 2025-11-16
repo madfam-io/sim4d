@@ -17,7 +17,11 @@ interface FlangeBearingOutputs {
   holes: unknown;
 }
 
-export const MechanicalEngineeringBearingsFlangeBearingNode: NodeDefinition<FlangeBearingInputs, FlangeBearingOutputs, FlangeBearingParams> = {
+export const MechanicalEngineeringBearingsFlangeBearingNode: NodeDefinition<
+  FlangeBearingInputs,
+  FlangeBearingOutputs,
+  FlangeBearingParams
+> = {
   id: 'MechanicalEngineering::FlangeBearing',
   type: 'MechanicalEngineering::FlangeBearing',
   category: 'MechanicalEngineering',
@@ -27,22 +31,22 @@ export const MechanicalEngineeringBearingsFlangeBearingNode: NodeDefinition<Flan
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     bearing: {
       type: 'Shape',
-      label: 'Bearing'
+      label: 'Bearing',
     },
     flange: {
       type: 'Face',
-      label: 'Flange'
+      label: 'Flange',
     },
     holes: {
       type: 'Wire[]',
-      label: 'Holes'
-    }
+      label: 'Holes',
+    },
   },
   params: {
     boreDiameter: {
@@ -50,29 +54,29 @@ export const MechanicalEngineeringBearingsFlangeBearingNode: NodeDefinition<Flan
       label: 'Bore Diameter',
       default: 12,
       min: 5,
-      max: 80
+      max: 80,
     },
     flangeDiameter: {
       type: 'number',
       label: 'Flange Diameter',
       default: 40,
       min: 20,
-      max: 150
+      max: 150,
     },
     thickness: {
       type: 'number',
       label: 'Thickness',
       default: 8,
       min: 3,
-      max: 30
+      max: 30,
     },
     mountingHoles: {
       type: 'number',
       label: 'Mounting Holes',
       default: 4,
       min: 3,
-      max: 8
-    }
+      max: 8,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -82,14 +86,14 @@ export const MechanicalEngineeringBearingsFlangeBearingNode: NodeDefinition<Flan
         boreDiameter: params.boreDiameter,
         flangeDiameter: params.flangeDiameter,
         thickness: params.thickness,
-        mountingHoles: params.mountingHoles
-      }
+        mountingHoles: params.mountingHoles,
+      },
     });
-    
+
     return {
       bearing: results.bearing,
       flange: results.flange,
-      holes: results.holes
+      holes: results.holes,
     };
   },
 };

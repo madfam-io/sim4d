@@ -7,6 +7,7 @@ A comprehensive design for transforming BrepFlow Studio into a mobile-friendly, 
 ## Design Principles
 
 ### Core Principles
+
 1. **Progressive Enhancement**: Desktop-first with graceful mobile adaptation
 2. **Touch-First Interactions**: All controls optimized for finger input (44px min target)
 3. **Context-Aware UI**: Show/hide elements based on viewport and device capabilities
@@ -16,16 +17,23 @@ A comprehensive design for transforming BrepFlow Studio into a mobile-friendly, 
 ## Responsive Layout Architecture
 
 ### Breakpoint System
+
 ```scss
 // Breakpoint definitions
 $breakpoints: (
-  'mobile-s': 320px,   // Small phones
-  'mobile-m': 375px,   // Standard phones
-  'mobile-l': 425px,   // Large phones
-  'tablet': 768px,     // Tablets portrait
-  'laptop': 1024px,    // Tablets landscape / small laptops
-  'desktop': 1440px,   // Standard desktop
-  'desktop-l': 1920px  // Large desktop
+  'mobile-s': 320px,
+  // Small phones
+  'mobile-m': 375px,
+  // Standard phones
+  'mobile-l': 425px,
+  // Large phones
+  'tablet': 768px,
+  // Tablets portrait
+  'laptop': 1024px,
+  // Tablets landscape / small laptops
+  'desktop': 1440px,
+  // Standard desktop
+  'desktop-l': 1920px, // Large desktop
 );
 
 // Usage via mixins
@@ -39,15 +47,16 @@ $breakpoints: (
 ### Adaptive Layout Modes
 
 #### Mobile Layout (< 768px)
+
 ```typescript
 interface MobileLayout {
   mode: 'mobile';
   panels: {
     primary: 'fullscreen'; // Active panel takes full screen
-    nodeEditor: 'sheet';   // Bottom sheet or full screen
-    viewport: 'embedded';  // Inline with reduced controls
-    inspector: 'modal';    // Opens as modal overlay
-    palette: 'drawer';     // Side drawer navigation
+    nodeEditor: 'sheet'; // Bottom sheet or full screen
+    viewport: 'embedded'; // Inline with reduced controls
+    inspector: 'modal'; // Opens as modal overlay
+    palette: 'drawer'; // Side drawer navigation
   };
   navigation: 'tab-bar' | 'hamburger';
   orientation: 'portrait' | 'landscape';
@@ -55,6 +64,7 @@ interface MobileLayout {
 ```
 
 #### Tablet Layout (768px - 1024px)
+
 ```typescript
 interface TabletLayout {
   mode: 'tablet';
@@ -70,6 +80,7 @@ interface TabletLayout {
 ```
 
 #### Desktop Layout (> 1024px)
+
 ```typescript
 interface DesktopLayout {
   mode: 'desktop';
@@ -157,9 +168,9 @@ interface MobileNodePalette {
   presentation: 'bottom-sheet';
 
   states: {
-    collapsed: { height: '80px', showSearch: true };
-    halfOpen: { height: '50vh', showCategories: true };
-    fullOpen: { height: '90vh', showAll: true };
+    collapsed: { height: '80px'; showSearch: true };
+    halfOpen: { height: '50vh'; showCategories: true };
+    fullOpen: { height: '90vh'; showAll: true };
   };
 
   interaction: {
@@ -212,23 +223,24 @@ interface MobileInspector {
 ## Touch Gesture System
 
 ### Gesture Library
+
 ```typescript
 interface GestureSystem {
   // Basic gestures
   basic: {
-    tap: { fingers: 1, taps: 1 };
-    doubleTap: { fingers: 1, taps: 2 };
-    longPress: { fingers: 1, duration: 500 };
-    swipe: { fingers: 1, velocity: 0.5 };
+    tap: { fingers: 1; taps: 1 };
+    doubleTap: { fingers: 1; taps: 2 };
+    longPress: { fingers: 1; duration: 500 };
+    swipe: { fingers: 1; velocity: 0.5 };
   };
 
   // Multi-touch gestures
   multiTouch: {
-    pinch: { fingers: 2, type: 'scale' };
-    rotate: { fingers: 2, type: 'rotation' };
-    pan: { fingers: 2, type: 'translation' };
-    threeFinger: { fingers: 3, action: 'undo' };
-    fourFinger: { fingers: 4, action: 'switch-app' };
+    pinch: { fingers: 2; type: 'scale' };
+    rotate: { fingers: 2; type: 'rotation' };
+    pan: { fingers: 2; type: 'translation' };
+    threeFinger: { fingers: 3; action: 'undo' };
+    fourFinger: { fingers: 4; action: 'switch-app' };
   };
 
   // Edge gestures
@@ -252,15 +264,16 @@ interface GestureSystem {
 ## Mobile Navigation Patterns
 
 ### Tab Bar Navigation (Mobile)
+
 ```typescript
 interface MobileTabBar {
   position: 'bottom';
   items: [
-    { icon: 'nodes', label: 'Graph', panel: 'nodeEditor' },
-    { icon: 'cube', label: '3D', panel: 'viewport' },
-    { icon: 'palette', label: 'Nodes', panel: 'palette' },
-    { icon: 'settings', label: 'Props', panel: 'inspector' },
-    { icon: 'more', label: 'More', panel: 'menu' }
+    { icon: 'nodes'; label: 'Graph'; panel: 'nodeEditor' },
+    { icon: 'cube'; label: '3D'; panel: 'viewport' },
+    { icon: 'palette'; label: 'Nodes'; panel: 'palette' },
+    { icon: 'settings'; label: 'Props'; panel: 'inspector' },
+    { icon: 'more'; label: 'More'; panel: 'menu' },
   ];
 
   behavior: {
@@ -273,19 +286,20 @@ interface MobileTabBar {
 ```
 
 ### Floating Action Button (FAB)
+
 ```typescript
 interface MobileFAB {
   primary: {
     icon: 'add';
     position: 'bottom-right';
-    offset: { x: 16, y: 80 }; // Above tab bar
+    offset: { x: 16; y: 80 }; // Above tab bar
   };
 
   expandedActions: [
-    { icon: 'node', label: 'Add Node' },
-    { icon: 'connect', label: 'Connect' },
-    { icon: 'group', label: 'Group' },
-    { icon: 'save', label: 'Save' }
+    { icon: 'node'; label: 'Add Node' },
+    { icon: 'connect'; label: 'Connect' },
+    { icon: 'group'; label: 'Group' },
+    { icon: 'save'; label: 'Save' },
   ];
 
   behavior: {
@@ -299,6 +313,7 @@ interface MobileFAB {
 ## Performance Optimization
 
 ### Mobile Performance Strategy
+
 ```typescript
 interface MobilePerformance {
   // Viewport optimization
@@ -339,30 +354,35 @@ interface MobilePerformance {
 ## Implementation Roadmap
 
 ### Phase 1: Foundation (Week 1-2)
+
 - [ ] Implement responsive breakpoint system
 - [ ] Create mobile detection utilities
 - [ ] Setup gesture recognition library
 - [ ] Build responsive layout manager
 
 ### Phase 2: Core Components (Week 3-4)
+
 - [ ] Mobile node editor with touch controls
 - [ ] Responsive viewport with gesture navigation
 - [ ] Bottom sheet node palette
 - [ ] Mobile-optimized inspector
 
 ### Phase 3: Navigation (Week 5)
+
 - [ ] Tab bar navigation system
 - [ ] FAB implementation
 - [ ] Gesture-based navigation
 - [ ] Context menus and tooltips
 
 ### Phase 4: Optimization (Week 6)
+
 - [ ] Performance profiling and optimization
 - [ ] Memory usage optimization
 - [ ] Network request optimization
 - [ ] PWA configuration
 
 ### Phase 5: Polish (Week 7)
+
 - [ ] Haptic feedback integration
 - [ ] Animation and transitions
 - [ ] Accessibility improvements
@@ -371,6 +391,7 @@ interface MobilePerformance {
 ## Technical Implementation
 
 ### CSS Architecture
+
 ```scss
 // Mobile-first approach with progressive enhancement
 .studio-container {
@@ -404,6 +425,7 @@ interface MobilePerformance {
 ```
 
 ### React Component Structure
+
 ```typescript
 // Responsive component example
 const ResponsiveLayout: React.FC = () => {
@@ -437,6 +459,7 @@ const useBreakpoint = () => {
 ```
 
 ### PWA Configuration
+
 ```json
 {
   "name": "BrepFlow Studio",
@@ -459,6 +482,7 @@ const useBreakpoint = () => {
 ## Testing Strategy
 
 ### Device Testing Matrix
+
 - **Phones**: iPhone 12+, Samsung Galaxy S21+, Pixel 5+
 - **Tablets**: iPad Pro, iPad Air, Samsung Tab S7
 - **Browsers**: Safari iOS, Chrome Android, Firefox Mobile
@@ -466,6 +490,7 @@ const useBreakpoint = () => {
 - **Network**: 3G, 4G, 5G, WiFi
 
 ### Performance Targets
+
 - **First Contentful Paint**: < 1.5s on 4G
 - **Time to Interactive**: < 3s on 4G
 - **Lighthouse Score**: > 90 for mobile
@@ -474,6 +499,7 @@ const useBreakpoint = () => {
 ## Accessibility Considerations
 
 ### Mobile Accessibility
+
 - **Touch targets**: Minimum 44x44px
 - **Text size**: Minimum 16px, scalable to 200%
 - **Color contrast**: WCAG AA compliance

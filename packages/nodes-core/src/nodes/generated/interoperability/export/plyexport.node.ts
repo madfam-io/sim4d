@@ -18,7 +18,11 @@ interface PLYExportOutputs {
   pointCount: unknown;
 }
 
-export const InteroperabilityExportPLYExportNode: NodeDefinition<PLYExportInputs, PLYExportOutputs, PLYExportParams> = {
+export const InteroperabilityExportPLYExportNode: NodeDefinition<
+  PLYExportInputs,
+  PLYExportOutputs,
+  PLYExportParams
+> = {
   id: 'Interoperability::PLYExport',
   category: 'Interoperability',
   label: 'PLYExport',
@@ -27,51 +31,51 @@ export const InteroperabilityExportPLYExportNode: NodeDefinition<PLYExportInputs
     points: {
       type: 'Point[]',
       label: 'Points',
-      required: true
+      required: true,
     },
     filePath: {
       type: 'string',
       label: 'File Path',
-      required: true
+      required: true,
     },
     colors: {
       type: 'number[][]',
       label: 'Colors',
-      optional: true
+      optional: true,
     },
     normals: {
       type: 'Vector[]',
       label: 'Normals',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     success: {
       type: 'boolean',
-      label: 'Success'
+      label: 'Success',
     },
     pointCount: {
       type: 'number',
-      label: 'Point Count'
-    }
+      label: 'Point Count',
+    },
   },
   params: {
     format: {
       type: 'enum',
       label: 'Format',
-      default: "binary",
-      options: ["ascii","binary"]
+      default: 'binary',
+      options: ['ascii', 'binary'],
     },
     includeColors: {
       type: 'boolean',
       label: 'Include Colors',
-      default: false
+      default: false,
     },
     includeNormals: {
       type: 'boolean',
       label: 'Include Normals',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -83,13 +87,13 @@ export const InteroperabilityExportPLYExportNode: NodeDefinition<PLYExportInputs
         normals: inputs.normals,
         format: params.format,
         includeColors: params.includeColors,
-        includeNormals: params.includeNormals
-      }
+        includeNormals: params.includeNormals,
+      },
     });
-    
+
     return {
       success: results.success,
-      pointCount: results.pointCount
+      pointCount: results.pointCount,
     };
   },
 };

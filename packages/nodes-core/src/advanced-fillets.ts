@@ -16,31 +16,31 @@ export const VariableFilletNode: NodeDefinition<
   category: 'Features',
   inputs: {
     shape: { type: 'Shape', description: 'Shape to fillet' },
-    edges: { type: 'Shape[]', description: 'Edges to fillet (optional, all if not specified)' }
+    edges: { type: 'Shape[]', description: 'Edges to fillet (optional, all if not specified)' },
   },
   outputs: {
-    shape: { type: 'Shape', description: 'Filleted shape' }
+    shape: { type: 'Shape', description: 'Filleted shape' },
   },
   params: {
     startRadius: { type: 'number', default: 5, min: 0, description: 'Start radius' },
     endRadius: { type: 'number', default: 10, min: 0, description: 'End radius' },
-    transition: { 
-      type: 'select', 
-      default: 'linear', 
+    transition: {
+      type: 'select',
+      default: 'linear',
       options: ['linear', 'smooth'],
-      description: 'Radius transition type' 
-    }
+      description: 'Radius transition type',
+    },
   },
   async evaluate(ctx, inputs, params) {
     const result = await ctx.worker.invoke('VARIABLE_FILLET', {
       shapeId: inputs.shape.id,
-      edgeIds: inputs.edges?.map(e => e.id),
+      edgeIds: inputs.edges?.map((e) => e.id),
       startRadius: params.startRadius,
       endRadius: params.endRadius,
-      transition: params.transition
+      transition: params.transition,
     });
     return { shape: result };
-  }
+  },
 };
 
 /**
@@ -59,19 +59,19 @@ export const FaceBlendNode: NodeDefinition<
   inputs: {
     shape: { type: 'Shape', description: 'Base shape' },
     face1: { type: 'Shape', description: 'First face' },
-    face2: { type: 'Shape', description: 'Second face' }
+    face2: { type: 'Shape', description: 'Second face' },
   },
   outputs: {
-    shape: { type: 'Shape', description: 'Blended shape' }
+    shape: { type: 'Shape', description: 'Blended shape' },
   },
   params: {
     radius: { type: 'number', default: 10, min: 0, description: 'Blend radius' },
-    continuity: { 
-      type: 'select', 
-      default: 'G1', 
+    continuity: {
+      type: 'select',
+      default: 'G1',
       options: ['G0', 'G1', 'G2'],
-      description: 'Continuity level (G0=position, G1=tangent, G2=curvature)' 
-    }
+      description: 'Continuity level (G0=position, G1=tangent, G2=curvature)',
+    },
   },
   async evaluate(ctx, inputs, params) {
     const result = await ctx.worker.invoke('FACE_BLEND', {
@@ -79,10 +79,10 @@ export const FaceBlendNode: NodeDefinition<
       face1Id: inputs.face1.id,
       face2Id: inputs.face2.id,
       radius: params.radius,
-      continuity: params.continuity
+      continuity: params.continuity,
     });
     return { shape: result };
-  }
+  },
 };
 
 /**
@@ -102,10 +102,10 @@ export const FullRoundFilletNode: NodeDefinition<
     shape: { type: 'Shape', description: 'Base shape' },
     sideFace1: { type: 'Shape', description: 'First side face' },
     centerFace: { type: 'Shape', description: 'Face to be replaced' },
-    sideFace2: { type: 'Shape', description: 'Second side face' }
+    sideFace2: { type: 'Shape', description: 'Second side face' },
   },
   outputs: {
-    shape: { type: 'Shape', description: 'Filleted shape' }
+    shape: { type: 'Shape', description: 'Filleted shape' },
   },
   params: {},
   async evaluate(ctx, inputs) {
@@ -113,10 +113,10 @@ export const FullRoundFilletNode: NodeDefinition<
       shapeId: inputs.shape.id,
       sideFace1Id: inputs.sideFace1.id,
       centerFaceId: inputs.centerFace.id,
-      sideFace2Id: inputs.sideFace2.id
+      sideFace2Id: inputs.sideFace2.id,
     });
     return { shape: result };
-  }
+  },
 };
 
 /**
@@ -134,26 +134,26 @@ export const SetbackFilletNode: NodeDefinition<
   category: 'Features',
   inputs: {
     shape: { type: 'Shape', description: 'Shape to fillet' },
-    edges: { type: 'Shape[]', description: 'Edges to fillet' }
+    edges: { type: 'Shape[]', description: 'Edges to fillet' },
   },
   outputs: {
-    shape: { type: 'Shape', description: 'Filleted shape' }
+    shape: { type: 'Shape', description: 'Filleted shape' },
   },
   params: {
     radius: { type: 'number', default: 10, min: 0, description: 'Fillet radius' },
     setback1: { type: 'number', default: 5, min: 0, description: 'First vertex setback' },
-    setback2: { type: 'number', default: 5, min: 0, description: 'Second vertex setback' }
+    setback2: { type: 'number', default: 5, min: 0, description: 'Second vertex setback' },
   },
   async evaluate(ctx, inputs, params) {
     const result = await ctx.worker.invoke('SETBACK_FILLET', {
       shapeId: inputs.shape.id,
-      edgeIds: inputs.edges.map(e => e.id),
+      edgeIds: inputs.edges.map((e) => e.id),
       radius: params.radius,
       setback1: params.setback1,
-      setback2: params.setback2
+      setback2: params.setback2,
     });
     return { shape: result };
-  }
+  },
 };
 
 export const MultiEdgeFillet = {
@@ -161,27 +161,27 @@ export const MultiEdgeFillet = {
   category: 'Features',
   description: 'Apply fillets to multiple edges with different radii',
   icon: 'Features::Fillet',
-  
+
   inputs: {
-    shape: { 
+    shape: {
       type: 'Shape' as SocketType,
       label: 'Shape',
-      required: true
+      required: true,
     },
-    edges: { 
+    edges: {
       type: 'Shape' as SocketType,
       label: 'Edges',
-      multiple: true
-    }
+      multiple: true,
+    },
   },
-  
+
   outputs: {
-    shape: { 
+    shape: {
       type: 'Shape' as SocketType,
-      label: 'Filleted Shape'
-    }
+      label: 'Filleted Shape',
+    },
   },
-  
+
   params: {
     radii: NumberParam({ default: 2.0, min: 0.01, label: 'Radii' }),
     useVariableRadius: BoolParam({ default: false, label: 'Variable Radius' }),
@@ -191,22 +191,22 @@ export const MultiEdgeFillet = {
       options: [
         { value: 'manual', label: 'Manual Selection' },
         { value: 'byAngle', label: 'By Angle' },
-        { value: 'byLength', label: 'By Length' }
+        { value: 'byLength', label: 'By Length' },
       ],
-      label: 'Edge Selection'
-    }
+      label: 'Edge Selection',
+    },
   },
-  
+
   evaluate: async (ctx, inputs, params) => {
     const result = await ctx.geom.invoke('MULTI_EDGE_FILLET', {
       shape: inputs.shape,
       edges: inputs.edges,
       radii: params.radii,
       useVariableRadius: params.useVariableRadius,
-      edgeSelection: params.edgeSelection
+      edgeSelection: params.edgeSelection,
     });
     return { shape: result };
-  }
+  },
 };
 
 export const ChamferEdges = {
@@ -214,35 +214,35 @@ export const ChamferEdges = {
   category: 'Features',
   description: 'Apply chamfers to edges',
   icon: 'Features::Chamfer',
-  
+
   inputs: {
-    shape: { 
+    shape: {
       type: 'Shape' as SocketType,
-      label: 'Shape'
+      label: 'Shape',
     },
-    edges: { 
+    edges: {
       type: 'Shape' as SocketType,
       label: 'Edges',
-      multiple: true
+      multiple: true,
     },
-    distance1: { 
+    distance1: {
       type: 'Number' as SocketType,
-      label: 'Distance 1'
+      label: 'Distance 1',
     },
-    distance2: { 
+    distance2: {
       type: 'Number' as SocketType,
       label: 'Distance 2',
-      optional: true
-    }
+      optional: true,
+    },
   },
-  
+
   outputs: {
-    shape: { 
+    shape: {
       type: 'Shape' as SocketType,
-      label: 'Chamfered Shape'
-    }
+      label: 'Chamfered Shape',
+    },
   },
-  
+
   params: {
     symmetric: BoolParam({ default: true, label: 'Symmetric' }),
     edgeSelection: {
@@ -250,12 +250,12 @@ export const ChamferEdges = {
       default: 'manual',
       options: [
         { value: 'manual', label: 'Manual' },
-        { value: 'all', label: 'All Edges' }
+        { value: 'all', label: 'All Edges' },
       ],
-      label: 'Edge Selection'
-    }
+      label: 'Edge Selection',
+    },
   },
-  
+
   evaluate: async (ctx, inputs, params) => {
     const result = await ctx.geom.invoke('CHAMFER_EDGES', {
       shape: inputs.shape,
@@ -263,10 +263,10 @@ export const ChamferEdges = {
       distance1: inputs.distance1,
       distance2: inputs.distance2 || inputs.distance1,
       symmetric: params.symmetric,
-      edgeSelection: params.edgeSelection
+      edgeSelection: params.edgeSelection,
     });
     return { shape: result };
-  }
+  },
 };
 
 export const BlendCorners = {
@@ -274,57 +274,57 @@ export const BlendCorners = {
   category: 'Features',
   description: 'Blend corners with smooth transitions',
   icon: 'Features::Fillet',
-  
+
   inputs: {
-    shape: { 
+    shape: {
       type: 'Shape' as SocketType,
-      label: 'Shape'
+      label: 'Shape',
     },
-    vertices: { 
+    vertices: {
       type: 'Shape' as SocketType,
       label: 'Vertices',
-      multiple: true
+      multiple: true,
     },
-    radius: { 
+    radius: {
       type: 'Number' as SocketType,
-      label: 'Blend Radius'
+      label: 'Blend Radius',
     },
-    continuity: { 
+    continuity: {
       type: 'Number' as SocketType,
       label: 'Continuity',
-      optional: true
-    }
+      optional: true,
+    },
   },
-  
+
   outputs: {
-    shape: { 
+    shape: {
       type: 'Shape' as SocketType,
-      label: 'Blended Shape'
-    }
+      label: 'Blended Shape',
+    },
   },
-  
+
   params: {
     blendType: {
       type: 'enum' as const,
       default: 'spherical',
       options: [
         { value: 'spherical', label: 'Spherical' },
-        { value: 'continuous', label: 'Continuous' }
+        { value: 'continuous', label: 'Continuous' },
       ],
-      label: 'Blend Type'
-    }
+      label: 'Blend Type',
+    },
   },
-  
+
   evaluate: async (ctx, inputs, params) => {
     const result = await ctx.geom.invoke('BLEND_CORNERS', {
       shape: inputs.shape,
       vertices: inputs.vertices,
       radius: inputs.radius,
       continuity: inputs.continuity || 1,
-      blendType: params.blendType
+      blendType: params.blendType,
     });
     return { shape: result };
-  }
+  },
 };
 
 export const VariableRadiusFillet = {
@@ -332,40 +332,40 @@ export const VariableRadiusFillet = {
   category: 'Features',
   description: 'Apply fillets with varying radius along edges',
   icon: 'Features::Fillet',
-  
+
   inputs: {
-    shape: { 
+    shape: {
       type: 'Shape' as SocketType,
-      label: 'Shape'
+      label: 'Shape',
     },
-    edges: { 
+    edges: {
       type: 'Shape' as SocketType,
       label: 'Edges',
-      multiple: true
-    }
+      multiple: true,
+    },
   },
-  
+
   outputs: {
-    shape: { 
+    shape: {
       type: 'Shape' as SocketType,
-      label: 'Filleted Shape'
-    }
+      label: 'Filleted Shape',
+    },
   },
-  
+
   params: {
     startRadius: NumberParam({ default: 2.0, min: 0.01, label: 'Start Radius' }),
     endRadius: NumberParam({ default: 5.0, min: 0.01, label: 'End Radius' }),
-    interpolation: StringParam({ default: 'linear', label: 'Interpolation' })
+    interpolation: StringParam({ default: 'linear', label: 'Interpolation' }),
   },
-  
+
   evaluate: async (ctx, inputs, params) => {
     const result = await ctx.geom.invoke('VARIABLE_RADIUS_FILLET', {
       shape: inputs.shape,
       edges: inputs.edges,
       startRadius: params.startRadius,
       endRadius: params.endRadius,
-      interpolation: params.interpolation
+      interpolation: params.interpolation,
     });
     return { shape: result };
-  }
+  },
 };

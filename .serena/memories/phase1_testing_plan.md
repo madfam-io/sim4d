@@ -1,6 +1,7 @@
 # Phase 1 CSRF Testing Plan
 
 ## Test Coverage Areas
+
 1. CSRF token generation and validation
 2. WebSocket authentication with CSRF tokens
 3. Token caching and refresh logic
@@ -9,6 +10,7 @@
 6. Integration with collaboration features
 
 ## Test Status
+
 - Manual testing checklist: pending
 - Integration tests: pending
 - Security validation: pending

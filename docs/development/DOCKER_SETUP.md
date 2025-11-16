@@ -20,20 +20,24 @@ Complete Docker-based local development environment for BrepFlow with all servic
 The Docker setup includes:
 
 ### Application Services
+
 - **studio** - React CAD application (port 5173)
 - **marketing** - Marketing website (port 3000)
 - **collaboration** - WebSocket server (port 8080)
 
 ### Infrastructure Services
+
 - **redis** - Session storage and pub/sub (port 6379)
 - **postgres** - Collaboration persistence (port 5432)
 
 ## Services
 
 ### Studio (Port 5173)
+
 Main React application with node editor and 3D viewport.
 
 **Environment Variables:**
+
 - `NODE_ENV=development`
 - `VITE_API_BASE_URL=http://localhost:3001`
 - `VITE_COLLAB_WS_URL=ws://localhost:8080`
@@ -41,45 +45,56 @@ Main React application with node editor and 3D viewport.
 - `REQUIRE_REAL_OCCT=true`
 
 **Volume Mounts:**
+
 - Hot reload enabled for `apps/studio` and `packages`
 - node_modules excluded for performance
 
 ### Marketing (Port 3000)
+
 Landing page and marketing site.
 
 **Volume Mounts:**
+
 - Hot reload enabled for `apps/marketing`
 
 ### Collaboration (Port 8080)
+
 WebSocket server for real-time multi-user editing.
 
 **Environment Variables:**
+
 - `COLLAB_PORT=8080`
 - `HEARTBEAT_INTERVAL=30000`
 - `LOCK_TIMEOUT=60000`
 
 **Features:**
+
 - Real-time cursor tracking
 - Node locking for exclusive editing
 - Operational transform for conflict resolution
 - Session persistence via PostgreSQL
 
 ### Redis (Port 6379)
+
 Session storage and pub/sub for collaboration features.
 
 **Data Persistence:**
+
 - Volume: `redis_data`
 - AOF (Append-Only File) enabled
 
 ### PostgreSQL (Port 5432)
+
 Database for collaboration sessions and operation history.
 
 **Credentials:**
+
 - Database: `brepflow`
 - User: `brepflow`
 - Password: `brepflow_dev_password`
 
 **Schema:**
+
 - `collaboration_sessions` - Active sessions
 - `session_users` - User participation
 - `graph_operations` - Operational transform history
@@ -88,6 +103,7 @@ Database for collaboration sessions and operation history.
 ## Commands
 
 ### Start Services
+
 ```bash
 # All services
 ./scripts/docker-dev.sh up
@@ -98,6 +114,7 @@ Database for collaboration sessions and operation history.
 ```
 
 ### Stop Services
+
 ```bash
 # All services
 ./scripts/docker-dev.sh down
@@ -107,6 +124,7 @@ Database for collaboration sessions and operation history.
 ```
 
 ### View Logs
+
 ```bash
 # All services
 ./scripts/docker-dev.sh logs
@@ -117,6 +135,7 @@ Database for collaboration sessions and operation history.
 ```
 
 ### Restart Services
+
 ```bash
 # All services
 ./scripts/docker-dev.sh restart
@@ -126,6 +145,7 @@ Database for collaboration sessions and operation history.
 ```
 
 ### Build Images
+
 ```bash
 # Build all images
 ./scripts/docker-dev.sh build
@@ -135,12 +155,14 @@ Database for collaboration sessions and operation history.
 ```
 
 ### Run Tests
+
 ```bash
 # Run tests in Docker
 ./scripts/docker-dev.sh test
 ```
 
 ### Shell Access
+
 ```bash
 # Open shell in studio container
 ./scripts/docker-dev.sh shell studio
@@ -152,6 +174,7 @@ Database for collaboration sessions and operation history.
 ## Development Workflow
 
 ### 1. Initial Setup
+
 ```bash
 # Start all services
 ./scripts/docker-dev.sh up
@@ -161,11 +184,13 @@ Database for collaboration sessions and operation history.
 ```
 
 ### 2. Development
+
 - Studio: http://localhost:5173
 - Marketing: http://localhost:3000
 - Changes auto-reload via volume mounts
 
 ### 3. Debugging
+
 ```bash
 # View real-time logs
 ./scripts/docker-dev.sh logs studio
@@ -178,6 +203,7 @@ Database for collaboration sessions and operation history.
 ```
 
 ### 4. Testing
+
 ```bash
 # Run unit tests
 ./scripts/docker-dev.sh test
@@ -189,6 +215,7 @@ pnpm run test:e2e
 ## Network
 
 All services are connected via the `brepflow` bridge network:
+
 - Services can communicate using service names
 - Studio → `http://collaboration:8080`
 - Collaboration → `redis:6379`, `postgres:5432`
@@ -196,10 +223,12 @@ All services are connected via the `brepflow` bridge network:
 ## Volumes
 
 ### Persistent Data
+
 - `redis_data` - Redis AOF persistence
 - `postgres_data` - PostgreSQL database files
 
 ### Development Mounts
+
 - Source code mounted with hot reload
 - `node_modules` excluded for performance
 - Build outputs regenerated in container
@@ -207,6 +236,7 @@ All services are connected via the `brepflow` bridge network:
 ## Troubleshooting
 
 ### Services Won't Start
+
 ```bash
 # Check Docker is running
 docker info
@@ -220,11 +250,14 @@ docker info
 ```
 
 ### Port Conflicts
+
 If ports are already in use:
+
 1. Stop conflicting services
 2. Or modify ports in `docker-compose.yml`
 
 ### Database Connection Issues
+
 ```bash
 # Check PostgreSQL health
 docker-compose exec postgres pg_isready -U brepflow
@@ -234,6 +267,7 @@ docker-compose exec redis redis-cli ping
 ```
 
 ### Hot Reload Not Working
+
 ```bash
 # Restart the specific service
 ./scripts/docker-dev.sh restart studio
@@ -244,6 +278,7 @@ docker-compose exec redis redis-cli ping
 ```
 
 ### Clean Slate
+
 ```bash
 # Remove everything and start fresh
 ./scripts/docker-dev.sh clean
@@ -254,17 +289,21 @@ docker-compose exec redis redis-cli ping
 ## Performance
 
 ### Build Performance
+
 - Multi-stage builds minimize image size
 - Workspace dependencies cached in layers
 - pnpm with frozen lockfile for speed
 
 ### Runtime Performance
+
 - Volume mounts for hot reload
 - node_modules excluded from mounts
 - Build outputs generated in container
 
 ### Memory Usage
+
 Approximate memory requirements:
+
 - Studio: 512MB-1GB
 - Marketing: 256MB-512MB
 - Collaboration: 128MB-256MB
@@ -276,6 +315,7 @@ Approximate memory requirements:
 ## Production Build
 
 For production builds:
+
 ```bash
 # Use Dockerfile.ci for complete build
 docker build -f Dockerfile.ci -t brepflow:latest .
@@ -287,6 +327,7 @@ docker-compose -f docker-compose.prod.yml build
 ## Environment Variables
 
 Create `.env.docker` for custom configuration:
+
 ```env
 # Studio
 VITE_API_BASE_URL=http://localhost:3001
@@ -301,6 +342,7 @@ POSTGRES_PASSWORD=your_secure_password
 ```
 
 Then load with:
+
 ```bash
 docker-compose --env-file .env.docker up
 ```

@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -23,38 +22,35 @@ export const SVGExportNode: NodeDefinition<SVGExportInputs, SVGExportOutputs, SV
   metadata: {
     label: 'SVGExport',
     description: 'Export 2D curves to SVG format',
-    
-    
   },
 
   params: {
-        scale: {
-      "default": 1,
-      "min": 0.001,
-      "max": 1000
+    scale: {
+      default: 1,
+      min: 0.001,
+      max: 1000,
     },
     strokeWidth: {
-      "default": 1,
-      "min": 0.1,
-      "max": 10
+      default: 1,
+      min: 0.1,
+      max: 10,
     },
     viewBox: {
-      "default": true
-    }
+      default: true,
+    },
   },
 
   inputs: {
-        curves: 'Wire[]',
-    filePath: 'string'
+    curves: 'Wire[]',
+    filePath: 'string',
   },
 
   outputs: {
-        success: 'boolean',
-    dimensions: 'Vector'
+    success: 'boolean',
+    dimensions: 'Vector',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'svgExport',
       params: {
@@ -62,13 +58,13 @@ export const SVGExportNode: NodeDefinition<SVGExportInputs, SVGExportOutputs, SV
         filePath: inputs.filePath,
         scale: params.scale,
         strokeWidth: params.strokeWidth,
-        viewBox: params.viewBox
-      }
+        viewBox: params.viewBox,
+      },
     });
 
     return {
       success: result,
-      dimensions: result
+      dimensions: result,
     };
-  }
+  },
 };

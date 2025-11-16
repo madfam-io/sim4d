@@ -17,9 +17,12 @@ async function globalSetup(config: FullConfig) {
     await page.goto('http://localhost:5173');
 
     // Wait for the app to be ready - use actual BrepFlow Studio selectors
-    await page.waitForSelector('h1:has-text("Welcome to BrepFlow Studio!"), h2:has-text("What\'s your experience"), #root:not(:empty)', {
-      timeout: 30000
-    });
+    await page.waitForSelector(
+      'h1:has-text("Welcome to BrepFlow Studio!"), h2:has-text("What\'s your experience"), #root:not(:empty)',
+      {
+        timeout: 30000,
+      }
+    );
 
     // Verify WebGL context is available
     const webglSupport = await page.evaluate(() => {
@@ -46,7 +49,6 @@ async function globalSetup(config: FullConfig) {
     }
 
     console.log('✅ BrepFlow Studio pre-warming complete');
-
   } catch (error) {
     console.error('❌ Global setup failed:', error);
     throw error;

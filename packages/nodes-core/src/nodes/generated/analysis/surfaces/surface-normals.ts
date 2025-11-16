@@ -16,7 +16,11 @@ interface SurfaceNormalsOutputs {
   samplePoints: Array<[number, number, number]>;
 }
 
-export const AnalysisSurfacesSurfaceNormalsNode: NodeDefinition<SurfaceNormalsInputs, SurfaceNormalsOutputs, SurfaceNormalsParams> = {
+export const AnalysisSurfacesSurfaceNormalsNode: NodeDefinition<
+  SurfaceNormalsInputs,
+  SurfaceNormalsOutputs,
+  SurfaceNormalsParams
+> = {
   id: 'Analysis::SurfaceNormals',
   type: 'Analysis::SurfaceNormals',
   category: 'Analysis',
@@ -26,22 +30,22 @@ export const AnalysisSurfacesSurfaceNormalsNode: NodeDefinition<SurfaceNormalsIn
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     normalVectors: {
       type: 'Vector[]',
-      label: 'Normal Vectors'
+      label: 'Normal Vectors',
     },
     normalLines: {
       type: 'Wire[]',
-      label: 'Normal Lines'
+      label: 'Normal Lines',
     },
     samplePoints: {
       type: 'Point[]',
-      label: 'Sample Points'
-    }
+      label: 'Sample Points',
+    },
   },
   params: {
     density: {
@@ -49,20 +53,20 @@ export const AnalysisSurfacesSurfaceNormalsNode: NodeDefinition<SurfaceNormalsIn
       label: 'Density',
       default: 20,
       min: 5,
-      max: 100
+      max: 100,
     },
     vectorLength: {
       type: 'number',
       label: 'Vector Length',
       default: 5,
       min: 1,
-      max: 50
+      max: 50,
     },
     showVectors: {
       type: 'boolean',
       label: 'Show Vectors',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -71,14 +75,14 @@ export const AnalysisSurfacesSurfaceNormalsNode: NodeDefinition<SurfaceNormalsIn
         surface: inputs.surface,
         density: params.density,
         vectorLength: params.vectorLength,
-        showVectors: params.showVectors
-      }
+        showVectors: params.showVectors,
+      },
     });
-    
+
     return {
       normalVectors: results.normalVectors,
       normalLines: results.normalLines,
-      samplePoints: results.samplePoints
+      samplePoints: results.samplePoints,
     };
   },
 };

@@ -12,7 +12,11 @@ interface StringSubstringOutputs {
   substring: unknown;
 }
 
-export const DataStringStringSubstringNode: NodeDefinition<StringSubstringInputs, StringSubstringOutputs, StringSubstringParams> = {
+export const DataStringStringSubstringNode: NodeDefinition<
+  StringSubstringInputs,
+  StringSubstringOutputs,
+  StringSubstringParams
+> = {
   id: 'Data::StringSubstring',
   category: 'Data',
   label: 'StringSubstring',
@@ -21,24 +25,24 @@ export const DataStringStringSubstringNode: NodeDefinition<StringSubstringInputs
     string: {
       type: 'string',
       label: 'String',
-      required: true
+      required: true,
     },
     start: {
       type: 'number',
       label: 'Start',
-      required: true
+      required: true,
     },
     length: {
       type: 'number',
       label: 'Length',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     substring: {
       type: 'string',
-      label: 'Substring'
-    }
+      label: 'Substring',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -47,12 +51,12 @@ export const DataStringStringSubstringNode: NodeDefinition<StringSubstringInputs
       params: {
         string: inputs.string,
         start: inputs.start,
-        length: inputs.length
-      }
+        length: inputs.length,
+      },
     });
-    
+
     return {
-      substring: result
+      substring: result,
     };
   },
 };

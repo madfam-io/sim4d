@@ -13,7 +13,11 @@ interface SingularityAvoidanceOutputs {
   singularityPoints: number[];
 }
 
-export const FabricationRoboticsSingularityAvoidanceNode: NodeDefinition<SingularityAvoidanceInputs, SingularityAvoidanceOutputs, SingularityAvoidanceParams> = {
+export const FabricationRoboticsSingularityAvoidanceNode: NodeDefinition<
+  SingularityAvoidanceInputs,
+  SingularityAvoidanceOutputs,
+  SingularityAvoidanceParams
+> = {
   id: 'Fabrication::SingularityAvoidance',
   type: 'Fabrication::SingularityAvoidance',
   category: 'Fabrication',
@@ -23,18 +27,18 @@ export const FabricationRoboticsSingularityAvoidanceNode: NodeDefinition<Singula
     jointTrajectory: {
       type: 'Data',
       label: 'Joint Trajectory',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     safeTrajectory: {
       type: 'Data',
-      label: 'Safe Trajectory'
+      label: 'Safe Trajectory',
     },
     singularityPoints: {
       type: 'Number[]',
-      label: 'Singularity Points'
-    }
+      label: 'Singularity Points',
+    },
   },
   params: {
     threshold: {
@@ -42,21 +46,21 @@ export const FabricationRoboticsSingularityAvoidanceNode: NodeDefinition<Singula
       label: 'Threshold',
       default: 0.1,
       min: 0.01,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
       type: 'singularityAvoidance',
       params: {
         jointTrajectory: inputs.jointTrajectory,
-        threshold: params.threshold
-      }
+        threshold: params.threshold,
+      },
     });
-    
+
     return {
       safeTrajectory: results.safeTrajectory,
-      singularityPoints: results.singularityPoints
+      singularityPoints: results.singularityPoints,
     };
   },
 };

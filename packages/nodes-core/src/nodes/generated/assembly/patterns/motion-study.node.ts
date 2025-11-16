@@ -15,7 +15,11 @@ interface MotionStudyOutputs {
   collisions: unknown;
 }
 
-export const AssemblyPatternsMotionStudyNode: NodeDefinition<MotionStudyInputs, MotionStudyOutputs, MotionStudyParams> = {
+export const AssemblyPatternsMotionStudyNode: NodeDefinition<
+  MotionStudyInputs,
+  MotionStudyOutputs,
+  MotionStudyParams
+> = {
   id: 'Assembly::MotionStudy',
   category: 'Assembly',
   label: 'MotionStudy',
@@ -24,23 +28,23 @@ export const AssemblyPatternsMotionStudyNode: NodeDefinition<MotionStudyInputs, 
     assembly: {
       type: 'Assembly',
       label: 'Assembly',
-      required: true
+      required: true,
     },
     drivers: {
       type: 'Driver[]',
       label: 'Drivers',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     frames: {
       type: 'Frame[]',
-      label: 'Frames'
+      label: 'Frames',
     },
     collisions: {
       type: 'Collision[]',
-      label: 'Collisions'
-    }
+      label: 'Collisions',
+    },
   },
   params: {
     steps: {
@@ -48,15 +52,15 @@ export const AssemblyPatternsMotionStudyNode: NodeDefinition<MotionStudyInputs, 
       label: 'Steps',
       default: 10,
       min: 2,
-      max: 100
+      max: 100,
     },
     duration: {
       type: 'number',
       label: 'Duration',
       default: 1,
       min: 0.1,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -65,13 +69,13 @@ export const AssemblyPatternsMotionStudyNode: NodeDefinition<MotionStudyInputs, 
         assembly: inputs.assembly,
         drivers: inputs.drivers,
         steps: params.steps,
-        duration: params.duration
-      }
+        duration: params.duration,
+      },
     });
-    
+
     return {
       frames: results.frames,
-      collisions: results.collisions
+      collisions: results.collisions,
     };
   },
 };

@@ -14,7 +14,11 @@ interface MovablePartitionOutputs {
   track: unknown;
 }
 
-export const ArchitectureWallsMovablePartitionNode: NodeDefinition<MovablePartitionInputs, MovablePartitionOutputs, MovablePartitionParams> = {
+export const ArchitectureWallsMovablePartitionNode: NodeDefinition<
+  MovablePartitionInputs,
+  MovablePartitionOutputs,
+  MovablePartitionParams
+> = {
   id: 'Architecture::MovablePartition',
   type: 'Architecture::MovablePartition',
   category: 'Architecture',
@@ -24,18 +28,18 @@ export const ArchitectureWallsMovablePartitionNode: NodeDefinition<MovablePartit
     path: {
       type: 'Wire',
       label: 'Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     partition: {
       type: 'Shape[]',
-      label: 'Partition'
+      label: 'Partition',
     },
     track: {
       type: 'Wire',
-      label: 'Track'
-    }
+      label: 'Track',
+    },
   },
   params: {
     panelWidth: {
@@ -43,14 +47,14 @@ export const ArchitectureWallsMovablePartitionNode: NodeDefinition<MovablePartit
       label: 'Panel Width',
       default: 1200,
       min: 600,
-      max: 2000
+      max: 2000,
     },
     trackType: {
       type: 'enum',
       label: 'Track Type',
-      default: "ceiling",
-      options: ["ceiling","floor","both"]
-    }
+      default: 'ceiling',
+      options: ['ceiling', 'floor', 'both'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -58,13 +62,13 @@ export const ArchitectureWallsMovablePartitionNode: NodeDefinition<MovablePartit
       params: {
         path: inputs.path,
         panelWidth: params.panelWidth,
-        trackType: params.trackType
-      }
+        trackType: params.trackType,
+      },
     });
-    
+
     return {
       partition: results.partition,
-      track: results.track
+      track: results.track,
     };
   },
 };

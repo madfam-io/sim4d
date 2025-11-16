@@ -252,7 +252,7 @@ test.describe('3D Viewport Interaction and Visual Regression', () => {
       const geometryTests = [
         { type: 'box', params: { width: 100, height: 50, depth: 25 }, name: 'standard-box' },
         { type: 'box', params: { width: 50, height: 50, depth: 50 }, name: 'cube' },
-        { type: 'cylinder', params: { radius: 25, height: 60 }, name: 'standard-cylinder' }
+        { type: 'cylinder', params: { radius: 25, height: 60 }, name: 'standard-cylinder' },
       ];
 
       for (const test of geometryTests) {
@@ -290,7 +290,7 @@ test.describe('3D Viewport Interaction and Visual Regression', () => {
         { azimuth: 180, elevation: 0, name: 'back' },
         { azimuth: 270, elevation: 0, name: 'left' },
         { azimuth: 0, elevation: 90, name: 'top' },
-        { azimuth: 45, elevation: 30, name: 'isometric' }
+        { azimuth: 45, elevation: 30, name: 'isometric' },
       ];
 
       for (const angle of angles) {
@@ -309,7 +309,7 @@ test.describe('3D Viewport Interaction and Visual Regression', () => {
       const zoomLevels = [
         { level: 'far', action: () => viewportHelper.zoomOut(5), name: 'zoom-far' },
         { level: 'fit', action: () => viewportHelper.fitAll(), name: 'zoom-fit' },
-        { level: 'close', action: () => viewportHelper.zoomIn(3), name: 'zoom-close' }
+        { level: 'close', action: () => viewportHelper.zoomIn(3), name: 'zoom-close' },
       ];
 
       for (const zoom of zoomLevels) {
@@ -371,7 +371,9 @@ test.describe('3D Viewport Interaction and Visual Regression', () => {
       await viewportHelper.waitForGeometryRendered();
 
       // Get initial memory
-      const initialMemory = await page.evaluate(() => (performance as any).memory?.usedJSHeapSize || 0);
+      const initialMemory = await page.evaluate(
+        () => (performance as any).memory?.usedJSHeapSize || 0
+      );
 
       // Perform many viewport operations
       for (let i = 0; i < 20; i++) {
@@ -380,7 +382,9 @@ test.describe('3D Viewport Interaction and Visual Regression', () => {
       }
 
       // Check final memory
-      const finalMemory = await page.evaluate(() => (performance as any).memory?.usedJSHeapSize || 0);
+      const finalMemory = await page.evaluate(
+        () => (performance as any).memory?.usedJSHeapSize || 0
+      );
 
       // Memory shouldn't increase dramatically (allow 50MB growth)
       const memoryGrowth = finalMemory - initialMemory;

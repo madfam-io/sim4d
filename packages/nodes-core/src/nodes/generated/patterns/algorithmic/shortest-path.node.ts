@@ -15,7 +15,11 @@ interface ShortestPathOutputs {
   distance: number;
 }
 
-export const PatternsAlgorithmicShortestPathNode: NodeDefinition<ShortestPathInputs, ShortestPathOutputs, ShortestPathParams> = {
+export const PatternsAlgorithmicShortestPathNode: NodeDefinition<
+  ShortestPathInputs,
+  ShortestPathOutputs,
+  ShortestPathParams
+> = {
   id: 'Patterns::ShortestPath',
   category: 'Patterns',
   label: 'ShortestPath',
@@ -24,36 +28,36 @@ export const PatternsAlgorithmicShortestPathNode: NodeDefinition<ShortestPathInp
     graph: {
       type: 'Wire[]',
       label: 'Graph',
-      required: true
+      required: true,
     },
     start: {
       type: 'Point',
       label: 'Start',
-      required: true
+      required: true,
     },
     end: {
       type: 'Point',
       label: 'End',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     path: {
       type: 'Wire',
-      label: 'Path'
+      label: 'Path',
     },
     distance: {
       type: 'Number',
-      label: 'Distance'
-    }
+      label: 'Distance',
+    },
   },
   params: {
     algorithm: {
       type: 'enum',
       label: 'Algorithm',
-      default: "dijkstra",
-      options: ["dijkstra","a-star","bellman-ford"]
-    }
+      default: 'dijkstra',
+      options: ['dijkstra', 'a-star', 'bellman-ford'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -62,13 +66,13 @@ export const PatternsAlgorithmicShortestPathNode: NodeDefinition<ShortestPathInp
         graph: inputs.graph,
         start: inputs.start,
         end: inputs.end,
-        algorithm: params.algorithm
-      }
+        algorithm: params.algorithm,
+      },
     });
-    
+
     return {
       path: results.path,
-      distance: results.distance
+      distance: results.distance,
     };
   },
 };

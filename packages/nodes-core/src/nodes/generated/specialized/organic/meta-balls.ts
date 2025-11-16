@@ -14,7 +14,11 @@ interface MetaBallsOutputs {
   metaball: unknown;
 }
 
-export const SpecializedOrganicMetaBallsNode: NodeDefinition<MetaBallsInputs, MetaBallsOutputs, MetaBallsParams> = {
+export const SpecializedOrganicMetaBallsNode: NodeDefinition<
+  MetaBallsInputs,
+  MetaBallsOutputs,
+  MetaBallsParams
+> = {
   id: 'Specialized::MetaBalls',
   type: 'Specialized::MetaBalls',
   category: 'Specialized',
@@ -24,19 +28,19 @@ export const SpecializedOrganicMetaBallsNode: NodeDefinition<MetaBallsInputs, Me
     centers: {
       type: 'Point[]',
       label: 'Centers',
-      required: true
+      required: true,
     },
     radii: {
       type: 'number[]',
       label: 'Radii',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     metaball: {
       type: 'Shape',
-      label: 'Metaball'
-    }
+      label: 'Metaball',
+    },
   },
   params: {
     threshold: {
@@ -44,7 +48,7 @@ export const SpecializedOrganicMetaBallsNode: NodeDefinition<MetaBallsInputs, Me
       label: 'Threshold',
       default: 1,
       min: 0.1,
-      max: 10
+      max: 10,
     },
     resolution: {
       type: 'number',
@@ -52,8 +56,8 @@ export const SpecializedOrganicMetaBallsNode: NodeDefinition<MetaBallsInputs, Me
       default: 50,
       min: 10,
       max: 200,
-      step: 5
-    }
+      step: 5,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -62,12 +66,12 @@ export const SpecializedOrganicMetaBallsNode: NodeDefinition<MetaBallsInputs, Me
         centers: inputs.centers,
         radii: inputs.radii,
         threshold: params.threshold,
-        resolution: params.resolution
-      }
+        resolution: params.resolution,
+      },
     });
-    
+
     return {
-      metaball: result
+      metaball: result,
     };
   },
 };

@@ -14,7 +14,11 @@ interface ContouringToolpathOutputs {
   contours: unknown;
 }
 
-export const FabricationCNCContouringToolpathNode: NodeDefinition<ContouringToolpathInputs, ContouringToolpathOutputs, ContouringToolpathParams> = {
+export const FabricationCNCContouringToolpathNode: NodeDefinition<
+  ContouringToolpathInputs,
+  ContouringToolpathOutputs,
+  ContouringToolpathParams
+> = {
   id: 'Fabrication::ContouringToolpath',
   category: 'Fabrication',
   label: 'ContouringToolpath',
@@ -23,14 +27,14 @@ export const FabricationCNCContouringToolpathNode: NodeDefinition<ContouringTool
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     contours: {
       type: 'Wire[]',
-      label: 'Contours'
-    }
+      label: 'Contours',
+    },
   },
   params: {
     levels: {
@@ -39,19 +43,19 @@ export const FabricationCNCContouringToolpathNode: NodeDefinition<ContouringTool
       default: 10,
       min: 1,
       max: 100,
-      step: 1
+      step: 1,
     },
     climb: {
       type: 'boolean',
       label: 'Climb',
-      default: true
+      default: true,
     },
     compensation: {
       type: 'enum',
       label: 'Compensation',
-      default: "right",
-      options: ["left","right","center"]
-    }
+      default: 'right',
+      options: ['left', 'right', 'center'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -60,12 +64,12 @@ export const FabricationCNCContouringToolpathNode: NodeDefinition<ContouringTool
         surface: inputs.surface,
         levels: params.levels,
         climb: params.climb,
-        compensation: params.compensation
-      }
+        compensation: params.compensation,
+      },
     });
-    
+
     return {
-      contours: result
+      contours: result,
     };
   },
 };

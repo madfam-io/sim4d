@@ -17,12 +17,8 @@ export const listOperationTemplates: NodeTemplate[] = [
     operation: 'LIST_LENGTH',
     occtBinding: 'listLength',
     parameters: [],
-    inputs: [
-      { name: 'list', type: 'Data[]', required: true }
-    ],
-    outputs: [
-      { name: 'length', type: 'number' }
-    ]
+    inputs: [{ name: 'list', type: 'Data[]', required: true }],
+    outputs: [{ name: 'length', type: 'number' }],
   },
   {
     category: 'Data',
@@ -31,16 +27,12 @@ export const listOperationTemplates: NodeTemplate[] = [
     description: 'Get item at index',
     operation: 'LIST_ITEM',
     occtBinding: 'listItem',
-    parameters: [
-      { name: 'wrap', type: 'boolean', default: false }
-    ],
+    parameters: [{ name: 'wrap', type: 'boolean', default: false }],
     inputs: [
       { name: 'list', type: 'Data[]', required: true },
-      { name: 'index', type: 'number', required: true }
+      { name: 'index', type: 'number', required: true },
     ],
-    outputs: [
-      { name: 'item', type: 'Data' }
-    ]
+    outputs: [{ name: 'item', type: 'Data' }],
   },
   {
     category: 'Data',
@@ -53,11 +45,9 @@ export const listOperationTemplates: NodeTemplate[] = [
     inputs: [
       { name: 'list', type: 'Data[]', required: true },
       { name: 'start', type: 'number', required: true },
-      { name: 'end', type: 'number', required: false }
+      { name: 'end', type: 'number', required: false },
     ],
-    outputs: [
-      { name: 'sublist', type: 'Data[]' }
-    ]
+    outputs: [{ name: 'sublist', type: 'Data[]' }],
   },
   {
     category: 'Data',
@@ -67,12 +57,8 @@ export const listOperationTemplates: NodeTemplate[] = [
     operation: 'LIST_REVERSE',
     occtBinding: 'listReverse',
     parameters: [],
-    inputs: [
-      { name: 'list', type: 'Data[]', required: true }
-    ],
-    outputs: [
-      { name: 'reversed', type: 'Data[]' }
-    ]
+    inputs: [{ name: 'list', type: 'Data[]', required: true }],
+    outputs: [{ name: 'reversed', type: 'Data[]' }],
   },
   {
     category: 'Data',
@@ -81,17 +67,15 @@ export const listOperationTemplates: NodeTemplate[] = [
     description: 'Sort list',
     operation: 'LIST_SORT',
     occtBinding: 'listSort',
-    parameters: [
-      { name: 'ascending', type: 'boolean', default: true }
-    ],
+    parameters: [{ name: 'ascending', type: 'boolean', default: true }],
     inputs: [
       { name: 'list', type: 'Data[]', required: true },
-      { name: 'keys', type: 'number[]', required: false }
+      { name: 'keys', type: 'number[]', required: false },
     ],
     outputs: [
       { name: 'sorted', type: 'Data[]' },
-      { name: 'indices', type: 'number[]' }
-    ]
+      { name: 'indices', type: 'number[]' },
+    ],
   },
   {
     category: 'Data',
@@ -100,15 +84,9 @@ export const listOperationTemplates: NodeTemplate[] = [
     description: 'Randomize list order',
     operation: 'LIST_SHUFFLE',
     occtBinding: 'listShuffle',
-    parameters: [
-      { name: 'seed', type: 'number', default: -1 }
-    ],
-    inputs: [
-      { name: 'list', type: 'Data[]', required: true }
-    ],
-    outputs: [
-      { name: 'shuffled', type: 'Data[]' }
-    ]
+    parameters: [{ name: 'seed', type: 'number', default: -1 }],
+    inputs: [{ name: 'list', type: 'Data[]', required: true }],
+    outputs: [{ name: 'shuffled', type: 'Data[]' }],
   },
   {
     category: 'Data',
@@ -117,16 +95,12 @@ export const listOperationTemplates: NodeTemplate[] = [
     description: 'Shift list items',
     operation: 'LIST_SHIFT',
     occtBinding: 'listShift',
-    parameters: [
-      { name: 'wrap', type: 'boolean', default: true }
-    ],
+    parameters: [{ name: 'wrap', type: 'boolean', default: true }],
     inputs: [
       { name: 'list', type: 'Data[]', required: true },
-      { name: 'offset', type: 'number', required: true }
+      { name: 'offset', type: 'number', required: true },
     ],
-    outputs: [
-      { name: 'shifted', type: 'Data[]' }
-    ]
+    outputs: [{ name: 'shifted', type: 'Data[]' }],
   },
   {
     category: 'Data',
@@ -139,11 +113,9 @@ export const listOperationTemplates: NodeTemplate[] = [
     inputs: [
       { name: 'list', type: 'Data[]', required: true },
       { name: 'item', type: 'Data', required: true },
-      { name: 'index', type: 'number', required: true }
+      { name: 'index', type: 'number', required: true },
     ],
-    outputs: [
-      { name: 'result', type: 'Data[]' }
-    ]
+    outputs: [{ name: 'result', type: 'Data[]' }],
   },
   {
     category: 'Data',
@@ -155,12 +127,12 @@ export const listOperationTemplates: NodeTemplate[] = [
     parameters: [],
     inputs: [
       { name: 'list', type: 'Data[]', required: true },
-      { name: 'index', type: 'number', required: true }
+      { name: 'index', type: 'number', required: true },
     ],
     outputs: [
       { name: 'result', type: 'Data[]' },
-      { name: 'removed', type: 'Data' }
-    ]
+      { name: 'removed', type: 'Data' },
+    ],
   },
   {
     category: 'Data',
@@ -173,11 +145,9 @@ export const listOperationTemplates: NodeTemplate[] = [
     inputs: [
       { name: 'list', type: 'Data[]', required: true },
       { name: 'item', type: 'Data', required: true },
-      { name: 'index', type: 'number', required: true }
+      { name: 'index', type: 'number', required: true },
     ],
-    outputs: [
-      { name: 'result', type: 'Data[]' }
-    ]
+    outputs: [{ name: 'result', type: 'Data[]' }],
   },
   {
     category: 'Data',
@@ -189,11 +159,9 @@ export const listOperationTemplates: NodeTemplate[] = [
     parameters: [],
     inputs: [
       { name: 'list', type: 'Data[]', required: true },
-      { name: 'item', type: 'Data', required: true }
+      { name: 'item', type: 'Data', required: true },
     ],
-    outputs: [
-      { name: 'result', type: 'Data[]' }
-    ]
+    outputs: [{ name: 'result', type: 'Data[]' }],
   },
   {
     category: 'Data',
@@ -205,11 +173,9 @@ export const listOperationTemplates: NodeTemplate[] = [
     parameters: [],
     inputs: [
       { name: 'list', type: 'Data[]', required: true },
-      { name: 'item', type: 'Data', required: true }
+      { name: 'item', type: 'Data', required: true },
     ],
-    outputs: [
-      { name: 'result', type: 'Data[]' }
-    ]
+    outputs: [{ name: 'result', type: 'Data[]' }],
   },
   {
     category: 'Data',
@@ -219,12 +185,8 @@ export const listOperationTemplates: NodeTemplate[] = [
     operation: 'LIST_JOIN',
     occtBinding: 'listJoin',
     parameters: [],
-    inputs: [
-      { name: 'lists', type: 'Data[][]', required: true }
-    ],
-    outputs: [
-      { name: 'joined', type: 'Data[]' }
-    ]
+    inputs: [{ name: 'lists', type: 'Data[][]', required: true }],
+    outputs: [{ name: 'joined', type: 'Data[]' }],
   },
   {
     category: 'Data',
@@ -236,12 +198,12 @@ export const listOperationTemplates: NodeTemplate[] = [
     parameters: [],
     inputs: [
       { name: 'list', type: 'Data[]', required: true },
-      { name: 'index', type: 'number', required: true }
+      { name: 'index', type: 'number', required: true },
     ],
     outputs: [
       { name: 'before', type: 'Data[]' },
-      { name: 'after', type: 'Data[]' }
-    ]
+      { name: 'after', type: 'Data[]' },
+    ],
   },
   {
     category: 'Data',
@@ -253,11 +215,9 @@ export const listOperationTemplates: NodeTemplate[] = [
     parameters: [],
     inputs: [
       { name: 'list', type: 'Data[]', required: true },
-      { name: 'size', type: 'number', required: true }
+      { name: 'size', type: 'number', required: true },
     ],
-    outputs: [
-      { name: 'partitions', type: 'Data[][]' }
-    ]
+    outputs: [{ name: 'partitions', type: 'Data[][]' }],
   },
   {
     category: 'Data',
@@ -266,15 +226,9 @@ export const listOperationTemplates: NodeTemplate[] = [
     description: 'Flatten nested lists',
     operation: 'LIST_FLATTEN',
     occtBinding: 'listFlatten',
-    parameters: [
-      { name: 'depth', type: 'number', default: 1, min: 1, max: 10 }
-    ],
-    inputs: [
-      { name: 'list', type: 'Data[]', required: true }
-    ],
-    outputs: [
-      { name: 'flattened', type: 'Data[]' }
-    ]
+    parameters: [{ name: 'depth', type: 'number', default: 1, min: 1, max: 10 }],
+    inputs: [{ name: 'list', type: 'Data[]', required: true }],
+    outputs: [{ name: 'flattened', type: 'Data[]' }],
   },
   {
     category: 'Data',
@@ -284,12 +238,8 @@ export const listOperationTemplates: NodeTemplate[] = [
     operation: 'LIST_UNIQUE',
     occtBinding: 'listUnique',
     parameters: [],
-    inputs: [
-      { name: 'list', type: 'Data[]', required: true }
-    ],
-    outputs: [
-      { name: 'unique', type: 'Data[]' }
-    ]
+    inputs: [{ name: 'list', type: 'Data[]', required: true }],
+    outputs: [{ name: 'unique', type: 'Data[]' }],
   },
   {
     category: 'Data',
@@ -301,12 +251,12 @@ export const listOperationTemplates: NodeTemplate[] = [
     parameters: [],
     inputs: [
       { name: 'list', type: 'Data[]', required: true },
-      { name: 'item', type: 'Data', required: true }
+      { name: 'item', type: 'Data', required: true },
     ],
     outputs: [
       { name: 'contains', type: 'boolean' },
-      { name: 'index', type: 'number' }
-    ]
+      { name: 'index', type: 'number' },
+    ],
   },
   {
     category: 'Data',
@@ -318,12 +268,12 @@ export const listOperationTemplates: NodeTemplate[] = [
     parameters: [],
     inputs: [
       { name: 'list', type: 'Data[]', required: true },
-      { name: 'pattern', type: 'Data', required: true }
+      { name: 'pattern', type: 'Data', required: true },
     ],
     outputs: [
       { name: 'items', type: 'Data[]' },
-      { name: 'indices', type: 'number[]' }
-    ]
+      { name: 'indices', type: 'number[]' },
+    ],
   },
   {
     category: 'Data',
@@ -335,12 +285,10 @@ export const listOperationTemplates: NodeTemplate[] = [
     parameters: [],
     inputs: [
       { name: 'list', type: 'Data[]', required: true },
-      { name: 'mask', type: 'boolean[]', required: true }
+      { name: 'mask', type: 'boolean[]', required: true },
     ],
-    outputs: [
-      { name: 'filtered', type: 'Data[]' }
-    ]
-  }
+    outputs: [{ name: 'filtered', type: 'Data[]' }],
+  },
 ];
 
 /**
@@ -357,11 +305,9 @@ export const setOperationTemplates: NodeTemplate[] = [
     parameters: [],
     inputs: [
       { name: 'setA', type: 'Data[]', required: true },
-      { name: 'setB', type: 'Data[]', required: true }
+      { name: 'setB', type: 'Data[]', required: true },
     ],
-    outputs: [
-      { name: 'union', type: 'Data[]' }
-    ]
+    outputs: [{ name: 'union', type: 'Data[]' }],
   },
   {
     category: 'Data',
@@ -373,11 +319,9 @@ export const setOperationTemplates: NodeTemplate[] = [
     parameters: [],
     inputs: [
       { name: 'setA', type: 'Data[]', required: true },
-      { name: 'setB', type: 'Data[]', required: true }
+      { name: 'setB', type: 'Data[]', required: true },
     ],
-    outputs: [
-      { name: 'intersection', type: 'Data[]' }
-    ]
+    outputs: [{ name: 'intersection', type: 'Data[]' }],
   },
   {
     category: 'Data',
@@ -389,11 +333,9 @@ export const setOperationTemplates: NodeTemplate[] = [
     parameters: [],
     inputs: [
       { name: 'setA', type: 'Data[]', required: true },
-      { name: 'setB', type: 'Data[]', required: true }
+      { name: 'setB', type: 'Data[]', required: true },
     ],
-    outputs: [
-      { name: 'difference', type: 'Data[]' }
-    ]
+    outputs: [{ name: 'difference', type: 'Data[]' }],
   },
   {
     category: 'Data',
@@ -405,11 +347,9 @@ export const setOperationTemplates: NodeTemplate[] = [
     parameters: [],
     inputs: [
       { name: 'setA', type: 'Data[]', required: true },
-      { name: 'setB', type: 'Data[]', required: true }
+      { name: 'setB', type: 'Data[]', required: true },
     ],
-    outputs: [
-      { name: 'difference', type: 'Data[]' }
-    ]
+    outputs: [{ name: 'difference', type: 'Data[]' }],
   },
   {
     category: 'Data',
@@ -421,11 +361,9 @@ export const setOperationTemplates: NodeTemplate[] = [
     parameters: [],
     inputs: [
       { name: 'setA', type: 'Data[]', required: true },
-      { name: 'setB', type: 'Data[]', required: true }
+      { name: 'setB', type: 'Data[]', required: true },
     ],
-    outputs: [
-      { name: 'isSubset', type: 'boolean' }
-    ]
+    outputs: [{ name: 'isSubset', type: 'boolean' }],
   },
   {
     category: 'Data',
@@ -437,11 +375,9 @@ export const setOperationTemplates: NodeTemplate[] = [
     parameters: [],
     inputs: [
       { name: 'setA', type: 'Data[]', required: true },
-      { name: 'setB', type: 'Data[]', required: true }
+      { name: 'setB', type: 'Data[]', required: true },
     ],
-    outputs: [
-      { name: 'product', type: 'Data[][]' }
-    ]
+    outputs: [{ name: 'product', type: 'Data[][]' }],
   },
   {
     category: 'Data',
@@ -451,12 +387,8 @@ export const setOperationTemplates: NodeTemplate[] = [
     operation: 'SET_POWERSET',
     occtBinding: 'setPowerSet',
     parameters: [],
-    inputs: [
-      { name: 'set', type: 'Data[]', required: true }
-    ],
-    outputs: [
-      { name: 'powerSet', type: 'Data[][]' }
-    ]
+    inputs: [{ name: 'set', type: 'Data[]', required: true }],
+    outputs: [{ name: 'powerSet', type: 'Data[][]' }],
   },
   {
     category: 'Data',
@@ -465,15 +397,9 @@ export const setOperationTemplates: NodeTemplate[] = [
     description: 'Combinations of set',
     operation: 'SET_COMBINATIONS',
     occtBinding: 'setCombinations',
-    parameters: [
-      { name: 'k', type: 'number', default: 2, min: 1, max: 10 }
-    ],
-    inputs: [
-      { name: 'set', type: 'Data[]', required: true }
-    ],
-    outputs: [
-      { name: 'combinations', type: 'Data[][]' }
-    ]
+    parameters: [{ name: 'k', type: 'number', default: 2, min: 1, max: 10 }],
+    inputs: [{ name: 'set', type: 'Data[]', required: true }],
+    outputs: [{ name: 'combinations', type: 'Data[][]' }],
   },
   {
     category: 'Data',
@@ -482,15 +408,9 @@ export const setOperationTemplates: NodeTemplate[] = [
     description: 'Permutations of set',
     operation: 'SET_PERMUTATIONS',
     occtBinding: 'setPermutations',
-    parameters: [
-      { name: 'k', type: 'number', default: -1, min: -1, max: 10 }
-    ],
-    inputs: [
-      { name: 'set', type: 'Data[]', required: true }
-    ],
-    outputs: [
-      { name: 'permutations', type: 'Data[][]' }
-    ]
+    parameters: [{ name: 'k', type: 'number', default: -1, min: -1, max: 10 }],
+    inputs: [{ name: 'set', type: 'Data[]', required: true }],
+    outputs: [{ name: 'permutations', type: 'Data[][]' }],
   },
   {
     category: 'Data',
@@ -499,16 +419,10 @@ export const setOperationTemplates: NodeTemplate[] = [
     description: 'Set partitions',
     operation: 'SET_PARTITIONS',
     occtBinding: 'setPartitions',
-    parameters: [
-      { name: 'k', type: 'number', default: 2, min: 2, max: 10 }
-    ],
-    inputs: [
-      { name: 'set', type: 'Data[]', required: true }
-    ],
-    outputs: [
-      { name: 'partitions', type: 'Data[][][]' }
-    ]
-  }
+    parameters: [{ name: 'k', type: 'number', default: 2, min: 2, max: 10 }],
+    inputs: [{ name: 'set', type: 'Data[]', required: true }],
+    outputs: [{ name: 'partitions', type: 'Data[][][]' }],
+  },
 ];
 
 /**
@@ -525,11 +439,9 @@ export const treeOperationTemplates: NodeTemplate[] = [
     parameters: [],
     inputs: [
       { name: 'tree', type: 'DataTree', required: true },
-      { name: 'path', type: 'string', required: true }
+      { name: 'path', type: 'string', required: true },
     ],
-    outputs: [
-      { name: 'branch', type: 'Data[]' }
-    ]
+    outputs: [{ name: 'branch', type: 'Data[]' }],
   },
   {
     category: 'Data',
@@ -539,12 +451,8 @@ export const treeOperationTemplates: NodeTemplate[] = [
     operation: 'TREE_PATHS',
     occtBinding: 'treePaths',
     parameters: [],
-    inputs: [
-      { name: 'tree', type: 'DataTree', required: true }
-    ],
-    outputs: [
-      { name: 'paths', type: 'string[]' }
-    ]
+    inputs: [{ name: 'tree', type: 'DataTree', required: true }],
+    outputs: [{ name: 'paths', type: 'string[]' }],
   },
   {
     category: 'Data',
@@ -554,12 +462,8 @@ export const treeOperationTemplates: NodeTemplate[] = [
     operation: 'TREE_GRAFT',
     occtBinding: 'treeGraft',
     parameters: [],
-    inputs: [
-      { name: 'tree', type: 'DataTree', required: true }
-    ],
-    outputs: [
-      { name: 'grafted', type: 'DataTree' }
-    ]
+    inputs: [{ name: 'tree', type: 'DataTree', required: true }],
+    outputs: [{ name: 'grafted', type: 'DataTree' }],
   },
   {
     category: 'Data',
@@ -568,15 +472,9 @@ export const treeOperationTemplates: NodeTemplate[] = [
     description: 'Flatten tree',
     operation: 'TREE_FLATTEN',
     occtBinding: 'treeFlatten',
-    parameters: [
-      { name: 'depth', type: 'number', default: 1, min: 0, max: 10 }
-    ],
-    inputs: [
-      { name: 'tree', type: 'DataTree', required: true }
-    ],
-    outputs: [
-      { name: 'flattened', type: 'DataTree' }
-    ]
+    parameters: [{ name: 'depth', type: 'number', default: 1, min: 0, max: 10 }],
+    inputs: [{ name: 'tree', type: 'DataTree', required: true }],
+    outputs: [{ name: 'flattened', type: 'DataTree' }],
   },
   {
     category: 'Data',
@@ -586,12 +484,8 @@ export const treeOperationTemplates: NodeTemplate[] = [
     operation: 'TREE_SIMPLIFY',
     occtBinding: 'treeSimplify',
     parameters: [],
-    inputs: [
-      { name: 'tree', type: 'DataTree', required: true }
-    ],
-    outputs: [
-      { name: 'simplified', type: 'DataTree' }
-    ]
+    inputs: [{ name: 'tree', type: 'DataTree', required: true }],
+    outputs: [{ name: 'simplified', type: 'DataTree' }],
   },
   {
     category: 'Data',
@@ -601,12 +495,8 @@ export const treeOperationTemplates: NodeTemplate[] = [
     operation: 'TREE_PRUNE',
     occtBinding: 'treePrune',
     parameters: [],
-    inputs: [
-      { name: 'tree', type: 'DataTree', required: true }
-    ],
-    outputs: [
-      { name: 'pruned', type: 'DataTree' }
-    ]
+    inputs: [{ name: 'tree', type: 'DataTree', required: true }],
+    outputs: [{ name: 'pruned', type: 'DataTree' }],
   },
   {
     category: 'Data',
@@ -618,11 +508,9 @@ export const treeOperationTemplates: NodeTemplate[] = [
     parameters: [],
     inputs: [
       { name: 'treeA', type: 'DataTree', required: true },
-      { name: 'treeB', type: 'DataTree', required: true }
+      { name: 'treeB', type: 'DataTree', required: true },
     ],
-    outputs: [
-      { name: 'merged', type: 'DataTree' }
-    ]
+    outputs: [{ name: 'merged', type: 'DataTree' }],
   },
   {
     category: 'Data',
@@ -632,12 +520,8 @@ export const treeOperationTemplates: NodeTemplate[] = [
     operation: 'TREE_EXPLODE',
     occtBinding: 'treeExplode',
     parameters: [],
-    inputs: [
-      { name: 'tree', type: 'DataTree', required: true }
-    ],
-    outputs: [
-      { name: 'branches', type: 'Data[][]' }
-    ]
+    inputs: [{ name: 'tree', type: 'DataTree', required: true }],
+    outputs: [{ name: 'branches', type: 'Data[][]' }],
   },
   {
     category: 'Data',
@@ -649,11 +533,9 @@ export const treeOperationTemplates: NodeTemplate[] = [
     parameters: [],
     inputs: [
       { name: 'tree', type: 'DataTree', required: true },
-      { name: 'offset', type: 'number', required: true }
+      { name: 'offset', type: 'number', required: true },
     ],
-    outputs: [
-      { name: 'shifted', type: 'DataTree' }
-    ]
+    outputs: [{ name: 'shifted', type: 'DataTree' }],
   },
   {
     category: 'Data',
@@ -663,15 +545,13 @@ export const treeOperationTemplates: NodeTemplate[] = [
     operation: 'TREE_STATISTICS',
     occtBinding: 'treeStatistics',
     parameters: [],
-    inputs: [
-      { name: 'tree', type: 'DataTree', required: true }
-    ],
+    inputs: [{ name: 'tree', type: 'DataTree', required: true }],
     outputs: [
       { name: 'branchCount', type: 'number' },
       { name: 'itemCount', type: 'number' },
-      { name: 'depth', type: 'number' }
-    ]
-  }
+      { name: 'depth', type: 'number' },
+    ],
+  },
 ];
 
 /**
@@ -685,15 +565,9 @@ export const stringOperationTemplates: NodeTemplate[] = [
     description: 'Concatenate strings',
     operation: 'STRING_CONCAT',
     occtBinding: 'stringConcat',
-    parameters: [
-      { name: 'separator', type: 'string', default: '' }
-    ],
-    inputs: [
-      { name: 'strings', type: 'string[]', required: true }
-    ],
-    outputs: [
-      { name: 'result', type: 'string' }
-    ]
+    parameters: [{ name: 'separator', type: 'string', default: '' }],
+    inputs: [{ name: 'strings', type: 'string[]', required: true }],
+    outputs: [{ name: 'result', type: 'string' }],
   },
   {
     category: 'Data',
@@ -702,15 +576,9 @@ export const stringOperationTemplates: NodeTemplate[] = [
     description: 'Split string',
     operation: 'STRING_SPLIT',
     occtBinding: 'stringSplit',
-    parameters: [
-      { name: 'delimiter', type: 'string', default: ',' }
-    ],
-    inputs: [
-      { name: 'string', type: 'string', required: true }
-    ],
-    outputs: [
-      { name: 'parts', type: 'string[]' }
-    ]
+    parameters: [{ name: 'delimiter', type: 'string', default: ',' }],
+    inputs: [{ name: 'string', type: 'string', required: true }],
+    outputs: [{ name: 'parts', type: 'string[]' }],
   },
   {
     category: 'Data',
@@ -719,17 +587,13 @@ export const stringOperationTemplates: NodeTemplate[] = [
     description: 'Replace in string',
     operation: 'STRING_REPLACE',
     occtBinding: 'stringReplace',
-    parameters: [
-      { name: 'global', type: 'boolean', default: true }
-    ],
+    parameters: [{ name: 'global', type: 'boolean', default: true }],
     inputs: [
       { name: 'string', type: 'string', required: true },
       { name: 'search', type: 'string', required: true },
-      { name: 'replace', type: 'string', required: true }
+      { name: 'replace', type: 'string', required: true },
     ],
-    outputs: [
-      { name: 'result', type: 'string' }
-    ]
+    outputs: [{ name: 'result', type: 'string' }],
   },
   {
     category: 'Data',
@@ -741,11 +605,9 @@ export const stringOperationTemplates: NodeTemplate[] = [
     parameters: [],
     inputs: [
       { name: 'template', type: 'string', required: true },
-      { name: 'values', type: 'Data[]', required: true }
+      { name: 'values', type: 'Data[]', required: true },
     ],
-    outputs: [
-      { name: 'formatted', type: 'string' }
-    ]
+    outputs: [{ name: 'formatted', type: 'string' }],
   },
   {
     category: 'Data',
@@ -755,14 +617,15 @@ export const stringOperationTemplates: NodeTemplate[] = [
     operation: 'STRING_CASE',
     occtBinding: 'stringCase',
     parameters: [
-      { name: 'case', type: 'enum', options: ['upper', 'lower', 'title', 'camel', 'snake'], default: 'lower' }
+      {
+        name: 'case',
+        type: 'enum',
+        options: ['upper', 'lower', 'title', 'camel', 'snake'],
+        default: 'lower',
+      },
     ],
-    inputs: [
-      { name: 'string', type: 'string', required: true }
-    ],
-    outputs: [
-      { name: 'result', type: 'string' }
-    ]
+    inputs: [{ name: 'string', type: 'string', required: true }],
+    outputs: [{ name: 'result', type: 'string' }],
   },
   {
     category: 'Data',
@@ -772,14 +635,10 @@ export const stringOperationTemplates: NodeTemplate[] = [
     operation: 'STRING_TRIM',
     occtBinding: 'stringTrim',
     parameters: [
-      { name: 'mode', type: 'enum', options: ['both', 'start', 'end'], default: 'both' }
+      { name: 'mode', type: 'enum', options: ['both', 'start', 'end'], default: 'both' },
     ],
-    inputs: [
-      { name: 'string', type: 'string', required: true }
-    ],
-    outputs: [
-      { name: 'trimmed', type: 'string' }
-    ]
+    inputs: [{ name: 'string', type: 'string', required: true }],
+    outputs: [{ name: 'trimmed', type: 'string' }],
   },
   {
     category: 'Data',
@@ -789,12 +648,8 @@ export const stringOperationTemplates: NodeTemplate[] = [
     operation: 'STRING_LENGTH',
     occtBinding: 'stringLength',
     parameters: [],
-    inputs: [
-      { name: 'string', type: 'string', required: true }
-    ],
-    outputs: [
-      { name: 'length', type: 'number' }
-    ]
+    inputs: [{ name: 'string', type: 'string', required: true }],
+    outputs: [{ name: 'length', type: 'number' }],
   },
   {
     category: 'Data',
@@ -807,11 +662,9 @@ export const stringOperationTemplates: NodeTemplate[] = [
     inputs: [
       { name: 'string', type: 'string', required: true },
       { name: 'start', type: 'number', required: true },
-      { name: 'length', type: 'number', required: false }
+      { name: 'length', type: 'number', required: false },
     ],
-    outputs: [
-      { name: 'substring', type: 'string' }
-    ]
+    outputs: [{ name: 'substring', type: 'string' }],
   },
   {
     category: 'Data',
@@ -820,17 +673,15 @@ export const stringOperationTemplates: NodeTemplate[] = [
     description: 'Check if contains',
     operation: 'STRING_CONTAINS',
     occtBinding: 'stringContains',
-    parameters: [
-      { name: 'caseSensitive', type: 'boolean', default: true }
-    ],
+    parameters: [{ name: 'caseSensitive', type: 'boolean', default: true }],
     inputs: [
       { name: 'string', type: 'string', required: true },
-      { name: 'search', type: 'string', required: true }
+      { name: 'search', type: 'string', required: true },
     ],
     outputs: [
       { name: 'contains', type: 'boolean' },
-      { name: 'index', type: 'number' }
-    ]
+      { name: 'index', type: 'number' },
+    ],
   },
   {
     category: 'Data',
@@ -839,17 +690,13 @@ export const stringOperationTemplates: NodeTemplate[] = [
     description: 'Match with regex',
     operation: 'STRING_MATCH',
     occtBinding: 'stringMatch',
-    parameters: [
-      { name: 'global', type: 'boolean', default: false }
-    ],
+    parameters: [{ name: 'global', type: 'boolean', default: false }],
     inputs: [
       { name: 'string', type: 'string', required: true },
-      { name: 'pattern', type: 'string', required: true }
+      { name: 'pattern', type: 'string', required: true },
     ],
-    outputs: [
-      { name: 'matches', type: 'string[]' }
-    ]
-  }
+    outputs: [{ name: 'matches', type: 'string[]' }],
+  },
 ];
 
 /**
@@ -864,12 +711,8 @@ export const dataConversionTemplates: NodeTemplate[] = [
     operation: 'CONVERT_TO_STRING',
     occtBinding: 'convertToString',
     parameters: [],
-    inputs: [
-      { name: 'data', type: 'Data', required: true }
-    ],
-    outputs: [
-      { name: 'string', type: 'string' }
-    ]
+    inputs: [{ name: 'data', type: 'Data', required: true }],
+    outputs: [{ name: 'string', type: 'string' }],
   },
   {
     category: 'Data',
@@ -879,13 +722,11 @@ export const dataConversionTemplates: NodeTemplate[] = [
     operation: 'CONVERT_TO_NUMBER',
     occtBinding: 'convertToNumber',
     parameters: [],
-    inputs: [
-      { name: 'data', type: 'Data', required: true }
-    ],
+    inputs: [{ name: 'data', type: 'Data', required: true }],
     outputs: [
       { name: 'number', type: 'number' },
-      { name: 'isValid', type: 'boolean' }
-    ]
+      { name: 'isValid', type: 'boolean' },
+    ],
   },
   {
     category: 'Data',
@@ -895,12 +736,8 @@ export const dataConversionTemplates: NodeTemplate[] = [
     operation: 'CONVERT_TO_BOOLEAN',
     occtBinding: 'convertToBoolean',
     parameters: [],
-    inputs: [
-      { name: 'data', type: 'Data', required: true }
-    ],
-    outputs: [
-      { name: 'boolean', type: 'boolean' }
-    ]
+    inputs: [{ name: 'data', type: 'Data', required: true }],
+    outputs: [{ name: 'boolean', type: 'boolean' }],
   },
   {
     category: 'Data',
@@ -909,15 +746,9 @@ export const dataConversionTemplates: NodeTemplate[] = [
     description: 'Convert to JSON',
     operation: 'CONVERT_TO_JSON',
     occtBinding: 'convertToJSON',
-    parameters: [
-      { name: 'pretty', type: 'boolean', default: false }
-    ],
-    inputs: [
-      { name: 'data', type: 'Data', required: true }
-    ],
-    outputs: [
-      { name: 'json', type: 'string' }
-    ]
+    parameters: [{ name: 'pretty', type: 'boolean', default: false }],
+    inputs: [{ name: 'data', type: 'Data', required: true }],
+    outputs: [{ name: 'json', type: 'string' }],
   },
   {
     category: 'Data',
@@ -927,13 +758,11 @@ export const dataConversionTemplates: NodeTemplate[] = [
     operation: 'CONVERT_FROM_JSON',
     occtBinding: 'convertFromJSON',
     parameters: [],
-    inputs: [
-      { name: 'json', type: 'string', required: true }
-    ],
+    inputs: [{ name: 'json', type: 'string', required: true }],
     outputs: [
       { name: 'data', type: 'Data' },
-      { name: 'isValid', type: 'boolean' }
-    ]
+      { name: 'isValid', type: 'boolean' },
+    ],
   },
   {
     category: 'Data',
@@ -944,14 +773,10 @@ export const dataConversionTemplates: NodeTemplate[] = [
     occtBinding: 'convertToCSV',
     parameters: [
       { name: 'delimiter', type: 'string', default: ',' },
-      { name: 'headers', type: 'boolean', default: true }
+      { name: 'headers', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'data', type: 'Data[][]', required: true }
-    ],
-    outputs: [
-      { name: 'csv', type: 'string' }
-    ]
+    inputs: [{ name: 'data', type: 'Data[][]', required: true }],
+    outputs: [{ name: 'csv', type: 'string' }],
   },
   {
     category: 'Data',
@@ -962,15 +787,13 @@ export const dataConversionTemplates: NodeTemplate[] = [
     occtBinding: 'convertFromCSV',
     parameters: [
       { name: 'delimiter', type: 'string', default: ',' },
-      { name: 'headers', type: 'boolean', default: true }
+      { name: 'headers', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'csv', type: 'string', required: true }
-    ],
+    inputs: [{ name: 'csv', type: 'string', required: true }],
     outputs: [
       { name: 'data', type: 'Data[][]' },
-      { name: 'headers', type: 'string[]' }
-    ]
+      { name: 'headers', type: 'string[]' },
+    ],
   },
   {
     category: 'Data',
@@ -980,12 +803,8 @@ export const dataConversionTemplates: NodeTemplate[] = [
     operation: 'CONVERT_TO_BASE64',
     occtBinding: 'convertToBase64',
     parameters: [],
-    inputs: [
-      { name: 'data', type: 'Data', required: true }
-    ],
-    outputs: [
-      { name: 'base64', type: 'string' }
-    ]
+    inputs: [{ name: 'data', type: 'Data', required: true }],
+    outputs: [{ name: 'base64', type: 'string' }],
   },
   {
     category: 'Data',
@@ -995,12 +814,8 @@ export const dataConversionTemplates: NodeTemplate[] = [
     operation: 'CONVERT_FROM_BASE64',
     occtBinding: 'convertFromBase64',
     parameters: [],
-    inputs: [
-      { name: 'base64', type: 'string', required: true }
-    ],
-    outputs: [
-      { name: 'data', type: 'Data' }
-    ]
+    inputs: [{ name: 'base64', type: 'string', required: true }],
+    outputs: [{ name: 'data', type: 'Data' }],
   },
   {
     category: 'Data',
@@ -1010,13 +825,9 @@ export const dataConversionTemplates: NodeTemplate[] = [
     operation: 'TYPE_OF',
     occtBinding: 'typeOf',
     parameters: [],
-    inputs: [
-      { name: 'data', type: 'Data', required: true }
-    ],
-    outputs: [
-      { name: 'type', type: 'string' }
-    ]
-  }
+    inputs: [{ name: 'data', type: 'Data', required: true }],
+    outputs: [{ name: 'type', type: 'string' }],
+  },
 ];
 
 // Export all templates
@@ -1025,5 +836,5 @@ export const allDataManagementTemplates = [
   ...setOperationTemplates,
   ...treeOperationTemplates,
   ...stringOperationTemplates,
-  ...dataConversionTemplates
+  ...dataConversionTemplates,
 ];

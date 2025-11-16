@@ -15,7 +15,11 @@ interface FlowAttractorOutputs {
   field: unknown;
 }
 
-export const FieldAttractorFlowAttractorNode: NodeDefinition<FlowAttractorInputs, FlowAttractorOutputs, FlowAttractorParams> = {
+export const FieldAttractorFlowAttractorNode: NodeDefinition<
+  FlowAttractorInputs,
+  FlowAttractorOutputs,
+  FlowAttractorParams
+> = {
   id: 'Field::FlowAttractor',
   type: 'Field::FlowAttractor',
   category: 'Field',
@@ -25,41 +29,41 @@ export const FieldAttractorFlowAttractorNode: NodeDefinition<FlowAttractorInputs
     obstacles: {
       type: 'Shape[]',
       label: 'Obstacles',
-      optional: true
+      optional: true,
     },
     sources: {
       type: 'Point[]',
       label: 'Sources',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     field: {
       type: 'VectorField',
-      label: 'Field'
-    }
+      label: 'Field',
+    },
   },
   params: {
     velocity: {
       type: 'number',
       label: 'Velocity',
       default: 10,
-      min: 0
+      min: 0,
     },
     turbulence: {
       type: 'number',
       label: 'Turbulence',
       default: 0.1,
       min: 0,
-      max: 1
+      max: 1,
     },
     viscosity: {
       type: 'number',
       label: 'Viscosity',
       default: 0.1,
       min: 0,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -69,12 +73,12 @@ export const FieldAttractorFlowAttractorNode: NodeDefinition<FlowAttractorInputs
         sources: inputs.sources,
         velocity: params.velocity,
         turbulence: params.turbulence,
-        viscosity: params.viscosity
-      }
+        viscosity: params.viscosity,
+      },
     });
-    
+
     return {
-      field: result
+      field: result,
     };
   },
 };

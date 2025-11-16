@@ -14,21 +14,24 @@ export function NodeFlowVisualization() {
   const groupRef = useRef<THREE.Group>(null);
 
   // Generate a simple node graph for visualization
-  const nodes: Node[] = useMemo(() => [
-    { id: 'input1', position: [-4, 2, 0], type: 'input', connections: ['process1'] },
-    { id: 'input2', position: [-4, 0, 0], type: 'input', connections: ['process1'] },
-    { id: 'input3', position: [-4, -2, 0], type: 'input', connections: ['process2'] },
-    { id: 'process1', position: [-1, 1, 0], type: 'process', connections: ['process3'] },
-    { id: 'process2', position: [-1, -1, 0], type: 'process', connections: ['process3'] },
-    { id: 'process3', position: [2, 0, 0], type: 'process', connections: ['output1'] },
-    { id: 'output1', position: [5, 0, 0], type: 'output', connections: [] },
-  ], []);
+  const nodes: Node[] = useMemo(
+    () => [
+      { id: 'input1', position: [-4, 2, 0], type: 'input', connections: ['process1'] },
+      { id: 'input2', position: [-4, 0, 0], type: 'input', connections: ['process1'] },
+      { id: 'input3', position: [-4, -2, 0], type: 'input', connections: ['process2'] },
+      { id: 'process1', position: [-1, 1, 0], type: 'process', connections: ['process3'] },
+      { id: 'process2', position: [-1, -1, 0], type: 'process', connections: ['process3'] },
+      { id: 'process3', position: [2, 0, 0], type: 'process', connections: ['output1'] },
+      { id: 'output1', position: [5, 0, 0], type: 'output', connections: [] },
+    ],
+    []
+  );
 
   // Colors for different node types
   const nodeColors = {
-    input: '#3b82f6',    // Blue
-    process: '#8b5cf6',  // Purple
-    output: '#10b981',   // Green
+    input: '#3b82f6', // Blue
+    process: '#8b5cf6', // Purple
+    output: '#10b981', // Green
   };
 
   // Animate the entire group
@@ -43,9 +46,9 @@ export function NodeFlowVisualization() {
   const connections = useMemo(() => {
     const lines: Array<{ from: [number, number, number]; to: [number, number, number] }> = [];
 
-    nodes.forEach(node => {
-      node.connections.forEach(connectionId => {
-        const targetNode = nodes.find(n => n.id === connectionId);
+    nodes.forEach((node) => {
+      node.connections.forEach((connectionId) => {
+        const targetNode = nodes.find((n) => n.id === connectionId);
         if (targetNode) {
           lines.push({
             from: node.position,
@@ -80,12 +83,7 @@ export function NodeFlowVisualization() {
           )}
 
           {/* Add a subtle glow effect */}
-          <pointLight
-            color={nodeColors[node.type]}
-            intensity={0.5}
-            distance={2}
-            decay={2}
-          />
+          <pointLight color={nodeColors[node.type]} intensity={0.5} distance={2} decay={2} />
         </group>
       ))}
 

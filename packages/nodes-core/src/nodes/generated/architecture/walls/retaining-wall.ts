@@ -14,7 +14,11 @@ interface RetainingWallOutputs {
   retainingWall: unknown;
 }
 
-export const ArchitectureWallsRetainingWallNode: NodeDefinition<RetainingWallInputs, RetainingWallOutputs, RetainingWallParams> = {
+export const ArchitectureWallsRetainingWallNode: NodeDefinition<
+  RetainingWallInputs,
+  RetainingWallOutputs,
+  RetainingWallParams
+> = {
   id: 'Architecture::RetainingWall',
   type: 'Architecture::RetainingWall',
   category: 'Architecture',
@@ -24,14 +28,14 @@ export const ArchitectureWallsRetainingWallNode: NodeDefinition<RetainingWallInp
     path: {
       type: 'Wire',
       label: 'Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     retainingWall: {
       type: 'Shape',
-      label: 'Retaining Wall'
-    }
+      label: 'Retaining Wall',
+    },
   },
   params: {
     height: {
@@ -39,22 +43,22 @@ export const ArchitectureWallsRetainingWallNode: NodeDefinition<RetainingWallInp
       label: 'Height',
       default: 2000,
       min: 500,
-      max: 6000
+      max: 6000,
     },
     baseThickness: {
       type: 'number',
       label: 'Base Thickness',
       default: 400,
       min: 200,
-      max: 1000
+      max: 1000,
     },
     batter: {
       type: 'number',
       label: 'Batter',
       default: 10,
       min: 0,
-      max: 30
-    }
+      max: 30,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -63,12 +67,12 @@ export const ArchitectureWallsRetainingWallNode: NodeDefinition<RetainingWallInp
         path: inputs.path,
         height: params.height,
         baseThickness: params.baseThickness,
-        batter: params.batter
-      }
+        batter: params.batter,
+      },
     });
-    
+
     return {
-      retainingWall: result
+      retainingWall: result,
     };
   },
 };

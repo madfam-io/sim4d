@@ -17,19 +17,43 @@ export const flangeTemplates: NodeTemplate[] = [
     operation: 'SHEET_EDGE_FLANGE',
     occtBinding: 'sheetEdgeFlange',
     parameters: [
-      { name: 'height', type: 'number', default: 25, min: 0.1, max: 1000, description: 'Flange height' },
-      { name: 'angle', type: 'number', default: 90, min: 0, max: 180, description: 'Bend angle in degrees' },
-      { name: 'bendRadius', type: 'number', default: 3, min: 0.1, max: 100, description: 'Bend radius' },
-      { name: 'bendRelief', type: 'enum', options: ['rectangular', 'obround', 'tear'], default: 'rectangular' },
-      { name: 'reliefRatio', type: 'number', default: 0.5, min: 0.1, max: 1 }
+      {
+        name: 'height',
+        type: 'number',
+        default: 25,
+        min: 0.1,
+        max: 1000,
+        description: 'Flange height',
+      },
+      {
+        name: 'angle',
+        type: 'number',
+        default: 90,
+        min: 0,
+        max: 180,
+        description: 'Bend angle in degrees',
+      },
+      {
+        name: 'bendRadius',
+        type: 'number',
+        default: 3,
+        min: 0.1,
+        max: 100,
+        description: 'Bend radius',
+      },
+      {
+        name: 'bendRelief',
+        type: 'enum',
+        options: ['rectangular', 'obround', 'tear'],
+        default: 'rectangular',
+      },
+      { name: 'reliefRatio', type: 'number', default: 0.5, min: 0.1, max: 1 },
     ],
     inputs: [
       { name: 'sheet', type: 'Shape', required: true },
-      { name: 'edge', type: 'Edge', required: true }
+      { name: 'edge', type: 'Edge', required: true },
     ],
-    outputs: [
-      { name: 'result', type: 'Shape' }
-    ]
+    outputs: [{ name: 'result', type: 'Shape' }],
   },
 
   {
@@ -42,16 +66,19 @@ export const flangeTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'angle', type: 'number', default: 90, min: 0, max: 180 },
       { name: 'bendRadius', type: 'number', default: 3, min: 0.1, max: 100 },
-      { name: 'flangePosition', type: 'enum', options: ['material-inside', 'bend-outside', 'material-outside'], default: 'material-inside' }
+      {
+        name: 'flangePosition',
+        type: 'enum',
+        options: ['material-inside', 'bend-outside', 'material-outside'],
+        default: 'material-inside',
+      },
     ],
     inputs: [
       { name: 'sheet', type: 'Shape', required: true },
       { name: 'contour', type: 'Wire', required: true },
-      { name: 'profile', type: 'Wire', required: false, description: 'Custom profile for flange' }
+      { name: 'profile', type: 'Wire', required: false, description: 'Custom profile for flange' },
     ],
-    outputs: [
-      { name: 'result', type: 'Shape' }
-    ]
+    outputs: [{ name: 'result', type: 'Shape' }],
   },
 
   {
@@ -65,16 +92,14 @@ export const flangeTemplates: NodeTemplate[] = [
       { name: 'height', type: 'number', default: 25, min: 0.1, max: 1000 },
       { name: 'angle', type: 'number', default: 90, min: 0, max: 180 },
       { name: 'miterAngle', type: 'number', default: 45, min: 0, max: 90 },
-      { name: 'bendRadius', type: 'number', default: 3, min: 0.1, max: 100 }
+      { name: 'bendRadius', type: 'number', default: 3, min: 0.1, max: 100 },
     ],
     inputs: [
       { name: 'sheet', type: 'Shape', required: true },
-      { name: 'edges', type: 'Edge[]', required: true }
+      { name: 'edges', type: 'Edge[]', required: true },
     ],
-    outputs: [
-      { name: 'result', type: 'Shape' }
-    ]
-  }
+    outputs: [{ name: 'result', type: 'Shape' }],
+  },
 ];
 
 /**
@@ -92,15 +117,13 @@ export const bendTemplates: NodeTemplate[] = [
       { name: 'angle', type: 'number', default: 90, min: -180, max: 180 },
       { name: 'bendRadius', type: 'number', default: 3, min: 0.1, max: 100 },
       { name: 'bendDirection', type: 'enum', options: ['up', 'down'], default: 'up' },
-      { name: 'bendAllowance', type: 'number', default: 0, min: -10, max: 10 }
+      { name: 'bendAllowance', type: 'number', default: 0, min: -10, max: 10 },
     ],
     inputs: [
       { name: 'sheet', type: 'Shape', required: true },
-      { name: 'bendLine', type: 'Edge', required: true }
+      { name: 'bendLine', type: 'Edge', required: true },
     ],
-    outputs: [
-      { name: 'result', type: 'Shape' }
-    ]
+    outputs: [{ name: 'result', type: 'Shape' }],
   },
 
   {
@@ -114,15 +137,13 @@ export const bendTemplates: NodeTemplate[] = [
       { name: 'hemType', type: 'enum', options: ['closed', 'open', 'teardrop'], default: 'closed' },
       { name: 'hemLength', type: 'number', default: 10, min: 0.1, max: 100 },
       { name: 'hemGap', type: 'number', default: 0.5, min: 0, max: 10 },
-      { name: 'hemRadius', type: 'number', default: 0.5, min: 0.1, max: 10 }
+      { name: 'hemRadius', type: 'number', default: 0.5, min: 0.1, max: 10 },
     ],
     inputs: [
       { name: 'sheet', type: 'Shape', required: true },
-      { name: 'edge', type: 'Edge', required: true }
+      { name: 'edge', type: 'Edge', required: true },
     ],
-    outputs: [
-      { name: 'result', type: 'Shape' }
-    ]
+    outputs: [{ name: 'result', type: 'Shape' }],
   },
 
   {
@@ -135,16 +156,14 @@ export const bendTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'jogOffset', type: 'number', default: 10, min: 0.1, max: 1000 },
       { name: 'jogAngle', type: 'number', default: 90, min: 0, max: 180 },
-      { name: 'bendRadius', type: 'number', default: 3, min: 0.1, max: 100 }
+      { name: 'bendRadius', type: 'number', default: 3, min: 0.1, max: 100 },
     ],
     inputs: [
       { name: 'sheet', type: 'Shape', required: true },
-      { name: 'jogLine', type: 'Edge', required: true }
+      { name: 'jogLine', type: 'Edge', required: true },
     ],
-    outputs: [
-      { name: 'result', type: 'Shape' }
-    ]
-  }
+    outputs: [{ name: 'result', type: 'Shape' }],
+  },
 ];
 
 /**
@@ -159,17 +178,20 @@ export const cornerTemplates: NodeTemplate[] = [
     operation: 'SHEET_CORNER_RELIEF',
     occtBinding: 'sheetCornerRelief',
     parameters: [
-      { name: 'reliefType', type: 'enum', options: ['circular', 'square', 'obround', 'tear'], default: 'circular' },
+      {
+        name: 'reliefType',
+        type: 'enum',
+        options: ['circular', 'square', 'obround', 'tear'],
+        default: 'circular',
+      },
       { name: 'reliefSize', type: 'number', default: 5, min: 0.1, max: 100 },
-      { name: 'reliefRatio', type: 'number', default: 0.5, min: 0.1, max: 1 }
+      { name: 'reliefRatio', type: 'number', default: 0.5, min: 0.1, max: 1 },
     ],
     inputs: [
       { name: 'sheet', type: 'Shape', required: true },
-      { name: 'corners', type: 'Vertex[]', required: true }
+      { name: 'corners', type: 'Vertex[]', required: true },
     ],
-    outputs: [
-      { name: 'result', type: 'Shape' }
-    ]
+    outputs: [{ name: 'result', type: 'Shape' }],
   },
 
   {
@@ -180,17 +202,20 @@ export const cornerTemplates: NodeTemplate[] = [
     operation: 'SHEET_BEND_RELIEF',
     occtBinding: 'sheetBendRelief',
     parameters: [
-      { name: 'reliefType', type: 'enum', options: ['rectangular', 'obround', 'tear'], default: 'rectangular' },
+      {
+        name: 'reliefType',
+        type: 'enum',
+        options: ['rectangular', 'obround', 'tear'],
+        default: 'rectangular',
+      },
       { name: 'reliefDepth', type: 'number', default: 5, min: 0.1, max: 100 },
-      { name: 'reliefWidth', type: 'number', default: 2, min: 0.1, max: 50 }
+      { name: 'reliefWidth', type: 'number', default: 2, min: 0.1, max: 50 },
     ],
     inputs: [
       { name: 'sheet', type: 'Shape', required: true },
-      { name: 'bends', type: 'Edge[]', required: true }
+      { name: 'bends', type: 'Edge[]', required: true },
     ],
-    outputs: [
-      { name: 'result', type: 'Shape' }
-    ]
+    outputs: [{ name: 'result', type: 'Shape' }],
   },
 
   {
@@ -201,18 +226,21 @@ export const cornerTemplates: NodeTemplate[] = [
     operation: 'SHEET_CLOSED_CORNER',
     occtBinding: 'sheetClosedCorner',
     parameters: [
-      { name: 'cornerType', type: 'enum', options: ['overlap', 'underlap', 'butt'], default: 'overlap' },
+      {
+        name: 'cornerType',
+        type: 'enum',
+        options: ['overlap', 'underlap', 'butt'],
+        default: 'overlap',
+      },
       { name: 'gapDistance', type: 'number', default: 0, min: 0, max: 10 },
-      { name: 'overlapRatio', type: 'number', default: 0.5, min: 0, max: 1 }
+      { name: 'overlapRatio', type: 'number', default: 0.5, min: 0, max: 1 },
     ],
     inputs: [
       { name: 'sheet', type: 'Shape', required: true },
-      { name: 'faces', type: 'Face[]', required: true }
+      { name: 'faces', type: 'Face[]', required: true },
     ],
-    outputs: [
-      { name: 'result', type: 'Shape' }
-    ]
-  }
+    outputs: [{ name: 'result', type: 'Shape' }],
+  },
 ];
 
 /**
@@ -229,17 +257,20 @@ export const sheetFeatureTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'tabWidth', type: 'number', default: 20, min: 0.1, max: 500 },
       { name: 'tabDepth', type: 'number', default: 10, min: 0.1, max: 100 },
-      { name: 'tabType', type: 'enum', options: ['rectangular', 'rounded', 'trapezoidal'], default: 'rectangular' },
-      { name: 'cornerRadius', type: 'number', default: 2, min: 0, max: 50 }
+      {
+        name: 'tabType',
+        type: 'enum',
+        options: ['rectangular', 'rounded', 'trapezoidal'],
+        default: 'rectangular',
+      },
+      { name: 'cornerRadius', type: 'number', default: 2, min: 0, max: 50 },
     ],
     inputs: [
       { name: 'sheet', type: 'Shape', required: true },
       { name: 'edge', type: 'Edge', required: true },
-      { name: 'position', type: 'Point', required: true }
+      { name: 'position', type: 'Point', required: true },
     ],
-    outputs: [
-      { name: 'result', type: 'Shape' }
-    ]
+    outputs: [{ name: 'result', type: 'Shape' }],
   },
 
   {
@@ -252,16 +283,14 @@ export const sheetFeatureTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'slotWidth', type: 'number', default: 20, min: 0.1, max: 500 },
       { name: 'slotDepth', type: 'number', default: 10, min: 0.1, max: 100 },
-      { name: 'clearance', type: 'number', default: 0.2, min: 0, max: 5 }
+      { name: 'clearance', type: 'number', default: 0.2, min: 0, max: 5 },
     ],
     inputs: [
       { name: 'sheet', type: 'Shape', required: true },
       { name: 'edge', type: 'Edge', required: true },
-      { name: 'position', type: 'Point', required: true }
+      { name: 'position', type: 'Point', required: true },
     ],
-    outputs: [
-      { name: 'result', type: 'Shape' }
-    ]
+    outputs: [{ name: 'result', type: 'Shape' }],
   },
 
   {
@@ -275,16 +304,14 @@ export const sheetFeatureTemplates: NodeTemplate[] = [
       { name: 'louverLength', type: 'number', default: 30, min: 1, max: 500 },
       { name: 'louverWidth', type: 'number', default: 5, min: 0.5, max: 100 },
       { name: 'louverHeight', type: 'number', default: 5, min: 0.5, max: 50 },
-      { name: 'louverAngle', type: 'number', default: 45, min: 0, max: 90 }
+      { name: 'louverAngle', type: 'number', default: 45, min: 0, max: 90 },
     ],
     inputs: [
       { name: 'sheet', type: 'Shape', required: true },
       { name: 'position', type: 'Point', required: true },
-      { name: 'direction', type: 'Vector', required: true }
+      { name: 'direction', type: 'Vector', required: true },
     ],
-    outputs: [
-      { name: 'result', type: 'Shape' }
-    ]
+    outputs: [{ name: 'result', type: 'Shape' }],
   },
 
   {
@@ -298,15 +325,13 @@ export const sheetFeatureTemplates: NodeTemplate[] = [
       { name: 'lanceLength', type: 'number', default: 20, min: 1, max: 200 },
       { name: 'lanceWidth', type: 'number', default: 5, min: 0.5, max: 50 },
       { name: 'lanceHeight', type: 'number', default: 3, min: 0.1, max: 50 },
-      { name: 'lanceAngle', type: 'number', default: 30, min: 0, max: 90 }
+      { name: 'lanceAngle', type: 'number', default: 30, min: 0, max: 90 },
     ],
     inputs: [
       { name: 'sheet', type: 'Shape', required: true },
-      { name: 'sketch', type: 'Wire', required: true }
+      { name: 'sketch', type: 'Wire', required: true },
     ],
-    outputs: [
-      { name: 'result', type: 'Shape' }
-    ]
+    outputs: [{ name: 'result', type: 'Shape' }],
   },
 
   {
@@ -319,16 +344,14 @@ export const sheetFeatureTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'beadWidth', type: 'number', default: 10, min: 0.5, max: 100 },
       { name: 'beadHeight', type: 'number', default: 3, min: 0.1, max: 50 },
-      { name: 'beadProfile', type: 'enum', options: ['U', 'V', 'round'], default: 'U' }
+      { name: 'beadProfile', type: 'enum', options: ['U', 'V', 'round'], default: 'U' },
     ],
     inputs: [
       { name: 'sheet', type: 'Shape', required: true },
-      { name: 'path', type: 'Wire', required: true }
+      { name: 'path', type: 'Wire', required: true },
     ],
-    outputs: [
-      { name: 'result', type: 'Shape' }
-    ]
-  }
+    outputs: [{ name: 'result', type: 'Shape' }],
+  },
 ];
 
 /**
@@ -343,19 +366,26 @@ export const unfoldTemplates: NodeTemplate[] = [
     operation: 'SHEET_UNFOLD',
     occtBinding: 'sheetUnfold',
     parameters: [
-      { name: 'kFactor', type: 'number', default: 0.44, min: 0, max: 1, description: 'Neutral axis position' },
+      {
+        name: 'kFactor',
+        type: 'number',
+        default: 0.44,
+        min: 0,
+        max: 1,
+        description: 'Neutral axis position',
+      },
       { name: 'bendAllowance', type: 'number', default: 0, min: -10, max: 10 },
-      { name: 'autoRelief', type: 'boolean', default: true }
+      { name: 'autoRelief', type: 'boolean', default: true },
     ],
     inputs: [
       { name: 'foldedShape', type: 'Shape', required: true },
-      { name: 'fixedFace', type: 'Face', required: false, description: 'Face to keep fixed' }
+      { name: 'fixedFace', type: 'Face', required: false, description: 'Face to keep fixed' },
     ],
     outputs: [
       { name: 'flatPattern', type: 'Shape' },
       { name: 'bendLines', type: 'Edge[]' },
-      { name: 'bendTable', type: 'Data', description: 'Bend sequence information' }
-    ]
+      { name: 'bendTable', type: 'Data', description: 'Bend sequence information' },
+    ],
   },
 
   {
@@ -367,16 +397,21 @@ export const unfoldTemplates: NodeTemplate[] = [
     occtBinding: 'sheetFold',
     parameters: [
       { name: 'foldSequence', type: 'string', default: 'auto', description: 'Bend sequence order' },
-      { name: 'partialFold', type: 'number', default: 1, min: 0, max: 1, description: 'Fold completion ratio' }
+      {
+        name: 'partialFold',
+        type: 'number',
+        default: 1,
+        min: 0,
+        max: 1,
+        description: 'Fold completion ratio',
+      },
     ],
     inputs: [
       { name: 'flatPattern', type: 'Shape', required: true },
       { name: 'bendLines', type: 'Edge[]', required: true },
-      { name: 'bendAngles', type: 'number[]', required: true }
+      { name: 'bendAngles', type: 'number[]', required: true },
     ],
-    outputs: [
-      { name: 'foldedShape', type: 'Shape' }
-    ]
+    outputs: [{ name: 'foldedShape', type: 'Shape' }],
   },
 
   {
@@ -389,16 +424,19 @@ export const unfoldTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'inclueBendLines', type: 'boolean', default: true },
       { name: 'includeFormingTools', type: 'boolean', default: true },
-      { name: 'layerMapping', type: 'enum', options: ['by-feature', 'by-type', 'single'], default: 'by-type' }
+      {
+        name: 'layerMapping',
+        type: 'enum',
+        options: ['by-feature', 'by-type', 'single'],
+        default: 'by-type',
+      },
     ],
     inputs: [
       { name: 'flatPattern', type: 'Shape', required: true },
-      { name: 'annotations', type: 'Data', required: false }
+      { name: 'annotations', type: 'Data', required: false },
     ],
-    outputs: [
-      { name: 'dxfData', type: 'Data' }
-    ]
-  }
+    outputs: [{ name: 'dxfData', type: 'Data' }],
+  },
 ];
 
 /**
@@ -413,16 +451,31 @@ export const sheetPropertiesTemplates: NodeTemplate[] = [
     operation: 'SHEET_STYLE',
     occtBinding: 'sheetStyle',
     parameters: [
-      { name: 'thickness', type: 'number', default: 2, min: 0.1, max: 50, description: 'Material thickness' },
-      { name: 'material', type: 'enum', options: ['steel', 'aluminum', 'stainless', 'copper', 'brass'], default: 'steel' },
+      {
+        name: 'thickness',
+        type: 'number',
+        default: 2,
+        min: 0.1,
+        max: 50,
+        description: 'Material thickness',
+      },
+      {
+        name: 'material',
+        type: 'enum',
+        options: ['steel', 'aluminum', 'stainless', 'copper', 'brass'],
+        default: 'steel',
+      },
       { name: 'kFactor', type: 'number', default: 0.44, min: 0, max: 1 },
       { name: 'minBendRadius', type: 'number', default: 2, min: 0.1, max: 50 },
-      { name: 'reliefType', type: 'enum', options: ['rectangular', 'obround', 'tear'], default: 'rectangular' }
+      {
+        name: 'reliefType',
+        type: 'enum',
+        options: ['rectangular', 'obround', 'tear'],
+        default: 'rectangular',
+      },
     ],
     inputs: [],
-    outputs: [
-      { name: 'style', type: 'Data' }
-    ]
+    outputs: [{ name: 'style', type: 'Data' }],
   },
 
   {
@@ -433,14 +486,15 @@ export const sheetPropertiesTemplates: NodeTemplate[] = [
     operation: 'SHEET_BEND_TABLE',
     occtBinding: 'sheetBendTable',
     parameters: [
-      { name: 'tableType', type: 'enum', options: ['bend-deduction', 'bend-allowance', 'k-factor'], default: 'k-factor' }
+      {
+        name: 'tableType',
+        type: 'enum',
+        options: ['bend-deduction', 'bend-allowance', 'k-factor'],
+        default: 'k-factor',
+      },
     ],
-    inputs: [
-      { name: 'tableData', type: 'Data', required: true, description: 'CSV or table data' }
-    ],
-    outputs: [
-      { name: 'bendTable', type: 'Data' }
-    ]
+    inputs: [{ name: 'tableData', type: 'Data', required: true, description: 'CSV or table data' }],
+    outputs: [{ name: 'bendTable', type: 'Data' }],
   },
 
   {
@@ -453,18 +507,25 @@ export const sheetPropertiesTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'materialCostPerKg', type: 'number', default: 2, min: 0.1, max: 1000 },
       { name: 'setupCost', type: 'number', default: 50, min: 0, max: 10000 },
-      { name: 'bendCost', type: 'number', default: 0.5, min: 0, max: 100, description: 'Cost per bend' },
-      { name: 'cutCostPerMeter', type: 'number', default: 1, min: 0, max: 100 }
+      {
+        name: 'bendCost',
+        type: 'number',
+        default: 0.5,
+        min: 0,
+        max: 100,
+        description: 'Cost per bend',
+      },
+      { name: 'cutCostPerMeter', type: 'number', default: 1, min: 0, max: 100 },
     ],
     inputs: [
       { name: 'sheet', type: 'Shape', required: true },
-      { name: 'quantity', type: 'number', required: false }
+      { name: 'quantity', type: 'number', required: false },
     ],
     outputs: [
       { name: 'cost', type: 'number' },
-      { name: 'breakdown', type: 'Data' }
-    ]
-  }
+      { name: 'breakdown', type: 'Data' },
+    ],
+  },
 ];
 
 // Export all templates
@@ -474,5 +535,5 @@ export const allSheetMetalTemplates = [
   ...cornerTemplates,
   ...sheetFeatureTemplates,
   ...unfoldTemplates,
-  ...sheetPropertiesTemplates
+  ...sheetPropertiesTemplates,
 ];

@@ -19,8 +19,8 @@ export const MathRandomRandomNode: NodeDefinition<RandomInputs, RandomOutputs, R
   outputs: {
     value: {
       type: 'number',
-      label: 'Value'
-    }
+      label: 'Value',
+    },
   },
   params: {
     seed: {
@@ -28,19 +28,19 @@ export const MathRandomRandomNode: NodeDefinition<RandomInputs, RandomOutputs, R
       label: 'Seed',
       default: -1,
       min: -1,
-      max: 999999
-    }
+      max: 999999,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathRandom',
       params: {
-        seed: params.seed
-      }
+        seed: params.seed,
+      },
     });
-    
+
     return {
-      value: result
+      value: result,
     };
   },
 };

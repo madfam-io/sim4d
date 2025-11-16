@@ -14,7 +14,11 @@ interface AdaptiveClearingOutputs {
   adaptivePath: unknown;
 }
 
-export const FabricationCNCAdaptiveClearingNode: NodeDefinition<AdaptiveClearingInputs, AdaptiveClearingOutputs, AdaptiveClearingParams> = {
+export const FabricationCNCAdaptiveClearingNode: NodeDefinition<
+  AdaptiveClearingInputs,
+  AdaptiveClearingOutputs,
+  AdaptiveClearingParams
+> = {
   id: 'Fabrication::AdaptiveClearing',
   category: 'Fabrication',
   label: 'AdaptiveClearing',
@@ -23,19 +27,19 @@ export const FabricationCNCAdaptiveClearingNode: NodeDefinition<AdaptiveClearing
     region: {
       type: 'Face',
       label: 'Region',
-      required: true
+      required: true,
     },
     depth: {
       type: 'Number',
       label: 'Depth',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     adaptivePath: {
       type: 'Wire',
-      label: 'Adaptive Path'
-    }
+      label: 'Adaptive Path',
+    },
   },
   params: {
     optimalLoad: {
@@ -43,15 +47,15 @@ export const FabricationCNCAdaptiveClearingNode: NodeDefinition<AdaptiveClearing
       label: 'Optimal Load',
       default: 0.4,
       min: 0.1,
-      max: 1
+      max: 1,
     },
     helixAngle: {
       type: 'number',
       label: 'Helix Angle',
       default: 3,
       min: 0,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -60,12 +64,12 @@ export const FabricationCNCAdaptiveClearingNode: NodeDefinition<AdaptiveClearing
         region: inputs.region,
         depth: inputs.depth,
         optimalLoad: params.optimalLoad,
-        helixAngle: params.helixAngle
-      }
+        helixAngle: params.helixAngle,
+      },
     });
-    
+
     return {
-      adaptivePath: result
+      adaptivePath: result,
     };
   },
 };

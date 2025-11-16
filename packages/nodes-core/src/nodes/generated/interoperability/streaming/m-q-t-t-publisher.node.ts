@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -15,7 +14,11 @@ interface Outputs {
   messageId: string;
 }
 
-export const MQTTPublisherNode: NodeDefinition<MQTTPublisherInputs, MQTTPublisherOutputs, MQTTPublisherParams> = {
+export const MQTTPublisherNode: NodeDefinition<
+  MQTTPublisherInputs,
+  MQTTPublisherOutputs,
+  MQTTPublisherParams
+> = {
   type: 'Interoperability::MQTTPublisher',
   category: 'Interoperability',
   subcategory: 'Streaming',
@@ -23,44 +26,37 @@ export const MQTTPublisherNode: NodeDefinition<MQTTPublisherInputs, MQTTPublishe
   metadata: {
     label: 'MQTTPublisher',
     description: 'Publish MQTT messages',
-    
-    
   },
 
   params: {
-        broker: {
-      "default": "",
-      "description": "MQTT broker address"
+    broker: {
+      default: '',
+      description: 'MQTT broker address',
     },
     port: {
-      "default": 1883,
-      "min": 1,
-      "max": 65535
+      default: 1883,
+      min: 1,
+      max: 65535,
     },
     topic: {
-      "default": ""
+      default: '',
     },
     qos: {
-      "default": "0",
-      "options": [
-        "0",
-        "1",
-        "2"
-      ]
-    }
+      default: '0',
+      options: ['0', '1', '2'],
+    },
   },
 
   inputs: {
-        payload: 'string'
+    payload: 'string',
   },
 
   outputs: {
-        published: 'boolean',
-    messageId: 'string'
+    published: 'boolean',
+    messageId: 'string',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'mqttPublisher',
       params: {
@@ -68,13 +64,13 @@ export const MQTTPublisherNode: NodeDefinition<MQTTPublisherInputs, MQTTPublishe
         broker: params.broker,
         port: params.port,
         topic: params.topic,
-        qos: params.qos
-      }
+        qos: params.qos,
+      },
     });
 
     return {
       published: result,
-      messageId: result
+      messageId: result,
     };
-  }
+  },
 };

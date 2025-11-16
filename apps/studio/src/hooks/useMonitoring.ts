@@ -26,44 +26,46 @@ export function useMonitoring() {
     }
   }, []);
 
-  const recordUserInteraction = useCallback((interaction: {
-    type: string;
-    target?: string;
-    data?: Record<string, any>;
-  }) => {
-    monitoringSystem?.recordUserInteraction(interaction);
-  }, [monitoringSystem]);
+  const recordUserInteraction = useCallback(
+    (interaction: { type: string; target?: string; data?: Record<string, any> }) => {
+      monitoringSystem?.recordUserInteraction(interaction);
+    },
+    [monitoringSystem]
+  );
 
-  const executeMonitoredOperation = useCallback(async <T>(
-    operation: () => Promise<T>,
-    operationName: string,
-    options?: Parameters<NonNullable<typeof monitoringSystem>['executeMonitoredOperation']>[2]
-  ): Promise<T> => {
-    if (!monitoringSystem) {
-      throw new Error('Monitoring system not available');
-    }
-    return monitoringSystem.executeMonitoredOperation(operation, operationName, options);
-  }, [monitoringSystem]);
+  const executeMonitoredOperation = useCallback(
+    async <T>(
+      operation: () => Promise<T>,
+      operationName: string,
+      options?: Parameters<NonNullable<typeof monitoringSystem>['executeMonitoredOperation']>[2]
+    ): Promise<T> => {
+      if (!monitoringSystem) {
+        throw new Error('Monitoring system not available');
+      }
+      return monitoringSystem.executeMonitoredOperation(operation, operationName, options);
+    },
+    [monitoringSystem]
+  );
 
-  const executeWasmOperation = useCallback(async <T>(
-    operation: () => Promise<T>,
-    operationName?: string
-  ): Promise<T> => {
-    if (!monitoringSystem) {
-      throw new Error('Monitoring system not available');
-    }
-    return monitoringSystem.executeWasmOperation(operation, operationName);
-  }, [monitoringSystem]);
+  const executeWasmOperation = useCallback(
+    async <T>(operation: () => Promise<T>, operationName?: string): Promise<T> => {
+      if (!monitoringSystem) {
+        throw new Error('Monitoring system not available');
+      }
+      return monitoringSystem.executeWasmOperation(operation, operationName);
+    },
+    [monitoringSystem]
+  );
 
-  const executeNetworkOperation = useCallback(async <T>(
-    operation: () => Promise<T>,
-    operationName?: string
-  ): Promise<T> => {
-    if (!monitoringSystem) {
-      throw new Error('Monitoring system not available');
-    }
-    return monitoringSystem.executeNetworkOperation(operation, operationName);
-  }, [monitoringSystem]);
+  const executeNetworkOperation = useCallback(
+    async <T>(operation: () => Promise<T>, operationName?: string): Promise<T> => {
+      if (!monitoringSystem) {
+        throw new Error('Monitoring system not available');
+      }
+      return monitoringSystem.executeNetworkOperation(operation, operationName);
+    },
+    [monitoringSystem]
+  );
 
   return {
     isInitialized,
@@ -71,7 +73,7 @@ export function useMonitoring() {
     recordUserInteraction,
     executeMonitoredOperation,
     executeWasmOperation,
-    executeNetworkOperation
+    executeNetworkOperation,
   };
 }
 
@@ -85,9 +87,9 @@ export function useHealthMonitoring() {
   useEffect(() => {
     const handleHealthAlert = (event: CustomEvent) => {
       const alert = event.detail as HealthAlert;
-      setAlerts(prev => {
+      setAlerts((prev) => {
         // Add new alert if not already present
-        if (!prev.find(a => a.id === alert.id)) {
+        if (!prev.find((a) => a.id === alert.id)) {
           return [...prev, alert];
         }
         return prev;
@@ -119,13 +121,13 @@ export function useHealthMonitoring() {
   }, []);
 
   const dismissAlert = useCallback((alertId: string) => {
-    setAlerts(prev => prev.filter(alert => alert.id !== alertId));
+    setAlerts((prev) => prev.filter((alert) => alert.id !== alertId));
   }, []);
 
   return {
     alerts,
     systemHealth,
-    dismissAlert
+    dismissAlert,
   };
 }
 
@@ -146,17 +148,17 @@ export function useErrorMonitoring() {
     }
 
     const handleError = (error: BrepFlowError) => {
-      setErrors(prev => {
+      setErrors((prev) => {
         // Add new error if not already present
-        if (!prev.find(e => e.id === error.id)) {
+        if (!prev.find((e) => e.id === error.id)) {
           return [...prev, error].slice(-20); // Keep last 20 errors
         }
         return prev;
       });
 
       if (error.severity === 'critical') {
-        setCriticalErrors(prev => {
-          if (!prev.find(e => e.id === error.id)) {
+        setCriticalErrors((prev) => {
+          if (!prev.find((e) => e.id === error.id)) {
             return [...prev, error].slice(-5); // Keep last 5 critical errors
           }
           return prev;
@@ -165,8 +167,10 @@ export function useErrorMonitoring() {
     };
 
     const handleErrorResolved = (error: BrepFlowError) => {
-      setErrors(prev => prev.map(e => e.id === error.id ? { ...e, resolvedAt: new Date() } : e));
-      setCriticalErrors(prev => prev.filter(e => e.id !== error.id));
+      setErrors((prev) =>
+        prev.map((e) => (e.id === error.id ? { ...e, resolvedAt: new Date() } : e))
+      );
+      setCriticalErrors((prev) => prev.filter((e) => e.id !== error.id));
     };
 
     errorManager.on('error', handleError);
@@ -176,7 +180,7 @@ export function useErrorMonitoring() {
     // Initial load
     const activeErrors = errorManager.getActiveErrors();
     setErrors(activeErrors.slice(-20));
-    setCriticalErrors(activeErrors.filter(e => e.severity === 'critical').slice(-5));
+    setCriticalErrors(activeErrors.filter((e) => e.severity === 'critical').slice(-5));
 
     return () => {
       errorManager.off('error', handleError);
@@ -197,7 +201,7 @@ export function useErrorMonitoring() {
   return {
     errors,
     criticalErrors,
-    resolveError
+    resolveError,
   };
 }
 
@@ -227,23 +231,29 @@ export function usePerformanceMetrics() {
     return () => clearInterval(interval);
   }, []);
 
-  const recordTiming = useCallback((name: string, duration: number, labels?: Record<string, string>) => {
-    try {
-      const metricsCollector = MetricsCollector.getInstance();
-      metricsCollector.recordTiming(name, duration, labels);
-    } catch (error) {
-      // Metrics collector not ready
-    }
-  }, []);
+  const recordTiming = useCallback(
+    (name: string, duration: number, labels?: Record<string, string>) => {
+      try {
+        const metricsCollector = MetricsCollector.getInstance();
+        metricsCollector.recordTiming(name, duration, labels);
+      } catch (error) {
+        // Metrics collector not ready
+      }
+    },
+    []
+  );
 
-  const incrementCounter = useCallback((name: string, labels?: Record<string, string>, value?: number) => {
-    try {
-      const metricsCollector = MetricsCollector.getInstance();
-      metricsCollector.incrementCounter(name, labels, value);
-    } catch (error) {
-      // Metrics collector not ready
-    }
-  }, []);
+  const incrementCounter = useCallback(
+    (name: string, labels?: Record<string, string>, value?: number) => {
+      try {
+        const metricsCollector = MetricsCollector.getInstance();
+        metricsCollector.incrementCounter(name, labels, value);
+      } catch (error) {
+        // Metrics collector not ready
+      }
+    },
+    []
+  );
 
   const setGauge = useCallback((name: string, value: number, labels?: Record<string, string>) => {
     try {
@@ -258,7 +268,7 @@ export function usePerformanceMetrics() {
     metrics,
     recordTiming,
     incrementCounter,
-    setGauge
+    setGauge,
   };
 }
 
@@ -275,7 +285,7 @@ export function useRenderTiming(componentName: string) {
       const endTime = performance.now();
       const renderTime = endTime - startTime;
       recordTiming('component_render_time_ms', renderTime, {
-        component: componentName
+        component: componentName,
       });
     };
   }, [componentName, recordTiming]);
@@ -287,38 +297,41 @@ export function useRenderTiming(componentName: string) {
 export function useOperationTiming() {
   const { recordTiming } = usePerformanceMetrics();
 
-  const measureAsync = useCallback(async <T>(
-    operation: () => Promise<T>,
-    operationName: string,
-    labels?: Record<string, string>
-  ): Promise<T> => {
-    const startTime = performance.now();
+  const measureAsync = useCallback(
+    async <T>(
+      operation: () => Promise<T>,
+      operationName: string,
+      labels?: Record<string, string>
+    ): Promise<T> => {
+      const startTime = performance.now();
 
-    try {
-      const result = await operation();
-      const endTime = performance.now();
-      const duration = endTime - startTime;
+      try {
+        const result = await operation();
+        const endTime = performance.now();
+        const duration = endTime - startTime;
 
-      recordTiming('async_operation_duration_ms', duration, {
-        operation: operationName,
-        status: 'success',
-        ...labels
-      });
+        recordTiming('async_operation_duration_ms', duration, {
+          operation: operationName,
+          status: 'success',
+          ...labels,
+        });
 
-      return result;
-    } catch (error) {
-      const endTime = performance.now();
-      const duration = endTime - startTime;
+        return result;
+      } catch (error) {
+        const endTime = performance.now();
+        const duration = endTime - startTime;
 
-      recordTiming('async_operation_duration_ms', duration, {
-        operation: operationName,
-        status: 'error',
-        ...labels
-      });
+        recordTiming('async_operation_duration_ms', duration, {
+          operation: operationName,
+          status: 'error',
+          ...labels,
+        });
 
-      throw error;
-    }
-  }, [recordTiming]);
+        throw error;
+      }
+    },
+    [recordTiming]
+  );
 
   return { measureAsync };
 }

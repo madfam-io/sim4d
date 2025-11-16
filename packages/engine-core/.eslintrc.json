@@ -6,10 +6,13 @@
     }
   },
   "rules": {
-    "@typescript-eslint/no-unused-vars": ["warn", {
-      "argsIgnorePattern": "^_|^params$|^ctx$|^inputName$",
-      "varsIgnorePattern": "^_|^variables$|^initHasher$|^NodeInstance$|^Constraint$|^GeometryElement$"
-    }],
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^_|^params$|^ctx$|^inputName$",
+        "varsIgnorePattern": "^_|^variables$|^initHasher$|^NodeInstance$|^Constraint$|^GeometryElement$"
+      }
+    ],
     "@typescript-eslint/no-var-requires": "warn",
     "prefer-const": "warn",
     "react/react-in-jsx-scope": "off",

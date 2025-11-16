@@ -1,6 +1,6 @@
 /**
  * Session API Routes
- * 
+ *
  * Simple REST endpoints for session management
  */
 
@@ -12,7 +12,6 @@ import type { GraphInstance } from '@brepflow/types';
  * Register session routes on Express router
  */
 export function registerSessionRoutes(router: Router): void {
-  
   /**
    * POST /api/sessions
    * Create new session
@@ -21,7 +20,7 @@ export function registerSessionRoutes(router: Router): void {
     try {
       const { graph } = req.body as { graph?: GraphInstance };
       const session = sessionManager.createSession(graph);
-      
+
       res.status(201).json({
         sessionId: session.id,
         created: session.created,

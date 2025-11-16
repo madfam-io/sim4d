@@ -1,4 +1,3 @@
-
 # Exp10 Node
 
 **Category:** Math / Logarithmic
@@ -11,19 +10,13 @@ This node has no parameters.
 
 ## Inputs
 
-
 ### Value
+
 - **Type:** number
 - **Required:** Yes
 
-
-
 ## Outputs
 
-
 ### Result
+
 - **Type:** number
-
-
-
-

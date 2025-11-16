@@ -13,19 +13,22 @@ export const interoperabilityNodes: NodeTemplate[] = [
     operation: 'STEP_IMPORT',
     occtBinding: 'stepImport',
     parameters: [
-      { name: 'units', type: 'enum', options: ['auto', 'mm', 'cm', 'm', 'inch', 'ft'], default: 'auto' },
+      {
+        name: 'units',
+        type: 'enum',
+        options: ['auto', 'mm', 'cm', 'm', 'inch', 'ft'],
+        default: 'auto',
+      },
       { name: 'healGeometry', type: 'boolean', default: true },
       { name: 'precision', type: 'number', default: 0.01, min: 0.001, max: 1 },
-      { name: 'mergeSurfaces', type: 'boolean', default: false }
+      { name: 'mergeSurfaces', type: 'boolean', default: false },
     ],
-    inputs: [
-      { name: 'filePath', type: 'string', required: true }
-    ],
+    inputs: [{ name: 'filePath', type: 'string', required: true }],
     outputs: [
       { name: 'shapes', type: 'Shape[]' },
       { name: 'metadata', type: 'Properties' },
-      { name: 'units', type: 'string' }
-    ]
+      { name: 'units', type: 'string' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -38,17 +41,22 @@ export const interoperabilityNodes: NodeTemplate[] = [
       { name: 'version', type: 'enum', options: ['AP203', 'AP214', 'AP242'], default: 'AP214' },
       { name: 'units', type: 'enum', options: ['mm', 'cm', 'm', 'inch'], default: 'mm' },
       { name: 'precision', type: 'number', default: 0.01, min: 0.001, max: 1 },
-      { name: 'writeMode', type: 'enum', options: ['manifold', 'wireframe', 'shell'], default: 'manifold' }
+      {
+        name: 'writeMode',
+        type: 'enum',
+        options: ['manifold', 'wireframe', 'shell'],
+        default: 'manifold',
+      },
     ],
     inputs: [
       { name: 'shapes', type: 'Shape[]', required: true },
-      { name: 'filePath', type: 'string', required: true }
+      { name: 'filePath', type: 'string', required: true },
     ],
     outputs: [
       { name: 'success', type: 'boolean' },
       { name: 'fileSize', type: 'number' },
-      { name: 'exportLog', type: 'string[]' }
-    ]
+      { name: 'exportLog', type: 'string[]' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -60,17 +68,15 @@ export const interoperabilityNodes: NodeTemplate[] = [
     parameters: [
       { name: 'units', type: 'enum', options: ['auto', 'mm', 'cm', 'm', 'inch'], default: 'auto' },
       { name: 'readFailed', type: 'boolean', default: false, description: 'Read failed entities' },
-      { name: 'oneObject', type: 'boolean', default: false, description: 'Merge into one shape' }
+      { name: 'oneObject', type: 'boolean', default: false, description: 'Merge into one shape' },
     ],
-    inputs: [
-      { name: 'filePath', type: 'string', required: true }
-    ],
+    inputs: [{ name: 'filePath', type: 'string', required: true }],
     outputs: [
       { name: 'shapes', type: 'Shape[]' },
       { name: 'curves', type: 'Wire[]' },
       { name: 'surfaces', type: 'Face[]' },
-      { name: 'metadata', type: 'Properties' }
-    ]
+      { name: 'metadata', type: 'Properties' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -82,16 +88,16 @@ export const interoperabilityNodes: NodeTemplate[] = [
     parameters: [
       { name: 'units', type: 'enum', options: ['mm', 'cm', 'm', 'inch'], default: 'mm' },
       { name: 'precision', type: 'number', default: 0.01, min: 0.001, max: 1 },
-      { name: 'writeMode', type: 'enum', options: ['brep', 'faces'], default: 'brep' }
+      { name: 'writeMode', type: 'enum', options: ['brep', 'faces'], default: 'brep' },
     ],
     inputs: [
       { name: 'shapes', type: 'Shape[]', required: true },
-      { name: 'filePath', type: 'string', required: true }
+      { name: 'filePath', type: 'string', required: true },
     ],
     outputs: [
       { name: 'success', type: 'boolean' },
-      { name: 'entityCount', type: 'number' }
-    ]
+      { name: 'entityCount', type: 'number' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -103,16 +109,14 @@ export const interoperabilityNodes: NodeTemplate[] = [
     parameters: [
       { name: 'mergeVertices', type: 'boolean', default: true },
       { name: 'tolerance', type: 'number', default: 0.01, min: 0.001, max: 1 },
-      { name: 'units', type: 'enum', options: ['mm', 'cm', 'm', 'inch'], default: 'mm' }
+      { name: 'units', type: 'enum', options: ['mm', 'cm', 'm', 'inch'], default: 'mm' },
     ],
-    inputs: [
-      { name: 'filePath', type: 'string', required: true }
-    ],
+    inputs: [{ name: 'filePath', type: 'string', required: true }],
     outputs: [
       { name: 'mesh', type: 'Shape' },
       { name: 'triangleCount', type: 'number' },
-      { name: 'vertexCount', type: 'number' }
-    ]
+      { name: 'vertexCount', type: 'number' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -124,16 +128,16 @@ export const interoperabilityNodes: NodeTemplate[] = [
     parameters: [
       { name: 'format', type: 'enum', options: ['ascii', 'binary'], default: 'binary' },
       { name: 'deflection', type: 'number', default: 0.1, min: 0.01, max: 1 },
-      { name: 'angularDeflection', type: 'number', default: 0.1, min: 0.01, max: 1 }
+      { name: 'angularDeflection', type: 'number', default: 0.1, min: 0.01, max: 1 },
     ],
     inputs: [
       { name: 'shapes', type: 'Shape[]', required: true },
-      { name: 'filePath', type: 'string', required: true }
+      { name: 'filePath', type: 'string', required: true },
     ],
     outputs: [
       { name: 'success', type: 'boolean' },
-      { name: 'triangleCount', type: 'number' }
-    ]
+      { name: 'triangleCount', type: 'number' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -145,16 +149,14 @@ export const interoperabilityNodes: NodeTemplate[] = [
     parameters: [
       { name: 'scale', type: 'number', default: 1.0, min: 0.001, max: 1000 },
       { name: 'flipNormals', type: 'boolean', default: false },
-      { name: 'loadMaterials', type: 'boolean', default: true }
+      { name: 'loadMaterials', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'filePath', type: 'string', required: true }
-    ],
+    inputs: [{ name: 'filePath', type: 'string', required: true }],
     outputs: [
       { name: 'meshes', type: 'Shape[]' },
       { name: 'materials', type: 'Properties[]' },
-      { name: 'groups', type: 'string[]' }
-    ]
+      { name: 'groups', type: 'string[]' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -166,17 +168,17 @@ export const interoperabilityNodes: NodeTemplate[] = [
     parameters: [
       { name: 'includeNormals', type: 'boolean', default: true },
       { name: 'includeTexCoords', type: 'boolean', default: false },
-      { name: 'smoothing', type: 'boolean', default: true }
+      { name: 'smoothing', type: 'boolean', default: true },
     ],
     inputs: [
       { name: 'meshes', type: 'Shape[]', required: true },
-      { name: 'filePath', type: 'string', required: true }
+      { name: 'filePath', type: 'string', required: true },
     ],
     outputs: [
       { name: 'success', type: 'boolean' },
       { name: 'vertexCount', type: 'number' },
-      { name: 'faceCount', type: 'number' }
-    ]
+      { name: 'faceCount', type: 'number' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -188,16 +190,14 @@ export const interoperabilityNodes: NodeTemplate[] = [
     parameters: [
       { name: 'loadColors', type: 'boolean', default: true },
       { name: 'loadNormals', type: 'boolean', default: true },
-      { name: 'scaleFactor', type: 'number', default: 1.0, min: 0.001, max: 1000 }
+      { name: 'scaleFactor', type: 'number', default: 1.0, min: 0.001, max: 1000 },
     ],
-    inputs: [
-      { name: 'filePath', type: 'string', required: true }
-    ],
+    inputs: [{ name: 'filePath', type: 'string', required: true }],
     outputs: [
       { name: 'points', type: 'Point[]' },
       { name: 'colors', type: 'number[][]' },
-      { name: 'normals', type: 'Vector[]' }
-    ]
+      { name: 'normals', type: 'Vector[]' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -209,18 +209,18 @@ export const interoperabilityNodes: NodeTemplate[] = [
     parameters: [
       { name: 'format', type: 'enum', options: ['ascii', 'binary'], default: 'binary' },
       { name: 'includeColors', type: 'boolean', default: false },
-      { name: 'includeNormals', type: 'boolean', default: false }
+      { name: 'includeNormals', type: 'boolean', default: false },
     ],
     inputs: [
       { name: 'points', type: 'Point[]', required: true },
       { name: 'filePath', type: 'string', required: true },
       { name: 'colors', type: 'number[][]', required: false },
-      { name: 'normals', type: 'Vector[]', required: false }
+      { name: 'normals', type: 'Vector[]', required: false },
     ],
     outputs: [
       { name: 'success', type: 'boolean' },
-      { name: 'pointCount', type: 'number' }
-    ]
+      { name: 'pointCount', type: 'number' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -232,16 +232,14 @@ export const interoperabilityNodes: NodeTemplate[] = [
     parameters: [
       { name: 'loadTextures', type: 'boolean', default: true },
       { name: 'loadMaterials', type: 'boolean', default: true },
-      { name: 'units', type: 'enum', options: ['auto', 'mm', 'cm', 'm'], default: 'auto' }
+      { name: 'units', type: 'enum', options: ['auto', 'mm', 'cm', 'm'], default: 'auto' },
     ],
-    inputs: [
-      { name: 'filePath', type: 'string', required: true }
-    ],
+    inputs: [{ name: 'filePath', type: 'string', required: true }],
     outputs: [
       { name: 'models', type: 'Shape[]' },
       { name: 'materials', type: 'Properties[]' },
-      { name: 'build', type: 'Properties' }
-    ]
+      { name: 'build', type: 'Properties' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -253,16 +251,16 @@ export const interoperabilityNodes: NodeTemplate[] = [
     parameters: [
       { name: 'units', type: 'enum', options: ['mm', 'cm', 'm'], default: 'mm' },
       { name: 'includeColors', type: 'boolean', default: true },
-      { name: 'compression', type: 'boolean', default: true }
+      { name: 'compression', type: 'boolean', default: true },
     ],
     inputs: [
       { name: 'models', type: 'Shape[]', required: true },
-      { name: 'filePath', type: 'string', required: true }
+      { name: 'filePath', type: 'string', required: true },
     ],
     outputs: [
       { name: 'success', type: 'boolean' },
-      { name: 'modelCount', type: 'number' }
-    ]
+      { name: 'modelCount', type: 'number' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -273,18 +271,21 @@ export const interoperabilityNodes: NodeTemplate[] = [
     occtBinding: 'dxfImport',
     parameters: [
       { name: 'units', type: 'enum', options: ['auto', 'mm', 'cm', 'm', 'inch'], default: 'auto' },
-      { name: 'layers', type: 'string', default: 'all', description: 'Comma-separated layer names' },
-      { name: 'explodeBlocks', type: 'boolean', default: false }
+      {
+        name: 'layers',
+        type: 'string',
+        default: 'all',
+        description: 'Comma-separated layer names',
+      },
+      { name: 'explodeBlocks', type: 'boolean', default: false },
     ],
-    inputs: [
-      { name: 'filePath', type: 'string', required: true }
-    ],
+    inputs: [{ name: 'filePath', type: 'string', required: true }],
     outputs: [
       { name: 'curves', type: 'Wire[]' },
       { name: 'points', type: 'Point[]' },
       { name: 'texts', type: 'Properties[]' },
-      { name: 'layers', type: 'string[]' }
-    ]
+      { name: 'layers', type: 'string[]' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -294,18 +295,23 @@ export const interoperabilityNodes: NodeTemplate[] = [
     operation: 'DXF_EXPORT',
     occtBinding: 'dxfExport',
     parameters: [
-      { name: 'version', type: 'enum', options: ['R12', 'R14', '2000', '2004', '2007'], default: '2000' },
+      {
+        name: 'version',
+        type: 'enum',
+        options: ['R12', 'R14', '2000', '2004', '2007'],
+        default: '2000',
+      },
       { name: 'units', type: 'enum', options: ['mm', 'cm', 'm', 'inch'], default: 'mm' },
-      { name: 'layerName', type: 'string', default: 'BrepFlow' }
+      { name: 'layerName', type: 'string', default: 'BrepFlow' },
     ],
     inputs: [
       { name: 'curves', type: 'Wire[]', required: true },
-      { name: 'filePath', type: 'string', required: true }
+      { name: 'filePath', type: 'string', required: true },
     ],
     outputs: [
       { name: 'success', type: 'boolean' },
-      { name: 'entityCount', type: 'number' }
-    ]
+      { name: 'entityCount', type: 'number' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -317,16 +323,14 @@ export const interoperabilityNodes: NodeTemplate[] = [
     parameters: [
       { name: 'scale', type: 'number', default: 1.0, min: 0.001, max: 1000 },
       { name: 'tolerance', type: 'number', default: 0.1, min: 0.01, max: 1 },
-      { name: 'flatten', type: 'boolean', default: true, description: 'Flatten to single plane' }
+      { name: 'flatten', type: 'boolean', default: true, description: 'Flatten to single plane' },
     ],
-    inputs: [
-      { name: 'filePath', type: 'string', required: true }
-    ],
+    inputs: [{ name: 'filePath', type: 'string', required: true }],
     outputs: [
       { name: 'curves', type: 'Wire[]' },
       { name: 'closed', type: 'Wire[]' },
-      { name: 'open', type: 'Wire[]' }
-    ]
+      { name: 'open', type: 'Wire[]' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -338,16 +342,16 @@ export const interoperabilityNodes: NodeTemplate[] = [
     parameters: [
       { name: 'scale', type: 'number', default: 1.0, min: 0.001, max: 1000 },
       { name: 'strokeWidth', type: 'number', default: 1.0, min: 0.1, max: 10 },
-      { name: 'viewBox', type: 'boolean', default: true }
+      { name: 'viewBox', type: 'boolean', default: true },
     ],
     inputs: [
       { name: 'curves', type: 'Wire[]', required: true },
-      { name: 'filePath', type: 'string', required: true }
+      { name: 'filePath', type: 'string', required: true },
     ],
     outputs: [
       { name: 'success', type: 'boolean' },
-      { name: 'dimensions', type: 'Vector' }
-    ]
+      { name: 'dimensions', type: 'Vector' },
+    ],
   },
 
   // ============================================================
@@ -361,18 +365,28 @@ export const interoperabilityNodes: NodeTemplate[] = [
     operation: 'SQL_QUERY',
     occtBinding: 'sqlQuery',
     parameters: [
-      { name: 'connectionString', type: 'string', default: '', description: 'Database connection string' },
+      {
+        name: 'connectionString',
+        type: 'string',
+        default: '',
+        description: 'Database connection string',
+      },
       { name: 'query', type: 'string', default: 'SELECT * FROM table', description: 'SQL query' },
-      { name: 'timeout', type: 'number', default: 30, min: 1, max: 300, description: 'Timeout in seconds' }
+      {
+        name: 'timeout',
+        type: 'number',
+        default: 30,
+        min: 1,
+        max: 300,
+        description: 'Timeout in seconds',
+      },
     ],
-    inputs: [
-      { name: 'parameters', type: 'Properties', required: false }
-    ],
+    inputs: [{ name: 'parameters', type: 'Properties', required: false }],
     outputs: [
       { name: 'data', type: 'Properties[]' },
       { name: 'rowCount', type: 'number' },
-      { name: 'columns', type: 'string[]' }
-    ]
+      { name: 'columns', type: 'string[]' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -384,16 +398,14 @@ export const interoperabilityNodes: NodeTemplate[] = [
     parameters: [
       { name: 'connectionString', type: 'string', default: '' },
       { name: 'tableName', type: 'string', default: '', description: 'Target table name' },
-      { name: 'batchSize', type: 'number', default: 100, min: 1, max: 1000 }
+      { name: 'batchSize', type: 'number', default: 100, min: 1, max: 1000 },
     ],
-    inputs: [
-      { name: 'data', type: 'Properties[]', required: true }
-    ],
+    inputs: [{ name: 'data', type: 'Properties[]', required: true }],
     outputs: [
       { name: 'success', type: 'boolean' },
       { name: 'insertedRows', type: 'number' },
-      { name: 'errors', type: 'string[]' }
-    ]
+      { name: 'errors', type: 'string[]' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -406,17 +418,17 @@ export const interoperabilityNodes: NodeTemplate[] = [
       { name: 'method', type: 'enum', options: ['GET', 'POST', 'PUT', 'DELETE'], default: 'GET' },
       { name: 'url', type: 'string', default: '', description: 'API endpoint URL' },
       { name: 'timeout', type: 'number', default: 30, min: 1, max: 300 },
-      { name: 'retries', type: 'number', default: 3, min: 0, max: 10 }
+      { name: 'retries', type: 'number', default: 3, min: 0, max: 10 },
     ],
     inputs: [
       { name: 'headers', type: 'Properties', required: false },
-      { name: 'body', type: 'Properties', required: false }
+      { name: 'body', type: 'Properties', required: false },
     ],
     outputs: [
       { name: 'response', type: 'Properties' },
       { name: 'statusCode', type: 'number' },
-      { name: 'headers', type: 'Properties' }
-    ]
+      { name: 'headers', type: 'Properties' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -427,16 +439,14 @@ export const interoperabilityNodes: NodeTemplate[] = [
     occtBinding: 'jsonParser',
     parameters: [
       { name: 'path', type: 'string', default: '', description: 'JSONPath expression' },
-      { name: 'flatten', type: 'boolean', default: false, description: 'Flatten nested objects' }
+      { name: 'flatten', type: 'boolean', default: false, description: 'Flatten nested objects' },
     ],
-    inputs: [
-      { name: 'jsonData', type: 'string', required: true }
-    ],
+    inputs: [{ name: 'jsonData', type: 'string', required: true }],
     outputs: [
       { name: 'data', type: 'Properties' },
       { name: 'arrays', type: 'Properties[]' },
-      { name: 'values', type: 'string[]' }
-    ]
+      { name: 'values', type: 'string[]' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -446,16 +456,21 @@ export const interoperabilityNodes: NodeTemplate[] = [
     operation: 'JSON_GENERATOR',
     occtBinding: 'jsonGenerator',
     parameters: [
-      { name: 'indent', type: 'number', default: 2, min: 0, max: 8, description: 'Indentation spaces' },
-      { name: 'compact', type: 'boolean', default: false, description: 'Compact output' }
+      {
+        name: 'indent',
+        type: 'number',
+        default: 2,
+        min: 0,
+        max: 8,
+        description: 'Indentation spaces',
+      },
+      { name: 'compact', type: 'boolean', default: false, description: 'Compact output' },
     ],
-    inputs: [
-      { name: 'data', type: 'Properties', required: true }
-    ],
+    inputs: [{ name: 'data', type: 'Properties', required: true }],
     outputs: [
       { name: 'json', type: 'string' },
-      { name: 'size', type: 'number' }
-    ]
+      { name: 'size', type: 'number' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -468,17 +483,17 @@ export const interoperabilityNodes: NodeTemplate[] = [
       { name: 'bucket', type: 'string', default: '', description: 'S3 bucket name' },
       { name: 'accessKey', type: 'string', default: '', description: 'AWS access key' },
       { name: 'secretKey', type: 'string', default: '', description: 'AWS secret key' },
-      { name: 'region', type: 'string', default: 'us-east-1' }
+      { name: 'region', type: 'string', default: 'us-east-1' },
     ],
     inputs: [
       { name: 'filePath', type: 'string', required: true },
-      { name: 'key', type: 'string', required: true }
+      { name: 'key', type: 'string', required: true },
     ],
     outputs: [
       { name: 'success', type: 'boolean' },
       { name: 'url', type: 'string' },
-      { name: 'etag', type: 'string' }
-    ]
+      { name: 'etag', type: 'string' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -491,17 +506,17 @@ export const interoperabilityNodes: NodeTemplate[] = [
       { name: 'bucket', type: 'string', default: '' },
       { name: 'accessKey', type: 'string', default: '' },
       { name: 'secretKey', type: 'string', default: '' },
-      { name: 'region', type: 'string', default: 'us-east-1' }
+      { name: 'region', type: 'string', default: 'us-east-1' },
     ],
     inputs: [
       { name: 'key', type: 'string', required: true },
-      { name: 'localPath', type: 'string', required: true }
+      { name: 'localPath', type: 'string', required: true },
     ],
     outputs: [
       { name: 'success', type: 'boolean' },
       { name: 'fileSize', type: 'number' },
-      { name: 'metadata', type: 'Properties' }
-    ]
+      { name: 'metadata', type: 'Properties' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -514,18 +529,18 @@ export const interoperabilityNodes: NodeTemplate[] = [
       { name: 'smtpServer', type: 'string', default: '', description: 'SMTP server address' },
       { name: 'port', type: 'number', default: 587, min: 1, max: 65535 },
       { name: 'username', type: 'string', default: '' },
-      { name: 'password', type: 'string', default: '' }
+      { name: 'password', type: 'string', default: '' },
     ],
     inputs: [
       { name: 'to', type: 'string', required: true },
       { name: 'subject', type: 'string', required: true },
       { name: 'body', type: 'string', required: true },
-      { name: 'attachments', type: 'string[]', required: false }
+      { name: 'attachments', type: 'string[]', required: false },
     ],
     outputs: [
       { name: 'sent', type: 'boolean' },
-      { name: 'messageId', type: 'string' }
-    ]
+      { name: 'messageId', type: 'string' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -537,16 +552,16 @@ export const interoperabilityNodes: NodeTemplate[] = [
     parameters: [
       { name: 'webhookUrl', type: 'string', default: '', description: 'Slack webhook URL' },
       { name: 'channel', type: 'string', default: '#general' },
-      { name: 'username', type: 'string', default: 'BrepFlow' }
+      { name: 'username', type: 'string', default: 'BrepFlow' },
     ],
     inputs: [
       { name: 'message', type: 'string', required: true },
-      { name: 'attachments', type: 'Properties[]', required: false }
+      { name: 'attachments', type: 'Properties[]', required: false },
     ],
     outputs: [
       { name: 'sent', type: 'boolean' },
-      { name: 'timestamp', type: 'string' }
-    ]
+      { name: 'timestamp', type: 'string' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -558,16 +573,14 @@ export const interoperabilityNodes: NodeTemplate[] = [
     parameters: [
       { name: 'delimiter', type: 'string', default: ',', description: 'Field delimiter' },
       { name: 'hasHeader', type: 'boolean', default: true },
-      { name: 'encoding', type: 'enum', options: ['utf-8', 'ascii', 'latin1'], default: 'utf-8' }
+      { name: 'encoding', type: 'enum', options: ['utf-8', 'ascii', 'latin1'], default: 'utf-8' },
     ],
-    inputs: [
-      { name: 'filePath', type: 'string', required: true }
-    ],
+    inputs: [{ name: 'filePath', type: 'string', required: true }],
     outputs: [
       { name: 'data', type: 'Properties[]' },
       { name: 'headers', type: 'string[]' },
-      { name: 'rowCount', type: 'number' }
-    ]
+      { name: 'rowCount', type: 'number' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -579,16 +592,16 @@ export const interoperabilityNodes: NodeTemplate[] = [
     parameters: [
       { name: 'delimiter', type: 'string', default: ',' },
       { name: 'includeHeader', type: 'boolean', default: true },
-      { name: 'encoding', type: 'enum', options: ['utf-8', 'ascii'], default: 'utf-8' }
+      { name: 'encoding', type: 'enum', options: ['utf-8', 'ascii'], default: 'utf-8' },
     ],
     inputs: [
       { name: 'data', type: 'Properties[]', required: true },
-      { name: 'filePath', type: 'string', required: true }
+      { name: 'filePath', type: 'string', required: true },
     ],
     outputs: [
       { name: 'success', type: 'boolean' },
-      { name: 'rowsWritten', type: 'number' }
-    ]
+      { name: 'rowsWritten', type: 'number' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -598,18 +611,21 @@ export const interoperabilityNodes: NodeTemplate[] = [
     operation: 'EXCEL_READER',
     occtBinding: 'excelReader',
     parameters: [
-      { name: 'sheetName', type: 'string', default: '', description: 'Sheet name (empty for first)' },
+      {
+        name: 'sheetName',
+        type: 'string',
+        default: '',
+        description: 'Sheet name (empty for first)',
+      },
       { name: 'hasHeader', type: 'boolean', default: true },
-      { name: 'range', type: 'string', default: '', description: 'Cell range (e.g., A1:C10)' }
+      { name: 'range', type: 'string', default: '', description: 'Cell range (e.g., A1:C10)' },
     ],
-    inputs: [
-      { name: 'filePath', type: 'string', required: true }
-    ],
+    inputs: [{ name: 'filePath', type: 'string', required: true }],
     outputs: [
       { name: 'data', type: 'Properties[]' },
       { name: 'sheetNames', type: 'string[]' },
-      { name: 'dimensions', type: 'number[]' }
-    ]
+      { name: 'dimensions', type: 'number[]' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -621,16 +637,16 @@ export const interoperabilityNodes: NodeTemplate[] = [
     parameters: [
       { name: 'sheetName', type: 'string', default: 'Sheet1' },
       { name: 'includeHeader', type: 'boolean', default: true },
-      { name: 'startCell', type: 'string', default: 'A1' }
+      { name: 'startCell', type: 'string', default: 'A1' },
     ],
     inputs: [
       { name: 'data', type: 'Properties[]', required: true },
-      { name: 'filePath', type: 'string', required: true }
+      { name: 'filePath', type: 'string', required: true },
     ],
     outputs: [
       { name: 'success', type: 'boolean' },
-      { name: 'cellsWritten', type: 'number' }
-    ]
+      { name: 'cellsWritten', type: 'number' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -641,16 +657,16 @@ export const interoperabilityNodes: NodeTemplate[] = [
     occtBinding: 'grasshopperExport',
     parameters: [
       { name: 'version', type: 'enum', options: ['GH1', 'GH2'], default: 'GH1' },
-      { name: 'embedGeometry', type: 'boolean', default: true }
+      { name: 'embedGeometry', type: 'boolean', default: true },
     ],
     inputs: [
       { name: 'definition', type: 'Properties', required: true },
-      { name: 'filePath', type: 'string', required: true }
+      { name: 'filePath', type: 'string', required: true },
     ],
     outputs: [
       { name: 'success', type: 'boolean' },
-      { name: 'componentCount', type: 'number' }
-    ]
+      { name: 'componentCount', type: 'number' },
+    ],
   },
 
   // ============================================================
@@ -666,16 +682,21 @@ export const interoperabilityNodes: NodeTemplate[] = [
     parameters: [
       { name: 'url', type: 'string', default: '', description: 'WebSocket server URL' },
       { name: 'reconnect', type: 'boolean', default: true },
-      { name: 'heartbeat', type: 'number', default: 30, min: 0, max: 300, description: 'Heartbeat interval' }
+      {
+        name: 'heartbeat',
+        type: 'number',
+        default: 30,
+        min: 0,
+        max: 300,
+        description: 'Heartbeat interval',
+      },
     ],
-    inputs: [
-      { name: 'message', type: 'string', required: false }
-    ],
+    inputs: [{ name: 'message', type: 'string', required: false }],
     outputs: [
       { name: 'connected', type: 'boolean' },
       { name: 'messages', type: 'string[]' },
-      { name: 'lastMessage', type: 'string' }
-    ]
+      { name: 'lastMessage', type: 'string' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -688,15 +709,13 @@ export const interoperabilityNodes: NodeTemplate[] = [
       { name: 'broker', type: 'string', default: '', description: 'MQTT broker address' },
       { name: 'port', type: 'number', default: 1883, min: 1, max: 65535 },
       { name: 'topic', type: 'string', default: '' },
-      { name: 'qos', type: 'enum', options: ['0', '1', '2'], default: '0' }
+      { name: 'qos', type: 'enum', options: ['0', '1', '2'], default: '0' },
     ],
-    inputs: [
-      { name: 'payload', type: 'string', required: true }
-    ],
+    inputs: [{ name: 'payload', type: 'string', required: true }],
     outputs: [
       { name: 'published', type: 'boolean' },
-      { name: 'messageId', type: 'string' }
-    ]
+      { name: 'messageId', type: 'string' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -709,14 +728,14 @@ export const interoperabilityNodes: NodeTemplate[] = [
       { name: 'broker', type: 'string', default: '' },
       { name: 'port', type: 'number', default: 1883, min: 1, max: 65535 },
       { name: 'topic', type: 'string', default: '' },
-      { name: 'qos', type: 'enum', options: ['0', '1', '2'], default: '0' }
+      { name: 'qos', type: 'enum', options: ['0', '1', '2'], default: '0' },
     ],
     inputs: [],
     outputs: [
       { name: 'connected', type: 'boolean' },
       { name: 'messages', type: 'string[]' },
-      { name: 'lastMessage', type: 'string' }
-    ]
+      { name: 'lastMessage', type: 'string' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -727,18 +746,21 @@ export const interoperabilityNodes: NodeTemplate[] = [
     occtBinding: 'serialPort',
     parameters: [
       { name: 'port', type: 'string', default: 'COM1', description: 'Serial port name' },
-      { name: 'baudRate', type: 'enum', options: ['9600', '19200', '38400', '57600', '115200'], default: '9600' },
+      {
+        name: 'baudRate',
+        type: 'enum',
+        options: ['9600', '19200', '38400', '57600', '115200'],
+        default: '9600',
+      },
       { name: 'dataBits', type: 'enum', options: ['7', '8'], default: '8' },
-      { name: 'parity', type: 'enum', options: ['none', 'even', 'odd'], default: 'none' }
+      { name: 'parity', type: 'enum', options: ['none', 'even', 'odd'], default: 'none' },
     ],
-    inputs: [
-      { name: 'data', type: 'string', required: false }
-    ],
+    inputs: [{ name: 'data', type: 'string', required: false }],
     outputs: [
       { name: 'connected', type: 'boolean' },
       { name: 'received', type: 'string' },
-      { name: 'buffer', type: 'string[]' }
-    ]
+      { name: 'buffer', type: 'string[]' },
+    ],
   },
   {
     category: 'Interoperability',
@@ -750,15 +772,13 @@ export const interoperabilityNodes: NodeTemplate[] = [
     parameters: [
       { name: 'host', type: 'string', default: 'localhost' },
       { name: 'port', type: 'number', default: 8080, min: 1, max: 65535 },
-      { name: 'timeout', type: 'number', default: 30, min: 1, max: 300 }
+      { name: 'timeout', type: 'number', default: 30, min: 1, max: 300 },
     ],
-    inputs: [
-      { name: 'data', type: 'string', required: false }
-    ],
+    inputs: [{ name: 'data', type: 'string', required: false }],
     outputs: [
       { name: 'connected', type: 'boolean' },
       { name: 'response', type: 'string' },
-      { name: 'error', type: 'string' }
-    ]
-  }
+      { name: 'error', type: 'string' },
+    ],
+  },
 ];

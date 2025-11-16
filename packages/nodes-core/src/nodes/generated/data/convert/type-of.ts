@@ -20,26 +20,26 @@ export const DataConvertTypeOfNode: NodeDefinition<TypeOfInputs, TypeOfOutputs, 
     data: {
       type: 'Data',
       label: 'Data',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     type: {
       type: 'string',
-      label: 'Type'
-    }
+      label: 'Type',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'typeOf',
       params: {
-        data: inputs.data
-      }
+        data: inputs.data,
+      },
     });
-    
+
     return {
-      type: result
+      type: result,
     };
   },
 };

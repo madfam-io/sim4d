@@ -19,7 +19,11 @@ interface GridArrayOutputs {
   merged: unknown;
 }
 
-export const TransformGridArrayNode: NodeDefinition<GridArrayInputs, GridArrayOutputs, GridArrayParams> = {
+export const TransformGridArrayNode: NodeDefinition<
+  GridArrayInputs,
+  GridArrayOutputs,
+  GridArrayParams
+> = {
   id: 'Transform::GridArray',
   category: 'Transform',
   label: 'GridArray',
@@ -28,18 +32,18 @@ export const TransformGridArrayNode: NodeDefinition<GridArrayInputs, GridArrayOu
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     array: {
       type: 'Shape[]',
-      label: 'Array'
+      label: 'Array',
     },
     merged: {
       type: 'Shape',
-      label: 'Merged'
-    }
+      label: 'Merged',
+    },
   },
   params: {
     countX: {
@@ -48,7 +52,7 @@ export const TransformGridArrayNode: NodeDefinition<GridArrayInputs, GridArrayOu
       default: 3,
       min: 1,
       max: 100,
-      step: 1
+      step: 1,
     },
     countY: {
       type: 'number',
@@ -56,7 +60,7 @@ export const TransformGridArrayNode: NodeDefinition<GridArrayInputs, GridArrayOu
       default: 3,
       min: 1,
       max: 100,
-      step: 1
+      step: 1,
     },
     countZ: {
       type: 'number',
@@ -64,34 +68,34 @@ export const TransformGridArrayNode: NodeDefinition<GridArrayInputs, GridArrayOu
       default: 1,
       min: 1,
       max: 100,
-      step: 1
+      step: 1,
     },
     spacingX: {
       type: 'number',
       label: 'Spacing X',
       default: 100,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     spacingY: {
       type: 'number',
       label: 'Spacing Y',
       default: 100,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     spacingZ: {
       type: 'number',
       label: 'Spacing Z',
       default: 100,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     merge: {
       type: 'boolean',
       label: 'Merge',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -104,13 +108,13 @@ export const TransformGridArrayNode: NodeDefinition<GridArrayInputs, GridArrayOu
         spacingX: params.spacingX,
         spacingY: params.spacingY,
         spacingZ: params.spacingZ,
-        merge: params.merge
-      }
+        merge: params.merge,
+      },
     });
-    
+
     return {
       array: results.array,
-      merged: results.merged
+      merged: results.merged,
     };
   },
 };

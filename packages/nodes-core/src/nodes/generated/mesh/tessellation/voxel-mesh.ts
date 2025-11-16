@@ -13,7 +13,11 @@ interface VoxelMeshOutputs {
   voxels: unknown;
 }
 
-export const MeshTessellationVoxelMeshNode: NodeDefinition<VoxelMeshInputs, VoxelMeshOutputs, VoxelMeshParams> = {
+export const MeshTessellationVoxelMeshNode: NodeDefinition<
+  VoxelMeshInputs,
+  VoxelMeshOutputs,
+  VoxelMeshParams
+> = {
   id: 'Mesh::VoxelMesh',
   type: 'Mesh::VoxelMesh',
   category: 'Mesh',
@@ -23,14 +27,14 @@ export const MeshTessellationVoxelMeshNode: NodeDefinition<VoxelMeshInputs, Voxe
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     voxels: {
       type: 'Mesh',
-      label: 'Voxels'
-    }
+      label: 'Voxels',
+    },
   },
   params: {
     voxelSize: {
@@ -38,13 +42,13 @@ export const MeshTessellationVoxelMeshNode: NodeDefinition<VoxelMeshInputs, Voxe
       label: 'Voxel Size',
       default: 1,
       min: 0.01,
-      max: 100
+      max: 100,
     },
     fillInterior: {
       type: 'boolean',
       label: 'Fill Interior',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -52,12 +56,12 @@ export const MeshTessellationVoxelMeshNode: NodeDefinition<VoxelMeshInputs, Voxe
       params: {
         shape: inputs.shape,
         voxelSize: params.voxelSize,
-        fillInterior: params.fillInterior
-      }
+        fillInterior: params.fillInterior,
+      },
     });
-    
+
     return {
-      voxels: result
+      voxels: result,
     };
   },
 };

@@ -13,7 +13,11 @@ interface SafetyZonesOutputs {
   noGoZones: unknown;
 }
 
-export const FabricationLaserSafetyZonesNode: NodeDefinition<SafetyZonesInputs, SafetyZonesOutputs, SafetyZonesParams> = {
+export const FabricationLaserSafetyZonesNode: NodeDefinition<
+  SafetyZonesInputs,
+  SafetyZonesOutputs,
+  SafetyZonesParams
+> = {
   id: 'Fabrication::SafetyZones',
   category: 'Fabrication',
   label: 'SafetyZones',
@@ -22,18 +26,18 @@ export const FabricationLaserSafetyZonesNode: NodeDefinition<SafetyZonesInputs, 
     workArea: {
       type: 'Face',
       label: 'Work Area',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     safeArea: {
       type: 'Face',
-      label: 'Safe Area'
+      label: 'Safe Area',
     },
     noGoZones: {
       type: 'Face[]',
-      label: 'No Go Zones'
-    }
+      label: 'No Go Zones',
+    },
   },
   params: {
     margin: {
@@ -41,21 +45,21 @@ export const FabricationLaserSafetyZonesNode: NodeDefinition<SafetyZonesInputs, 
       label: 'Margin',
       default: 5,
       min: 0,
-      max: 50
-    }
+      max: 50,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
       type: 'safetyZones',
       params: {
         workArea: inputs.workArea,
-        margin: params.margin
-      }
+        margin: params.margin,
+      },
     });
-    
+
     return {
       safeArea: results.safeArea,
-      noGoZones: results.noGoZones
+      noGoZones: results.noGoZones,
     };
   },
 };

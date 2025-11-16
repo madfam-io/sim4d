@@ -16,7 +16,11 @@ interface NoiseFieldOutputs {
   field: unknown;
 }
 
-export const FieldGenerateNoiseFieldNode: NodeDefinition<NoiseFieldInputs, NoiseFieldOutputs, NoiseFieldParams> = {
+export const FieldGenerateNoiseFieldNode: NodeDefinition<
+  NoiseFieldInputs,
+  NoiseFieldOutputs,
+  NoiseFieldParams
+> = {
   id: 'Field::NoiseField',
   type: 'Field::NoiseField',
   category: 'Field',
@@ -26,27 +30,27 @@ export const FieldGenerateNoiseFieldNode: NodeDefinition<NoiseFieldInputs, Noise
     domain: {
       type: 'Box',
       label: 'Domain',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     field: {
       type: 'ScalarField',
-      label: 'Field'
-    }
+      label: 'Field',
+    },
   },
   params: {
     type: {
       type: 'enum',
       label: 'Type',
-      default: "perlin",
-      options: ["perlin","simplex","worley","turbulence"]
+      default: 'perlin',
+      options: ['perlin', 'simplex', 'worley', 'turbulence'],
     },
     scale: {
       type: 'number',
       label: 'Scale',
       default: 10,
-      min: 0.1
+      min: 0.1,
     },
     octaves: {
       type: 'number',
@@ -54,22 +58,22 @@ export const FieldGenerateNoiseFieldNode: NodeDefinition<NoiseFieldInputs, Noise
       default: 4,
       min: 1,
       max: 8,
-      step: 1
+      step: 1,
     },
     persistence: {
       type: 'number',
       label: 'Persistence',
       default: 0.5,
       min: 0,
-      max: 1
+      max: 1,
     },
     seed: {
       type: 'number',
       label: 'Seed',
       default: 0,
       min: 0,
-      max: 999999
-    }
+      max: 999999,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -80,12 +84,12 @@ export const FieldGenerateNoiseFieldNode: NodeDefinition<NoiseFieldInputs, Noise
         scale: params.scale,
         octaves: params.octaves,
         persistence: params.persistence,
-        seed: params.seed
-      }
+        seed: params.seed,
+      },
     });
-    
+
     return {
-      field: result
+      field: result,
     };
   },
 };

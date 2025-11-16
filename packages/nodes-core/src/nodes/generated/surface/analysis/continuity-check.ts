@@ -16,7 +16,11 @@ interface ContinuityCheckOutputs {
   deviations: unknown;
 }
 
-export const SurfaceAnalysisContinuityCheckNode: NodeDefinition<ContinuityCheckInputs, ContinuityCheckOutputs, ContinuityCheckParams> = {
+export const SurfaceAnalysisContinuityCheckNode: NodeDefinition<
+  ContinuityCheckInputs,
+  ContinuityCheckOutputs,
+  ContinuityCheckParams
+> = {
   id: 'Surface::ContinuityCheck',
   type: 'Surface::ContinuityCheck',
   category: 'Surface',
@@ -26,43 +30,43 @@ export const SurfaceAnalysisContinuityCheckNode: NodeDefinition<ContinuityCheckI
     surface1: {
       type: 'Face',
       label: 'Surface1',
-      required: true
+      required: true,
     },
     surface2: {
       type: 'Face',
       label: 'Surface2',
-      required: true
+      required: true,
     },
     edge: {
       type: 'Edge',
       label: 'Edge',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     isContinuous: {
       type: 'boolean',
-      label: 'Is Continuous'
+      label: 'Is Continuous',
     },
     deviations: {
       type: 'Data',
-      label: 'Deviations'
-    }
+      label: 'Deviations',
+    },
   },
   params: {
     checkType: {
       type: 'enum',
       label: 'Check Type',
-      default: "G1",
-      options: ["G0","G1","G2","G3"]
+      default: 'G1',
+      options: ['G0', 'G1', 'G2', 'G3'],
     },
     tolerance: {
       type: 'number',
       label: 'Tolerance',
       default: 0.01,
       min: 0.0001,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -72,13 +76,13 @@ export const SurfaceAnalysisContinuityCheckNode: NodeDefinition<ContinuityCheckI
         surface2: inputs.surface2,
         edge: inputs.edge,
         checkType: params.checkType,
-        tolerance: params.tolerance
-      }
+        tolerance: params.tolerance,
+      },
     });
-    
+
     return {
       isContinuous: results.isContinuous,
-      deviations: results.deviations
+      deviations: results.deviations,
     };
   },
 };

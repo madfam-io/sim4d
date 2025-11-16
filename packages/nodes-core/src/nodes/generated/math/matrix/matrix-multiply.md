@@ -1,4 +1,3 @@
-
 # MatrixMultiply Node
 
 **Category:** Math / Matrix
@@ -11,25 +10,18 @@ This node has no parameters.
 
 ## Inputs
 
-
 ### A
+
 - **Type:** Matrix
 - **Required:** Yes
-
-
 
 ### B
+
 - **Type:** Matrix
 - **Required:** Yes
-
-
 
 ## Outputs
 
-
 ### Result
+
 - **Type:** Matrix
-
-
-
-

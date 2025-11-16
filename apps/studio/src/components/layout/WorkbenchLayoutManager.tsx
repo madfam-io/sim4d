@@ -23,22 +23,15 @@ interface PanelComponentProps {
 }
 
 const PanelComponent: React.FC<PanelComponentProps> = ({ panelId, children }) => (
-  <div className={`panel-content-wrapper panel-${panelId}`}>
-    {children}
-  </div>
+  <div className={`panel-content-wrapper panel-${panelId}`}>{children}</div>
 );
 
 export const WorkbenchLayoutManager: React.FC<WorkbenchLayoutManagerProps> = ({
   children,
-  controlsPosition = 'floating'
+  controlsPosition = 'floating',
 }) => {
-  const {
-    currentLayout,
-    focusMode,
-    updateScreenSize,
-    getScreenSize,
-    isInitialized
-  } = useLayoutStore();
+  const { currentLayout, focusMode, updateScreenSize, getScreenSize, isInitialized } =
+    useLayoutStore();
 
   // Auto-recovery for collapsed panels - immediate and aggressive
   useEffect(() => {
@@ -49,14 +42,16 @@ export const WorkbenchLayoutManager: React.FC<WorkbenchLayoutManagerProps> = ({
       if (leftSidebar) {
         const width = parseFloat(window.getComputedStyle(leftSidebar).width);
         if (width < 50) {
-          leftSidebar.style.cssText = 'width: 20% !important; flex: 0 0 20% !important; min-width: 240px !important;';
+          leftSidebar.style.cssText =
+            'width: 20% !important; flex: 0 0 20% !important; min-width: 240px !important;';
         }
       }
 
       if (rightSidebar) {
         const width = parseFloat(window.getComputedStyle(rightSidebar).width);
         if (width < 50) {
-          rightSidebar.style.cssText = 'width: 25% !important; flex: 0 0 25% !important; min-width: 320px !important;';
+          rightSidebar.style.cssText =
+            'width: 25% !important; flex: 0 0 25% !important; min-width: 320px !important;';
         }
       }
     };
@@ -111,9 +106,7 @@ export const WorkbenchLayoutManager: React.FC<WorkbenchLayoutManagerProps> = ({
     return (
       <div className="workbench-layout focus-mode">
         <LayoutControls position={controlsPosition} />
-        <PanelComponent panelId={focusMode.focusedPanel}>
-          {focusedPanelContent}
-        </PanelComponent>
+        <PanelComponent panelId={focusMode.focusedPanel}>{focusedPanelContent}</PanelComponent>
       </div>
     );
   }
@@ -122,20 +115,17 @@ export const WorkbenchLayoutManager: React.FC<WorkbenchLayoutManagerProps> = ({
   if (!isInitialized) {
     return (
       <div className="workbench-layout">
-        <div className="loading-layout">
-          Loading workspace...
-        </div>
+        <div className="loading-layout">Loading workspace...</div>
       </div>
     );
   }
 
   // Calculate panel sizes and structure
-  const leftPanels = visiblePanels.filter(id => currentLayout.panels[id].position === 'left');
-  const rightPanels = visiblePanels.filter(id => currentLayout.panels[id].position === 'right');
-  const centerPanels = visiblePanels.filter(id => currentLayout.panels[id].position === 'center');
-  const bottomPanels = visiblePanels.filter(id => currentLayout.panels[id].position === 'bottom');
-  const topPanels = visiblePanels.filter(id => currentLayout.panels[id].position === 'top');
-
+  const leftPanels = visiblePanels.filter((id) => currentLayout.panels[id].position === 'left');
+  const rightPanels = visiblePanels.filter((id) => currentLayout.panels[id].position === 'right');
+  const centerPanels = visiblePanels.filter((id) => currentLayout.panels[id].position === 'center');
+  const bottomPanels = visiblePanels.filter((id) => currentLayout.panels[id].position === 'bottom');
+  const topPanels = visiblePanels.filter((id) => currentLayout.panels[id].position === 'top');
 
   return (
     <div className="workbench-layout">
@@ -145,14 +135,9 @@ export const WorkbenchLayoutManager: React.FC<WorkbenchLayoutManagerProps> = ({
         {/* Top panels (toolbar) */}
         {topPanels.length > 0 && (
           <>
-            <Panel
-              id="top-area"
-              defaultSize={5}
-              minSize={3}
-              maxSize={10}
-            >
+            <Panel id="top-area" defaultSize={5} minSize={3} maxSize={10}>
               <div className="top-panels-container">
-                {topPanels.map(panelId => (
+                {topPanels.map((panelId) => (
                   <PanelComponent key={panelId} panelId={panelId}>
                     {children[panelId]}
                   </PanelComponent>
@@ -178,7 +163,7 @@ export const WorkbenchLayoutManager: React.FC<WorkbenchLayoutManagerProps> = ({
                   style={{ minWidth: '240px' }}
                 >
                   <div className="left-panels-container">
-                    {leftPanels.map(panelId => (
+                    {leftPanels.map((panelId) => (
                       <PanelComponent key={panelId} panelId={panelId}>
                         {children[panelId]}
                       </PanelComponent>
@@ -199,7 +184,18 @@ export const WorkbenchLayoutManager: React.FC<WorkbenchLayoutManagerProps> = ({
                         id={`center-${panelId}`}
                         defaultSize={
                           typeof currentLayout.panels[panelId].size.height === 'string'
-                            ? Math.min(Math.max(parseFloat((currentLayout.panels[panelId].size.height as string).replace('%', '')), 15), 85)
+                            ? Math.min(
+                                Math.max(
+                                  parseFloat(
+                                    (currentLayout.panels[panelId].size.height as string).replace(
+                                      '%',
+                                      ''
+                                    )
+                                  ),
+                                  15
+                                ),
+                                85
+                              )
                             : 50
                         }
                         minSize={15}
@@ -234,7 +230,7 @@ export const WorkbenchLayoutManager: React.FC<WorkbenchLayoutManagerProps> = ({
                   style={{ minWidth: '320px' }}
                 >
                   <div className="right-panels-container">
-                    {rightPanels.map(panelId => (
+                    {rightPanels.map((panelId) => (
                       <PanelComponent key={panelId} panelId={panelId}>
                         {children[panelId]}
                       </PanelComponent>
@@ -250,14 +246,9 @@ export const WorkbenchLayoutManager: React.FC<WorkbenchLayoutManagerProps> = ({
         {bottomPanels.length > 0 && (
           <>
             <PanelResizeHandle className="panel-resize-handle horizontal" />
-            <Panel
-              id="bottom-area"
-              defaultSize={25}
-              minSize={15}
-              maxSize={50}
-            >
+            <Panel id="bottom-area" defaultSize={25} minSize={15} maxSize={50}>
               <div className="bottom-panels-container">
-                {bottomPanels.map(panelId => (
+                {bottomPanels.map((panelId) => (
                   <PanelComponent key={panelId} panelId={panelId}>
                     {children[panelId]}
                   </PanelComponent>

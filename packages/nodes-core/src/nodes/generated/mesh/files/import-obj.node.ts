@@ -14,7 +14,11 @@ interface ImportOBJOutputs {
   materials: unknown;
 }
 
-export const MeshFilesImportOBJNode: NodeDefinition<ImportOBJInputs, ImportOBJOutputs, ImportOBJParams> = {
+export const MeshFilesImportOBJNode: NodeDefinition<
+  ImportOBJInputs,
+  ImportOBJOutputs,
+  ImportOBJParams
+> = {
   id: 'Mesh::ImportOBJ',
   category: 'Mesh',
   label: 'ImportOBJ',
@@ -23,30 +27,30 @@ export const MeshFilesImportOBJNode: NodeDefinition<ImportOBJInputs, ImportOBJOu
     fileData: {
       type: 'Data',
       label: 'File Data',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     mesh: {
       type: 'Mesh',
-      label: 'Mesh'
+      label: 'Mesh',
     },
     materials: {
       type: 'Data',
-      label: 'Materials'
-    }
+      label: 'Materials',
+    },
   },
   params: {
     importMaterials: {
       type: 'boolean',
       label: 'Import Materials',
-      default: true
+      default: true,
     },
     importTextures: {
       type: 'boolean',
       label: 'Import Textures',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -54,13 +58,13 @@ export const MeshFilesImportOBJNode: NodeDefinition<ImportOBJInputs, ImportOBJOu
       params: {
         fileData: inputs.fileData,
         importMaterials: params.importMaterials,
-        importTextures: params.importTextures
-      }
+        importTextures: params.importTextures,
+      },
     });
-    
+
     return {
       mesh: results.mesh,
-      materials: results.materials
+      materials: results.materials,
     };
   },
 };

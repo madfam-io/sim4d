@@ -36,7 +36,10 @@ test.describe('WCAG 2.1 AA Compliance', () => {
 
   test('Viewport container respects accessibility guidance', async ({ page }) => {
     const canvasLocator = page.locator('canvas');
-    await canvasLocator.first().waitFor({ state: 'visible', timeout: 15000 }).catch(() => null);
+    await canvasLocator
+      .first()
+      .waitFor({ state: 'visible', timeout: 15000 })
+      .catch(() => null);
     test.skip(!(await canvasLocator.count()), '3D viewport canvas not rendered');
 
     const results = await new AxeBuilder({ page })
@@ -76,9 +79,7 @@ test.describe('WCAG 2.1 AA Compliance', () => {
   });
 
   test('Global color contrast meets WCAG AA thresholds', async ({ page }) => {
-    const results = await new AxeBuilder({ page })
-      .withRules(['color-contrast'])
-      .analyze();
+    const results = await new AxeBuilder({ page }).withRules(['color-contrast']).analyze();
 
     expect(results.violations).toEqual([]);
   });

@@ -16,7 +16,11 @@ interface ExportFEAOutputs {
   feaFile: unknown;
 }
 
-export const SimulationFEAExportFEANode: NodeDefinition<ExportFEAInputs, ExportFEAOutputs, ExportFEAParams> = {
+export const SimulationFEAExportFEANode: NodeDefinition<
+  ExportFEAInputs,
+  ExportFEAOutputs,
+  ExportFEAParams
+> = {
   id: 'Simulation::ExportFEA',
   category: 'Simulation',
   label: 'ExportFEA',
@@ -25,42 +29,42 @@ export const SimulationFEAExportFEANode: NodeDefinition<ExportFEAInputs, ExportF
     feaModel: {
       type: 'Mesh',
       label: 'Fea Model',
-      required: true
+      required: true,
     },
     analysisData: {
       type: 'Data',
       label: 'Analysis Data',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     feaFile: {
       type: 'Data',
-      label: 'Fea File'
-    }
+      label: 'Fea File',
+    },
   },
   params: {
     format: {
       type: 'enum',
       label: 'Format',
-      default: "nastran",
-      options: ["nastran","abaqus","ansys","calculix"]
+      default: 'nastran',
+      options: ['nastran', 'abaqus', 'ansys', 'calculix'],
     },
     includeLoads: {
       type: 'boolean',
       label: 'Include Loads',
-      default: true
+      default: true,
     },
     includeConstraints: {
       type: 'boolean',
       label: 'Include Constraints',
-      default: true
+      default: true,
     },
     includeMaterials: {
       type: 'boolean',
       label: 'Include Materials',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -71,12 +75,12 @@ export const SimulationFEAExportFEANode: NodeDefinition<ExportFEAInputs, ExportF
         format: params.format,
         includeLoads: params.includeLoads,
         includeConstraints: params.includeConstraints,
-        includeMaterials: params.includeMaterials
-      }
+        includeMaterials: params.includeMaterials,
+      },
     });
-    
+
     return {
-      feaFile: result
+      feaFile: result,
     };
   },
 };

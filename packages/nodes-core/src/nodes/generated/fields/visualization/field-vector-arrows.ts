@@ -14,7 +14,11 @@ interface FieldVectorArrowsOutputs {
   arrows: unknown;
 }
 
-export const FieldsVisualizationFieldVectorArrowsNode: NodeDefinition<FieldVectorArrowsInputs, FieldVectorArrowsOutputs, FieldVectorArrowsParams> = {
+export const FieldsVisualizationFieldVectorArrowsNode: NodeDefinition<
+  FieldVectorArrowsInputs,
+  FieldVectorArrowsOutputs,
+  FieldVectorArrowsParams
+> = {
   id: 'Fields::FieldVectorArrows',
   type: 'Fields::FieldVectorArrows',
   category: 'Fields',
@@ -24,19 +28,19 @@ export const FieldsVisualizationFieldVectorArrowsNode: NodeDefinition<FieldVecto
     field: {
       type: 'VectorField',
       label: 'Field',
-      optional: true
+      optional: true,
     },
     domain: {
       type: 'Geometry',
       label: 'Domain',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     arrows: {
       type: 'GeometrySet',
-      label: 'Arrows'
-    }
+      label: 'Arrows',
+    },
   },
   params: {
     arrowScale: {
@@ -44,15 +48,15 @@ export const FieldsVisualizationFieldVectorArrowsNode: NodeDefinition<FieldVecto
       label: 'Arrow Scale',
       default: 1,
       min: 0.1,
-      max: 10
+      max: 10,
     },
     density: {
       type: 'number',
       label: 'Density',
       default: 0.5,
       min: 0,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -61,12 +65,12 @@ export const FieldsVisualizationFieldVectorArrowsNode: NodeDefinition<FieldVecto
         field: inputs.field,
         domain: inputs.domain,
         arrowScale: params.arrowScale,
-        density: params.density
-      }
+        density: params.density,
+      },
     });
-    
+
     return {
-      arrows: result
+      arrows: result,
     };
   },
 };

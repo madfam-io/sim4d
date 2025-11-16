@@ -16,7 +16,11 @@ interface SpacePartitioningOutputs {
   visualization: unknown;
 }
 
-export const AlgorithmicGeometrySpacePartitioningNode: NodeDefinition<SpacePartitioningInputs, SpacePartitioningOutputs, SpacePartitioningParams> = {
+export const AlgorithmicGeometrySpacePartitioningNode: NodeDefinition<
+  SpacePartitioningInputs,
+  SpacePartitioningOutputs,
+  SpacePartitioningParams
+> = {
   id: 'Algorithmic::SpacePartitioning',
   category: 'Algorithmic',
   label: 'SpacePartitioning',
@@ -25,44 +29,44 @@ export const AlgorithmicGeometrySpacePartitioningNode: NodeDefinition<SpaceParti
     objects: {
       type: 'Shape[]',
       label: 'Objects',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     structure: {
       type: 'Properties',
-      label: 'Structure'
+      label: 'Structure',
     },
     stats: {
       type: 'Properties',
-      label: 'Stats'
+      label: 'Stats',
     },
     visualization: {
       type: 'Wire[]',
-      label: 'Visualization'
-    }
+      label: 'Visualization',
+    },
   },
   params: {
     type: {
       type: 'enum',
       label: 'Type',
-      default: "octree",
-      options: ["octree","kdtree","bvh"]
+      default: 'octree',
+      options: ['octree', 'kdtree', 'bvh'],
     },
     maxDepth: {
       type: 'number',
       label: 'Max Depth',
       default: 8,
       min: 3,
-      max: 15
+      max: 15,
     },
     leafSize: {
       type: 'number',
       label: 'Leaf Size',
       default: 10,
       min: 1,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -71,14 +75,14 @@ export const AlgorithmicGeometrySpacePartitioningNode: NodeDefinition<SpaceParti
         objects: inputs.objects,
         type: params.type,
         maxDepth: params.maxDepth,
-        leafSize: params.leafSize
-      }
+        leafSize: params.leafSize,
+      },
     });
-    
+
     return {
       structure: results.structure,
       stats: results.stats,
-      visualization: results.visualization
+      visualization: results.visualization,
     };
   },
 };

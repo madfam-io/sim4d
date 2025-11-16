@@ -29,14 +29,14 @@ export const CoincidentConstraintNode: NodeDefinition<
     const shape1 = inputs.shape1;
     const shape2 = inputs.shape2;
     const offset = params.offset;
-    
+
     const constraint = await ctx.constraintManager.createCoincidentConstraint({
       entity1: shape1,
       entity2: shape2,
       offset,
-      options: Record<string, never> as Record<string, never>
+      options: Record<string, never> as Record<string, never>,
     });
-    
+
     return { constraint };
   },
 };

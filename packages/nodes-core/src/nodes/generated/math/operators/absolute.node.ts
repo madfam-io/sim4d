@@ -10,7 +10,11 @@ interface AbsoluteOutputs {
   result: unknown;
 }
 
-export const MathOperatorsAbsoluteNode: NodeDefinition<AbsoluteInputs, AbsoluteOutputs, AbsoluteParams> = {
+export const MathOperatorsAbsoluteNode: NodeDefinition<
+  AbsoluteInputs,
+  AbsoluteOutputs,
+  AbsoluteParams
+> = {
   id: 'Math::Absolute',
   category: 'Math',
   label: 'Absolute',
@@ -19,26 +23,26 @@ export const MathOperatorsAbsoluteNode: NodeDefinition<AbsoluteInputs, AbsoluteO
     value: {
       type: 'number',
       label: 'Value',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'number',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathAbs',
       params: {
-        value: inputs.value
-      }
+        value: inputs.value,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

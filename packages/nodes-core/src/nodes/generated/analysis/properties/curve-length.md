@@ -1,4 +1,3 @@
-
 # CurveLength Node
 
 **Category:** Analysis / Properties
@@ -11,19 +10,14 @@ This node has no parameters.
 
 ## Inputs
 
-
 ### curve
+
 - **Type:** Wire
 - **Required:** Yes
 
-
-
 ## Outputs
 
-
 ### length
+
 - **Type:** number
 - **Description:** Total curve length
-
-
-

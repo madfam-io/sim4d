@@ -14,7 +14,11 @@ interface SphericalOutputs {
   joint: unknown;
 }
 
-export const AssemblyJointsSphericalNode: NodeDefinition<SphericalInputs, SphericalOutputs, SphericalParams> = {
+export const AssemblyJointsSphericalNode: NodeDefinition<
+  SphericalInputs,
+  SphericalOutputs,
+  SphericalParams
+> = {
   id: 'Assembly::Spherical',
   type: 'Assembly::Spherical',
   category: 'Assembly',
@@ -24,24 +28,24 @@ export const AssemblyJointsSphericalNode: NodeDefinition<SphericalInputs, Spheri
     part1: {
       type: 'Shape',
       label: 'Part1',
-      required: true
+      required: true,
     },
     part2: {
       type: 'Shape',
       label: 'Part2',
-      required: true
+      required: true,
     },
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     joint: {
       type: 'Joint',
-      label: 'Joint'
-    }
+      label: 'Joint',
+    },
   },
   params: {
     coneAngle: {
@@ -49,8 +53,8 @@ export const AssemblyJointsSphericalNode: NodeDefinition<SphericalInputs, Spheri
       label: 'Cone Angle',
       default: 45,
       min: 0,
-      max: 180
-    }
+      max: 180,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -59,12 +63,12 @@ export const AssemblyJointsSphericalNode: NodeDefinition<SphericalInputs, Spheri
         part1: inputs.part1,
         part2: inputs.part2,
         center: inputs.center,
-        coneAngle: params.coneAngle
-      }
+        coneAngle: params.coneAngle,
+      },
     });
-    
+
     return {
-      joint: result
+      joint: result,
     };
   },
 };

@@ -10,7 +10,11 @@ interface ToBooleanOutputs {
   boolean: unknown;
 }
 
-export const DataConvertToBooleanNode: NodeDefinition<ToBooleanInputs, ToBooleanOutputs, ToBooleanParams> = {
+export const DataConvertToBooleanNode: NodeDefinition<
+  ToBooleanInputs,
+  ToBooleanOutputs,
+  ToBooleanParams
+> = {
   id: 'Data::ToBoolean',
   category: 'Data',
   label: 'ToBoolean',
@@ -19,26 +23,26 @@ export const DataConvertToBooleanNode: NodeDefinition<ToBooleanInputs, ToBoolean
     data: {
       type: 'Data',
       label: 'Data',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     boolean: {
       type: 'boolean',
-      label: 'Boolean'
-    }
+      label: 'Boolean',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'convertToBoolean',
       params: {
-        data: inputs.data
-      }
+        data: inputs.data,
+      },
     });
-    
+
     return {
-      boolean: result
+      boolean: result,
     };
   },
 };

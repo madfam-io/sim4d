@@ -1,4 +1,3 @@
-
 # ListJoin Node
 
 **Category:** Data / List
@@ -11,19 +10,13 @@ This node has no parameters.
 
 ## Inputs
 
-
 ### Lists
+
 - **Type:** Data[][]
 - **Required:** Yes
 
-
-
 ## Outputs
 
-
 ### Joined
+
 - **Type:** Data[]
-
-
-
-

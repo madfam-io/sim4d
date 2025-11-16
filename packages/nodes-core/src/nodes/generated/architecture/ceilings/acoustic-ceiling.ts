@@ -13,7 +13,11 @@ interface AcousticCeilingOutputs {
   acousticCeiling: unknown;
 }
 
-export const ArchitectureCeilingsAcousticCeilingNode: NodeDefinition<AcousticCeilingInputs, AcousticCeilingOutputs, AcousticCeilingParams> = {
+export const ArchitectureCeilingsAcousticCeilingNode: NodeDefinition<
+  AcousticCeilingInputs,
+  AcousticCeilingOutputs,
+  AcousticCeilingParams
+> = {
   id: 'Architecture::AcousticCeiling',
   type: 'Architecture::AcousticCeiling',
   category: 'Architecture',
@@ -23,14 +27,14 @@ export const ArchitectureCeilingsAcousticCeilingNode: NodeDefinition<AcousticCei
     ceilingArea: {
       type: 'Face',
       label: 'Ceiling Area',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     acousticCeiling: {
       type: 'Shape',
-      label: 'Acoustic Ceiling'
-    }
+      label: 'Acoustic Ceiling',
+    },
   },
   params: {
     nrc: {
@@ -38,14 +42,14 @@ export const ArchitectureCeilingsAcousticCeilingNode: NodeDefinition<AcousticCei
       label: 'Nrc',
       default: 0.85,
       min: 0.5,
-      max: 1
+      max: 1,
     },
     panelType: {
       type: 'enum',
       label: 'Panel Type',
-      default: "tiles",
-      options: ["perforated","baffles","clouds","tiles"]
-    }
+      default: 'tiles',
+      options: ['perforated', 'baffles', 'clouds', 'tiles'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const ArchitectureCeilingsAcousticCeilingNode: NodeDefinition<AcousticCei
       params: {
         ceilingArea: inputs.ceilingArea,
         nrc: params.nrc,
-        panelType: params.panelType
-      }
+        panelType: params.panelType,
+      },
     });
-    
+
     return {
-      acousticCeiling: result
+      acousticCeiling: result,
     };
   },
 };

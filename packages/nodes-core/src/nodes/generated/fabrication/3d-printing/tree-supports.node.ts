@@ -14,7 +14,11 @@ interface TreeSupportsOutputs {
   treeSupports: unknown;
 }
 
-export const Fabrication3DPrintingTreeSupportsNode: NodeDefinition<TreeSupportsInputs, TreeSupportsOutputs, TreeSupportsParams> = {
+export const Fabrication3DPrintingTreeSupportsNode: NodeDefinition<
+  TreeSupportsInputs,
+  TreeSupportsOutputs,
+  TreeSupportsParams
+> = {
   id: 'Fabrication::TreeSupports',
   category: 'Fabrication',
   label: 'TreeSupports',
@@ -23,14 +27,14 @@ export const Fabrication3DPrintingTreeSupportsNode: NodeDefinition<TreeSupportsI
     model: {
       type: 'Shape',
       label: 'Model',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     treeSupports: {
       type: 'Shape',
-      label: 'Tree Supports'
-    }
+      label: 'Tree Supports',
+    },
   },
   params: {
     branchAngle: {
@@ -38,22 +42,22 @@ export const Fabrication3DPrintingTreeSupportsNode: NodeDefinition<TreeSupportsI
       label: 'Branch Angle',
       default: 40,
       min: 20,
-      max: 60
+      max: 60,
     },
     trunkDiameter: {
       type: 'number',
       label: 'Trunk Diameter',
       default: 5,
       min: 1,
-      max: 20
+      max: 20,
     },
     branchDiameter: {
       type: 'number',
       label: 'Branch Diameter',
       default: 2,
       min: 0.5,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -62,12 +66,12 @@ export const Fabrication3DPrintingTreeSupportsNode: NodeDefinition<TreeSupportsI
         model: inputs.model,
         branchAngle: params.branchAngle,
         trunkDiameter: params.trunkDiameter,
-        branchDiameter: params.branchDiameter
-      }
+        branchDiameter: params.branchDiameter,
+      },
     });
-    
+
     return {
-      treeSupports: result
+      treeSupports: result,
     };
   },
 };

@@ -14,7 +14,11 @@ interface AdaptiveTessellationOutputs {
   mesh: unknown;
 }
 
-export const MeshTessellationAdaptiveTessellationNode: NodeDefinition<AdaptiveTessellationInputs, AdaptiveTessellationOutputs, AdaptiveTessellationParams> = {
+export const MeshTessellationAdaptiveTessellationNode: NodeDefinition<
+  AdaptiveTessellationInputs,
+  AdaptiveTessellationOutputs,
+  AdaptiveTessellationParams
+> = {
   id: 'Mesh::AdaptiveTessellation',
   type: 'Mesh::AdaptiveTessellation',
   category: 'Mesh',
@@ -24,14 +28,14 @@ export const MeshTessellationAdaptiveTessellationNode: NodeDefinition<AdaptiveTe
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     mesh: {
       type: 'Mesh',
-      label: 'Mesh'
-    }
+      label: 'Mesh',
+    },
   },
   params: {
     minEdgeLength: {
@@ -39,22 +43,22 @@ export const MeshTessellationAdaptiveTessellationNode: NodeDefinition<AdaptiveTe
       label: 'Min Edge Length',
       default: 0.1,
       min: 0.001,
-      max: 100
+      max: 100,
     },
     maxEdgeLength: {
       type: 'number',
       label: 'Max Edge Length',
       default: 10,
       min: 0.1,
-      max: 1000
+      max: 1000,
     },
     curvatureFactor: {
       type: 'number',
       label: 'Curvature Factor',
       default: 1,
       min: 0.1,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -63,12 +67,12 @@ export const MeshTessellationAdaptiveTessellationNode: NodeDefinition<AdaptiveTe
         shape: inputs.shape,
         minEdgeLength: params.minEdgeLength,
         maxEdgeLength: params.maxEdgeLength,
-        curvatureFactor: params.curvatureFactor
-      }
+        curvatureFactor: params.curvatureFactor,
+      },
     });
-    
+
     return {
-      mesh: result
+      mesh: result,
     };
   },
 };

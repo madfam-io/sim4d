@@ -12,7 +12,11 @@ interface RandomNormalOutputs {
   value: unknown;
 }
 
-export const MathRandomRandomNormalNode: NodeDefinition<RandomNormalInputs, RandomNormalOutputs, RandomNormalParams> = {
+export const MathRandomRandomNormalNode: NodeDefinition<
+  RandomNormalInputs,
+  RandomNormalOutputs,
+  RandomNormalParams
+> = {
   id: 'Math::RandomNormal',
   category: 'Math',
   label: 'RandomNormal',
@@ -21,28 +25,28 @@ export const MathRandomRandomNormalNode: NodeDefinition<RandomNormalInputs, Rand
   outputs: {
     value: {
       type: 'number',
-      label: 'Value'
-    }
+      label: 'Value',
+    },
   },
   params: {
     mean: {
       type: 'number',
       label: 'Mean',
-      default: 0
+      default: 0,
     },
     stddev: {
       type: 'number',
       label: 'Stddev',
       default: 1,
-      min: 0.01
+      min: 0.01,
     },
     seed: {
       type: 'number',
       label: 'Seed',
       default: -1,
       min: -1,
-      max: 999999
-    }
+      max: 999999,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -50,12 +54,12 @@ export const MathRandomRandomNormalNode: NodeDefinition<RandomNormalInputs, Rand
       params: {
         mean: params.mean,
         stddev: params.stddev,
-        seed: params.seed
-      }
+        seed: params.seed,
+      },
     });
-    
+
     return {
-      value: result
+      value: result,
     };
   },
 };

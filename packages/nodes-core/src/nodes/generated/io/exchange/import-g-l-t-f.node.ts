@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -14,52 +13,50 @@ interface Outputs {
   animations: Data;
 }
 
-export const ImportGLTFNode: NodeDefinition<ImportGLTFInputs, ImportGLTFOutputs, ImportGLTFParams> = {
-  type: 'IO::ImportGLTF',
-  category: 'IO',
-  subcategory: 'Exchange',
+export const ImportGLTFNode: NodeDefinition<ImportGLTFInputs, ImportGLTFOutputs, ImportGLTFParams> =
+  {
+    type: 'IO::ImportGLTF',
+    category: 'IO',
+    subcategory: 'Exchange',
 
-  metadata: {
-    label: 'ImportGLTF',
-    description: 'Import GLTF/GLB model',
-    
-    
-  },
-
-  params: {
-        importAnimations: {
-      "default": false
+    metadata: {
+      label: 'ImportGLTF',
+      description: 'Import GLTF/GLB model',
     },
-    importMaterials: {
-      "default": true
-    }
-  },
 
-  inputs: {
-        fileData: 'Data'
-  },
+    params: {
+      importAnimations: {
+        default: false,
+      },
+      importMaterials: {
+        default: true,
+      },
+    },
 
-  outputs: {
-        mesh: 'Mesh',
-    materials: 'Data',
-    animations: 'Data'
-  },
+    inputs: {
+      fileData: 'Data',
+    },
 
-  async evaluate(context, inputs, params) {
-    
-    const result = await context.geometry.execute({
-      type: 'importGLTF',
-      params: {
-        fileData: inputs.fileData,
-        importAnimations: params.importAnimations,
-        importMaterials: params.importMaterials
-      }
-    });
+    outputs: {
+      mesh: 'Mesh',
+      materials: 'Data',
+      animations: 'Data',
+    },
 
-    return {
-      mesh: result,
-      materials: result,
-      animations: result
-    };
-  }
-};
+    async evaluate(context, inputs, params) {
+      const result = await context.geometry.execute({
+        type: 'importGLTF',
+        params: {
+          fileData: inputs.fileData,
+          importAnimations: params.importAnimations,
+          importMaterials: params.importMaterials,
+        },
+      });
+
+      return {
+        mesh: result,
+        materials: result,
+        animations: result,
+      };
+    },
+  };

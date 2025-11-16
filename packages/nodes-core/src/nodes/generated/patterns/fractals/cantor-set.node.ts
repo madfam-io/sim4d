@@ -13,7 +13,11 @@ interface CantorSetOutputs {
   segments: unknown;
 }
 
-export const PatternsFractalsCantorSetNode: NodeDefinition<CantorSetInputs, CantorSetOutputs, CantorSetParams> = {
+export const PatternsFractalsCantorSetNode: NodeDefinition<
+  CantorSetInputs,
+  CantorSetOutputs,
+  CantorSetParams
+> = {
   id: 'Patterns::CantorSet',
   category: 'Patterns',
   label: 'CantorSet',
@@ -22,14 +26,14 @@ export const PatternsFractalsCantorSetNode: NodeDefinition<CantorSetInputs, Cant
     segment: {
       type: 'Edge',
       label: 'Segment',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     segments: {
       type: 'Edge[]',
-      label: 'Segments'
-    }
+      label: 'Segments',
+    },
   },
   params: {
     iterations: {
@@ -38,15 +42,15 @@ export const PatternsFractalsCantorSetNode: NodeDefinition<CantorSetInputs, Cant
       default: 5,
       min: 1,
       max: 10,
-      step: 1
+      step: 1,
     },
     ratio: {
       type: 'number',
       label: 'Ratio',
       default: 0.333,
       min: 0.1,
-      max: 0.5
-    }
+      max: 0.5,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -54,12 +58,12 @@ export const PatternsFractalsCantorSetNode: NodeDefinition<CantorSetInputs, Cant
       params: {
         segment: inputs.segment,
         iterations: params.iterations,
-        ratio: params.ratio
-      }
+        ratio: params.ratio,
+      },
     });
-    
+
     return {
-      segments: result
+      segments: result,
     };
   },
 };

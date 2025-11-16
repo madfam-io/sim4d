@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { AssemblyMatesEdgeToEdgeNode } from './edge-to-edge.node';
 import { createTestContext } from '../test-utils';
@@ -8,10 +7,10 @@ describe('AssemblyMatesEdgeToEdgeNode', () => {
     const context = createTestContext();
     const inputs = {
       edge1: undefined,
-      edge2: undefined
+      edge2: undefined,
     } as any;
     const params = {
-      alignment: "aligned"
+      alignment: 'aligned',
     } as any;
 
     const result = await AssemblyMatesEdgeToEdgeNode.evaluate(context, inputs, params);

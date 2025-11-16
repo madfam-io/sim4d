@@ -14,7 +14,11 @@ interface SurfaceAttractorOutputs {
   field: unknown;
 }
 
-export const FieldAttractorSurfaceAttractorNode: NodeDefinition<SurfaceAttractorInputs, SurfaceAttractorOutputs, SurfaceAttractorParams> = {
+export const FieldAttractorSurfaceAttractorNode: NodeDefinition<
+  SurfaceAttractorInputs,
+  SurfaceAttractorOutputs,
+  SurfaceAttractorParams
+> = {
   id: 'Field::SurfaceAttractor',
   type: 'Field::SurfaceAttractor',
   category: 'Field',
@@ -24,14 +28,14 @@ export const FieldAttractorSurfaceAttractorNode: NodeDefinition<SurfaceAttractor
     surfaces: {
       type: 'Face[]',
       label: 'Surfaces',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     field: {
       type: 'ScalarField',
-      label: 'Field'
-    }
+      label: 'Field',
+    },
   },
   params: {
     strength: {
@@ -39,20 +43,20 @@ export const FieldAttractorSurfaceAttractorNode: NodeDefinition<SurfaceAttractor
       label: 'Strength',
       default: 1,
       min: -10,
-      max: 10
+      max: 10,
     },
     radius: {
       type: 'number',
       label: 'Radius',
       default: 30,
-      min: 0.1
+      min: 0.1,
     },
     falloff: {
       type: 'enum',
       label: 'Falloff',
-      default: "smooth",
-      options: ["linear","smooth","exponential"]
-    }
+      default: 'smooth',
+      options: ['linear', 'smooth', 'exponential'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -61,12 +65,12 @@ export const FieldAttractorSurfaceAttractorNode: NodeDefinition<SurfaceAttractor
         surfaces: inputs.surfaces,
         strength: params.strength,
         radius: params.radius,
-        falloff: params.falloff
-      }
+        falloff: params.falloff,
+      },
     });
-    
+
     return {
-      field: result
+      field: result,
     };
   },
 };

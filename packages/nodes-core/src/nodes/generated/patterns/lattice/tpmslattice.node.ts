@@ -14,7 +14,11 @@ interface TPMSLatticeOutputs {
   lattice: unknown;
 }
 
-export const PatternsLatticeTPMSLatticeNode: NodeDefinition<TPMSLatticeInputs, TPMSLatticeOutputs, TPMSLatticeParams> = {
+export const PatternsLatticeTPMSLatticeNode: NodeDefinition<
+  TPMSLatticeInputs,
+  TPMSLatticeOutputs,
+  TPMSLatticeParams
+> = {
   id: 'Patterns::TPMSLattice',
   category: 'Patterns',
   label: 'TPMSLattice',
@@ -23,34 +27,34 @@ export const PatternsLatticeTPMSLatticeNode: NodeDefinition<TPMSLatticeInputs, T
     bounds: {
       type: 'Box',
       label: 'Bounds',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     lattice: {
       type: 'Shape',
-      label: 'Lattice'
-    }
+      label: 'Lattice',
+    },
   },
   params: {
     type: {
       type: 'enum',
       label: 'Type',
-      default: "gyroid",
-      options: ["gyroid","schwarz-p","schwarz-d","neovius"]
+      default: 'gyroid',
+      options: ['gyroid', 'schwarz-p', 'schwarz-d', 'neovius'],
     },
     period: {
       type: 'number',
       label: 'Period',
       default: 10,
-      min: 1
+      min: 1,
     },
     thickness: {
       type: 'number',
       label: 'Thickness',
       default: 1,
-      min: 0.1
-    }
+      min: 0.1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -59,12 +63,12 @@ export const PatternsLatticeTPMSLatticeNode: NodeDefinition<TPMSLatticeInputs, T
         bounds: inputs.bounds,
         type: params.type,
         period: params.period,
-        thickness: params.thickness
-      }
+        thickness: params.thickness,
+      },
     });
-    
+
     return {
-      lattice: result
+      lattice: result,
     };
   },
 };

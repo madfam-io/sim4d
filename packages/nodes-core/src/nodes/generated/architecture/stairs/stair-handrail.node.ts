@@ -15,7 +15,11 @@ interface StairHandrailOutputs {
   posts: unknown;
 }
 
-export const ArchitectureStairsStairHandrailNode: NodeDefinition<StairHandrailInputs, StairHandrailOutputs, StairHandrailParams> = {
+export const ArchitectureStairsStairHandrailNode: NodeDefinition<
+  StairHandrailInputs,
+  StairHandrailOutputs,
+  StairHandrailParams
+> = {
   id: 'Architecture::StairHandrail',
   category: 'Architecture',
   label: 'StairHandrail',
@@ -24,18 +28,18 @@ export const ArchitectureStairsStairHandrailNode: NodeDefinition<StairHandrailIn
     stairEdge: {
       type: 'Wire',
       label: 'Stair Edge',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     handrail: {
       type: 'Shape',
-      label: 'Handrail'
+      label: 'Handrail',
     },
     posts: {
       type: 'Shape[]',
-      label: 'Posts'
-    }
+      label: 'Posts',
+    },
   },
   params: {
     height: {
@@ -43,21 +47,21 @@ export const ArchitectureStairsStairHandrailNode: NodeDefinition<StairHandrailIn
       label: 'Height',
       default: 900,
       min: 850,
-      max: 1000
+      max: 1000,
     },
     diameter: {
       type: 'number',
       label: 'Diameter',
       default: 50,
       min: 40,
-      max: 60
+      max: 60,
     },
     mountType: {
       type: 'enum',
       label: 'Mount Type',
-      default: "post",
-      options: ["wall","post","glass"]
-    }
+      default: 'post',
+      options: ['wall', 'post', 'glass'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -66,13 +70,13 @@ export const ArchitectureStairsStairHandrailNode: NodeDefinition<StairHandrailIn
         stairEdge: inputs.stairEdge,
         height: params.height,
         diameter: params.diameter,
-        mountType: params.mountType
-      }
+        mountType: params.mountType,
+      },
     });
-    
+
     return {
       handrail: results.handrail,
-      posts: results.posts
+      posts: results.posts,
     };
   },
 };

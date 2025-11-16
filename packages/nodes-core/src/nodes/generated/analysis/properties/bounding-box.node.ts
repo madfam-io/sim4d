@@ -1,6 +1,11 @@
-
 import { NodeDefinition } from '@brepflow/types';
-import { NumberParam, BoolParam, StringParam, EnumParam, Vector3Param } from '../../../../utils/param-utils.js';
+import {
+  NumberParam,
+  BoolParam,
+  StringParam,
+  EnumParam,
+  Vector3Param,
+} from '../../../../utils/param-utils.js';
 
 type Params = {};
 interface Inputs {
@@ -13,7 +18,11 @@ interface Outputs {
   dimensions: Vector;
 }
 
-export const BoundingBoxNode: NodeDefinition<BoundingBoxInputs, BoundingBoxOutputs, BoundingBoxParams> = {
+export const BoundingBoxNode: NodeDefinition<
+  BoundingBoxInputs,
+  BoundingBoxOutputs,
+  BoundingBoxParams
+> = {
   type: 'Analysis::BoundingBox',
   category: 'Analysis',
   subcategory: 'Properties',
@@ -21,40 +30,34 @@ export const BoundingBoxNode: NodeDefinition<BoundingBoxInputs, BoundingBoxOutpu
   metadata: {
     label: 'BoundingBox',
     description: 'Get bounding box of shape',
-    
-    
   },
 
-  params: {
-    
-  },
+  params: {},
 
   inputs: {
-        shape: 'Shape'
+    shape: 'Shape',
   },
 
   outputs: {
-        min: 'Point',
+    min: 'Point',
     max: 'Point',
     center: 'Point',
-    dimensions: 'Vector'
+    dimensions: 'Vector',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'getBoundingBox',
       params: {
-        shape: inputs.shape
-        
-      }
+        shape: inputs.shape,
+      },
     });
 
     return {
       min: result,
       max: result,
       center: result,
-      dimensions: result
+      dimensions: result,
     };
-  }
+  },
 };

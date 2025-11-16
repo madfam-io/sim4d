@@ -10,7 +10,11 @@ interface HyperbolicTangentOutputs {
   result: unknown;
 }
 
-export const MathTrigonometryHyperbolicTangentNode: NodeDefinition<HyperbolicTangentInputs, HyperbolicTangentOutputs, HyperbolicTangentParams> = {
+export const MathTrigonometryHyperbolicTangentNode: NodeDefinition<
+  HyperbolicTangentInputs,
+  HyperbolicTangentOutputs,
+  HyperbolicTangentParams
+> = {
   id: 'Math::HyperbolicTangent',
   type: 'Math::HyperbolicTangent',
   category: 'Math',
@@ -20,26 +24,26 @@ export const MathTrigonometryHyperbolicTangentNode: NodeDefinition<HyperbolicTan
     value: {
       type: 'number',
       label: 'Value',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'number',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathTanh',
       params: {
-        value: inputs.value
-      }
+        value: inputs.value,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

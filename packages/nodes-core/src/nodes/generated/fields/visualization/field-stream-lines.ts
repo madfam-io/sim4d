@@ -15,7 +15,11 @@ interface FieldStreamLinesOutputs {
   streamlines: unknown;
 }
 
-export const FieldsVisualizationFieldStreamLinesNode: NodeDefinition<FieldStreamLinesInputs, FieldStreamLinesOutputs, FieldStreamLinesParams> = {
+export const FieldsVisualizationFieldStreamLinesNode: NodeDefinition<
+  FieldStreamLinesInputs,
+  FieldStreamLinesOutputs,
+  FieldStreamLinesParams
+> = {
   id: 'Fields::FieldStreamLines',
   type: 'Fields::FieldStreamLines',
   category: 'Fields',
@@ -25,19 +29,19 @@ export const FieldsVisualizationFieldStreamLinesNode: NodeDefinition<FieldStream
     field: {
       type: 'VectorField',
       label: 'Field',
-      optional: true
+      optional: true,
     },
     seedPoints: {
       type: 'PointSet',
       label: 'Seed Points',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     streamlines: {
       type: 'CurveSet',
-      label: 'Streamlines'
-    }
+      label: 'Streamlines',
+    },
   },
   params: {
     seedCount: {
@@ -45,22 +49,22 @@ export const FieldsVisualizationFieldStreamLinesNode: NodeDefinition<FieldStream
       label: 'Seed Count',
       default: 20,
       min: 1,
-      max: 1000
+      max: 1000,
     },
     stepSize: {
       type: 'number',
       label: 'Step Size',
       default: 0.1,
       min: 0.01,
-      max: 1
+      max: 1,
     },
     maxSteps: {
       type: 'number',
       label: 'Max Steps',
       default: 100,
       min: 10,
-      max: 1000
-    }
+      max: 1000,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -70,12 +74,12 @@ export const FieldsVisualizationFieldStreamLinesNode: NodeDefinition<FieldStream
         seedPoints: inputs.seedPoints,
         seedCount: params.seedCount,
         stepSize: params.stepSize,
-        maxSteps: params.maxSteps
-      }
+        maxSteps: params.maxSteps,
+      },
     });
-    
+
     return {
-      streamlines: result
+      streamlines: result,
     };
   },
 };

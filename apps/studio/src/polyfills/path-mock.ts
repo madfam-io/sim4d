@@ -25,8 +25,8 @@ export function extname(path: string): string {
 
 export function join(...paths: string[]): string {
   return paths
-    .map(part => part.replace(/[\/\\]+$/, ''))
-    .filter(part => part.length > 0)
+    .map((part) => part.replace(/[\/\\]+$/, ''))
+    .filter((part) => part.length > 0)
     .join('/');
 }
 
@@ -56,8 +56,8 @@ export function relative(from: string, to: string): string {
 
   if (from === to) return '';
 
-  const fromParts = from.split('/').filter(part => part.length > 0);
-  const toParts = to.split('/').filter(part => part.length > 0);
+  const fromParts = from.split('/').filter((part) => part.length > 0);
+  const toParts = to.split('/').filter((part) => part.length > 0);
 
   let commonLength = 0;
   for (let i = 0; i < Math.min(fromParts.length, toParts.length); i++) {
@@ -97,9 +97,12 @@ function normalizeStringPosix(path: string, allowAboveRoot: boolean): string {
       if (lastSlash === i - 1 || dots === 1) {
         // NOOP
       } else if (lastSlash !== i - 1 && dots === 2) {
-        if (res.length < 2 || lastSegmentLength !== 2 ||
-            res.charCodeAt(res.length - 1) !== 46 ||
-            res.charCodeAt(res.length - 2) !== 46) {
+        if (
+          res.length < 2 ||
+          lastSegmentLength !== 2 ||
+          res.charCodeAt(res.length - 1) !== 46 ||
+          res.charCodeAt(res.length - 2) !== 46
+        ) {
           if (res.length > 2) {
             const lastSlashIndex = res.lastIndexOf('/');
             if (lastSlashIndex !== res.length - 1) {
@@ -157,5 +160,5 @@ export default {
   resolve,
   relative,
   sep,
-  delimiter
+  delimiter,
 };

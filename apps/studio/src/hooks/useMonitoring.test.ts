@@ -6,7 +6,7 @@ import {
   useErrorMonitoring,
   usePerformanceMetrics,
   useRenderTiming,
-  useOperationTiming
+  useOperationTiming,
 } from './useMonitoring';
 
 // Mock console methods to reduce test output noise
@@ -50,7 +50,7 @@ describe('useMonitoring', () => {
     const interaction = {
       type: 'click',
       target: 'button',
-      data: { nodeId: 'test-node' }
+      data: { nodeId: 'test-node' },
     };
 
     act(() => {
@@ -110,13 +110,13 @@ describe('useMonitoring', () => {
   });
 
   it('throws error when monitoring system not available for operations', async () => {
-    // Since the global mock always provides a monitoring system, 
+    // Since the global mock always provides a monitoring system,
     // this test would need complex mocking. Let's simplify.
     const { result } = renderHook(() => useMonitoring());
 
     // The monitoring system should be available due to global mocks
     expect(result.current.monitoringSystem).toBeDefined();
-    
+
     // Test that operations work when system is available
     const mockOperation = vi.fn().mockResolvedValue('success');
     const operationResult = await result.current.executeMonitoredOperation(mockOperation, 'test');
@@ -149,7 +149,7 @@ describe('useHealthMonitoring', () => {
       type: 'performance',
       severity: 'warning',
       message: 'High memory usage detected',
-      timestamp: new Date()
+      timestamp: new Date(),
     };
 
     act(() => {
@@ -169,7 +169,7 @@ describe('useHealthMonitoring', () => {
       type: 'performance',
       severity: 'warning',
       message: 'High memory usage detected',
-      timestamp: new Date()
+      timestamp: new Date(),
     };
 
     act(() => {
@@ -202,7 +202,7 @@ describe('useHealthMonitoring', () => {
       type: 'performance',
       severity: 'warning',
       message: 'Test alert',
-      timestamp: new Date()
+      timestamp: new Date(),
     };
 
     act(() => {
@@ -297,7 +297,7 @@ describe('usePerformanceMetrics', () => {
       counters: {},
       timers: {},
       gauges: {},
-      histograms: {}
+      histograms: {},
     });
   });
 
@@ -373,7 +373,7 @@ describe('useRenderTiming', () => {
 
     (performance.now as any)
       .mockReturnValueOnce(startTime) // Initial render
-      .mockReturnValueOnce(endTime);  // Cleanup
+      .mockReturnValueOnce(endTime); // Cleanup
 
     const { unmount } = renderHook(() => useRenderTiming('TestComponent'));
 
@@ -407,18 +407,14 @@ describe('useOperationTiming', () => {
 
     const startTime = 1000;
     const endTime = 1250;
-    (performance.now as any)
-      .mockReturnValueOnce(startTime)
-      .mockReturnValueOnce(endTime);
+    (performance.now as any).mockReturnValueOnce(startTime).mockReturnValueOnce(endTime);
 
     const mockOperation = vi.fn().mockResolvedValue('success');
 
     await act(async () => {
-      const operationResult = await result.current.measureAsync(
-        mockOperation,
-        'test-operation',
-        { category: 'user-action' }
-      );
+      const operationResult = await result.current.measureAsync(mockOperation, 'test-operation', {
+        category: 'user-action',
+      });
       expect(operationResult).toBe('success');
     });
 
@@ -431,17 +427,15 @@ describe('useOperationTiming', () => {
 
     const startTime = 1000;
     const endTime = 1100;
-    (performance.now as any)
-      .mockReturnValueOnce(startTime)
-      .mockReturnValueOnce(endTime);
+    (performance.now as any).mockReturnValueOnce(startTime).mockReturnValueOnce(endTime);
 
     const mockError = new Error('Operation failed');
     const mockOperation = vi.fn().mockRejectedValue(mockError);
 
     await act(async () => {
-      await expect(
-        result.current.measureAsync(mockOperation, 'failed-operation')
-      ).rejects.toThrow('Operation failed');
+      await expect(result.current.measureAsync(mockOperation, 'failed-operation')).rejects.toThrow(
+        'Operation failed'
+      );
     });
 
     expect(mockOperation).toHaveBeenCalledTimes(1);

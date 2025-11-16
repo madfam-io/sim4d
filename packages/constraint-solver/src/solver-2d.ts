@@ -71,7 +71,7 @@ export class Solver2D {
         success: true,
         iterations: 0,
         residual: 0,
-        variables: this.getVariableValues()
+        variables: this.getVariableValues(),
       };
     }
 
@@ -80,7 +80,7 @@ export class Solver2D {
         success: true,
         iterations: 0,
         residual: 0,
-        variables: {}
+        variables: {},
       };
     }
 
@@ -112,7 +112,7 @@ export class Solver2D {
       success: error <= this.TOLERANCE,
       iterations: iteration,
       residual: error,
-      variables: this.getVariableValues()
+      variables: this.getVariableValues(),
     };
   }
 
@@ -171,9 +171,10 @@ export class Solver2D {
         case 'fixed':
           if (constraint.entities.length >= 1) {
             const p = constraint.entities[0] as Point2D;
-            const target = (constraint.targetValue && typeof constraint.targetValue === 'object')
-              ? constraint.targetValue as { x: number; y: number }
-              : { x: p.x, y: p.y };
+            const target =
+              constraint.targetValue && typeof constraint.targetValue === 'object'
+                ? (constraint.targetValue as { x: number; y: number })
+                : { x: p.x, y: p.y };
             if (typeof target.x === 'number' && typeof target.y === 'number') {
               residuals.push(p.x - target.x);
               residuals.push(p.y - target.y);

@@ -16,7 +16,11 @@ interface CSVReaderOutputs {
   rowCount: unknown;
 }
 
-export const InteroperabilityDataCSVReaderNode: NodeDefinition<CSVReaderInputs, CSVReaderOutputs, CSVReaderParams> = {
+export const InteroperabilityDataCSVReaderNode: NodeDefinition<
+  CSVReaderInputs,
+  CSVReaderOutputs,
+  CSVReaderParams
+> = {
   id: 'Interoperability::CSVReader',
   category: 'Interoperability',
   label: 'CSVReader',
@@ -25,40 +29,40 @@ export const InteroperabilityDataCSVReaderNode: NodeDefinition<CSVReaderInputs, 
     filePath: {
       type: 'string',
       label: 'File Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     data: {
       type: 'Properties[]',
-      label: 'Data'
+      label: 'Data',
     },
     headers: {
       type: 'string[]',
-      label: 'Headers'
+      label: 'Headers',
     },
     rowCount: {
       type: 'number',
-      label: 'Row Count'
-    }
+      label: 'Row Count',
+    },
   },
   params: {
     delimiter: {
       type: 'string',
       label: 'Delimiter',
-      default: ","
+      default: ',',
     },
     hasHeader: {
       type: 'boolean',
       label: 'Has Header',
-      default: true
+      default: true,
     },
     encoding: {
       type: 'enum',
       label: 'Encoding',
-      default: "utf-8",
-      options: ["utf-8","ascii","latin1"]
-    }
+      default: 'utf-8',
+      options: ['utf-8', 'ascii', 'latin1'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -67,14 +71,14 @@ export const InteroperabilityDataCSVReaderNode: NodeDefinition<CSVReaderInputs, 
         filePath: inputs.filePath,
         delimiter: params.delimiter,
         hasHeader: params.hasHeader,
-        encoding: params.encoding
-      }
+        encoding: params.encoding,
+      },
     });
-    
+
     return {
       data: results.data,
       headers: results.headers,
-      rowCount: results.rowCount
+      rowCount: results.rowCount,
     };
   },
 };

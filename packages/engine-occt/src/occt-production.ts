@@ -3,19 +3,21 @@
  * Complete implementation with real OCCT C++ bindings
  */
 
-import type {
-  ShapeHandle,
-  MeshData,
-  WorkerCommand,
-  WorkerResponse
-} from './worker-types';
+import type { ShapeHandle, MeshData, WorkerCommand, WorkerResponse } from './worker-types';
 import type { BoundingBox } from '@brepflow/types';
 
 // Type definitions for the OCCT WASM module
 export interface OCCTModule {
   // Primitive creation
   makeBox(dx: number, dy: number, dz: number): ShapeHandle;
-  makeBoxWithOrigin(x: number, y: number, z: number, dx: number, dy: number, dz: number): ShapeHandle;
+  makeBoxWithOrigin(
+    x: number,
+    y: number,
+    z: number,
+    dx: number,
+    dy: number,
+    dz: number
+  ): ShapeHandle;
   makeSphere(radius: number): ShapeHandle;
   makeSphereWithCenter(cx: number, cy: number, cz: number, radius: number): ShapeHandle;
   makeCylinder(radius: number, height: number): ShapeHandle;
@@ -24,9 +26,16 @@ export interface OCCTModule {
 
   // Advanced operations
   extrude(profileId: string, dx: number, dy: number, dz: number): ShapeHandle;
-  revolve(profileId: string, angle: number,
-          axisX: number, axisY: number, axisZ: number,
-          originX: number, originY: number, originZ: number): ShapeHandle;
+  revolve(
+    profileId: string,
+    angle: number,
+    axisX: number,
+    axisY: number,
+    axisZ: number,
+    originX: number,
+    originY: number,
+    originZ: number
+  ): ShapeHandle;
 
   // Boolean operations
   booleanUnion(shape1Id: string, shape2Id: string): ShapeHandle;
@@ -39,10 +48,18 @@ export interface OCCTModule {
   makeShell(shapeId: string, thickness: number): ShapeHandle;
 
   // Transformation operations
-  transform(shapeId: string,
-           tx: number, ty: number, tz: number,
-           rx: number, ry: number, rz: number,
-           sx: number, sy: number, sz: number): ShapeHandle;
+  transform(
+    shapeId: string,
+    tx: number,
+    ty: number,
+    tz: number,
+    rx: number,
+    ry: number,
+    rz: number,
+    sx: number,
+    sy: number,
+    sz: number
+  ): ShapeHandle;
   copyShape(shapeId: string): ShapeHandle;
 
   // Tessellation
@@ -131,7 +148,7 @@ async function initializeOCCT(): Promise<OCCTModule> {
 
     // Try to load the module - first attempt with fetch for worker context
     let createModule: any;
-    
+
     const importModule = async (specifier: string): Promise<any> => {
       const shouldSpoofProcess = isWorker && !isBrowser && specifier.startsWith('file://');
       let originalDescriptor: PropertyDescriptor | undefined;
@@ -141,7 +158,7 @@ async function initializeOCCT(): Promise<OCCTModule> {
           originalDescriptor = Object.getOwnPropertyDescriptor(globalThis, 'process');
           Object.defineProperty(globalThis, 'process', {
             value: { type: 'renderer' },
-            configurable: true
+            configurable: true,
           });
           console.log('[OCCT Production] Spoofing process global for WASM import');
         } catch (error) {
@@ -190,7 +207,9 @@ async function initializeOCCT(): Promise<OCCTModule> {
         createModule = await importModule(localHref);
         wasmModuleUrl = localHref;
       } else {
-        throw new Error(`WASM module loading failed: ${error instanceof Error ? error.message : error}`);
+        throw new Error(
+          `WASM module loading failed: ${error instanceof Error ? error.message : error}`
+        );
       }
     }
 
@@ -214,8 +233,8 @@ async function initializeOCCT(): Promise<OCCTModule> {
       environment: 'web,worker',
 
       // Memory configuration
-      INITIAL_MEMORY: 256 * 1024 * 1024,  // 256MB initial
-      MAXIMUM_MEMORY: 2 * 1024 * 1024 * 1024,  // 2GB max
+      INITIAL_MEMORY: 256 * 1024 * 1024, // 256MB initial
+      MAXIMUM_MEMORY: 2 * 1024 * 1024 * 1024, // 2GB max
       ALLOW_MEMORY_GROWTH: true,
 
       // Threading configuration (if supported)
@@ -239,7 +258,7 @@ async function initializeOCCT(): Promise<OCCTModule> {
 
       printErr: (text: string) => {
         console.error('[OCCT Error]', text);
-      }
+      },
     };
 
     // Create the module instance
@@ -274,7 +293,6 @@ async function initializeOCCT(): Promise<OCCTModule> {
     }
 
     return occtModule;
-
   } catch (error) {
     console.error('[OCCT Production] Failed to load module:', error);
 
@@ -282,7 +300,9 @@ async function initializeOCCT(): Promise<OCCTModule> {
     occtModule = null;
     initializationPromise = null;
 
-    throw new Error(`OCCT module loading failed: ${error instanceof Error ? error.message : error}`);
+    throw new Error(
+      `OCCT module loading failed: ${error instanceof Error ? error.message : error}`
+    );
   }
 }
 
@@ -348,12 +368,15 @@ export class OCCTProductionAPI {
     return { min, max };
   }
 
-  private toVector3(value: any, fallback: [number, number, number] = [0, 0, 0]): [number, number, number] {
+  private toVector3(
+    value: any,
+    fallback: [number, number, number] = [0, 0, 0]
+  ): [number, number, number] {
     if (Array.isArray(value) && value.length >= 3) {
       return [
         this.toFiniteNumber(value[0]),
         this.toFiniteNumber(value[1]),
-        this.toFiniteNumber(value[2])
+        this.toFiniteNumber(value[2]),
       ];
     }
 
@@ -361,7 +384,7 @@ export class OCCTProductionAPI {
       return [
         this.toFiniteNumber(value.x ?? (value as any)[0]),
         this.toFiniteNumber(value.y ?? (value as any)[1]),
-        this.toFiniteNumber(value.z ?? (value as any)[2])
+        this.toFiniteNumber(value.z ?? (value as any)[2]),
       ];
     }
 
@@ -602,7 +625,7 @@ export class OCCTProductionAPI {
           if (sections.length < 2) {
             throw new Error('LOFT operation requires at least two section handles');
           }
-          const sectionIds = sections.map(section => this.getShapeId(section));
+          const sectionIds = sections.map((section) => this.getShapeId(section));
           const handle = (this.module as any).makeLoft(sectionIds, params.options ?? {});
           result = this.normalizeShapeHandle(handle);
           break;
@@ -648,9 +671,15 @@ export class OCCTProductionAPI {
           const scale = this.toVector3(params.scale ?? [1, 1, 1], [1, 1, 1]);
           const handle = this.module.transform(
             shapeId,
-            translation[0], translation[1], translation[2],
-            rotation[0], rotation[1], rotation[2],
-            scale[0], scale[1], scale[2]
+            translation[0],
+            translation[1],
+            translation[2],
+            rotation[0],
+            rotation[1],
+            rotation[2],
+            scale[0],
+            scale[1],
+            scale[2]
           );
           result = this.normalizeShapeHandle(handle);
           break;
@@ -750,8 +779,7 @@ export class OCCTProductionAPI {
                 mesh.indices instanceof Uint32Array
                   ? mesh.indices
                   : new Uint32Array(mesh.indices ?? []),
-              uvs:
-                mesh.uvs instanceof Float32Array ? mesh.uvs : undefined,
+              uvs: mesh.uvs instanceof Float32Array ? mesh.uvs : undefined,
             },
             bbox: params.shape?.bbox,
           };
@@ -847,9 +875,8 @@ export class OCCTProductionAPI {
         id: command.id,
         type: command.type,
         result,
-        success: true
+        success: true,
       };
-
     } catch (error) {
       console.error('[OCCTProductionAPI] Command failed:', command.type, error);
 
@@ -857,7 +884,7 @@ export class OCCTProductionAPI {
         id: command.id,
         type: command.type,
         error: error instanceof Error ? error.message : String(error),
-        success: false
+        success: false,
       };
     }
   }
@@ -874,7 +901,7 @@ export class OCCTProductionAPI {
       return {
         initialized: true,
         version: this.module.getOCCTVersion(),
-        shapeCount: this.module.getShapeCount()
+        shapeCount: this.module.getShapeCount(),
       };
     } catch (error) {
       return { initialized: false };

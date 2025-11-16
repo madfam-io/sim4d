@@ -87,13 +87,13 @@ export function NodeSearchBar({
     handleFilterChange('tags', tags);
   };
 
-  const hasActiveFilters = !disabled && (
-    filters.categories.length > 0 ||
-    filters.tags.length > 0 ||
-    filters.complexity.length > 0 ||
-    filters.showFavoritesOnly ||
-    filters.showRecentOnly
-  );
+  const hasActiveFilters =
+    !disabled &&
+    (filters.categories.length > 0 ||
+      filters.tags.length > 0 ||
+      filters.complexity.length > 0 ||
+      filters.showFavoritesOnly ||
+      filters.showRecentOnly);
 
   const placeholderText = disabled
     ? statusText || 'Node catalogue is initializing…'
@@ -139,7 +139,8 @@ export function NodeSearchBar({
             onClick={() => setIsFilterOpen(!isFilterOpen)}
             disabled={disabled}
           >
-            Filter {hasActiveFilters && (
+            Filter{' '}
+            {hasActiveFilters && (
               <span className="filter-count">
                 {filters.categories.length + filters.tags.length + filters.complexity.length}
               </span>
@@ -236,13 +237,15 @@ export function NodeSearchBar({
                 <div className="dropdown-actions">
                   <button
                     className="clear-filters-btn"
-                    onClick={() => onFiltersChange({
-                      categories: [],
-                      tags: [],
-                      complexity: [],
-                      showFavoritesOnly: false,
-                      showRecentOnly: false,
-                    })}
+                    onClick={() =>
+                      onFiltersChange({
+                        categories: [],
+                        tags: [],
+                        complexity: [],
+                        showFavoritesOnly: false,
+                        showRecentOnly: false,
+                      })
+                    }
                     disabled={disabled}
                   >
                     Clear All
@@ -259,7 +262,8 @@ export function NodeSearchBar({
             onClick={() => setIsSortOpen(!isSortOpen)}
             disabled={disabled}
           >
-            Sort: {sortBy === 'name'
+            Sort:{' '}
+            {sortBy === 'name'
               ? 'Name'
               : sortBy === 'category'
                 ? 'Category'
@@ -301,11 +305,7 @@ export function NodeSearchBar({
             onClick={() => setIsViewOpen(!isViewOpen)}
             disabled={disabled}
           >
-            View: {viewMode === 'grid'
-              ? '⊞ Grid'
-              : viewMode === 'list'
-                ? '☰ List'
-                : '≡ Compact'}
+            View: {viewMode === 'grid' ? '⊞ Grid' : viewMode === 'list' ? '☰ List' : '≡ Compact'}
             <span className="dropdown-arrow">▾</span>
           </button>
 
@@ -334,7 +334,7 @@ export function NodeSearchBar({
           )}
         </div>
       </div>
- 
+
       <div className="search-status">
         <span className="result-count">{resultSummary}</span>
       </div>

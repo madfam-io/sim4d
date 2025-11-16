@@ -8,7 +8,15 @@ import { GraphManager, DAGEngine, GeometryEvaluationError } from '@brepflow/engi
 import { GeometryAPIFactory } from '@brepflow/engine-core/geometry-api-factory';
 import { registerCoreNodes } from '@brepflow/nodes-core';
 
-export const SUPPORTED_FORMATS: ExportFormat[] = ['step', 'iges', 'stl', 'obj', '3dm', 'gltf', 'usd'];
+export const SUPPORTED_FORMATS: ExportFormat[] = [
+  'step',
+  'iges',
+  'stl',
+  'obj',
+  '3dm',
+  'gltf',
+  'usd',
+];
 
 export type ShapeCandidate = {
   nodeId: string;
@@ -40,7 +48,7 @@ export const renderCommand = new Command('render')
 
     try {
       // Check if graph file exists
-      if (!await fs.pathExists(graphPath)) {
+      if (!(await fs.pathExists(graphPath))) {
         spinner.fail(`Graph file not found: ${graphPath}`);
         process.exit(1);
       }
@@ -67,7 +75,9 @@ export const renderCommand = new Command('render')
         retryAttempts: 2,
         validateOutput: true,
       });
-      const healthPayload = unwrapOperationResult<any>(await geometryAPI.invoke('HEALTH_CHECK', {}));
+      const healthPayload = unwrapOperationResult<any>(
+        await geometryAPI.invoke('HEALTH_CHECK', {})
+      );
       if (!healthPayload.success || !healthPayload.result?.healthy) {
         throw new Error('OCCT health check failed');
       }
@@ -128,7 +138,9 @@ export const renderCommand = new Command('render')
             shapeHandles
           );
           exportResults.push(...results);
-          spinner.succeed(`Exported ${results.length} ${format.toUpperCase()} file${results.length === 1 ? '' : 's'}`);
+          spinner.succeed(
+            `Exported ${results.length} ${format.toUpperCase()} file${results.length === 1 ? '' : 's'}`
+          );
         } catch (error) {
           const errorMessage = error instanceof Error ? error.message : 'Unknown error';
           spinner.warn(`Failed to export ${format}: ${errorMessage}`);
@@ -159,7 +171,6 @@ export const renderCommand = new Command('render')
 
       console.log(chalk.green('\n✅ Rendering complete!'));
       console.log(chalk.gray(`Output directory: ${outputDir}`));
-
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       spinner.fail(`Error: ${errorMessage}`);
@@ -306,11 +317,13 @@ export function collectShapeHandles(graph: GraphInstance): ShapeCandidate[] {
 }
 
 function sanitizeFileStem(stem: string): string {
-  return stem
-    .replace(/[^a-z0-9_-]+/gi, '-')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '')
-    .toLowerCase() || 'shape';
+  return (
+    stem
+      .replace(/[^a-z0-9_-]+/gi, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '')
+      .toLowerCase() || 'shape'
+  );
 }
 
 function slugFromHandle(handle: any): string {
@@ -334,7 +347,11 @@ function buildFileName(shape: ShapeCandidate, format: string, includeHash: boole
   return `${stem}${hash ? `-${hash}` : ''}.${format}`;
 }
 
-export function unwrapOperationResult<T>(value: any): { success: boolean; result: T | undefined; error?: any } {
+export function unwrapOperationResult<T>(value: any): {
+  success: boolean;
+  result: T | undefined;
+  error?: any;
+} {
   if (value && typeof value === 'object' && 'success' in value) {
     return {
       success: Boolean((value as any).success),
@@ -349,12 +366,21 @@ export function unwrapOperationResult<T>(value: any): { success: boolean; result
   };
 }
 
-async function invokeOperation<T>(geometryAPI: WorkerAPI, operation: string, params: any): Promise<T> {
+async function invokeOperation<T>(
+  geometryAPI: WorkerAPI,
+  operation: string,
+  params: any
+): Promise<T> {
   const response = await geometryAPI.invoke(operation, params);
   const { success, result, error } = unwrapOperationResult<T>(response);
 
   if (!success) {
-    const reason = error instanceof Error ? error.message : typeof error === 'string' ? error : `Operation ${operation} failed`;
+    const reason =
+      error instanceof Error
+        ? error.message
+        : typeof error === 'string'
+          ? error
+          : `Operation ${operation} failed`;
     throw new Error(reason);
   }
 
@@ -374,7 +400,7 @@ export async function exportFormat(
   outputDir: string,
   options: { hash?: boolean },
   geometryAPI: WorkerAPI,
-  shapes: ShapeCandidate[],
+  shapes: ShapeCandidate[]
 ): Promise<ExportRecord[]> {
   const normalizedFormat = format.toLowerCase() as ExportFormat;
   const written: ExportRecord[] = [];
@@ -389,18 +415,27 @@ export async function exportFormat(
 
       switch (normalizedFormat) {
         case 'step':
-          content = await invokeOperation<string>(geometryAPI, 'EXPORT_STEP', { shape: shape.handle });
+          content = await invokeOperation<string>(geometryAPI, 'EXPORT_STEP', {
+            shape: shape.handle,
+          });
           break;
         case 'stl':
-          content = await invokeOperation<string>(geometryAPI, 'EXPORT_STL', { shape: shape.handle, binary: false });
+          content = await invokeOperation<string>(geometryAPI, 'EXPORT_STL', {
+            shape: shape.handle,
+            binary: false,
+          });
           break;
         default:
-          content = JSON.stringify({
-            nodeId: shape.nodeId,
-            outputKey: shape.outputKey,
-            format: normalizedFormat,
-            generatedAt: new Date().toISOString(),
-          }, null, 2);
+          content = JSON.stringify(
+            {
+              nodeId: shape.nodeId,
+              outputKey: shape.outputKey,
+              format: normalizedFormat,
+              generatedAt: new Date().toISOString(),
+            },
+            null,
+            2
+          );
       }
 
       if (Buffer.isBuffer(content)) {

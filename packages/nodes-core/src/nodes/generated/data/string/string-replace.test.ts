@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { DataStringStringReplaceNode } from './string-replace.node';
 import { createTestContext } from '../test-utils';
@@ -9,10 +8,10 @@ describe('DataStringStringReplaceNode', () => {
     const inputs = {
       string: undefined,
       search: undefined,
-      replace: undefined
+      replace: undefined,
     } as any;
     const params = {
-      global: true
+      global: true,
     } as any;
 
     const result = await DataStringStringReplaceNode.evaluate(context, inputs, params);

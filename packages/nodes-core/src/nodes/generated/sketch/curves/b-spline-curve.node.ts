@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -14,7 +13,11 @@ interface Outputs {
   curve: Wire;
 }
 
-export const BSplineCurveNode: NodeDefinition<BSplineCurveInputs, BSplineCurveOutputs, BSplineCurveParams> = {
+export const BSplineCurveNode: NodeDefinition<
+  BSplineCurveInputs,
+  BSplineCurveOutputs,
+  BSplineCurveParams
+> = {
   type: 'Sketch::BSplineCurve',
   category: 'Sketch',
   subcategory: 'Curves',
@@ -22,33 +25,30 @@ export const BSplineCurveNode: NodeDefinition<BSplineCurveInputs, BSplineCurveOu
   metadata: {
     label: 'BSplineCurve',
     description: 'Create a B-Spline curve',
-    
-    
   },
 
   params: {
-        degree: {
-      "default": 3,
-      "min": 1,
-      "max": 10
+    degree: {
+      default: 3,
+      min: 1,
+      max: 10,
     },
     periodic: {
-      "default": false
-    }
+      default: false,
+    },
   },
 
   inputs: {
-        controlPoints: 'Point[]',
+    controlPoints: 'Point[]',
     knots: 'number[]',
-    weights: 'number[]'
+    weights: 'number[]',
   },
 
   outputs: {
-        curve: 'Wire'
+    curve: 'Wire',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'makeBSpline',
       params: {
@@ -56,12 +56,12 @@ export const BSplineCurveNode: NodeDefinition<BSplineCurveInputs, BSplineCurveOu
         knots: inputs.knots,
         weights: inputs.weights,
         degree: params.degree,
-        periodic: params.periodic
-      }
+        periodic: params.periodic,
+      },
     });
 
     return {
-      curve: result
+      curve: result,
     };
-  }
+  },
 };

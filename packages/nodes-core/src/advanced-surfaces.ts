@@ -84,7 +84,12 @@ export const NetworkSurfaceNode: NodeDefinition<
     },
   },
   async evaluate(ctx, inputs, params) {
-    if (!inputs.uCurves || !inputs.vCurves || inputs.uCurves.length < 2 || inputs.vCurves.length < 2) {
+    if (
+      !inputs.uCurves ||
+      !inputs.vCurves ||
+      inputs.uCurves.length < 2 ||
+      inputs.vCurves.length < 2
+    ) {
       throw new Error('Network surface requires at least 2 U curves and 2 V curves');
     }
 
@@ -173,10 +178,30 @@ export const PatchSurfaceNode: NodeDefinition<
       type: 'vec3array',
       label: 'Control Points Grid',
       default: [
-        [{ x: 0, y: 0, z: 0 }, { x: 33, y: 0, z: 10 }, { x: 66, y: 0, z: 0 }, { x: 100, y: 0, z: 0 }],
-        [{ x: 0, y: 33, z: 10 }, { x: 33, y: 33, z: 20 }, { x: 66, y: 33, z: 10 }, { x: 100, y: 33, z: 10 }],
-        [{ x: 0, y: 66, z: 0 }, { x: 33, y: 66, z: 10 }, { x: 66, y: 66, z: 0 }, { x: 100, y: 66, z: 0 }],
-        [{ x: 0, y: 100, z: 0 }, { x: 33, y: 100, z: 0 }, { x: 66, y: 100, z: 0 }, { x: 100, y: 100, z: 0 }],
+        [
+          { x: 0, y: 0, z: 0 },
+          { x: 33, y: 0, z: 10 },
+          { x: 66, y: 0, z: 0 },
+          { x: 100, y: 0, z: 0 },
+        ],
+        [
+          { x: 0, y: 33, z: 10 },
+          { x: 33, y: 33, z: 20 },
+          { x: 66, y: 33, z: 10 },
+          { x: 100, y: 33, z: 10 },
+        ],
+        [
+          { x: 0, y: 66, z: 0 },
+          { x: 33, y: 66, z: 10 },
+          { x: 66, y: 66, z: 0 },
+          { x: 100, y: 66, z: 0 },
+        ],
+        [
+          { x: 0, y: 100, z: 0 },
+          { x: 33, y: 100, z: 0 },
+          { x: 66, y: 100, z: 0 },
+          { x: 100, y: 100, z: 0 },
+        ],
       ],
     },
     uDegree: {
@@ -201,7 +226,7 @@ export const PatchSurfaceNode: NodeDefinition<
   },
   async evaluate(ctx, inputs, params) {
     const points = inputs.points || params.points;
-    
+
     if (!points || points.length < 2 || !Array.isArray(points[0]) || points[0].length < 2) {
       throw new Error('Patch surface requires at least 2x2 control points grid');
     }

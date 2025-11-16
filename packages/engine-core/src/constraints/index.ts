@@ -1,6 +1,6 @@
 /**
  * 2D Constraint System - Main API
- * 
+ *
  * Provides parametric constraint solving for 2D sketch elements.
  * Enables constraint-driven design with geometric relationships.
  */
@@ -15,7 +15,7 @@ import {
   Circle2D,
   Vec2,
   SolverConfig,
-  SolverResult
+  SolverResult,
 } from './types';
 import { ConstraintSolver } from './solver';
 import { ConstraintRegistry } from './registry';
@@ -40,9 +40,9 @@ export class ConstraintManager {
       variables: new Map(),
       solved: false,
       lastSolveTime: 0,
-      iterations: 0
+      iterations: 0,
     };
-    
+
     this.solver = new ConstraintSolver(config);
     this.registry = ConstraintRegistry.getInstance();
   }
@@ -52,13 +52,13 @@ export class ConstraintManager {
    */
   addGeometry(element: GeometryElement): void {
     this.system.geometry.set(element.id, element);
-    
+
     // Add variables for non-fixed points
     if (this.isPoint(element) && !element.fixed) {
       this.system.variables.set(`${element.id}.x`, element.position.x);
       this.system.variables.set(`${element.id}.y`, element.position.y);
     }
-    
+
     this.system.solved = false;
   }
 
@@ -68,21 +68,22 @@ export class ConstraintManager {
   removeGeometry(elementId: string): void {
     const element = this.system.geometry.get(elementId);
     if (!element) return;
-    
+
     // Remove associated constraints
-    const constraintsToRemove = Array.from(this.system.constraints.values())
-      .filter(constraint => constraint.elements.includes(elementId));
-    
-    constraintsToRemove.forEach(constraint => {
+    const constraintsToRemove = Array.from(this.system.constraints.values()).filter((constraint) =>
+      constraint.elements.includes(elementId)
+    );
+
+    constraintsToRemove.forEach((constraint) => {
       this.system.constraints.delete(constraint.id);
     });
-    
+
     // Remove variables for points
     if (this.isPoint(element)) {
       this.system.variables.delete(`${elementId}.x`);
       this.system.variables.delete(`${elementId}.y`);
     }
-    
+
     this.system.geometry.delete(elementId);
     this.system.solved = false;
   }
@@ -97,23 +98,23 @@ export class ConstraintManager {
     priority: number = 1
   ): string {
     // Get geometry elements
-    const elements = elementIds.map(id => {
+    const elements = elementIds.map((id) => {
       const element = this.system.geometry.get(id);
       if (!element) {
         throw new Error(`Geometry element not found: ${id}`);
       }
       return element;
     });
-    
+
     // Create constraint
     const constraint = this.registry.createConstraint(type, elements, params, priority);
     if (!constraint) {
       throw new Error(`Failed to create constraint of type: ${type}`);
     }
-    
+
     this.system.constraints.set(constraint.id, constraint);
     this.system.solved = false;
-    
+
     return constraint.id;
   }
 
@@ -141,12 +142,12 @@ export class ConstraintManager {
    */
   async solve(): Promise<SolverResult> {
     const result = await this.solver.solve(this.system);
-    
+
     // Update geometry positions if solve was successful
     if (result.success && result.variables) {
       this.updateGeometryFromVariables(result.variables);
     }
-    
+
     return result;
   }
 
@@ -160,7 +161,7 @@ export class ConstraintManager {
       variables: new Map(this.system.variables),
       solved: this.system.solved,
       lastSolveTime: this.system.lastSolveTime,
-      iterations: this.system.iterations
+      iterations: this.system.iterations,
     };
   }
 
@@ -196,8 +197,9 @@ export class ConstraintManager {
    * Get constraints affecting a geometry element
    */
   getConstraintsForElement(elementId: string): Constraint[] {
-    return Array.from(this.system.constraints.values())
-      .filter(constraint => constraint.elements.includes(elementId));
+    return Array.from(this.system.constraints.values()).filter((constraint) =>
+      constraint.elements.includes(elementId)
+    );
   }
 
   /**
@@ -226,9 +228,9 @@ export class ConstraintManager {
     const point: Point2D = {
       id,
       position: { x, y },
-      fixed
+      fixed,
     };
-    
+
     this.addGeometry(point);
     return point;
   }
@@ -240,9 +242,9 @@ export class ConstraintManager {
     const line: Line2D = {
       id,
       start: startPointId,
-      end: endPointId
+      end: endPointId,
     };
-    
+
     this.addGeometry(line);
     return line;
   }
@@ -254,9 +256,9 @@ export class ConstraintManager {
     const circle: Circle2D = {
       id,
       center: centerPointId,
-      radius
+      radius,
     };
-    
+
     this.addGeometry(circle);
     return circle;
   }
@@ -267,7 +269,7 @@ export class ConstraintManager {
   movePoint(pointId: string, position: Vec2): void {
     const point = this.system.geometry.get(pointId) as Point2D;
     if (!point || point.fixed) return;
-    
+
     this.system.variables.set(`${pointId}.x`, position.x);
     this.system.variables.set(`${pointId}.y`, position.y);
     this.system.solved = false;
@@ -289,19 +291,19 @@ export class ConstraintManager {
     params: any = {}
   ): { valid: boolean; error?: string } {
     try {
-      const elements = elementIds.map(id => {
+      const elements = elementIds.map((id) => {
         const element = this.system.geometry.get(id);
         if (!element) {
           throw new Error(`Geometry element not found: ${id}`);
         }
         return element;
       });
-      
+
       return this.registry.validateConstraint(type, elements, params);
     } catch (error) {
       return {
         valid: false,
-        error: error instanceof Error ? error.message : 'Unknown validation error'
+        error: error instanceof Error ? error.message : 'Unknown validation error',
       };
     }
   }
@@ -316,7 +318,7 @@ export class ConstraintManager {
       variables: Array.from(this.system.variables.entries()),
       solved: this.system.solved,
       lastSolveTime: this.system.lastSolveTime,
-      iterations: this.system.iterations
+      iterations: this.system.iterations,
     };
   }
 
@@ -325,25 +327,25 @@ export class ConstraintManager {
    */
   importFromJSON(data: any): void {
     this.clear();
-    
+
     if (data.geometry) {
       data.geometry.forEach(([id, element]: [string, GeometryElement]) => {
         this.system.geometry.set(id, element);
       });
     }
-    
+
     if (data.constraints) {
       data.constraints.forEach(([id, constraint]: [string, Constraint]) => {
         this.system.constraints.set(id, constraint);
       });
     }
-    
+
     if (data.variables) {
       data.variables.forEach(([name, value]: [string, number]) => {
         this.system.variables.set(name, value);
       });
     }
-    
+
     this.system.solved = data.solved || false;
     this.system.lastSolveTime = data.lastSolveTime || 0;
     this.system.iterations = data.iterations || 0;
@@ -356,7 +358,7 @@ export class ConstraintManager {
       if (this.isPoint(point) && !point.fixed) {
         const x = variables.get(`${element}.x`);
         const y = variables.get(`${element}.y`);
-        
+
         if (x !== undefined && y !== undefined) {
           point.position = { x, y };
           this.system.variables.set(`${element}.x`, x);

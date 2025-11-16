@@ -27,7 +27,7 @@ beforeAll(() => {
     value: ['measure', 'navigation'],
     writable: false,
     enumerable: true,
-    configurable: true
+    configurable: true,
   });
 
   global.PerformanceObserver = mockPerformanceObserver as any;
@@ -156,7 +156,7 @@ vi.mock('@brepflow/engine-core', () => {
 
   class MockGraphManager {
     graph: any;
-    
+
     constructor() {
       this.graph = {
         version: '0.1.0',
@@ -254,7 +254,7 @@ vi.mock('@brepflow/engine-core', () => {
     }
 
     static resetAll() {
-      graphManagerInstances.forEach(instance => {
+      graphManagerInstances.forEach((instance) => {
         instance.clearGraph();
       });
     }
@@ -357,7 +357,7 @@ vi.mock('../lib/undo-redo', () => {
     node: any;
     executeFunc: any;
     undoFunc: any;
-    
+
     constructor(node: any, execute: any, undo: any) {
       this.node = node;
       this.executeFunc = execute;
@@ -365,7 +365,7 @@ vi.mock('../lib/undo-redo', () => {
       // Add description property as a getter
       Object.defineProperty(this, 'description', {
         get: () => `Add ${this.node.type} node`,
-        enumerable: true
+        enumerable: true,
       });
     }
 
@@ -394,7 +394,7 @@ vi.mock('../lib/undo-redo', () => {
       // Add description property as a getter
       Object.defineProperty(this, 'description', {
         get: () => `Remove ${this.node.type} node`,
-        enumerable: true
+        enumerable: true,
       });
     }
 
@@ -425,7 +425,7 @@ vi.mock('../lib/undo-redo', () => {
       // Add description property as a getter
       Object.defineProperty(this, 'description', {
         get: () => `Update node parameters`,
-        enumerable: true
+        enumerable: true,
       });
     }
 
@@ -454,7 +454,7 @@ vi.mock('../lib/undo-redo', () => {
       // Add description property as a getter
       Object.defineProperty(this, 'description', {
         get: () => `Connect nodes`,
-        enumerable: true
+        enumerable: true,
       });
     }
 
@@ -483,7 +483,7 @@ vi.mock('../lib/undo-redo', () => {
       // Add description property as a getter
       Object.defineProperty(this, 'description', {
         get: () => `Disconnect nodes`,
-        enumerable: true
+        enumerable: true,
       });
     }
 
@@ -520,7 +520,7 @@ vi.mock('../lib/error-handling/error-manager', () => ({
       on: vi.fn(),
       off: vi.fn(),
       getActiveErrors: vi.fn(() => []),
-      resolveError: vi.fn()
+      resolveError: vi.fn(),
     })),
   },
   ErrorCode: {
@@ -532,13 +532,15 @@ vi.mock('../lib/error-handling/error-manager', () => ({
 
 // Mock lib/monitoring/index
 vi.mock('../lib/monitoring', () => ({
-  initializeMonitoring: vi.fn(() => Promise.resolve({
-    initialize: vi.fn().mockResolvedValue(undefined),
-    start: vi.fn(),
-    stop: vi.fn(),
-    recordMetric: vi.fn(),
-    recordEvent: vi.fn(),
-  })),
+  initializeMonitoring: vi.fn(() =>
+    Promise.resolve({
+      initialize: vi.fn().mockResolvedValue(undefined),
+      start: vi.fn(),
+      stop: vi.fn(),
+      recordMetric: vi.fn(),
+      recordEvent: vi.fn(),
+    })
+  ),
   MonitoringSystem: {
     getInstance: vi.fn(() => ({
       initialize: vi.fn().mockResolvedValue(undefined),
@@ -564,8 +566,8 @@ vi.mock('../lib/monitoring/metrics-collector', () => ({
         counters: {},
         timers: {},
         gauges: {},
-        histograms: {}
-      }))
+        histograms: {},
+      })),
     })),
   },
 }));
@@ -592,8 +594,8 @@ vi.mock('../lib/monitoring/monitoring-system', () => ({
       executeNetworkOperation: vi.fn(async (operation) => await operation()),
       getMonitoringDashboard: vi.fn(() => ({
         systemHealth: { status: 'healthy', cpu: 45, memory: 60 },
-        activeAlerts: []
-      }))
+        activeAlerts: [],
+      })),
     })),
   },
 }));
@@ -604,8 +606,8 @@ vi.mock('../config/layout-presets', () => ({
     guided: { id: 'guided', name: 'Guided Learning' },
     professional: { id: 'professional', name: 'Professional' },
     modeling: { id: 'modeling', name: 'Modeling' },
-    nodeFocused: { id: 'nodeFocused', name: 'Node Focused' }
-  }
+    nodeFocused: { id: 'nodeFocused', name: 'Node Focused' },
+  },
 }));
 
 // Mock comlink for worker communication

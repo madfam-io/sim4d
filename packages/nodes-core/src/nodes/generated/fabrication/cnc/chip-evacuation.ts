@@ -13,7 +13,11 @@ interface ChipEvacuationOutputs {
   evacuationScore: number;
 }
 
-export const FabricationCNCChipEvacuationNode: NodeDefinition<ChipEvacuationInputs, ChipEvacuationOutputs, ChipEvacuationParams> = {
+export const FabricationCNCChipEvacuationNode: NodeDefinition<
+  ChipEvacuationInputs,
+  ChipEvacuationOutputs,
+  ChipEvacuationParams
+> = {
   id: 'Fabrication::ChipEvacuation',
   type: 'Fabrication::ChipEvacuation',
   category: 'Fabrication',
@@ -23,14 +27,14 @@ export const FabricationCNCChipEvacuationNode: NodeDefinition<ChipEvacuationInpu
     pocket: {
       type: 'Face',
       label: 'Pocket',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     evacuationScore: {
       type: 'Number',
-      label: 'Evacuation Score'
-    }
+      label: 'Evacuation Score',
+    },
   },
   params: {
     flutes: {
@@ -39,15 +43,15 @@ export const FabricationCNCChipEvacuationNode: NodeDefinition<ChipEvacuationInpu
       default: 2,
       min: 1,
       max: 8,
-      step: 1
+      step: 1,
     },
     helixAngle: {
       type: 'number',
       label: 'Helix Angle',
       default: 30,
       min: 0,
-      max: 60
-    }
+      max: 60,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -55,12 +59,12 @@ export const FabricationCNCChipEvacuationNode: NodeDefinition<ChipEvacuationInpu
       params: {
         pocket: inputs.pocket,
         flutes: params.flutes,
-        helixAngle: params.helixAngle
-      }
+        helixAngle: params.helixAngle,
+      },
     });
-    
+
     return {
-      evacuationScore: result
+      evacuationScore: result,
     };
   },
 };

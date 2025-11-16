@@ -10,7 +10,11 @@ interface StringLengthOutputs {
   length: unknown;
 }
 
-export const DataStringStringLengthNode: NodeDefinition<StringLengthInputs, StringLengthOutputs, StringLengthParams> = {
+export const DataStringStringLengthNode: NodeDefinition<
+  StringLengthInputs,
+  StringLengthOutputs,
+  StringLengthParams
+> = {
   id: 'Data::StringLength',
   type: 'Data::StringLength',
   category: 'Data',
@@ -20,26 +24,26 @@ export const DataStringStringLengthNode: NodeDefinition<StringLengthInputs, Stri
     string: {
       type: 'string',
       label: 'String',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     length: {
       type: 'number',
-      label: 'Length'
-    }
+      label: 'Length',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'stringLength',
       params: {
-        string: inputs.string
-      }
+        string: inputs.string,
+      },
     });
-    
+
     return {
-      length: result
+      length: result,
     };
   },
 };

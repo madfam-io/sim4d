@@ -14,7 +14,11 @@ interface ParapetWallOutputs {
   parapet: unknown;
 }
 
-export const ArchitectureWallsParapetWallNode: NodeDefinition<ParapetWallInputs, ParapetWallOutputs, ParapetWallParams> = {
+export const ArchitectureWallsParapetWallNode: NodeDefinition<
+  ParapetWallInputs,
+  ParapetWallOutputs,
+  ParapetWallParams
+> = {
   id: 'Architecture::ParapetWall',
   type: 'Architecture::ParapetWall',
   category: 'Architecture',
@@ -24,14 +28,14 @@ export const ArchitectureWallsParapetWallNode: NodeDefinition<ParapetWallInputs,
     roofEdge: {
       type: 'Wire',
       label: 'Roof Edge',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     parapet: {
       type: 'Shape',
-      label: 'Parapet'
-    }
+      label: 'Parapet',
+    },
   },
   params: {
     height: {
@@ -39,20 +43,20 @@ export const ArchitectureWallsParapetWallNode: NodeDefinition<ParapetWallInputs,
       label: 'Height',
       default: 1000,
       min: 300,
-      max: 2000
+      max: 2000,
     },
     coping: {
       type: 'boolean',
       label: 'Coping',
-      default: true
+      default: true,
     },
     copingOverhang: {
       type: 'number',
       label: 'Coping Overhang',
       default: 50,
       min: 0,
-      max: 150
-    }
+      max: 150,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -61,12 +65,12 @@ export const ArchitectureWallsParapetWallNode: NodeDefinition<ParapetWallInputs,
         roofEdge: inputs.roofEdge,
         height: params.height,
         coping: params.coping,
-        copingOverhang: params.copingOverhang
-      }
+        copingOverhang: params.copingOverhang,
+      },
     });
-    
+
     return {
-      parapet: result
+      parapet: result,
     };
   },
 };

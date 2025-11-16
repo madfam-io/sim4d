@@ -66,7 +66,8 @@ export class NodeMetricsCollector {
     const endMemory = this.getCurrentMemoryUsage();
 
     // Get start metrics
-    const startTime = this.metricsCollector.getCounter(`node_evaluation_start_${nodeId}`) || endTime;
+    const startTime =
+      this.metricsCollector.getCounter(`node_evaluation_start_${nodeId}`) || endTime;
     const startMemory = this.metricsCollector.getGauge(`node_memory_start_${nodeId}`) || endMemory;
 
     const computeTime = endTime - startTime;
@@ -109,7 +110,7 @@ export class NodeMetricsCollector {
     return {
       metrics,
       history,
-      trends
+      trends,
     };
   }
 
@@ -148,14 +149,17 @@ export class NodeMetricsCollector {
         totalMemoryUsage: 0,
         overallSuccessRate: 100,
         slowestNode: null,
-        heaviestNode: null
+        heaviestNode: null,
       };
     }
 
     const totalComputeTime = allMetrics.reduce((sum, m) => sum + m.averageComputeTime, 0);
     const totalMemory = allMetrics.reduce((sum, m) => sum + m.peakMemoryUsage, 0);
     const totalEvaluations = allMetrics.reduce((sum, m) => sum + m.evaluationCount, 0);
-    const totalSuccesses = allMetrics.reduce((sum, m) => sum + (m.evaluationCount * m.successRate / 100), 0);
+    const totalSuccesses = allMetrics.reduce(
+      (sum, m) => sum + (m.evaluationCount * m.successRate) / 100,
+      0
+    );
 
     const slowestNode = allMetrics.reduce((slowest, current) =>
       !slowest || current.averageComputeTime > slowest.averageComputeTime ? current : slowest
@@ -170,12 +174,22 @@ export class NodeMetricsCollector {
       averageComputeTime: totalComputeTime / allMetrics.length,
       totalMemoryUsage: totalMemory,
       overallSuccessRate: totalEvaluations > 0 ? (totalSuccesses / totalEvaluations) * 100 : 100,
-      slowestNode: slowestNode ? { nodeId: slowestNode.nodeId, computeTime: slowestNode.averageComputeTime } : null,
-      heaviestNode: heaviestNode ? { nodeId: heaviestNode.nodeId, memoryUsage: heaviestNode.peakMemoryUsage } : null
+      slowestNode: slowestNode
+        ? { nodeId: slowestNode.nodeId, computeTime: slowestNode.averageComputeTime }
+        : null,
+      heaviestNode: heaviestNode
+        ? { nodeId: heaviestNode.nodeId, memoryUsage: heaviestNode.peakMemoryUsage }
+        : null,
     };
   }
 
-  private updateNodeMetrics(nodeId: string, nodeType: string, computeTime: number, memoryUsed: number, success: boolean): void {
+  private updateNodeMetrics(
+    nodeId: string,
+    nodeType: string,
+    computeTime: number,
+    memoryUsed: number,
+    success: boolean
+  ): void {
     const existing = this.nodeMetrics.get(nodeId);
 
     if (!existing) {
@@ -190,13 +204,14 @@ export class NodeMetricsCollector {
         averageComputeTime: computeTime,
         peakMemoryUsage: memoryUsed,
         errorCount: success ? 0 : 1,
-        successRate: success ? 100 : 0
+        successRate: success ? 100 : 0,
       });
     } else {
       // Update existing metrics
       const newEvaluationCount = existing.evaluationCount + 1;
       const newErrorCount = existing.errorCount + (success ? 0 : 1);
-      const newAverageComputeTime = (existing.averageComputeTime * existing.evaluationCount + computeTime) / newEvaluationCount;
+      const newAverageComputeTime =
+        (existing.averageComputeTime * existing.evaluationCount + computeTime) / newEvaluationCount;
 
       this.nodeMetrics.set(nodeId, {
         ...existing,
@@ -207,12 +222,17 @@ export class NodeMetricsCollector {
         averageComputeTime: newAverageComputeTime,
         peakMemoryUsage: Math.max(existing.peakMemoryUsage, memoryUsed),
         errorCount: newErrorCount,
-        successRate: ((newEvaluationCount - newErrorCount) / newEvaluationCount) * 100
+        successRate: ((newEvaluationCount - newErrorCount) / newEvaluationCount) * 100,
       });
     }
   }
 
-  private recordPerformanceMetric(nodeId: string, metricName: string, value: number, unit: string): void {
+  private recordPerformanceMetric(
+    nodeId: string,
+    metricName: string,
+    value: number,
+    unit: string
+  ): void {
     const metric: PerformanceMetric = {
       name: `node_${metricName}`,
       value,
@@ -220,8 +240,8 @@ export class NodeMetricsCollector {
       timestamp: Date.now(),
       labels: {
         nodeId,
-        nodeType: this.nodeMetrics.get(nodeId)?.nodeType || 'unknown'
-      }
+        nodeType: this.nodeMetrics.get(nodeId)?.nodeType || 'unknown',
+      },
     };
 
     // Add to node history
@@ -248,7 +268,7 @@ export class NodeMetricsCollector {
       return {
         computeTimeGrowth: 0,
         memoryGrowth: 0,
-        reliability: 100
+        reliability: 100,
       };
     }
 
@@ -256,34 +276,44 @@ export class NodeMetricsCollector {
     const recentHistory = history.slice(-20);
     const olderHistory = history.slice(-40, -20);
 
-    const recentComputeTime = recentHistory
-      .filter(m => m.name === 'node_compute_time')
-      .reduce((sum, m) => sum + m.value, 0) / recentHistory.filter(m => m.name === 'node_compute_time').length;
+    const recentComputeTime =
+      recentHistory
+        .filter((m) => m.name === 'node_compute_time')
+        .reduce((sum, m) => sum + m.value, 0) /
+      recentHistory.filter((m) => m.name === 'node_compute_time').length;
 
-    const olderComputeTime = olderHistory
-      .filter(m => m.name === 'node_compute_time')
-      .reduce((sum, m) => sum + m.value, 0) / olderHistory.filter(m => m.name === 'node_compute_time').length;
+    const olderComputeTime =
+      olderHistory
+        .filter((m) => m.name === 'node_compute_time')
+        .reduce((sum, m) => sum + m.value, 0) /
+      olderHistory.filter((m) => m.name === 'node_compute_time').length;
 
-    const recentMemory = recentHistory
-      .filter(m => m.name === 'node_memory_usage')
-      .reduce((sum, m) => sum + m.value, 0) / recentHistory.filter(m => m.name === 'node_memory_usage').length;
+    const recentMemory =
+      recentHistory
+        .filter((m) => m.name === 'node_memory_usage')
+        .reduce((sum, m) => sum + m.value, 0) /
+      recentHistory.filter((m) => m.name === 'node_memory_usage').length;
 
-    const olderMemory = olderHistory
-      .filter(m => m.name === 'node_memory_usage')
-      .reduce((sum, m) => sum + m.value, 0) / olderHistory.filter(m => m.name === 'node_memory_usage').length;
+    const olderMemory =
+      olderHistory
+        .filter((m) => m.name === 'node_memory_usage')
+        .reduce((sum, m) => sum + m.value, 0) /
+      olderHistory.filter((m) => m.name === 'node_memory_usage').length;
 
     const recentSuccesses = recentHistory
-      .filter(m => m.name === 'node_success')
+      .filter((m) => m.name === 'node_success')
       .reduce((sum, m) => sum + m.value, 0);
 
-    const computeTimeGrowth = olderComputeTime > 0 ? ((recentComputeTime - olderComputeTime) / olderComputeTime) * 100 : 0;
+    const computeTimeGrowth =
+      olderComputeTime > 0 ? ((recentComputeTime - olderComputeTime) / olderComputeTime) * 100 : 0;
     const memoryGrowth = olderMemory > 0 ? ((recentMemory - olderMemory) / olderMemory) * 100 : 0;
-    const reliability = (recentSuccesses / recentHistory.filter(m => m.name === 'node_success').length) * 100;
+    const reliability =
+      (recentSuccesses / recentHistory.filter((m) => m.name === 'node_success').length) * 100;
 
     return {
       computeTimeGrowth,
       memoryGrowth,
-      reliability
+      reliability,
     };
   }
 

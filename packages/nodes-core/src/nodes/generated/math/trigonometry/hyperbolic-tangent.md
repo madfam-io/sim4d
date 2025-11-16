@@ -1,4 +1,3 @@
-
 # HyperbolicTangent Node
 
 **Category:** Math / Trigonometry
@@ -11,19 +10,13 @@ This node has no parameters.
 
 ## Inputs
 
-
 ### Value
+
 - **Type:** number
 - **Required:** Yes
 
-
-
 ## Outputs
 
-
 ### Result
+
 - **Type:** number
-
-
-
-

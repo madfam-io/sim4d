@@ -23,36 +23,36 @@ export const TransformWrapNode: NodeDefinition<WrapInputs, WrapOutputs, WrapPara
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     wrapped: {
       type: 'Shape',
-      label: 'Wrapped'
-    }
+      label: 'Wrapped',
+    },
   },
   params: {
     type: {
       type: 'enum',
       label: 'Type',
-      default: "cylinder",
-      options: ["cylinder","sphere"]
+      default: 'cylinder',
+      options: ['cylinder', 'sphere'],
     },
     radius: {
       type: 'number',
       label: 'Radius',
       default: 50,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     angle: {
       type: 'number',
       label: 'Angle',
       default: 360,
       min: 0,
-      max: 360
-    }
+      max: 360,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -61,12 +61,12 @@ export const TransformWrapNode: NodeDefinition<WrapInputs, WrapOutputs, WrapPara
         shape: inputs.shape,
         type: params.type,
         radius: params.radius,
-        angle: params.angle
-      }
+        angle: params.angle,
+      },
     });
-    
+
     return {
-      wrapped: result
+      wrapped: result,
     };
   },
 };

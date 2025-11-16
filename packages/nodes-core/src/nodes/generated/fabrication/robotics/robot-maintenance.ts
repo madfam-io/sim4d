@@ -12,7 +12,11 @@ interface RobotMaintenanceOutputs {
   maintenanceSchedule: unknown;
 }
 
-export const FabricationRoboticsRobotMaintenanceNode: NodeDefinition<RobotMaintenanceInputs, RobotMaintenanceOutputs, RobotMaintenanceParams> = {
+export const FabricationRoboticsRobotMaintenanceNode: NodeDefinition<
+  RobotMaintenanceInputs,
+  RobotMaintenanceOutputs,
+  RobotMaintenanceParams
+> = {
   id: 'Fabrication::RobotMaintenance',
   type: 'Fabrication::RobotMaintenance',
   category: 'Fabrication',
@@ -22,14 +26,14 @@ export const FabricationRoboticsRobotMaintenanceNode: NodeDefinition<RobotMainte
     robotData: {
       type: 'Data',
       label: 'Robot Data',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     maintenanceSchedule: {
       type: 'Data',
-      label: 'Maintenance Schedule'
-    }
+      label: 'Maintenance Schedule',
+    },
   },
   params: {
     operatingHours: {
@@ -37,20 +41,20 @@ export const FabricationRoboticsRobotMaintenanceNode: NodeDefinition<RobotMainte
       label: 'Operating Hours',
       default: 1000,
       min: 0,
-      max: 50000
-    }
+      max: 50000,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'robotMaintenance',
       params: {
         robotData: inputs.robotData,
-        operatingHours: params.operatingHours
-      }
+        operatingHours: params.operatingHours,
+      },
     });
-    
+
     return {
-      maintenanceSchedule: result
+      maintenanceSchedule: result,
     };
   },
 };

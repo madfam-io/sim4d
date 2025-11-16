@@ -109,7 +109,7 @@ vi.mock('../lib/undo-redo', () => ({
   RemoveEdgeCommand: class {},
 }));
 
-const flushMicrotasks = () => new Promise(resolve => setTimeout(resolve, 0));
+const flushMicrotasks = () => new Promise((resolve) => setTimeout(resolve, 0));
 
 describe('graph-store', () => {
   let useGraphStore: typeof import('./graph-store').useGraphStore;
@@ -128,8 +128,8 @@ describe('graph-store', () => {
     geometryExecuteMock.mockClear();
     metricsCollectorMock.incrementCounter.mockClear();
     metricsCollectorMock.recordTiming.mockClear();
-    Object.values(errorManagerMock).forEach(fn => fn.mockClear());
-    Object.values(undoRedoManagerMock).forEach(fn => fn.mockClear?.());
+    Object.values(errorManagerMock).forEach((fn) => fn.mockClear());
+    Object.values(undoRedoManagerMock).forEach((fn) => fn.mockClear?.());
 
     vi.resetModules();
     ({ useGraphStore } = await import('./graph-store'));
@@ -179,7 +179,10 @@ describe('graph-store', () => {
     expect(state.isEvaluating).toBe(false);
     expect(state.evaluationProgress).toBe(100);
     expect(state.graph.nodes[0].outputs).toEqual({ result: expect.stringMatching(/^evaluated-/) });
-    expect(metricsCollectorMock.recordTiming).toHaveBeenCalledWith('graph_evaluation_duration_ms', expect.any(Number));
+    expect(metricsCollectorMock.recordTiming).toHaveBeenCalledWith(
+      'graph_evaluation_duration_ms',
+      expect.any(Number)
+    );
   });
 
   it('handles evaluation failures gracefully', async () => {

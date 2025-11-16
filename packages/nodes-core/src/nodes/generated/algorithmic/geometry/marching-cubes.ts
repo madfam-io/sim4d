@@ -16,7 +16,11 @@ interface MarchingCubesOutputs {
   normals: Array<[number, number, number]>;
 }
 
-export const AlgorithmicGeometryMarchingCubesNode: NodeDefinition<MarchingCubesInputs, MarchingCubesOutputs, MarchingCubesParams> = {
+export const AlgorithmicGeometryMarchingCubesNode: NodeDefinition<
+  MarchingCubesInputs,
+  MarchingCubesOutputs,
+  MarchingCubesParams
+> = {
   id: 'Algorithmic::MarchingCubes',
   type: 'Algorithmic::MarchingCubes',
   category: 'Algorithmic',
@@ -26,22 +30,22 @@ export const AlgorithmicGeometryMarchingCubesNode: NodeDefinition<MarchingCubesI
     scalarField: {
       type: 'Properties',
       label: 'Scalar Field',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     mesh: {
       type: 'Shape',
-      label: 'Mesh'
+      label: 'Mesh',
     },
     vertices: {
       type: 'Point[]',
-      label: 'Vertices'
+      label: 'Vertices',
     },
     normals: {
       type: 'Vector[]',
-      label: 'Normals'
-    }
+      label: 'Normals',
+    },
   },
   params: {
     isovalue: {
@@ -49,20 +53,20 @@ export const AlgorithmicGeometryMarchingCubesNode: NodeDefinition<MarchingCubesI
       label: 'Isovalue',
       default: 0,
       min: -100,
-      max: 100
+      max: 100,
     },
     resolution: {
       type: 'number',
       label: 'Resolution',
       default: 32,
       min: 8,
-      max: 128
+      max: 128,
     },
     smooth: {
       type: 'boolean',
       label: 'Smooth',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -71,14 +75,14 @@ export const AlgorithmicGeometryMarchingCubesNode: NodeDefinition<MarchingCubesI
         scalarField: inputs.scalarField,
         isovalue: params.isovalue,
         resolution: params.resolution,
-        smooth: params.smooth
-      }
+        smooth: params.smooth,
+      },
     });
-    
+
     return {
       mesh: results.mesh,
       vertices: results.vertices,
-      normals: results.normals
+      normals: results.normals,
     };
   },
 };

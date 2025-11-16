@@ -20,15 +20,13 @@ export const cadFormatTemplates: NodeTemplate[] = [
       { name: 'readColors', type: 'boolean', default: true },
       { name: 'readNames', type: 'boolean', default: true },
       { name: 'readLayers', type: 'boolean', default: true },
-      { name: 'preferBrep', type: 'boolean', default: true }
+      { name: 'preferBrep', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'fileData', type: 'Data', required: true }
-    ],
+    inputs: [{ name: 'fileData', type: 'Data', required: true }],
     outputs: [
       { name: 'shape', type: 'Shape' },
-      { name: 'metadata', type: 'Data' }
-    ]
+      { name: 'metadata', type: 'Data' },
+    ],
   },
 
   {
@@ -43,15 +41,13 @@ export const cadFormatTemplates: NodeTemplate[] = [
       { name: 'writeColors', type: 'boolean', default: true },
       { name: 'writeNames', type: 'boolean', default: true },
       { name: 'writeLayers', type: 'boolean', default: true },
-      { name: 'units', type: 'enum', options: ['mm', 'cm', 'm', 'inch'], default: 'mm' }
+      { name: 'units', type: 'enum', options: ['mm', 'cm', 'm', 'inch'], default: 'mm' },
     ],
     inputs: [
       { name: 'shape', type: 'Shape', required: true },
-      { name: 'metadata', type: 'Data', required: false }
+      { name: 'metadata', type: 'Data', required: false },
     ],
-    outputs: [
-      { name: 'stepData', type: 'Data' }
-    ]
+    outputs: [{ name: 'stepData', type: 'Data' }],
   },
 
   {
@@ -64,14 +60,10 @@ export const cadFormatTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'readSurfaces', type: 'boolean', default: true },
       { name: 'readCurves', type: 'boolean', default: true },
-      { name: 'sequence', type: 'boolean', default: true }
+      { name: 'sequence', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'fileData', type: 'Data', required: true }
-    ],
-    outputs: [
-      { name: 'shape', type: 'Shape' }
-    ]
+    inputs: [{ name: 'fileData', type: 'Data', required: true }],
+    outputs: [{ name: 'shape', type: 'Shape' }],
   },
 
   {
@@ -84,14 +76,10 @@ export const cadFormatTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'brepMode', type: 'enum', options: ['faces', 'shells'], default: 'faces' },
       { name: 'units', type: 'enum', options: ['mm', 'cm', 'm', 'inch'], default: 'mm' },
-      { name: 'author', type: 'string', default: '' }
+      { name: 'author', type: 'string', default: '' },
     ],
-    inputs: [
-      { name: 'shape', type: 'Shape', required: true }
-    ],
-    outputs: [
-      { name: 'igesData', type: 'Data' }
-    ]
+    inputs: [{ name: 'shape', type: 'Shape', required: true }],
+    outputs: [{ name: 'igesData', type: 'Data' }],
   },
 
   {
@@ -101,15 +89,9 @@ export const cadFormatTemplates: NodeTemplate[] = [
     description: 'Import OpenCASCADE BREP',
     operation: 'IMPORT_BREP',
     occtBinding: 'importBREP',
-    parameters: [
-      { name: 'version', type: 'string', default: 'auto' }
-    ],
-    inputs: [
-      { name: 'fileData', type: 'Data', required: true }
-    ],
-    outputs: [
-      { name: 'shape', type: 'Shape' }
-    ]
+    parameters: [{ name: 'version', type: 'string', default: 'auto' }],
+    inputs: [{ name: 'fileData', type: 'Data', required: true }],
+    outputs: [{ name: 'shape', type: 'Shape' }],
   },
 
   {
@@ -119,15 +101,9 @@ export const cadFormatTemplates: NodeTemplate[] = [
     description: 'Export to BREP format',
     operation: 'EXPORT_BREP',
     occtBinding: 'exportBREP',
-    parameters: [
-      { name: 'binary', type: 'boolean', default: false }
-    ],
-    inputs: [
-      { name: 'shape', type: 'Shape', required: true }
-    ],
-    outputs: [
-      { name: 'brepData', type: 'Data' }
-    ]
+    parameters: [{ name: 'binary', type: 'boolean', default: false }],
+    inputs: [{ name: 'shape', type: 'Shape', required: true }],
+    outputs: [{ name: 'brepData', type: 'Data' }],
   },
 
   {
@@ -139,14 +115,10 @@ export const cadFormatTemplates: NodeTemplate[] = [
     occtBinding: 'importParasolid',
     parameters: [
       { name: 'healGeometry', type: 'boolean', default: true },
-      { name: 'simplifyGeometry', type: 'boolean', default: false }
+      { name: 'simplifyGeometry', type: 'boolean', default: false },
     ],
-    inputs: [
-      { name: 'fileData', type: 'Data', required: true }
-    ],
-    outputs: [
-      { name: 'shape', type: 'Shape' }
-    ]
+    inputs: [{ name: 'fileData', type: 'Data', required: true }],
+    outputs: [{ name: 'shape', type: 'Shape' }],
   },
 
   {
@@ -158,15 +130,11 @@ export const cadFormatTemplates: NodeTemplate[] = [
     occtBinding: 'importACIS',
     parameters: [
       { name: 'version', type: 'string', default: 'auto' },
-      { name: 'healGeometry', type: 'boolean', default: true }
+      { name: 'healGeometry', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'fileData', type: 'Data', required: true }
-    ],
-    outputs: [
-      { name: 'shape', type: 'Shape' }
-    ]
-  }
+    inputs: [{ name: 'fileData', type: 'Data', required: true }],
+    outputs: [{ name: 'shape', type: 'Shape' }],
+  },
 ];
 
 /**
@@ -183,15 +151,13 @@ export const drawingFormatTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'importAs', type: 'enum', options: ['2d', '3d', 'both'], default: '2d' },
       { name: 'layerFilter', type: 'string', default: '*' },
-      { name: 'units', type: 'enum', options: ['mm', 'cm', 'm', 'inch'], default: 'mm' }
+      { name: 'units', type: 'enum', options: ['mm', 'cm', 'm', 'inch'], default: 'mm' },
     ],
-    inputs: [
-      { name: 'fileData', type: 'Data', required: true }
-    ],
+    inputs: [{ name: 'fileData', type: 'Data', required: true }],
     outputs: [
       { name: 'wires', type: 'Wire[]' },
-      { name: 'layers', type: 'Data' }
-    ]
+      { name: 'layers', type: 'Data' },
+    ],
   },
 
   {
@@ -202,17 +168,25 @@ export const drawingFormatTemplates: NodeTemplate[] = [
     operation: 'EXPORT_DXF',
     occtBinding: 'exportDXF',
     parameters: [
-      { name: 'version', type: 'enum', options: ['R12', 'R2000', 'R2004', 'R2007', 'R2010'], default: 'R2010' },
-      { name: 'projection', type: 'enum', options: ['top', 'front', 'right', 'iso'], default: 'top' },
-      { name: 'hiddenLines', type: 'boolean', default: false }
+      {
+        name: 'version',
+        type: 'enum',
+        options: ['R12', 'R2000', 'R2004', 'R2007', 'R2010'],
+        default: 'R2010',
+      },
+      {
+        name: 'projection',
+        type: 'enum',
+        options: ['top', 'front', 'right', 'iso'],
+        default: 'top',
+      },
+      { name: 'hiddenLines', type: 'boolean', default: false },
     ],
     inputs: [
       { name: 'shapes', type: 'Shape[]', required: true },
-      { name: 'layers', type: 'Data', required: false }
+      { name: 'layers', type: 'Data', required: false },
     ],
-    outputs: [
-      { name: 'dxfData', type: 'Data' }
-    ]
+    outputs: [{ name: 'dxfData', type: 'Data' }],
   },
 
   {
@@ -223,19 +197,20 @@ export const drawingFormatTemplates: NodeTemplate[] = [
     operation: 'EXPORT_SVG',
     occtBinding: 'exportSVG',
     parameters: [
-      { name: 'projection', type: 'enum', options: ['top', 'front', 'right', 'iso'], default: 'top' },
+      {
+        name: 'projection',
+        type: 'enum',
+        options: ['top', 'front', 'right', 'iso'],
+        default: 'top',
+      },
       { name: 'width', type: 'number', default: 800, min: 100, max: 10000 },
       { name: 'height', type: 'number', default: 600, min: 100, max: 10000 },
       { name: 'strokeWidth', type: 'number', default: 1, min: 0.1, max: 10 },
-      { name: 'fillOpacity', type: 'number', default: 0.3, min: 0, max: 1 }
+      { name: 'fillOpacity', type: 'number', default: 0.3, min: 0, max: 1 },
     ],
-    inputs: [
-      { name: 'shapes', type: 'Shape[]', required: true }
-    ],
-    outputs: [
-      { name: 'svgData', type: 'string' }
-    ]
-  }
+    inputs: [{ name: 'shapes', type: 'Shape[]', required: true }],
+    outputs: [{ name: 'svgData', type: 'string' }],
+  },
 ];
 
 /**
@@ -251,16 +226,14 @@ export const dataExchangeTemplates: NodeTemplate[] = [
     occtBinding: 'importGLTF',
     parameters: [
       { name: 'importAnimations', type: 'boolean', default: false },
-      { name: 'importMaterials', type: 'boolean', default: true }
+      { name: 'importMaterials', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'fileData', type: 'Data', required: true }
-    ],
+    inputs: [{ name: 'fileData', type: 'Data', required: true }],
     outputs: [
       { name: 'mesh', type: 'Mesh' },
       { name: 'materials', type: 'Data' },
-      { name: 'animations', type: 'Data' }
-    ]
+      { name: 'animations', type: 'Data' },
+    ],
   },
 
   {
@@ -272,15 +245,13 @@ export const dataExchangeTemplates: NodeTemplate[] = [
     occtBinding: 'exportGLTF',
     parameters: [
       { name: 'format', type: 'enum', options: ['gltf', 'glb'], default: 'glb' },
-      { name: 'draco', type: 'boolean', default: false }
+      { name: 'draco', type: 'boolean', default: false },
     ],
     inputs: [
       { name: 'shape', type: 'Shape', required: true },
-      { name: 'materials', type: 'Data', required: false }
+      { name: 'materials', type: 'Data', required: false },
     ],
-    outputs: [
-      { name: 'gltfData', type: 'Data' }
-    ]
+    outputs: [{ name: 'gltfData', type: 'Data' }],
   },
 
   {
@@ -291,15 +262,18 @@ export const dataExchangeTemplates: NodeTemplate[] = [
     operation: 'IMPORT_JSON',
     occtBinding: 'importJSON',
     parameters: [
-      { name: 'format', type: 'enum', options: ['brepflow', 'three', 'custom'], default: 'brepflow' }
+      {
+        name: 'format',
+        type: 'enum',
+        options: ['brepflow', 'three', 'custom'],
+        default: 'brepflow',
+      },
     ],
-    inputs: [
-      { name: 'jsonData', type: 'Data', required: true }
-    ],
+    inputs: [{ name: 'jsonData', type: 'Data', required: true }],
     outputs: [
       { name: 'shapes', type: 'Shape[]' },
-      { name: 'metadata', type: 'Data' }
-    ]
+      { name: 'metadata', type: 'Data' },
+    ],
   },
 
   {
@@ -310,23 +284,26 @@ export const dataExchangeTemplates: NodeTemplate[] = [
     operation: 'EXPORT_JSON',
     occtBinding: 'exportJSON',
     parameters: [
-      { name: 'format', type: 'enum', options: ['brepflow', 'three', 'custom'], default: 'brepflow' },
+      {
+        name: 'format',
+        type: 'enum',
+        options: ['brepflow', 'three', 'custom'],
+        default: 'brepflow',
+      },
       { name: 'precision', type: 'number', default: 6, min: 1, max: 15, step: 1 },
-      { name: 'includeTopology', type: 'boolean', default: true }
+      { name: 'includeTopology', type: 'boolean', default: true },
     ],
     inputs: [
       { name: 'shapes', type: 'Shape[]', required: true },
-      { name: 'metadata', type: 'Data', required: false }
+      { name: 'metadata', type: 'Data', required: false },
     ],
-    outputs: [
-      { name: 'jsonData', type: 'string' }
-    ]
-  }
+    outputs: [{ name: 'jsonData', type: 'string' }],
+  },
 ];
 
 // Export all templates
 export const allImportExportTemplates = [
   ...cadFormatTemplates,
   ...drawingFormatTemplates,
-  ...dataExchangeTemplates
+  ...dataExchangeTemplates,
 ];

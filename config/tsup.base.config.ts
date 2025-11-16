@@ -34,11 +34,13 @@ export const createBaseConfig = (options: Partial<Options> = {}): Options => {
     minify: isProduction,
 
     // Tree shaking for smaller bundles
-    treeshake: isProduction ? {
-      moduleSideEffects: false,
-      propertyReadSideEffects: false,
-      tryCatchDeoptimization: false,
-    } : false,
+    treeshake: isProduction
+      ? {
+          moduleSideEffects: false,
+          propertyReadSideEffects: false,
+          tryCatchDeoptimization: false,
+        }
+      : false,
 
     // Code splitting
     splitting: false,
@@ -47,11 +49,7 @@ export const createBaseConfig = (options: Partial<Options> = {}): Options => {
     skipNodeModulesBundle: true,
 
     // External dependencies (to be resolved by consumer)
-    external: [
-      'react',
-      'react-dom',
-      'react/jsx-runtime',
-    ],
+    external: ['react', 'react-dom', 'react/jsx-runtime'],
 
     // Target environment
     target: 'es2022',
@@ -87,12 +85,7 @@ export const createLibraryConfig = (options: Partial<Options> = {}): Options => 
       resolve: true,
       entry: ['src/index.ts'],
     },
-    external: [
-      'react',
-      'react-dom',
-      'react/jsx-runtime',
-      /^@brepflow\//,
-    ],
+    external: ['react', 'react-dom', 'react/jsx-runtime', /^@brepflow\//],
     ...options,
   });
 };
@@ -104,11 +97,7 @@ export const createAppConfig = (options: Partial<Options> = {}): Options => {
   return createBaseConfig({
     splitting: true,
     minify: true,
-    external: [
-      'react',
-      'react-dom',
-      'react/jsx-runtime',
-    ],
+    external: ['react', 'react-dom', 'react/jsx-runtime'],
     ...options,
   });
 };

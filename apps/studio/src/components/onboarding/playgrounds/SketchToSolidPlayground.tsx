@@ -14,7 +14,6 @@ export const SketchToSolidPlayground: React.FC = () => {
         <h2>✏️ Sketch to Solid Playground</h2>
         <p>Coming soon! This playground will teach you how to turn 2D sketches into 3D solids.</p>
       </div>
-
     </motion.div>
   );
 };

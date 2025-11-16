@@ -80,8 +80,8 @@ export class ErrorDiagnosticsEngine {
         parameters: context.parameters,
         inputValues: context.inputValues,
         systemState: context.systemState,
-        relatedErrors: this.findRelatedErrors(nodeId, errorCode)
-      }
+        relatedErrors: this.findRelatedErrors(nodeId, errorCode),
+      },
     };
 
     // Store in history
@@ -112,7 +112,7 @@ export class ErrorDiagnosticsEngine {
 
     // Most common errors
     const errorCounts = new Map<ErrorCode, { count: number; lastSeen: Date }>();
-    allDiagnostics.forEach(d => {
+    allDiagnostics.forEach((d) => {
       const existing = errorCounts.get(d.errorCode);
       if (existing) {
         existing.count++;
@@ -141,8 +141,8 @@ export class ErrorDiagnosticsEngine {
     }
 
     allDiagnostics
-      .filter(d => d.timestamp >= sevenDaysAgo)
-      .forEach(d => {
+      .filter((d) => d.timestamp >= sevenDaysAgo)
+      .forEach((d) => {
         const dateStr = d.timestamp.toISOString().split('T')[0];
         const count = dailyCounts.get(dateStr) || 0;
         dailyCounts.set(dateStr, count + 1);
@@ -154,7 +154,7 @@ export class ErrorDiagnosticsEngine {
 
     // Critical and recent errors
     const criticalErrors = allDiagnostics
-      .filter(d => d.severity === ErrorSeverity.CRITICAL)
+      .filter((d) => d.severity === ErrorSeverity.CRITICAL)
       .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
       .slice(0, 10);
 
@@ -166,7 +166,7 @@ export class ErrorDiagnosticsEngine {
       mostCommonErrors,
       errorTrends,
       criticalErrors,
-      recentErrors
+      recentErrors,
     };
   }
 
@@ -191,8 +191,8 @@ export class ErrorDiagnosticsEngine {
           'Review all parameter values for validity',
           'Ensure dimensions are positive and reasonable',
           'Check for extreme values that might cause overflow',
-          'Verify units are consistent'
-        ]
+          'Verify units are consistent',
+        ],
       },
       {
         id: 'check-inputs',
@@ -204,8 +204,8 @@ export class ErrorDiagnosticsEngine {
         steps: [
           'Ensure all required inputs are connected',
           'Check that input geometry is valid',
-          'Verify input geometry is not degenerate'
-        ]
+          'Verify input geometry is not degenerate',
+        ],
       },
       {
         id: 'simplify-operation',
@@ -217,9 +217,9 @@ export class ErrorDiagnosticsEngine {
         steps: [
           'Break complex operations into simpler steps',
           'Reduce geometric complexity',
-          'Use intermediate preview steps'
-        ]
-      }
+          'Use intermediate preview steps',
+        ],
+      },
     ]);
 
     // Parameter validation errors
@@ -234,9 +234,9 @@ export class ErrorDiagnosticsEngine {
         steps: [
           'Review parameter minimum and maximum values',
           'Adjust values to be within valid ranges',
-          'Consider the physical meaning of parameters'
-        ]
-      }
+          'Consider the physical meaning of parameters',
+        ],
+      },
     ]);
 
     // WASM initialization errors
@@ -251,8 +251,8 @@ export class ErrorDiagnosticsEngine {
         steps: [
           'Refresh the browser page',
           'Wait for complete application load',
-          'Check browser console for additional errors'
-        ]
+          'Check browser console for additional errors',
+        ],
       },
       {
         id: 'check-browser',
@@ -264,16 +264,16 @@ export class ErrorDiagnosticsEngine {
         steps: [
           'Update your browser to the latest version',
           'Enable WebAssembly in browser settings',
-          'Check for SharedArrayBuffer support'
+          'Check for SharedArrayBuffer support',
         ],
         relatedLinks: [
           {
             title: 'Browser Compatibility Guide',
             url: '/docs/browser-support',
-            type: 'documentation'
-          }
-        ]
-      }
+            type: 'documentation',
+          },
+        ],
+      },
     ]);
 
     // Circular dependency errors
@@ -289,9 +289,9 @@ export class ErrorDiagnosticsEngine {
           'Identify the circular connection path',
           'Remove one connection to break the cycle',
           'Reorganize nodes to create a clear data flow',
-          'Use intermediate nodes if needed'
-        ]
-      }
+          'Use intermediate nodes if needed',
+        ],
+      },
     ]);
 
     // Missing input errors
@@ -306,9 +306,9 @@ export class ErrorDiagnosticsEngine {
         steps: [
           'Identify which inputs are required',
           'Connect appropriate output from another node',
-          'Verify the data types match'
-        ]
-      }
+          'Verify the data types match',
+        ],
+      },
     ]);
 
     // Performance-related errors
@@ -324,8 +324,8 @@ export class ErrorDiagnosticsEngine {
           'Simplify complex geometric operations',
           'Reduce parameter precision where appropriate',
           'Break large operations into smaller chunks',
-          'Consider using lower-resolution previews'
-        ]
+          'Consider using lower-resolution previews',
+        ],
       },
       {
         id: 'increase-timeout',
@@ -337,9 +337,9 @@ export class ErrorDiagnosticsEngine {
         steps: [
           'Go to application settings',
           'Increase the evaluation timeout',
-          'Retry the operation'
-        ]
-      }
+          'Retry the operation',
+        ],
+      },
     ]);
 
     // Memory errors
@@ -355,23 +355,23 @@ export class ErrorDiagnosticsEngine {
           'Reduce mesh resolution or detail level',
           'Simplify input geometry',
           'Process in smaller batches',
-          'Close other browser tabs to free memory'
-        ]
-      }
+          'Close other browser tabs to free memory',
+        ],
+      },
     ]);
   }
 
   private categorizeError(errorCode: ErrorCode): ErrorCategory {
     const categoryMap: Record<string, ErrorCategory> = {
-      'GEOMETRY_': ErrorCategory.GEOMETRY,
-      'WASM_': ErrorCategory.WASM,
-      'NETWORK_': ErrorCategory.NETWORK,
-      'INVALID_': ErrorCategory.VALIDATION,
-      'CIRCULAR_': ErrorCategory.VALIDATION,
-      'MISSING_': ErrorCategory.VALIDATION,
-      'EVALUATION_': ErrorCategory.RUNTIME,
-      'MEMORY_': ErrorCategory.RUNTIME,
-      'WORKER_': ErrorCategory.RUNTIME
+      GEOMETRY_: ErrorCategory.GEOMETRY,
+      WASM_: ErrorCategory.WASM,
+      NETWORK_: ErrorCategory.NETWORK,
+      INVALID_: ErrorCategory.VALIDATION,
+      CIRCULAR_: ErrorCategory.VALIDATION,
+      MISSING_: ErrorCategory.VALIDATION,
+      EVALUATION_: ErrorCategory.RUNTIME,
+      MEMORY_: ErrorCategory.RUNTIME,
+      WORKER_: ErrorCategory.RUNTIME,
     };
 
     for (const [prefix, category] of Object.entries(categoryMap)) {
@@ -389,21 +389,21 @@ export class ErrorDiagnosticsEngine {
       ErrorCode.GEOMETRY_ENGINE_NOT_INITIALIZED,
       ErrorCode.WASM_MODULE_LOAD_FAILED,
       ErrorCode.MEMORY_LIMIT_EXCEEDED,
-      ErrorCode.WORKER_THREAD_CRASHED
+      ErrorCode.WORKER_THREAD_CRASHED,
     ];
 
     // High severity errors that block user workflow
     const highErrors = [
       ErrorCode.GEOMETRY_COMPUTATION_FAILED,
       ErrorCode.CIRCULAR_DEPENDENCY,
-      ErrorCode.EVALUATION_TIMEOUT
+      ErrorCode.EVALUATION_TIMEOUT,
     ];
 
     // Medium severity errors that limit functionality
     const mediumErrors = [
       ErrorCode.INVALID_GEOMETRY_PARAMETERS,
       ErrorCode.MISSING_REQUIRED_INPUT,
-      ErrorCode.INVALID_NODE_CONNECTION
+      ErrorCode.INVALID_NODE_CONNECTION,
     ];
 
     if (criticalErrors.includes(errorCode)) {
@@ -432,7 +432,7 @@ export class ErrorDiagnosticsEngine {
         actionType: 'fix',
         confidence: 40,
         estimatedTime: 'immediate',
-        steps: ['Try the operation again', 'Check if the issue persists']
+        steps: ['Try the operation again', 'Check if the issue persists'],
       },
       {
         id: 'generic-documentation',
@@ -445,10 +445,10 @@ export class ErrorDiagnosticsEngine {
           {
             title: 'Node Documentation',
             url: '/docs/nodes',
-            type: 'documentation'
-          }
-        ]
-      }
+            type: 'documentation',
+          },
+        ],
+      },
     ];
   }
 
@@ -458,9 +458,8 @@ export class ErrorDiagnosticsEngine {
     // Look for similar errors in other nodes
     for (const [otherNodeId, diagnostics] of this.errorHistory.entries()) {
       if (otherNodeId !== nodeId) {
-        const hasRelatedError = diagnostics.some(d =>
-          d.errorCode === errorCode ||
-          d.category === this.categorizeError(errorCode)
+        const hasRelatedError = diagnostics.some(
+          (d) => d.errorCode === errorCode || d.category === this.categorizeError(errorCode)
         );
         if (hasRelatedError) {
           related.push(otherNodeId);

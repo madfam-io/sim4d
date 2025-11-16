@@ -14,7 +14,11 @@ interface ReachAnalysisOutputs {
   coverage: number;
 }
 
-export const FabricationRoboticsReachAnalysisNode: NodeDefinition<ReachAnalysisInputs, ReachAnalysisOutputs, ReachAnalysisParams> = {
+export const FabricationRoboticsReachAnalysisNode: NodeDefinition<
+  ReachAnalysisInputs,
+  ReachAnalysisOutputs,
+  ReachAnalysisParams
+> = {
   id: 'Fabrication::ReachAnalysis',
   category: 'Fabrication',
   label: 'ReachAnalysis',
@@ -23,23 +27,23 @@ export const FabricationRoboticsReachAnalysisNode: NodeDefinition<ReachAnalysisI
     robotModel: {
       type: 'Data',
       label: 'Robot Model',
-      required: true
+      required: true,
     },
     workspace: {
       type: 'Box',
       label: 'Workspace',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     reachableVolume: {
       type: 'Shape',
-      label: 'Reachable Volume'
+      label: 'Reachable Volume',
     },
     coverage: {
       type: 'Number',
-      label: 'Coverage'
-    }
+      label: 'Coverage',
+    },
   },
   params: {
     resolution: {
@@ -48,8 +52,8 @@ export const FabricationRoboticsReachAnalysisNode: NodeDefinition<ReachAnalysisI
       default: 50,
       min: 10,
       max: 200,
-      step: 10
-    }
+      step: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -57,13 +61,13 @@ export const FabricationRoboticsReachAnalysisNode: NodeDefinition<ReachAnalysisI
       params: {
         robotModel: inputs.robotModel,
         workspace: inputs.workspace,
-        resolution: params.resolution
-      }
+        resolution: params.resolution,
+      },
     });
-    
+
     return {
       reachableVolume: results.reachableVolume,
-      coverage: results.coverage
+      coverage: results.coverage,
     };
   },
 };

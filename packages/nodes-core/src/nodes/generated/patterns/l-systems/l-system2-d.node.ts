@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -22,40 +21,37 @@ export const LSystem2DNode: NodeDefinition<LSystem2DInputs, LSystem2DOutputs, LS
   metadata: {
     label: 'LSystem2D',
     description: '2D L-system generator',
-    
-    
   },
 
   params: {
-        axiom: {
-      "default": "F"
+    axiom: {
+      default: 'F',
     },
     rules: {
-      "default": "F=F+F-F-F+F"
+      default: 'F=F+F-F-F+F',
     },
     angle: {
-      "default": 90,
-      "min": 0,
-      "max": 360
+      default: 90,
+      min: 0,
+      max: 360,
     },
     iterations: {
-      "default": 3,
-      "min": 1,
-      "max": 8,
-      "step": 1
-    }
+      default: 3,
+      min: 1,
+      max: 8,
+      step: 1,
+    },
   },
 
   inputs: {
-        startPoint: 'Point'
+    startPoint: 'Point',
   },
 
   outputs: {
-        pattern: 'Wire'
+    pattern: 'Wire',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'lsystem2D',
       params: {
@@ -63,12 +59,12 @@ export const LSystem2DNode: NodeDefinition<LSystem2DInputs, LSystem2DOutputs, LS
         axiom: params.axiom,
         rules: params.rules,
         angle: params.angle,
-        iterations: params.iterations
-      }
+        iterations: params.iterations,
+      },
     });
 
     return {
-      pattern: result
+      pattern: result,
     };
-  }
+  },
 };

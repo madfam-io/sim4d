@@ -17,7 +17,11 @@ interface ExportSTEPOutputs {
   stepData: unknown;
 }
 
-export const IOCADExportSTEPNode: NodeDefinition<ExportSTEPInputs, ExportSTEPOutputs, ExportSTEPParams> = {
+export const IOCADExportSTEPNode: NodeDefinition<
+  ExportSTEPInputs,
+  ExportSTEPOutputs,
+  ExportSTEPParams
+> = {
   id: 'IO::ExportSTEP',
   category: 'IO',
   label: 'ExportSTEP',
@@ -26,48 +30,48 @@ export const IOCADExportSTEPNode: NodeDefinition<ExportSTEPInputs, ExportSTEPOut
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
+      required: true,
     },
     metadata: {
       type: 'Data',
       label: 'Metadata',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     stepData: {
       type: 'Data',
-      label: 'Step Data'
-    }
+      label: 'Step Data',
+    },
   },
   params: {
     version: {
       type: 'enum',
       label: 'Version',
-      default: "AP214",
-      options: ["AP203","AP214","AP242"]
+      default: 'AP214',
+      options: ['AP203', 'AP214', 'AP242'],
     },
     writeColors: {
       type: 'boolean',
       label: 'Write Colors',
-      default: true
+      default: true,
     },
     writeNames: {
       type: 'boolean',
       label: 'Write Names',
-      default: true
+      default: true,
     },
     writeLayers: {
       type: 'boolean',
       label: 'Write Layers',
-      default: true
+      default: true,
     },
     units: {
       type: 'enum',
       label: 'Units',
-      default: "mm",
-      options: ["mm","cm","m","inch"]
-    }
+      default: 'mm',
+      options: ['mm', 'cm', 'm', 'inch'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -79,12 +83,12 @@ export const IOCADExportSTEPNode: NodeDefinition<ExportSTEPInputs, ExportSTEPOut
         writeColors: params.writeColors,
         writeNames: params.writeNames,
         writeLayers: params.writeLayers,
-        units: params.units
-      }
+        units: params.units,
+      },
     });
-    
+
     return {
-      stepData: result
+      stepData: result,
     };
   },
 };

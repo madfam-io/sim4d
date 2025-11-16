@@ -13,7 +13,11 @@ interface QuadMeshOutputs {
   quadMesh: unknown;
 }
 
-export const MeshTessellationQuadMeshNode: NodeDefinition<QuadMeshInputs, QuadMeshOutputs, QuadMeshParams> = {
+export const MeshTessellationQuadMeshNode: NodeDefinition<
+  QuadMeshInputs,
+  QuadMeshOutputs,
+  QuadMeshParams
+> = {
   id: 'Mesh::QuadMesh',
   type: 'Mesh::QuadMesh',
   category: 'Mesh',
@@ -23,14 +27,14 @@ export const MeshTessellationQuadMeshNode: NodeDefinition<QuadMeshInputs, QuadMe
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     quadMesh: {
       type: 'Mesh',
-      label: 'Quad Mesh'
-    }
+      label: 'Quad Mesh',
+    },
   },
   params: {
     targetQuadSize: {
@@ -38,15 +42,15 @@ export const MeshTessellationQuadMeshNode: NodeDefinition<QuadMeshInputs, QuadMe
       label: 'Target Quad Size',
       default: 5,
       min: 0.1,
-      max: 100
+      max: 100,
     },
     quadDominance: {
       type: 'number',
       label: 'Quad Dominance',
       default: 0.8,
       min: 0,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -54,12 +58,12 @@ export const MeshTessellationQuadMeshNode: NodeDefinition<QuadMeshInputs, QuadMe
       params: {
         shape: inputs.shape,
         targetQuadSize: params.targetQuadSize,
-        quadDominance: params.quadDominance
-      }
+        quadDominance: params.quadDominance,
+      },
     });
-    
+
     return {
-      quadMesh: result
+      quadMesh: result,
     };
   },
 };

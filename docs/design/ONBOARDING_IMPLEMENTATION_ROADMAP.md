@@ -7,19 +7,21 @@ This roadmap outlines the technical implementation of BrepFlow Studio's beginner
 ## 📋 Technical Architecture Overview
 
 ### Core Dependencies
+
 ```json
 {
   "dependencies": {
-    "react-joyride": "^2.5.2",    // Guided tours and highlights
-    "framer-motion": "^10.16.4",  // Animations and micro-interactions
-    "react-confetti": "^6.1.0",   // Success celebrations
+    "react-joyride": "^2.5.2", // Guided tours and highlights
+    "framer-motion": "^10.16.4", // Animations and micro-interactions
+    "react-confetti": "^6.1.0", // Success celebrations
     "react-hotkeys-hook": "^4.4.1", // Keyboard shortcuts for accessibility
-    "zustand": "^4.4.1"           // Already integrated - state management
+    "zustand": "^4.4.1" // Already integrated - state management
   }
 }
 ```
 
 ### File Structure
+
 ```
 apps/studio/src/
 ├── components/onboarding/
@@ -47,12 +49,15 @@ apps/studio/src/
 ### Week 1: Foundation Setup
 
 #### Day 1-2: State Management & Provider Setup
+
 **Files to create:**
+
 - `apps/studio/src/store/onboarding-store.ts`
 - `apps/studio/src/components/onboarding/OnboardingProvider.tsx`
 - `apps/studio/src/hooks/useOnboardingAnalytics.ts`
 
 **Key Implementation:**
+
 ```typescript
 // onboarding-store.ts
 export interface OnboardingState {
@@ -81,22 +86,28 @@ export const useOnboardingStore = create<OnboardingStore>()(
 ```
 
 #### Day 3-4: Welcome Screen & Skill Assessment
+
 **Files to create:**
+
 - `apps/studio/src/components/onboarding/WelcomeScreen.tsx`
 - `apps/studio/src/components/onboarding/SkillLevelSelector.tsx`
 
 **Key Features:**
+
 - Animated logo and welcoming message
 - Three-tier skill assessment (neophyte/beginner/skip)
 - Smooth transitions and micro-interactions
 - Analytics integration for skill level tracking
 
 #### Day 5: Integration with Main App
+
 **Files to modify:**
+
 - `apps/studio/src/App.tsx` - Add onboarding provider
 - `apps/studio/src/main.tsx` - Initialize onboarding state
 
 **Integration Points:**
+
 ```typescript
 function App() {
   const { isFirstVisit, tourMode } = useOnboardingStore();
@@ -116,12 +127,15 @@ function App() {
 ### Week 2: Tour System Implementation
 
 #### Day 1-3: Guided Tour Infrastructure
+
 **Files to create:**
+
 - `apps/studio/src/components/onboarding/GuidedTour.tsx`
 - `apps/studio/src/components/onboarding/TourStep.tsx`
 - `apps/studio/src/components/onboarding/Highlight.tsx`
 
 **Key Implementation:**
+
 ```typescript
 // GuidedTour.tsx
 export const GuidedTour: React.FC = () => {
@@ -159,7 +173,9 @@ export const GuidedTour: React.FC = () => {
 ```
 
 #### Day 4-5: Progress Tracking & Navigation
+
 **Files to create:**
+
 - `apps/studio/src/components/onboarding/ProgressTracker.tsx`
 - `apps/studio/src/components/onboarding/NavigationControls.tsx`
 
@@ -168,12 +184,15 @@ export const GuidedTour: React.FC = () => {
 ### Week 3: Playground Infrastructure
 
 #### Day 1-2: Playground Manager
+
 **Files to create:**
+
 - `apps/studio/src/components/onboarding/PlaygroundManager.tsx`
 - `apps/studio/src/components/onboarding/PlaygroundSelector.tsx`
 - `apps/studio/src/types/onboarding.ts`
 
 **Playground Types:**
+
 ```typescript
 interface Playground {
   id: string;
@@ -196,12 +215,15 @@ interface PlaygroundObjective {
 ```
 
 #### Day 3-5: First Shape Playground
+
 **Files to create:**
+
 - `apps/studio/src/components/onboarding/playgrounds/FirstShapePlayground.tsx`
 - `apps/studio/src/components/onboarding/GuideOverlay.tsx`
 - `apps/studio/src/components/onboarding/SuccessAnimation.tsx`
 
 **Playground Implementation:**
+
 ```typescript
 export const FirstShapePlayground: React.FC = () => {
   const { graph, addNode } = useGraphStore();
@@ -211,15 +233,15 @@ export const FirstShapePlayground: React.FC = () => {
     {
       id: 'drag-box-node',
       description: 'Drag a Box node from the Solid category to the canvas',
-      validation: (graph) => graph.nodes.some(n => n.type === 'Solid::Box'),
-      hint: 'Look for the cube icon in the left panel!'
+      validation: (graph) => graph.nodes.some((n) => n.type === 'Solid::Box'),
+      hint: 'Look for the cube icon in the left panel!',
     },
     {
       id: 'see-3d-result',
       description: 'Watch your box appear in the 3D viewer',
-      validation: (graph) => graph.nodes.some(n => n.type === 'Solid::Box' && !n.dirty),
-      celebration: true
-    }
+      validation: (graph) => graph.nodes.some((n) => n.type === 'Solid::Box' && !n.dirty),
+      celebration: true,
+    },
   ];
 
   // Implementation continues...
@@ -229,17 +251,22 @@ export const FirstShapePlayground: React.FC = () => {
 ### Week 4: Advanced Playgrounds & Hint System
 
 #### Day 1-3: Building Blocks Playground
+
 **Files to create:**
+
 - `apps/studio/src/components/onboarding/playgrounds/BuildingBlocksPlayground.tsx`
 
 **Focus**: Boolean operations (union, subtract, intersect)
 
 #### Day 4-5: Smart Hint System
+
 **Files to create:**
+
 - `apps/studio/src/components/onboarding/HintSystem.tsx`
 - `apps/studio/src/hooks/useSmartHints.ts`
 
 **Hint Triggers:**
+
 ```typescript
 interface HintTrigger {
   condition: 'time-based' | 'action-based' | 'error-based';
@@ -261,8 +288,8 @@ const hintTriggers: HintTrigger[] = [
     threshold: 5, // 5 failed attempts
     priority: 'high',
     message: '🎯 Need help? Click here for a guided demonstration.',
-    action: () => showDemonstration('drag-node')
-  }
+    action: () => showDemonstration('drag-node'),
+  },
 ];
 ```
 
@@ -271,11 +298,14 @@ const hintTriggers: HintTrigger[] = [
 ### Week 5: User Experience Enhancements
 
 #### Day 1-2: Animations & Micro-interactions
+
 **Files to create:**
+
 - `apps/studio/src/components/onboarding/animations/`
 - Custom Framer Motion components for smooth transitions
 
 **Animation Examples:**
+
 ```typescript
 // Celebration animation for completed objectives
 const SuccessAnimation: React.FC = () => (
@@ -305,11 +335,14 @@ const PulsingHighlight: React.FC = () => (
 ```
 
 #### Day 3-4: Accessibility & Keyboard Navigation
+
 **Files to create:**
+
 - `apps/studio/src/hooks/useKeyboardShortcuts.ts`
 - `apps/studio/src/components/onboarding/AccessibilityFeatures.tsx`
 
 **Keyboard Shortcuts:**
+
 ```typescript
 const useOnboardingShortcuts = () => {
   useHotkeys('esc', () => exitOnboarding());
@@ -321,7 +354,9 @@ const useOnboardingShortcuts = () => {
 ```
 
 #### Day 5: Mobile Responsiveness
+
 **Files to modify:**
+
 - Update all onboarding components for mobile
 - Add touch gesture support
 - Responsive design for smaller screens
@@ -329,16 +364,24 @@ const useOnboardingShortcuts = () => {
 ### Week 6: Analytics & Testing
 
 #### Day 1-2: Analytics Integration
+
 **Files to create:**
+
 - `apps/studio/src/services/onboardingAnalytics.ts`
 - `apps/studio/src/hooks/useOnboardingAnalytics.ts`
 
 **Analytics Events:**
+
 ```typescript
 interface OnboardingEvent {
-  type: 'onboarding_started' | 'step_completed' | 'playground_entered' |
-        'objective_completed' | 'hint_requested' | 'onboarding_abandoned' |
-        'onboarding_completed';
+  type:
+    | 'onboarding_started'
+    | 'step_completed'
+    | 'playground_entered'
+    | 'objective_completed'
+    | 'hint_requested'
+    | 'onboarding_abandoned'
+    | 'onboarding_completed';
   timestamp: number;
   metadata: Record<string, any>;
 }
@@ -349,20 +392,24 @@ const trackEvent = (event: OnboardingEvent) => {
     ...event.metadata,
     session_id: sessionId,
     user_skill_level: skillLevel,
-    time_in_onboarding: Date.now() - startTime
+    time_in_onboarding: Date.now() - startTime,
   });
 };
 ```
 
 #### Day 3-4: Performance Optimization
+
 **Optimization Areas:**
+
 - Lazy loading of playground components
 - Memoization of expensive calculations
 - Optimized re-renders using React.memo
 - Bundle size analysis and code splitting
 
 #### Day 5: Testing & Quality Assurance
+
 **Test Coverage:**
+
 - Unit tests for store logic
 - Integration tests for key user flows
 - Accessibility testing with screen readers
@@ -372,6 +419,7 @@ const trackEvent = (event: OnboardingEvent) => {
 ## 📊 Implementation Checklist
 
 ### Phase 1 Deliverables ✅
+
 - [ ] Onboarding state management system
 - [ ] Welcome screen with skill level assessment
 - [ ] Guided tour infrastructure with react-joyride
@@ -379,6 +427,7 @@ const trackEvent = (event: OnboardingEvent) => {
 - [ ] Integration with main application
 
 ### Phase 2 Deliverables ✅
+
 - [ ] Playground management system
 - [ ] "Your First Shape" playground
 - [ ] "Building Blocks" playground
@@ -386,6 +435,7 @@ const trackEvent = (event: OnboardingEvent) => {
 - [ ] Success animations and celebrations
 
 ### Phase 3 Deliverables ✅
+
 - [ ] Micro-interactions and smooth animations
 - [ ] Accessibility features and keyboard navigation
 - [ ] Mobile-responsive design
@@ -396,6 +446,7 @@ const trackEvent = (event: OnboardingEvent) => {
 ## 🛠️ Development Guidelines
 
 ### Code Standards
+
 - Follow existing TypeScript and React patterns
 - Use Zustand for state management consistency
 - Implement proper error boundaries
@@ -403,6 +454,7 @@ const trackEvent = (event: OnboardingEvent) => {
 - Include JSDoc comments for complex functions
 
 ### Testing Strategy
+
 ```typescript
 // Example test structure
 describe('OnboardingStore', () => {
@@ -427,6 +479,7 @@ describe('FirstShapePlayground', () => {
 ```
 
 ### Performance Targets
+
 - **Initial Load**: < 2 seconds for onboarding components
 - **Step Transitions**: < 300ms between tour steps
 - **Bundle Impact**: < 100KB additional bundle size
@@ -435,12 +488,14 @@ describe('FirstShapePlayground', () => {
 ## 🚢 Deployment Strategy
 
 ### Staging Deployment
+
 1. Feature flag for onboarding system
 2. A/B testing with 10% of new users
 3. Monitor analytics and performance metrics
 4. Gather user feedback through surveys
 
 ### Production Rollout
+
 1. Gradual rollout: 25% → 50% → 100% over 2 weeks
 2. Monitor completion rates and drop-off points
 3. Real-time performance monitoring
@@ -449,12 +504,14 @@ describe('FirstShapePlayground', () => {
 ## 📈 Success Metrics & Monitoring
 
 ### Technical Metrics
+
 - **Onboarding Completion Rate**: Target 80%
 - **Average Completion Time**: Target < 10 minutes
 - **Error Rate**: < 2% of sessions
 - **Performance Impact**: < 5% increase in initial load time
 
 ### User Experience Metrics
+
 - **User Satisfaction**: 4+ stars average rating
 - **Feature Discovery**: 70% of onboarded users try advanced features
 - **Retention**: 50% return within 7 days

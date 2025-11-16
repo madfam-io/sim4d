@@ -62,7 +62,7 @@ export class EnhancedNodeRegistry {
    * Register multiple nodes efficiently
    */
   registerNodes(nodes: NodeDefinition[]): void {
-    nodes.forEach(node => this.registerNode(node));
+    nodes.forEach((node) => this.registerNode(node));
   }
 
   /**
@@ -135,28 +135,28 @@ export class EnhancedNodeRegistry {
     // Search by name/label
     this.searchIndex.byName.forEach((nodes, name) => {
       if (name.includes(normalizedQuery)) {
-        nodes.forEach(node => results.add(node));
+        nodes.forEach((node) => results.add(node));
       }
     });
 
     // Search by description
     this.searchIndex.byDescription.forEach((nodes, description) => {
       if (description.includes(normalizedQuery)) {
-        nodes.forEach(node => results.add(node));
+        nodes.forEach((node) => results.add(node));
       }
     });
 
     // Search by tags
     this.searchIndex.byTag.forEach((nodes, tag) => {
       if (tag.includes(normalizedQuery)) {
-        nodes.forEach(node => results.add(node));
+        nodes.forEach((node) => results.add(node));
       }
     });
 
     // Search by category
     this.searchIndex.byCategory.forEach((nodes, category) => {
       if (category.includes(normalizedQuery)) {
-        nodes.forEach(node => results.add(node));
+        nodes.forEach((node) => results.add(node));
       }
     });
 
@@ -209,10 +209,10 @@ export class EnhancedNodeRegistry {
       totalCategories: categories.length,
       totalSubcategories,
       totalTags: this.getAllTags().length,
-      nodesByCategory: categories.map(cat => ({
+      nodesByCategory: categories.map((cat) => ({
         category: cat,
         count: this.getNodesByCategory(cat).length,
-        subcategories: this.getSubcategories(cat).map(subcat => ({
+        subcategories: this.getSubcategories(cat).map((subcat) => ({
           subcategory: subcat,
           count: this.getNodesBySubcategory(cat, subcat).length,
         })),
@@ -288,7 +288,7 @@ export class EnhancedNodeRegistry {
     }
 
     // Index by tags
-    metadata.tags.forEach(tag => {
+    metadata.tags.forEach((tag) => {
       const tagKey = tag.toLowerCase();
       if (!this.searchIndex.byTag.has(tagKey)) {
         this.searchIndex.byTag.set(tagKey, []);

@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { BoundingBoxNode } from './bounding-box.node';
 import { createTestContext } from './../../test-utils';
@@ -7,11 +6,9 @@ describe('BoundingBoxNode', () => {
   it('should create BoundingBox', async () => {
     const context = createTestContext();
     const inputs = {
-      shape: null
+      shape: null,
     };
-    const params = {
-      
-    };
+    const params = {};
 
     const result = await BoundingBoxNode.evaluate(context, inputs, params);
 
@@ -21,6 +18,4 @@ describe('BoundingBoxNode', () => {
     expect(result.center).toBeDefined();
     expect(result.dimensions).toBeDefined();
   });
-
-  
 });

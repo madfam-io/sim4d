@@ -18,7 +18,7 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
   height = 400,
   snapPoints = [80, 400],
   showHandle = true,
-  backdrop = true
+  backdrop = true,
 }) => {
   const sheetRef = useRef<HTMLDivElement>(null);
   const [currentHeight, setCurrentHeight] = useState(snapPoints[0]);
@@ -27,26 +27,32 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
   const dragStartHeight = useRef(0);
 
   // Handle drag to resize
-  const handleDragStart = useCallback((e: React.TouchEvent | React.MouseEvent) => {
-    setIsDragging(true);
-    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
-    dragStartY.current = clientY;
-    dragStartHeight.current = currentHeight;
-    e.preventDefault();
-  }, [currentHeight]);
+  const handleDragStart = useCallback(
+    (e: React.TouchEvent | React.MouseEvent) => {
+      setIsDragging(true);
+      const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+      dragStartY.current = clientY;
+      dragStartHeight.current = currentHeight;
+      e.preventDefault();
+    },
+    [currentHeight]
+  );
 
-  const handleDrag = useCallback((e: TouchEvent | MouseEvent) => {
-    if (!isDragging) return;
+  const handleDrag = useCallback(
+    (e: TouchEvent | MouseEvent) => {
+      if (!isDragging) return;
 
-    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
-    const deltaY = dragStartY.current - clientY;
-    const newHeight = Math.max(
-      snapPoints[0],
-      Math.min(window.innerHeight * 0.9, dragStartHeight.current + deltaY)
-    );
+      const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+      const deltaY = dragStartY.current - clientY;
+      const newHeight = Math.max(
+        snapPoints[0],
+        Math.min(window.innerHeight * 0.9, dragStartHeight.current + deltaY)
+      );
 
-    setCurrentHeight(newHeight);
-  }, [isDragging, snapPoints]);
+      setCurrentHeight(newHeight);
+    },
+    [isDragging, snapPoints]
+  );
 
   const handleDragEnd = useCallback(() => {
     if (!isDragging) return;
@@ -56,7 +62,7 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
     let nearestSnap = snapPoints[0];
     let minDistance = Math.abs(currentHeight - snapPoints[0]);
 
-    snapPoints.forEach(point => {
+    snapPoints.forEach((point) => {
       const distance = Math.abs(currentHeight - point);
       if (distance < minDistance) {
         minDistance = distance;
@@ -115,7 +121,7 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
         className={`bottom-sheet ${isDragging ? 'dragging' : ''}`}
         style={{
           height: currentHeight,
-          transform: isOpen ? 'translateY(0)' : 'translateY(100%)'
+          transform: isOpen ? 'translateY(0)' : 'translateY(100%)',
         }}
       >
         {showHandle && (
@@ -127,9 +133,7 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
             <div className="handle-bar" />
           </div>
         )}
-        <div className="bottom-sheet-content">
-          {children}
-        </div>
+        <div className="bottom-sheet-content">{children}</div>
       </div>
     </>
   );

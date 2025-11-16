@@ -1,6 +1,11 @@
-
 import { NodeDefinition } from '@brepflow/types';
-import { NumberParam, BoolParam, StringParam, EnumParam, Vector3Param } from '../../../../utils/param-utils.js';
+import {
+  NumberParam,
+  BoolParam,
+  StringParam,
+  EnumParam,
+  Vector3Param,
+} from '../../../../utils/param-utils.js';
 
 type Params = {};
 interface Inputs {
@@ -11,7 +16,11 @@ interface Outputs {
   count: number;
 }
 
-export const ConnectedComponentsNode: NodeDefinition<ConnectedComponentsInputs, ConnectedComponentsOutputs, ConnectedComponentsParams> = {
+export const ConnectedComponentsNode: NodeDefinition<
+  ConnectedComponentsInputs,
+  ConnectedComponentsOutputs,
+  ConnectedComponentsParams
+> = {
   type: 'Analysis::ConnectedComponents',
   category: 'Analysis',
   subcategory: 'Topology',
@@ -19,36 +28,30 @@ export const ConnectedComponentsNode: NodeDefinition<ConnectedComponentsInputs, 
   metadata: {
     label: 'ConnectedComponents',
     description: 'Find connected components',
-    
-    
   },
 
-  params: {
-    
-  },
+  params: {},
 
   inputs: {
-        shape: 'Shape'
+    shape: 'Shape',
   },
 
   outputs: {
-        components: 'Shape[]',
-    count: 'number'
+    components: 'Shape[]',
+    count: 'number',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'findConnectedComponents',
       params: {
-        shape: inputs.shape
-        
-      }
+        shape: inputs.shape,
+      },
     });
 
     return {
       components: result,
-      count: result
+      count: result,
     };
-  }
+  },
 };

@@ -1,6 +1,11 @@
-
 import { NodeDefinition } from '@brepflow/types';
-import { NumberParam, BoolParam, StringParam, EnumParam, Vector3Param } from '../../../../utils/param-utils.js';
+import {
+  NumberParam,
+  BoolParam,
+  StringParam,
+  EnumParam,
+  Vector3Param,
+} from '../../../../utils/param-utils.js';
 
 type Params = {};
 interface Inputs {
@@ -12,7 +17,11 @@ interface Outputs {
   projectedPoint: Point;
 }
 
-export const DistancePointToPlaneNode: NodeDefinition<DistancePointToPlaneInputs, DistancePointToPlaneOutputs, DistancePointToPlaneParams> = {
+export const DistancePointToPlaneNode: NodeDefinition<
+  DistancePointToPlaneInputs,
+  DistancePointToPlaneOutputs,
+  DistancePointToPlaneParams
+> = {
   type: 'Analysis::DistancePointToPlane',
   category: 'Analysis',
   subcategory: 'Measurement',
@@ -20,38 +29,32 @@ export const DistancePointToPlaneNode: NodeDefinition<DistancePointToPlaneInputs
   metadata: {
     label: 'DistancePointToPlane',
     description: 'Measure distance from point to plane',
-    
-    
   },
 
-  params: {
-    
-  },
+  params: {},
 
   inputs: {
-        point: 'Point',
-    plane: 'Face'
+    point: 'Point',
+    plane: 'Face',
   },
 
   outputs: {
-        distance: 'number',
-    projectedPoint: 'Point'
+    distance: 'number',
+    projectedPoint: 'Point',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'measureDistancePointPlane',
       params: {
         point: inputs.point,
-        plane: inputs.plane
-        
-      }
+        plane: inputs.plane,
+      },
     });
 
     return {
       distance: result,
-      projectedPoint: result
+      projectedPoint: result,
     };
-  }
+  },
 };

@@ -160,7 +160,10 @@ export class MarketplaceService extends EventEmitter {
 
   async getFeaturedPlugins(category?: PluginCategory): Promise<Plugin[]> {
     const featuredPlugins = await this.loadFeaturedPlugins(category);
-    return this.enrichWithMarketplaceData({ items: featuredPlugins, total: featuredPlugins.length }).then(r => r.items);
+    return this.enrichWithMarketplaceData({
+      items: featuredPlugins,
+      total: featuredPlugins.length,
+    }).then((r) => r.items);
   }
 
   async getTrendingPlugins(
@@ -168,23 +171,33 @@ export class MarketplaceService extends EventEmitter {
     category?: PluginCategory
   ): Promise<Plugin[]> {
     const trendingPlugins = await this.calculateTrendingPlugins(period, category);
-    return this.enrichWithMarketplaceData({ items: trendingPlugins, total: trendingPlugins.length }).then(r => r.items);
+    return this.enrichWithMarketplaceData({
+      items: trendingPlugins,
+      total: trendingPlugins.length,
+    }).then((r) => r.items);
   }
 
   async getNewReleases(limit: number = 20, category?: PluginCategory): Promise<Plugin[]> {
     const newReleases = await this.loadNewReleases(limit, category);
-    return this.enrichWithMarketplaceData({ items: newReleases, total: newReleases.length }).then(r => r.items);
+    return this.enrichWithMarketplaceData({ items: newReleases, total: newReleases.length }).then(
+      (r) => r.items
+    );
   }
 
   async getRecommendedPlugins(userId: UserId, limit: number = 10): Promise<Plugin[]> {
     const recommendations = await this.generateRecommendations(userId, limit);
-    return this.enrichWithMarketplaceData({ items: recommendations, total: recommendations.length }).then(r => r.items);
+    return this.enrichWithMarketplaceData({
+      items: recommendations,
+      total: recommendations.length,
+    }).then((r) => r.items);
   }
 
   /**
    * Plugin Submission and Review
    */
-  async submitPlugin(submission: Omit<PluginSubmission, 'submittedAt' | 'reviewStatus'>): Promise<string> {
+  async submitPlugin(
+    submission: Omit<PluginSubmission, 'submittedAt' | 'reviewStatus'>
+  ): Promise<string> {
     const submissionId = this.generateSubmissionId();
 
     const pluginSubmission: PluginSubmission = {
@@ -294,7 +307,12 @@ export class MarketplaceService extends EventEmitter {
   /**
    * Reviews and Ratings
    */
-  async submitReview(review: Omit<PluginReview, 'id' | 'createdAt' | 'updatedAt' | 'helpfulCount' | 'reportCount' | 'moderationStatus'>): Promise<string> {
+  async submitReview(
+    review: Omit<
+      PluginReview,
+      'id' | 'createdAt' | 'updatedAt' | 'helpfulCount' | 'reportCount' | 'moderationStatus'
+    >
+  ): Promise<string> {
     const reviewId = this.generateReviewId();
 
     // Validate review
@@ -349,14 +367,16 @@ export class MarketplaceService extends EventEmitter {
     const allReviews = this.reviews.get(pluginId) || [];
 
     // Filter reviews
-    let filteredReviews = allReviews.filter(r => r.moderationStatus === 'approved');
+    let filteredReviews = allReviews.filter((r) => r.moderationStatus === 'approved');
 
     if (options.filterBy?.rating) {
-      filteredReviews = filteredReviews.filter(r => r.rating === options.filterBy!.rating);
+      filteredReviews = filteredReviews.filter((r) => r.rating === options.filterBy!.rating);
     }
 
     if (options.filterBy?.verifiedPurchase !== undefined) {
-      filteredReviews = filteredReviews.filter(r => r.verifiedPurchase === options.filterBy!.verifiedPurchase);
+      filteredReviews = filteredReviews.filter(
+        (r) => r.verifiedPurchase === options.filterBy!.verifiedPurchase
+      );
     }
 
     // Sort reviews
@@ -383,9 +403,10 @@ export class MarketplaceService extends EventEmitter {
     const paginatedReviews = filteredReviews.slice(offset, offset + limit);
 
     // Calculate average rating
-    const averageRating = filteredReviews.length > 0
-      ? filteredReviews.reduce((sum, r) => sum + r.rating, 0) / filteredReviews.length
-      : 0;
+    const averageRating =
+      filteredReviews.length > 0
+        ? filteredReviews.reduce((sum, r) => sum + r.rating, 0) / filteredReviews.length
+        : 0;
 
     return {
       reviews: paginatedReviews,
@@ -487,7 +508,7 @@ export class MarketplaceService extends EventEmitter {
 
   async getUserPurchases(userId: UserId): Promise<PluginPurchase[]> {
     const userPurchases = this.purchases.get(userId) || [];
-    return userPurchases.filter(p => !p.refundedAt);
+    return userPurchases.filter((p) => !p.refundedAt);
   }
 
   async getPluginSales(
@@ -500,9 +521,7 @@ export class MarketplaceService extends EventEmitter {
       return allPurchases;
     }
 
-    return allPurchases.filter(p =>
-      p.purchasedAt >= period.start && p.purchasedAt <= period.end
-    );
+    return allPurchases.filter((p) => p.purchasedAt >= period.start && p.purchasedAt <= period.end);
   }
 
   /**
@@ -577,10 +596,12 @@ export class MarketplaceService extends EventEmitter {
     throw new Error('Plugin search implementation required');
   }
 
-  private async applyMarketplaceFilters(results: SearchResult<Plugin>): Promise<SearchResult<Plugin>> {
+  private async applyMarketplaceFilters(
+    results: SearchResult<Plugin>
+  ): Promise<SearchResult<Plugin>> {
     // Filter out unapproved, quarantined plugins
-    const filteredItems = results.items.filter(plugin =>
-      plugin.marketplace.published && plugin.security.scanResult.status !== 'dangerous'
+    const filteredItems = results.items.filter(
+      (plugin) => plugin.marketplace.published && plugin.security.scanResult.status !== 'dangerous'
     );
 
     return {
@@ -590,7 +611,9 @@ export class MarketplaceService extends EventEmitter {
     };
   }
 
-  private async enrichWithMarketplaceData(results: SearchResult<Plugin>): Promise<SearchResult<Plugin>> {
+  private async enrichWithMarketplaceData(
+    results: SearchResult<Plugin>
+  ): Promise<SearchResult<Plugin>> {
     // Add real-time marketplace data (downloads, ratings, etc.)
     for (const plugin of results.items) {
       const analytics = await this.getRealtimeAnalytics(plugin.id);
@@ -629,7 +652,10 @@ export class MarketplaceService extends EventEmitter {
     return [];
   }
 
-  private async processPayment(price: PluginPrice, paymentMethod: string): Promise<{
+  private async processPayment(
+    price: PluginPrice,
+    paymentMethod: string
+  ): Promise<{
     transactionId: string;
     subscriptionId?: string;
   }> {
@@ -673,29 +699,75 @@ export class MarketplaceService extends EventEmitter {
   }
 
   // Additional methods would be implemented based on specific requirements
-  private async getSubmission(submissionId: string): Promise<PluginSubmission | null> { return null; }
-  private async saveSubmission(submissionId: string, submission: PluginSubmission): Promise<void> { }
-  private async createPluginFromSubmission(submission: PluginSubmission): Promise<Plugin> { throw new Error('Not implemented'); }
-  private async uploadPluginToCdn(plugin: Plugin): Promise<void> { }
-  private async updateMarketplaceListing(plugin: Plugin): Promise<void> { }
-  private async validateReview(review: any): Promise<void> { }
-  private async checkVerifiedPurchase(userId: UserId, pluginId: PluginId): Promise<boolean> { return false; }
-  private async saveReview(review: PluginReview): Promise<void> { }
-  private async updatePluginRating(pluginId: PluginId): Promise<void> { }
-  private async findReview(reviewId: string): Promise<PluginReview | null> { return null; }
-  private async checkUserReviewInteraction(reviewId: string, userId: UserId, type: string): Promise<boolean> { return false; }
-  private async saveUserReviewInteraction(reviewId: string, userId: UserId, type: string): Promise<void> { }
-  private async getPlugin(pluginId: PluginId): Promise<Plugin | null> { return null; }
-  private async savePurchase(purchase: PluginPurchase): Promise<void> { }
-  private async updatePluginPurchaseStats(pluginId: PluginId): Promise<void> { }
-  private async loadPluginPurchases(pluginId: PluginId): Promise<PluginPurchase[]> { return []; }
-  private async calculatePluginAnalytics(pluginId: PluginId, period: any): Promise<MarketplaceAnalytics> { throw new Error('Not implemented'); }
-  private async calculateMarketplaceOverview(period: any): Promise<any> { throw new Error('Not implemented'); }
-  private async saveReport(report: any): Promise<void> { }
-  private async applyModerationAction(contentId: string, contentType: string, action: string, moderatedBy: UserId, reason?: string): Promise<void> { }
-  private async getRealtimeAnalytics(pluginId: PluginId): Promise<any> { return { downloads: 0, rating: 0, reviewCount: 0 }; }
-  private async loadFeaturedPlugins(category?: PluginCategory): Promise<Plugin[]> { return []; }
-  private async calculateTrendingPlugins(period: string, category?: PluginCategory): Promise<Plugin[]> { return []; }
-  private async loadNewReleases(limit: number, category?: PluginCategory): Promise<Plugin[]> { return []; }
-  private trackSearchEvent(query: SearchQuery, resultCount: number): void { }
+  private async getSubmission(submissionId: string): Promise<PluginSubmission | null> {
+    return null;
+  }
+  private async saveSubmission(submissionId: string, submission: PluginSubmission): Promise<void> {}
+  private async createPluginFromSubmission(submission: PluginSubmission): Promise<Plugin> {
+    throw new Error('Not implemented');
+  }
+  private async uploadPluginToCdn(plugin: Plugin): Promise<void> {}
+  private async updateMarketplaceListing(plugin: Plugin): Promise<void> {}
+  private async validateReview(review: any): Promise<void> {}
+  private async checkVerifiedPurchase(userId: UserId, pluginId: PluginId): Promise<boolean> {
+    return false;
+  }
+  private async saveReview(review: PluginReview): Promise<void> {}
+  private async updatePluginRating(pluginId: PluginId): Promise<void> {}
+  private async findReview(reviewId: string): Promise<PluginReview | null> {
+    return null;
+  }
+  private async checkUserReviewInteraction(
+    reviewId: string,
+    userId: UserId,
+    type: string
+  ): Promise<boolean> {
+    return false;
+  }
+  private async saveUserReviewInteraction(
+    reviewId: string,
+    userId: UserId,
+    type: string
+  ): Promise<void> {}
+  private async getPlugin(pluginId: PluginId): Promise<Plugin | null> {
+    return null;
+  }
+  private async savePurchase(purchase: PluginPurchase): Promise<void> {}
+  private async updatePluginPurchaseStats(pluginId: PluginId): Promise<void> {}
+  private async loadPluginPurchases(pluginId: PluginId): Promise<PluginPurchase[]> {
+    return [];
+  }
+  private async calculatePluginAnalytics(
+    pluginId: PluginId,
+    period: any
+  ): Promise<MarketplaceAnalytics> {
+    throw new Error('Not implemented');
+  }
+  private async calculateMarketplaceOverview(period: any): Promise<any> {
+    throw new Error('Not implemented');
+  }
+  private async saveReport(report: any): Promise<void> {}
+  private async applyModerationAction(
+    contentId: string,
+    contentType: string,
+    action: string,
+    moderatedBy: UserId,
+    reason?: string
+  ): Promise<void> {}
+  private async getRealtimeAnalytics(pluginId: PluginId): Promise<any> {
+    return { downloads: 0, rating: 0, reviewCount: 0 };
+  }
+  private async loadFeaturedPlugins(category?: PluginCategory): Promise<Plugin[]> {
+    return [];
+  }
+  private async calculateTrendingPlugins(
+    period: string,
+    category?: PluginCategory
+  ): Promise<Plugin[]> {
+    return [];
+  }
+  private async loadNewReleases(limit: number, category?: PluginCategory): Promise<Plugin[]> {
+    return [];
+  }
+  private trackSearchEvent(query: SearchQuery, resultCount: number): void {}
 }

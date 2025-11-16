@@ -11,7 +11,11 @@ interface SetCartesianProductOutputs {
   product: unknown;
 }
 
-export const DataSetSetCartesianProductNode: NodeDefinition<SetCartesianProductInputs, SetCartesianProductOutputs, SetCartesianProductParams> = {
+export const DataSetSetCartesianProductNode: NodeDefinition<
+  SetCartesianProductInputs,
+  SetCartesianProductOutputs,
+  SetCartesianProductParams
+> = {
   id: 'Data::SetCartesianProduct',
   category: 'Data',
   label: 'SetCartesianProduct',
@@ -20,19 +24,19 @@ export const DataSetSetCartesianProductNode: NodeDefinition<SetCartesianProductI
     setA: {
       type: 'Data[]',
       label: 'Set A',
-      required: true
+      required: true,
     },
     setB: {
       type: 'Data[]',
       label: 'Set B',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     product: {
       type: 'Data[][]',
-      label: 'Product'
-    }
+      label: 'Product',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -40,12 +44,12 @@ export const DataSetSetCartesianProductNode: NodeDefinition<SetCartesianProductI
       type: 'setCartesian',
       params: {
         setA: inputs.setA,
-        setB: inputs.setB
-      }
+        setB: inputs.setB,
+      },
     });
-    
+
     return {
-      product: result
+      product: result,
     };
   },
 };

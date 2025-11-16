@@ -12,7 +12,11 @@ interface GeodesicCurveOutputs {
   geodesic: unknown;
 }
 
-export const SurfaceCurveOpsGeodesicCurveNode: NodeDefinition<GeodesicCurveInputs, GeodesicCurveOutputs, GeodesicCurveParams> = {
+export const SurfaceCurveOpsGeodesicCurveNode: NodeDefinition<
+  GeodesicCurveInputs,
+  GeodesicCurveOutputs,
+  GeodesicCurveParams
+> = {
   id: 'Surface::GeodesicCurve',
   type: 'Surface::GeodesicCurve',
   category: 'Surface',
@@ -22,24 +26,24 @@ export const SurfaceCurveOpsGeodesicCurveNode: NodeDefinition<GeodesicCurveInput
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
+      required: true,
     },
     startPoint: {
       type: 'Point',
       label: 'Start Point',
-      required: true
+      required: true,
     },
     endPoint: {
       type: 'Point',
       label: 'End Point',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     geodesic: {
       type: 'Wire',
-      label: 'Geodesic'
-    }
+      label: 'Geodesic',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -48,12 +52,12 @@ export const SurfaceCurveOpsGeodesicCurveNode: NodeDefinition<GeodesicCurveInput
       params: {
         surface: inputs.surface,
         startPoint: inputs.startPoint,
-        endPoint: inputs.endPoint
-      }
+        endPoint: inputs.endPoint,
+      },
     });
-    
+
     return {
-      geodesic: result
+      geodesic: result,
     };
   },
 };

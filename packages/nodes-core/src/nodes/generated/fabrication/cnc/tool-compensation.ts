@@ -13,7 +13,11 @@ interface ToolCompensationOutputs {
   compensatedPath: unknown;
 }
 
-export const FabricationCNCToolCompensationNode: NodeDefinition<ToolCompensationInputs, ToolCompensationOutputs, ToolCompensationParams> = {
+export const FabricationCNCToolCompensationNode: NodeDefinition<
+  ToolCompensationInputs,
+  ToolCompensationOutputs,
+  ToolCompensationParams
+> = {
   id: 'Fabrication::ToolCompensation',
   type: 'Fabrication::ToolCompensation',
   category: 'Fabrication',
@@ -23,14 +27,14 @@ export const FabricationCNCToolCompensationNode: NodeDefinition<ToolCompensation
     path: {
       type: 'Wire',
       label: 'Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     compensatedPath: {
       type: 'Wire',
-      label: 'Compensated Path'
-    }
+      label: 'Compensated Path',
+    },
   },
   params: {
     toolRadius: {
@@ -38,15 +42,15 @@ export const FabricationCNCToolCompensationNode: NodeDefinition<ToolCompensation
       label: 'Tool Radius',
       default: 3,
       min: 0.1,
-      max: 25
+      max: 25,
     },
     wearOffset: {
       type: 'number',
       label: 'Wear Offset',
       default: 0,
       min: -1,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -54,12 +58,12 @@ export const FabricationCNCToolCompensationNode: NodeDefinition<ToolCompensation
       params: {
         path: inputs.path,
         toolRadius: params.toolRadius,
-        wearOffset: params.wearOffset
-      }
+        wearOffset: params.wearOffset,
+      },
     });
-    
+
     return {
-      compensatedPath: result
+      compensatedPath: result,
     };
   },
 };

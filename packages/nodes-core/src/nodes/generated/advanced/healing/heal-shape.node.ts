@@ -17,7 +17,11 @@ interface HealShapeOutputs {
   report: unknown;
 }
 
-export const AdvancedHealingHealShapeNode: NodeDefinition<HealShapeInputs, HealShapeOutputs, HealShapeParams> = {
+export const AdvancedHealingHealShapeNode: NodeDefinition<
+  HealShapeInputs,
+  HealShapeOutputs,
+  HealShapeParams
+> = {
   id: 'Advanced::HealShape',
   category: 'Advanced',
   label: 'HealShape',
@@ -26,18 +30,18 @@ export const AdvancedHealingHealShapeNode: NodeDefinition<HealShapeInputs, HealS
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     healed: {
       type: 'Shape',
-      label: 'Healed'
+      label: 'Healed',
     },
     report: {
       type: 'Data',
-      label: 'Report'
-    }
+      label: 'Report',
+    },
   },
   params: {
     tolerance: {
@@ -45,28 +49,28 @@ export const AdvancedHealingHealShapeNode: NodeDefinition<HealShapeInputs, HealS
       label: 'Tolerance',
       default: 0.01,
       min: 0.0001,
-      max: 1
+      max: 1,
     },
     fixSmallEdges: {
       type: 'boolean',
       label: 'Fix Small Edges',
-      default: true
+      default: true,
     },
     fixSmallFaces: {
       type: 'boolean',
       label: 'Fix Small Faces',
-      default: true
+      default: true,
     },
     sewFaces: {
       type: 'boolean',
       label: 'Sew Faces',
-      default: true
+      default: true,
     },
     makeManifold: {
       type: 'boolean',
       label: 'Make Manifold',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -77,13 +81,13 @@ export const AdvancedHealingHealShapeNode: NodeDefinition<HealShapeInputs, HealS
         fixSmallEdges: params.fixSmallEdges,
         fixSmallFaces: params.fixSmallFaces,
         sewFaces: params.sewFaces,
-        makeManifold: params.makeManifold
-      }
+        makeManifold: params.makeManifold,
+      },
     });
-    
+
     return {
       healed: results.healed,
-      report: results.report
+      report: results.report,
     };
   },
 };

@@ -1,5 +1,10 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
-import { IntegratedGeometryAPI, getGeometryAPI, createGeometryAPI, DEFAULT_API_CONFIG } from './integrated-geometry-api';
+import {
+  IntegratedGeometryAPI,
+  getGeometryAPI,
+  createGeometryAPI,
+  DEFAULT_API_CONFIG,
+} from './integrated-geometry-api';
 import type { GeometryAPIConfig, OperationResult } from './integrated-geometry-api';
 import type { ShapeHandle, MeshData } from '@brepflow/types';
 
@@ -10,13 +15,15 @@ const occtFixture = vi.hoisted(() => {
 
   const nextId = (prefix: string) => `${prefix}-${++counter}`;
 
-  const defaultBBox = (dimensions: { width?: number; height?: number; depth?: number; radius?: number } = {}) => {
+  const defaultBBox = (
+    dimensions: { width?: number; height?: number; depth?: number; radius?: number } = {}
+  ) => {
     const width = dimensions.width ?? dimensions.radius ?? 1;
     const height = dimensions.height ?? dimensions.radius ?? 1;
     const depth = dimensions.depth ?? dimensions.radius ?? 1;
     return {
       min: { x: 0, y: 0, z: 0 },
-      max: { x: width, y: height, z: depth }
+      max: { x: width, y: height, z: depth },
     };
   };
 
@@ -27,7 +34,7 @@ const occtFixture = vi.hoisted(() => {
       type,
       bbox: extras.bbox ?? defaultBBox(extras.dimensions),
       volume: extras.volume ?? 0,
-      metadata: extras.metadata ?? {}
+      metadata: extras.metadata ?? {},
     };
     shapes.set(id, shape);
     return shape;
@@ -55,7 +62,7 @@ const occtFixture = vi.hoisted(() => {
         id: ref.id ?? nextId(fallbackType),
         type: ref.type ?? fallbackType,
         bbox: ref.bbox ?? defaultBBox(),
-        metadata: ref.metadata ?? {}
+        metadata: ref.metadata ?? {},
       };
       shapes.set(shape.id, shape);
       return shape;
@@ -69,7 +76,7 @@ const occtFixture = vi.hoisted(() => {
     return {
       positions: new Float32Array([0, 0, 0, scale, 0, 0, 0, scale, 0]),
       normals: new Float32Array([0, 0, 1, 0, 0, 1, 0, 0, 1]),
-      indices: new Uint32Array([0, 1, 2])
+      indices: new Uint32Array([0, 1, 2]),
     };
   };
 
@@ -85,7 +92,7 @@ const occtFixture = vi.hoisted(() => {
           return registerShape('solid', {
             dimensions: { width, height, depth },
             volume: width * height * depth,
-            metadata: { operation: 'MAKE_BOX' }
+            metadata: { operation: 'MAKE_BOX' },
           });
         }
         case 'MAKE_SPHERE': {
@@ -93,7 +100,7 @@ const occtFixture = vi.hoisted(() => {
           return registerShape('solid', {
             dimensions: { radius },
             volume: (4 / 3) * Math.PI * Math.pow(radius, 3),
-            metadata: { operation: 'MAKE_SPHERE' }
+            metadata: { operation: 'MAKE_SPHERE' },
           });
         }
         case 'MAKE_CYLINDER': {
@@ -102,7 +109,7 @@ const occtFixture = vi.hoisted(() => {
           return registerShape('solid', {
             dimensions: { radius, height },
             volume: Math.PI * radius * radius * height,
-            metadata: { operation: 'MAKE_CYLINDER' }
+            metadata: { operation: 'MAKE_CYLINDER' },
           });
         }
         case 'BOOLEAN_UNION': {
@@ -110,8 +117,8 @@ const occtFixture = vi.hoisted(() => {
           return registerShape('solid', {
             metadata: {
               operation: 'BOOLEAN_UNION',
-              inputs: shapesToCombine.map((s: any) => s.id)
-            }
+              inputs: shapesToCombine.map((s: any) => s.id),
+            },
           });
         }
         case 'BOOLEAN_SUBTRACT': {
@@ -121,8 +128,8 @@ const occtFixture = vi.hoisted(() => {
             metadata: {
               operation: 'BOOLEAN_SUBTRACT',
               base: base.id,
-              tools: tools.map((s: any) => s.id)
-            }
+              tools: tools.map((s: any) => s.id),
+            },
           });
         }
         case 'BOOLEAN_INTERSECT': {
@@ -130,8 +137,8 @@ const occtFixture = vi.hoisted(() => {
           return registerShape('solid', {
             metadata: {
               operation: 'BOOLEAN_INTERSECT',
-              inputs: inputs.map((s: any) => s.id)
-            }
+              inputs: inputs.map((s: any) => s.id),
+            },
           });
         }
         case 'MAKE_FILLET': {
@@ -140,8 +147,8 @@ const occtFixture = vi.hoisted(() => {
             metadata: {
               operation: 'MAKE_FILLET',
               base: base.id,
-              radius: params.radius ?? 0
-            }
+              radius: params.radius ?? 0,
+            },
           });
         }
         case 'MAKE_CHAMFER': {
@@ -150,8 +157,8 @@ const occtFixture = vi.hoisted(() => {
             metadata: {
               operation: 'MAKE_CHAMFER',
               base: base.id,
-              distance: params.distance ?? 0
-            }
+              distance: params.distance ?? 0,
+            },
           });
         }
         case 'MAKE_EXTRUDE': {
@@ -160,8 +167,8 @@ const occtFixture = vi.hoisted(() => {
             metadata: {
               operation: 'MAKE_EXTRUDE',
               profile: profile?.id ?? null,
-              distance: params.distance ?? 0
-            }
+              distance: params.distance ?? 0,
+            },
           });
         }
         case 'TESSELLATE': {
@@ -172,8 +179,8 @@ const occtFixture = vi.hoisted(() => {
           return registerShape('solid', {
             metadata: {
               operation: 'MAKE_BOX_WITH_ORIGIN',
-              origin: params.origin ?? { x: 0, y: 0, z: 0 }
-            }
+              origin: params.origin ?? { x: 0, y: 0, z: 0 },
+            },
           });
         }
         default:
@@ -184,7 +191,7 @@ const occtFixture = vi.hoisted(() => {
       const shape = ensureShape(shapeRef, 'solid');
       return createMesh(shape, tolerance);
     }),
-    terminate: vi.fn().mockResolvedValue(undefined)
+    terminate: vi.fn().mockResolvedValue(undefined),
   };
 
   const reset = () => {
@@ -200,18 +207,18 @@ const occtFixture = vi.hoisted(() => {
 
 vi.mock('./occt-loader', () => ({
   loadOCCTModule: vi.fn().mockImplementation(async () => occtFixture.occtModule),
-  generateOCCTDiagnostics: vi.fn().mockResolvedValue('OCCT Diagnostics: OK')
+  generateOCCTDiagnostics: vi.fn().mockResolvedValue('OCCT Diagnostics: OK'),
 }));
 
 vi.mock('./worker-pool', () => ({
   getWorkerPool: vi.fn().mockReturnValue({
     execute: vi.fn().mockResolvedValue({
-      result: { id: 'shape-1', type: 'solid' }
+      result: { id: 'shape-1', type: 'solid' },
     }),
     shutdown: vi.fn().mockResolvedValue(undefined),
-    getStats: vi.fn().mockReturnValue({ activeWorkers: 2, queueLength: 0 })
+    getStats: vi.fn().mockReturnValue({ activeWorkers: 2, queueLength: 0 }),
   }),
-  DEFAULT_POOL_CONFIG: {}
+  DEFAULT_POOL_CONFIG: {},
 }));
 
 vi.mock('./memory-manager', () => ({
@@ -224,9 +231,9 @@ vi.mock('./memory-manager', () => ({
     cacheMesh: vi.fn().mockResolvedValue(undefined),
     forceCleanup: vi.fn(),
     shutdown: vi.fn(),
-    generateMemoryReport: vi.fn().mockReturnValue('Memory Report: OK')
+    generateMemoryReport: vi.fn().mockReturnValue('Memory Report: OK'),
   }),
-  DEFAULT_CACHE_CONFIG: {}
+  DEFAULT_CACHE_CONFIG: {},
 }));
 
 vi.mock('./error-recovery', () => ({
@@ -235,8 +242,8 @@ vi.mock('./error-recovery', () => ({
     handleError: vi.fn().mockResolvedValue({ recovered: false }),
     reset: vi.fn(),
     getErrorStats: vi.fn().mockReturnValue({ totalErrors: 0, recoveredErrors: 0 }),
-    generateErrorReport: vi.fn().mockReturnValue('Error Report: No errors')
-  })
+    generateErrorReport: vi.fn().mockReturnValue('Error Report: No errors'),
+  }),
 }));
 
 vi.mock('./wasm-capability-detector', () => ({
@@ -245,15 +252,15 @@ vi.mock('./wasm-capability-detector', () => ({
       hasWASM: true,
       hasSharedArrayBuffer: true,
       hasThreads: true,
-      hasSimd: true
+      hasSimd: true,
     }),
-    generateCapabilityReport: vi.fn().mockResolvedValue('Capability Report: All supported')
+    generateCapabilityReport: vi.fn().mockResolvedValue('Capability Report: All supported'),
   },
   WASMPerformanceMonitor: {
     startMeasurement: vi.fn().mockReturnValue(() => 100),
     getPerformanceReport: vi.fn().mockReturnValue('Performance Report: OK'),
-    clearMeasurements: vi.fn()
-  }
+    clearMeasurements: vi.fn(),
+  },
 }));
 
 describe('IntegratedGeometryAPI', () => {
@@ -271,7 +278,7 @@ describe('IntegratedGeometryAPI', () => {
     it('should create with default configuration', () => {
       geometryAPI = new IntegratedGeometryAPI(DEFAULT_API_CONFIG);
       expect(geometryAPI).toBeDefined();
-      
+
       const stats = geometryAPI.getStats();
       expect(stats.initialized).toBe(false); // Not initialized until init() is called
     });
@@ -280,7 +287,7 @@ describe('IntegratedGeometryAPI', () => {
       const customConfig: GeometryAPIConfig = {
         ...DEFAULT_API_CONFIG,
         enablePerformanceMonitoring: false,
-        enableErrorRecovery: false
+        enableErrorRecovery: false,
       };
 
       geometryAPI = new IntegratedGeometryAPI(customConfig);
@@ -290,7 +297,7 @@ describe('IntegratedGeometryAPI', () => {
     it('should fail initialization when real OCCT is disabled', async () => {
       geometryAPI = new IntegratedGeometryAPI({
         ...DEFAULT_API_CONFIG,
-        enableRealOCCT: false
+        enableRealOCCT: false,
       });
 
       await expect(geometryAPI.init()).rejects.toThrow('Real OCCT is required');
@@ -331,7 +338,7 @@ describe('IntegratedGeometryAPI', () => {
         center: { x: 0, y: 0, z: 0 },
         width: 10,
         height: 10,
-        depth: 10
+        depth: 10,
       });
 
       expect(typeof result.success).toBe('boolean');
@@ -347,7 +354,7 @@ describe('IntegratedGeometryAPI', () => {
     it('should execute MAKE_SPHERE operation successfully', async () => {
       const result = await geometryAPI.invoke('MAKE_SPHERE', {
         center: { x: 0, y: 0, z: 0 },
-        radius: 50
+        radius: 50,
       });
 
       expect(typeof result.success).toBe('boolean');
@@ -364,7 +371,7 @@ describe('IntegratedGeometryAPI', () => {
         center: { x: 0, y: 0, z: 0 },
         axis: { x: 0, y: 0, z: 1 },
         radius: 25,
-        height: 100
+        height: 100,
       });
 
       expect(typeof result.success).toBe('boolean');
@@ -389,9 +396,9 @@ describe('IntegratedGeometryAPI', () => {
         tessellate: vi.fn().mockResolvedValue({
           vertices: new Float32Array([0, 0, 0]),
           indices: new Uint32Array([0, 1, 2]),
-          normals: new Float32Array([0, 0, 1])
+          normals: new Float32Array([0, 0, 1]),
         }),
-        terminate: vi.fn()
+        terminate: vi.fn(),
       });
 
       geometryAPI = new IntegratedGeometryAPI(DEFAULT_API_CONFIG);
@@ -418,8 +425,8 @@ describe('IntegratedGeometryAPI', () => {
         type: 'solid',
         bbox: {
           min: { x: -10, y: -10, z: -10 },
-          max: { x: 10, y: 10, z: 10 }
-        }
+          max: { x: 10, y: 10, z: 10 },
+        },
       };
 
       const result = await geometryAPI.tessellate(shape, 0.1);
@@ -438,7 +445,7 @@ describe('IntegratedGeometryAPI', () => {
       const mockMesh: MeshData = {
         vertices: new Float32Array([0, 0, 0]),
         indices: new Uint32Array([0, 1, 2]),
-        normals: new Float32Array([0, 0, 1])
+        normals: new Float32Array([0, 0, 1]),
       };
 
       mockMemoryManager.getMemoryManager = vi.fn().mockReturnValue({
@@ -450,7 +457,7 @@ describe('IntegratedGeometryAPI', () => {
         cacheResult: vi.fn(),
         forceCleanup: vi.fn(),
         shutdown: vi.fn(),
-        generateMemoryReport: vi.fn().mockReturnValue('Memory Report: OK')
+        generateMemoryReport: vi.fn().mockReturnValue('Memory Report: OK'),
       });
 
       geometryAPI = new IntegratedGeometryAPI(DEFAULT_API_CONFIG);
@@ -458,7 +465,7 @@ describe('IntegratedGeometryAPI', () => {
 
       const shape: ShapeHandle = {
         id: 'cached-shape-1',
-        type: 'solid'
+        type: 'solid',
       };
 
       const result = await geometryAPI.tessellate(shape, 0.1);
@@ -516,7 +523,7 @@ describe('IntegratedGeometryAPI', () => {
 
       mockOCCTLoader.loadOCCTModule = vi.fn().mockResolvedValue({
         invoke: vi.fn().mockRejectedValue(new Error('Test operation failed')),
-        terminate: vi.fn()
+        terminate: vi.fn(),
       });
 
       geometryAPI = new IntegratedGeometryAPI(DEFAULT_API_CONFIG);
@@ -565,7 +572,7 @@ describe('IntegratedGeometryAPI', () => {
     it('should create with custom configuration', () => {
       const customConfig: Partial<GeometryAPIConfig> = {
         enablePerformanceMonitoring: false,
-        enableErrorRecovery: false
+        enableErrorRecovery: false,
       };
 
       const api = createGeometryAPI(customConfig);
@@ -584,18 +591,18 @@ describe('IntegratedGeometryAPI', () => {
         center: { x: 0, y: 0, z: 0 },
         width: 10,
         height: 10,
-        depth: 10
+        depth: 10,
       });
 
       const box2 = await geometryAPI.invoke<ShapeHandle>('MAKE_BOX', {
         center: { x: 5, y: 0, z: 0 },
         width: 8,
         height: 12,
-        depth: 6
+        depth: 6,
       });
 
       const result = await geometryAPI.invoke('BOOLEAN_UNION', {
-        shapes: [box1.result!, box2.result!]
+        shapes: [box1.result!, box2.result!],
       });
 
       expect(typeof result.success).toBe('boolean');
@@ -612,17 +619,17 @@ describe('IntegratedGeometryAPI', () => {
         center: { x: 0, y: 0, z: 0 },
         width: 12,
         height: 12,
-        depth: 12
+        depth: 12,
       });
 
       const toolShape = await geometryAPI.invoke<ShapeHandle>('MAKE_SPHERE', {
         center: { x: 0, y: 0, z: 0 },
-        radius: 5
+        radius: 5,
       });
 
       const result = await geometryAPI.invoke('BOOLEAN_SUBTRACT', {
         base: baseShape.result!,
-        tools: [toolShape.result!]
+        tools: [toolShape.result!],
       });
 
       expect(typeof result.success).toBe('boolean');
@@ -639,16 +646,16 @@ describe('IntegratedGeometryAPI', () => {
         center: { x: 0, y: 0, z: 0 },
         width: 10,
         height: 10,
-        depth: 10
+        depth: 10,
       });
 
       const sphere = await geometryAPI.invoke<ShapeHandle>('MAKE_SPHERE', {
         center: { x: 0, y: 0, z: 0 },
-        radius: 6
+        radius: 6,
       });
 
       const result = await geometryAPI.invoke('BOOLEAN_INTERSECT', {
-        shapes: [box.result!, sphere.result!]
+        shapes: [box.result!, sphere.result!],
       });
 
       expect(typeof result.success).toBe('boolean');
@@ -672,12 +679,12 @@ describe('IntegratedGeometryAPI', () => {
         center: { x: 0, y: 0, z: 0 },
         width: 10,
         height: 10,
-        depth: 10
+        depth: 10,
       });
 
       const result = await geometryAPI.invoke('MAKE_FILLET', {
         shape: base.result!,
-        radius: 5
+        radius: 5,
       });
 
       expect(typeof result.success).toBe('boolean');
@@ -694,12 +701,12 @@ describe('IntegratedGeometryAPI', () => {
         center: { x: 0, y: 0, z: 0 },
         width: 10,
         height: 10,
-        depth: 10
+        depth: 10,
       });
 
       const result = await geometryAPI.invoke('MAKE_CHAMFER', {
         shape: base.result!,
-        distance: 3
+        distance: 3,
       });
 
       expect(typeof result.success).toBe('boolean');
@@ -716,13 +723,13 @@ describe('IntegratedGeometryAPI', () => {
         center: { x: 0, y: 0, z: 0 },
         width: 5,
         height: 5,
-        depth: 1
+        depth: 1,
       });
 
       const result = await geometryAPI.invoke('MAKE_EXTRUDE', {
         profile: profile.result!,
         direction: { x: 0, y: 0, z: 1 },
-        distance: 100
+        distance: 100,
       });
 
       expect(typeof result.success).toBe('boolean');
@@ -746,7 +753,7 @@ describe('IntegratedGeometryAPI', () => {
         center: { x: 0, y: 0, z: 0 },
         width: 100,
         height: 50,
-        depth: 25
+        depth: 25,
       });
 
       expect(typeof result.success).toBe('boolean');
@@ -763,7 +770,7 @@ describe('IntegratedGeometryAPI', () => {
         center: { x: 0, y: 0, z: 0 },
         width: 20,
         height: 20,
-        depth: 20
+        depth: 20,
       });
 
       const result = await geometryAPI.tessellate(makeResult.result!, 0.1);

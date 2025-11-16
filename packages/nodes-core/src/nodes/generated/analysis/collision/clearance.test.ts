@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { ClearanceNode } from './clearance.node';
 import { createTestContext } from './../../test-utils';
@@ -8,10 +7,10 @@ describe('ClearanceNode', () => {
     const context = createTestContext();
     const inputs = {
       shape1: null,
-      shape2: null
+      shape2: null,
     };
     const params = {
-      minClearance: 1
+      minClearance: 1,
     };
 
     const result = await ClearanceNode.evaluate(context, inputs, params);
@@ -21,6 +20,4 @@ describe('ClearanceNode', () => {
     expect(result.actualClearance).toBeDefined();
     expect(result.violationPoints).toBeDefined();
   });
-
-  
 });

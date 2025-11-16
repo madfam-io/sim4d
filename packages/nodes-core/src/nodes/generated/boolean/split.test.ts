@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { BooleanSplitNode } from './split.node';
 import { createTestContext } from '../test-utils';
@@ -8,10 +7,10 @@ describe('BooleanSplitNode', () => {
     const context = createTestContext();
     const inputs = {
       shapes: undefined,
-      tools: undefined
+      tools: undefined,
     } as any;
     const params = {
-      keepAll: true
+      keepAll: true,
     } as any;
 
     const result = await BooleanSplitNode.evaluate(context, inputs, params);

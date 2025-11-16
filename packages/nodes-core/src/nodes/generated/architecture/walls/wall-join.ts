@@ -13,7 +13,11 @@ interface WallJoinOutputs {
   joinedWalls: unknown;
 }
 
-export const ArchitectureWallsWallJoinNode: NodeDefinition<WallJoinInputs, WallJoinOutputs, WallJoinParams> = {
+export const ArchitectureWallsWallJoinNode: NodeDefinition<
+  WallJoinInputs,
+  WallJoinOutputs,
+  WallJoinParams
+> = {
   id: 'Architecture::WallJoin',
   type: 'Architecture::WallJoin',
   category: 'Architecture',
@@ -23,27 +27,27 @@ export const ArchitectureWallsWallJoinNode: NodeDefinition<WallJoinInputs, WallJ
     wall1: {
       type: 'Shape',
       label: 'Wall1',
-      required: true
+      required: true,
     },
     wall2: {
       type: 'Shape',
       label: 'Wall2',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     joinedWalls: {
       type: 'Shape',
-      label: 'Joined Walls'
-    }
+      label: 'Joined Walls',
+    },
   },
   params: {
     joinType: {
       type: 'enum',
       label: 'Join Type',
-      default: "miter",
-      options: ["miter","butt","overlap"]
-    }
+      default: 'miter',
+      options: ['miter', 'butt', 'overlap'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -51,12 +55,12 @@ export const ArchitectureWallsWallJoinNode: NodeDefinition<WallJoinInputs, WallJ
       params: {
         wall1: inputs.wall1,
         wall2: inputs.wall2,
-        joinType: params.joinType
-      }
+        joinType: params.joinType,
+      },
     });
-    
+
     return {
-      joinedWalls: result
+      joinedWalls: result,
     };
   },
 };

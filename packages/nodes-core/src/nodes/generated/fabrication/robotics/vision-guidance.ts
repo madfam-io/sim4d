@@ -13,7 +13,11 @@ interface VisionGuidanceOutputs {
   detectedPoses: unknown;
 }
 
-export const FabricationRoboticsVisionGuidanceNode: NodeDefinition<VisionGuidanceInputs, VisionGuidanceOutputs, VisionGuidanceParams> = {
+export const FabricationRoboticsVisionGuidanceNode: NodeDefinition<
+  VisionGuidanceInputs,
+  VisionGuidanceOutputs,
+  VisionGuidanceParams
+> = {
   id: 'Fabrication::VisionGuidance',
   type: 'Fabrication::VisionGuidance',
   category: 'Fabrication',
@@ -23,28 +27,28 @@ export const FabricationRoboticsVisionGuidanceNode: NodeDefinition<VisionGuidanc
     targetFeatures: {
       type: 'Shape[]',
       label: 'Target Features',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     detectedPoses: {
       type: 'Transform[]',
-      label: 'Detected Poses'
-    }
+      label: 'Detected Poses',
+    },
   },
   params: {
     cameraType: {
       type: 'enum',
       label: 'Camera Type',
-      default: "3d",
-      options: ["2d","3d","stereo"]
+      default: '3d',
+      options: ['2d', '3d', 'stereo'],
     },
     patternType: {
       type: 'enum',
       label: 'Pattern Type',
-      default: "aruco",
-      options: ["checkerboard","aruco","feature"]
-    }
+      default: 'aruco',
+      options: ['checkerboard', 'aruco', 'feature'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -52,12 +56,12 @@ export const FabricationRoboticsVisionGuidanceNode: NodeDefinition<VisionGuidanc
       params: {
         targetFeatures: inputs.targetFeatures,
         cameraType: params.cameraType,
-        patternType: params.patternType
-      }
+        patternType: params.patternType,
+      },
     });
-    
+
     return {
-      detectedPoses: result
+      detectedPoses: result,
     };
   },
 };

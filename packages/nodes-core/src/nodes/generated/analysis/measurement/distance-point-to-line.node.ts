@@ -1,6 +1,11 @@
-
 import { NodeDefinition } from '@brepflow/types';
-import { NumberParam, BoolParam, StringParam, EnumParam, Vector3Param } from '../../../../utils/param-utils.js';
+import {
+  NumberParam,
+  BoolParam,
+  StringParam,
+  EnumParam,
+  Vector3Param,
+} from '../../../../utils/param-utils.js';
 
 type Params = {};
 interface Inputs {
@@ -12,7 +17,11 @@ interface Outputs {
   closestPoint: Point;
 }
 
-export const DistancePointToLineNode: NodeDefinition<DistancePointToLineInputs, DistancePointToLineOutputs, DistancePointToLineParams> = {
+export const DistancePointToLineNode: NodeDefinition<
+  DistancePointToLineInputs,
+  DistancePointToLineOutputs,
+  DistancePointToLineParams
+> = {
   type: 'Analysis::DistancePointToLine',
   category: 'Analysis',
   subcategory: 'Measurement',
@@ -20,38 +29,32 @@ export const DistancePointToLineNode: NodeDefinition<DistancePointToLineInputs, 
   metadata: {
     label: 'DistancePointToLine',
     description: 'Measure distance from point to line',
-    
-    
   },
 
-  params: {
-    
-  },
+  params: {},
 
   inputs: {
-        point: 'Point',
-    line: 'Wire'
+    point: 'Point',
+    line: 'Wire',
   },
 
   outputs: {
-        distance: 'number',
-    closestPoint: 'Point'
+    distance: 'number',
+    closestPoint: 'Point',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'measureDistancePointLine',
       params: {
         point: inputs.point,
-        line: inputs.line
-        
-      }
+        line: inputs.line,
+      },
     });
 
     return {
       distance: result,
-      closestPoint: result
+      closestPoint: result,
     };
-  }
+  },
 };

@@ -49,7 +49,7 @@ const getMilestones = (skillLevel: SkillLevel): MilestoneData[] => {
       {
         id: 'mastery',
         title: 'CAD Mastery',
-        description: 'You\'re ready to create anything!',
+        description: "You're ready to create anything!",
         icon: '🏆',
         requiredSteps: ['playground_sketch-to-solid'],
       },
@@ -147,7 +147,6 @@ const Milestone: React.FC<MilestoneProps> = ({
         <p className="milestone-description">{milestone.description}</p>
       </div>
     )}
-
   </motion.div>
 );
 
@@ -161,8 +160,8 @@ export const ProgressTracker: React.FC<ProgressTrackerProps> = ({
   const milestones = useMemo(() => getMilestones(state.userSkillLevel), [state.userSkillLevel]);
 
   const milestoneProgress = useMemo(() => {
-    return milestones.map(milestone => {
-      const completedSteps = milestone.requiredSteps.filter(stepId =>
+    return milestones.map((milestone) => {
+      const completedSteps = milestone.requiredSteps.filter((stepId) =>
         state.completedTutorials.includes(stepId)
       );
       const isCompleted = completedSteps.length === milestone.requiredSteps.length;
@@ -177,11 +176,11 @@ export const ProgressTracker: React.FC<ProgressTrackerProps> = ({
     });
   }, [milestones, state.completedTutorials]);
 
-  const currentMilestone = milestoneProgress.find(m => m.isActive) ||
-                          milestoneProgress.find(m => !m.isCompleted);
+  const currentMilestone =
+    milestoneProgress.find((m) => m.isActive) || milestoneProgress.find((m) => !m.isCompleted);
 
   const overallProgress = progressPercentage();
-  const completedMilestones = milestoneProgress.filter(m => m.isCompleted).length;
+  const completedMilestones = milestoneProgress.filter((m) => m.isCompleted).length;
 
   if (state.userSkillLevel === 'skip') return null;
 
@@ -204,12 +203,10 @@ export const ProgressTracker: React.FC<ProgressTrackerProps> = ({
                     className="progress-fill"
                     initial={{ width: 0 }}
                     animate={{ width: `${overallProgress}%` }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    transition={{ duration: 0.8, ease: 'easeOut' }}
                   />
                 </div>
-                <span className="progress-text">
-                  {overallProgress}% Complete
-                </span>
+                <span className="progress-text">{overallProgress}% Complete</span>
               </div>
               <div className="milestone-count">
                 {completedMilestones} of {milestones.length} milestones
@@ -223,7 +220,11 @@ export const ProgressTracker: React.FC<ProgressTrackerProps> = ({
         {milestoneProgress.map((milestone, index) => (
           <motion.div
             key={milestone.id}
-            initial={{ opacity: 0, x: position === 'sidebar' ? -20 : 0, y: position !== 'sidebar' ? 20 : 0 }}
+            initial={{
+              opacity: 0,
+              x: position === 'sidebar' ? -20 : 0,
+              y: position !== 'sidebar' ? 20 : 0,
+            }}
             animate={{ opacity: 1, x: 0, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.1 }}
           >
@@ -254,7 +255,6 @@ export const ProgressTracker: React.FC<ProgressTrackerProps> = ({
           </div>
         </motion.div>
       )}
-
     </div>
   );
 };

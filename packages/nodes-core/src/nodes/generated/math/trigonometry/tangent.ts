@@ -12,7 +12,11 @@ interface TangentOutputs {
   result: unknown;
 }
 
-export const MathTrigonometryTangentNode: NodeDefinition<TangentInputs, TangentOutputs, TangentParams> = {
+export const MathTrigonometryTangentNode: NodeDefinition<
+  TangentInputs,
+  TangentOutputs,
+  TangentParams
+> = {
   id: 'Math::Tangent',
   type: 'Math::Tangent',
   category: 'Math',
@@ -22,34 +26,34 @@ export const MathTrigonometryTangentNode: NodeDefinition<TangentInputs, TangentO
     angle: {
       type: 'number',
       label: 'Angle',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'number',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {
     angleUnit: {
       type: 'enum',
       label: 'Angle Unit',
-      default: "radians",
-      options: ["radians","degrees"]
-    }
+      default: 'radians',
+      options: ['radians', 'degrees'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathTan',
       params: {
         angle: inputs.angle,
-        angleUnit: params.angleUnit
-      }
+        angleUnit: params.angleUnit,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

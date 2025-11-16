@@ -15,7 +15,11 @@ interface PartingLineDraftOutputs {
   drafted: unknown;
 }
 
-export const AdvancedDraftPartingLineDraftNode: NodeDefinition<PartingLineDraftInputs, PartingLineDraftOutputs, PartingLineDraftParams> = {
+export const AdvancedDraftPartingLineDraftNode: NodeDefinition<
+  PartingLineDraftInputs,
+  PartingLineDraftOutputs,
+  PartingLineDraftParams
+> = {
   id: 'Advanced::PartingLineDraft',
   type: 'Advanced::PartingLineDraft',
   category: 'Advanced',
@@ -25,19 +29,19 @@ export const AdvancedDraftPartingLineDraftNode: NodeDefinition<PartingLineDraftI
     solid: {
       type: 'Shape',
       label: 'Solid',
-      required: true
+      required: true,
     },
     partingEdges: {
       type: 'Edge[]',
       label: 'Parting Edges',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     drafted: {
       type: 'Shape',
-      label: 'Drafted'
-    }
+      label: 'Drafted',
+    },
   },
   params: {
     upperAngle: {
@@ -45,20 +49,20 @@ export const AdvancedDraftPartingLineDraftNode: NodeDefinition<PartingLineDraftI
       label: 'Upper Angle',
       default: 3,
       min: 0,
-      max: 30
+      max: 30,
     },
     lowerAngle: {
       type: 'number',
       label: 'Lower Angle',
       default: 3,
       min: 0,
-      max: 30
+      max: 30,
     },
     pullDirection: {
       type: 'vec3',
       label: 'Pull Direction',
-      default: [0,0,1]
-    }
+      default: [0, 0, 1],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -68,12 +72,12 @@ export const AdvancedDraftPartingLineDraftNode: NodeDefinition<PartingLineDraftI
         partingEdges: inputs.partingEdges,
         upperAngle: params.upperAngle,
         lowerAngle: params.lowerAngle,
-        pullDirection: params.pullDirection
-      }
+        pullDirection: params.pullDirection,
+      },
     });
-    
+
     return {
-      drafted: result
+      drafted: result,
     };
   },
 };

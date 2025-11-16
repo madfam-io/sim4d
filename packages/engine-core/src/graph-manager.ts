@@ -1,10 +1,4 @@
-import type {
-  GraphInstance,
-  NodeInstance,
-  Edge,
-  NodeId,
-  SocketRef,
-} from '@brepflow/types';
+import type { GraphInstance, NodeInstance, Edge, NodeId, SocketRef } from '@brepflow/types';
 import { createNodeId, createEdgeId } from '@brepflow/types';
 import { uuidv4 } from './utils/uuid';
 
@@ -67,20 +61,16 @@ export class GraphManager {
    */
   removeNode(nodeId: NodeId): void {
     // Remove node
-    this.graph.nodes = this.graph.nodes.filter(n => n.id !== nodeId);
+    this.graph.nodes = this.graph.nodes.filter((n) => n.id !== nodeId);
 
     // Remove connected edges
-    this.graph.edges = this.graph.edges.filter(
-      e => e.source !== nodeId && e.target !== nodeId
-    );
+    this.graph.edges = this.graph.edges.filter((e) => e.source !== nodeId && e.target !== nodeId);
 
     // Remove references from other nodes' inputs
     for (const node of this.graph.nodes) {
       for (const [key, value] of Object.entries(node.inputs)) {
         if (Array.isArray(value)) {
-          node.inputs[key] = value.filter(
-            (ref: SocketRef) => ref.nodeId !== nodeId
-          );
+          node.inputs[key] = value.filter((ref: SocketRef) => ref.nodeId !== nodeId);
         } else if (value && (value as SocketRef).nodeId === nodeId) {
           delete node.inputs[key];
         }
@@ -94,7 +84,7 @@ export class GraphManager {
    * Update a node
    */
   updateNode(nodeId: NodeId, updates: Partial<NodeInstance>): void {
-    const node = this.graph.nodes.find(n => n.id === nodeId);
+    const node = this.graph.nodes.find((n) => n.id === nodeId);
     if (!node) return;
 
     Object.assign(node, updates);
@@ -117,7 +107,7 @@ export class GraphManager {
     this.graph.edges.push(newEdge);
 
     // Update target node inputs
-    const targetNode = this.graph.nodes.find(n => n.id === edge.target);
+    const targetNode = this.graph.nodes.find((n) => n.id === edge.target);
     if (targetNode) {
       const socketRef: SocketRef = {
         nodeId: edge.source,
@@ -143,20 +133,19 @@ export class GraphManager {
    * Remove an edge
    */
   removeEdge(edgeId: string): void {
-    const edge = this.graph.edges.find(e => e.id === edgeId);
+    const edge = this.graph.edges.find((e) => e.id === edgeId);
     if (!edge) return;
 
     // Remove from edges array
-    this.graph.edges = this.graph.edges.filter(e => e.id !== edgeId);
+    this.graph.edges = this.graph.edges.filter((e) => e.id !== edgeId);
 
     // Update target node inputs
-    const targetNode = this.graph.nodes.find(n => n.id === edge.target);
+    const targetNode = this.graph.nodes.find((n) => n.id === edge.target);
     if (targetNode) {
       const input = targetNode.inputs[edge.targetHandle];
       if (Array.isArray(input)) {
         targetNode.inputs[edge.targetHandle] = input.filter(
-          (ref: SocketRef) =>
-            ref.nodeId !== edge.source || ref.socketId !== edge.sourceHandle
+          (ref: SocketRef) => ref.nodeId !== edge.source || ref.socketId !== edge.sourceHandle
         );
       } else {
         delete targetNode.inputs[edge.targetHandle];
@@ -184,7 +173,7 @@ export class GraphManager {
       // Find downstream nodes
       for (const edge of this.graph.edges) {
         if (edge.source === current) {
-          const targetNode = this.graph.nodes.find(n => n.id === edge.target);
+          const targetNode = this.graph.nodes.find((n) => n.id === edge.target);
           if (targetNode) {
             targetNode.dirty = true;
             queue.push(edge.target);
@@ -198,9 +187,7 @@ export class GraphManager {
    * Get dirty nodes
    */
   getDirtyNodes(): Set<NodeId> {
-    return new Set(
-      this.graph.nodes.filter(n => n.dirty).map(n => n.id)
-    );
+    return new Set(this.graph.nodes.filter((n) => n.dirty).map((n) => n.id));
   }
 
   /**
@@ -233,7 +220,7 @@ export class GraphManager {
 
         const refs = Array.isArray(socketRef) ? socketRef : [socketRef];
         for (const ref of refs) {
-          const sourceNode = this.graph.nodes.find(n => n.id === ref.nodeId);
+          const sourceNode = this.graph.nodes.find((n) => n.id === ref.nodeId);
           if (!sourceNode) {
             errors.push(`Node ${node.id}: Missing source node ${ref.nodeId}`);
           }

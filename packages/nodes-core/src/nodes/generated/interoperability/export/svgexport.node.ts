@@ -16,7 +16,11 @@ interface SVGExportOutputs {
   dimensions: [number, number, number];
 }
 
-export const InteroperabilityExportSVGExportNode: NodeDefinition<SVGExportInputs, SVGExportOutputs, SVGExportParams> = {
+export const InteroperabilityExportSVGExportNode: NodeDefinition<
+  SVGExportInputs,
+  SVGExportOutputs,
+  SVGExportParams
+> = {
   id: 'Interoperability::SVGExport',
   category: 'Interoperability',
   label: 'SVGExport',
@@ -25,23 +29,23 @@ export const InteroperabilityExportSVGExportNode: NodeDefinition<SVGExportInputs
     curves: {
       type: 'Wire[]',
       label: 'Curves',
-      required: true
+      required: true,
     },
     filePath: {
       type: 'string',
       label: 'File Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     success: {
       type: 'boolean',
-      label: 'Success'
+      label: 'Success',
     },
     dimensions: {
       type: 'Vector',
-      label: 'Dimensions'
-    }
+      label: 'Dimensions',
+    },
   },
   params: {
     scale: {
@@ -49,20 +53,20 @@ export const InteroperabilityExportSVGExportNode: NodeDefinition<SVGExportInputs
       label: 'Scale',
       default: 1,
       min: 0.001,
-      max: 1000
+      max: 1000,
     },
     strokeWidth: {
       type: 'number',
       label: 'Stroke Width',
       default: 1,
       min: 0.1,
-      max: 10
+      max: 10,
     },
     viewBox: {
       type: 'boolean',
       label: 'View Box',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -72,13 +76,13 @@ export const InteroperabilityExportSVGExportNode: NodeDefinition<SVGExportInputs
         filePath: inputs.filePath,
         scale: params.scale,
         strokeWidth: params.strokeWidth,
-        viewBox: params.viewBox
-      }
+        viewBox: params.viewBox,
+      },
     });
-    
+
     return {
       success: results.success,
-      dimensions: results.dimensions
+      dimensions: results.dimensions,
     };
   },
 };

@@ -10,7 +10,11 @@ interface ListReverseOutputs {
   reversed: unknown;
 }
 
-export const DataListListReverseNode: NodeDefinition<ListReverseInputs, ListReverseOutputs, ListReverseParams> = {
+export const DataListListReverseNode: NodeDefinition<
+  ListReverseInputs,
+  ListReverseOutputs,
+  ListReverseParams
+> = {
   id: 'Data::ListReverse',
   type: 'Data::ListReverse',
   category: 'Data',
@@ -20,26 +24,26 @@ export const DataListListReverseNode: NodeDefinition<ListReverseInputs, ListReve
     list: {
       type: 'Data[]',
       label: 'List',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     reversed: {
       type: 'Data[]',
-      label: 'Reversed'
-    }
+      label: 'Reversed',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'listReverse',
       params: {
-        list: inputs.list
-      }
+        list: inputs.list,
+      },
     });
-    
+
     return {
-      reversed: result
+      reversed: result,
     };
   },
 };

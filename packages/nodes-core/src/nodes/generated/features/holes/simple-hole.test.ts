@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { FeaturesHolesSimpleHoleNode } from './simple-hole.node';
 import { createTestContext } from '../test-utils';
@@ -8,11 +7,11 @@ describe('FeaturesHolesSimpleHoleNode', () => {
     const context = createTestContext();
     const inputs = {
       solid: undefined,
-      position: undefined
+      position: undefined,
     } as any;
     const params = {
       diameter: 10,
-      depth: -1
+      depth: -1,
     } as any;
 
     const result = await FeaturesHolesSimpleHoleNode.evaluate(context, inputs, params);

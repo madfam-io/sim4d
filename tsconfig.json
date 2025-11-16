@@ -1,12 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": [
-      "ES2022",
-      "DOM",
-      "DOM.Iterable",
-      "WebWorker"
-    ],
+    "lib": ["ES2022", "DOM", "DOM.Iterable", "WebWorker"],
     "module": "ESNext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
@@ -32,9 +27,7 @@
     "composite": false,
     "baseUrl": ".",
     "paths": {
-      "@brepflow/*": [
-        "packages/*/src"
-      ]
+      "@brepflow/*": ["packages/*/src"]
     },
     "useUnknownInCatchVariables": true,
     "exactOptionalPropertyTypes": true,
@@ -59,14 +52,5 @@
     "apps/marketing/**/*",
     "packages/nodes-core/src/nodes/generated/**/*"
   ],
-  "include": [
-    "apps",
-    "packages",
-    "scripts",
-    "tests",
-    "config",
-    "build",
-    "docs",
-    "turbo.d.ts"
-  ]
+  "include": ["apps", "packages", "scripts", "tests", "config", "build", "docs", "turbo.d.ts"]
 }

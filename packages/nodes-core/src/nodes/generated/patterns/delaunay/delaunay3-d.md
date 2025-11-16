@@ -1,4 +1,3 @@
-
 # Delaunay3D Node
 
 **Category:** Patterns / Delaunay
@@ -11,24 +10,17 @@ This node has no parameters.
 
 ## Inputs
 
-
 ### Points
+
 - **Type:** Point[]
 - **Required:** Yes
 
-
-
 ## Outputs
 
-
 ### Tetrahedra
+
 - **Type:** Shape[]
 
-
-
 ### Mesh
+
 - **Type:** Mesh
-
-
-
-

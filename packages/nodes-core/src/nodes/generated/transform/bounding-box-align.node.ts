@@ -14,7 +14,11 @@ interface BoundingBoxAlignOutputs {
   boundingBox: unknown;
 }
 
-export const TransformBoundingBoxAlignNode: NodeDefinition<BoundingBoxAlignInputs, BoundingBoxAlignOutputs, BoundingBoxAlignParams> = {
+export const TransformBoundingBoxAlignNode: NodeDefinition<
+  BoundingBoxAlignInputs,
+  BoundingBoxAlignOutputs,
+  BoundingBoxAlignParams
+> = {
   id: 'Transform::BoundingBoxAlign',
   category: 'Transform',
   label: 'BoundingBoxAlign',
@@ -23,31 +27,31 @@ export const TransformBoundingBoxAlignNode: NodeDefinition<BoundingBoxAlignInput
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     aligned: {
       type: 'Shape',
-      label: 'Aligned'
+      label: 'Aligned',
     },
     boundingBox: {
       type: 'Shape',
-      label: 'Bounding Box'
-    }
+      label: 'Bounding Box',
+    },
   },
   params: {
     alignToOrigin: {
       type: 'boolean',
       label: 'Align To Origin',
-      default: true
+      default: true,
     },
     alignCorner: {
       type: 'enum',
       label: 'Align Corner',
-      default: "min",
-      options: ["min","center","max"]
-    }
+      default: 'min',
+      options: ['min', 'center', 'max'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -55,13 +59,13 @@ export const TransformBoundingBoxAlignNode: NodeDefinition<BoundingBoxAlignInput
       params: {
         shape: inputs.shape,
         alignToOrigin: params.alignToOrigin,
-        alignCorner: params.alignCorner
-      }
+        alignCorner: params.alignCorner,
+      },
     });
-    
+
     return {
       aligned: results.aligned,
-      boundingBox: results.boundingBox
+      boundingBox: results.boundingBox,
     };
   },
 };

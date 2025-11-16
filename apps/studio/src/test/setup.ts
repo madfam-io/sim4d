@@ -15,16 +15,18 @@ class WorkerMock {
     // Simulate async worker response
     setTimeout(() => {
       if (this.onmessage) {
-        this.onmessage(new MessageEvent('message', {
-          data: {
-            id: data.id,
-            success: true,
-            result: {
-              initialized: true,
-              production: false
-            }
-          }
-        }));
+        this.onmessage(
+          new MessageEvent('message', {
+            data: {
+              id: data.id,
+              success: true,
+              result: {
+                initialized: true,
+                production: false,
+              },
+            },
+          })
+        );
       }
     }, 0);
   }
@@ -65,7 +67,7 @@ global.fetch = vi.fn();
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: vi.fn().mockImplementation(query => ({
+  value: vi.fn().mockImplementation((query) => ({
     matches: false,
     media: query,
     onchange: null,

@@ -13,7 +13,11 @@ interface LaserPathOutputs {
   cuttingPath: unknown;
 }
 
-export const FabricationLaserLaserPathNode: NodeDefinition<LaserPathInputs, LaserPathOutputs, LaserPathParams> = {
+export const FabricationLaserLaserPathNode: NodeDefinition<
+  LaserPathInputs,
+  LaserPathOutputs,
+  LaserPathParams
+> = {
   id: 'Fabrication::LaserPath',
   category: 'Fabrication',
   label: 'LaserPath',
@@ -22,14 +26,14 @@ export const FabricationLaserLaserPathNode: NodeDefinition<LaserPathInputs, Lase
     profiles: {
       type: 'Wire[]',
       label: 'Profiles',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     cuttingPath: {
       type: 'Wire[]',
-      label: 'Cutting Path'
-    }
+      label: 'Cutting Path',
+    },
   },
   params: {
     kerf: {
@@ -37,15 +41,15 @@ export const FabricationLaserLaserPathNode: NodeDefinition<LaserPathInputs, Lase
       label: 'Kerf',
       default: 0.15,
       min: 0,
-      max: 1
+      max: 1,
     },
     cornerRadius: {
       type: 'number',
       label: 'Corner Radius',
       default: 0,
       min: 0,
-      max: 5
-    }
+      max: 5,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const FabricationLaserLaserPathNode: NodeDefinition<LaserPathInputs, Lase
       params: {
         profiles: inputs.profiles,
         kerf: params.kerf,
-        cornerRadius: params.cornerRadius
-      }
+        cornerRadius: params.cornerRadius,
+      },
     });
-    
+
     return {
-      cuttingPath: result
+      cuttingPath: result,
     };
   },
 };

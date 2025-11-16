@@ -1,6 +1,11 @@
-
 import { NodeDefinition } from '@brepflow/types';
-import { NumberParam, BoolParam, StringParam, EnumParam, Vector3Param } from '../../../../utils/param-utils.js';
+import {
+  NumberParam,
+  BoolParam,
+  StringParam,
+  EnumParam,
+  Vector3Param,
+} from '../../../../utils/param-utils.js';
 
 type Params = {};
 interface Inputs {
@@ -12,7 +17,11 @@ interface Outputs {
   intersection: Shape;
 }
 
-export const IntersectionNode: NodeDefinition<IntersectionInputs, IntersectionOutputs, IntersectionParams> = {
+export const IntersectionNode: NodeDefinition<
+  IntersectionInputs,
+  IntersectionOutputs,
+  IntersectionParams
+> = {
   type: 'Analysis::Intersection',
   category: 'Analysis',
   subcategory: 'Collision',
@@ -20,38 +29,32 @@ export const IntersectionNode: NodeDefinition<IntersectionInputs, IntersectionOu
   metadata: {
     label: 'Intersection',
     description: 'Check for intersection between shapes',
-    
-    
   },
 
-  params: {
-    
-  },
+  params: {},
 
   inputs: {
-        shape1: 'Shape',
-    shape2: 'Shape'
+    shape1: 'Shape',
+    shape2: 'Shape',
   },
 
   outputs: {
-        intersects: 'boolean',
-    intersection: 'Shape'
+    intersects: 'boolean',
+    intersection: 'Shape',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'checkIntersection',
       params: {
         shape1: inputs.shape1,
-        shape2: inputs.shape2
-        
-      }
+        shape2: inputs.shape2,
+      },
     });
 
     return {
       intersects: result,
-      intersection: result
+      intersection: result,
     };
-  }
+  },
 };

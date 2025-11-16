@@ -1,10 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
-import {
-  createNodeId,
-  createEdgeId,
-  type NodeId,
-  type EdgeId,
-} from '@brepflow/types';
+import { createNodeId, createEdgeId, type NodeId, type EdgeId } from '@brepflow/types';
 import type { Node, Edge } from '../types';
 import {
   useCollaboration as useCollaborationContext,
@@ -20,9 +15,7 @@ const toNodeId = (value: NodeIdLike): NodeId =>
 const toEdgeId = (value: EdgeIdLike): EdgeId =>
   typeof value === 'string' ? createEdgeId(value) : value;
 
-function derivePresence(
-  context: CollaborationContextValue
-): {
+function derivePresence(context: CollaborationContextValue): {
   activeUsers: Array<{
     id: string;
     name: string;
@@ -183,19 +176,18 @@ export function useEditingStatus() {
     setEditing(null);
   }, [setEditing]);
 
-  const editingUsers = presence.reduce<Record<string, { userId: string; userName: string; userColor: string }>>(
-    (acc, p) => {
-      if (p.isEditing) {
-        acc[p.isEditing] = {
-          userId: p.user.id,
-          userName: p.user.name,
-          userColor: p.user.color,
-        };
-      }
-      return acc;
-    },
-    {}
-  );
+  const editingUsers = presence.reduce<
+    Record<string, { userId: string; userName: string; userColor: string }>
+  >((acc, p) => {
+    if (p.isEditing) {
+      acc[p.isEditing] = {
+        userId: p.user.id,
+        userName: p.user.name,
+        userColor: p.user.color,
+      };
+    }
+    return acc;
+  }, {});
 
   return {
     editingNodeId,
@@ -210,7 +202,10 @@ export function useEditingStatus() {
  */
 export function usePresence() {
   const context = useCollaborationContext();
-  const presenceData = useMemo(() => derivePresence(context), [context.presence, context.currentUser]);
+  const presenceData = useMemo(
+    () => derivePresence(context),
+    [context.presence, context.currentUser]
+  );
 
   return {
     ...presenceData,

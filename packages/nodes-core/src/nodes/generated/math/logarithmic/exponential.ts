@@ -10,7 +10,11 @@ interface ExponentialOutputs {
   result: unknown;
 }
 
-export const MathLogarithmicExponentialNode: NodeDefinition<ExponentialInputs, ExponentialOutputs, ExponentialParams> = {
+export const MathLogarithmicExponentialNode: NodeDefinition<
+  ExponentialInputs,
+  ExponentialOutputs,
+  ExponentialParams
+> = {
   id: 'Math::Exponential',
   type: 'Math::Exponential',
   category: 'Math',
@@ -20,26 +24,26 @@ export const MathLogarithmicExponentialNode: NodeDefinition<ExponentialInputs, E
     value: {
       type: 'number',
       label: 'Value',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'number',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathExp',
       params: {
-        value: inputs.value
-      }
+        value: inputs.value,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

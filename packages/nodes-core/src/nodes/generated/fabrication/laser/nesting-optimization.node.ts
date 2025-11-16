@@ -16,7 +16,11 @@ interface NestingOptimizationOutputs {
   utilization: number;
 }
 
-export const FabricationLaserNestingOptimizationNode: NodeDefinition<NestingOptimizationInputs, NestingOptimizationOutputs, NestingOptimizationParams> = {
+export const FabricationLaserNestingOptimizationNode: NodeDefinition<
+  NestingOptimizationInputs,
+  NestingOptimizationOutputs,
+  NestingOptimizationParams
+> = {
   id: 'Fabrication::NestingOptimization',
   category: 'Fabrication',
   label: 'NestingOptimization',
@@ -25,23 +29,23 @@ export const FabricationLaserNestingOptimizationNode: NodeDefinition<NestingOpti
     parts: {
       type: 'Face[]',
       label: 'Parts',
-      required: true
+      required: true,
     },
     sheet: {
       type: 'Face',
       label: 'Sheet',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     nestedParts: {
       type: 'Face[]',
-      label: 'Nested Parts'
+      label: 'Nested Parts',
     },
     utilization: {
       type: 'Number',
-      label: 'Utilization'
-    }
+      label: 'Utilization',
+    },
   },
   params: {
     spacing: {
@@ -49,18 +53,18 @@ export const FabricationLaserNestingOptimizationNode: NodeDefinition<NestingOpti
       label: 'Spacing',
       default: 2,
       min: 0,
-      max: 10
+      max: 10,
     },
     rotations: {
       type: 'boolean',
       label: 'Rotations',
-      default: true
+      default: true,
     },
     grainDirection: {
       type: 'boolean',
       label: 'Grain Direction',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -70,13 +74,13 @@ export const FabricationLaserNestingOptimizationNode: NodeDefinition<NestingOpti
         sheet: inputs.sheet,
         spacing: params.spacing,
         rotations: params.rotations,
-        grainDirection: params.grainDirection
-      }
+        grainDirection: params.grainDirection,
+      },
     });
-    
+
     return {
       nestedParts: results.nestedParts,
-      utilization: results.utilization
+      utilization: results.utilization,
     };
   },
 };

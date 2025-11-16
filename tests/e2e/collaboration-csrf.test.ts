@@ -16,8 +16,7 @@ test.describe('Collaboration Workflow with CSRF Protection', () => {
     // Listen for CSRF token request
     const csrfTokenRequest = page.waitForRequest(
       (request) =>
-        request.url().includes('/api/collaboration/csrf-token') &&
-        request.method() === 'GET'
+        request.url().includes('/api/collaboration/csrf-token') && request.method() === 'GET'
     );
 
     // Reload page to trigger token fetch
@@ -41,8 +40,7 @@ test.describe('Collaboration Workflow with CSRF Protection', () => {
     // Set up request promise BEFORE reload to avoid race condition
     const firstRequest = page.waitForRequest(
       (request) =>
-        request.url().includes('/api/collaboration/csrf-token') &&
-        request.method() === 'GET'
+        request.url().includes('/api/collaboration/csrf-token') && request.method() === 'GET'
     );
 
     // Reload page
@@ -141,27 +139,24 @@ test.describe('Collaboration Workflow with CSRF Protection', () => {
     await page2.waitForLoadState('networkidle');
 
     // Second user joins session
-    const joinSuccess = await page2.evaluate(
-      async (sid) => {
-        const { useCollaboration } = await import('./hooks/useCollaboration');
-        const [, actions] = useCollaboration();
+    const joinSuccess = await page2.evaluate(async (sid) => {
+      const { useCollaboration } = await import('./hooks/useCollaboration');
+      const [, actions] = useCollaboration();
 
-        const user = {
-          id: 'test-user-2',
-          name: 'Test User 2',
-          color: '#EF4444',
-        };
+      const user = {
+        id: 'test-user-2',
+        name: 'Test User 2',
+        color: '#EF4444',
+      };
 
-        try {
-          await actions.joinSession(sid, user);
-          return true;
-        } catch (error) {
-          console.error('Join failed:', error);
-          return false;
-        }
-      },
-      sessionId as string
-    );
+      try {
+        await actions.joinSession(sid, user);
+        return true;
+      } catch (error) {
+        console.error('Join failed:', error);
+        return false;
+      }
+    }, sessionId as string);
 
     expect(joinSuccess).toBe(true);
 
@@ -457,7 +452,7 @@ test.describe('Collaboration Error Handling', () => {
 
     // Configure to point to unavailable server
     await page.evaluate(() => {
-      const { collaborationAPI } = (window as any);
+      const { collaborationAPI } = window as any;
       if (collaborationAPI) {
         collaborationAPI.updateConfig({ serverUrl: 'http://localhost:9999' });
       }

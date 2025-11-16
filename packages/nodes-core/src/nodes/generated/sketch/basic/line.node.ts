@@ -24,8 +24,8 @@ export const SketchBasicLineNode: NodeDefinition<LineInputs, LineOutputs, LinePa
   outputs: {
     edge: {
       type: 'Edge',
-      label: 'Edge'
-    }
+      label: 'Edge',
+    },
   },
   params: {
     startX: {
@@ -33,43 +33,43 @@ export const SketchBasicLineNode: NodeDefinition<LineInputs, LineOutputs, LinePa
       label: 'Start X',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     startY: {
       type: 'number',
       label: 'Start Y',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     startZ: {
       type: 'number',
       label: 'Start Z',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     endX: {
       type: 'number',
       label: 'End X',
       default: 100,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     endY: {
       type: 'number',
       label: 'End Y',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     endZ: {
       type: 'number',
       label: 'End Z',
       default: 0,
       min: -10000,
-      max: 10000
-    }
+      max: 10000,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -80,12 +80,12 @@ export const SketchBasicLineNode: NodeDefinition<LineInputs, LineOutputs, LinePa
         startZ: params.startZ,
         endX: params.endX,
         endY: params.endY,
-        endZ: params.endZ
-      }
+        endZ: params.endZ,
+      },
     });
-    
+
     return {
-      edge: result
+      edge: result,
     };
   },
 };

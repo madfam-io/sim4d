@@ -51,7 +51,13 @@ export const MeshNode: NodeDefinition<
 export const MaterialNode: NodeDefinition<
   Record<string, never>,
   { material: any },
-  { name: string; density: number; youngsModulus: number; poissonsRatio: number; yieldStrength: number }
+  {
+    name: string;
+    density: number;
+    youngsModulus: number;
+    poissonsRatio: number;
+    yieldStrength: number;
+  }
 > = {
   id: 'Simulation::Material',
   category: 'Simulation',
@@ -143,7 +149,7 @@ export const FixedSupportNode: NodeDefinition<
   },
   async evaluate(ctx, inputs, params) {
     const faces = inputs.faces || params.faces;
-    
+
     const result = await ctx.worker.invoke('CREATE_FIXED_SUPPORT', {
       mesh: inputs.mesh,
       faces,
@@ -189,7 +195,7 @@ export const ForceLoadNode: NodeDefinition<
   },
   async evaluate(ctx, inputs, params) {
     const faces = inputs.faces || params.faces;
-    
+
     const result = await ctx.worker.invoke('CREATE_FORCE_LOAD', {
       mesh: inputs.mesh,
       faces,
@@ -232,7 +238,7 @@ export const PressureLoadNode: NodeDefinition<
   },
   async evaluate(ctx, inputs, params) {
     const faces = inputs.faces || params.faces;
-    
+
     const result = await ctx.worker.invoke('CREATE_PRESSURE_LOAD', {
       mesh: inputs.mesh,
       faces,

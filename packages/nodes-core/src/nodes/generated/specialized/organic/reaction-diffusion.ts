@@ -14,7 +14,11 @@ interface ReactionDiffusionOutputs {
   pattern: unknown;
 }
 
-export const SpecializedOrganicReactionDiffusionNode: NodeDefinition<ReactionDiffusionInputs, ReactionDiffusionOutputs, ReactionDiffusionParams> = {
+export const SpecializedOrganicReactionDiffusionNode: NodeDefinition<
+  ReactionDiffusionInputs,
+  ReactionDiffusionOutputs,
+  ReactionDiffusionParams
+> = {
   id: 'Specialized::ReactionDiffusion',
   type: 'Specialized::ReactionDiffusion',
   category: 'Specialized',
@@ -24,28 +28,28 @@ export const SpecializedOrganicReactionDiffusionNode: NodeDefinition<ReactionDif
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     pattern: {
       type: 'Shape',
-      label: 'Pattern'
-    }
+      label: 'Pattern',
+    },
   },
   params: {
     pattern: {
       type: 'enum',
       label: 'Pattern',
-      default: "spots",
-      options: ["spots","stripes","labyrinth","holes"]
+      default: 'spots',
+      options: ['spots', 'stripes', 'labyrinth', 'holes'],
     },
     scale: {
       type: 'number',
       label: 'Scale',
       default: 10,
       min: 1,
-      max: 100
+      max: 100,
     },
     iterations: {
       type: 'number',
@@ -53,8 +57,8 @@ export const SpecializedOrganicReactionDiffusionNode: NodeDefinition<ReactionDif
       default: 100,
       min: 10,
       max: 1000,
-      step: 10
-    }
+      step: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -63,12 +67,12 @@ export const SpecializedOrganicReactionDiffusionNode: NodeDefinition<ReactionDif
         surface: inputs.surface,
         pattern: params.pattern,
         scale: params.scale,
-        iterations: params.iterations
-      }
+        iterations: params.iterations,
+      },
     });
-    
+
     return {
-      pattern: result
+      pattern: result,
     };
   },
 };

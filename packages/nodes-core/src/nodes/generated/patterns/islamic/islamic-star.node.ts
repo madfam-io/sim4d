@@ -14,7 +14,11 @@ interface IslamicStarOutputs {
   pattern: unknown;
 }
 
-export const PatternsIslamicIslamicStarNode: NodeDefinition<IslamicStarInputs, IslamicStarOutputs, IslamicStarParams> = {
+export const PatternsIslamicIslamicStarNode: NodeDefinition<
+  IslamicStarInputs,
+  IslamicStarOutputs,
+  IslamicStarParams
+> = {
   id: 'Patterns::IslamicStar',
   category: 'Patterns',
   label: 'IslamicStar',
@@ -23,14 +27,14 @@ export const PatternsIslamicIslamicStarNode: NodeDefinition<IslamicStarInputs, I
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     pattern: {
       type: 'Wire',
-      label: 'Pattern'
-    }
+      label: 'Pattern',
+    },
   },
   params: {
     points: {
@@ -39,22 +43,22 @@ export const PatternsIslamicIslamicStarNode: NodeDefinition<IslamicStarInputs, I
       default: 8,
       min: 3,
       max: 24,
-      step: 1
+      step: 1,
     },
     innerRadius: {
       type: 'number',
       label: 'Inner Radius',
       default: 0.5,
       min: 0.1,
-      max: 0.9
+      max: 0.9,
     },
     rotation: {
       type: 'number',
       label: 'Rotation',
       default: 0,
       min: -180,
-      max: 180
-    }
+      max: 180,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -63,12 +67,12 @@ export const PatternsIslamicIslamicStarNode: NodeDefinition<IslamicStarInputs, I
         center: inputs.center,
         points: params.points,
         innerRadius: params.innerRadius,
-        rotation: params.rotation
-      }
+        rotation: params.rotation,
+      },
     });
-    
+
     return {
-      pattern: result
+      pattern: result,
     };
   },
 };

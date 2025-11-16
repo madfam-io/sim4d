@@ -14,7 +14,11 @@ interface GothicWindowOutputs {
   tracery: unknown;
 }
 
-export const ArchitectureWindowsGothicWindowNode: NodeDefinition<GothicWindowInputs, GothicWindowOutputs, GothicWindowParams> = {
+export const ArchitectureWindowsGothicWindowNode: NodeDefinition<
+  GothicWindowInputs,
+  GothicWindowOutputs,
+  GothicWindowParams
+> = {
   id: 'Architecture::GothicWindow',
   type: 'Architecture::GothicWindow',
   category: 'Architecture',
@@ -24,31 +28,31 @@ export const ArchitectureWindowsGothicWindowNode: NodeDefinition<GothicWindowInp
     opening: {
       type: 'Wire',
       label: 'Opening',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     gothicWindow: {
       type: 'Shape',
-      label: 'Gothic Window'
+      label: 'Gothic Window',
     },
     tracery: {
       type: 'Wire[]',
-      label: 'Tracery'
-    }
+      label: 'Tracery',
+    },
   },
   params: {
     style: {
       type: 'enum',
       label: 'Style',
-      default: "equilateral",
-      options: ["lancet","equilateral","flamboyant","perpendicular"]
+      default: 'equilateral',
+      options: ['lancet', 'equilateral', 'flamboyant', 'perpendicular'],
     },
     tracery: {
       type: 'boolean',
       label: 'Tracery',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -56,13 +60,13 @@ export const ArchitectureWindowsGothicWindowNode: NodeDefinition<GothicWindowInp
       params: {
         opening: inputs.opening,
         style: params.style,
-        tracery: params.tracery
-      }
+        tracery: params.tracery,
+      },
     });
-    
+
     return {
       gothicWindow: results.gothicWindow,
-      tracery: results.tracery
+      tracery: results.tracery,
     };
   },
 };

@@ -13,7 +13,11 @@ interface PostProcessorOutputs {
   ncCode: unknown;
 }
 
-export const FabricationCNCPostProcessorNode: NodeDefinition<PostProcessorInputs, PostProcessorOutputs, PostProcessorParams> = {
+export const FabricationCNCPostProcessorNode: NodeDefinition<
+  PostProcessorInputs,
+  PostProcessorOutputs,
+  PostProcessorParams
+> = {
   id: 'Fabrication::PostProcessor',
   category: 'Fabrication',
   label: 'PostProcessor',
@@ -22,28 +26,28 @@ export const FabricationCNCPostProcessorNode: NodeDefinition<PostProcessorInputs
     toolpaths: {
       type: 'Wire[]',
       label: 'Toolpaths',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     ncCode: {
       type: 'Data',
-      label: 'Nc Code'
-    }
+      label: 'Nc Code',
+    },
   },
   params: {
     machine: {
       type: 'enum',
       label: 'Machine',
-      default: "haas",
-      options: ["haas","fanuc","siemens","heidenhain","mazak"]
+      default: 'haas',
+      options: ['haas', 'fanuc', 'siemens', 'heidenhain', 'mazak'],
     },
     axes: {
       type: 'enum',
       label: 'Axes',
-      default: "3-axis",
-      options: ["3-axis","4-axis","5-axis"]
-    }
+      default: '3-axis',
+      options: ['3-axis', '4-axis', '5-axis'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -51,12 +55,12 @@ export const FabricationCNCPostProcessorNode: NodeDefinition<PostProcessorInputs
       params: {
         toolpaths: inputs.toolpaths,
         machine: params.machine,
-        axes: params.axes
-      }
+        axes: params.axes,
+      },
     });
-    
+
     return {
-      ncCode: result
+      ncCode: result,
     };
   },
 };

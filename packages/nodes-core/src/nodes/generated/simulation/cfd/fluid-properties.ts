@@ -16,7 +16,11 @@ interface FluidPropertiesOutputs {
   fluidData: unknown;
 }
 
-export const SimulationCFDFluidPropertiesNode: NodeDefinition<FluidPropertiesInputs, FluidPropertiesOutputs, FluidPropertiesParams> = {
+export const SimulationCFDFluidPropertiesNode: NodeDefinition<
+  FluidPropertiesInputs,
+  FluidPropertiesOutputs,
+  FluidPropertiesParams
+> = {
   id: 'Simulation::FluidProperties',
   type: 'Simulation::FluidProperties',
   category: 'Simulation',
@@ -26,45 +30,45 @@ export const SimulationCFDFluidPropertiesNode: NodeDefinition<FluidPropertiesInp
     domain: {
       type: 'Shape',
       label: 'Domain',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     fluidDomain: {
       type: 'Shape',
-      label: 'Fluid Domain'
+      label: 'Fluid Domain',
     },
     fluidData: {
       type: 'Data',
-      label: 'Fluid Data'
-    }
+      label: 'Fluid Data',
+    },
   },
   params: {
     fluid: {
       type: 'enum',
       label: 'Fluid',
-      default: "air",
-      options: ["air","water","oil","custom"]
+      default: 'air',
+      options: ['air', 'water', 'oil', 'custom'],
     },
     density: {
       type: 'number',
       label: 'Density',
       default: 1.225,
       min: 0.001,
-      max: 20000
+      max: 20000,
     },
     viscosity: {
       type: 'number',
       label: 'Viscosity',
       default: 0.0000181,
       min: 1e-10,
-      max: 100
+      max: 100,
     },
     compressible: {
       type: 'boolean',
       label: 'Compressible',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -74,13 +78,13 @@ export const SimulationCFDFluidPropertiesNode: NodeDefinition<FluidPropertiesInp
         fluid: params.fluid,
         density: params.density,
         viscosity: params.viscosity,
-        compressible: params.compressible
-      }
+        compressible: params.compressible,
+      },
     });
-    
+
     return {
       fluidDomain: results.fluidDomain,
-      fluidData: results.fluidData
+      fluidData: results.fluidData,
     };
   },
 };

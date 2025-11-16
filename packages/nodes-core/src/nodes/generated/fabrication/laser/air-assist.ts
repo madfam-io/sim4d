@@ -13,7 +13,11 @@ interface AirAssistOutputs {
   airSettings: unknown;
 }
 
-export const FabricationLaserAirAssistNode: NodeDefinition<AirAssistInputs, AirAssistOutputs, AirAssistParams> = {
+export const FabricationLaserAirAssistNode: NodeDefinition<
+  AirAssistInputs,
+  AirAssistOutputs,
+  AirAssistParams
+> = {
   id: 'Fabrication::AirAssist',
   type: 'Fabrication::AirAssist',
   category: 'Fabrication',
@@ -23,14 +27,14 @@ export const FabricationLaserAirAssistNode: NodeDefinition<AirAssistInputs, AirA
     material: {
       type: 'Data',
       label: 'Material',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     airSettings: {
       type: 'Data',
-      label: 'Air Settings'
-    }
+      label: 'Air Settings',
+    },
   },
   params: {
     pressure: {
@@ -38,14 +42,14 @@ export const FabricationLaserAirAssistNode: NodeDefinition<AirAssistInputs, AirA
       label: 'Pressure',
       default: 20,
       min: 0,
-      max: 100
+      max: 100,
     },
     nozzleType: {
       type: 'enum',
       label: 'Nozzle Type',
-      default: "standard",
-      options: ["standard","high-pressure","wide","focused"]
-    }
+      default: 'standard',
+      options: ['standard', 'high-pressure', 'wide', 'focused'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const FabricationLaserAirAssistNode: NodeDefinition<AirAssistInputs, AirA
       params: {
         material: inputs.material,
         pressure: params.pressure,
-        nozzleType: params.nozzleType
-      }
+        nozzleType: params.nozzleType,
+      },
     });
-    
+
     return {
-      airSettings: result
+      airSettings: result,
     };
   },
 };

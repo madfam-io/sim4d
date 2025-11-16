@@ -24,43 +24,43 @@ export const SpecializedLatticeTPMSNode: NodeDefinition<TPMSInputs, TPMSOutputs,
     boundingBox: {
       type: 'Shape',
       label: 'Bounding Box',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     tpms: {
       type: 'Shape',
-      label: 'Tpms'
-    }
+      label: 'Tpms',
+    },
   },
   params: {
     type: {
       type: 'enum',
       label: 'Type',
-      default: "gyroid",
-      options: ["gyroid","schwarz-p","schwarz-d","neovius","lidinoid"]
+      default: 'gyroid',
+      options: ['gyroid', 'schwarz-p', 'schwarz-d', 'neovius', 'lidinoid'],
     },
     period: {
       type: 'number',
       label: 'Period',
       default: 20,
       min: 1,
-      max: 200
+      max: 200,
     },
     thickness: {
       type: 'number',
       label: 'Thickness',
       default: 1,
       min: 0.1,
-      max: 10
+      max: 10,
     },
     level: {
       type: 'number',
       label: 'Level',
       default: 0,
       min: -1,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -70,12 +70,12 @@ export const SpecializedLatticeTPMSNode: NodeDefinition<TPMSInputs, TPMSOutputs,
         type: params.type,
         period: params.period,
         thickness: params.thickness,
-        level: params.level
-      }
+        level: params.level,
+      },
     });
-    
+
     return {
-      tpms: result
+      tpms: result,
     };
   },
 };

@@ -1,4 +1,3 @@
-
 # Horizontal Node
 
 **Category:** Assembly / Constraints
@@ -11,24 +10,17 @@ This node has no parameters.
 
 ## Inputs
 
-
 ### Entity
+
 - **Type:** Shape
 - **Required:** Yes
 
-
-
 ## Outputs
 
-
 ### Constrained
+
 - **Type:** Shape
 
-
-
 ### Constraint
+
 - **Type:** Constraint
-
-
-
-

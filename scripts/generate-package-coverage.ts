@@ -2,7 +2,11 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { createCoverageMap, createCoverageSummary, type CoverageSummary } from 'istanbul-lib-coverage';
+import {
+  createCoverageMap,
+  createCoverageSummary,
+  type CoverageSummary,
+} from 'istanbul-lib-coverage';
 
 const REPO_ROOT = path.resolve(__dirname, '..');
 const COVERAGE_ROOT = path.join(REPO_ROOT, 'coverage');

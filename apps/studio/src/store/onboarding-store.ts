@@ -1,6 +1,11 @@
 import { create } from 'zustand';
 import { devtools, subscribeWithSelector } from 'zustand/middleware';
-import type { OnboardingStore, OnboardingState, SkillLevel, OnboardingEvent } from '../types/onboarding';
+import type {
+  OnboardingStore,
+  OnboardingState,
+  SkillLevel,
+  OnboardingEvent,
+} from '../types/onboarding';
 
 const STORAGE_KEY = 'brepflow-onboarding-state';
 
@@ -220,7 +225,8 @@ export const useOnboardingStore = create<OnboardingStore>()(
       // Computed getters
       progressPercentage: () => {
         const { completedTutorials, userSkillLevel } = get().state;
-        const totalSteps = userSkillLevel === 'neophyte' ? 8 : userSkillLevel === 'beginner' ? 6 : 4;
+        const totalSteps =
+          userSkillLevel === 'neophyte' ? 8 : userSkillLevel === 'beginner' ? 6 : 4;
         return Math.round((completedTutorials.length / totalSteps) * 100);
       },
 

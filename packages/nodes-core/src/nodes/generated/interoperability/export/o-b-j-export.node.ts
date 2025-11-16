@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -24,35 +23,32 @@ export const OBJExportNode: NodeDefinition<OBJExportInputs, OBJExportOutputs, OB
   metadata: {
     label: 'OBJExport',
     description: 'Export mesh to OBJ format',
-    
-    
   },
 
   params: {
-        includeNormals: {
-      "default": true
+    includeNormals: {
+      default: true,
     },
     includeTexCoords: {
-      "default": false
+      default: false,
     },
     smoothing: {
-      "default": true
-    }
+      default: true,
+    },
   },
 
   inputs: {
-        meshes: 'Shape[]',
-    filePath: 'string'
+    meshes: 'Shape[]',
+    filePath: 'string',
   },
 
   outputs: {
-        success: 'boolean',
+    success: 'boolean',
     vertexCount: 'number',
-    faceCount: 'number'
+    faceCount: 'number',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'objExport',
       params: {
@@ -60,14 +56,14 @@ export const OBJExportNode: NodeDefinition<OBJExportInputs, OBJExportOutputs, OB
         filePath: inputs.filePath,
         includeNormals: params.includeNormals,
         includeTexCoords: params.includeTexCoords,
-        smoothing: params.smoothing
-      }
+        smoothing: params.smoothing,
+      },
     });
 
     return {
       success: result,
       vertexCount: result,
-      faceCount: result
+      faceCount: result,
     };
-  }
+  },
 };

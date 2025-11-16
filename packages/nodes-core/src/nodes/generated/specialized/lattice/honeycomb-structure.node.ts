@@ -14,7 +14,11 @@ interface HoneycombStructureOutputs {
   honeycomb: unknown;
 }
 
-export const SpecializedLatticeHoneycombStructureNode: NodeDefinition<HoneycombStructureInputs, HoneycombStructureOutputs, HoneycombStructureParams> = {
+export const SpecializedLatticeHoneycombStructureNode: NodeDefinition<
+  HoneycombStructureInputs,
+  HoneycombStructureOutputs,
+  HoneycombStructureParams
+> = {
   id: 'Specialized::HoneycombStructure',
   category: 'Specialized',
   label: 'HoneycombStructure',
@@ -23,14 +27,14 @@ export const SpecializedLatticeHoneycombStructureNode: NodeDefinition<HoneycombS
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     honeycomb: {
       type: 'Shape',
-      label: 'Honeycomb'
-    }
+      label: 'Honeycomb',
+    },
   },
   params: {
     cellSize: {
@@ -38,22 +42,22 @@ export const SpecializedLatticeHoneycombStructureNode: NodeDefinition<HoneycombS
       label: 'Cell Size',
       default: 5,
       min: 0.5,
-      max: 50
+      max: 50,
     },
     wallThickness: {
       type: 'number',
       label: 'Wall Thickness',
       default: 0.5,
       min: 0.1,
-      max: 5
+      max: 5,
     },
     fillDensity: {
       type: 'number',
       label: 'Fill Density',
       default: 0.3,
       min: 0.1,
-      max: 0.9
-    }
+      max: 0.9,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -62,12 +66,12 @@ export const SpecializedLatticeHoneycombStructureNode: NodeDefinition<HoneycombS
         shape: inputs.shape,
         cellSize: params.cellSize,
         wallThickness: params.wallThickness,
-        fillDensity: params.fillDensity
-      }
+        fillDensity: params.fillDensity,
+      },
     });
-    
+
     return {
-      honeycomb: result
+      honeycomb: result,
     };
   },
 };

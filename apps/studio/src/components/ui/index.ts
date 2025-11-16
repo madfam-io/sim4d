@@ -71,7 +71,7 @@ export const DESIGN_TOKENS = {
       number: 'var(--color-connection-number)',
       vector: 'var(--color-connection-vector)',
       boolean: 'var(--color-connection-boolean)',
-    }
+    },
   },
   spacing: {
     0: 'var(--spacing-0)',
@@ -145,7 +145,7 @@ export const DESIGN_TOKENS = {
     transform: 'var(--transition-transform)',
     input: 'var(--transition-input)',
     node: 'var(--transition-node)',
-  }
+  },
 } as const;
 
 // Component Size Presets
@@ -174,7 +174,7 @@ export const COMPONENT_SIZES = {
     height: 'var(--toolbar-height)',
     padding: 'var(--toolbar-padding)',
     gap: 'var(--toolbar-gap)',
-  }
+  },
 } as const;
 
 // Professional Animation Presets
@@ -193,17 +193,20 @@ export const ANIMATIONS = {
     normal: 'var(--duration-normal)',
     smooth: 'var(--duration-smooth)',
     slow: 'var(--duration-slow)',
-  }
+  },
 } as const;
 
 // CSS Custom Property Helpers
 export const getCSSVar = (token: string): string => `var(--${token})`;
 
 export const createCSSVars = (tokens: Record<string, string>): Record<string, string> => {
-  return Object.entries(tokens).reduce((acc, [key, value]) => {
-    acc[`--${key}`] = value;
-    return acc;
-  }, {} as Record<string, string>);
+  return Object.entries(tokens).reduce(
+    (acc, [key, value]) => {
+      acc[`--${key}`] = value;
+      return acc;
+    },
+    {} as Record<string, string>
+  );
 };
 
 // Theme Utilities

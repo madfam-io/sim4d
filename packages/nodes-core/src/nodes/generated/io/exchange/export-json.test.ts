@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { IOExchangeExportJSONNode } from './export-json.node';
 import { createTestContext } from '../test-utils';
@@ -7,12 +6,12 @@ describe('IOExchangeExportJSONNode', () => {
   it('should evaluate without throwing', async () => {
     const context = createTestContext();
     const inputs = {
-      shapes: undefined
+      shapes: undefined,
     } as any;
     const params = {
-      format: "brepflow",
+      format: 'brepflow',
       precision: 6,
-      includeTopology: true
+      includeTopology: true,
     } as any;
 
     const result = await IOExchangeExportJSONNode.evaluate(context, inputs, params);

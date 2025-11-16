@@ -10,7 +10,11 @@ interface FieldDivergenceOutputs {
   divergence: unknown;
 }
 
-export const FieldOperationsFieldDivergenceNode: NodeDefinition<FieldDivergenceInputs, FieldDivergenceOutputs, FieldDivergenceParams> = {
+export const FieldOperationsFieldDivergenceNode: NodeDefinition<
+  FieldDivergenceInputs,
+  FieldDivergenceOutputs,
+  FieldDivergenceParams
+> = {
   id: 'Field::FieldDivergence',
   category: 'Field',
   label: 'FieldDivergence',
@@ -19,26 +23,26 @@ export const FieldOperationsFieldDivergenceNode: NodeDefinition<FieldDivergenceI
     field: {
       type: 'VectorField',
       label: 'Field',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     divergence: {
       type: 'ScalarField',
-      label: 'Divergence'
-    }
+      label: 'Divergence',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'fieldDivergence',
       params: {
-        field: inputs.field
-      }
+        field: inputs.field,
+      },
     });
-    
+
     return {
-      divergence: result
+      divergence: result,
     };
   },
 };

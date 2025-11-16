@@ -1,6 +1,11 @@
-
 import { NodeDefinition } from '@brepflow/types';
-import { NumberParam, BoolParam, StringParam, EnumParam, Vector3Param } from '../../../../utils/param-utils.js';
+import {
+  NumberParam,
+  BoolParam,
+  StringParam,
+  EnumParam,
+  Vector3Param,
+} from '../../../../utils/param-utils.js';
 
 interface Params {
   minClearance: number;
@@ -23,44 +28,41 @@ export const ClearanceNode: NodeDefinition<ClearanceInputs, ClearanceOutputs, Cl
   metadata: {
     label: 'Clearance',
     description: 'Check clearance between shapes',
-    
-    
   },
 
   params: {
-        minClearance: NumberParam({
-      "default": 1,
-      "min": 0,
-      "max": 10000
-    })
+    minClearance: NumberParam({
+      default: 1,
+      min: 0,
+      max: 10000,
+    }),
   },
 
   inputs: {
-        shape1: 'Shape',
-    shape2: 'Shape'
+    shape1: 'Shape',
+    shape2: 'Shape',
   },
 
   outputs: {
-        hasClearance: 'boolean',
+    hasClearance: 'boolean',
     actualClearance: 'number',
-    violationPoints: 'Point[]'
+    violationPoints: 'Point[]',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'checkClearance',
       params: {
         shape1: inputs.shape1,
         shape2: inputs.shape2,
-        minClearance: params.minClearance
-      }
+        minClearance: params.minClearance,
+      },
     });
 
     return {
       hasClearance: result,
       actualClearance: result,
-      violationPoints: result
+      violationPoints: result,
     };
-  }
+  },
 };

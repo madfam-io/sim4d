@@ -13,7 +13,11 @@ interface RoundedBoxOutputs {
   solid: unknown;
 }
 
-export const SolidPrimitivesRoundedBoxNode: NodeDefinition<RoundedBoxInputs, RoundedBoxOutputs, RoundedBoxParams> = {
+export const SolidPrimitivesRoundedBoxNode: NodeDefinition<
+  RoundedBoxInputs,
+  RoundedBoxOutputs,
+  RoundedBoxParams
+> = {
   id: 'Solid::RoundedBox',
   type: 'Solid::RoundedBox',
   category: 'Solid',
@@ -23,8 +27,8 @@ export const SolidPrimitivesRoundedBoxNode: NodeDefinition<RoundedBoxInputs, Rou
   outputs: {
     solid: {
       type: 'Solid',
-      label: 'Solid'
-    }
+      label: 'Solid',
+    },
   },
   params: {
     width: {
@@ -32,29 +36,29 @@ export const SolidPrimitivesRoundedBoxNode: NodeDefinition<RoundedBoxInputs, Rou
       label: 'Width',
       default: 100,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     depth: {
       type: 'number',
       label: 'Depth',
       default: 100,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     height: {
       type: 'number',
       label: 'Height',
       default: 100,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     radius: {
       type: 'number',
       label: 'Radius',
       default: 10,
       min: 0.1,
-      max: 1000
-    }
+      max: 1000,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -63,12 +67,12 @@ export const SolidPrimitivesRoundedBoxNode: NodeDefinition<RoundedBoxInputs, Rou
         width: params.width,
         depth: params.depth,
         height: params.height,
-        radius: params.radius
-      }
+        radius: params.radius,
+      },
     });
-    
+
     return {
-      solid: result
+      solid: result,
     };
   },
 };

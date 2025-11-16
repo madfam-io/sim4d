@@ -13,7 +13,11 @@ interface SoundproofWallOutputs {
   acousticWall: unknown;
 }
 
-export const ArchitectureWallsSoundproofWallNode: NodeDefinition<SoundproofWallInputs, SoundproofWallOutputs, SoundproofWallParams> = {
+export const ArchitectureWallsSoundproofWallNode: NodeDefinition<
+  SoundproofWallInputs,
+  SoundproofWallOutputs,
+  SoundproofWallParams
+> = {
   id: 'Architecture::SoundproofWall',
   type: 'Architecture::SoundproofWall',
   category: 'Architecture',
@@ -23,14 +27,14 @@ export const ArchitectureWallsSoundproofWallNode: NodeDefinition<SoundproofWallI
     wallPath: {
       type: 'Wire',
       label: 'Wall Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     acousticWall: {
       type: 'Shape',
-      label: 'Acoustic Wall'
-    }
+      label: 'Acoustic Wall',
+    },
   },
   params: {
     stcRating: {
@@ -38,7 +42,7 @@ export const ArchitectureWallsSoundproofWallNode: NodeDefinition<SoundproofWallI
       label: 'Stc Rating',
       default: 50,
       min: 30,
-      max: 80
+      max: 80,
     },
     massLayers: {
       type: 'number',
@@ -46,8 +50,8 @@ export const ArchitectureWallsSoundproofWallNode: NodeDefinition<SoundproofWallI
       default: 2,
       min: 1,
       max: 4,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -55,12 +59,12 @@ export const ArchitectureWallsSoundproofWallNode: NodeDefinition<SoundproofWallI
       params: {
         wallPath: inputs.wallPath,
         stcRating: params.stcRating,
-        massLayers: params.massLayers
-      }
+        massLayers: params.massLayers,
+      },
     });
-    
+
     return {
-      acousticWall: result
+      acousticWall: result,
     };
   },
 };

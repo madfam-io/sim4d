@@ -12,7 +12,11 @@ interface SetPartitionsOutputs {
   partitions: unknown;
 }
 
-export const DataSetSetPartitionsNode: NodeDefinition<SetPartitionsInputs, SetPartitionsOutputs, SetPartitionsParams> = {
+export const DataSetSetPartitionsNode: NodeDefinition<
+  SetPartitionsInputs,
+  SetPartitionsOutputs,
+  SetPartitionsParams
+> = {
   id: 'Data::SetPartitions',
   type: 'Data::SetPartitions',
   category: 'Data',
@@ -22,14 +26,14 @@ export const DataSetSetPartitionsNode: NodeDefinition<SetPartitionsInputs, SetPa
     set: {
       type: 'Data[]',
       label: 'Set',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     partitions: {
       type: 'Data[][][]',
-      label: 'Partitions'
-    }
+      label: 'Partitions',
+    },
   },
   params: {
     k: {
@@ -37,20 +41,20 @@ export const DataSetSetPartitionsNode: NodeDefinition<SetPartitionsInputs, SetPa
       label: 'K',
       default: 2,
       min: 2,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'setPartitions',
       params: {
         set: inputs.set,
-        k: params.k
-      }
+        k: params.k,
+      },
     });
-    
+
     return {
-      partitions: result
+      partitions: result,
     };
   },
 };

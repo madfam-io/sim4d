@@ -10,7 +10,11 @@ interface FieldCurlOutputs {
   curl: unknown;
 }
 
-export const FieldOperationsFieldCurlNode: NodeDefinition<FieldCurlInputs, FieldCurlOutputs, FieldCurlParams> = {
+export const FieldOperationsFieldCurlNode: NodeDefinition<
+  FieldCurlInputs,
+  FieldCurlOutputs,
+  FieldCurlParams
+> = {
   id: 'Field::FieldCurl',
   category: 'Field',
   label: 'FieldCurl',
@@ -19,26 +23,26 @@ export const FieldOperationsFieldCurlNode: NodeDefinition<FieldCurlInputs, Field
     field: {
       type: 'VectorField',
       label: 'Field',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     curl: {
       type: 'VectorField',
-      label: 'Curl'
-    }
+      label: 'Curl',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'fieldCurl',
       params: {
-        field: inputs.field
-      }
+        field: inputs.field,
+      },
     });
-    
+
     return {
-      curl: result
+      curl: result,
     };
   },
 };

@@ -13,7 +13,11 @@ interface BarnsleyFernOutputs {
   fern: Array<[number, number, number]>;
 }
 
-export const PatternsFractalsBarnsleyFernNode: NodeDefinition<BarnsleyFernInputs, BarnsleyFernOutputs, BarnsleyFernParams> = {
+export const PatternsFractalsBarnsleyFernNode: NodeDefinition<
+  BarnsleyFernInputs,
+  BarnsleyFernOutputs,
+  BarnsleyFernParams
+> = {
   id: 'Patterns::BarnsleyFern',
   type: 'Patterns::BarnsleyFern',
   category: 'Patterns',
@@ -23,14 +27,14 @@ export const PatternsFractalsBarnsleyFernNode: NodeDefinition<BarnsleyFernInputs
     plane: {
       type: 'Plane',
       label: 'Plane',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     fern: {
       type: 'Point[]',
-      label: 'Fern'
-    }
+      label: 'Fern',
+    },
   },
   params: {
     points: {
@@ -39,14 +43,14 @@ export const PatternsFractalsBarnsleyFernNode: NodeDefinition<BarnsleyFernInputs
       default: 10000,
       min: 100,
       max: 100000,
-      step: 100
+      step: 100,
     },
     variation: {
       type: 'enum',
       label: 'Variation',
-      default: "classic",
-      options: ["classic","thelypteridaceae","leptosporangiate"]
-    }
+      default: 'classic',
+      options: ['classic', 'thelypteridaceae', 'leptosporangiate'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -54,12 +58,12 @@ export const PatternsFractalsBarnsleyFernNode: NodeDefinition<BarnsleyFernInputs
       params: {
         plane: inputs.plane,
         points: params.points,
-        variation: params.variation
-      }
+        variation: params.variation,
+      },
     });
-    
+
     return {
-      fern: result
+      fern: result,
     };
   },
 };

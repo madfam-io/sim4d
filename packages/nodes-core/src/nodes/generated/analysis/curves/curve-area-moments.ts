@@ -16,7 +16,11 @@ interface CurveAreaMomentsOutputs {
   momentY: unknown;
 }
 
-export const AnalysisCurvesCurveAreaMomentsNode: NodeDefinition<CurveAreaMomentsInputs, CurveAreaMomentsOutputs, CurveAreaMomentsParams> = {
+export const AnalysisCurvesCurveAreaMomentsNode: NodeDefinition<
+  CurveAreaMomentsInputs,
+  CurveAreaMomentsOutputs,
+  CurveAreaMomentsParams
+> = {
   id: 'Analysis::CurveAreaMoments',
   type: 'Analysis::CurveAreaMoments',
   category: 'Analysis',
@@ -26,26 +30,26 @@ export const AnalysisCurvesCurveAreaMomentsNode: NodeDefinition<CurveAreaMoments
     curve: {
       type: 'Wire',
       label: 'Curve',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     area: {
       type: 'number',
-      label: 'Area'
+      label: 'Area',
     },
     centroid: {
       type: 'Point',
-      label: 'Centroid'
+      label: 'Centroid',
     },
     momentX: {
       type: 'number',
-      label: 'Moment X'
+      label: 'Moment X',
     },
     momentY: {
       type: 'number',
-      label: 'Moment Y'
-    }
+      label: 'Moment Y',
+    },
   },
   params: {
     precision: {
@@ -53,13 +57,13 @@ export const AnalysisCurvesCurveAreaMomentsNode: NodeDefinition<CurveAreaMoments
       label: 'Precision',
       default: 0.01,
       min: 0.001,
-      max: 1
+      max: 1,
     },
     showCentroid: {
       type: 'boolean',
       label: 'Show Centroid',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -67,15 +71,15 @@ export const AnalysisCurvesCurveAreaMomentsNode: NodeDefinition<CurveAreaMoments
       params: {
         curve: inputs.curve,
         precision: params.precision,
-        showCentroid: params.showCentroid
-      }
+        showCentroid: params.showCentroid,
+      },
     });
-    
+
     return {
       area: results.area,
       centroid: results.centroid,
       momentX: results.momentX,
-      momentY: results.momentY
+      momentY: results.momentY,
     };
   },
 };

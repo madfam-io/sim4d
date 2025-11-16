@@ -12,7 +12,7 @@ const WASM_OPTIMIZATION_CONFIG = {
   enableThreads: typeof globalThis.Worker !== 'undefined',
   memoryPages: 256, // 16MB initial memory
   maxMemoryPages: 32768, // 2GB max memory
-  useCompactMode: process.env.NODE_ENV === 'test'
+  useCompactMode: process.env.NODE_ENV === 'test',
 };
 
 // Mock WASM module for test environment
@@ -22,7 +22,10 @@ let mockShapeRegistry = new Map<string, ShapeHandle>();
 /**
  * Creates a mock shape handle for testing
  */
-function createMockShape(type: 'solid' | 'surface' | 'curve' = 'solid', overrides: Partial<ShapeHandle> = {}): ShapeHandle {
+function createMockShape(
+  type: 'solid' | 'surface' | 'curve' = 'solid',
+  overrides: Partial<ShapeHandle> = {}
+): ShapeHandle {
   const id = `test-shape-${++mockShapeCounter}`;
   const shape: ShapeHandle = {
     id,
@@ -39,7 +42,7 @@ function createMockShape(type: 'solid' | 'surface' | 'curve' = 'solid', override
     centerX: 0,
     centerY: 0,
     centerZ: 0,
-    ...overrides
+    ...overrides,
   };
 
   mockShapeRegistry.set(id, shape);
@@ -52,18 +55,50 @@ function createMockShape(type: 'solid' | 'surface' | 'curve' = 'solid', override
 function createMockMesh(): MeshData {
   return {
     positions: new Float32Array([
-      0, 0, 0,  1, 0, 0,  0, 1, 0,  // Triangle 1
-      0, 0, 1,  1, 0, 1,  0, 1, 1   // Triangle 2
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      1,
+      0, // Triangle 1
+      0,
+      0,
+      1,
+      1,
+      0,
+      1,
+      0,
+      1,
+      1, // Triangle 2
     ]),
     normals: new Float32Array([
-      0, 0, 1,  0, 0, 1,  0, 0, 1,  // Triangle 1 normals
-      0, 0, -1, 0, 0, -1, 0, 0, -1  // Triangle 2 normals
+      0,
+      0,
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+      1, // Triangle 1 normals
+      0,
+      0,
+      -1,
+      0,
+      0,
+      -1,
+      0,
+      0,
+      -1, // Triangle 2 normals
     ]),
     indices: new Uint32Array([0, 1, 2, 3, 4, 5]),
     edges: new Uint32Array([0, 1, 1, 2, 2, 0, 3, 4, 4, 5, 5, 3]),
     vertexCount: 6,
     triangleCount: 2,
-    edgeCount: 6
+    edgeCount: 6,
   };
 }
 
@@ -78,24 +113,26 @@ export function createMockOCCTModule(): OCCTModule {
         bbox_max_x: dx,
         bbox_max_y: dy,
         bbox_max_z: dz,
-        volume: dx * dy * dz
+        volume: dx * dy * dz,
       });
     }),
 
-    makeBoxWithOrigin: vi.fn((x: number, y: number, z: number, dx: number, dy: number, dz: number) => {
-      return createMockShape('solid', {
-        bbox_min_x: x,
-        bbox_min_y: y,
-        bbox_min_z: z,
-        bbox_max_x: x + dx,
-        bbox_max_y: y + dy,
-        bbox_max_z: z + dz,
-        centerX: x + dx/2,
-        centerY: y + dy/2,
-        centerZ: z + dz/2,
-        volume: dx * dy * dz
-      });
-    }),
+    makeBoxWithOrigin: vi.fn(
+      (x: number, y: number, z: number, dx: number, dy: number, dz: number) => {
+        return createMockShape('solid', {
+          bbox_min_x: x,
+          bbox_min_y: y,
+          bbox_min_z: z,
+          bbox_max_x: x + dx,
+          bbox_max_y: y + dy,
+          bbox_max_z: z + dz,
+          centerX: x + dx / 2,
+          centerY: y + dy / 2,
+          centerZ: z + dz / 2,
+          volume: dx * dy * dz,
+        });
+      }
+    ),
 
     makeSphere: vi.fn((radius: number) => {
       return createMockShape('solid', {
@@ -105,7 +142,7 @@ export function createMockOCCTModule(): OCCTModule {
         bbox_max_x: radius,
         bbox_max_y: radius,
         bbox_max_z: radius,
-        volume: (4/3) * Math.PI * Math.pow(radius, 3)
+        volume: (4 / 3) * Math.PI * Math.pow(radius, 3),
       });
     }),
 
@@ -120,7 +157,7 @@ export function createMockOCCTModule(): OCCTModule {
         centerX: cx,
         centerY: cy,
         centerZ: cz,
-        volume: (4/3) * Math.PI * Math.pow(radius, 3)
+        volume: (4 / 3) * Math.PI * Math.pow(radius, 3),
       });
     }),
 
@@ -132,8 +169,8 @@ export function createMockOCCTModule(): OCCTModule {
         bbox_max_x: radius,
         bbox_max_y: radius,
         bbox_max_z: height,
-        centerZ: height/2,
-        volume: Math.PI * Math.pow(radius, 2) * height
+        centerZ: height / 2,
+        volume: Math.PI * Math.pow(radius, 2) * height,
       });
     }),
 
@@ -146,8 +183,9 @@ export function createMockOCCTModule(): OCCTModule {
         bbox_max_x: maxRadius,
         bbox_max_y: maxRadius,
         bbox_max_z: height,
-        centerZ: height/2,
-        volume: (Math.PI * height * (radius1*radius1 + radius1*radius2 + radius2*radius2)) / 3
+        centerZ: height / 2,
+        volume:
+          (Math.PI * height * (radius1 * radius1 + radius1 * radius2 + radius2 * radius2)) / 3,
       });
     }),
 
@@ -160,7 +198,7 @@ export function createMockOCCTModule(): OCCTModule {
         bbox_max_x: outerRadius,
         bbox_max_y: outerRadius,
         bbox_max_z: minorRadius,
-        volume: 2 * Math.PI * Math.PI * majorRadius * minorRadius * minorRadius
+        volume: 2 * Math.PI * Math.PI * majorRadius * minorRadius * minorRadius,
       });
     }),
 
@@ -175,16 +213,27 @@ export function createMockOCCTModule(): OCCTModule {
         bbox_min_z: profile.bbox_min_z,
         bbox_max_x: profile.bbox_max_x + Math.abs(dx),
         bbox_max_y: profile.bbox_max_y + Math.abs(dy),
-        bbox_max_z: profile.bbox_max_z + Math.abs(dz)
+        bbox_max_z: profile.bbox_max_z + Math.abs(dz),
       });
     }),
 
-    revolve: vi.fn((profileId: string, angle: number, axisX: number, axisY: number, axisZ: number, originX: number, originY: number, originZ: number) => {
-      const profile = mockShapeRegistry.get(profileId);
-      if (!profile) throw new Error(`Profile ${profileId} not found`);
+    revolve: vi.fn(
+      (
+        profileId: string,
+        angle: number,
+        axisX: number,
+        axisY: number,
+        axisZ: number,
+        originX: number,
+        originY: number,
+        originZ: number
+      ) => {
+        const profile = mockShapeRegistry.get(profileId);
+        if (!profile) throw new Error(`Profile ${profileId} not found`);
 
-      return createMockShape('solid');
-    }),
+        return createMockShape('solid');
+      }
+    ),
 
     // Boolean operations
     booleanUnion: vi.fn((shape1Id: string, shape2Id: string) => {
@@ -199,7 +248,7 @@ export function createMockOCCTModule(): OCCTModule {
         bbox_max_x: Math.max(shape1.bbox_max_x, shape2.bbox_max_x),
         bbox_max_y: Math.max(shape1.bbox_max_y, shape2.bbox_max_y),
         bbox_max_z: Math.max(shape1.bbox_max_z, shape2.bbox_max_z),
-        volume: (shape1.volume || 0) + (shape2.volume || 0)
+        volume: (shape1.volume || 0) + (shape2.volume || 0),
       });
     }),
 
@@ -210,7 +259,7 @@ export function createMockOCCTModule(): OCCTModule {
 
       return createMockShape('solid', {
         ...shape1,
-        volume: Math.max(0, (shape1.volume || 0) - (shape2.volume || 0))
+        volume: Math.max(0, (shape1.volume || 0) - (shape2.volume || 0)),
       });
     }),
 
@@ -226,7 +275,7 @@ export function createMockOCCTModule(): OCCTModule {
         bbox_max_x: Math.min(shape1.bbox_max_x, shape2.bbox_max_x),
         bbox_max_y: Math.min(shape1.bbox_max_y, shape2.bbox_max_y),
         bbox_max_z: Math.min(shape1.bbox_max_z, shape2.bbox_max_z),
-        volume: Math.min(shape1.volume || 0, shape2.volume || 0)
+        volume: Math.min(shape1.volume || 0, shape2.volume || 0),
       });
     }),
 
@@ -248,23 +297,36 @@ export function createMockOCCTModule(): OCCTModule {
       if (!shape) throw new Error(`Shape ${shapeId} not found`);
       return createMockShape('solid', {
         ...shape,
-        volume: (shape.volume || 0) * 0.8 // Approximate shell volume reduction
+        volume: (shape.volume || 0) * 0.8, // Approximate shell volume reduction
       });
     }),
 
     // Transformation operations
-    transform: vi.fn((shapeId: string, tx: number, ty: number, tz: number, rx: number, ry: number, rz: number, sx: number, sy: number, sz: number) => {
-      const shape = mockShapeRegistry.get(shapeId);
-      if (!shape) throw new Error(`Shape ${shapeId} not found`);
+    transform: vi.fn(
+      (
+        shapeId: string,
+        tx: number,
+        ty: number,
+        tz: number,
+        rx: number,
+        ry: number,
+        rz: number,
+        sx: number,
+        sy: number,
+        sz: number
+      ) => {
+        const shape = mockShapeRegistry.get(shapeId);
+        if (!shape) throw new Error(`Shape ${shapeId} not found`);
 
-      return createMockShape('solid', {
-        ...shape,
-        centerX: shape.centerX + tx,
-        centerY: shape.centerY + ty,
-        centerZ: shape.centerZ + tz,
-        volume: (shape.volume || 0) * sx * sy * sz
-      });
-    }),
+        return createMockShape('solid', {
+          ...shape,
+          centerX: shape.centerX + tx,
+          centerY: shape.centerY + ty,
+          centerZ: shape.centerZ + tz,
+          volume: (shape.volume || 0) * sx * sy * sz,
+        });
+      }
+    ),
 
     copyShape: vi.fn((shapeId: string) => {
       const shape = mockShapeRegistry.get(shapeId);
@@ -343,14 +405,14 @@ export class GeometryPerformanceTracker {
       this.measurements.push({
         operation,
         duration,
-        timestamp: Date.now()
+        timestamp: Date.now(),
       });
       return duration;
     };
   }
 
   static getAverageDuration(operation: string): number {
-    const operationMeasurements = this.measurements.filter(m => m.operation === operation);
+    const operationMeasurements = this.measurements.filter((m) => m.operation === operation);
     if (operationMeasurements.length === 0) return 0;
 
     const total = operationMeasurements.reduce((sum, m) => sum + m.duration, 0);
@@ -374,20 +436,20 @@ export class GeometryTestDataGenerator {
     return {
       width: Math.random() * 100 + 10,
       height: Math.random() * 100 + 10,
-      depth: Math.random() * 100 + 10
+      depth: Math.random() * 100 + 10,
     };
   }
 
   static generateRandomSphereParams(): { radius: number } {
     return {
-      radius: Math.random() * 50 + 5
+      radius: Math.random() * 50 + 5,
     };
   }
 
   static generateRandomCylinderParams(): { radius: number; height: number } {
     return {
       radius: Math.random() * 25 + 5,
-      height: Math.random() * 100 + 10
+      height: Math.random() * 100 + 10,
     };
   }
 }
@@ -403,7 +465,7 @@ export async function setupWASMTestEnvironment(): Promise<{
   // Pre-warm critical dependencies
   const mockOCCT = createMockOCCTModule();
   // Import OCCT bindings for mocking WASM loader functions
-    const occtBindings = await import('@brepflow/engine-occt');
+  const occtBindings = await import('@brepflow/engine-occt');
 
   // Ensure a clean loader state before wiring spies
   occtBindings.resetWASMLoader();
@@ -428,7 +490,7 @@ export async function setupWASMTestEnvironment(): Promise<{
         edges: new Uint32Array([0, 1, 1, 2, 2, 0]),
         vertexCount: 3,
         triangleCount: 1,
-        edgeCount: 3
+        edgeCount: 3,
       };
     });
   }
@@ -477,7 +539,7 @@ export class BatchTestRunner {
       results.push(...batchResults);
 
       // Allow event loop processing between batches
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
     }
 
     return results;

@@ -13,7 +13,11 @@ interface TrochoidalMillingOutputs {
   trochoidalPath: unknown;
 }
 
-export const FabricationCNCTrochoidalMillingNode: NodeDefinition<TrochoidalMillingInputs, TrochoidalMillingOutputs, TrochoidalMillingParams> = {
+export const FabricationCNCTrochoidalMillingNode: NodeDefinition<
+  TrochoidalMillingInputs,
+  TrochoidalMillingOutputs,
+  TrochoidalMillingParams
+> = {
   id: 'Fabrication::TrochoidalMilling',
   category: 'Fabrication',
   label: 'TrochoidalMilling',
@@ -22,14 +26,14 @@ export const FabricationCNCTrochoidalMillingNode: NodeDefinition<TrochoidalMilli
     slot: {
       type: 'Wire',
       label: 'Slot',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     trochoidalPath: {
       type: 'Wire',
-      label: 'Trochoidal Path'
-    }
+      label: 'Trochoidal Path',
+    },
   },
   params: {
     trochoidWidth: {
@@ -37,15 +41,15 @@ export const FabricationCNCTrochoidalMillingNode: NodeDefinition<TrochoidalMilli
       label: 'Trochoid Width',
       default: 2,
       min: 0.5,
-      max: 10
+      max: 10,
     },
     stepover: {
       type: 'number',
       label: 'Stepover',
       default: 0.3,
       min: 0.1,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const FabricationCNCTrochoidalMillingNode: NodeDefinition<TrochoidalMilli
       params: {
         slot: inputs.slot,
         trochoidWidth: params.trochoidWidth,
-        stepover: params.stepover
-      }
+        stepover: params.stepover,
+      },
     });
-    
+
     return {
-      trochoidalPath: result
+      trochoidalPath: result,
     };
   },
 };

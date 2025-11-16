@@ -15,7 +15,11 @@ interface PolygonPackingOutputs {
   utilization: number;
 }
 
-export const PatternsPackingPolygonPackingNode: NodeDefinition<PolygonPackingInputs, PolygonPackingOutputs, PolygonPackingParams> = {
+export const PatternsPackingPolygonPackingNode: NodeDefinition<
+  PolygonPackingInputs,
+  PolygonPackingOutputs,
+  PolygonPackingParams
+> = {
   id: 'Patterns::PolygonPacking',
   category: 'Patterns',
   label: 'PolygonPacking',
@@ -24,37 +28,37 @@ export const PatternsPackingPolygonPackingNode: NodeDefinition<PolygonPackingInp
     container: {
       type: 'Face',
       label: 'Container',
-      required: true
+      required: true,
     },
     polygons: {
       type: 'Face[]',
       label: 'Polygons',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     packed: {
       type: 'Face[]',
-      label: 'Packed'
+      label: 'Packed',
     },
     utilization: {
       type: 'Number',
-      label: 'Utilization'
-    }
+      label: 'Utilization',
+    },
   },
   params: {
     rotations: {
       type: 'boolean',
       label: 'Rotations',
-      default: true
+      default: true,
     },
     angleStep: {
       type: 'number',
       label: 'Angle Step',
       default: 90,
       min: 1,
-      max: 180
-    }
+      max: 180,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -63,13 +67,13 @@ export const PatternsPackingPolygonPackingNode: NodeDefinition<PolygonPackingInp
         container: inputs.container,
         polygons: inputs.polygons,
         rotations: params.rotations,
-        angleStep: params.angleStep
-      }
+        angleStep: params.angleStep,
+      },
     });
-    
+
     return {
       packed: results.packed,
-      utilization: results.utilization
+      utilization: results.utilization,
     };
   },
 };

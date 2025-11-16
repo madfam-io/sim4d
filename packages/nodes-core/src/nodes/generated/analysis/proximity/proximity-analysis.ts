@@ -15,7 +15,11 @@ interface ProximityAnalysisOutputs {
   connections: unknown;
 }
 
-export const AnalysisProximityProximityAnalysisNode: NodeDefinition<ProximityAnalysisInputs, ProximityAnalysisOutputs, ProximityAnalysisParams> = {
+export const AnalysisProximityProximityAnalysisNode: NodeDefinition<
+  ProximityAnalysisInputs,
+  ProximityAnalysisOutputs,
+  ProximityAnalysisParams
+> = {
   id: 'Analysis::ProximityAnalysis',
   type: 'Analysis::ProximityAnalysis',
   category: 'Analysis',
@@ -25,22 +29,22 @@ export const AnalysisProximityProximityAnalysisNode: NodeDefinition<ProximityAna
     objects: {
       type: 'Shape[]',
       label: 'Objects',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     proximityPairs: {
       type: 'Shape[][]',
-      label: 'Proximity Pairs'
+      label: 'Proximity Pairs',
     },
     distances: {
       type: 'number[]',
-      label: 'Distances'
+      label: 'Distances',
     },
     connections: {
       type: 'Wire[]',
-      label: 'Connections'
-    }
+      label: 'Connections',
+    },
   },
   params: {
     threshold: {
@@ -48,13 +52,13 @@ export const AnalysisProximityProximityAnalysisNode: NodeDefinition<ProximityAna
       label: 'Threshold',
       default: 1,
       min: 0.1,
-      max: 100
+      max: 100,
     },
     showConnections: {
       type: 'boolean',
       label: 'Show Connections',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -62,14 +66,14 @@ export const AnalysisProximityProximityAnalysisNode: NodeDefinition<ProximityAna
       params: {
         objects: inputs.objects,
         threshold: params.threshold,
-        showConnections: params.showConnections
-      }
+        showConnections: params.showConnections,
+      },
     });
-    
+
     return {
       proximityPairs: results.proximityPairs,
       distances: results.distances,
-      connections: results.connections
+      connections: results.connections,
     };
   },
 };

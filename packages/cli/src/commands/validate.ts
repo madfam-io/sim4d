@@ -17,7 +17,7 @@ export const validateCommand = new Command('validate')
 
     try {
       // Check if file exists
-      if (!await fs.pathExists(graphPath)) {
+      if (!(await fs.pathExists(graphPath))) {
         spinner.fail(`Graph file not found: ${graphPath}`);
         process.exit(1);
       }
@@ -42,7 +42,7 @@ export const validateCommand = new Command('validate')
       if (schemaErrors.length > 0) {
         spinner.fail('Schema validation failed');
         console.log(chalk.red('\n❌ Schema Errors:'));
-        schemaErrors.forEach(err => {
+        schemaErrors.forEach((err) => {
           console.log(chalk.gray(`  - ${err}`));
         });
       } else {
@@ -57,7 +57,7 @@ export const validateCommand = new Command('validate')
       if (structureErrors.length > 0) {
         spinner.fail('Structure validation failed');
         console.log(chalk.red('\n❌ Structure Errors:'));
-        structureErrors.forEach(err => {
+        structureErrors.forEach((err) => {
           console.log(chalk.gray(`  - ${err}`));
         });
       } else {
@@ -71,7 +71,7 @@ export const validateCommand = new Command('validate')
       if (nodeErrors.length > 0) {
         spinner.fail('Node validation failed');
         console.log(chalk.red('\n❌ Node Errors:'));
-        nodeErrors.forEach(err => {
+        nodeErrors.forEach((err) => {
           console.log(chalk.gray(`  - ${err}`));
         });
       } else {
@@ -85,7 +85,7 @@ export const validateCommand = new Command('validate')
       if (edgeErrors.length > 0) {
         spinner.fail('Edge validation failed');
         console.log(chalk.red('\n❌ Edge Errors:'));
-        edgeErrors.forEach(err => {
+        edgeErrors.forEach((err) => {
           console.log(chalk.gray(`  - ${err}`));
         });
       } else {
@@ -93,7 +93,8 @@ export const validateCommand = new Command('validate')
       }
 
       // Summary
-      const totalErrors = schemaErrors.length + structureErrors.length + nodeErrors.length + edgeErrors.length;
+      const totalErrors =
+        schemaErrors.length + structureErrors.length + nodeErrors.length + edgeErrors.length;
 
       if (totalErrors === 0) {
         console.log(chalk.green('\n✅ Graph is valid!'));
@@ -108,7 +109,6 @@ export const validateCommand = new Command('validate')
         console.log(chalk.red(`\n❌ Graph has ${totalErrors} error(s)`));
         process.exit(1);
       }
-
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       spinner.fail(`Error: ${errorMessage}`);
@@ -140,7 +140,7 @@ async function validateSchema(graph: GraphInstance, schemaPath?: string): Promis
     const valid = validate(graph);
 
     if (!valid && validate.errors) {
-      validate.errors.forEach(err => {
+      validate.errors.forEach((err) => {
         errors.push(`${err.instancePath} ${err.message}`);
       });
     }
@@ -197,7 +197,7 @@ function validateNodes(graph: GraphInstance): string[] {
 function validateEdges(graph: GraphInstance): string[] {
   const errors: string[] = [];
   const edgeIds = new Set<string>();
-  const nodeIds = new Set(graph.nodes.map(n => n.id));
+  const nodeIds = new Set(graph.nodes.map((n) => n.id));
 
   for (const edge of graph.edges) {
     // Check for duplicate IDs

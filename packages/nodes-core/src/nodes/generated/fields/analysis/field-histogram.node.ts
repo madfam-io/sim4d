@@ -15,7 +15,11 @@ interface FieldHistogramOutputs {
   binEdges: unknown;
 }
 
-export const FieldsAnalysisFieldHistogramNode: NodeDefinition<FieldHistogramInputs, FieldHistogramOutputs, FieldHistogramParams> = {
+export const FieldsAnalysisFieldHistogramNode: NodeDefinition<
+  FieldHistogramInputs,
+  FieldHistogramOutputs,
+  FieldHistogramParams
+> = {
   id: 'Fields::FieldHistogram',
   category: 'Fields',
   label: 'FieldHistogram',
@@ -24,27 +28,27 @@ export const FieldsAnalysisFieldHistogramNode: NodeDefinition<FieldHistogramInpu
     field: {
       type: 'Field',
       label: 'Field',
-      optional: true
+      optional: true,
     },
     domain: {
       type: 'Geometry',
       label: 'Domain',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     binCenters: {
       type: 'NumberList',
-      label: 'Bin Centers'
+      label: 'Bin Centers',
     },
     binCounts: {
       type: 'NumberList',
-      label: 'Bin Counts'
+      label: 'Bin Counts',
     },
     binEdges: {
       type: 'NumberList',
-      label: 'Bin Edges'
-    }
+      label: 'Bin Edges',
+    },
   },
   params: {
     bins: {
@@ -52,8 +56,8 @@ export const FieldsAnalysisFieldHistogramNode: NodeDefinition<FieldHistogramInpu
       label: 'Bins',
       default: 20,
       min: 5,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -61,14 +65,14 @@ export const FieldsAnalysisFieldHistogramNode: NodeDefinition<FieldHistogramInpu
       params: {
         field: inputs.field,
         domain: inputs.domain,
-        bins: params.bins
-      }
+        bins: params.bins,
+      },
     });
-    
+
     return {
       binCenters: results.binCenters,
       binCounts: results.binCounts,
-      binEdges: results.binEdges
+      binEdges: results.binEdges,
     };
   },
 };

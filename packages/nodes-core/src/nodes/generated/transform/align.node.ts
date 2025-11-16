@@ -24,39 +24,39 @@ export const TransformAlignNode: NodeDefinition<AlignInputs, AlignOutputs, Align
     shapes: {
       type: 'Shape[]',
       label: 'Shapes',
-      required: true
+      required: true,
     },
     reference: {
       type: 'Shape',
       label: 'Reference',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     aligned: {
       type: 'Shape[]',
-      label: 'Aligned'
-    }
+      label: 'Aligned',
+    },
   },
   params: {
     alignX: {
       type: 'enum',
       label: 'Align X',
-      default: "center",
-      options: ["none","min","center","max"]
+      default: 'center',
+      options: ['none', 'min', 'center', 'max'],
     },
     alignY: {
       type: 'enum',
       label: 'Align Y',
-      default: "center",
-      options: ["none","min","center","max"]
+      default: 'center',
+      options: ['none', 'min', 'center', 'max'],
     },
     alignZ: {
       type: 'enum',
       label: 'Align Z',
-      default: "none",
-      options: ["none","min","center","max"]
-    }
+      default: 'none',
+      options: ['none', 'min', 'center', 'max'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -66,12 +66,12 @@ export const TransformAlignNode: NodeDefinition<AlignInputs, AlignOutputs, Align
         reference: inputs.reference,
         alignX: params.alignX,
         alignY: params.alignY,
-        alignZ: params.alignZ
-      }
+        alignZ: params.alignZ,
+      },
     });
-    
+
     return {
-      aligned: result
+      aligned: result,
     };
   },
 };

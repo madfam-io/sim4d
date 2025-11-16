@@ -14,7 +14,11 @@ interface TrimSurfaceOutputs {
   trimmedSurface: unknown;
 }
 
-export const AdvancedSurfaceTrimSurfaceNode: NodeDefinition<TrimSurfaceInputs, TrimSurfaceOutputs, TrimSurfaceParams> = {
+export const AdvancedSurfaceTrimSurfaceNode: NodeDefinition<
+  TrimSurfaceInputs,
+  TrimSurfaceOutputs,
+  TrimSurfaceParams
+> = {
   id: 'Advanced::TrimSurface',
   type: 'Advanced::TrimSurface',
   category: 'Advanced',
@@ -24,32 +28,32 @@ export const AdvancedSurfaceTrimSurfaceNode: NodeDefinition<TrimSurfaceInputs, T
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
+      required: true,
     },
     trimmingCurves: {
       type: 'Wire[]',
       label: 'Trimming Curves',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     trimmedSurface: {
       type: 'Face',
-      label: 'Trimmed Surface'
-    }
+      label: 'Trimmed Surface',
+    },
   },
   params: {
     keepRegion: {
       type: 'enum',
       label: 'Keep Region',
-      default: "inside",
-      options: ["inside","outside"]
+      default: 'inside',
+      options: ['inside', 'outside'],
     },
     projectCurves: {
       type: 'boolean',
       label: 'Project Curves',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -58,12 +62,12 @@ export const AdvancedSurfaceTrimSurfaceNode: NodeDefinition<TrimSurfaceInputs, T
         surface: inputs.surface,
         trimmingCurves: inputs.trimmingCurves,
         keepRegion: params.keepRegion,
-        projectCurves: params.projectCurves
-      }
+        projectCurves: params.projectCurves,
+      },
     });
-    
+
     return {
-      trimmedSurface: result
+      trimmedSurface: result,
     };
   },
 };

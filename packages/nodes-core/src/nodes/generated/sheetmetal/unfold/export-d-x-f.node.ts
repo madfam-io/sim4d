@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -22,38 +21,31 @@ export const ExportDXFNode: NodeDefinition<ExportDXFInputs, ExportDXFOutputs, Ex
   metadata: {
     label: 'ExportDXF',
     description: 'Export flat pattern to DXF',
-    
-    
   },
 
   params: {
-        inclueBendLines: {
-      "default": true
+    inclueBendLines: {
+      default: true,
     },
     includeFormingTools: {
-      "default": true
+      default: true,
     },
     layerMapping: {
-      "default": "by-type",
-      "options": [
-        "by-feature",
-        "by-type",
-        "single"
-      ]
-    }
+      default: 'by-type',
+      options: ['by-feature', 'by-type', 'single'],
+    },
   },
 
   inputs: {
-        flatPattern: 'Shape',
-    annotations: 'Data'
+    flatPattern: 'Shape',
+    annotations: 'Data',
   },
 
   outputs: {
-        dxfData: 'Data'
+    dxfData: 'Data',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'sheetExportDXF',
       params: {
@@ -61,12 +53,12 @@ export const ExportDXFNode: NodeDefinition<ExportDXFInputs, ExportDXFOutputs, Ex
         annotations: inputs.annotations,
         inclueBendLines: params.inclueBendLines,
         includeFormingTools: params.includeFormingTools,
-        layerMapping: params.layerMapping
-      }
+        layerMapping: params.layerMapping,
+      },
     });
 
     return {
-      dxfData: result
+      dxfData: result,
     };
-  }
+  },
 };

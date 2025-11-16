@@ -7,11 +7,7 @@ export interface CursorsProps {
   smoothing?: boolean;
 }
 
-export function Cursors({
-  containerRef,
-  showNames = true,
-  smoothing = true,
-}: CursorsProps) {
+export function Cursors({ containerRef, showNames = true, smoothing = true }: CursorsProps) {
   const { otherCursors } = useCursor();
 
   return (

@@ -15,7 +15,11 @@ interface SurfaceBoundaryOutputs {
   allBoundaries: unknown;
 }
 
-export const AnalysisSurfacesSurfaceBoundaryNode: NodeDefinition<SurfaceBoundaryInputs, SurfaceBoundaryOutputs, SurfaceBoundaryParams> = {
+export const AnalysisSurfacesSurfaceBoundaryNode: NodeDefinition<
+  SurfaceBoundaryInputs,
+  SurfaceBoundaryOutputs,
+  SurfaceBoundaryParams
+> = {
   id: 'Analysis::SurfaceBoundary',
   type: 'Analysis::SurfaceBoundary',
   category: 'Analysis',
@@ -25,34 +29,34 @@ export const AnalysisSurfacesSurfaceBoundaryNode: NodeDefinition<SurfaceBoundary
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     outerBoundary: {
       type: 'Wire',
-      label: 'Outer Boundary'
+      label: 'Outer Boundary',
     },
     innerBoundaries: {
       type: 'Wire[]',
-      label: 'Inner Boundaries'
+      label: 'Inner Boundaries',
     },
     allBoundaries: {
       type: 'Wire[]',
-      label: 'All Boundaries'
-    }
+      label: 'All Boundaries',
+    },
   },
   params: {
     includeHoles: {
       type: 'boolean',
       label: 'Include Holes',
-      default: true
+      default: true,
     },
     simplify: {
       type: 'boolean',
       label: 'Simplify',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -60,14 +64,14 @@ export const AnalysisSurfacesSurfaceBoundaryNode: NodeDefinition<SurfaceBoundary
       params: {
         surface: inputs.surface,
         includeHoles: params.includeHoles,
-        simplify: params.simplify
-      }
+        simplify: params.simplify,
+      },
     });
-    
+
     return {
       outerBoundary: results.outerBoundary,
       innerBoundaries: results.innerBoundaries,
-      allBoundaries: results.allBoundaries
+      allBoundaries: results.allBoundaries,
     };
   },
 };

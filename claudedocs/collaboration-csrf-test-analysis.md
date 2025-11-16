@@ -19,10 +19,13 @@
 **Problem**: Test expected property named `csrfToken` but API returns `token`
 
 **Solution**: Changed assertion from:
+
 ```typescript
 expect(data).toHaveProperty('csrfToken');
 ```
+
 to:
+
 ```typescript
 expect(data).toHaveProperty('token');
 ```
@@ -30,6 +33,7 @@ expect(data).toHaveProperty('token');
 **Result**: **PASSING** in both chromium (7.0s) and firefox (12.4s)
 
 **What this proves**:
+
 - CSRF endpoint (`/api/collaboration/csrf-token`) works correctly
 - Returns proper JSON: `{"success": true, "token": "...", "expiresIn": 3600, "sessionId": "..."}`
 - Collaboration server starts successfully and responds to requests
@@ -45,6 +49,7 @@ All remaining tests (2-14) share a fundamental architectural problem:
 **They attempt to import and call React hooks/modules inside `page.evaluate()`**
 
 Example of broken pattern:
+
 ```typescript
 await page.evaluate(async () => {
   const { useCollaboration } = await import('./hooks/useCollaboration');  // ❌ IMPOSSIBLE
@@ -54,6 +59,7 @@ await page.evaluate(async () => {
 ```
 
 **Why this is impossible**:
+
 1. `page.evaluate()` runs code in the browser's JavaScript context
 2. Browser cannot `import()` Node.js file paths or modules
 3. React hooks cannot be called outside of React component render cycle
@@ -64,16 +70,19 @@ await page.evaluate(async () => {
 ## Test-by-Test Status
 
 ### ✅ Test 1: CSRF Token Fetch (PASSING)
+
 - **Status**: Fixed and passing
 - **Tests**: Chromium + Firefox = 2 passing
 - **Action**: None needed
 
 ### ⚠️ Test 2: Token Caching (SKIPPED - needs API)
+
 - **Problem**: Assumes `window.collaborationAPI.getCSRFToken()` exists but it doesn't
 - **Reality**: App uses React `CollaborationProvider`, not global API
 - **Action**: Needs complete rewrite to test via UI or mock the API
 
 ### ❌ Tests 3-14: All Collaboration Workflows (SKIPPED - architectural)
+
 All marked with `test.skip()` and FIXME comments:
 
 1. **Test 3**: Create collaboration session - Cannot import hooks
@@ -100,6 +109,7 @@ All marked with `test.skip()` and FIXME comments:
 Rewrite tests to interact with actual UI elements instead of programmatic API calls.
 
 **Example Rewrite**:
+
 ```typescript
 test('should create collaboration session with CSRF authentication', async ({ page }) => {
   // Instead of calling hooks programmatically...
@@ -115,8 +125,7 @@ test('should create collaboration session with CSRF authentication', async ({ pa
   await page.click('[data-testid="create-session"]');
 
   // 4. Verify success via UI
-  await expect(page.locator('[data-testid="collaboration-status"]'))
-    .toContainText('Connected');
+  await expect(page.locator('[data-testid="collaboration-status"]')).toContainText('Connected');
 
   // 5. Verify WebSocket connection
   const ws = await page.waitForEvent('websocket');
@@ -125,12 +134,14 @@ test('should create collaboration session with CSRF authentication', async ({ pa
 ```
 
 **Pros**:
+
 - Tests actual user workflows (what users actually do)
 - Works within Playwright's architectural constraints
 - Better E2E coverage (tests UI + backend together)
 - Catches integration issues
 
 **Cons**:
+
 - Requires adding `data-testid` attributes to UI components
 - More work to rewrite all 13 tests (~4-6 hours)
 - UI must exist and be testable
@@ -140,19 +151,23 @@ test('should create collaboration session with CSRF authentication', async ({ pa
 Keep network-level tests, replace broken tests with unit/component tests.
 
 **What to keep**:
+
 - Test 1: CSRF endpoint validation (already passing)
 
 **What to add**:
+
 - Unit tests for `useCollaboration` hook (React Testing Library)
 - Component tests for `CollaborationProvider` (React Testing Library)
 - Integration tests for collaboration engine
 
 **Pros**:
+
 - Faster to implement (2-3 hours)
 - Better test isolation
 - Easier to debug failures
 
 **Cons**:
+
 - Less true E2E coverage
 - Misses UI integration issues
 
@@ -161,11 +176,13 @@ Keep network-level tests, replace broken tests with unit/component tests.
 Keep Test 1, add 2-3 critical UI-based E2E tests, add unit tests for the rest.
 
 **E2E Tests** (via UI):
+
 1. Create and join collaboration session (covers CSRF auth)
 2. Real-time cursor updates visible in UI
 3. Network interruption and reconnection
 
 **Unit/Component Tests**:
+
 - All hook functionality
 - Error handling
 - Token caching
@@ -214,18 +231,21 @@ Running 28 tests using 1 worker
 ## Action Items
 
 ### Immediate (Done ✅)
+
 - [x] Fix Test 1 property name mismatch
 - [x] Verify collaboration server works correctly
 - [x] Mark broken tests with `test.skip()` and FIXME comments
 - [x] Document issues and solutions
 
 ### Short-term (Next Steps)
+
 - [ ] Choose solution approach (A, B, or C)
 - [ ] If Option A: Add `data-testid` attributes to collaboration UI
 - [ ] If Option B: Write unit tests for `useCollaboration` hook
 - [ ] If Option C: Implement hybrid approach
 
 ### Long-term (Future)
+
 - [ ] Establish E2E testing best practices for React apps
 - [ ] Create testing guidelines to prevent similar issues
 - [ ] Consider adding integration test suite

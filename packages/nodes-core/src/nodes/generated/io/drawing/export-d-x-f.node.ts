@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -22,46 +21,32 @@ export const ExportDXFNode: NodeDefinition<ExportDXFInputs, ExportDXFOutputs, Ex
   metadata: {
     label: 'ExportDXF',
     description: 'Export to DXF format',
-    
-    
   },
 
   params: {
-        version: {
-      "default": "R2010",
-      "options": [
-        "R12",
-        "R2000",
-        "R2004",
-        "R2007",
-        "R2010"
-      ]
+    version: {
+      default: 'R2010',
+      options: ['R12', 'R2000', 'R2004', 'R2007', 'R2010'],
     },
     projection: {
-      "default": "top",
-      "options": [
-        "top",
-        "front",
-        "right",
-        "iso"
-      ]
+      default: 'top',
+      options: ['top', 'front', 'right', 'iso'],
     },
     hiddenLines: {
-      "default": false
-    }
+      default: false,
+    },
   },
 
   inputs: {
-        shapes: 'Shape[]',
-    layers: 'Data'
+    shapes: 'Shape[]',
+    layers: 'Data',
   },
 
   outputs: {
-        dxfData: 'Data'
+    dxfData: 'Data',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'exportDXF',
       params: {
@@ -69,12 +54,12 @@ export const ExportDXFNode: NodeDefinition<ExportDXFInputs, ExportDXFOutputs, Ex
         layers: inputs.layers,
         version: params.version,
         projection: params.projection,
-        hiddenLines: params.hiddenLines
-      }
+        hiddenLines: params.hiddenLines,
+      },
     });
 
     return {
-      dxfData: result
+      dxfData: result,
     };
-  }
+  },
 };

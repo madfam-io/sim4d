@@ -17,7 +17,11 @@ interface FluidCouplingOutputs {
   turbine: unknown;
 }
 
-export const MechanicalEngineeringCouplingsFluidCouplingNode: NodeDefinition<FluidCouplingInputs, FluidCouplingOutputs, FluidCouplingParams> = {
+export const MechanicalEngineeringCouplingsFluidCouplingNode: NodeDefinition<
+  FluidCouplingInputs,
+  FluidCouplingOutputs,
+  FluidCouplingParams
+> = {
   id: 'MechanicalEngineering::FluidCoupling',
   type: 'MechanicalEngineering::FluidCoupling',
   category: 'MechanicalEngineering',
@@ -27,22 +31,22 @@ export const MechanicalEngineeringCouplingsFluidCouplingNode: NodeDefinition<Flu
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     coupling: {
       type: 'Shape',
-      label: 'Coupling'
+      label: 'Coupling',
     },
     impeller: {
       type: 'Shape',
-      label: 'Impeller'
+      label: 'Impeller',
     },
     turbine: {
       type: 'Shape',
-      label: 'Turbine'
-    }
+      label: 'Turbine',
+    },
   },
   params: {
     impellerDiameter: {
@@ -50,29 +54,29 @@ export const MechanicalEngineeringCouplingsFluidCouplingNode: NodeDefinition<Flu
       label: 'Impeller Diameter',
       default: 150,
       min: 50,
-      max: 500
+      max: 500,
     },
     housingDiameter: {
       type: 'number',
       label: 'Housing Diameter',
       default: 180,
       min: 60,
-      max: 600
+      max: 600,
     },
     vaneCount: {
       type: 'number',
       label: 'Vane Count',
       default: 32,
       min: 16,
-      max: 64
+      max: 64,
     },
     fluidCapacity: {
       type: 'number',
       label: 'Fluid Capacity',
       default: 2,
       min: 0.5,
-      max: 20
-    }
+      max: 20,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -82,14 +86,14 @@ export const MechanicalEngineeringCouplingsFluidCouplingNode: NodeDefinition<Flu
         impellerDiameter: params.impellerDiameter,
         housingDiameter: params.housingDiameter,
         vaneCount: params.vaneCount,
-        fluidCapacity: params.fluidCapacity
-      }
+        fluidCapacity: params.fluidCapacity,
+      },
     });
-    
+
     return {
       coupling: results.coupling,
       impeller: results.impeller,
-      turbine: results.turbine
+      turbine: results.turbine,
     };
   },
 };

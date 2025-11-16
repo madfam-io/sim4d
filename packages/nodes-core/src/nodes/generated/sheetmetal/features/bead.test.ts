@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { SheetMetalFeaturesBeadNode } from './bead.node';
 import { createTestContext } from '../test-utils';
@@ -8,12 +7,12 @@ describe('SheetMetalFeaturesBeadNode', () => {
     const context = createTestContext();
     const inputs = {
       sheet: undefined,
-      path: undefined
+      path: undefined,
     } as any;
     const params = {
       beadWidth: 10,
       beadHeight: 3,
-      beadProfile: "U"
+      beadProfile: 'U',
     } as any;
 
     const result = await SheetMetalFeaturesBeadNode.evaluate(context, inputs, params);

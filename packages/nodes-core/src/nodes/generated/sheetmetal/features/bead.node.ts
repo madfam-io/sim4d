@@ -24,19 +24,19 @@ export const SheetMetalFeaturesBeadNode: NodeDefinition<BeadInputs, BeadOutputs,
     sheet: {
       type: 'Shape',
       label: 'Sheet',
-      required: true
+      required: true,
     },
     path: {
       type: 'Wire',
       label: 'Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'Shape',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {
     beadWidth: {
@@ -44,21 +44,21 @@ export const SheetMetalFeaturesBeadNode: NodeDefinition<BeadInputs, BeadOutputs,
       label: 'Bead Width',
       default: 10,
       min: 0.5,
-      max: 100
+      max: 100,
     },
     beadHeight: {
       type: 'number',
       label: 'Bead Height',
       default: 3,
       min: 0.1,
-      max: 50
+      max: 50,
     },
     beadProfile: {
       type: 'enum',
       label: 'Bead Profile',
-      default: "U",
-      options: ["U","V","round"]
-    }
+      default: 'U',
+      options: ['U', 'V', 'round'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -68,12 +68,12 @@ export const SheetMetalFeaturesBeadNode: NodeDefinition<BeadInputs, BeadOutputs,
         path: inputs.path,
         beadWidth: params.beadWidth,
         beadHeight: params.beadHeight,
-        beadProfile: params.beadProfile
-      }
+        beadProfile: params.beadProfile,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

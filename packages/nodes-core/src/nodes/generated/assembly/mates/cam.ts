@@ -22,23 +22,23 @@ export const AssemblyMatesCamNode: NodeDefinition<CamInputs, CamOutputs, CamPara
     cam: {
       type: 'Shape',
       label: 'Cam',
-      required: true
+      required: true,
     },
     follower: {
       type: 'Shape',
       label: 'Follower',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     cammed: {
       type: 'Shape[]',
-      label: 'Cammed'
+      label: 'Cammed',
     },
     mate: {
       type: 'Mate',
-      label: 'Mate'
-    }
+      label: 'Mate',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -46,13 +46,13 @@ export const AssemblyMatesCamNode: NodeDefinition<CamInputs, CamOutputs, CamPara
       type: 'mateCam',
       params: {
         cam: inputs.cam,
-        follower: inputs.follower
-      }
+        follower: inputs.follower,
+      },
     });
-    
+
     return {
       cammed: results.cammed,
-      mate: results.mate
+      mate: results.mate,
     };
   },
 };

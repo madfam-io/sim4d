@@ -14,7 +14,11 @@ interface ExportCFDOutputs {
   cfdFiles: unknown;
 }
 
-export const SimulationCFDExportCFDNode: NodeDefinition<ExportCFDInputs, ExportCFDOutputs, ExportCFDParams> = {
+export const SimulationCFDExportCFDNode: NodeDefinition<
+  ExportCFDInputs,
+  ExportCFDOutputs,
+  ExportCFDParams
+> = {
   id: 'Simulation::ExportCFD',
   type: 'Simulation::ExportCFD',
   category: 'Simulation',
@@ -24,33 +28,33 @@ export const SimulationCFDExportCFDNode: NodeDefinition<ExportCFDInputs, ExportC
     cfdModel: {
       type: 'Mesh',
       label: 'Cfd Model',
-      required: true
+      required: true,
     },
     setupData: {
       type: 'Data',
       label: 'Setup Data',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     cfdFiles: {
       type: 'Data',
-      label: 'Cfd Files'
-    }
+      label: 'Cfd Files',
+    },
   },
   params: {
     format: {
       type: 'enum',
       label: 'Format',
-      default: "openfoam",
-      options: ["openfoam","fluent","cfx","star-ccm"]
+      default: 'openfoam',
+      options: ['openfoam', 'fluent', 'cfx', 'star-ccm'],
     },
     meshFormat: {
       type: 'enum',
       label: 'Mesh Format',
-      default: "polyhedral",
-      options: ["polyhedral","tetrahedral","hexahedral"]
-    }
+      default: 'polyhedral',
+      options: ['polyhedral', 'tetrahedral', 'hexahedral'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -59,12 +63,12 @@ export const SimulationCFDExportCFDNode: NodeDefinition<ExportCFDInputs, ExportC
         cfdModel: inputs.cfdModel,
         setupData: inputs.setupData,
         format: params.format,
-        meshFormat: params.meshFormat
-      }
+        meshFormat: params.meshFormat,
+      },
     });
-    
+
     return {
-      cfdFiles: result
+      cfdFiles: result,
     };
   },
 };

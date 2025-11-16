@@ -17,7 +17,11 @@ interface MeshForFEAOutputs {
   qualityReport: unknown;
 }
 
-export const SimulationFEAMeshForFEANode: NodeDefinition<MeshForFEAInputs, MeshForFEAOutputs, MeshForFEAParams> = {
+export const SimulationFEAMeshForFEANode: NodeDefinition<
+  MeshForFEAInputs,
+  MeshForFEAOutputs,
+  MeshForFEAParams
+> = {
   id: 'Simulation::MeshForFEA',
   category: 'Simulation',
   label: 'MeshForFEA',
@@ -26,50 +30,50 @@ export const SimulationFEAMeshForFEANode: NodeDefinition<MeshForFEAInputs, MeshF
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
+      required: true,
     },
     refinementRegions: {
       type: 'Shape[]',
       label: 'Refinement Regions',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     feaMesh: {
       type: 'Mesh',
-      label: 'Fea Mesh'
+      label: 'Fea Mesh',
     },
     qualityReport: {
       type: 'Data',
-      label: 'Quality Report'
-    }
+      label: 'Quality Report',
+    },
   },
   params: {
     elementType: {
       type: 'enum',
       label: 'Element Type',
-      default: "auto",
-      options: ["tet4","tet10","hex8","hex20","auto"]
+      default: 'auto',
+      options: ['tet4', 'tet10', 'hex8', 'hex20', 'auto'],
     },
     elementSize: {
       type: 'number',
       label: 'Element Size',
       default: 5,
       min: 0.1,
-      max: 100
+      max: 100,
     },
     refinementZones: {
       type: 'boolean',
       label: 'Refinement Zones',
-      default: true
+      default: true,
     },
     qualityTarget: {
       type: 'number',
       label: 'Quality Target',
       default: 0.8,
       min: 0.3,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -80,13 +84,13 @@ export const SimulationFEAMeshForFEANode: NodeDefinition<MeshForFEAInputs, MeshF
         elementType: params.elementType,
         elementSize: params.elementSize,
         refinementZones: params.refinementZones,
-        qualityTarget: params.qualityTarget
-      }
+        qualityTarget: params.qualityTarget,
+      },
     });
-    
+
     return {
       feaMesh: results.feaMesh,
-      qualityReport: results.qualityReport
+      qualityReport: results.qualityReport,
     };
   },
 };

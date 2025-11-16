@@ -27,7 +27,9 @@ test.describe('Phase 3 - Parameter Dialog Workflows', () => {
       await nodeHelper.dragNodeFromPanel('Solid::Box', { x: 400, y: 300 });
 
       // Verify parameter dialog opens
-      await expect(page.locator('[data-testid="parameter-dialog"], .parameter-dialog')).toBeVisible();
+      await expect(
+        page.locator('[data-testid="parameter-dialog"], .parameter-dialog')
+      ).toBeVisible();
 
       // Fill parameters
       await page.fill('[data-testid="param-width"], [name="width"]', '100');
@@ -131,11 +133,11 @@ test.describe('Phase 3 - Parameter Dialog Workflows', () => {
       await expect(numberInputs.first()).toBeVisible();
 
       // Optional parameters should expose additional controls when rendered
-      if (await checkboxes.count() > 0) {
+      if ((await checkboxes.count()) > 0) {
         await expect(checkboxes.first()).toBeVisible();
       }
 
-      if (await selects.count() > 0) {
+      if ((await selects.count()) > 0) {
         await expect(selects.first()).toBeVisible();
       }
 
@@ -170,9 +172,11 @@ test.describe('Phase 3 - Parameter Dialog Workflows', () => {
       await nodeHelper.dragNodeFromPanel('Solid::Box', { x: 400, y: 300 });
 
       // Look for help or preview elements
-      const helpElements = page.locator('[data-testid="param-help"], .param-help, [title], .tooltip');
+      const helpElements = page.locator(
+        '[data-testid="param-help"], .param-help, [title], .tooltip'
+      );
 
-      if (await helpElements.count() > 0) {
+      if ((await helpElements.count()) > 0) {
         // Verify help information is available
         await expect(helpElements.first()).toBeVisible();
       }
@@ -180,7 +184,7 @@ test.describe('Phase 3 - Parameter Dialog Workflows', () => {
       // Look for parameter descriptions
       const descriptions = page.locator('.param-description, [data-testid="param-description"]');
 
-      if (await descriptions.count() > 0) {
+      if ((await descriptions.count()) > 0) {
         await expect(descriptions.first()).toBeVisible();
       }
 
@@ -221,7 +225,9 @@ test.describe('Phase 3 - Parameter Dialog Workflows', () => {
       await page.fill('[data-testid="param-width"], [name="width"]', '-10');
 
       // Verify Create button is disabled
-      const createButton = page.locator('[data-testid="create-node-button"], button:has-text("Create")');
+      const createButton = page.locator(
+        '[data-testid="create-node-button"], button:has-text("Create")'
+      );
       await expect(createButton).toBeDisabled();
 
       // Fix parameter
@@ -274,8 +280,14 @@ test.describe('Phase 3 - Parameter Dialog Workflows', () => {
 
     test('Multiple nodes from dialogs create complex scene', async ({ page }) => {
       // Create multiple nodes using parameter dialogs
-      const box = await nodeHelper.createBoxNode({ width: 100, height: 50, depth: 25 }, { x: 200, y: 200 });
-      const cylinder = await nodeHelper.createCylinderNode({ radius: 30, height: 80 }, { x: 200, y: 350 });
+      const box = await nodeHelper.createBoxNode(
+        { width: 100, height: 50, depth: 25 },
+        { x: 200, y: 200 }
+      );
+      const cylinder = await nodeHelper.createCylinderNode(
+        { radius: 30, height: 80 },
+        { x: 200, y: 350 }
+      );
 
       // Evaluate graph
       await nodeHelper.evaluateGraph();

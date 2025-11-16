@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { DecisionTreeNode } from './decisiontree.node';
 import { createTestContext } from './../../test-utils';
@@ -9,12 +8,12 @@ describe('DecisionTreeNode', () => {
     const inputs = {
       trainingData: null,
       features: null,
-      target: null
+      target: null,
     };
     const params = {
       maxDepth: 5,
       minSamplesSplit: 2,
-      criterion: "gini"
+      criterion: 'gini',
     };
 
     const result = await DecisionTreeNode.evaluate(context, inputs, params);
@@ -24,6 +23,4 @@ describe('DecisionTreeNode', () => {
     expect(result.accuracy).toBeDefined();
     expect(result.featureImportance).toBeDefined();
   });
-
-  
 });

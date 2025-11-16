@@ -14,7 +14,11 @@ interface AlternatingTreadStairOutputs {
   alternatingStair: unknown;
 }
 
-export const ArchitectureStairsAlternatingTreadStairNode: NodeDefinition<AlternatingTreadStairInputs, AlternatingTreadStairOutputs, AlternatingTreadStairParams> = {
+export const ArchitectureStairsAlternatingTreadStairNode: NodeDefinition<
+  AlternatingTreadStairInputs,
+  AlternatingTreadStairOutputs,
+  AlternatingTreadStairParams
+> = {
   id: 'Architecture::AlternatingTreadStair',
   type: 'Architecture::AlternatingTreadStair',
   category: 'Architecture',
@@ -24,19 +28,19 @@ export const ArchitectureStairsAlternatingTreadStairNode: NodeDefinition<Alterna
     startPoint: {
       type: 'Point',
       label: 'Start Point',
-      required: true
+      required: true,
     },
     totalRise: {
       type: 'Number',
       label: 'Total Rise',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     alternatingStair: {
       type: 'Shape',
-      label: 'Alternating Stair'
-    }
+      label: 'Alternating Stair',
+    },
   },
   params: {
     angle: {
@@ -44,15 +48,15 @@ export const ArchitectureStairsAlternatingTreadStairNode: NodeDefinition<Alterna
       label: 'Angle',
       default: 56,
       min: 50,
-      max: 70
+      max: 70,
     },
     treadWidth: {
       type: 'number',
       label: 'Tread Width',
       default: 600,
       min: 500,
-      max: 700
-    }
+      max: 700,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -61,12 +65,12 @@ export const ArchitectureStairsAlternatingTreadStairNode: NodeDefinition<Alterna
         startPoint: inputs.startPoint,
         totalRise: inputs.totalRise,
         angle: params.angle,
-        treadWidth: params.treadWidth
-      }
+        treadWidth: params.treadWidth,
+      },
     });
-    
+
     return {
-      alternatingStair: result
+      alternatingStair: result,
     };
   },
 };

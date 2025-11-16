@@ -23,34 +23,34 @@ export const MathInterpolationRemapNode: NodeDefinition<RemapInputs, RemapOutput
     value: {
       type: 'number',
       label: 'Value',
-      required: true
+      required: true,
     },
     fromMin: {
       type: 'number',
       label: 'From Min',
-      required: true
+      required: true,
     },
     fromMax: {
       type: 'number',
       label: 'From Max',
-      required: true
+      required: true,
     },
     toMin: {
       type: 'number',
       label: 'To Min',
-      required: true
+      required: true,
     },
     toMax: {
       type: 'number',
       label: 'To Max',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     remapped: {
       type: 'number',
-      label: 'Remapped'
-    }
+      label: 'Remapped',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -61,12 +61,12 @@ export const MathInterpolationRemapNode: NodeDefinition<RemapInputs, RemapOutput
         fromMin: inputs.fromMin,
         fromMax: inputs.fromMax,
         toMin: inputs.toMin,
-        toMax: inputs.toMax
-      }
+        toMax: inputs.toMax,
+      },
     });
-    
+
     return {
-      remapped: result
+      remapped: result,
     };
   },
 };

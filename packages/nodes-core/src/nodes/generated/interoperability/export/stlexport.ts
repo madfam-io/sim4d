@@ -16,7 +16,11 @@ interface STLExportOutputs {
   triangleCount: unknown;
 }
 
-export const InteroperabilityExportSTLExportNode: NodeDefinition<STLExportInputs, STLExportOutputs, STLExportParams> = {
+export const InteroperabilityExportSTLExportNode: NodeDefinition<
+  STLExportInputs,
+  STLExportOutputs,
+  STLExportParams
+> = {
   id: 'Interoperability::STLExport',
   type: 'Interoperability::STLExport',
   category: 'Interoperability',
@@ -26,45 +30,45 @@ export const InteroperabilityExportSTLExportNode: NodeDefinition<STLExportInputs
     shapes: {
       type: 'Shape[]',
       label: 'Shapes',
-      required: true
+      required: true,
     },
     filePath: {
       type: 'string',
       label: 'File Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     success: {
       type: 'boolean',
-      label: 'Success'
+      label: 'Success',
     },
     triangleCount: {
       type: 'number',
-      label: 'Triangle Count'
-    }
+      label: 'Triangle Count',
+    },
   },
   params: {
     format: {
       type: 'enum',
       label: 'Format',
-      default: "binary",
-      options: ["ascii","binary"]
+      default: 'binary',
+      options: ['ascii', 'binary'],
     },
     deflection: {
       type: 'number',
       label: 'Deflection',
       default: 0.1,
       min: 0.01,
-      max: 1
+      max: 1,
     },
     angularDeflection: {
       type: 'number',
       label: 'Angular Deflection',
       default: 0.1,
       min: 0.01,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -74,13 +78,13 @@ export const InteroperabilityExportSTLExportNode: NodeDefinition<STLExportInputs
         filePath: inputs.filePath,
         format: params.format,
         deflection: params.deflection,
-        angularDeflection: params.angularDeflection
-      }
+        angularDeflection: params.angularDeflection,
+      },
     });
-    
+
     return {
       success: results.success,
-      triangleCount: results.triangleCount
+      triangleCount: results.triangleCount,
     };
   },
 };

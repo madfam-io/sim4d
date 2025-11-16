@@ -17,7 +17,11 @@ interface AngleMeasurementOutputs {
   angleBisector: [number, number, number];
 }
 
-export const AnalysisMeasurementAngleMeasurementNode: NodeDefinition<AngleMeasurementInputs, AngleMeasurementOutputs, AngleMeasurementParams> = {
+export const AnalysisMeasurementAngleMeasurementNode: NodeDefinition<
+  AngleMeasurementInputs,
+  AngleMeasurementOutputs,
+  AngleMeasurementParams
+> = {
   id: 'Analysis::AngleMeasurement',
   type: 'Analysis::AngleMeasurement',
   category: 'Analysis',
@@ -27,45 +31,45 @@ export const AnalysisMeasurementAngleMeasurementNode: NodeDefinition<AngleMeasur
     vector1: {
       type: 'Vector',
       label: 'Vector1',
-      required: true
+      required: true,
     },
     vector2: {
       type: 'Vector',
       label: 'Vector2',
-      required: true
+      required: true,
     },
     vertex: {
       type: 'Point',
       label: 'Vertex',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     angle: {
       type: 'number',
-      label: 'Angle'
+      label: 'Angle',
     },
     complementAngle: {
       type: 'number',
-      label: 'Complement Angle'
+      label: 'Complement Angle',
     },
     angleBisector: {
       type: 'Vector',
-      label: 'Angle Bisector'
-    }
+      label: 'Angle Bisector',
+    },
   },
   params: {
     units: {
       type: 'enum',
       label: 'Units',
-      default: "degrees",
-      options: ["degrees","radians"]
+      default: 'degrees',
+      options: ['degrees', 'radians'],
     },
     showAnnotation: {
       type: 'boolean',
       label: 'Show Annotation',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -75,14 +79,14 @@ export const AnalysisMeasurementAngleMeasurementNode: NodeDefinition<AngleMeasur
         vector2: inputs.vector2,
         vertex: inputs.vertex,
         units: params.units,
-        showAnnotation: params.showAnnotation
-      }
+        showAnnotation: params.showAnnotation,
+      },
     });
-    
+
     return {
       angle: results.angle,
       complementAngle: results.complementAngle,
-      angleBisector: results.angleBisector
+      angleBisector: results.angleBisector,
     };
   },
 };

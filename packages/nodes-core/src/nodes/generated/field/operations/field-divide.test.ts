@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { FieldOperationsFieldDivideNode } from './field-divide.node';
 import { createTestContext } from '../test-utils';
@@ -8,10 +7,10 @@ describe('FieldOperationsFieldDivideNode', () => {
     const context = createTestContext();
     const inputs = {
       fieldA: undefined,
-      fieldB: undefined
+      fieldB: undefined,
     } as any;
     const params = {
-      epsilon: 0.001
+      epsilon: 0.001,
     } as any;
 
     const result = await FieldOperationsFieldDivideNode.evaluate(context, inputs, params);

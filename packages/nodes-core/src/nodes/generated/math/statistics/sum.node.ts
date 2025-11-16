@@ -19,26 +19,26 @@ export const MathStatisticsSumNode: NodeDefinition<SumInputs, SumOutputs, SumPar
     values: {
       type: 'number[]',
       label: 'Values',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     sum: {
       type: 'number',
-      label: 'Sum'
-    }
+      label: 'Sum',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathSum',
       params: {
-        values: inputs.values
-      }
+        values: inputs.values,
+      },
     });
-    
+
     return {
-      sum: result
+      sum: result,
     };
   },
 };

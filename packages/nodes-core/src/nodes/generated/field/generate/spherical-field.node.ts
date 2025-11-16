@@ -14,7 +14,11 @@ interface SphericalFieldOutputs {
   field: unknown;
 }
 
-export const FieldGenerateSphericalFieldNode: NodeDefinition<SphericalFieldInputs, SphericalFieldOutputs, SphericalFieldParams> = {
+export const FieldGenerateSphericalFieldNode: NodeDefinition<
+  SphericalFieldInputs,
+  SphericalFieldOutputs,
+  SphericalFieldParams
+> = {
   id: 'Field::SphericalField',
   category: 'Field',
   label: 'SphericalField',
@@ -23,34 +27,34 @@ export const FieldGenerateSphericalFieldNode: NodeDefinition<SphericalFieldInput
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     field: {
       type: 'ScalarField',
-      label: 'Field'
-    }
+      label: 'Field',
+    },
   },
   params: {
     innerRadius: {
       type: 'number',
       label: 'Inner Radius',
       default: 10,
-      min: 0
+      min: 0,
     },
     outerRadius: {
       type: 'number',
       label: 'Outer Radius',
       default: 100,
-      min: 0.1
+      min: 0.1,
     },
     falloff: {
       type: 'enum',
       label: 'Falloff',
-      default: "smooth",
-      options: ["linear","smooth","exponential"]
-    }
+      default: 'smooth',
+      options: ['linear', 'smooth', 'exponential'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -59,12 +63,12 @@ export const FieldGenerateSphericalFieldNode: NodeDefinition<SphericalFieldInput
         center: inputs.center,
         innerRadius: params.innerRadius,
         outerRadius: params.outerRadius,
-        falloff: params.falloff
-      }
+        falloff: params.falloff,
+      },
     });
-    
+
     return {
-      field: result
+      field: result,
     };
   },
 };

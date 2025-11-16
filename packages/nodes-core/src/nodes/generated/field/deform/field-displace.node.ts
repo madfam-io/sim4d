@@ -13,7 +13,11 @@ interface FieldDisplaceOutputs {
   displaced: unknown;
 }
 
-export const FieldDeformFieldDisplaceNode: NodeDefinition<FieldDisplaceInputs, FieldDisplaceOutputs, FieldDisplaceParams> = {
+export const FieldDeformFieldDisplaceNode: NodeDefinition<
+  FieldDisplaceInputs,
+  FieldDisplaceOutputs,
+  FieldDisplaceParams
+> = {
   id: 'Field::FieldDisplace',
   category: 'Field',
   label: 'FieldDisplace',
@@ -22,19 +26,19 @@ export const FieldDeformFieldDisplaceNode: NodeDefinition<FieldDisplaceInputs, F
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
+      required: true,
     },
     field: {
       type: 'ScalarField',
       label: 'Field',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     displaced: {
       type: 'Face',
-      label: 'Displaced'
-    }
+      label: 'Displaced',
+    },
   },
   params: {
     strength: {
@@ -42,8 +46,8 @@ export const FieldDeformFieldDisplaceNode: NodeDefinition<FieldDisplaceInputs, F
       label: 'Strength',
       default: 10,
       min: -100,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -51,12 +55,12 @@ export const FieldDeformFieldDisplaceNode: NodeDefinition<FieldDisplaceInputs, F
       params: {
         surface: inputs.surface,
         field: inputs.field,
-        strength: params.strength
-      }
+        strength: params.strength,
+      },
     });
-    
+
     return {
-      displaced: result
+      displaced: result,
     };
   },
 };

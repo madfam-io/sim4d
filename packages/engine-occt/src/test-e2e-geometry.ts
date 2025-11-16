@@ -8,7 +8,11 @@ import { DAGEngine } from '@brepflow/engine-core';
 import { NodeRegistry } from '@brepflow/engine-core';
 import { GeometryAPIFactory } from '@brepflow/engine-core';
 import { GeometryProxy, createEnhancedContext } from './node-adapter';
-import { OCCTOperationRouter, createRoutedOCCTWorker, getRoutingStatistics } from './occt-operation-router';
+import {
+  OCCTOperationRouter,
+  createRoutedOCCTWorker,
+  getRoutingStatistics,
+} from './occt-operation-router';
 import { WASMValidator } from './wasm-validation';
 import type { GraphInstance, NodeInstance, EvalContext } from '@brepflow/types';
 
@@ -50,7 +54,7 @@ async function testOperationRouting(): Promise<boolean> {
 
     log('  Testing operation mappings...', colors.gray);
     for (const test of testCases) {
-      const mapping = stats.examples.find(e => e[0] === test.from)?.[1];
+      const mapping = stats.examples.find((e) => e[0] === test.from)?.[1];
       if (mapping === test.expected) {
         log(`    ✅ ${test.from} → ${test.expected}`, colors.green);
       } else {
@@ -99,7 +103,7 @@ async function testContextEnhancement(): Promise<boolean> {
     // Test that geometry proxy works
     const result = await enhanced.geometry.execute({
       type: 'makeBox',
-      params: { width: 10, height: 10, depth: 10 }
+      params: { width: 10, height: 10, depth: 10 },
     });
 
     if (result && result.op === 'MAKE_BOX') {
@@ -156,10 +160,10 @@ async function testNodeExecution(): Promise<boolean> {
         return {
           solid: await context.geometry.execute({
             type: 'makeBox',
-            params
-          })
+            params,
+          }),
         };
-      }
+      },
     });
 
     // Register Union node
@@ -180,10 +184,10 @@ async function testNodeExecution(): Promise<boolean> {
         return {
           result: await context.geometry.execute({
             type: 'performUnion',
-            params: { shapes: [inputs.a, inputs.b] }
-          })
+            params: { shapes: [inputs.a, inputs.b] },
+          }),
         };
-      }
+      },
     });
 
     // Create test graph with two boxes and a union
@@ -228,9 +232,9 @@ async function testNodeExecution(): Promise<boolean> {
     await dagEngine.evaluate(testGraph, dirtyNodes);
 
     // Check results
-    const box1 = testGraph.nodes.find(n => n.id === 'box1' as any);
-    const box2 = testGraph.nodes.find(n => n.id === 'box2' as any);
-    const union = testGraph.nodes.find(n => n.id === 'union1' as any);
+    const box1 = testGraph.nodes.find((n) => n.id === ('box1' as any));
+    const box2 = testGraph.nodes.find((n) => n.id === ('box2' as any));
+    const union = testGraph.nodes.find((n) => n.id === ('union1' as any));
 
     if (!box1?.outputs?.solid) {
       log('  ❌ Box1 node failed to produce output', colors.red);
@@ -271,14 +275,20 @@ async function testWASMIntegration(): Promise<boolean> {
     const validator = WASMValidator.getInstance();
     const result = await validator.validate();
 
-    log(`  WASM Compilation: ${result.compiled ? '✅' : '⚠️'} ${result.compiled ? 'Complete' : 'Not compiled'}`,
-        result.compiled ? colors.green : colors.yellow);
+    log(
+      `  WASM Compilation: ${result.compiled ? '✅' : '⚠️'} ${result.compiled ? 'Complete' : 'Not compiled'}`,
+      result.compiled ? colors.green : colors.yellow
+    );
 
-    log(`  Module Loading: ${result.loaded ? '✅' : '⚠️'} ${result.loaded ? 'Success' : 'Failed'}`,
-        result.loaded ? colors.green : colors.yellow);
+    log(
+      `  Module Loading: ${result.loaded ? '✅' : '⚠️'} ${result.loaded ? 'Success' : 'Failed'}`,
+      result.loaded ? colors.green : colors.yellow
+    );
 
-    log(`  Functionality: ${result.functional ? '✅' : '⚠️'} ${result.functional ? 'Working' : 'Not working'}`,
-        result.functional ? colors.green : colors.yellow);
+    log(
+      `  Functionality: ${result.functional ? '✅' : '⚠️'} ${result.functional ? 'Working' : 'Not working'}`,
+      result.functional ? colors.green : colors.yellow
+    );
 
     if (result.performance.loadTime > 0) {
       log(`  Load Time: ${result.performance.loadTime.toFixed(2)}ms`, colors.gray);
@@ -311,9 +321,9 @@ async function testPerformance(): Promise<boolean> {
     const mockWorker = {
       invoke: async (op: string, params: any) => {
         // Simulate some work
-        await new Promise(resolve => setTimeout(resolve, Math.random() * 5));
+        await new Promise((resolve) => setTimeout(resolve, Math.random() * 5));
         return { id: `result_${op}`, op, params };
-      }
+      },
     };
 
     const proxy = new GeometryProxy(mockWorker as any);
@@ -329,7 +339,7 @@ async function testPerformance(): Promise<boolean> {
         const start = performance.now();
         await proxy.execute({
           type: op,
-          params: { test: i }
+          params: { test: i },
         });
         const elapsed = performance.now() - start;
         results[op].push(elapsed);
@@ -342,7 +352,10 @@ async function testPerformance(): Promise<boolean> {
       const avg = times.reduce((a, b) => a + b, 0) / times.length;
       const min = Math.min(...times);
       const max = Math.max(...times);
-      log(`    ${op}: avg=${avg.toFixed(2)}ms, min=${min.toFixed(2)}ms, max=${max.toFixed(2)}ms`, colors.gray);
+      log(
+        `    ${op}: avg=${avg.toFixed(2)}ms, min=${min.toFixed(2)}ms, max=${max.toFixed(2)}ms`,
+        colors.gray
+      );
     }
 
     log('  ✅ Performance benchmark complete', colors.green);
@@ -405,7 +418,7 @@ export async function runE2ETests(): Promise<void> {
 
 // Run tests if executed directly
 if (require.main === module) {
-  runE2ETests().catch(error => {
+  runE2ETests().catch((error) => {
     log(`\n❌ Test suite failed: ${error}`, colors.red);
     process.exit(1);
   });

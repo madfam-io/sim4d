@@ -16,7 +16,11 @@ interface CountersinkHoleOutputs {
   shape: unknown;
 }
 
-export const FeaturesHolesCountersinkHoleNode: NodeDefinition<CountersinkHoleInputs, CountersinkHoleOutputs, CountersinkHoleParams> = {
+export const FeaturesHolesCountersinkHoleNode: NodeDefinition<
+  CountersinkHoleInputs,
+  CountersinkHoleOutputs,
+  CountersinkHoleParams
+> = {
   id: 'Features::CountersinkHole',
   category: 'Features',
   label: 'CountersinkHole',
@@ -25,19 +29,19 @@ export const FeaturesHolesCountersinkHoleNode: NodeDefinition<CountersinkHoleInp
     solid: {
       type: 'Shape',
       label: 'Solid',
-      required: true
+      required: true,
     },
     position: {
       type: 'Point',
       label: 'Position',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shape: {
       type: 'Shape',
-      label: 'Shape'
-    }
+      label: 'Shape',
+    },
   },
   params: {
     holeDiameter: {
@@ -45,27 +49,27 @@ export const FeaturesHolesCountersinkHoleNode: NodeDefinition<CountersinkHoleInp
       label: 'Hole Diameter',
       default: 6.5,
       min: 0.1,
-      max: 100
+      max: 100,
     },
     countersinkDiameter: {
       type: 'number',
       label: 'Countersink Diameter',
       default: 12,
       min: 0.1,
-      max: 200
+      max: 200,
     },
     angle: {
       type: 'enum',
       label: 'Angle',
-      default: "90",
-      options: ["82","90","100","120"]
+      default: '90',
+      options: ['82', '90', '100', '120'],
     },
     depth: {
       type: 'number',
       label: 'Depth',
       default: -1,
-      min: -1
-    }
+      min: -1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -76,12 +80,12 @@ export const FeaturesHolesCountersinkHoleNode: NodeDefinition<CountersinkHoleInp
         holeDiameter: params.holeDiameter,
         countersinkDiameter: params.countersinkDiameter,
         angle: params.angle,
-        depth: params.depth
-      }
+        depth: params.depth,
+      },
     });
-    
+
     return {
-      shape: result
+      shape: result,
     };
   },
 };

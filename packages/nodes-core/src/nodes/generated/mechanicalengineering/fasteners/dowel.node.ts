@@ -16,7 +16,11 @@ interface DowelOutputs {
   dowel: unknown;
 }
 
-export const MechanicalEngineeringFastenersDowelNode: NodeDefinition<DowelInputs, DowelOutputs, DowelParams> = {
+export const MechanicalEngineeringFastenersDowelNode: NodeDefinition<
+  DowelInputs,
+  DowelOutputs,
+  DowelParams
+> = {
   id: 'MechanicalEngineering::Dowel',
   category: 'MechanicalEngineering',
   label: 'Dowel',
@@ -25,19 +29,19 @@ export const MechanicalEngineeringFastenersDowelNode: NodeDefinition<DowelInputs
     position: {
       type: 'Point',
       label: 'Position',
-      required: true
+      required: true,
     },
     direction: {
       type: 'Vector',
       label: 'Direction',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     dowel: {
       type: 'Shape',
-      label: 'Dowel'
-    }
+      label: 'Dowel',
+    },
   },
   params: {
     diameter: {
@@ -45,26 +49,26 @@ export const MechanicalEngineeringFastenersDowelNode: NodeDefinition<DowelInputs
       label: 'Diameter',
       default: 6,
       min: 2,
-      max: 20
+      max: 20,
     },
     length: {
       type: 'number',
       label: 'Length',
       default: 20,
       min: 5,
-      max: 100
+      max: 100,
     },
     tolerance: {
       type: 'enum',
       label: 'Tolerance',
-      default: "h7",
-      options: ["h6","h7","h8","m6"]
+      default: 'h7',
+      options: ['h6', 'h7', 'h8', 'm6'],
     },
     chamfered: {
       type: 'boolean',
       label: 'Chamfered',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -75,12 +79,12 @@ export const MechanicalEngineeringFastenersDowelNode: NodeDefinition<DowelInputs
         diameter: params.diameter,
         length: params.length,
         tolerance: params.tolerance,
-        chamfered: params.chamfered
-      }
+        chamfered: params.chamfered,
+      },
     });
-    
+
     return {
-      dowel: result
+      dowel: result,
     };
   },
 };

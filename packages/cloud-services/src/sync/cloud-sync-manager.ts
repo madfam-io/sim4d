@@ -21,11 +21,18 @@ import { OperationalTransformEngine } from '@brepflow/engine-core';
 import { GraphInstance } from '@brepflow/types';
 
 const isCloudSyncEnabled = (): boolean => {
-  if (typeof process !== 'undefined' && process.env && 'BREPFLOW_ENABLE_CLOUD_SYNC' in process.env) {
+  if (
+    typeof process !== 'undefined' &&
+    process.env &&
+    'BREPFLOW_ENABLE_CLOUD_SYNC' in process.env
+  ) {
     return process.env.BREPFLOW_ENABLE_CLOUD_SYNC === 'true';
   }
 
-  if (typeof globalThis !== 'undefined' && '__BREPFLOW_ENABLE_CLOUD_SYNC__' in (globalThis as any)) {
+  if (
+    typeof globalThis !== 'undefined' &&
+    '__BREPFLOW_ENABLE_CLOUD_SYNC__' in (globalThis as any)
+  ) {
     return Boolean((globalThis as any).__BREPFLOW_ENABLE_CLOUD_SYNC__);
   }
 
@@ -68,20 +75,24 @@ export class CloudSyncManager extends EventEmitter {
   constructor(config: CloudSyncConfig, apiClient?: CloudApiClient) {
     super();
     if (!isCloudSyncEnabled()) {
-      throw new Error('Cloud sync is disabled. Set BREPFLOW_ENABLE_CLOUD_SYNC=true (or window.__BREPFLOW_ENABLE_CLOUD_SYNC__ = true) to enable this experimental feature.');
+      throw new Error(
+        'Cloud sync is disabled. Set BREPFLOW_ENABLE_CLOUD_SYNC=true (or window.__BREPFLOW_ENABLE_CLOUD_SYNC__ = true) to enable this experimental feature.'
+      );
     }
     this.config = config;
     this.operationalTransform = new OperationalTransformEngine();
     this.setupNetworkMonitoring();
-    this.apiClient = apiClient ?? new CloudApiClient({
-      baseUrl: config.apiEndpoint,
-      apiKey: config.apiKey || '',
-      userId: config.userId,
-      timeout: config.requestTimeout ?? Math.max(10_000, config.syncInterval),
-      retryAttempts: config.maxRetries,
-      cacheEnabled: true,
-      cacheTTL: 60_000,
-    });
+    this.apiClient =
+      apiClient ??
+      new CloudApiClient({
+        baseUrl: config.apiEndpoint,
+        apiKey: config.apiKey || '',
+        userId: config.userId,
+        timeout: config.requestTimeout ?? Math.max(10_000, config.syncInterval),
+        retryAttempts: config.maxRetries,
+        cacheEnabled: true,
+        cacheTTL: 60_000,
+      });
   }
 
   /**
@@ -100,10 +111,10 @@ export class CloudSyncManager extends EventEmitter {
         syncStatus: 'offline',
       };
 
-    this.syncStates.set(projectId, syncState);
-    this.operationQueues.set(projectId, []);
-    this.conflictHistory.set(projectId, []);
-    this.lastGraphs.set(projectId, this.cloneGraph(graph));
+      this.syncStates.set(projectId, syncState);
+      this.operationQueues.set(projectId, []);
+      this.conflictHistory.set(projectId, []);
+      this.lastGraphs.set(projectId, this.cloneGraph(graph));
 
       // Perform initial sync
       await this.performFullSync(projectId, graph);
@@ -205,7 +216,6 @@ export class CloudSyncManager extends EventEmitter {
 
       this.emit('sync-completed', { projectId, result });
       return result;
-
     } catch (error) {
       syncState.syncStatus = 'error';
       const retries = this.retryAttempts.get(projectId) || 0;
@@ -213,9 +223,12 @@ export class CloudSyncManager extends EventEmitter {
       if (retries < this.config.maxRetries) {
         this.retryAttempts.set(projectId, retries + 1);
         // Exponential backoff
-        setTimeout(() => {
-          this.syncProject(projectId);
-        }, Math.pow(2, retries) * 1000);
+        setTimeout(
+          () => {
+            this.syncProject(projectId);
+          },
+          Math.pow(2, retries) * 1000
+        );
       }
 
       const result: SyncResult = {
@@ -234,10 +247,7 @@ export class CloudSyncManager extends EventEmitter {
   /**
    * Resolve conflicts manually
    */
-  async resolveConflicts(
-    projectId: ProjectId,
-    resolutions: ConflictResolution[]
-  ): Promise<void> {
+  async resolveConflicts(projectId: ProjectId, resolutions: ConflictResolution[]): Promise<void> {
     const syncState = this.syncStates.get(projectId);
     if (!syncState) {
       throw new Error(`Project ${projectId} not initialized`);
@@ -382,7 +392,7 @@ export class CloudSyncManager extends EventEmitter {
     const localOperations = this.operationQueues.get(projectId) || [];
 
     for (const remoteOp of operations) {
-      const conflictingLocalOp = localOperations.find(localOp =>
+      const conflictingLocalOp = localOperations.find((localOp) =>
         this.operationsConflict(localOp, remoteOp)
       );
 
@@ -481,7 +491,7 @@ export class CloudSyncManager extends EventEmitter {
   private calculateChecksum(projectId: ProjectId): string {
     // Simple checksum based on pending operations
     const operations = this.operationQueues.get(projectId) || [];
-    const content = operations.map(op => op.id).join('');
+    const content = operations.map((op) => op.id).join('');
     return this.simpleHash(content);
   }
 
@@ -489,7 +499,7 @@ export class CloudSyncManager extends EventEmitter {
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
       const char = str.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
+      hash = (hash << 5) - hash + char;
       hash = hash & hash; // Convert to 32-bit integer
     }
     return hash.toString(36);
@@ -505,7 +515,7 @@ export class CloudSyncManager extends EventEmitter {
 
   private startPeriodicSync(projectId: ProjectId): void {
     const timer = setInterval(() => {
-      this.syncProject(projectId).catch(error => {
+      this.syncProject(projectId).catch((error) => {
         console.error(`Periodic sync failed for ${projectId}:`, error);
       });
     }, this.config.syncInterval);
@@ -549,24 +559,27 @@ export class CloudSyncManager extends EventEmitter {
 
     await this.apiClient.sendOperations(projectId, operations);
 
-    const sentIds = new Set(operations.map(op => op.id));
+    const sentIds = new Set(operations.map((op) => op.id));
     const syncState = this.syncStates.get(projectId);
     if (syncState) {
-      syncState.pendingOperations = syncState.pendingOperations.filter(op => !sentIds.has(op.id));
+      syncState.pendingOperations = syncState.pendingOperations.filter((op) => !sentIds.has(op.id));
     }
 
     const queue = this.operationQueues.get(projectId);
     if (queue) {
-      const updatedQueue = queue.filter(op => !sentIds.has(op.id));
+      const updatedQueue = queue.filter((op) => !sentIds.has(op.id));
       this.operationQueues.set(projectId, updatedQueue);
       queue.length = 0;
       queue.push(...updatedQueue);
     }
   }
 
-  private async applyRemoteOperation(projectId: ProjectId, operation: CloudOperation): Promise<void> {
+  private async applyRemoteOperation(
+    projectId: ProjectId,
+    operation: CloudOperation
+  ): Promise<void> {
     const queue = this.operationQueues.get(projectId) || [];
-    const updatedQueue = queue.filter(op => op.id !== operation.id);
+    const updatedQueue = queue.filter((op) => op.id !== operation.id);
     this.operationQueues.set(projectId, updatedQueue);
     queue.length = 0;
     queue.push(...updatedQueue);
@@ -576,21 +589,28 @@ export class CloudSyncManager extends EventEmitter {
       if (operation.versionVector) {
         syncState.remoteVersion = operation.versionVector;
       }
-      syncState.pendingOperations = syncState.pendingOperations.filter(op => op.id !== operation.id);
+      syncState.pendingOperations = syncState.pendingOperations.filter(
+        (op) => op.id !== operation.id
+      );
     }
 
     this.emit('remote-operation-applied', { projectId, operation });
   }
 
-  private async applyConflictResolution(projectId: ProjectId, resolution: ConflictResolution): Promise<void> {
+  private async applyConflictResolution(
+    projectId: ProjectId,
+    resolution: ConflictResolution
+  ): Promise<void> {
     const syncState = this.syncStates.get(projectId);
     const queue = this.operationQueues.get(projectId) || [];
 
     const removeLocal = (operationId: string) => {
       if (syncState) {
-        syncState.pendingOperations = syncState.pendingOperations.filter(op => op.id !== operationId);
+        syncState.pendingOperations = syncState.pendingOperations.filter(
+          (op) => op.id !== operationId
+        );
       }
-      const updatedQueue = queue.filter(op => op.id !== operationId);
+      const updatedQueue = queue.filter((op) => op.id !== operationId);
       this.operationQueues.set(projectId, updatedQueue);
       queue.length = 0;
       queue.push(...updatedQueue);
@@ -616,7 +636,10 @@ export class CloudSyncManager extends EventEmitter {
         break;
       case 'local':
         if (resolution.remoteOperation) {
-          this.emit('remote-operation-skipped', { projectId, operation: resolution.remoteOperation });
+          this.emit('remote-operation-skipped', {
+            projectId,
+            operation: resolution.remoteOperation,
+          });
         }
         break;
       default:
@@ -626,7 +649,10 @@ export class CloudSyncManager extends EventEmitter {
     this.emit('conflict-applied', { projectId, resolution });
   }
 
-  private generateOperationsFromGraph(projectId: ProjectId, graph: GraphInstance): CloudOperation[] {
+  private generateOperationsFromGraph(
+    projectId: ProjectId,
+    graph: GraphInstance
+  ): CloudOperation[] {
     const previous = this.lastGraphs.get(projectId);
     if (!previous) {
       this.lastGraphs.set(projectId, this.cloneGraph(graph));
@@ -635,8 +661,8 @@ export class CloudSyncManager extends EventEmitter {
 
     const operations: CloudOperation[] = [];
 
-    const prevNodes = new Map(previous.nodes.map(node => [node.id, node]));
-    const currNodes = new Map(graph.nodes.map(node => [node.id, node]));
+    const prevNodes = new Map(previous.nodes.map((node) => [node.id, node]));
+    const currNodes = new Map(graph.nodes.map((node) => [node.id, node]));
 
     const createOperation = (type: string, data: unknown): CloudOperation => ({
       id: `${type}-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`,
@@ -667,8 +693,8 @@ export class CloudSyncManager extends EventEmitter {
       }
     }
 
-    const prevEdges = new Map(previous.edges.map(edge => [edge.id, edge]));
-    const currEdges = new Map(graph.edges.map(edge => [edge.id, edge]));
+    const prevEdges = new Map(previous.edges.map((edge) => [edge.id, edge]));
+    const currEdges = new Map(graph.edges.map((edge) => [edge.id, edge]));
 
     for (const [edgeId, edge] of currEdges) {
       const existing = prevEdges.get(edgeId);
@@ -700,7 +726,11 @@ export class CloudSyncManager extends EventEmitter {
     ) {
       operations.push(
         createOperation('UPDATE_GRAPH_SETTINGS', {
-          before: { units: previous.units, tolerance: previous.tolerance, metadata: previous.metadata },
+          before: {
+            units: previous.units,
+            tolerance: previous.tolerance,
+            metadata: previous.metadata,
+          },
           after: { units: graph.units, tolerance: graph.tolerance, metadata: graph.metadata },
         })
       );

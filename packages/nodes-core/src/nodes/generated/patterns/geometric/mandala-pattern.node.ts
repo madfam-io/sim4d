@@ -14,7 +14,11 @@ interface MandalaPatternOutputs {
   mandala: unknown;
 }
 
-export const PatternsGeometricMandalaPatternNode: NodeDefinition<MandalaPatternInputs, MandalaPatternOutputs, MandalaPatternParams> = {
+export const PatternsGeometricMandalaPatternNode: NodeDefinition<
+  MandalaPatternInputs,
+  MandalaPatternOutputs,
+  MandalaPatternParams
+> = {
   id: 'Patterns::MandalaPattern',
   category: 'Patterns',
   label: 'MandalaPattern',
@@ -23,14 +27,14 @@ export const PatternsGeometricMandalaPatternNode: NodeDefinition<MandalaPatternI
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     mandala: {
       type: 'Wire[]',
-      label: 'Mandala'
-    }
+      label: 'Mandala',
+    },
   },
   params: {
     rings: {
@@ -39,7 +43,7 @@ export const PatternsGeometricMandalaPatternNode: NodeDefinition<MandalaPatternI
       default: 5,
       min: 1,
       max: 20,
-      step: 1
+      step: 1,
     },
     symmetry: {
       type: 'number',
@@ -47,15 +51,15 @@ export const PatternsGeometricMandalaPatternNode: NodeDefinition<MandalaPatternI
       default: 8,
       min: 3,
       max: 24,
-      step: 1
+      step: 1,
     },
     complexity: {
       type: 'number',
       label: 'Complexity',
       default: 3,
       min: 1,
-      max: 5
-    }
+      max: 5,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -64,12 +68,12 @@ export const PatternsGeometricMandalaPatternNode: NodeDefinition<MandalaPatternI
         center: inputs.center,
         rings: params.rings,
         symmetry: params.symmetry,
-        complexity: params.complexity
-      }
+        complexity: params.complexity,
+      },
     });
-    
+
     return {
-      mandala: result
+      mandala: result,
     };
   },
 };

@@ -15,7 +15,11 @@ interface RestMachiningOutputs {
   restPaths: unknown;
 }
 
-export const FabricationCNCRestMachiningNode: NodeDefinition<RestMachiningInputs, RestMachiningOutputs, RestMachiningParams> = {
+export const FabricationCNCRestMachiningNode: NodeDefinition<
+  RestMachiningInputs,
+  RestMachiningOutputs,
+  RestMachiningParams
+> = {
   id: 'Fabrication::RestMachining',
   type: 'Fabrication::RestMachining',
   category: 'Fabrication',
@@ -25,23 +29,23 @@ export const FabricationCNCRestMachiningNode: NodeDefinition<RestMachiningInputs
     model: {
       type: 'Shape',
       label: 'Model',
-      required: true
+      required: true,
     },
     previousPaths: {
       type: 'Wire[]',
       label: 'Previous Paths',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     restAreas: {
       type: 'Face[]',
-      label: 'Rest Areas'
+      label: 'Rest Areas',
     },
     restPaths: {
       type: 'Wire[]',
-      label: 'Rest Paths'
-    }
+      label: 'Rest Paths',
+    },
   },
   params: {
     previousTool: {
@@ -49,15 +53,15 @@ export const FabricationCNCRestMachiningNode: NodeDefinition<RestMachiningInputs
       label: 'Previous Tool',
       default: 10,
       min: 1,
-      max: 50
+      max: 50,
     },
     currentTool: {
       type: 'number',
       label: 'Current Tool',
       default: 3,
       min: 0.1,
-      max: 50
-    }
+      max: 50,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -66,13 +70,13 @@ export const FabricationCNCRestMachiningNode: NodeDefinition<RestMachiningInputs
         model: inputs.model,
         previousPaths: inputs.previousPaths,
         previousTool: params.previousTool,
-        currentTool: params.currentTool
-      }
+        currentTool: params.currentTool,
+      },
     });
-    
+
     return {
       restAreas: results.restAreas,
-      restPaths: results.restPaths
+      restPaths: results.restPaths,
     };
   },
 };

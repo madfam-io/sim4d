@@ -15,7 +15,11 @@ interface ApplyConstraintsOutputs {
   constraintData: unknown;
 }
 
-export const SimulationFEAApplyConstraintsNode: NodeDefinition<ApplyConstraintsInputs, ApplyConstraintsOutputs, ApplyConstraintsParams> = {
+export const SimulationFEAApplyConstraintsNode: NodeDefinition<
+  ApplyConstraintsInputs,
+  ApplyConstraintsOutputs,
+  ApplyConstraintsParams
+> = {
   id: 'Simulation::ApplyConstraints',
   type: 'Simulation::ApplyConstraints',
   category: 'Simulation',
@@ -25,36 +29,36 @@ export const SimulationFEAApplyConstraintsNode: NodeDefinition<ApplyConstraintsI
     mesh: {
       type: 'Mesh',
       label: 'Mesh',
-      required: true
+      required: true,
     },
     constraintFaces: {
       type: 'Face[]',
       label: 'Constraint Faces',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     constrainedMesh: {
       type: 'Mesh',
-      label: 'Constrained Mesh'
+      label: 'Constrained Mesh',
     },
     constraintData: {
       type: 'Data',
-      label: 'Constraint Data'
-    }
+      label: 'Constraint Data',
+    },
   },
   params: {
     constraintType: {
       type: 'enum',
       label: 'Constraint Type',
-      default: "fixed",
-      options: ["fixed","pinned","roller","spring","displacement"]
+      default: 'fixed',
+      options: ['fixed', 'pinned', 'roller', 'spring', 'displacement'],
     },
     dof: {
       type: 'boolean[]',
       label: 'Dof',
-      default: [true,true,true,true,true,true]
-    }
+      default: [true, true, true, true, true, true],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -63,13 +67,13 @@ export const SimulationFEAApplyConstraintsNode: NodeDefinition<ApplyConstraintsI
         mesh: inputs.mesh,
         constraintFaces: inputs.constraintFaces,
         constraintType: params.constraintType,
-        dof: params.dof
-      }
+        dof: params.dof,
+      },
     });
-    
+
     return {
       constrainedMesh: results.constrainedMesh,
-      constraintData: results.constraintData
+      constraintData: results.constraintData,
     };
   },
 };

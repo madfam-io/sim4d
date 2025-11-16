@@ -14,7 +14,11 @@ interface GirihTilingOutputs {
   pattern: unknown;
 }
 
-export const PatternsIslamicGirihTilingNode: NodeDefinition<GirihTilingInputs, GirihTilingOutputs, GirihTilingParams> = {
+export const PatternsIslamicGirihTilingNode: NodeDefinition<
+  GirihTilingInputs,
+  GirihTilingOutputs,
+  GirihTilingParams
+> = {
   id: 'Patterns::GirihTiling',
   category: 'Patterns',
   label: 'GirihTiling',
@@ -23,32 +27,32 @@ export const PatternsIslamicGirihTilingNode: NodeDefinition<GirihTilingInputs, G
     plane: {
       type: 'Plane',
       label: 'Plane',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     tiles: {
       type: 'Face[]',
-      label: 'Tiles'
+      label: 'Tiles',
     },
     pattern: {
       type: 'Wire[]',
-      label: 'Pattern'
-    }
+      label: 'Pattern',
+    },
   },
   params: {
     type: {
       type: 'enum',
       label: 'Type',
-      default: "pentagon",
-      options: ["pentagon","hexagon","bow-tie","rhombus","decagon"]
+      default: 'pentagon',
+      options: ['pentagon', 'hexagon', 'bow-tie', 'rhombus', 'decagon'],
     },
     size: {
       type: 'number',
       label: 'Size',
       default: 10,
-      min: 1
-    }
+      min: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -56,13 +60,13 @@ export const PatternsIslamicGirihTilingNode: NodeDefinition<GirihTilingInputs, G
       params: {
         plane: inputs.plane,
         type: params.type,
-        size: params.size
-      }
+        size: params.size,
+      },
     });
-    
+
     return {
       tiles: results.tiles,
-      pattern: results.pattern
+      pattern: results.pattern,
     };
   },
 };

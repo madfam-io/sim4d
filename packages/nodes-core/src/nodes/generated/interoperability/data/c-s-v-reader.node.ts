@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -23,54 +22,47 @@ export const CSVReaderNode: NodeDefinition<CSVReaderInputs, CSVReaderOutputs, CS
   metadata: {
     label: 'CSVReader',
     description: 'Read CSV data files',
-    
-    
   },
 
   params: {
-        delimiter: {
-      "default": ",",
-      "description": "Field delimiter"
+    delimiter: {
+      default: ',',
+      description: 'Field delimiter',
     },
     hasHeader: {
-      "default": true
+      default: true,
     },
     encoding: {
-      "default": "utf-8",
-      "options": [
-        "utf-8",
-        "ascii",
-        "latin1"
-      ]
-    }
+      default: 'utf-8',
+      options: ['utf-8', 'ascii', 'latin1'],
+    },
   },
 
   inputs: {
-        filePath: 'string'
+    filePath: 'string',
   },
 
   outputs: {
-        data: 'Properties[]',
+    data: 'Properties[]',
     headers: 'string[]',
-    rowCount: 'number'
+    rowCount: 'number',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'csvReader',
       params: {
         filePath: inputs.filePath,
         delimiter: params.delimiter,
         hasHeader: params.hasHeader,
-        encoding: params.encoding
-      }
+        encoding: params.encoding,
+      },
     });
 
     return {
       data: result,
       headers: result,
-      rowCount: result
+      rowCount: result,
     };
-  }
+  },
 };

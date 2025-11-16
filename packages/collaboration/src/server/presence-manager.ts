@@ -14,11 +14,7 @@ export class PresenceManager {
     this.startCleanupInterval();
   }
 
-  addPresence(
-    documentId: string,
-    userId: string,
-    presence: Presence
-  ): void {
+  addPresence(documentId: string, userId: string, presence: Presence): void {
     if (!this.presence.has(documentId)) {
       this.presence.set(documentId, new Map());
       this.lastActivity.set(documentId, new Map());
@@ -74,10 +70,7 @@ export class PresenceManager {
     return Array.from(docPresence.values());
   }
 
-  getUserPresence(
-    documentId: string,
-    userId: string
-  ): Presence | undefined {
+  getUserPresence(documentId: string, userId: string): Presence | undefined {
     return this.presence.get(documentId)?.get(userId);
   }
 

@@ -1,10 +1,4 @@
-import type {
-  NodeId,
-  NodeInstance,
-  GraphInstance,
-  EvalContext,
-  WorkerAPI,
-} from '@brepflow/types';
+import type { NodeId, NodeInstance, GraphInstance, EvalContext, WorkerAPI } from '@brepflow/types';
 import { NodeRegistry } from './node-registry';
 import { ComputeCache } from './cache';
 import { hashNode } from './hash';
@@ -31,10 +25,12 @@ function getLogger(): LoggerLike {
   } catch (error) {
     // Fallback to console methods when OCCT logger is unavailable (tests)
     loggerInstance = {
-      error: (message: string, data?: unknown) => console.error(`[DAGEngine] ${message}`, data ?? ''),
+      error: (message: string, data?: unknown) =>
+        console.error(`[DAGEngine] ${message}`, data ?? ''),
       warn: (message: string, data?: unknown) => console.warn(`[DAGEngine] ${message}`, data ?? ''),
       info: (message: string, data?: unknown) => console.info(`[DAGEngine] ${message}`, data ?? ''),
-      debug: (message: string, data?: unknown) => console.debug(`[DAGEngine] ${message}`, data ?? ''),
+      debug: (message: string, data?: unknown) =>
+        console.debug(`[DAGEngine] ${message}`, data ?? ''),
     };
   }
 
@@ -122,7 +118,7 @@ export class DAGEngine {
    * Evaluate a single node
    */
   private async evaluateNode(graph: GraphInstance, nodeId: NodeId): Promise<void> {
-    const node = graph.nodes.find(n => n.id === nodeId);
+    const node = graph.nodes.find((n) => n.id === nodeId);
     if (!node) throw new Error(`Node ${nodeId} not found`);
 
     // Check if already evaluating (circular dependency)
@@ -252,7 +248,7 @@ export class DAGEngine {
       const geometry = new GeometryProxy(baseContext.worker);
       return {
         ...baseContext,
-        geometry // Add geometry proxy that nodes expect
+        geometry, // Add geometry proxy that nodes expect
       };
     } catch (error: unknown) {
       getLogger().error('Failed to create geometry proxy for node evaluation', {
@@ -275,7 +271,7 @@ export class DAGEngine {
       if (Array.isArray(socketRef)) {
         // Multiple connections
         inputs[inputName] = await Promise.all(
-          socketRef.map(ref => this.getSocketValue(graph, ref))
+          socketRef.map((ref) => this.getSocketValue(graph, ref))
         );
       } else {
         // Single connection
@@ -290,7 +286,7 @@ export class DAGEngine {
    * Get value from a socket reference
    */
   private async getSocketValue(graph: GraphInstance, ref: any): Promise<any> {
-    const sourceNode = graph.nodes.find(n => n.id === ref.nodeId);
+    const sourceNode = graph.nodes.find((n) => n.id === ref.nodeId);
     if (!sourceNode) {
       throw new Error(`Source node ${ref.nodeId} not found`);
     }
@@ -338,13 +334,15 @@ export class DAGEngine {
     if (summary.failureCount > 0) {
       logger.error('Geometry evaluation failures detected', {
         failureCount: summary.failureCount,
-        recentFailures: this.profiler.getRecentFailures(Math.min(5, summary.failureCount)).map(sample => ({
-          nodeId: sample.nodeId,
-          nodeType: sample.nodeType,
-          errorCode: sample.errorCode,
-          errorMessage: sample.errorMessage,
-          durationMs: sample.durationMs,
-        })),
+        recentFailures: this.profiler
+          .getRecentFailures(Math.min(5, summary.failureCount))
+          .map((sample) => ({
+            nodeId: sample.nodeId,
+            nodeType: sample.nodeType,
+            errorCode: sample.errorCode,
+            errorMessage: sample.errorMessage,
+            durationMs: sample.durationMs,
+          })),
       });
     }
 
@@ -370,10 +368,7 @@ export class DAGEngine {
   /**
    * Topological sort using Kahn's algorithm
    */
-  private topologicalSort(
-    nodes: NodeInstance[],
-    deps: Map<NodeId, Set<NodeId>>
-  ): NodeId[] {
+  private topologicalSort(nodes: NodeInstance[], deps: Map<NodeId, Set<NodeId>>): NodeId[] {
     const result: NodeId[] = [];
     const inDegree = new Map<NodeId, number>();
     const queue: NodeId[] = [];

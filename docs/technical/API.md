@@ -1,6 +1,7 @@
 # BrepFlow API Documentation
 
 ## Table of Contents
+
 - [Core Types](#core-types)
 - [DAG Engine API](#dag-engine-api)
 - [Graph Manager API](#graph-manager-api)
@@ -12,6 +13,7 @@
 ## Core Types
 
 ### GraphInstance
+
 ```typescript
 interface GraphInstance {
   version: string;
@@ -28,6 +30,7 @@ interface GraphInstance {
 ```
 
 ### NodeInstance
+
 ```typescript
 interface NodeInstance {
   id: NodeId;
@@ -46,6 +49,7 @@ interface NodeInstance {
 ```
 
 ### Edge
+
 ```typescript
 interface Edge {
   id: string;
@@ -61,6 +65,7 @@ interface Edge {
 ### DAGEngine Class
 
 #### Constructor
+
 ```typescript
 constructor(options?: {
   worker?: WorkerAPI;
@@ -70,7 +75,9 @@ constructor(options?: {
 ```
 
 #### evaluate
+
 Evaluates dirty nodes in the graph
+
 ```typescript
 async evaluate(
   graph: GraphInstance,
@@ -79,29 +86,36 @@ async evaluate(
 ```
 
 #### cancel
+
 Cancels specific node evaluation
+
 ```typescript
 cancel(nodeId: NodeId): void
 ```
 
 #### cancelAll
+
 Cancels all running evaluations
+
 ```typescript
 cancelAll(): void
 ```
 
 #### clearCache
+
 Clears the compute cache
+
 ```typescript
 clearCache(): void
 ```
 
 ### Example Usage
+
 ```typescript
 import { DAGEngine } from '@brepflow/engine-core';
 
 const engine = new DAGEngine({
-  maxConcurrency: 4
+  maxConcurrency: 4,
 });
 
 const dirtyNodes = new Set(['node1', 'node2']);
@@ -113,6 +127,7 @@ await engine.evaluate(graph, dirtyNodes);
 ### GraphManager Class
 
 #### Constructor
+
 ```typescript
 constructor(graph?: GraphInstance)
 ```
@@ -120,21 +135,25 @@ constructor(graph?: GraphInstance)
 #### Node Operations
 
 ##### addNode
+
 ```typescript
 addNode(node: Omit<NodeInstance, 'id'>): NodeInstance
 ```
 
 ##### removeNode
+
 ```typescript
 removeNode(nodeId: NodeId): void
 ```
 
 ##### updateNode
+
 ```typescript
 updateNode(nodeId: NodeId, updates: Partial<NodeInstance>): void
 ```
 
 ##### getNode
+
 ```typescript
 getNode(nodeId: NodeId): NodeInstance | undefined
 ```
@@ -142,16 +161,19 @@ getNode(nodeId: NodeId): NodeInstance | undefined
 #### Edge Operations
 
 ##### addEdge
+
 ```typescript
 addEdge(edge: Omit<Edge, 'id'>): Edge
 ```
 
 ##### removeEdge
+
 ```typescript
 removeEdge(edgeId: string): void
 ```
 
 ##### getConnectedEdges
+
 ```typescript
 getConnectedEdges(nodeId: NodeId): Edge[]
 ```
@@ -159,36 +181,43 @@ getConnectedEdges(nodeId: NodeId): Edge[]
 #### Graph Operations
 
 ##### validate
+
 ```typescript
 validate(): string[]
 ```
 
 ##### detectCycles
+
 ```typescript
 detectCycles(): void // throws if cycle detected
 ```
 
 ##### getDirtyNodes
+
 ```typescript
 getDirtyNodes(): Set<NodeId>
 ```
 
 ##### clearDirtyFlags
+
 ```typescript
 clearDirtyFlags(): void
 ```
 
 ##### toJSON
+
 ```typescript
 toJSON(): string
 ```
 
 ##### fromJSON
+
 ```typescript
 fromJSON(json: string): void
 ```
 
 ### Example Usage
+
 ```typescript
 import { GraphManager } from '@brepflow/engine-core';
 
@@ -198,7 +227,7 @@ const manager = new GraphManager();
 const boxNode = manager.addNode({
   type: 'Solid::Box',
   position: { x: 100, y: 100 },
-  params: { width: 100, height: 100, depth: 100 }
+  params: { width: 100, height: 100, depth: 100 },
 });
 
 // Add edges
@@ -206,7 +235,7 @@ const edge = manager.addEdge({
   source: boxNode.id,
   sourceHandle: 'shape',
   target: 'fillet-node',
-  targetHandle: 'input'
+  targetHandle: 'input',
 });
 
 // Validate graph
@@ -218,26 +247,31 @@ const errors = manager.validate();
 ### NodeRegistry Class
 
 #### register
+
 ```typescript
 static register(definition: NodeDefinition): void
 ```
 
 #### get
+
 ```typescript
 static get(type: string): NodeDefinition | undefined
 ```
 
 #### getAll
+
 ```typescript
 static getAll(): Map<string, NodeDefinition>
 ```
 
 #### getCategories
+
 ```typescript
 static getCategories(): string[]
 ```
 
 ### NodeDefinition Interface
+
 ```typescript
 interface NodeDefinition<I = any, O = any, P = any> {
   type: string;
@@ -245,11 +279,7 @@ interface NodeDefinition<I = any, O = any, P = any> {
   inputs: SocketSpec<I>;
   outputs: SocketSpec<O>;
   params: ParamSpec<P>;
-  evaluate: (
-    ctx: EvalContext,
-    inputs: I,
-    params: P
-  ) => Promise<O>;
+  evaluate: (ctx: EvalContext, inputs: I, params: P) => Promise<O>;
 }
 ```
 
@@ -258,6 +288,7 @@ interface NodeDefinition<I = any, O = any, P = any> {
 ### GeometryAPI Class
 
 #### createLine
+
 ```typescript
 async createLine(
   start: Vec3,
@@ -266,6 +297,7 @@ async createLine(
 ```
 
 #### createCircle
+
 ```typescript
 async createCircle(
   center: Vec3,
@@ -275,6 +307,7 @@ async createCircle(
 ```
 
 #### createBox
+
 ```typescript
 async createBox(
   center: Vec3,
@@ -285,6 +318,7 @@ async createBox(
 ```
 
 #### createCylinder
+
 ```typescript
 async createCylinder(
   center: Vec3,
@@ -297,6 +331,7 @@ async createCylinder(
 #### Boolean Operations
 
 ##### booleanUnion
+
 ```typescript
 async booleanUnion(
   shapes: ShapeHandle[]
@@ -304,6 +339,7 @@ async booleanUnion(
 ```
 
 ##### booleanSubtract
+
 ```typescript
 async booleanSubtract(
   base: ShapeHandle,
@@ -312,6 +348,7 @@ async booleanSubtract(
 ```
 
 ##### booleanIntersect
+
 ```typescript
 async booleanIntersect(
   shapes: ShapeHandle[]
@@ -321,6 +358,7 @@ async booleanIntersect(
 #### Transformation Operations
 
 ##### transform
+
 ```typescript
 async transform(
   shape: ShapeHandle,
@@ -329,6 +367,7 @@ async transform(
 ```
 
 ##### translate
+
 ```typescript
 async translate(
   shape: ShapeHandle,
@@ -337,6 +376,7 @@ async translate(
 ```
 
 ##### rotate
+
 ```typescript
 async rotate(
   shape: ShapeHandle,
@@ -349,6 +389,7 @@ async rotate(
 #### Feature Operations
 
 ##### fillet
+
 ```typescript
 async fillet(
   shape: ShapeHandle,
@@ -358,6 +399,7 @@ async fillet(
 ```
 
 ##### chamfer
+
 ```typescript
 async chamfer(
   shape: ShapeHandle,
@@ -367,6 +409,7 @@ async chamfer(
 ```
 
 ##### shell
+
 ```typescript
 async shell(
   shape: ShapeHandle,
@@ -380,50 +423,57 @@ async shell(
 ### Sketch Nodes
 
 #### Line Node
+
 ```typescript
-type: 'Sketch::Line'
-inputs: {}
+type: 'Sketch::Line';
+inputs: {
+}
 params: {
-  start: Vec3
-  end: Vec3
+  start: Vec3;
+  end: Vec3;
 }
 outputs: {
-  curve: ShapeHandle
+  curve: ShapeHandle;
 }
 ```
 
 #### Circle Node
+
 ```typescript
-type: 'Sketch::Circle'
-inputs: {}
+type: 'Sketch::Circle';
+inputs: {
+}
 params: {
-  center: Vec3
-  radius: number
-  normal: Vec3
+  center: Vec3;
+  radius: number;
+  normal: Vec3;
 }
 outputs: {
-  curve: ShapeHandle
+  curve: ShapeHandle;
 }
 ```
 
 ### Solid Nodes
 
 #### Box Node
+
 ```typescript
-type: 'Solid::Box'
-inputs: {}
+type: 'Solid::Box';
+inputs: {
+}
 params: {
-  center: Vec3
-  width: number
-  height: number
-  depth: number
+  center: Vec3;
+  width: number;
+  height: number;
+  depth: number;
 }
 outputs: {
-  shape: ShapeHandle
+  shape: ShapeHandle;
 }
 ```
 
 #### Extrude Node
+
 ```typescript
 type: 'Solid::Extrude'
 inputs: {
@@ -442,6 +492,7 @@ outputs: {
 ### Boolean Nodes
 
 #### Union Node
+
 ```typescript
 type: 'Boolean::Union'
 inputs: {
@@ -456,6 +507,7 @@ outputs: {
 ```
 
 #### Subtract Node
+
 ```typescript
 type: 'Boolean::Subtract'
 inputs: {
@@ -473,6 +525,7 @@ outputs: {
 ### Feature Nodes
 
 #### Fillet Node
+
 ```typescript
 type: 'Features::Fillet'
 inputs: {
@@ -492,18 +545,23 @@ outputs: {
 ### WorkerClient Class
 
 #### Constructor
+
 ```typescript
 constructor(workerUrl?: string)
 ```
 
 #### init
+
 Initialize the worker
+
 ```typescript
 async init(): Promise<void>
 ```
 
 #### invoke
+
 Invoke geometry operation
+
 ```typescript
 async invoke<T = any>(
   operation: string,
@@ -512,7 +570,9 @@ async invoke<T = any>(
 ```
 
 #### tessellate
+
 Convert shape to mesh
+
 ```typescript
 async tessellate(
   shapeId: string,
@@ -521,13 +581,17 @@ async tessellate(
 ```
 
 #### dispose
+
 Dispose geometry handle
+
 ```typescript
 async dispose(handleId: string): Promise<void>
 ```
 
 #### terminate
+
 Terminate worker
+
 ```typescript
 terminate(): void
 ```
@@ -535,6 +599,7 @@ terminate(): void
 ### Worker Message Types
 
 #### WorkerRequest
+
 ```typescript
 type WorkerRequest =
   | InitRequest
@@ -542,11 +607,12 @@ type WorkerRequest =
   | CreateBoxRequest
   | BooleanUnionRequest
   | TessellateRequest
-  | DisposeRequest
-  // ... etc
+  | DisposeRequest;
+// ... etc
 ```
 
 #### WorkerResponse
+
 ```typescript
 interface WorkerResponse<T = any> {
   id: string;
@@ -590,7 +656,7 @@ const {
   // File Operations
   importGraph,
   exportGraph,
-  clearGraph
+  clearGraph,
 } = useGraphStore();
 ```
 
@@ -599,7 +665,9 @@ const {
 ### Commands
 
 #### render
+
 Render a graph file
+
 ```bash
 brepflow render <file> [options]
   --output, -o     Output file path
@@ -608,14 +676,18 @@ brepflow render <file> [options]
 ```
 
 #### validate
+
 Validate a graph file
+
 ```bash
 brepflow validate <file> [options]
   --verbose, -v   Show detailed validation
 ```
 
 #### sweep
+
 Parameter sweep generation
+
 ```bash
 brepflow sweep <file> [options]
   --param, -p     Parameter to sweep
@@ -624,7 +696,9 @@ brepflow sweep <file> [options]
 ```
 
 #### info
+
 Display graph information
+
 ```bash
 brepflow info <file> [options]
   --nodes         List all nodes
@@ -635,18 +709,21 @@ brepflow info <file> [options]
 ## Error Codes
 
 ### Geometry Errors
+
 - `GEOM_001`: Invalid geometry input
 - `GEOM_002`: Boolean operation failed
 - `GEOM_003`: Tessellation failed
 - `GEOM_004`: Invalid transformation
 
 ### Graph Errors
+
 - `GRAPH_001`: Cycle detected
 - `GRAPH_002`: Missing input connection
 - `GRAPH_003`: Type mismatch
 - `GRAPH_004`: Invalid node type
 
 ### Worker Errors
+
 - `WORKER_001`: Worker initialization failed
 - `WORKER_002`: Worker timeout
 - `WORKER_003`: Worker crashed
@@ -655,6 +732,7 @@ brepflow info <file> [options]
 ## WebSocket API (Future)
 
 ### Connection
+
 ```typescript
 const ws = new WebSocket('ws://localhost:8080/graph');
 
@@ -665,10 +743,11 @@ ws.onmessage = (event) => {
 ```
 
 ### Message Types
+
 ```typescript
 type WSMessage =
-  | { type: 'NODE_UPDATE', payload: NodeInstance }
-  | { type: 'EDGE_ADD', payload: Edge }
-  | { type: 'EVALUATION_START', payload: NodeId[] }
-  | { type: 'EVALUATION_COMPLETE', payload: Results }
+  | { type: 'NODE_UPDATE'; payload: NodeInstance }
+  | { type: 'EDGE_ADD'; payload: Edge }
+  | { type: 'EVALUATION_START'; payload: NodeId[] }
+  | { type: 'EVALUATION_COMPLETE'; payload: Results };
 ```

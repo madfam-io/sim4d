@@ -14,7 +14,11 @@ interface SpiralPatternOutputs {
   spiral: unknown;
 }
 
-export const PatternsGeometricSpiralPatternNode: NodeDefinition<SpiralPatternInputs, SpiralPatternOutputs, SpiralPatternParams> = {
+export const PatternsGeometricSpiralPatternNode: NodeDefinition<
+  SpiralPatternInputs,
+  SpiralPatternOutputs,
+  SpiralPatternParams
+> = {
   id: 'Patterns::SpiralPattern',
   category: 'Patterns',
   label: 'SpiralPattern',
@@ -23,36 +27,36 @@ export const PatternsGeometricSpiralPatternNode: NodeDefinition<SpiralPatternInp
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     spiral: {
       type: 'Wire',
-      label: 'Spiral'
-    }
+      label: 'Spiral',
+    },
   },
   params: {
     spiralType: {
       type: 'enum',
       label: 'Spiral Type',
-      default: "logarithmic",
-      options: ["archimedean","logarithmic","fermat","golden"]
+      default: 'logarithmic',
+      options: ['archimedean', 'logarithmic', 'fermat', 'golden'],
     },
     turns: {
       type: 'number',
       label: 'Turns',
       default: 5,
       min: 0.5,
-      max: 20
+      max: 20,
     },
     growth: {
       type: 'number',
       label: 'Growth',
       default: 1.2,
       min: 1,
-      max: 3
-    }
+      max: 3,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -61,12 +65,12 @@ export const PatternsGeometricSpiralPatternNode: NodeDefinition<SpiralPatternInp
         center: inputs.center,
         spiralType: params.spiralType,
         turns: params.turns,
-        growth: params.growth
-      }
+        growth: params.growth,
+      },
     });
-    
+
     return {
-      spiral: result
+      spiral: result,
     };
   },
 };

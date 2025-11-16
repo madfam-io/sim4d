@@ -14,7 +14,11 @@ interface JalousieWindowOutputs {
   slats: unknown;
 }
 
-export const ArchitectureWindowsJalousieWindowNode: NodeDefinition<JalousieWindowInputs, JalousieWindowOutputs, JalousieWindowParams> = {
+export const ArchitectureWindowsJalousieWindowNode: NodeDefinition<
+  JalousieWindowInputs,
+  JalousieWindowOutputs,
+  JalousieWindowParams
+> = {
   id: 'Architecture::JalousieWindow',
   category: 'Architecture',
   label: 'JalousieWindow',
@@ -23,18 +27,18 @@ export const ArchitectureWindowsJalousieWindowNode: NodeDefinition<JalousieWindo
     opening: {
       type: 'Wire',
       label: 'Opening',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     jalousie: {
       type: 'Shape',
-      label: 'Jalousie'
+      label: 'Jalousie',
     },
     slats: {
       type: 'Shape[]',
-      label: 'Slats'
-    }
+      label: 'Slats',
+    },
   },
   params: {
     slats: {
@@ -43,15 +47,15 @@ export const ArchitectureWindowsJalousieWindowNode: NodeDefinition<JalousieWindo
       default: 10,
       min: 5,
       max: 20,
-      step: 1
+      step: 1,
     },
     angle: {
       type: 'number',
       label: 'Angle',
       default: 0,
       min: 0,
-      max: 90
-    }
+      max: 90,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -59,13 +63,13 @@ export const ArchitectureWindowsJalousieWindowNode: NodeDefinition<JalousieWindo
       params: {
         opening: inputs.opening,
         slats: params.slats,
-        angle: params.angle
-      }
+        angle: params.angle,
+      },
     });
-    
+
     return {
       jalousie: results.jalousie,
-      slats: results.slats
+      slats: results.slats,
     };
   },
 };

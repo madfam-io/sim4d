@@ -29,8 +29,8 @@ export class GeometricConstraint {
 
     return Math.sqrt(
       Math.pow(e1.position.x - e2.position.x, 2) +
-      Math.pow(e1.position.y - e2.position.y, 2) +
-      Math.pow(e1.position.z - e2.position.z, 2)
+        Math.pow(e1.position.y - e2.position.y, 2) +
+        Math.pow(e1.position.z - e2.position.z, 2)
     );
   }
 
@@ -84,7 +84,7 @@ export class GeometricConstraint {
 
   private getEntities(entities: Map<string, ConstraintEntity>): ConstraintEntity[] {
     return this.constraint.entities
-      .map(id => entities.get(id))
+      .map((id) => entities.get(id))
       .filter((e): e is ConstraintEntity => e !== undefined);
   }
 
@@ -96,7 +96,7 @@ export class GeometricConstraint {
     return {
       x: a.x - b.x,
       y: a.y - b.y,
-      z: a.z - b.z
+      z: a.z - b.z,
     };
   }
 }

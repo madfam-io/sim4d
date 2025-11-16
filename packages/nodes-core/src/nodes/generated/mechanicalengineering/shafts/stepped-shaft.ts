@@ -15,7 +15,11 @@ interface SteppedShaftOutputs {
   sections: unknown;
 }
 
-export const MechanicalEngineeringShaftsSteppedShaftNode: NodeDefinition<SteppedShaftInputs, SteppedShaftOutputs, SteppedShaftParams> = {
+export const MechanicalEngineeringShaftsSteppedShaftNode: NodeDefinition<
+  SteppedShaftInputs,
+  SteppedShaftOutputs,
+  SteppedShaftParams
+> = {
   id: 'MechanicalEngineering::SteppedShaft',
   type: 'MechanicalEngineering::SteppedShaft',
   category: 'MechanicalEngineering',
@@ -25,37 +29,37 @@ export const MechanicalEngineeringShaftsSteppedShaftNode: NodeDefinition<Stepped
     centerline: {
       type: 'Wire',
       label: 'Centerline',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shaft: {
       type: 'Shape',
-      label: 'Shaft'
+      label: 'Shaft',
     },
     sections: {
       type: 'Shape[]',
-      label: 'Sections'
-    }
+      label: 'Sections',
+    },
   },
   params: {
     sections: {
       type: 'string',
       label: 'Sections',
-      default: "20x50,25x80,20x30"
+      default: '20x50,25x80,20x30',
     },
     chamfers: {
       type: 'boolean',
       label: 'Chamfers',
-      default: true
+      default: true,
     },
     filletRadius: {
       type: 'number',
       label: 'Fillet Radius',
       default: 1,
       min: 0.5,
-      max: 5
-    }
+      max: 5,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -64,13 +68,13 @@ export const MechanicalEngineeringShaftsSteppedShaftNode: NodeDefinition<Stepped
         centerline: inputs.centerline,
         sections: params.sections,
         chamfers: params.chamfers,
-        filletRadius: params.filletRadius
-      }
+        filletRadius: params.filletRadius,
+      },
     });
-    
+
     return {
       shaft: results.shaft,
-      sections: results.sections
+      sections: results.sections,
     };
   },
 };

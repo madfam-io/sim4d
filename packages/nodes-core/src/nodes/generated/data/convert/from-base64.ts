@@ -10,7 +10,11 @@ interface FromBase64Outputs {
   data: unknown;
 }
 
-export const DataConvertFromBase64Node: NodeDefinition<FromBase64Inputs, FromBase64Outputs, FromBase64Params> = {
+export const DataConvertFromBase64Node: NodeDefinition<
+  FromBase64Inputs,
+  FromBase64Outputs,
+  FromBase64Params
+> = {
   id: 'Data::FromBase64',
   type: 'Data::FromBase64',
   category: 'Data',
@@ -20,26 +24,26 @@ export const DataConvertFromBase64Node: NodeDefinition<FromBase64Inputs, FromBas
     base64: {
       type: 'string',
       label: 'Base64',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     data: {
       type: 'Data',
-      label: 'Data'
-    }
+      label: 'Data',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'convertFromBase64',
       params: {
-        base64: inputs.base64
-      }
+        base64: inputs.base64,
+      },
     });
-    
+
     return {
-      data: result
+      data: result,
     };
   },
 };

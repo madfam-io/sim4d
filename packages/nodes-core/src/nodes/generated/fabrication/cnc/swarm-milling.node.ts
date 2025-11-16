@@ -13,7 +13,11 @@ interface SwarmMillingOutputs {
   swarmPaths: unknown;
 }
 
-export const FabricationCNCSwarmMillingNode: NodeDefinition<SwarmMillingInputs, SwarmMillingOutputs, SwarmMillingParams> = {
+export const FabricationCNCSwarmMillingNode: NodeDefinition<
+  SwarmMillingInputs,
+  SwarmMillingOutputs,
+  SwarmMillingParams
+> = {
   id: 'Fabrication::SwarmMilling',
   category: 'Fabrication',
   label: 'SwarmMilling',
@@ -22,14 +26,14 @@ export const FabricationCNCSwarmMillingNode: NodeDefinition<SwarmMillingInputs, 
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     swarmPaths: {
       type: 'Wire[]',
-      label: 'Swarm Paths'
-    }
+      label: 'Swarm Paths',
+    },
   },
   params: {
     passCount: {
@@ -38,15 +42,15 @@ export const FabricationCNCSwarmMillingNode: NodeDefinition<SwarmMillingInputs, 
       default: 5,
       min: 1,
       max: 20,
-      step: 1
+      step: 1,
     },
     overlap: {
       type: 'number',
       label: 'Overlap',
       default: 0.1,
       min: 0,
-      max: 0.5
-    }
+      max: 0.5,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -54,12 +58,12 @@ export const FabricationCNCSwarmMillingNode: NodeDefinition<SwarmMillingInputs, 
       params: {
         surface: inputs.surface,
         passCount: params.passCount,
-        overlap: params.overlap
-      }
+        overlap: params.overlap,
+      },
     });
-    
+
     return {
-      swarmPaths: result
+      swarmPaths: result,
     };
   },
 };

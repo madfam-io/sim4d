@@ -44,37 +44,37 @@ vi.mock('@brepflow/engine-core', () => ({
     async evaluate(graph: any) {
       (graph.nodes ?? []).forEach((node: any, index: number) => {
         node.outputs = node.outputs || {};
-        node.outputs.shapes = [
-          { id: `shape-${index}`, type: 'solid' },
-        ];
+        node.outputs.shapes = [{ id: `shape-${index}`, type: 'solid' }];
       });
 
-       const count = (graph.nodes ?? []).length;
-       this.summary = {
-         sampleCount: count,
-         successCount: count,
-         failureCount: 0,
-         averageMs: 12,
-         p50Ms: 10,
-         p95Ms: 15,
-         maxMs: 20,
-         slowNodes: [],
-         categoryBreakdown: {},
-       };
-    }
-
-    getEvaluationSummary() {
-      return this.summary ?? {
-        sampleCount: 0,
-        successCount: 0,
+      const count = (graph.nodes ?? []).length;
+      this.summary = {
+        sampleCount: count,
+        successCount: count,
         failureCount: 0,
-        averageMs: 0,
-        p50Ms: 0,
-        p95Ms: 0,
-        maxMs: 0,
+        averageMs: 12,
+        p50Ms: 10,
+        p95Ms: 15,
+        maxMs: 20,
         slowNodes: [],
         categoryBreakdown: {},
       };
+    }
+
+    getEvaluationSummary() {
+      return (
+        this.summary ?? {
+          sampleCount: 0,
+          successCount: 0,
+          failureCount: 0,
+          averageMs: 0,
+          p50Ms: 0,
+          p95Ms: 0,
+          maxMs: 0,
+          slowNodes: [],
+          categoryBreakdown: {},
+        }
+      );
     }
   },
   GeometryAPIFactory: {
@@ -113,12 +113,10 @@ describe('CLI integration', () => {
   });
 
   it('renders a graph and produces manifest using real geometry pipeline stubs', async () => {
-    await renderCommand.parseAsync([
-      graphFixture,
-      '--out', tempDir,
-      '--export', 'step',
-      '--manifest'
-    ], { from: 'user' });
+    await renderCommand.parseAsync(
+      [graphFixture, '--out', tempDir, '--export', 'step', '--manifest'],
+      { from: 'user' }
+    );
 
     const stepFile = path.join(tempDir, 'output.step');
     const manifestFile = path.join(tempDir, 'manifest.json');

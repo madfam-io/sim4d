@@ -1,4 +1,3 @@
-
 # FieldDivergenceAnalysis Node
 
 **Category:** Fields / Analysis
@@ -11,19 +10,13 @@ This node has no parameters.
 
 ## Inputs
 
-
 ### Vector Field
+
 - **Type:** VectorField
 - **Required:** No
 
-
-
 ## Outputs
 
-
 ### Divergence Field
+
 - **Type:** Field
-
-
-
-

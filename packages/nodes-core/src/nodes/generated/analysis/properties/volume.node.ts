@@ -1,6 +1,11 @@
-
 import { NodeDefinition } from '@brepflow/types';
-import { NumberParam, BoolParam, StringParam, EnumParam, Vector3Param } from '../../../../utils/param-utils.js';
+import {
+  NumberParam,
+  BoolParam,
+  StringParam,
+  EnumParam,
+  Vector3Param,
+} from '../../../../utils/param-utils.js';
 
 type Params = {};
 interface Inputs {
@@ -18,34 +23,28 @@ export const VolumeNode: NodeDefinition<VolumeInputs, VolumeOutputs, VolumeParam
   metadata: {
     label: 'Volume',
     description: 'Calculate volume of a solid',
-    
-    
   },
 
-  params: {
-    
-  },
+  params: {},
 
   inputs: {
-        solid: 'Solid'
+    solid: 'Solid',
   },
 
   outputs: {
-        volume: 'number'
+    volume: 'number',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'measureVolume',
       params: {
-        solid: inputs.solid
-        
-      }
+        solid: inputs.solid,
+      },
     });
 
     return {
-      volume: result
+      volume: result,
     };
-  }
+  },
 };

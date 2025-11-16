@@ -16,7 +16,11 @@ interface MeshQualityOutputs {
   qualityReport: unknown;
 }
 
-export const AnalysisQualityMeshQualityNode: NodeDefinition<MeshQualityInputs, MeshQualityOutputs, MeshQualityParams> = {
+export const AnalysisQualityMeshQualityNode: NodeDefinition<
+  MeshQualityInputs,
+  MeshQualityOutputs,
+  MeshQualityParams
+> = {
   id: 'Analysis::MeshQuality',
   type: 'Analysis::MeshQuality',
   category: 'Analysis',
@@ -26,26 +30,26 @@ export const AnalysisQualityMeshQualityNode: NodeDefinition<MeshQualityInputs, M
     mesh: {
       type: 'Shape',
       label: 'Mesh',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     averageAspectRatio: {
       type: 'number',
-      label: 'Average Aspect Ratio'
+      label: 'Average Aspect Ratio',
     },
     maxSkewness: {
       type: 'number',
-      label: 'Max Skewness'
+      label: 'Max Skewness',
     },
     problemElements: {
       type: 'Shape[]',
-      label: 'Problem Elements'
+      label: 'Problem Elements',
     },
     qualityReport: {
       type: 'Properties',
-      label: 'Quality Report'
-    }
+      label: 'Quality Report',
+    },
   },
   params: {
     aspectRatioThreshold: {
@@ -53,15 +57,15 @@ export const AnalysisQualityMeshQualityNode: NodeDefinition<MeshQualityInputs, M
       label: 'Aspect Ratio Threshold',
       default: 5,
       min: 1,
-      max: 20
+      max: 20,
     },
     skewnessThreshold: {
       type: 'number',
       label: 'Skewness Threshold',
       default: 0.8,
       min: 0.1,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -69,15 +73,15 @@ export const AnalysisQualityMeshQualityNode: NodeDefinition<MeshQualityInputs, M
       params: {
         mesh: inputs.mesh,
         aspectRatioThreshold: params.aspectRatioThreshold,
-        skewnessThreshold: params.skewnessThreshold
-      }
+        skewnessThreshold: params.skewnessThreshold,
+      },
     });
-    
+
     return {
       averageAspectRatio: results.averageAspectRatio,
       maxSkewness: results.maxSkewness,
       problemElements: results.problemElements,
-      qualityReport: results.qualityReport
+      qualityReport: results.qualityReport,
     };
   },
 };

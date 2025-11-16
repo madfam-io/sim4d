@@ -16,7 +16,7 @@ export function convertToReactFlow(
   nodes: RFNode[];
   edges: RFEdge[];
 } {
-  const nodes: RFNode[] = graph.nodes.map(node => ({
+  const nodes: RFNode[] = graph.nodes.map((node) => ({
     id: node.id,
     type: getReactFlowNodeType(node.type),
     position: node.position || { x: 0, y: 0 },
@@ -32,7 +32,7 @@ export function convertToReactFlow(
     },
   }));
 
-  const edges: RFEdge[] = graph.edges.map(edge => ({
+  const edges: RFEdge[] = graph.edges.map((edge) => ({
     id: edge.id,
     source: edge.source,
     sourceHandle: edge.sourceHandle,
@@ -56,11 +56,8 @@ export function convertToReactFlow(
 /**
  * Convert ReactFlow format to BrepFlow graph
  */
-export function convertFromReactFlow(
-  nodes: RFNode[],
-  edges: RFEdge[]
-): GraphInstance {
-  const graphNodes: NodeInstance[] = nodes.map(node => ({
+export function convertFromReactFlow(nodes: RFNode[], edges: RFEdge[]): GraphInstance {
+  const graphNodes: NodeInstance[] = nodes.map((node) => ({
     id: createNodeId(node.id),
     type: node.data?.type || node.type || 'unknown',
     position: node.position,
@@ -71,7 +68,7 @@ export function convertFromReactFlow(
     dirty: node.data?.dirty,
   }));
 
-  const graphEdges: Edge[] = edges.map(edge => ({
+  const graphEdges: Edge[] = edges.map((edge) => ({
     id: createEdgeId(edge.id),
     source: createNodeId(edge.source),
     sourceHandle: createSocketId(edge.sourceHandle || ''),

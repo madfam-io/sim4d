@@ -16,7 +16,11 @@ interface CurveSurfaceIntersectionOutputs {
   surfaceParameters: Array<[number, number, number]>;
 }
 
-export const AnalysisIntersectionCurveSurfaceIntersectionNode: NodeDefinition<CurveSurfaceIntersectionInputs, CurveSurfaceIntersectionOutputs, CurveSurfaceIntersectionParams> = {
+export const AnalysisIntersectionCurveSurfaceIntersectionNode: NodeDefinition<
+  CurveSurfaceIntersectionInputs,
+  CurveSurfaceIntersectionOutputs,
+  CurveSurfaceIntersectionParams
+> = {
   id: 'Analysis::CurveSurfaceIntersection',
   type: 'Analysis::CurveSurfaceIntersection',
   category: 'Analysis',
@@ -26,27 +30,27 @@ export const AnalysisIntersectionCurveSurfaceIntersectionNode: NodeDefinition<Cu
     curve: {
       type: 'Wire',
       label: 'Curve',
-      required: true
+      required: true,
     },
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     intersectionPoints: {
       type: 'Point[]',
-      label: 'Intersection Points'
+      label: 'Intersection Points',
     },
     curveParameters: {
       type: 'number[]',
-      label: 'Curve Parameters'
+      label: 'Curve Parameters',
     },
     surfaceParameters: {
       type: 'Point[]',
-      label: 'Surface Parameters'
-    }
+      label: 'Surface Parameters',
+    },
   },
   params: {
     tolerance: {
@@ -54,13 +58,13 @@ export const AnalysisIntersectionCurveSurfaceIntersectionNode: NodeDefinition<Cu
       label: 'Tolerance',
       default: 0.01,
       min: 0.001,
-      max: 1
+      max: 1,
     },
     extendCurve: {
       type: 'boolean',
       label: 'Extend Curve',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -69,14 +73,14 @@ export const AnalysisIntersectionCurveSurfaceIntersectionNode: NodeDefinition<Cu
         curve: inputs.curve,
         surface: inputs.surface,
         tolerance: params.tolerance,
-        extendCurve: params.extendCurve
-      }
+        extendCurve: params.extendCurve,
+      },
     });
-    
+
     return {
       intersectionPoints: results.intersectionPoints,
       curveParameters: results.curveParameters,
-      surfaceParameters: results.surfaceParameters
+      surfaceParameters: results.surfaceParameters,
     };
   },
 };

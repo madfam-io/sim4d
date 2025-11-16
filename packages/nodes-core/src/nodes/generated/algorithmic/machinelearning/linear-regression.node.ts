@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -18,7 +17,11 @@ interface Outputs {
   predictions: number[];
 }
 
-export const LinearRegressionNode: NodeDefinition<LinearRegressionInputs, LinearRegressionOutputs, LinearRegressionParams> = {
+export const LinearRegressionNode: NodeDefinition<
+  LinearRegressionInputs,
+  LinearRegressionOutputs,
+  LinearRegressionParams
+> = {
   type: 'Algorithmic::LinearRegression',
   category: 'Algorithmic',
   subcategory: 'MachineLearning',
@@ -26,44 +29,37 @@ export const LinearRegressionNode: NodeDefinition<LinearRegressionInputs, Linear
   metadata: {
     label: 'LinearRegression',
     description: 'Linear regression analysis',
-    
-    
   },
 
   params: {
-        regularization: {
-      "default": "none",
-      "options": [
-        "none",
-        "ridge",
-        "lasso"
-      ]
+    regularization: {
+      default: 'none',
+      options: ['none', 'ridge', 'lasso'],
     },
     alpha: {
-      "default": 1,
-      "min": 0.001,
-      "max": 100
+      default: 1,
+      min: 0.001,
+      max: 100,
     },
     normalize: {
-      "default": true
-    }
+      default: true,
+    },
   },
 
   inputs: {
-        trainingData: 'Properties[]',
+    trainingData: 'Properties[]',
     features: 'string[]',
-    target: 'string'
+    target: 'string',
   },
 
   outputs: {
-        model: 'Properties',
+    model: 'Properties',
     coefficients: 'number[]',
     rSquared: 'number',
-    predictions: 'number[]'
+    predictions: 'number[]',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'linearRegression',
       params: {
@@ -72,15 +68,15 @@ export const LinearRegressionNode: NodeDefinition<LinearRegressionInputs, Linear
         target: inputs.target,
         regularization: params.regularization,
         alpha: params.alpha,
-        normalize: params.normalize
-      }
+        normalize: params.normalize,
+      },
     });
 
     return {
       model: result,
       coefficients: result,
       rSquared: result,
-      predictions: result
+      predictions: result,
     };
-  }
+  },
 };

@@ -13,7 +13,11 @@ interface HighSpeedMachiningOutputs {
   hsmPath: unknown;
 }
 
-export const FabricationCNCHighSpeedMachiningNode: NodeDefinition<HighSpeedMachiningInputs, HighSpeedMachiningOutputs, HighSpeedMachiningParams> = {
+export const FabricationCNCHighSpeedMachiningNode: NodeDefinition<
+  HighSpeedMachiningInputs,
+  HighSpeedMachiningOutputs,
+  HighSpeedMachiningParams
+> = {
   id: 'Fabrication::HighSpeedMachining',
   category: 'Fabrication',
   label: 'HighSpeedMachining',
@@ -22,14 +26,14 @@ export const FabricationCNCHighSpeedMachiningNode: NodeDefinition<HighSpeedMachi
     toolpath: {
       type: 'Wire[]',
       label: 'Toolpath',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     hsmPath: {
       type: 'Wire[]',
-      label: 'Hsm Path'
-    }
+      label: 'Hsm Path',
+    },
   },
   params: {
     cornerRadius: {
@@ -37,15 +41,15 @@ export const FabricationCNCHighSpeedMachiningNode: NodeDefinition<HighSpeedMachi
       label: 'Corner Radius',
       default: 2,
       min: 0.1,
-      max: 10
+      max: 10,
     },
     entrySpeed: {
       type: 'number',
       label: 'Entry Speed',
       default: 0.5,
       min: 0.1,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const FabricationCNCHighSpeedMachiningNode: NodeDefinition<HighSpeedMachi
       params: {
         toolpath: inputs.toolpath,
         cornerRadius: params.cornerRadius,
-        entrySpeed: params.entrySpeed
-      }
+        entrySpeed: params.entrySpeed,
+      },
     });
-    
+
     return {
-      hsmPath: result
+      hsmPath: result,
     };
   },
 };

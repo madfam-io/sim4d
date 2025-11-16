@@ -15,7 +15,11 @@ interface SpinAttractorOutputs {
   field: unknown;
 }
 
-export const FieldAttractorSpinAttractorNode: NodeDefinition<SpinAttractorInputs, SpinAttractorOutputs, SpinAttractorParams> = {
+export const FieldAttractorSpinAttractorNode: NodeDefinition<
+  SpinAttractorInputs,
+  SpinAttractorOutputs,
+  SpinAttractorParams
+> = {
   id: 'Field::SpinAttractor',
   category: 'Field',
   label: 'SpinAttractor',
@@ -24,14 +28,14 @@ export const FieldAttractorSpinAttractorNode: NodeDefinition<SpinAttractorInputs
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     field: {
       type: 'VectorField',
-      label: 'Field'
-    }
+      label: 'Field',
+    },
   },
   params: {
     strength: {
@@ -39,26 +43,26 @@ export const FieldAttractorSpinAttractorNode: NodeDefinition<SpinAttractorInputs
       label: 'Strength',
       default: 1,
       min: -10,
-      max: 10
+      max: 10,
     },
     radius: {
       type: 'number',
       label: 'Radius',
       default: 100,
-      min: 0.1
+      min: 0.1,
     },
     axis: {
       type: 'vec3',
       label: 'Axis',
-      default: [0,0,1]
+      default: [0, 0, 1],
     },
     decay: {
       type: 'number',
       label: 'Decay',
       default: 0.5,
       min: 0,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -68,12 +72,12 @@ export const FieldAttractorSpinAttractorNode: NodeDefinition<SpinAttractorInputs
         strength: params.strength,
         radius: params.radius,
         axis: params.axis,
-        decay: params.decay
-      }
+        decay: params.decay,
+      },
     });
-    
+
     return {
-      field: result
+      field: result,
     };
   },
 };

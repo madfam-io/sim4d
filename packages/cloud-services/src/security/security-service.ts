@@ -56,7 +56,15 @@ export interface SecurityConfig {
 
 export interface SecurityThreat {
   id: string;
-  type: 'malware' | 'suspicious_login' | 'data_breach' | 'ddos' | 'injection' | 'xss' | 'csrf' | 'unauthorized_access';
+  type:
+    | 'malware'
+    | 'suspicious_login'
+    | 'data_breach'
+    | 'ddos'
+    | 'injection'
+    | 'xss'
+    | 'csrf'
+    | 'unauthorized_access';
   severity: 'low' | 'medium' | 'high' | 'critical';
   source: {
     type: 'user' | 'plugin' | 'external' | 'system';
@@ -325,8 +333,8 @@ export class SecurityService extends EventEmitter {
   }
 
   async getScanResults(targetType: string, targetId: string): Promise<SecurityScan[]> {
-    return this.scanQueue.filter(scan =>
-      scan.target.type === targetType && scan.target.identifier === targetId
+    return this.scanQueue.filter(
+      (scan) => scan.target.type === targetType && scan.target.identifier === targetId
     );
   }
 
@@ -343,20 +351,25 @@ export class SecurityService extends EventEmitter {
     if (this.config.threatDetection.ipReputationEnabled) {
       const reputation = await this.checkIpReputation(context.ipAddress);
       if (reputation < 50) {
-        await this.detectThreat('suspicious_login', {
-          type: 'user',
-          identifier: userId,
-          ipAddress: context.ipAddress,
-          userAgent: context.userAgent,
-        }, {
-          type: resource.type as any,
-          identifier: resource.identifier,
-        }, {
-          description: 'Access attempt from low-reputation IP',
-          indicators: [`ip:${context.ipAddress}`, `reputation:${reputation}`],
-          evidence: { reputation, ipAddress: context.ipAddress },
-          mitigation: ['block_ip', 'require_mfa'],
-        });
+        await this.detectThreat(
+          'suspicious_login',
+          {
+            type: 'user',
+            identifier: userId,
+            ipAddress: context.ipAddress,
+            userAgent: context.userAgent,
+          },
+          {
+            type: resource.type as any,
+            identifier: resource.identifier,
+          },
+          {
+            description: 'Access attempt from low-reputation IP',
+            indicators: [`ip:${context.ipAddress}`, `reputation:${reputation}`],
+            evidence: { reputation, ipAddress: context.ipAddress },
+            mitigation: ['block_ip', 'require_mfa'],
+          }
+        );
 
         return { allowed: false, reason: 'Suspicious IP address' };
       }
@@ -414,7 +427,10 @@ export class SecurityService extends EventEmitter {
   /**
    * Data Protection and Privacy
    */
-  async classifyData(data: any, context: { type: string; source: string }): Promise<DataClassification> {
+  async classifyData(
+    data: any,
+    context: { type: string; source: string }
+  ): Promise<DataClassification> {
     const classification = await this.performDataClassification(data, context);
 
     // Apply encryption if required
@@ -437,7 +453,10 @@ export class SecurityService extends EventEmitter {
       { pattern: /\b\d{4}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}\b/g, type: 'credit_card' },
       { pattern: /\b\d{3}-\d{2}-\d{4}\b/g, type: 'ssn' },
       { pattern: /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g, type: 'email' },
-      { pattern: /\b(?:\+?1[-.\s]?)?\(?[0-9]{3}\)?[-.\s]?[0-9]{3}[-.\s]?[0-9]{4}\b/g, type: 'phone' },
+      {
+        pattern: /\b(?:\+?1[-.\s]?)?\(?[0-9]{3}\)?[-.\s]?[0-9]{3}[-.\s]?[0-9]{4}\b/g,
+        type: 'phone',
+      },
     ];
 
     const detectedData: string[] = [];
@@ -446,7 +465,7 @@ export class SecurityService extends EventEmitter {
     for (const { pattern, type } of sensitivePatterns) {
       const matches = content.match(pattern);
       if (matches) {
-        detectedData.push(...matches.map(match => `${type}:${match}`));
+        detectedData.push(...matches.map((match) => `${type}:${match}`));
         riskLevel += matches.length * 10;
       }
     }
@@ -454,18 +473,23 @@ export class SecurityService extends EventEmitter {
     const leaked = detectedData.length > 0;
 
     if (leaked) {
-      await this.detectThreat('data_breach', {
-        type: 'user',
-        identifier: context.userId,
-      }, {
-        type: 'system',
-        identifier: 'data_protection',
-      }, {
-        description: 'Potential data leak detected',
-        indicators: detectedData,
-        evidence: { action: context.action, destination: context.destination },
-        mitigation: ['block_action', 'notify_admin', 'require_review'],
-      });
+      await this.detectThreat(
+        'data_breach',
+        {
+          type: 'user',
+          identifier: context.userId,
+        },
+        {
+          type: 'system',
+          identifier: 'data_protection',
+        },
+        {
+          description: 'Potential data leak detected',
+          indicators: detectedData,
+          evidence: { action: context.action, destination: context.destination },
+          mitigation: ['block_action', 'notify_admin', 'require_review'],
+        }
+      );
     }
 
     return { leaked, sensitiveData: detectedData, riskLevel: Math.min(riskLevel, 100) };
@@ -495,12 +519,14 @@ export class SecurityService extends EventEmitter {
       reportedBy,
       affectedUsers,
       affectedSystems,
-      timeline: [{
-        timestamp: new Date(),
-        action: 'created',
-        performer: reportedBy,
-        details: 'Incident created',
-      }],
+      timeline: [
+        {
+          timestamp: new Date(),
+          action: 'created',
+          performer: reportedBy,
+          details: 'Incident created',
+        },
+      ],
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -576,7 +602,7 @@ export class SecurityService extends EventEmitter {
       period,
       compliance: {
         score: overallScore,
-        requirements: assessedRequirements.map(req => ({
+        requirements: assessedRequirements.map((req) => ({
           id: req.id,
           name: req.name,
           status: req.score >= 90 ? 'compliant' : req.score >= 50 ? 'partial' : 'non-compliant',
@@ -614,20 +640,20 @@ export class SecurityService extends EventEmitter {
       suspiciousActivities: number;
     };
   }> {
-    const threats = Array.from(this.threats.values()).filter(t =>
-      t.detectedAt >= period.start && t.detectedAt <= period.end
+    const threats = Array.from(this.threats.values()).filter(
+      (t) => t.detectedAt >= period.start && t.detectedAt <= period.end
     );
 
-    const incidents = Array.from(this.incidents.values()).filter(i =>
-      i.createdAt >= period.start && i.createdAt <= period.end
+    const incidents = Array.from(this.incidents.values()).filter(
+      (i) => i.createdAt >= period.start && i.createdAt <= period.end
     );
 
-    const scans = this.scanQueue.filter(s =>
-      s.startedAt >= period.start && s.startedAt <= period.end
+    const scans = this.scanQueue.filter(
+      (s) => s.startedAt >= period.start && s.startedAt <= period.end
     );
 
-    const auditEvents = this.auditLogs.filter(log =>
-      log.timestamp >= period.start && log.timestamp <= period.end
+    const auditEvents = this.auditLogs.filter(
+      (log) => log.timestamp >= period.start && log.timestamp <= period.end
     );
 
     return {
@@ -635,7 +661,7 @@ export class SecurityService extends EventEmitter {
         total: threats.length,
         byType: this.groupBy(threats, 'type'),
         bySeverity: this.groupBy(threats, 'severity'),
-        resolved: threats.filter(t => t.status === 'resolved').length,
+        resolved: threats.filter((t) => t.status === 'resolved').length,
       },
       incidents: {
         total: incidents.length,
@@ -645,14 +671,16 @@ export class SecurityService extends EventEmitter {
       },
       scans: {
         total: scans.length,
-        passed: scans.filter(s => s.result && s.result.score >= 70).length,
-        failed: scans.filter(s => s.result && s.result.score < 70).length,
+        passed: scans.filter((s) => s.result && s.result.score >= 70).length,
+        failed: scans.filter((s) => s.result && s.result.score < 70).length,
         averageScore: this.calculateAverageScore(scans),
       },
       auditEvents: {
         total: auditEvents.length,
-        failures: auditEvents.filter(e => e.outcome === 'failure').length,
-        suspiciousActivities: auditEvents.filter(e => e.severity === 'warning' || e.severity === 'error').length,
+        failures: auditEvents.filter((e) => e.outcome === 'failure').length,
+        suspiciousActivities: auditEvents.filter(
+          (e) => e.severity === 'warning' || e.severity === 'error'
+        ).length,
       },
     };
   }
@@ -719,7 +747,10 @@ export class SecurityService extends EventEmitter {
     }
   }
 
-  private calculateThreatSeverity(type: SecurityThreat['type'], details: SecurityThreat['details']): SecurityThreat['severity'] {
+  private calculateThreatSeverity(
+    type: SecurityThreat['type'],
+    details: SecurityThreat['details']
+  ): SecurityThreat['severity'] {
     let score = 0;
 
     // Base score by type
@@ -771,12 +802,14 @@ export class SecurityService extends EventEmitter {
       return {
         status: 'unknown',
         score: 0,
-        issues: [{
-          severity: 'high',
-          type: 'malware',
-          description: `Scan failed: ${error.message}`,
-          recommendation: 'Manual review required',
-        }],
+        issues: [
+          {
+            severity: 'high',
+            type: 'malware',
+            description: `Scan failed: ${error.message}`,
+            recommendation: 'Manual review required',
+          },
+        ],
       };
     }
   }
@@ -801,24 +834,41 @@ export class SecurityService extends EventEmitter {
     this.emit('audit-logged', auditEntry);
   }
 
-  private generateThreatId(): string { return randomBytes(16).toString('hex'); }
-  private generateScanId(): string { return randomBytes(16).toString('hex'); }
-  private generateIncidentId(): string { return randomBytes(16).toString('hex'); }
-  private generateAuditId(): string { return randomBytes(16).toString('hex'); }
+  private generateThreatId(): string {
+    return randomBytes(16).toString('hex');
+  }
+  private generateScanId(): string {
+    return randomBytes(16).toString('hex');
+  }
+  private generateIncidentId(): string {
+    return randomBytes(16).toString('hex');
+  }
+  private generateAuditId(): string {
+    return randomBytes(16).toString('hex');
+  }
 
   private groupBy<T>(array: T[], key: keyof T): Record<string, number> {
-    return array.reduce((groups, item) => {
-      const value = String(item[key]);
-      groups[value] = (groups[value] || 0) + 1;
-      return groups;
-    }, {} as Record<string, number>);
+    return array.reduce(
+      (groups, item) => {
+        const value = String(item[key]);
+        groups[value] = (groups[value] || 0) + 1;
+        return groups;
+      },
+      {} as Record<string, number>
+    );
   }
 
   // Placeholder methods for complex operations
-  private async checkIpReputation(ipAddress: string): Promise<number> { return 75; }
-  private async getCountryFromIp(ipAddress: string): Promise<string> { return 'US'; }
-  private async analyzeBehavior(userId: UserId, context: any): Promise<number> { return 20; }
-  private async analyzeActivityAnomaly(userId: UserId, activity: AuditLog): Promise<void> { }
+  private async checkIpReputation(ipAddress: string): Promise<number> {
+    return 75;
+  }
+  private async getCountryFromIp(ipAddress: string): Promise<string> {
+    return 'US';
+  }
+  private async analyzeBehavior(userId: UserId, context: any): Promise<number> {
+    return 20;
+  }
+  private async analyzeActivityAnomaly(userId: UserId, activity: AuditLog): Promise<void> {}
   private async performDataClassification(data: any, context: any): Promise<DataClassification> {
     return {
       level: 'internal',
@@ -828,20 +878,37 @@ export class SecurityService extends EventEmitter {
       accessRestrictions: ['authenticated_users'],
     };
   }
-  private async encryptSensitiveData(data: any, classification: DataClassification): Promise<void> { }
-  private async performThreatInvestigation(threat: SecurityThreat): Promise<any> { return {}; }
-  private async createSecurityIncident(threat: SecurityThreat): Promise<void> { }
-  private async quarantineTarget(target: any): Promise<void> { }
-  private async blockIpAddress(ipAddress: string): Promise<void> { }
-  private async requireMfaForUser(userId: string): Promise<void> { }
-  private async revokeUserSessions(userId: string): Promise<void> { }
-  private async applyRateLimit(identifier: string): Promise<void> { }
-  private async processScheduledScans(): Promise<void> { }
-  private async monitorThreats(): Promise<void> { }
-  private async getComplianceRequirements(standard: string): Promise<any[]> { return []; }
-  private getAuditLogsForPeriod(period: any): AuditLog[] { return []; }
-  private async assessCompliance(requirement: any, auditData: AuditLog[]): Promise<any> { return {}; }
-  private async generateComplianceRecommendations(requirements: any[]): Promise<string[]> { return []; }
-  private calculateAverageResolutionTime(incidents: SecurityIncident[]): number { return 0; }
-  private calculateAverageScore(scans: SecurityScan[]): number { return 0; }
+  private async encryptSensitiveData(
+    data: any,
+    classification: DataClassification
+  ): Promise<void> {}
+  private async performThreatInvestigation(threat: SecurityThreat): Promise<any> {
+    return {};
+  }
+  private async createSecurityIncident(threat: SecurityThreat): Promise<void> {}
+  private async quarantineTarget(target: any): Promise<void> {}
+  private async blockIpAddress(ipAddress: string): Promise<void> {}
+  private async requireMfaForUser(userId: string): Promise<void> {}
+  private async revokeUserSessions(userId: string): Promise<void> {}
+  private async applyRateLimit(identifier: string): Promise<void> {}
+  private async processScheduledScans(): Promise<void> {}
+  private async monitorThreats(): Promise<void> {}
+  private async getComplianceRequirements(standard: string): Promise<any[]> {
+    return [];
+  }
+  private getAuditLogsForPeriod(period: any): AuditLog[] {
+    return [];
+  }
+  private async assessCompliance(requirement: any, auditData: AuditLog[]): Promise<any> {
+    return {};
+  }
+  private async generateComplianceRecommendations(requirements: any[]): Promise<string[]> {
+    return [];
+  }
+  private calculateAverageResolutionTime(incidents: SecurityIncident[]): number {
+    return 0;
+  }
+  private calculateAverageScore(scans: SecurityScan[]): number {
+    return 0;
+  }
 }

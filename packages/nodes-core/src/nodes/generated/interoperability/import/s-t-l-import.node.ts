@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -23,56 +22,48 @@ export const STLImportNode: NodeDefinition<STLImportInputs, STLImportOutputs, ST
   metadata: {
     label: 'STLImport',
     description: 'Import STL mesh files',
-    
-    
   },
 
   params: {
-        mergeVertices: {
-      "default": true
+    mergeVertices: {
+      default: true,
     },
     tolerance: {
-      "default": 0.01,
-      "min": 0.001,
-      "max": 1
+      default: 0.01,
+      min: 0.001,
+      max: 1,
     },
     units: {
-      "default": "mm",
-      "options": [
-        "mm",
-        "cm",
-        "m",
-        "inch"
-      ]
-    }
+      default: 'mm',
+      options: ['mm', 'cm', 'm', 'inch'],
+    },
   },
 
   inputs: {
-        filePath: 'string'
+    filePath: 'string',
   },
 
   outputs: {
-        mesh: 'Shape',
+    mesh: 'Shape',
     triangleCount: 'number',
-    vertexCount: 'number'
+    vertexCount: 'number',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'stlImport',
       params: {
         filePath: inputs.filePath,
         mergeVertices: params.mergeVertices,
         tolerance: params.tolerance,
-        units: params.units
-      }
+        units: params.units,
+      },
     });
 
     return {
       mesh: result,
       triangleCount: result,
-      vertexCount: result
+      vertexCount: result,
     };
-  }
+  },
 };

@@ -10,7 +10,11 @@ interface TreeSimplifyOutputs {
   simplified: unknown;
 }
 
-export const DataTreeTreeSimplifyNode: NodeDefinition<TreeSimplifyInputs, TreeSimplifyOutputs, TreeSimplifyParams> = {
+export const DataTreeTreeSimplifyNode: NodeDefinition<
+  TreeSimplifyInputs,
+  TreeSimplifyOutputs,
+  TreeSimplifyParams
+> = {
   id: 'Data::TreeSimplify',
   category: 'Data',
   label: 'TreeSimplify',
@@ -19,26 +23,26 @@ export const DataTreeTreeSimplifyNode: NodeDefinition<TreeSimplifyInputs, TreeSi
     tree: {
       type: 'DataTree',
       label: 'Tree',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     simplified: {
       type: 'DataTree',
-      label: 'Simplified'
-    }
+      label: 'Simplified',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'treeSimplify',
       params: {
-        tree: inputs.tree
-      }
+        tree: inputs.tree,
+      },
     });
-    
+
     return {
-      simplified: result
+      simplified: result,
     };
   },
 };

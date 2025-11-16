@@ -17,7 +17,11 @@ interface CurveDerivativesOutputs {
   thirdDerivative: [number, number, number];
 }
 
-export const AnalysisCurvesCurveDerivativesNode: NodeDefinition<CurveDerivativesInputs, CurveDerivativesOutputs, CurveDerivativesParams> = {
+export const AnalysisCurvesCurveDerivativesNode: NodeDefinition<
+  CurveDerivativesInputs,
+  CurveDerivativesOutputs,
+  CurveDerivativesParams
+> = {
   id: 'Analysis::CurveDerivatives',
   type: 'Analysis::CurveDerivatives',
   category: 'Analysis',
@@ -27,26 +31,26 @@ export const AnalysisCurvesCurveDerivativesNode: NodeDefinition<CurveDerivatives
     curve: {
       type: 'Wire',
       label: 'Curve',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     point: {
       type: 'Point',
-      label: 'Point'
+      label: 'Point',
     },
     firstDerivative: {
       type: 'Vector',
-      label: 'First Derivative'
+      label: 'First Derivative',
     },
     secondDerivative: {
       type: 'Vector',
-      label: 'Second Derivative'
+      label: 'Second Derivative',
     },
     thirdDerivative: {
       type: 'Vector',
-      label: 'Third Derivative'
-    }
+      label: 'Third Derivative',
+    },
   },
   params: {
     parameter: {
@@ -54,22 +58,22 @@ export const AnalysisCurvesCurveDerivativesNode: NodeDefinition<CurveDerivatives
       label: 'Parameter',
       default: 0.5,
       min: 0,
-      max: 1
+      max: 1,
     },
     order: {
       type: 'number',
       label: 'Order',
       default: 2,
       min: 1,
-      max: 3
+      max: 3,
     },
     vectorScale: {
       type: 'number',
       label: 'Vector Scale',
       default: 1,
       min: 0.1,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -78,15 +82,15 @@ export const AnalysisCurvesCurveDerivativesNode: NodeDefinition<CurveDerivatives
         curve: inputs.curve,
         parameter: params.parameter,
         order: params.order,
-        vectorScale: params.vectorScale
-      }
+        vectorScale: params.vectorScale,
+      },
     });
-    
+
     return {
       point: results.point,
       firstDerivative: results.firstDerivative,
       secondDerivative: results.secondDerivative,
-      thirdDerivative: results.thirdDerivative
+      thirdDerivative: results.thirdDerivative,
     };
   },
 };

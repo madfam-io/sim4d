@@ -26,14 +26,14 @@ export const SketchPatternsGearNode: NodeDefinition<GearInputs, GearOutputs, Gea
     center: {
       type: 'Point',
       label: 'Center',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     gear: {
       type: 'Wire',
-      label: 'Gear'
-    }
+      label: 'Gear',
+    },
   },
   params: {
     teeth: {
@@ -42,36 +42,36 @@ export const SketchPatternsGearNode: NodeDefinition<GearInputs, GearOutputs, Gea
       default: 20,
       min: 3,
       max: 200,
-      step: 1
+      step: 1,
     },
     module: {
       type: 'number',
       label: 'Module',
       default: 2,
       min: 0.1,
-      max: 100
+      max: 100,
     },
     pressureAngle: {
       type: 'number',
       label: 'Pressure Angle',
       default: 20,
       min: 14.5,
-      max: 30
+      max: 30,
     },
     addendum: {
       type: 'number',
       label: 'Addendum',
       default: 1,
       min: 0.5,
-      max: 1.5
+      max: 1.5,
     },
     dedendum: {
       type: 'number',
       label: 'Dedendum',
       default: 1.25,
       min: 1,
-      max: 2
-    }
+      max: 2,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -82,12 +82,12 @@ export const SketchPatternsGearNode: NodeDefinition<GearInputs, GearOutputs, Gea
         module: params.module,
         pressureAngle: params.pressureAngle,
         addendum: params.addendum,
-        dedendum: params.dedendum
-      }
+        dedendum: params.dedendum,
+      },
     });
-    
+
     return {
-      gear: result
+      gear: result,
     };
   },
 };

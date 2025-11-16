@@ -14,7 +14,11 @@ interface ExportGLTFOutputs {
   gltfData: unknown;
 }
 
-export const IOExchangeExportGLTFNode: NodeDefinition<ExportGLTFInputs, ExportGLTFOutputs, ExportGLTFParams> = {
+export const IOExchangeExportGLTFNode: NodeDefinition<
+  ExportGLTFInputs,
+  ExportGLTFOutputs,
+  ExportGLTFParams
+> = {
   id: 'IO::ExportGLTF',
   category: 'IO',
   label: 'ExportGLTF',
@@ -23,32 +27,32 @@ export const IOExchangeExportGLTFNode: NodeDefinition<ExportGLTFInputs, ExportGL
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
+      required: true,
     },
     materials: {
       type: 'Data',
       label: 'Materials',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     gltfData: {
       type: 'Data',
-      label: 'Gltf Data'
-    }
+      label: 'Gltf Data',
+    },
   },
   params: {
     format: {
       type: 'enum',
       label: 'Format',
-      default: "glb",
-      options: ["gltf","glb"]
+      default: 'glb',
+      options: ['gltf', 'glb'],
     },
     draco: {
       type: 'boolean',
       label: 'Draco',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -57,12 +61,12 @@ export const IOExchangeExportGLTFNode: NodeDefinition<ExportGLTFInputs, ExportGL
         shape: inputs.shape,
         materials: inputs.materials,
         format: params.format,
-        draco: params.draco
-      }
+        draco: params.draco,
+      },
     });
-    
+
     return {
-      gltfData: result
+      gltfData: result,
     };
   },
 };

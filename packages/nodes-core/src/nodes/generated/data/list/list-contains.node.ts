@@ -12,7 +12,11 @@ interface ListContainsOutputs {
   index: unknown;
 }
 
-export const DataListListContainsNode: NodeDefinition<ListContainsInputs, ListContainsOutputs, ListContainsParams> = {
+export const DataListListContainsNode: NodeDefinition<
+  ListContainsInputs,
+  ListContainsOutputs,
+  ListContainsParams
+> = {
   id: 'Data::ListContains',
   category: 'Data',
   label: 'ListContains',
@@ -21,23 +25,23 @@ export const DataListListContainsNode: NodeDefinition<ListContainsInputs, ListCo
     list: {
       type: 'Data[]',
       label: 'List',
-      required: true
+      required: true,
     },
     item: {
       type: 'Data',
       label: 'Item',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     contains: {
       type: 'boolean',
-      label: 'Contains'
+      label: 'Contains',
     },
     index: {
       type: 'number',
-      label: 'Index'
-    }
+      label: 'Index',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -45,13 +49,13 @@ export const DataListListContainsNode: NodeDefinition<ListContainsInputs, ListCo
       type: 'listContains',
       params: {
         list: inputs.list,
-        item: inputs.item
-      }
+        item: inputs.item,
+      },
     });
-    
+
     return {
       contains: results.contains,
-      index: results.index
+      index: results.index,
     };
   },
 };

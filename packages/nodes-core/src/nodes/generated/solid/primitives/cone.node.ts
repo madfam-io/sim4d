@@ -25,8 +25,8 @@ export const SolidPrimitivesConeNode: NodeDefinition<ConeInputs, ConeOutputs, Co
   outputs: {
     solid: {
       type: 'Solid',
-      label: 'Solid'
-    }
+      label: 'Solid',
+    },
   },
   params: {
     radius1: {
@@ -34,50 +34,50 @@ export const SolidPrimitivesConeNode: NodeDefinition<ConeInputs, ConeOutputs, Co
       label: 'Radius1',
       default: 50,
       min: 0,
-      max: 10000
+      max: 10000,
     },
     radius2: {
       type: 'number',
       label: 'Radius2',
       default: 0,
       min: 0,
-      max: 10000
+      max: 10000,
     },
     height: {
       type: 'number',
       label: 'Height',
       default: 100,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     centerX: {
       type: 'number',
       label: 'Center X',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     centerY: {
       type: 'number',
       label: 'Center Y',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     centerZ: {
       type: 'number',
       label: 'Center Z',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     angle: {
       type: 'number',
       label: 'Angle',
       default: 360,
       min: 0,
-      max: 360
-    }
+      max: 360,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -89,12 +89,12 @@ export const SolidPrimitivesConeNode: NodeDefinition<ConeInputs, ConeOutputs, Co
         centerX: params.centerX,
         centerY: params.centerY,
         centerZ: params.centerZ,
-        angle: params.angle
-      }
+        angle: params.angle,
+      },
     });
-    
+
     return {
-      solid: result
+      solid: result,
     };
   },
 };

@@ -12,7 +12,11 @@ interface RandomChoiceOutputs {
   choice: unknown;
 }
 
-export const MathRandomRandomChoiceNode: NodeDefinition<RandomChoiceInputs, RandomChoiceOutputs, RandomChoiceParams> = {
+export const MathRandomRandomChoiceNode: NodeDefinition<
+  RandomChoiceInputs,
+  RandomChoiceOutputs,
+  RandomChoiceParams
+> = {
   id: 'Math::RandomChoice',
   category: 'Math',
   label: 'RandomChoice',
@@ -21,14 +25,14 @@ export const MathRandomRandomChoiceNode: NodeDefinition<RandomChoiceInputs, Rand
     choices: {
       type: 'Data[]',
       label: 'Choices',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     choice: {
       type: 'Data',
-      label: 'Choice'
-    }
+      label: 'Choice',
+    },
   },
   params: {
     seed: {
@@ -36,20 +40,20 @@ export const MathRandomRandomChoiceNode: NodeDefinition<RandomChoiceInputs, Rand
       label: 'Seed',
       default: -1,
       min: -1,
-      max: 999999
-    }
+      max: 999999,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathRandomChoice',
       params: {
         choices: inputs.choices,
-        seed: params.seed
-      }
+        seed: params.seed,
+      },
     });
-    
+
     return {
-      choice: result
+      choice: result,
     };
   },
 };

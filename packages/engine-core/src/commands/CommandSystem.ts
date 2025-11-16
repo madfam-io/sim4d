@@ -174,14 +174,14 @@ export class CommandSystem {
    */
   getHistory(): CommandSystemState {
     return {
-      undoStack: this.undoStack.map(item => ({
+      undoStack: this.undoStack.map((item) => ({
         id: 'commands' in item ? item.id : item.id,
         description: 'commands' in item ? item.description : item.description,
         type: 'commands' in item ? 'group' : 'command',
         timestamp: 'commands' in item ? item.timestamp : item.timestamp,
         commandCount: 'commands' in item ? item.commands.length : 1,
       })),
-      redoStack: this.redoStack.map(item => ({
+      redoStack: this.redoStack.map((item) => ({
         id: 'commands' in item ? item.id : item.id,
         description: 'commands' in item ? item.description : item.description,
         type: 'commands' in item ? 'group' : 'command',
@@ -190,11 +190,13 @@ export class CommandSystem {
       })),
       canUndo: this.canUndo(),
       canRedo: this.canRedo(),
-      currentGroup: this.currentGroup ? {
-        id: this.currentGroup.id,
-        description: this.currentGroup.description,
-        commandCount: this.currentGroup.commands.length,
-      } : undefined,
+      currentGroup: this.currentGroup
+        ? {
+            id: this.currentGroup.id,
+            description: this.currentGroup.description,
+            commandCount: this.currentGroup.commands.length,
+          }
+        : undefined,
     };
   }
 

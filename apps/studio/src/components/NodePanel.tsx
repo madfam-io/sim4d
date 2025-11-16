@@ -75,7 +75,7 @@ function NodeItem({ node, onDragStart }: NodeItemProps) {
   const handleDragStart = (e: React.DragEvent) => {
     setIsDragging(true);
     onDragStart(e, node.type);
-    
+
     // Add visual feedback for drag operation
     if (dragRef.current) {
       dragRef.current.style.opacity = '0.5';
@@ -85,7 +85,7 @@ function NodeItem({ node, onDragStart }: NodeItemProps) {
 
   const handleDragEnd = () => {
     setIsDragging(false);
-    
+
     // Reset visual state
     if (dragRef.current) {
       dragRef.current.style.opacity = '';
@@ -117,14 +117,12 @@ function NodeItem({ node, onDragStart }: NodeItemProps) {
       onMouseLeave={handleMouseLeave}
       title={node.type}
     >
-      <NodeIcon 
-        nodeType={node.type} 
-        size={16} 
-        className={`node-item-icon ${isDragging ? 'dragging' : ''}`} 
+      <NodeIcon
+        nodeType={node.type}
+        size={16}
+        className={`node-item-icon ${isDragging ? 'dragging' : ''}`}
       />
-      <span className={`node-item-label ${isDragging ? 'dragging' : ''}`}>
-        {node.label}
-      </span>
+      <span className={`node-item-label ${isDragging ? 'dragging' : ''}`}>{node.label}</span>
     </div>
   );
 }
@@ -142,7 +140,7 @@ function CategorySection({ category, onDragStart }: CategorySectionProps) {
   const toggleOpen = () => {
     setIsAnimating(true);
     setIsOpen(!isOpen);
-    
+
     // Reset animation state after transition
     setTimeout(() => {
       setIsAnimating(false);
@@ -150,21 +148,20 @@ function CategorySection({ category, onDragStart }: CategorySectionProps) {
   };
 
   return (
-    <div className={`category-section ${isOpen ? 'open' : 'closed'} ${isAnimating ? 'animating' : ''}`}>
-      <div 
-        className={`category-header ${isOpen ? 'expanded' : 'collapsed'}`}
-        onClick={toggleOpen}
-      >
+    <div
+      className={`category-section ${isOpen ? 'open' : 'closed'} ${isAnimating ? 'animating' : ''}`}
+    >
+      <div className={`category-header ${isOpen ? 'expanded' : 'collapsed'}`} onClick={toggleOpen}>
         <span className={`expand-icon ${isOpen ? 'rotated' : ''}`}>▶</span>
         <span className="category-title">{category.name}</span>
         <span className="node-count">{category.nodes.length}</span>
       </div>
-      
-      <div 
+
+      <div
         ref={contentRef}
         className={`category-content ${isOpen ? 'visible' : 'hidden'}`}
         style={{
-          maxHeight: isOpen ? `${category.nodes.length * 40 + 16}px` : '0px'
+          maxHeight: isOpen ? `${category.nodes.length * 40 + 16}px` : '0px',
         }}
       >
         <div className="node-list">
@@ -173,7 +170,7 @@ function CategorySection({ category, onDragStart }: CategorySectionProps) {
               key={node.type}
               className="node-item-wrapper"
               style={{
-                animationDelay: isOpen ? `${index * 30}ms` : '0ms'
+                animationDelay: isOpen ? `${index * 30}ms` : '0ms',
               }}
             >
               <NodeItem node={node} onDragStart={onDragStart} />
@@ -194,13 +191,16 @@ export function NodePanel() {
     event.dataTransfer.effectAllowed = 'move';
   };
 
-  const filteredCategories = nodeCategories.map(category => ({
-    ...category,
-    nodes: category.nodes.filter(node =>
-      node.label.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      node.type.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  })).filter(category => category.nodes.length > 0);
+  const filteredCategories = nodeCategories
+    .map((category) => ({
+      ...category,
+      nodes: category.nodes.filter(
+        (node) =>
+          node.label.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          node.type.toLowerCase().includes(searchTerm.toLowerCase())
+      ),
+    }))
+    .filter((category) => category.nodes.length > 0);
 
   return (
     <div className="node-panel">
@@ -208,12 +208,12 @@ export function NodePanel() {
         <h3 className="panel-title">Nodes</h3>
         <div className="panel-subtitle">Drag to add to canvas</div>
       </div>
-      
+
       <div className={`search-container ${isSearchFocused ? 'focused' : ''}`}>
         <div className="search-icon">🔍</div>
-        <input 
-          type="text" 
-          placeholder="Search nodes..." 
+        <input
+          type="text"
+          placeholder="Search nodes..."
           className={`search-input ${isSearchFocused ? 'focused' : ''}`}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -221,11 +221,7 @@ export function NodePanel() {
           onBlur={() => setIsSearchFocused(false)}
         />
         {searchTerm && (
-          <button 
-            className="search-clear"
-            onClick={() => setSearchTerm('')}
-            title="Clear search"
-          >
+          <button className="search-clear" onClick={() => setSearchTerm('')} title="Clear search">
             ×
           </button>
         )}
@@ -233,13 +229,9 @@ export function NodePanel() {
 
       <div className="categories-container">
         {filteredCategories.map((category) => (
-          <CategorySection 
-            key={category.name} 
-            category={category} 
-            onDragStart={onDragStart} 
-          />
+          <CategorySection key={category.name} category={category} onDragStart={onDragStart} />
         ))}
-        
+
         {filteredCategories.length === 0 && searchTerm && (
           <div className="no-results">
             <div className="no-results-icon">🔍</div>

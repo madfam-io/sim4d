@@ -15,7 +15,11 @@ interface SwitchbackRampOutputs {
   landings: unknown;
 }
 
-export const ArchitectureRampsSwitchbackRampNode: NodeDefinition<SwitchbackRampInputs, SwitchbackRampOutputs, SwitchbackRampParams> = {
+export const ArchitectureRampsSwitchbackRampNode: NodeDefinition<
+  SwitchbackRampInputs,
+  SwitchbackRampOutputs,
+  SwitchbackRampParams
+> = {
   id: 'Architecture::SwitchbackRamp',
   type: 'Architecture::SwitchbackRamp',
   category: 'Architecture',
@@ -25,23 +29,23 @@ export const ArchitectureRampsSwitchbackRampNode: NodeDefinition<SwitchbackRampI
     startPoint: {
       type: 'Point',
       label: 'Start Point',
-      required: true
+      required: true,
     },
     totalRise: {
       type: 'Number',
       label: 'Total Rise',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     ramp: {
       type: 'Shape',
-      label: 'Ramp'
+      label: 'Ramp',
     },
     landings: {
       type: 'Shape[]',
-      label: 'Landings'
-    }
+      label: 'Landings',
+    },
   },
   params: {
     runLength: {
@@ -49,15 +53,15 @@ export const ArchitectureRampsSwitchbackRampNode: NodeDefinition<SwitchbackRampI
       label: 'Run Length',
       default: 9000,
       min: 6000,
-      max: 12000
+      max: 12000,
     },
     landingSize: {
       type: 'number',
       label: 'Landing Size',
       default: 1500,
       min: 1500,
-      max: 2000
-    }
+      max: 2000,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -66,13 +70,13 @@ export const ArchitectureRampsSwitchbackRampNode: NodeDefinition<SwitchbackRampI
         startPoint: inputs.startPoint,
         totalRise: inputs.totalRise,
         runLength: params.runLength,
-        landingSize: params.landingSize
-      }
+        landingSize: params.landingSize,
+      },
     });
-    
+
     return {
       ramp: results.ramp,
-      landings: results.landings
+      landings: results.landings,
     };
   },
 };

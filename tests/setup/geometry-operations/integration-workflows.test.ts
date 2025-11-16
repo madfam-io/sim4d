@@ -5,7 +5,11 @@
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { GeometryAPI } from '@brepflow/engine-occt';
-import { setupWASMTestEnvironment, GeometryPerformanceTracker, GeometryTestDataGenerator } from '../wasm-test-setup';
+import {
+  setupWASMTestEnvironment,
+  GeometryPerformanceTracker,
+  GeometryTestDataGenerator,
+} from '../wasm-test-setup';
 
 describe('Integration Workflows', () => {
   let geometryAPI: GeometryAPI;
@@ -27,53 +31,68 @@ describe('Integration Workflows', () => {
 
       // Create base enclosure
       const baseBox = await geometryAPI.invoke('MAKE_BOX', {
-        width: 200, height: 120, depth: 60
+        width: 200,
+        height: 120,
+        depth: 60,
       });
 
       // Create mounting holes
       const hole1 = await geometryAPI.invoke('MAKE_CYLINDER', {
-        radius: 5, height: 70
+        radius: 5,
+        height: 70,
       });
 
       const hole1Positioned = await geometryAPI.invoke('TRANSFORM', {
         shape: hole1,
-        tx: 20, ty: 20, tz: -5,
-        rx: 0, ry: 0, rz: 0,
-        sx: 1, sy: 1, sz: 1
+        tx: 20,
+        ty: 20,
+        tz: -5,
+        rx: 0,
+        ry: 0,
+        rz: 0,
+        sx: 1,
+        sy: 1,
+        sz: 1,
       });
 
       const hole2 = await geometryAPI.invoke('COPY_SHAPE', {
-        shape: hole1
+        shape: hole1,
       });
 
       const hole2Positioned = await geometryAPI.invoke('TRANSFORM', {
         shape: hole2,
-        tx: 180, ty: 20, tz: -5,
-        rx: 0, ry: 0, rz: 0,
-        sx: 1, sy: 1, sz: 1
+        tx: 180,
+        ty: 20,
+        tz: -5,
+        rx: 0,
+        ry: 0,
+        rz: 0,
+        sx: 1,
+        sy: 1,
+        sz: 1,
       });
 
       // Subtract holes from base
       const withHole1 = await geometryAPI.invoke('BOOLEAN_SUBTRACT', {
         shape1: baseBox,
-        shape2: hole1Positioned
+        shape2: hole1Positioned,
       });
 
       const withBothHoles = await geometryAPI.invoke('BOOLEAN_SUBTRACT', {
         shape1: withHole1,
-        shape2: hole2Positioned
+        shape2: hole2Positioned,
       });
 
       // Add fillets to soften edges
       const filletedEnclosure = await geometryAPI.invoke('MAKE_FILLET', {
         shape: withBothHoles,
-        radius: 5
+        radius: 5,
       });
 
       // Create hollow interior (shell)
       const finalEnclosure = await geometryAPI.invoke('MAKE_SHELL', {
         shape: filletedEnclosure,
-        thickness: 3
+        thickness: 3,
       });
 
       expect(finalEnclosure).toBeDefined();
@@ -87,49 +106,64 @@ describe('Integration Workflows', () => {
 
       // Create bolt shaft
       const shaft = await geometryAPI.invoke('MAKE_CYLINDER', {
-        radius: 6, height: 50
+        radius: 6,
+        height: 50,
       });
 
       // Create bolt head
       const head = await geometryAPI.invoke('MAKE_CYLINDER', {
-        radius: 10, height: 8
+        radius: 10,
+        height: 8,
       });
 
       const headPositioned = await geometryAPI.invoke('TRANSFORM', {
         shape: head,
-        tx: 0, ty: 0, tz: 50,
-        rx: 0, ry: 0, rz: 0,
-        sx: 1, sy: 1, sz: 1
+        tx: 0,
+        ty: 0,
+        tz: 50,
+        rx: 0,
+        ry: 0,
+        rz: 0,
+        sx: 1,
+        sy: 1,
+        sz: 1,
       });
 
       // Union head and shaft
       const boltBase = await geometryAPI.invoke('BOOLEAN_UNION', {
         shape1: shaft,
-        shape2: headPositioned
+        shape2: headPositioned,
       });
 
       // Add chamfer to head
       const chamferedBolt = await geometryAPI.invoke('MAKE_CHAMFER', {
         shape: boltBase,
-        distance: 1
+        distance: 1,
       });
 
       // Create thread relief (simplified as smaller cylinder)
       const threadRelief = await geometryAPI.invoke('MAKE_CYLINDER', {
-        radius: 5.5, height: 40
+        radius: 5.5,
+        height: 40,
       });
 
       const threadReliefPositioned = await geometryAPI.invoke('TRANSFORM', {
         shape: threadRelief,
-        tx: 0, ty: 0, tz: 5,
-        rx: 0, ry: 0, rz: 0,
-        sx: 1, sy: 1, sz: 1
+        tx: 0,
+        ty: 0,
+        tz: 5,
+        rx: 0,
+        ry: 0,
+        rz: 0,
+        sx: 1,
+        sy: 1,
+        sz: 1,
       });
 
       // Subtract thread relief
       const finalBolt = await geometryAPI.invoke('BOOLEAN_SUBTRACT', {
         shape1: chamferedBolt,
-        shape2: threadReliefPositioned
+        shape2: threadReliefPositioned,
       });
 
       expect(finalBolt).toBeDefined();
@@ -144,59 +178,78 @@ describe('Integration Workflows', () => {
 
       // Start with stock material
       const stock = await geometryAPI.invoke('MAKE_BOX', {
-        width: 100, height: 80, depth: 20
+        width: 100,
+        height: 80,
+        depth: 20,
       });
 
       // Create pocket (rectangular cavity)
       const pocket = await geometryAPI.invoke('MAKE_BOX_WITH_ORIGIN', {
-        x: 20, y: 20, z: 5,
-        width: 60, height: 40, depth: 12
+        x: 20,
+        y: 20,
+        z: 5,
+        width: 60,
+        height: 40,
+        depth: 12,
       });
 
       // Machine the pocket
       const pocketed = await geometryAPI.invoke('BOOLEAN_SUBTRACT', {
         shape1: stock,
-        shape2: pocket
+        shape2: pocket,
       });
 
       // Add corner fillets to pocket
       const filletedPocket = await geometryAPI.invoke('MAKE_FILLET', {
         shape: pocketed,
-        radius: 2
+        radius: 2,
       });
 
       // Create through holes for bolts
       const hole = await geometryAPI.invoke('MAKE_CYLINDER', {
-        radius: 4, height: 25
+        radius: 4,
+        height: 25,
       });
 
       const hole1 = await geometryAPI.invoke('TRANSFORM', {
         shape: hole,
-        tx: 15, ty: 15, tz: -2.5,
-        rx: 0, ry: 0, rz: 0,
-        sx: 1, sy: 1, sz: 1
+        tx: 15,
+        ty: 15,
+        tz: -2.5,
+        rx: 0,
+        ry: 0,
+        rz: 0,
+        sx: 1,
+        sy: 1,
+        sz: 1,
       });
 
       const hole2Copy = await geometryAPI.invoke('COPY_SHAPE', {
-        shape: hole
+        shape: hole,
       });
 
       const hole2 = await geometryAPI.invoke('TRANSFORM', {
         shape: hole2Copy,
-        tx: 85, ty: 15, tz: -2.5,
-        rx: 0, ry: 0, rz: 0,
-        sx: 1, sy: 1, sz: 1
+        tx: 85,
+        ty: 15,
+        tz: -2.5,
+        rx: 0,
+        ry: 0,
+        rz: 0,
+        sx: 1,
+        sy: 1,
+        sz: 1,
       });
 
       // Machine both holes
       const withHole1 = await geometryAPI.invoke('BOOLEAN_SUBTRACT', {
         shape1: filletedPocket,
-        shape2: hole1
+        shape2: hole1,
       });
 
       const machinedPart = await geometryAPI.invoke('BOOLEAN_SUBTRACT', {
         shape1: withHole1,
-        shape2: hole2
+        shape2: hole2,
       });
 
       expect(machinedPart).toBeDefined();
@@ -209,32 +262,41 @@ describe('Integration Workflows', () => {
 
       // Create turning profile (simplified as rectangle)
       const profile = await geometryAPI.invoke('MAKE_BOX_WITH_ORIGIN', {
-        x: 10, y: -5, z: -20,
-        width: 30, height: 10, depth: 40
+        x: 10,
+        y: -5,
+        z: -20,
+        width: 30,
+        height: 10,
+        depth: 40,
       });
 
       // Revolve around centerline to create turned part
       const turnedPart = await geometryAPI.invoke('REVOLVE', {
         profile: profile,
         angle: 2 * Math.PI, // Full revolution
-        axisX: 0, axisY: 0, axisZ: 1,
-        originX: 0, originY: 0, originZ: 0
+        axisX: 0,
+        axisY: 0,
+        axisZ: 1,
+        originX: 0,
+        originY: 0,
+        originZ: 0,
       });
 
       // Add groove (subtract small torus)
       const groove = await geometryAPI.invoke('MAKE_TORUS', {
-        majorRadius: 25, minorRadius: 2
+        majorRadius: 25,
+        minorRadius: 2,
       });
 
       const groovedPart = await geometryAPI.invoke('BOOLEAN_SUBTRACT', {
         shape1: turnedPart,
-        shape2: groove
+        shape2: groove,
       });
 
       // Add chamfers to ends
       const finalPart = await geometryAPI.invoke('MAKE_CHAMFER', {
         shape: groovedPart,
-        distance: 1
+        distance: 1,
       });
 
       expect(finalPart).toBeDefined();
@@ -249,64 +311,92 @@ describe('Integration Workflows', () => {
 
       // Outer race
       const outerRaceOuter = await geometryAPI.invoke('MAKE_CYLINDER', {
-        radius: 30, height: 10
+        radius: 30,
+        height: 10,
       });
 
       const outerRaceInner = await geometryAPI.invoke('MAKE_CYLINDER', {
-        radius: 25, height: 12
+        radius: 25,
+        height: 12,
       });
 
       const outerRaceInnerPositioned = await geometryAPI.invoke('TRANSFORM', {
         shape: outerRaceInner,
-        tx: 0, ty: 0, tz: -1,
-        rx: 0, ry: 0, rz: 0,
-        sx: 1, sy: 1, sz: 1
+        tx: 0,
+        ty: 0,
+        tz: -1,
+        rx: 0,
+        ry: 0,
+        rz: 0,
+        sx: 1,
+        sy: 1,
+        sz: 1,
       });
 
       const outerRace = await geometryAPI.invoke('BOOLEAN_SUBTRACT', {
         shape1: outerRaceOuter,
-        shape2: outerRaceInnerPositioned
+        shape2: outerRaceInnerPositioned,
       });
 
       // Inner race
       const innerRaceOuter = await geometryAPI.invoke('MAKE_CYLINDER', {
-        radius: 20, height: 8
+        radius: 20,
+        height: 8,
       });
 
       const innerRaceInner = await geometryAPI.invoke('MAKE_CYLINDER', {
-        radius: 10, height: 10
+        radius: 10,
+        height: 10,
       });
 
       const innerRaceInnerPositioned = await geometryAPI.invoke('TRANSFORM', {
         shape: innerRaceInner,
-        tx: 0, ty: 0, tz: -1,
-        rx: 0, ry: 0, rz: 0,
-        sx: 1, sy: 1, sz: 1
+        tx: 0,
+        ty: 0,
+        tz: -1,
+        rx: 0,
+        ry: 0,
+        rz: 0,
+        sx: 1,
+        sy: 1,
+        sz: 1,
       });
 
       const innerRacePositioned = await geometryAPI.invoke('TRANSFORM', {
         shape: innerRaceOuter,
-        tx: 0, ty: 0, tz: 1,
-        rx: 0, ry: 0, rz: 0,
-        sx: 1, sy: 1, sz: 1
+        tx: 0,
+        ty: 0,
+        tz: 1,
+        rx: 0,
+        ry: 0,
+        rz: 0,
+        sx: 1,
+        sy: 1,
+        sz: 1,
       });
 
       const innerRace = await geometryAPI.invoke('BOOLEAN_SUBTRACT', {
         shape1: innerRacePositioned,
-        shape2: innerRaceInnerPositioned
+        shape2: innerRaceInnerPositioned,
       });
 
       // Ball bearings (simplified as spheres)
       const ball = await geometryAPI.invoke('MAKE_SPHERE', {
-        radius: 2.5
+        radius: 2.5,
       });
 
       // Position ball at bearing race center radius
       const ballPositioned = await geometryAPI.invoke('TRANSFORM', {
         shape: ball,
-        tx: 22.5, ty: 0, tz: 5,
-        rx: 0, ry: 0, rz: 0,
-        sx: 1, sy: 1, sz: 1
+        tx: 22.5,
+        ty: 0,
+        tz: 5,
+        rx: 0,
+        ry: 0,
+        rz: 0,
+        sx: 1,
+        sy: 1,
+        sz: 1,
       });
 
       expect(outerRace).toBeDefined();
@@ -320,18 +410,24 @@ describe('Integration Workflows', () => {
 
       // Create two overlapping parts
       const part1 = await geometryAPI.invoke('MAKE_BOX', {
-        width: 50, height: 50, depth: 50
+        width: 50,
+        height: 50,
+        depth: 50,
       });
 
       const part2 = await geometryAPI.invoke('MAKE_BOX_WITH_ORIGIN', {
-        x: 25, y: 0, z: 0,
-        width: 50, height: 50, depth: 50
+        x: 25,
+        y: 0,
+        z: 0,
+        width: 50,
+        height: 50,
+        depth: 50,
       });
 
       // Check for interference using intersection
       const interference = await geometryAPI.invoke('BOOLEAN_INTERSECT', {
         shape1: part1,
-        shape2: part2
+        shape2: part2,
       });
 
       expect(interference).toBeDefined();
@@ -339,13 +435,17 @@ describe('Integration Workflows', () => {
 
       // Create non-interfering parts
       const part3 = await geometryAPI.invoke('MAKE_BOX_WITH_ORIGIN', {
-        x: 100, y: 0, z: 0,
-        width: 50, height: 50, depth: 50
+        x: 100,
+        y: 0,
+        z: 0,
+        width: 50,
+        height: 50,
+        depth: 50,
       });
 
       const noInterference = await geometryAPI.invoke('BOOLEAN_INTERSECT', {
         shape1: part1,
-        shape2: part3
+        shape2: part3,
       });
 
       expect(noInterference.volume).toBe(0); // No interference
@@ -358,33 +458,42 @@ describe('Integration Workflows', () => {
 
       // Create a complex part
       const base = await geometryAPI.invoke('MAKE_BOX', {
-        width: 100, height: 80, depth: 20
+        width: 100,
+        height: 80,
+        depth: 20,
       });
 
       const feature = await geometryAPI.invoke('MAKE_CYLINDER', {
-        radius: 15, height: 30
+        radius: 15,
+        height: 30,
       });
 
       const featurePositioned = await geometryAPI.invoke('TRANSFORM', {
         shape: feature,
-        tx: 50, ty: 40, tz: 20,
-        rx: 0, ry: 0, rz: 0,
-        sx: 1, sy: 1, sz: 1
+        tx: 50,
+        ty: 40,
+        tz: 20,
+        rx: 0,
+        ry: 0,
+        rz: 0,
+        sx: 1,
+        sy: 1,
+        sz: 1,
       });
 
       const combined = await geometryAPI.invoke('BOOLEAN_UNION', {
         shape1: base,
-        shape2: featurePositioned
+        shape2: featurePositioned,
       });
 
       const filletedPart = await geometryAPI.invoke('MAKE_FILLET', {
         shape: combined,
-        radius: 3
+        radius: 3,
       });
 
       // Export to STEP
       const stepData = await geometryAPI.invoke('EXPORT_STEP', {
-        shape: filletedPart
+        shape: filletedPart,
       });
 
       expect(stepData).toBeDefined();
@@ -394,7 +503,7 @@ describe('Integration Workflows', () => {
       // Export to STL for 3D printing
       const stlData = await geometryAPI.invoke('EXPORT_STL', {
         shape: filletedPart,
-        binary: false
+        binary: false,
       });
 
       expect(stlData).toBeDefined();
@@ -403,7 +512,7 @@ describe('Integration Workflows', () => {
 
       // Generate mesh for visualization
       const { mesh } = await geometryAPI.invoke('TESSELLATE', {
-        shape: filletedPart
+        shape: filletedPart,
       });
 
       expect(mesh.vertexCount).toBeGreaterThan(0);
@@ -423,24 +532,25 @@ ENDSEC;
 END-ISO-10303-21;`;
 
       const importedPart = await geometryAPI.invoke('IMPORT_STEP', {
-        data: mockStepData
+        data: mockStepData,
       });
 
       expect(importedPart).toBeDefined();
 
       // Modify the imported part
       const hole = await geometryAPI.invoke('MAKE_CYLINDER', {
-        radius: 8, height: 100
+        radius: 8,
+        height: 100,
       });
 
       const modifiedPart = await geometryAPI.invoke('BOOLEAN_SUBTRACT', {
         shape1: importedPart,
-        shape2: hole
+        shape2: hole,
       });
 
       // Re-export the modified part
       const exportedStep = await geometryAPI.invoke('EXPORT_STEP', {
-        shape: modifiedPart
+        shape: modifiedPart,
       });
 
       expect(exportedStep).toBeDefined();
@@ -456,36 +566,45 @@ END-ISO-10303-21;`;
 
       // Complex workflow: Create → Modify → Feature → Export
       const base = await geometryAPI.invoke('MAKE_BOX', {
-        width: 80, height: 60, depth: 40
+        width: 80,
+        height: 60,
+        depth: 40,
       });
 
       const cylinder = await geometryAPI.invoke('MAKE_CYLINDER', {
-        radius: 15, height: 50
+        radius: 15,
+        height: 50,
       });
 
       const positioned = await geometryAPI.invoke('TRANSFORM', {
         shape: cylinder,
-        tx: 40, ty: 30, tz: -5,
-        rx: 0, ry: 0, rz: 0,
-        sx: 1, sy: 1, sz: 1
+        tx: 40,
+        ty: 30,
+        tz: -5,
+        rx: 0,
+        ry: 0,
+        rz: 0,
+        sx: 1,
+        sy: 1,
+        sz: 1,
       });
 
       const combined = await geometryAPI.invoke('BOOLEAN_SUBTRACT', {
         shape1: base,
-        shape2: positioned
+        shape2: positioned,
       });
 
       const filleted = await geometryAPI.invoke('MAKE_FILLET', {
         shape: combined,
-        radius: 4
+        radius: 4,
       });
 
       const { mesh } = await geometryAPI.invoke('TESSELLATE', {
-        shape: filleted
+        shape: filleted,
       });
 
       const stepData = await geometryAPI.invoke('EXPORT_STEP', {
-        shape: filleted
+        shape: filleted,
       });
 
       const endTime = performance.now();
@@ -503,28 +622,34 @@ END-ISO-10303-21;`;
         const base = await geometryAPI.invoke('MAKE_BOX', {
           width: 50 + index * 10,
           height: 40 + index * 5,
-          depth: 30 + index * 3
+          depth: 30 + index * 3,
         });
 
         const feature = await geometryAPI.invoke('MAKE_SPHERE', {
-          radius: 10 + index
+          radius: 10 + index,
         });
 
         const positioned = await geometryAPI.invoke('TRANSFORM', {
           shape: feature,
-          tx: 25 + index * 5, ty: 20, tz: 15,
-          rx: 0, ry: 0, rz: 0,
-          sx: 1, sy: 1, sz: 1
+          tx: 25 + index * 5,
+          ty: 20,
+          tz: 15,
+          rx: 0,
+          ry: 0,
+          rz: 0,
+          sx: 1,
+          sy: 1,
+          sz: 1,
         });
 
         const combined = await geometryAPI.invoke('BOOLEAN_UNION', {
           shape1: base,
-          shape2: positioned
+          shape2: positioned,
         });
 
         return geometryAPI.invoke('MAKE_FILLET', {
           shape: combined,
-          radius: 2 + index
+          radius: 2 + index,
         });
       };
 
@@ -532,12 +657,12 @@ END-ISO-10303-21;`;
       const parts = await Promise.all([
         createComplexPart(0),
         createComplexPart(1),
-        createComplexPart(2)
+        createComplexPart(2),
       ]);
       const endTime = performance.now();
 
       expect(parts).toHaveLength(3);
-      expect(parts.every(part => part && part.volume > 0)).toBe(true);
+      expect(parts.every((part) => part && part.volume > 0)).toBe(true);
       expect(endTime - startTime).toBeLessThan(3000); // 3 operations in 3 seconds
     });
   });
@@ -551,21 +676,23 @@ END-ISO-10303-21;`;
       // Simulate long workflow with cleanup
       for (let i = 0; i < 5; i++) {
         const box = await geometryAPI.invoke('MAKE_BOX', {
-          width: 40, height: 40, depth: 40
+          width: 40,
+          height: 40,
+          depth: 40,
         });
 
         const sphere = await geometryAPI.invoke('MAKE_SPHERE', {
-          radius: 15
+          radius: 15,
         });
 
         const combined = await geometryAPI.invoke('BOOLEAN_UNION', {
           shape1: box,
-          shape2: sphere
+          shape2: sphere,
         });
 
         const filleted = await geometryAPI.invoke('MAKE_FILLET', {
           shape: combined,
-          radius: 3
+          radius: 3,
         });
 
         // Clean up intermediate shapes
@@ -590,7 +717,9 @@ END-ISO-10303-21;`;
       // Base shapes
       for (let i = 0; i < 3; i++) {
         const box = await geometryAPI.invoke('MAKE_BOX', {
-          width: 30, height: 30, depth: 30
+          width: 30,
+          height: 30,
+          depth: 30,
         });
         shapes.push(box);
       }
@@ -598,13 +727,13 @@ END-ISO-10303-21;`;
       // Operations
       const union1 = await geometryAPI.invoke('BOOLEAN_UNION', {
         shape1: shapes[0],
-        shape2: shapes[1]
+        shape2: shapes[1],
       });
       shapes.push(union1);
 
       const final = await geometryAPI.invoke('BOOLEAN_SUBTRACT', {
         shape1: union1,
-        shape2: shapes[2]
+        shape2: shapes[2],
       });
       shapes.push(final);
 

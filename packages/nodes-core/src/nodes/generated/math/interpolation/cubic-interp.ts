@@ -14,7 +14,11 @@ interface CubicInterpOutputs {
   result: unknown;
 }
 
-export const MathInterpolationCubicInterpNode: NodeDefinition<CubicInterpInputs, CubicInterpOutputs, CubicInterpParams> = {
+export const MathInterpolationCubicInterpNode: NodeDefinition<
+  CubicInterpInputs,
+  CubicInterpOutputs,
+  CubicInterpParams
+> = {
   id: 'Math::CubicInterp',
   type: 'Math::CubicInterp',
   category: 'Math',
@@ -24,34 +28,34 @@ export const MathInterpolationCubicInterpNode: NodeDefinition<CubicInterpInputs,
     v0: {
       type: 'number',
       label: 'V0',
-      required: true
+      required: true,
     },
     v1: {
       type: 'number',
       label: 'V1',
-      required: true
+      required: true,
     },
     v2: {
       type: 'number',
       label: 'V2',
-      required: true
+      required: true,
     },
     v3: {
       type: 'number',
       label: 'V3',
-      required: true
+      required: true,
     },
     t: {
       type: 'number',
       label: 'T',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'number',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -62,12 +66,12 @@ export const MathInterpolationCubicInterpNode: NodeDefinition<CubicInterpInputs,
         v1: inputs.v1,
         v2: inputs.v2,
         v3: inputs.v3,
-        t: inputs.t
-      }
+        t: inputs.t,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

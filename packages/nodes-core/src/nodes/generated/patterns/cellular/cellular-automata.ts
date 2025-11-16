@@ -14,7 +14,11 @@ interface CellularAutomataOutputs {
   cells: unknown;
 }
 
-export const PatternsCellularCellularAutomataNode: NodeDefinition<CellularAutomataInputs, CellularAutomataOutputs, CellularAutomataParams> = {
+export const PatternsCellularCellularAutomataNode: NodeDefinition<
+  CellularAutomataInputs,
+  CellularAutomataOutputs,
+  CellularAutomataParams
+> = {
   id: 'Patterns::CellularAutomata',
   type: 'Patterns::CellularAutomata',
   category: 'Patterns',
@@ -24,14 +28,14 @@ export const PatternsCellularCellularAutomataNode: NodeDefinition<CellularAutoma
     initialState: {
       type: 'Point[]',
       label: 'Initial State',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     cells: {
       type: 'Face[]',
-      label: 'Cells'
-    }
+      label: 'Cells',
+    },
   },
   params: {
     rule: {
@@ -39,7 +43,7 @@ export const PatternsCellularCellularAutomataNode: NodeDefinition<CellularAutoma
       label: 'Rule',
       default: 30,
       min: 0,
-      max: 255
+      max: 255,
     },
     generations: {
       type: 'number',
@@ -47,14 +51,14 @@ export const PatternsCellularCellularAutomataNode: NodeDefinition<CellularAutoma
       default: 50,
       min: 1,
       max: 200,
-      step: 1
+      step: 1,
     },
     cellSize: {
       type: 'number',
       label: 'Cell Size',
       default: 1,
-      min: 0.1
-    }
+      min: 0.1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -63,12 +67,12 @@ export const PatternsCellularCellularAutomataNode: NodeDefinition<CellularAutoma
         initialState: inputs.initialState,
         rule: params.rule,
         generations: params.generations,
-        cellSize: params.cellSize
-      }
+        cellSize: params.cellSize,
+      },
     });
-    
+
     return {
-      cells: result
+      cells: result,
     };
   },
 };

@@ -16,7 +16,11 @@ interface WebSocketClientOutputs {
   lastMessage: unknown;
 }
 
-export const InteroperabilityStreamingWebSocketClientNode: NodeDefinition<WebSocketClientInputs, WebSocketClientOutputs, WebSocketClientParams> = {
+export const InteroperabilityStreamingWebSocketClientNode: NodeDefinition<
+  WebSocketClientInputs,
+  WebSocketClientOutputs,
+  WebSocketClientParams
+> = {
   id: 'Interoperability::WebSocketClient',
   category: 'Interoperability',
   label: 'WebSocketClient',
@@ -25,41 +29,41 @@ export const InteroperabilityStreamingWebSocketClientNode: NodeDefinition<WebSoc
     message: {
       type: 'string',
       label: 'Message',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     connected: {
       type: 'boolean',
-      label: 'Connected'
+      label: 'Connected',
     },
     messages: {
       type: 'string[]',
-      label: 'Messages'
+      label: 'Messages',
     },
     lastMessage: {
       type: 'string',
-      label: 'Last Message'
-    }
+      label: 'Last Message',
+    },
   },
   params: {
     url: {
       type: 'string',
       label: 'Url',
-      default: ""
+      default: '',
     },
     reconnect: {
       type: 'boolean',
       label: 'Reconnect',
-      default: true
+      default: true,
     },
     heartbeat: {
       type: 'number',
       label: 'Heartbeat',
       default: 30,
       min: 0,
-      max: 300
-    }
+      max: 300,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -68,14 +72,14 @@ export const InteroperabilityStreamingWebSocketClientNode: NodeDefinition<WebSoc
         message: inputs.message,
         url: params.url,
         reconnect: params.reconnect,
-        heartbeat: params.heartbeat
-      }
+        heartbeat: params.heartbeat,
+      },
     });
-    
+
     return {
       connected: results.connected,
       messages: results.messages,
-      lastMessage: results.lastMessage
+      lastMessage: results.lastMessage,
     };
   },
 };

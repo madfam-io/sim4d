@@ -15,7 +15,11 @@ interface WeldingPathOutputs {
   weldParameters: unknown;
 }
 
-export const FabricationRoboticsWeldingPathNode: NodeDefinition<WeldingPathInputs, WeldingPathOutputs, WeldingPathParams> = {
+export const FabricationRoboticsWeldingPathNode: NodeDefinition<
+  WeldingPathInputs,
+  WeldingPathOutputs,
+  WeldingPathParams
+> = {
   id: 'Fabrication::WeldingPath',
   category: 'Fabrication',
   label: 'WeldingPath',
@@ -24,39 +28,39 @@ export const FabricationRoboticsWeldingPathNode: NodeDefinition<WeldingPathInput
     seamPath: {
       type: 'Wire',
       label: 'Seam Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     weldPath: {
       type: 'Transform[]',
-      label: 'Weld Path'
+      label: 'Weld Path',
     },
     weldParameters: {
       type: 'Data',
-      label: 'Weld Parameters'
-    }
+      label: 'Weld Parameters',
+    },
   },
   params: {
     weldType: {
       type: 'enum',
       label: 'Weld Type',
-      default: "mig",
-      options: ["mig","tig","spot","laser"]
+      default: 'mig',
+      options: ['mig', 'tig', 'spot', 'laser'],
     },
     weavePattern: {
       type: 'enum',
       label: 'Weave Pattern',
-      default: "none",
-      options: ["none","zigzag","circular","triangular"]
+      default: 'none',
+      options: ['none', 'zigzag', 'circular', 'triangular'],
     },
     travelSpeed: {
       type: 'number',
       label: 'Travel Speed',
       default: 10,
       min: 1,
-      max: 50
-    }
+      max: 50,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -65,13 +69,13 @@ export const FabricationRoboticsWeldingPathNode: NodeDefinition<WeldingPathInput
         seamPath: inputs.seamPath,
         weldType: params.weldType,
         weavePattern: params.weavePattern,
-        travelSpeed: params.travelSpeed
-      }
+        travelSpeed: params.travelSpeed,
+      },
     });
-    
+
     return {
       weldPath: results.weldPath,
-      weldParameters: results.weldParameters
+      weldParameters: results.weldParameters,
     };
   },
 };

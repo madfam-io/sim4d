@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -14,62 +13,56 @@ interface Outputs {
   jsonData: string;
 }
 
-export const ExportJSONNode: NodeDefinition<ExportJSONInputs, ExportJSONOutputs, ExportJSONParams> = {
-  type: 'IO::ExportJSON',
-  category: 'IO',
-  subcategory: 'Exchange',
+export const ExportJSONNode: NodeDefinition<ExportJSONInputs, ExportJSONOutputs, ExportJSONParams> =
+  {
+    type: 'IO::ExportJSON',
+    category: 'IO',
+    subcategory: 'Exchange',
 
-  metadata: {
-    label: 'ExportJSON',
-    description: 'Export geometry to JSON',
-    
-    
-  },
-
-  params: {
-        format: {
-      "default": "brepflow",
-      "options": [
-        "brepflow",
-        "three",
-        "custom"
-      ]
+    metadata: {
+      label: 'ExportJSON',
+      description: 'Export geometry to JSON',
     },
-    precision: {
-      "default": 6,
-      "min": 1,
-      "max": 15,
-      "step": 1
+
+    params: {
+      format: {
+        default: 'brepflow',
+        options: ['brepflow', 'three', 'custom'],
+      },
+      precision: {
+        default: 6,
+        min: 1,
+        max: 15,
+        step: 1,
+      },
+      includeTopology: {
+        default: true,
+      },
     },
-    includeTopology: {
-      "default": true
-    }
-  },
 
-  inputs: {
-        shapes: 'Shape[]',
-    metadata: 'Data'
-  },
+    inputs: {
+      shapes: 'Shape[]',
+      metadata: 'Data',
+    },
 
-  outputs: {
-        jsonData: 'string'
-  },
+    outputs: {
+      jsonData: 'string',
+    },
 
-  async evaluate(context, inputs, params) {
-    
-    const result = await context.geometry.execute({
-      type: 'exportJSON',
-      params: {
-        shapes: inputs.shapes,
-        metadata: inputs.metadata,
-        format: params.format,
-        precision: params.precision,
-        includeTopology: params.includeTopology
-      }
-    });
+    async evaluate(context, inputs, params) {
+      const result = await context.geometry.execute({
+        type: 'exportJSON',
+        params: {
+          shapes: inputs.shapes,
+          metadata: inputs.metadata,
+          format: params.format,
+          precision: params.precision,
+          includeTopology: params.includeTopology,
+        },
+      });
 
-    return {
-      jsonData: result
-    };
-  }
-};
+      return {
+        jsonData: result,
+      };
+    },
+  };

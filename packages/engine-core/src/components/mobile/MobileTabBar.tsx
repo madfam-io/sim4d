@@ -14,14 +14,14 @@ const defaultIcons: Record<string, string> = {
   viewport: '🎲',
   palette: '🎨',
   inspector: '⚙️',
-  console: '💬'
+  console: '💬',
 };
 
 export const MobileTabBar: React.FC<MobileTabBarProps> = ({
   panels,
   activePanel,
   onPanelChange,
-  hidden = false
+  hidden = false,
 }) => {
   const tabItems = Object.entries(panels).slice(0, 5); // Max 5 tabs
 
@@ -36,9 +36,7 @@ export const MobileTabBar: React.FC<MobileTabBarProps> = ({
           onClick={() => onPanelChange(id)}
           aria-label={panel.title}
         >
-          <span className="tab-icon">
-            {panel.icon || defaultIcons[id] || '📄'}
-          </span>
+          <span className="tab-icon">{panel.icon || defaultIcons[id] || '📄'}</span>
           <span className="tab-label">{panel.title}</span>
           {panel.badge && panel.badge > 0 && (
             <span className="tab-badge">{panel.badge > 99 ? '99+' : panel.badge}</span>

@@ -22,34 +22,34 @@ export const MathTrigonometrySineNode: NodeDefinition<SineInputs, SineOutputs, S
     angle: {
       type: 'number',
       label: 'Angle',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'number',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {
     angleUnit: {
       type: 'enum',
       label: 'Angle Unit',
-      default: "radians",
-      options: ["radians","degrees"]
-    }
+      default: 'radians',
+      options: ['radians', 'degrees'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathSin',
       params: {
         angle: inputs.angle,
-        angleUnit: params.angleUnit
-      }
+        angleUnit: params.angleUnit,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

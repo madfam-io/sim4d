@@ -13,7 +13,11 @@ interface VoronoiOnSurfaceOutputs {
   cells: unknown;
 }
 
-export const PatternsVoronoiVoronoiOnSurfaceNode: NodeDefinition<VoronoiOnSurfaceInputs, VoronoiOnSurfaceOutputs, VoronoiOnSurfaceParams> = {
+export const PatternsVoronoiVoronoiOnSurfaceNode: NodeDefinition<
+  VoronoiOnSurfaceInputs,
+  VoronoiOnSurfaceOutputs,
+  VoronoiOnSurfaceParams
+> = {
   id: 'Patterns::VoronoiOnSurface',
   category: 'Patterns',
   label: 'VoronoiOnSurface',
@@ -22,26 +26,26 @@ export const PatternsVoronoiVoronoiOnSurfaceNode: NodeDefinition<VoronoiOnSurfac
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
+      required: true,
     },
     points: {
       type: 'Point[]',
       label: 'Points',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     cells: {
       type: 'Wire[]',
-      label: 'Cells'
-    }
+      label: 'Cells',
+    },
   },
   params: {
     geodesic: {
       type: 'boolean',
       label: 'Geodesic',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -49,12 +53,12 @@ export const PatternsVoronoiVoronoiOnSurfaceNode: NodeDefinition<VoronoiOnSurfac
       params: {
         surface: inputs.surface,
         points: inputs.points,
-        geodesic: params.geodesic
-      }
+        geodesic: params.geodesic,
+      },
     });
-    
+
     return {
-      cells: result
+      cells: result,
     };
   },
 };

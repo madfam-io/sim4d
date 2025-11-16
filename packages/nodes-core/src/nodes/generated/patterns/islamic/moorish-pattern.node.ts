@@ -13,7 +13,11 @@ interface MoorishPatternOutputs {
   pattern: unknown;
 }
 
-export const PatternsIslamicMoorishPatternNode: NodeDefinition<MoorishPatternInputs, MoorishPatternOutputs, MoorishPatternParams> = {
+export const PatternsIslamicMoorishPatternNode: NodeDefinition<
+  MoorishPatternInputs,
+  MoorishPatternOutputs,
+  MoorishPatternParams
+> = {
   id: 'Patterns::MoorishPattern',
   category: 'Patterns',
   label: 'MoorishPattern',
@@ -22,28 +26,28 @@ export const PatternsIslamicMoorishPatternNode: NodeDefinition<MoorishPatternInp
     region: {
       type: 'Face',
       label: 'Region',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     pattern: {
       type: 'Wire[]',
-      label: 'Pattern'
-    }
+      label: 'Pattern',
+    },
   },
   params: {
     style: {
       type: 'enum',
       label: 'Style',
-      default: "alhambra",
-      options: ["alhambra","cordoba","seville","granada"]
+      default: 'alhambra',
+      options: ['alhambra', 'cordoba', 'seville', 'granada'],
     },
     scale: {
       type: 'number',
       label: 'Scale',
       default: 10,
-      min: 1
-    }
+      min: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -51,12 +55,12 @@ export const PatternsIslamicMoorishPatternNode: NodeDefinition<MoorishPatternInp
       params: {
         region: inputs.region,
         style: params.style,
-        scale: params.scale
-      }
+        scale: params.scale,
+      },
     });
-    
+
     return {
-      pattern: result
+      pattern: result,
     };
   },
 };

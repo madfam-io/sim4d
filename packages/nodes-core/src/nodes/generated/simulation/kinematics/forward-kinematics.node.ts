@@ -15,7 +15,11 @@ interface ForwardKinematicsOutputs {
   trajectory: unknown;
 }
 
-export const SimulationKinematicsForwardKinematicsNode: NodeDefinition<ForwardKinematicsInputs, ForwardKinematicsOutputs, ForwardKinematicsParams> = {
+export const SimulationKinematicsForwardKinematicsNode: NodeDefinition<
+  ForwardKinematicsInputs,
+  ForwardKinematicsOutputs,
+  ForwardKinematicsParams
+> = {
   id: 'Simulation::ForwardKinematics',
   category: 'Simulation',
   label: 'ForwardKinematics',
@@ -24,23 +28,23 @@ export const SimulationKinematicsForwardKinematicsNode: NodeDefinition<ForwardKi
     mechanism: {
       type: 'Data',
       label: 'Mechanism',
-      required: true
+      required: true,
     },
     jointValues: {
       type: 'number[]',
       label: 'Joint Values',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     endEffectorPose: {
       type: 'Data',
-      label: 'End Effector Pose'
+      label: 'End Effector Pose',
     },
     trajectory: {
       type: 'Wire',
-      label: 'Trajectory'
-    }
+      label: 'Trajectory',
+    },
   },
   params: {
     timeStep: {
@@ -48,15 +52,15 @@ export const SimulationKinematicsForwardKinematicsNode: NodeDefinition<ForwardKi
       label: 'Time Step',
       default: 0.01,
       min: 0.0001,
-      max: 1
+      max: 1,
     },
     duration: {
       type: 'number',
       label: 'Duration',
       default: 1,
       min: 0.01,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -65,13 +69,13 @@ export const SimulationKinematicsForwardKinematicsNode: NodeDefinition<ForwardKi
         mechanism: inputs.mechanism,
         jointValues: inputs.jointValues,
         timeStep: params.timeStep,
-        duration: params.duration
-      }
+        duration: params.duration,
+      },
     });
-    
+
     return {
       endEffectorPose: results.endEffectorPose,
-      trajectory: results.trajectory
+      trajectory: results.trajectory,
     };
   },
 };

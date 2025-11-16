@@ -17,7 +17,11 @@ interface TessellateOutputs {
   vertexCount: unknown;
 }
 
-export const MeshTessellationTessellateNode: NodeDefinition<TessellateInputs, TessellateOutputs, TessellateParams> = {
+export const MeshTessellationTessellateNode: NodeDefinition<
+  TessellateInputs,
+  TessellateOutputs,
+  TessellateParams
+> = {
   id: 'Mesh::Tessellate',
   category: 'Mesh',
   label: 'Tessellate',
@@ -26,22 +30,22 @@ export const MeshTessellationTessellateNode: NodeDefinition<TessellateInputs, Te
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     mesh: {
       type: 'Mesh',
-      label: 'Mesh'
+      label: 'Mesh',
     },
     triangleCount: {
       type: 'number',
-      label: 'Triangle Count'
+      label: 'Triangle Count',
     },
     vertexCount: {
       type: 'number',
-      label: 'Vertex Count'
-    }
+      label: 'Vertex Count',
+    },
   },
   params: {
     linearDeflection: {
@@ -49,25 +53,25 @@ export const MeshTessellationTessellateNode: NodeDefinition<TessellateInputs, Te
       label: 'Linear Deflection',
       default: 0.1,
       min: 0.001,
-      max: 10
+      max: 10,
     },
     angularDeflection: {
       type: 'number',
       label: 'Angular Deflection',
       default: 0.5,
       min: 0.01,
-      max: 1
+      max: 1,
     },
     relative: {
       type: 'boolean',
       label: 'Relative',
-      default: false
+      default: false,
     },
     qualityNormals: {
       type: 'boolean',
       label: 'Quality Normals',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -77,14 +81,14 @@ export const MeshTessellationTessellateNode: NodeDefinition<TessellateInputs, Te
         linearDeflection: params.linearDeflection,
         angularDeflection: params.angularDeflection,
         relative: params.relative,
-        qualityNormals: params.qualityNormals
-      }
+        qualityNormals: params.qualityNormals,
+      },
     });
-    
+
     return {
       mesh: results.mesh,
       triangleCount: results.triangleCount,
-      vertexCount: results.vertexCount
+      vertexCount: results.vertexCount,
     };
   },
 };

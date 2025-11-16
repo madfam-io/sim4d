@@ -2,17 +2,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { BentoGrid } from './ui/BentoGrid';
 import { FeatureCard } from './ui/FeatureCard';
-import { 
-  Cpu, 
-  Cloud, 
-  Layers, 
-  Zap, 
-  Globe, 
-  Lock,
-  GitBranch,
-  Box,
-  Sparkles
-} from 'lucide-react';
+import { Cpu, Cloud, Layers, Zap, Globe, Lock, GitBranch, Box, Sparkles } from 'lucide-react';
 
 const features = [
   {
@@ -89,8 +79,8 @@ export function Features() {
             </span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            BrepFlow combines the power of desktop CAD with the accessibility of the web,
-            bringing professional parametric modeling to everyone.
+            BrepFlow combines the power of desktop CAD with the accessibility of the web, bringing
+            professional parametric modeling to everyone.
           </p>
         </motion.div>
 
@@ -115,7 +105,7 @@ export function Features() {
                 title={feature.title}
                 description={feature.description}
                 gradient={feature.gradient}
-                size={feature.size as "small" | "medium" | "large"}
+                size={feature.size as 'small' | 'medium' | 'large'}
                 demo={feature.demo}
               />
             </motion.div>

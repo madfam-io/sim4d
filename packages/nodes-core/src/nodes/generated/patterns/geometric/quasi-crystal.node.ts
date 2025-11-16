@@ -13,7 +13,11 @@ interface QuasiCrystalOutputs {
   pattern: unknown;
 }
 
-export const PatternsGeometricQuasiCrystalNode: NodeDefinition<QuasiCrystalInputs, QuasiCrystalOutputs, QuasiCrystalParams> = {
+export const PatternsGeometricQuasiCrystalNode: NodeDefinition<
+  QuasiCrystalInputs,
+  QuasiCrystalOutputs,
+  QuasiCrystalParams
+> = {
   id: 'Patterns::QuasiCrystal',
   category: 'Patterns',
   label: 'QuasiCrystal',
@@ -22,14 +26,14 @@ export const PatternsGeometricQuasiCrystalNode: NodeDefinition<QuasiCrystalInput
     boundary: {
       type: 'Wire',
       label: 'Boundary',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     pattern: {
       type: 'Wire[]',
-      label: 'Pattern'
-    }
+      label: 'Pattern',
+    },
   },
   params: {
     symmetry: {
@@ -38,7 +42,7 @@ export const PatternsGeometricQuasiCrystalNode: NodeDefinition<QuasiCrystalInput
       default: 5,
       min: 5,
       max: 12,
-      step: 1
+      step: 1,
     },
     waves: {
       type: 'number',
@@ -46,8 +50,8 @@ export const PatternsGeometricQuasiCrystalNode: NodeDefinition<QuasiCrystalInput
       default: 4,
       min: 3,
       max: 8,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -55,12 +59,12 @@ export const PatternsGeometricQuasiCrystalNode: NodeDefinition<QuasiCrystalInput
       params: {
         boundary: inputs.boundary,
         symmetry: params.symmetry,
-        waves: params.waves
-      }
+        waves: params.waves,
+      },
     });
-    
+
     return {
-      pattern: result
+      pattern: result,
     };
   },
 };

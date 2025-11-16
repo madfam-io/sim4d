@@ -17,7 +17,11 @@ interface OldhamCouplingOutputs {
   disc: unknown;
 }
 
-export const MechanicalEngineeringCouplingsOldhamCouplingNode: NodeDefinition<OldhamCouplingInputs, OldhamCouplingOutputs, OldhamCouplingParams> = {
+export const MechanicalEngineeringCouplingsOldhamCouplingNode: NodeDefinition<
+  OldhamCouplingInputs,
+  OldhamCouplingOutputs,
+  OldhamCouplingParams
+> = {
   id: 'MechanicalEngineering::OldhamCoupling',
   category: 'MechanicalEngineering',
   label: 'OldhamCoupling',
@@ -26,22 +30,22 @@ export const MechanicalEngineeringCouplingsOldhamCouplingNode: NodeDefinition<Ol
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     assembly: {
       type: 'Shape',
-      label: 'Assembly'
+      label: 'Assembly',
     },
     hubs: {
       type: 'Shape[]',
-      label: 'Hubs'
+      label: 'Hubs',
     },
     disc: {
       type: 'Shape',
-      label: 'Disc'
-    }
+      label: 'Disc',
+    },
   },
   params: {
     hubDiameter: {
@@ -49,29 +53,29 @@ export const MechanicalEngineeringCouplingsOldhamCouplingNode: NodeDefinition<Ol
       label: 'Hub Diameter',
       default: 40,
       min: 20,
-      max: 100
+      max: 100,
     },
     discDiameter: {
       type: 'number',
       label: 'Disc Diameter',
       default: 35,
       min: 15,
-      max: 90
+      max: 90,
     },
     slotWidth: {
       type: 'number',
       label: 'Slot Width',
       default: 8,
       min: 3,
-      max: 20
+      max: 20,
     },
     totalLength: {
       type: 'number',
       label: 'Total Length',
       default: 40,
       min: 20,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -81,14 +85,14 @@ export const MechanicalEngineeringCouplingsOldhamCouplingNode: NodeDefinition<Ol
         hubDiameter: params.hubDiameter,
         discDiameter: params.discDiameter,
         slotWidth: params.slotWidth,
-        totalLength: params.totalLength
-      }
+        totalLength: params.totalLength,
+      },
     });
-    
+
     return {
       assembly: results.assembly,
       hubs: results.hubs,
-      disc: results.disc
+      disc: results.disc,
     };
   },
 };

@@ -3,7 +3,12 @@
  * Ensures nodes can use real geometry operations through the adapter
  */
 
-import { GeometryProxy, initializeNodeAdapter, getOperationStats, OPERATION_MAP } from './node-adapter';
+import {
+  GeometryProxy,
+  initializeNodeAdapter,
+  getOperationStats,
+  OPERATION_MAP,
+} from './node-adapter';
 import { WASMValidator } from './wasm-validation';
 import { GeometryAPIFactory } from '@brepflow/engine-core';
 import { DAGEngine } from '@brepflow/engine-core';
@@ -117,10 +122,10 @@ async function testNodeEvaluation() {
         return {
           solid: await context.geometry.execute({
             type: 'makeBox',
-            params: params
-          })
+            params: params,
+          }),
         };
-      }
+      },
     });
 
     // Evaluate the graph
@@ -253,7 +258,7 @@ async function runTests() {
 
 // Run tests if executed directly
 if (require.main === module) {
-  runTests().catch(error => {
+  runTests().catch((error) => {
     log(`\n❌ Test suite failed: ${error}`, colors.red);
     process.exit(1);
   });

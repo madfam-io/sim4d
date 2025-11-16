@@ -14,7 +14,11 @@ interface CylindricalFieldOutputs {
   field: unknown;
 }
 
-export const FieldGenerateCylindricalFieldNode: NodeDefinition<CylindricalFieldInputs, CylindricalFieldOutputs, CylindricalFieldParams> = {
+export const FieldGenerateCylindricalFieldNode: NodeDefinition<
+  CylindricalFieldInputs,
+  CylindricalFieldOutputs,
+  CylindricalFieldParams
+> = {
   id: 'Field::CylindricalField',
   category: 'Field',
   label: 'CylindricalField',
@@ -23,34 +27,34 @@ export const FieldGenerateCylindricalFieldNode: NodeDefinition<CylindricalFieldI
     axis: {
       type: 'Line',
       label: 'Axis',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     field: {
       type: 'ScalarField',
-      label: 'Field'
-    }
+      label: 'Field',
+    },
   },
   params: {
     radius: {
       type: 'number',
       label: 'Radius',
       default: 50,
-      min: 0.1
+      min: 0.1,
     },
     height: {
       type: 'number',
       label: 'Height',
       default: 100,
-      min: 0.1
+      min: 0.1,
     },
     falloff: {
       type: 'enum',
       label: 'Falloff',
-      default: "smooth",
-      options: ["linear","smooth","exponential"]
-    }
+      default: 'smooth',
+      options: ['linear', 'smooth', 'exponential'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -59,12 +63,12 @@ export const FieldGenerateCylindricalFieldNode: NodeDefinition<CylindricalFieldI
         axis: inputs.axis,
         radius: params.radius,
         height: params.height,
-        falloff: params.falloff
-      }
+        falloff: params.falloff,
+      },
     });
-    
+
     return {
-      field: result
+      field: result,
     };
   },
 };

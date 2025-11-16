@@ -15,6 +15,7 @@ The marketing site embodies BrepFlow's revolutionary approach to CAD with:
 ## 🚀 Key Features
 
 ### Hero Section
+
 - Dynamic typewriter text animations
 - 3D node flow visualization background
 - Particle field effects
@@ -22,24 +23,28 @@ The marketing site embodies BrepFlow's revolutionary approach to CAD with:
 - Prominent CTAs for demo and GitHub
 
 ### Features Showcase
+
 - Bento grid layout for visual hierarchy
 - Interactive feature cards with hover effects
 - Icon-based feature representation
 - Technical specifications highlight
 
 ### Live Demo
+
 - Interactive product demonstration
 - Step-by-step workflow visualization
 - Fullscreen mode for immersive experience
 - Progress tracking and controls
 
 ### Comparison Table
+
 - Side-by-side competitor analysis
 - Visual indicators (✓/✗) for quick scanning
 - BrepFlow advantages highlighting
 - Responsive table design
 
 ### Community Section
+
 - GitHub stats integration
 - Resource links (Discord, Forum, Docs)
 - Newsletter signup with gradient design
@@ -89,17 +94,20 @@ apps/marketing/
 ## 🎯 Design System
 
 ### Colors
+
 - **Background**: Deep grays (#0a0a0a to #1a1a1a)
 - **Primary**: Purple (#8b5cf6)
 - **Accent**: Blue to Purple gradient
 - **Text**: White/Gray hierarchy
 
 ### Typography
+
 - **Headings**: Inter, bold weights
 - **Body**: Inter, regular
 - **Code**: JetBrains Mono
 
 ### Components
+
 - **Buttons**: Glow effects with gradient borders
 - **Cards**: Glassmorphic with subtle borders
 - **Animations**: Smooth, purposeful transitions
@@ -124,6 +132,7 @@ pnpm preview
 ## 🔧 Configuration
 
 ### Environment Variables
+
 ```env
 VITE_API_URL=https://api.brepflow.com
 VITE_STUDIO_URL=https://studio.brepflow.com
@@ -131,6 +140,7 @@ VITE_DOCS_URL=https://docs.brepflow.com
 ```
 
 ### Performance Optimizations
+
 - Lazy loading for heavy components
 - Image optimization with next-gen formats
 - Code splitting for faster initial load
@@ -139,6 +149,7 @@ VITE_DOCS_URL=https://docs.brepflow.com
 ## 📊 Analytics Integration
 
 Ready for:
+
 - Google Analytics 4
 - Hotjar heatmaps
 - Custom event tracking
@@ -169,6 +180,7 @@ Ready for:
 ## 🚀 Deployment
 
 The marketing site is optimized for:
+
 - **Vercel**: Automatic deployments from GitHub
 - **Netlify**: Alternative hosting option
 - **CloudFlare Pages**: Edge deployment
@@ -177,6 +189,7 @@ The marketing site is optimized for:
 ## 📈 Performance Metrics
 
 Target metrics:
+
 - **LCP**: < 2.5s
 - **FID**: < 100ms
 - **CLS**: < 0.1

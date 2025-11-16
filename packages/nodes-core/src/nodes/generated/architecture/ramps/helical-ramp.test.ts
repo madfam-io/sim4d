@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { ArchitectureRampsHelicalRampNode } from './helical-ramp.node';
 import { createTestContext } from '../test-utils';
@@ -8,12 +7,12 @@ describe('ArchitectureRampsHelicalRampNode', () => {
     const context = createTestContext();
     const inputs = {
       centerPoint: undefined,
-      levels: undefined
+      levels: undefined,
     } as any;
     const params = {
       radius: 15000,
       pitch: 3000,
-      width: 7000
+      width: 7000,
     } as any;
 
     const result = await ArchitectureRampsHelicalRampNode.evaluate(context, inputs, params);

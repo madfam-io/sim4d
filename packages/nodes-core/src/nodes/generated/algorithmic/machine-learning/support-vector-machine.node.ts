@@ -18,7 +18,11 @@ interface SupportVectorMachineOutputs {
   accuracy: unknown;
 }
 
-export const AlgorithmicMachineLearningSupportVectorMachineNode: NodeDefinition<SupportVectorMachineInputs, SupportVectorMachineOutputs, SupportVectorMachineParams> = {
+export const AlgorithmicMachineLearningSupportVectorMachineNode: NodeDefinition<
+  SupportVectorMachineInputs,
+  SupportVectorMachineOutputs,
+  SupportVectorMachineParams
+> = {
   id: 'Algorithmic::SupportVectorMachine',
   category: 'Algorithmic',
   label: 'SupportVectorMachine',
@@ -27,53 +31,53 @@ export const AlgorithmicMachineLearningSupportVectorMachineNode: NodeDefinition<
     trainingData: {
       type: 'Properties[]',
       label: 'Training Data',
-      required: true
+      required: true,
     },
     features: {
       type: 'string[]',
       label: 'Features',
-      required: true
+      required: true,
     },
     target: {
       type: 'string',
       label: 'Target',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     model: {
       type: 'Properties',
-      label: 'Model'
+      label: 'Model',
     },
     supportVectors: {
       type: 'Properties[]',
-      label: 'Support Vectors'
+      label: 'Support Vectors',
     },
     accuracy: {
       type: 'number',
-      label: 'Accuracy'
-    }
+      label: 'Accuracy',
+    },
   },
   params: {
     kernel: {
       type: 'enum',
       label: 'Kernel',
-      default: "rbf",
-      options: ["linear","rbf","poly"]
+      default: 'rbf',
+      options: ['linear', 'rbf', 'poly'],
     },
     c: {
       type: 'number',
       label: 'C',
       default: 1,
       min: 0.001,
-      max: 1000
+      max: 1000,
     },
     gamma: {
       type: 'enum',
       label: 'Gamma',
-      default: "scale",
-      options: ["scale","auto"]
-    }
+      default: 'scale',
+      options: ['scale', 'auto'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -84,14 +88,14 @@ export const AlgorithmicMachineLearningSupportVectorMachineNode: NodeDefinition<
         target: inputs.target,
         kernel: params.kernel,
         c: params.c,
-        gamma: params.gamma
-      }
+        gamma: params.gamma,
+      },
     });
-    
+
     return {
       model: results.model,
       supportVectors: results.supportVectors,
-      accuracy: results.accuracy
+      accuracy: results.accuracy,
     };
   },
 };

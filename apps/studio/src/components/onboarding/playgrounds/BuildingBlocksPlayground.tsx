@@ -14,7 +14,6 @@ export const BuildingBlocksPlayground: React.FC = () => {
         <h2>🧱 Building Blocks Playground</h2>
         <p>Coming soon! This playground will teach you how to combine multiple shapes.</p>
       </div>
-
     </motion.div>
   );
 };

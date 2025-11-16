@@ -14,7 +14,11 @@ interface SlabOnGradeOutputs {
   slab: unknown;
 }
 
-export const ArchitectureFloorsSlabOnGradeNode: NodeDefinition<SlabOnGradeInputs, SlabOnGradeOutputs, SlabOnGradeParams> = {
+export const ArchitectureFloorsSlabOnGradeNode: NodeDefinition<
+  SlabOnGradeInputs,
+  SlabOnGradeOutputs,
+  SlabOnGradeParams
+> = {
   id: 'Architecture::SlabOnGrade',
   type: 'Architecture::SlabOnGrade',
   category: 'Architecture',
@@ -24,14 +28,14 @@ export const ArchitectureFloorsSlabOnGradeNode: NodeDefinition<SlabOnGradeInputs
     boundary: {
       type: 'Wire',
       label: 'Boundary',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     slab: {
       type: 'Shape',
-      label: 'Slab'
-    }
+      label: 'Slab',
+    },
   },
   params: {
     thickness: {
@@ -39,18 +43,18 @@ export const ArchitectureFloorsSlabOnGradeNode: NodeDefinition<SlabOnGradeInputs
       label: 'Thickness',
       default: 150,
       min: 100,
-      max: 300
+      max: 300,
     },
     vaporBarrier: {
       type: 'boolean',
       label: 'Vapor Barrier',
-      default: true
+      default: true,
     },
     insulation: {
       type: 'boolean',
       label: 'Insulation',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -59,12 +63,12 @@ export const ArchitectureFloorsSlabOnGradeNode: NodeDefinition<SlabOnGradeInputs
         boundary: inputs.boundary,
         thickness: params.thickness,
         vaporBarrier: params.vaporBarrier,
-        insulation: params.insulation
-      }
+        insulation: params.insulation,
+      },
     });
-    
+
     return {
-      slab: result
+      slab: result,
     };
   },
 };

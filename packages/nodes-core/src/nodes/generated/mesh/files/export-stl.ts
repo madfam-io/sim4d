@@ -13,7 +13,11 @@ interface ExportSTLOutputs {
   stlData: unknown;
 }
 
-export const MeshFilesExportSTLNode: NodeDefinition<ExportSTLInputs, ExportSTLOutputs, ExportSTLParams> = {
+export const MeshFilesExportSTLNode: NodeDefinition<
+  ExportSTLInputs,
+  ExportSTLOutputs,
+  ExportSTLParams
+> = {
   id: 'Mesh::ExportSTL',
   type: 'Mesh::ExportSTL',
   category: 'Mesh',
@@ -23,28 +27,28 @@ export const MeshFilesExportSTLNode: NodeDefinition<ExportSTLInputs, ExportSTLOu
     mesh: {
       type: 'Mesh',
       label: 'Mesh',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     stlData: {
       type: 'Data',
-      label: 'Stl Data'
-    }
+      label: 'Stl Data',
+    },
   },
   params: {
     format: {
       type: 'enum',
       label: 'Format',
-      default: "binary",
-      options: ["ascii","binary"]
+      default: 'binary',
+      options: ['ascii', 'binary'],
     },
     units: {
       type: 'enum',
       label: 'Units',
-      default: "mm",
-      options: ["mm","cm","m","inch","foot"]
-    }
+      default: 'mm',
+      options: ['mm', 'cm', 'm', 'inch', 'foot'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -52,12 +56,12 @@ export const MeshFilesExportSTLNode: NodeDefinition<ExportSTLInputs, ExportSTLOu
       params: {
         mesh: inputs.mesh,
         format: params.format,
-        units: params.units
-      }
+        units: params.units,
+      },
     });
-    
+
     return {
-      stlData: result
+      stlData: result,
     };
   },
 };

@@ -121,9 +121,7 @@ export class PermissionService extends EventEmitter {
   }
 
   async checkMultiplePermissions(contexts: PermissionContext[]): Promise<PermissionResult[]> {
-    const results = await Promise.all(
-      contexts.map(context => this.checkPermission(context))
-    );
+    const results = await Promise.all(contexts.map((context) => this.checkPermission(context)));
 
     return results;
   }
@@ -177,7 +175,7 @@ export class PermissionService extends EventEmitter {
     }
 
     // Check collaborators
-    const collaborator = project.collaborators.find(c => c.userId === userId);
+    const collaborator = project.collaborators.find((c) => c.userId === userId);
     return collaborator?.role || null;
   }
 
@@ -291,7 +289,13 @@ export class PermissionService extends EventEmitter {
     // Clear cache
     this.invalidateUserProjectCache(userId, projectId);
 
-    this.emit('collaborator-role-updated', { projectId, userId, oldRole: currentRole, newRole, updatedBy });
+    this.emit('collaborator-role-updated', {
+      projectId,
+      userId,
+      oldRole: currentRole,
+      newRole,
+      updatedBy,
+    });
 
     if (this.config.audit.logRoleChanges) {
       this.logRoleChange({
@@ -334,7 +338,7 @@ export class PermissionService extends EventEmitter {
     }
 
     // Check members
-    const member = team.members.find(m => m.userId === userId);
+    const member = team.members.find((m) => m.userId === userId);
     return member?.role || null;
   }
 
@@ -444,7 +448,9 @@ export class PermissionService extends EventEmitter {
     }
   }
 
-  private async checkProjectResourcePermission(context: PermissionContext): Promise<PermissionResult> {
+  private async checkProjectResourcePermission(
+    context: PermissionContext
+  ): Promise<PermissionResult> {
     if (!context.projectId) {
       return { granted: false, reason: 'Project ID required for project permissions' };
     }
@@ -705,7 +711,10 @@ export class PermissionService extends EventEmitter {
     throw new Error('Team metadata access implementation required');
   }
 
-  private async saveProjectCollaborator(projectId: ProjectId, collaborator: CollaboratorAccess): Promise<void> {
+  private async saveProjectCollaborator(
+    projectId: ProjectId,
+    collaborator: CollaboratorAccess
+  ): Promise<void> {
     // Implementation depends on database service
     throw new Error('Project collaborator save implementation required');
   }
@@ -715,7 +724,11 @@ export class PermissionService extends EventEmitter {
     throw new Error('Project collaborator delete implementation required');
   }
 
-  private async updateProjectCollaboratorRoleInDb(projectId: ProjectId, userId: UserId, role: ProjectRole): Promise<void> {
+  private async updateProjectCollaboratorRoleInDb(
+    projectId: ProjectId,
+    userId: UserId,
+    role: ProjectRole
+  ): Promise<void> {
     // Implementation depends on database service
     throw new Error('Project collaborator role update implementation required');
   }

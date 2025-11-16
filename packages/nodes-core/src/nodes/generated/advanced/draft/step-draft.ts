@@ -13,7 +13,11 @@ interface StepDraftOutputs {
   drafted: unknown;
 }
 
-export const AdvancedDraftStepDraftNode: NodeDefinition<StepDraftInputs, StepDraftOutputs, StepDraftParams> = {
+export const AdvancedDraftStepDraftNode: NodeDefinition<
+  StepDraftInputs,
+  StepDraftOutputs,
+  StepDraftParams
+> = {
   id: 'Advanced::StepDraft',
   type: 'Advanced::StepDraft',
   category: 'Advanced',
@@ -23,19 +27,19 @@ export const AdvancedDraftStepDraftNode: NodeDefinition<StepDraftInputs, StepDra
     solid: {
       type: 'Shape',
       label: 'Solid',
-      required: true
+      required: true,
     },
     draftData: {
       type: 'Data',
       label: 'Draft Data',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     drafted: {
       type: 'Shape',
-      label: 'Drafted'
-    }
+      label: 'Drafted',
+    },
   },
   params: {
     steps: {
@@ -44,8 +48,8 @@ export const AdvancedDraftStepDraftNode: NodeDefinition<StepDraftInputs, StepDra
       default: 2,
       min: 1,
       max: 10,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const AdvancedDraftStepDraftNode: NodeDefinition<StepDraftInputs, StepDra
       params: {
         solid: inputs.solid,
         draftData: inputs.draftData,
-        steps: params.steps
-      }
+        steps: params.steps,
+      },
     });
-    
+
     return {
-      drafted: result
+      drafted: result,
     };
   },
 };

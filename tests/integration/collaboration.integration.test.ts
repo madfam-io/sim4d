@@ -51,7 +51,8 @@ describe('Collaboration server/client integration', () => {
         });
       });
     } catch (error) {
-      skipReason = error instanceof Error ? error.message : 'Failed to bind local collaboration test server';
+      skipReason =
+        error instanceof Error ? error.message : 'Failed to bind local collaboration test server';
       return;
     }
 
@@ -78,7 +79,11 @@ describe('Collaboration server/client integration', () => {
     }
   });
 
-  async function createTestClient(name: string, color: string, documentId: string): Promise<TestClientContext> {
+  async function createTestClient(
+    name: string,
+    color: string,
+    documentId: string
+  ): Promise<TestClientContext> {
     const user: User = {
       id: `user-${name.toLowerCase()}`,
       name,
@@ -108,7 +113,10 @@ describe('Collaboration server/client integration', () => {
 
   it('syncs operations and presence between collaborators', async () => {
     if (!serverReady) {
-      console.warn('[collaboration.integration] Skipping test:', skipReason || 'Collaboration server failed to start (likely sandboxed network)');
+      console.warn(
+        '[collaboration.integration] Skipping test:',
+        skipReason || 'Collaboration server failed to start (likely sandboxed network)'
+      );
       return;
     }
 
@@ -172,7 +180,10 @@ describe('Collaboration server/client integration', () => {
 
   it('emits conflict events when collaborators concurrently edit the same node', async () => {
     if (!serverReady) {
-      console.warn('[collaboration.integration] Skipping test:', skipReason || 'Collaboration server failed to start (likely sandboxed network)');
+      console.warn(
+        '[collaboration.integration] Skipping test:',
+        skipReason || 'Collaboration server failed to start (likely sandboxed network)'
+      );
       return;
     }
 
@@ -267,7 +278,10 @@ describe('Collaboration server/client integration', () => {
 
   it('re-synchronizes state after a collaborator reconnects', async () => {
     if (!serverReady) {
-      console.warn('[collaboration.integration] Skipping test:', skipReason || 'Collaboration server failed to start (likely sandboxed network)');
+      console.warn(
+        '[collaboration.integration] Skipping test:',
+        skipReason || 'Collaboration server failed to start (likely sandboxed network)'
+      );
       return;
     }
 
@@ -313,14 +327,19 @@ describe('Collaboration server/client integration', () => {
     };
 
     alice.client.submitOperation(addWhileOffline);
-    await waitFor(() => (alice.client.getDocument()?.graph.nodes.some((node) => node.id === nodeId)) ?? false);
+    await waitFor(
+      () => alice.client.getDocument()?.graph.nodes.some((node) => node.id === nodeId) ?? false
+    );
     const targetVersion = alice.client.getDocument()?.version ?? 0;
 
     charlie.client.connect();
     await waitFor(() => connectionEvents.includes('connect'));
 
     await waitFor(() => latestSyncVersion >= targetVersion, 8000);
-    await waitFor(() => (charlie.client.getDocument()?.graph.nodes.some((node) => node.id === nodeId)) ?? false, 8000);
+    await waitFor(
+      () => charlie.client.getDocument()?.graph.nodes.some((node) => node.id === nodeId) ?? false,
+      8000
+    );
 
     const charlieDoc = charlie.client.getDocument();
     const aliceDoc = alice.client.getDocument();

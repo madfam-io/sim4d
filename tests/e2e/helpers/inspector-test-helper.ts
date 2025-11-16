@@ -28,7 +28,7 @@ export class InspectorTestHelper {
    */
   async waitForInspectorReady(): Promise<void> {
     await this.page.waitForSelector('[data-testid="inspector"], .inspector-panel', {
-      timeout: 10000
+      timeout: 10000,
     });
 
     // Wait for inspector to be fully loaded
@@ -39,7 +39,9 @@ export class InspectorTestHelper {
    * Verify Inspector is visible and active
    */
   async verifyInspectorActive(): Promise<void> {
-    await expect(this.page.locator('[data-testid="inspector-active"], .inspector-panel.active')).toBeVisible();
+    await expect(
+      this.page.locator('[data-testid="inspector-active"], .inspector-panel.active')
+    ).toBeVisible();
   }
 
   /**
@@ -50,14 +52,18 @@ export class InspectorTestHelper {
    * Verify parameters section is visible
    */
   async verifyParametersSection(): Promise<void> {
-    await expect(this.page.locator('[data-testid="inspector-parameters"], .parameters-section')).toBeVisible();
+    await expect(
+      this.page.locator('[data-testid="inspector-parameters"], .parameters-section')
+    ).toBeVisible();
   }
 
   /**
    * Edit a parameter in the Inspector (Phase 4A)
    */
   async editParameter(paramName: string, value: string): Promise<void> {
-    const paramInput = this.page.locator(`[data-testid="inspector-param-${paramName}"], [data-param="${paramName}"]`).first();
+    const paramInput = this.page
+      .locator(`[data-testid="inspector-param-${paramName}"], [data-param="${paramName}"]`)
+      .first();
 
     await expect(paramInput).toBeVisible();
     await paramInput.clear();
@@ -71,7 +77,9 @@ export class InspectorTestHelper {
    * Verify parameter value in Inspector
    */
   async verifyParameterValue(paramName: string, expectedValue: string): Promise<void> {
-    const paramInput = this.page.locator(`[data-testid="inspector-param-${paramName}"], [data-param="${paramName}"]`).first();
+    const paramInput = this.page
+      .locator(`[data-testid="inspector-param-${paramName}"], [data-param="${paramName}"]`)
+      .first();
     await expect(paramInput).toHaveValue(expectedValue);
   }
 
@@ -79,7 +87,9 @@ export class InspectorTestHelper {
    * Verify dirty indicator shows after parameter change
    */
   async verifyDirtyIndicator(): Promise<void> {
-    await expect(this.page.locator('[data-testid="node-dirty-indicator"], .dirty-indicator')).toBeVisible();
+    await expect(
+      this.page.locator('[data-testid="node-dirty-indicator"], .dirty-indicator')
+    ).toBeVisible();
   }
 
   /**
@@ -107,13 +117,17 @@ export class InspectorTestHelper {
    * Open performance section
    */
   async openPerformanceSection(): Promise<void> {
-    const performanceToggle = this.page.locator('[data-testid="performance-section-toggle"], .performance-section-header').first();
+    const performanceToggle = this.page
+      .locator('[data-testid="performance-section-toggle"], .performance-section-header')
+      .first();
 
     if (await performanceToggle.isVisible()) {
       await performanceToggle.click();
     }
 
-    await expect(this.page.locator('[data-testid="performance-section"], .performance-section')).toBeVisible();
+    await expect(
+      this.page.locator('[data-testid="performance-section"], .performance-section')
+    ).toBeVisible();
   }
 
   /**
@@ -123,9 +137,15 @@ export class InspectorTestHelper {
     await this.openPerformanceSection();
 
     // Check for key performance metrics
-    await expect(this.page.locator('[data-testid="compute-time-metric"], .compute-time')).toBeVisible();
-    await expect(this.page.locator('[data-testid="memory-usage-metric"], .memory-usage')).toBeVisible();
-    await expect(this.page.locator('[data-testid="success-rate-metric"], .success-rate')).toBeVisible();
+    await expect(
+      this.page.locator('[data-testid="compute-time-metric"], .compute-time')
+    ).toBeVisible();
+    await expect(
+      this.page.locator('[data-testid="memory-usage-metric"], .memory-usage')
+    ).toBeVisible();
+    await expect(
+      this.page.locator('[data-testid="success-rate-metric"], .success-rate')
+    ).toBeVisible();
   }
 
   /**
@@ -143,7 +163,7 @@ export class InspectorTestHelper {
       computeTime: parseFloat(computeTime) || 0,
       memoryUsage: parseFloat(memoryUsage) || 0,
       successRate: parseFloat(successRate) || 0,
-      evaluationCount: parseInt(evaluationCount) || 0
+      evaluationCount: parseInt(evaluationCount) || 0,
     };
   }
 
@@ -151,10 +171,12 @@ export class InspectorTestHelper {
    * Helper to get metric value from UI
    */
   private async getMetricValue(metricName: string): Promise<string> {
-    const metricElement = this.page.locator(`[data-testid="${metricName}-value"], [data-metric="${metricName}"]`).first();
+    const metricElement = this.page
+      .locator(`[data-testid="${metricName}-value"], [data-metric="${metricName}"]`)
+      .first();
 
     if (await metricElement.isVisible({ timeout: 2000 })) {
-      return await metricElement.textContent() || '0';
+      return (await metricElement.textContent()) || '0';
     }
 
     return '0';
@@ -164,7 +186,9 @@ export class InspectorTestHelper {
    * Verify performance chart/visualization
    */
   async verifyPerformanceChart(): Promise<void> {
-    await expect(this.page.locator('[data-testid="performance-chart"], .performance-chart')).toBeVisible();
+    await expect(
+      this.page.locator('[data-testid="performance-chart"], .performance-chart')
+    ).toBeVisible();
   }
 
   /**
@@ -175,13 +199,17 @@ export class InspectorTestHelper {
    * Open diagnostics section
    */
   async openDiagnosticsSection(): Promise<void> {
-    const diagnosticsToggle = this.page.locator('[data-testid="diagnostics-section-toggle"], .diagnostics-section-header').first();
+    const diagnosticsToggle = this.page
+      .locator('[data-testid="diagnostics-section-toggle"], .diagnostics-section-header')
+      .first();
 
     if (await diagnosticsToggle.isVisible()) {
       await diagnosticsToggle.click();
     }
 
-    await expect(this.page.locator('[data-testid="diagnostics-section"], .diagnostics-section')).toBeVisible();
+    await expect(
+      this.page.locator('[data-testid="diagnostics-section"], .diagnostics-section')
+    ).toBeVisible();
   }
 
   /**
@@ -191,7 +219,9 @@ export class InspectorTestHelper {
     await this.openDiagnosticsSection();
 
     // Check for diagnostics container
-    await expect(this.page.locator('[data-testid="diagnostics-list"], .diagnostics-list')).toBeVisible();
+    await expect(
+      this.page.locator('[data-testid="diagnostics-list"], .diagnostics-list')
+    ).toBeVisible();
   }
 
   /**
@@ -200,22 +230,24 @@ export class InspectorTestHelper {
   async getDiagnosticSuggestions(): Promise<DiagnosticInfo> {
     await this.openDiagnosticsSection();
 
-    const suggestions = await this.page.locator('[data-testid="diagnostic-suggestion"], .diagnostic-suggestion').all();
+    const suggestions = await this.page
+      .locator('[data-testid="diagnostic-suggestion"], .diagnostic-suggestion')
+      .all();
     const diagnosticData: DiagnosticInfo = {
       suggestions: [],
-      errorCount: suggestions.length
+      errorCount: suggestions.length,
     };
 
     for (const suggestion of suggestions) {
-      const title = await suggestion.locator('.suggestion-title').textContent() || '';
-      const actionType = await suggestion.getAttribute('data-action-type') || '';
-      const confidenceText = await suggestion.locator('.confidence').textContent() || '0';
+      const title = (await suggestion.locator('.suggestion-title').textContent()) || '';
+      const actionType = (await suggestion.getAttribute('data-action-type')) || '';
+      const confidenceText = (await suggestion.locator('.confidence').textContent()) || '0';
       const confidence = parseInt(confidenceText.replace('%', '')) || 0;
 
       diagnosticData.suggestions.push({
         title,
         actionType,
-        confidence
+        confidence,
       });
     }
 
@@ -226,7 +258,9 @@ export class InspectorTestHelper {
    * Click on a diagnostic suggestion
    */
   async clickDiagnosticSuggestion(index: number): Promise<void> {
-    const suggestions = this.page.locator('[data-testid="diagnostic-suggestion"], .diagnostic-suggestion');
+    const suggestions = this.page.locator(
+      '[data-testid="diagnostic-suggestion"], .diagnostic-suggestion'
+    );
     await suggestions.nth(index).click();
   }
 
@@ -238,13 +272,17 @@ export class InspectorTestHelper {
    * Open configuration section
    */
   async openConfigurationSection(): Promise<void> {
-    const configToggle = this.page.locator('[data-testid="configuration-section-toggle"], .configuration-section-header').first();
+    const configToggle = this.page
+      .locator('[data-testid="configuration-section-toggle"], .configuration-section-header')
+      .first();
 
     if (await configToggle.isVisible()) {
       await configToggle.click();
     }
 
-    await expect(this.page.locator('[data-testid="configuration-section"], .configuration-section')).toBeVisible();
+    await expect(
+      this.page.locator('[data-testid="configuration-section"], .configuration-section')
+    ).toBeVisible();
   }
 
   /**
@@ -253,7 +291,9 @@ export class InspectorTestHelper {
   async exportConfiguration(): Promise<void> {
     await this.openConfigurationSection();
 
-    const exportButton = this.page.locator('[data-testid="export-config-button"], button:has-text("Export")').first();
+    const exportButton = this.page
+      .locator('[data-testid="export-config-button"], button:has-text("Export")')
+      .first();
     await expect(exportButton).toBeVisible();
     await exportButton.click();
 
@@ -280,7 +320,9 @@ export class InspectorTestHelper {
   async importConfiguration(configId: string): Promise<void> {
     await this.openConfigurationSection();
 
-    const importButton = this.page.locator('[data-testid="import-config-button"], button:has-text("Import")').first();
+    const importButton = this.page
+      .locator('[data-testid="import-config-button"], button:has-text("Import")')
+      .first();
     if (await importButton.isVisible({ timeout: 2000 })) {
       await importButton.click();
 
@@ -298,7 +340,9 @@ export class InspectorTestHelper {
   async verifyConfigurationTemplates(): Promise<void> {
     await this.openConfigurationSection();
 
-    const templatesSection = this.page.locator('[data-testid="configuration-templates"], .templates-section');
+    const templatesSection = this.page.locator(
+      '[data-testid="configuration-templates"], .templates-section'
+    );
     await expect(templatesSection).toBeVisible();
   }
 
@@ -313,17 +357,29 @@ export class InspectorTestHelper {
     await this.verifyParametersSection();
 
     // Try to find performance section
-    if (await this.page.locator('[data-testid="performance-section-toggle"]').isVisible({ timeout: 2000 })) {
+    if (
+      await this.page
+        .locator('[data-testid="performance-section-toggle"]')
+        .isVisible({ timeout: 2000 })
+    ) {
       await this.openPerformanceSection();
     }
 
     // Try to find diagnostics section
-    if (await this.page.locator('[data-testid="diagnostics-section-toggle"]').isVisible({ timeout: 2000 })) {
+    if (
+      await this.page
+        .locator('[data-testid="diagnostics-section-toggle"]')
+        .isVisible({ timeout: 2000 })
+    ) {
       await this.openDiagnosticsSection();
     }
 
     // Try to find configuration section
-    if (await this.page.locator('[data-testid="configuration-section-toggle"]').isVisible({ timeout: 2000 })) {
+    if (
+      await this.page
+        .locator('[data-testid="configuration-section-toggle"]')
+        .isVisible({ timeout: 2000 })
+    ) {
       await this.openConfigurationSection();
     }
   }
@@ -335,12 +391,16 @@ export class InspectorTestHelper {
     // Select first node
     await this.page.click(`[data-node-id="${nodeId1}"]`);
     await this.verifyInspectorActive();
-    const firstNodeParams = await this.page.locator('[data-testid="inspector-parameters"] input').count();
+    const firstNodeParams = await this.page
+      .locator('[data-testid="inspector-parameters"] input')
+      .count();
 
     // Select second node
     await this.page.click(`[data-node-id="${nodeId2}"]`);
     await this.verifyInspectorActive();
-    const secondNodeParams = await this.page.locator('[data-testid="inspector-parameters"] input').count();
+    const secondNodeParams = await this.page
+      .locator('[data-testid="inspector-parameters"] input')
+      .count();
 
     // Inspector should update (may have different parameter counts)
     expect(firstNodeParams).toBeGreaterThan(0);

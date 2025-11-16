@@ -16,7 +16,11 @@ interface FlexibleShaftOutputs {
   centerline: unknown;
 }
 
-export const MechanicalEngineeringShaftsFlexibleShaftNode: NodeDefinition<FlexibleShaftInputs, FlexibleShaftOutputs, FlexibleShaftParams> = {
+export const MechanicalEngineeringShaftsFlexibleShaftNode: NodeDefinition<
+  FlexibleShaftInputs,
+  FlexibleShaftOutputs,
+  FlexibleShaftParams
+> = {
   id: 'MechanicalEngineering::FlexibleShaft',
   type: 'MechanicalEngineering::FlexibleShaft',
   category: 'MechanicalEngineering',
@@ -26,18 +30,18 @@ export const MechanicalEngineeringShaftsFlexibleShaftNode: NodeDefinition<Flexib
     path: {
       type: 'Wire',
       label: 'Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shaft: {
       type: 'Shape',
-      label: 'Shaft'
+      label: 'Shaft',
     },
     centerline: {
       type: 'Wire',
-      label: 'Centerline'
-    }
+      label: 'Centerline',
+    },
   },
   params: {
     coreDiameter: {
@@ -45,29 +49,29 @@ export const MechanicalEngineeringShaftsFlexibleShaftNode: NodeDefinition<Flexib
       label: 'Core Diameter',
       default: 5,
       min: 2,
-      max: 20
+      max: 20,
     },
     outerDiameter: {
       type: 'number',
       label: 'Outer Diameter',
       default: 8,
       min: 4,
-      max: 30
+      max: 30,
     },
     length: {
       type: 'number',
       label: 'Length',
       default: 300,
       min: 100,
-      max: 1000
+      max: 1000,
     },
     windingAngle: {
       type: 'number',
       label: 'Winding Angle',
       default: 45,
       min: 30,
-      max: 60
-    }
+      max: 60,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -77,13 +81,13 @@ export const MechanicalEngineeringShaftsFlexibleShaftNode: NodeDefinition<Flexib
         coreDiameter: params.coreDiameter,
         outerDiameter: params.outerDiameter,
         length: params.length,
-        windingAngle: params.windingAngle
-      }
+        windingAngle: params.windingAngle,
+      },
     });
-    
+
     return {
       shaft: results.shaft,
-      centerline: results.centerline
+      centerline: results.centerline,
     };
   },
 };

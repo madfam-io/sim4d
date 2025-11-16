@@ -13,7 +13,11 @@ interface BrimGenerationOutputs {
   brim: unknown;
 }
 
-export const Fabrication3DPrintingBrimGenerationNode: NodeDefinition<BrimGenerationInputs, BrimGenerationOutputs, BrimGenerationParams> = {
+export const Fabrication3DPrintingBrimGenerationNode: NodeDefinition<
+  BrimGenerationInputs,
+  BrimGenerationOutputs,
+  BrimGenerationParams
+> = {
   id: 'Fabrication::BrimGeneration',
   type: 'Fabrication::BrimGeneration',
   category: 'Fabrication',
@@ -23,14 +27,14 @@ export const Fabrication3DPrintingBrimGenerationNode: NodeDefinition<BrimGenerat
     model: {
       type: 'Shape',
       label: 'Model',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     brim: {
       type: 'Wire[]',
-      label: 'Brim'
-    }
+      label: 'Brim',
+    },
   },
   params: {
     brimWidth: {
@@ -38,7 +42,7 @@ export const Fabrication3DPrintingBrimGenerationNode: NodeDefinition<BrimGenerat
       label: 'Brim Width',
       default: 10,
       min: 1,
-      max: 50
+      max: 50,
     },
     brimLines: {
       type: 'number',
@@ -46,8 +50,8 @@ export const Fabrication3DPrintingBrimGenerationNode: NodeDefinition<BrimGenerat
       default: 20,
       min: 1,
       max: 100,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -55,12 +59,12 @@ export const Fabrication3DPrintingBrimGenerationNode: NodeDefinition<BrimGenerat
       params: {
         model: inputs.model,
         brimWidth: params.brimWidth,
-        brimLines: params.brimLines
-      }
+        brimLines: params.brimLines,
+      },
     });
-    
+
     return {
-      brim: result
+      brim: result,
     };
   },
 };

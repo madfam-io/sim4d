@@ -14,7 +14,7 @@ export const PanelHeader: React.FC<PanelHeaderProps> = ({
   subtitle,
   actions,
   variant = 'primary',
-  size = 'md'
+  size = 'md',
 }) => {
   return (
     <div className={`panel-header panel-header--${variant} panel-header--${size}`}>
@@ -22,11 +22,7 @@ export const PanelHeader: React.FC<PanelHeaderProps> = ({
         <h3 className="panel-header__title">{title}</h3>
         {subtitle && <p className="panel-header__subtitle">{subtitle}</p>}
       </div>
-      {actions && (
-        <div className="panel-header__actions">
-          {actions}
-        </div>
-      )}
+      {actions && <div className="panel-header__actions">{actions}</div>}
     </div>
   );
 };

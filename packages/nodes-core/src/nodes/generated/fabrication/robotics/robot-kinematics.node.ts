@@ -15,7 +15,11 @@ interface RobotKinematicsOutputs {
   reachable: boolean;
 }
 
-export const FabricationRoboticsRobotKinematicsNode: NodeDefinition<RobotKinematicsInputs, RobotKinematicsOutputs, RobotKinematicsParams> = {
+export const FabricationRoboticsRobotKinematicsNode: NodeDefinition<
+  RobotKinematicsInputs,
+  RobotKinematicsOutputs,
+  RobotKinematicsParams
+> = {
   id: 'Fabrication::RobotKinematics',
   category: 'Fabrication',
   label: 'RobotKinematics',
@@ -24,37 +28,37 @@ export const FabricationRoboticsRobotKinematicsNode: NodeDefinition<RobotKinemat
     target: {
       type: 'Transform',
       label: 'Target',
-      required: true
+      required: true,
     },
     jointLimits: {
       type: 'Data',
       label: 'Joint Limits',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     jointAngles: {
       type: 'Number[]',
-      label: 'Joint Angles'
+      label: 'Joint Angles',
     },
     reachable: {
       type: 'Boolean',
-      label: 'Reachable'
-    }
+      label: 'Reachable',
+    },
   },
   params: {
     robotType: {
       type: 'enum',
       label: 'Robot Type',
-      default: "6-axis",
-      options: ["6-axis","scara","delta","cartesian"]
+      default: '6-axis',
+      options: ['6-axis', 'scara', 'delta', 'cartesian'],
     },
     solver: {
       type: 'enum',
       label: 'Solver',
-      default: "inverse",
-      options: ["forward","inverse"]
-    }
+      default: 'inverse',
+      options: ['forward', 'inverse'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -63,13 +67,13 @@ export const FabricationRoboticsRobotKinematicsNode: NodeDefinition<RobotKinemat
         target: inputs.target,
         jointLimits: inputs.jointLimits,
         robotType: params.robotType,
-        solver: params.solver
-      }
+        solver: params.solver,
+      },
     });
-    
+
     return {
       jointAngles: results.jointAngles,
-      reachable: results.reachable
+      reachable: results.reachable,
     };
   },
 };

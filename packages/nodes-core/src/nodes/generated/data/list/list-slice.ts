@@ -12,7 +12,11 @@ interface ListSliceOutputs {
   sublist: unknown;
 }
 
-export const DataListListSliceNode: NodeDefinition<ListSliceInputs, ListSliceOutputs, ListSliceParams> = {
+export const DataListListSliceNode: NodeDefinition<
+  ListSliceInputs,
+  ListSliceOutputs,
+  ListSliceParams
+> = {
   id: 'Data::ListSlice',
   type: 'Data::ListSlice',
   category: 'Data',
@@ -22,24 +26,24 @@ export const DataListListSliceNode: NodeDefinition<ListSliceInputs, ListSliceOut
     list: {
       type: 'Data[]',
       label: 'List',
-      required: true
+      required: true,
     },
     start: {
       type: 'number',
       label: 'Start',
-      required: true
+      required: true,
     },
     end: {
       type: 'number',
       label: 'End',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     sublist: {
       type: 'Data[]',
-      label: 'Sublist'
-    }
+      label: 'Sublist',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -48,12 +52,12 @@ export const DataListListSliceNode: NodeDefinition<ListSliceInputs, ListSliceOut
       params: {
         list: inputs.list,
         start: inputs.start,
-        end: inputs.end
-      }
+        end: inputs.end,
+      },
     });
-    
+
     return {
-      sublist: result
+      sublist: result,
     };
   },
 };

@@ -14,7 +14,11 @@ interface PrintOrientationOutputs {
   orientedModel: unknown;
 }
 
-export const Fabrication3DPrintingPrintOrientationNode: NodeDefinition<PrintOrientationInputs, PrintOrientationOutputs, PrintOrientationParams> = {
+export const Fabrication3DPrintingPrintOrientationNode: NodeDefinition<
+  PrintOrientationInputs,
+  PrintOrientationOutputs,
+  PrintOrientationParams
+> = {
   id: 'Fabrication::PrintOrientation',
   category: 'Fabrication',
   label: 'PrintOrientation',
@@ -23,31 +27,31 @@ export const Fabrication3DPrintingPrintOrientationNode: NodeDefinition<PrintOrie
     model: {
       type: 'Shape',
       label: 'Model',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     orientation: {
       type: 'Transform',
-      label: 'Orientation'
+      label: 'Orientation',
     },
     orientedModel: {
       type: 'Shape',
-      label: 'Oriented Model'
-    }
+      label: 'Oriented Model',
+    },
   },
   params: {
     optimize: {
       type: 'enum',
       label: 'Optimize',
-      default: "support",
-      options: ["support","strength","time","quality"]
+      default: 'support',
+      options: ['support', 'strength', 'time', 'quality'],
     },
     constraints: {
       type: 'boolean',
       label: 'Constraints',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -55,13 +59,13 @@ export const Fabrication3DPrintingPrintOrientationNode: NodeDefinition<PrintOrie
       params: {
         model: inputs.model,
         optimize: params.optimize,
-        constraints: params.constraints
-      }
+        constraints: params.constraints,
+      },
     });
-    
+
     return {
       orientation: results.orientation,
-      orientedModel: results.orientedModel
+      orientedModel: results.orientedModel,
     };
   },
 };

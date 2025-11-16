@@ -14,7 +14,11 @@ interface PickAndPlaceOutputs {
   pickPlaceSequence: unknown;
 }
 
-export const FabricationRoboticsPickAndPlaceNode: NodeDefinition<PickAndPlaceInputs, PickAndPlaceOutputs, PickAndPlaceParams> = {
+export const FabricationRoboticsPickAndPlaceNode: NodeDefinition<
+  PickAndPlaceInputs,
+  PickAndPlaceOutputs,
+  PickAndPlaceParams
+> = {
   id: 'Fabrication::PickAndPlace',
   type: 'Fabrication::PickAndPlace',
   category: 'Fabrication',
@@ -24,34 +28,34 @@ export const FabricationRoboticsPickAndPlaceNode: NodeDefinition<PickAndPlaceInp
     pickPoints: {
       type: 'Transform[]',
       label: 'Pick Points',
-      required: true
+      required: true,
     },
     placePoints: {
       type: 'Transform[]',
       label: 'Place Points',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     pickPlaceSequence: {
       type: 'Transform[]',
-      label: 'Pick Place Sequence'
-    }
+      label: 'Pick Place Sequence',
+    },
   },
   params: {
     gripperType: {
       type: 'enum',
       label: 'Gripper Type',
-      default: "parallel",
-      options: ["vacuum","parallel","angular","magnetic"]
+      default: 'parallel',
+      options: ['vacuum', 'parallel', 'angular', 'magnetic'],
     },
     approachAngle: {
       type: 'number',
       label: 'Approach Angle',
       default: 0,
       min: -90,
-      max: 90
-    }
+      max: 90,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -60,12 +64,12 @@ export const FabricationRoboticsPickAndPlaceNode: NodeDefinition<PickAndPlaceInp
         pickPoints: inputs.pickPoints,
         placePoints: inputs.placePoints,
         gripperType: params.gripperType,
-        approachAngle: params.approachAngle
-      }
+        approachAngle: params.approachAngle,
+      },
     });
-    
+
     return {
-      pickPlaceSequence: result
+      pickPlaceSequence: result,
     };
   },
 };

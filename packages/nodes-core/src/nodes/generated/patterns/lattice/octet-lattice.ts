@@ -13,7 +13,11 @@ interface OctetLatticeOutputs {
   lattice: unknown;
 }
 
-export const PatternsLatticeOctetLatticeNode: NodeDefinition<OctetLatticeInputs, OctetLatticeOutputs, OctetLatticeParams> = {
+export const PatternsLatticeOctetLatticeNode: NodeDefinition<
+  OctetLatticeInputs,
+  OctetLatticeOutputs,
+  OctetLatticeParams
+> = {
   id: 'Patterns::OctetLattice',
   type: 'Patterns::OctetLattice',
   category: 'Patterns',
@@ -23,28 +27,28 @@ export const PatternsLatticeOctetLatticeNode: NodeDefinition<OctetLatticeInputs,
     bounds: {
       type: 'Box',
       label: 'Bounds',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     lattice: {
       type: 'Wire[]',
-      label: 'Lattice'
-    }
+      label: 'Lattice',
+    },
   },
   params: {
     cellSize: {
       type: 'number',
       label: 'Cell Size',
       default: 10,
-      min: 1
+      min: 1,
     },
     strutDiameter: {
       type: 'number',
       label: 'Strut Diameter',
       default: 1,
-      min: 0.1
-    }
+      min: 0.1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -52,12 +56,12 @@ export const PatternsLatticeOctetLatticeNode: NodeDefinition<OctetLatticeInputs,
       params: {
         bounds: inputs.bounds,
         cellSize: params.cellSize,
-        strutDiameter: params.strutDiameter
-      }
+        strutDiameter: params.strutDiameter,
+      },
     });
-    
+
     return {
-      lattice: result
+      lattice: result,
     };
   },
 };

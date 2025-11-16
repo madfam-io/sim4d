@@ -12,7 +12,11 @@ interface ListReplaceOutputs {
   result: unknown;
 }
 
-export const DataListListReplaceNode: NodeDefinition<ListReplaceInputs, ListReplaceOutputs, ListReplaceParams> = {
+export const DataListListReplaceNode: NodeDefinition<
+  ListReplaceInputs,
+  ListReplaceOutputs,
+  ListReplaceParams
+> = {
   id: 'Data::ListReplace',
   type: 'Data::ListReplace',
   category: 'Data',
@@ -22,24 +26,24 @@ export const DataListListReplaceNode: NodeDefinition<ListReplaceInputs, ListRepl
     list: {
       type: 'Data[]',
       label: 'List',
-      required: true
+      required: true,
     },
     item: {
       type: 'Data',
       label: 'Item',
-      required: true
+      required: true,
     },
     index: {
       type: 'number',
       label: 'Index',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'Data[]',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -48,12 +52,12 @@ export const DataListListReplaceNode: NodeDefinition<ListReplaceInputs, ListRepl
       params: {
         list: inputs.list,
         item: inputs.item,
-        index: inputs.index
-      }
+        index: inputs.index,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

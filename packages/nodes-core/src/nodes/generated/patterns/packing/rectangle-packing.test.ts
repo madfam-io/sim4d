@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { PatternsPackingRectanglePackingNode } from './rectangle-packing.node';
 import { createTestContext } from '../test-utils';
@@ -8,10 +7,10 @@ describe('PatternsPackingRectanglePackingNode', () => {
     const context = createTestContext();
     const inputs = {
       container: undefined,
-      rectangles: undefined
+      rectangles: undefined,
     } as any;
     const params = {
-      algorithm: "maxrects"
+      algorithm: 'maxrects',
     } as any;
 
     const result = await PatternsPackingRectanglePackingNode.evaluate(context, inputs, params);

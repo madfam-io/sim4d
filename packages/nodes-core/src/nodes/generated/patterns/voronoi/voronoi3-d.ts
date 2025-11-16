@@ -14,7 +14,11 @@ interface Voronoi3DOutputs {
   faces: unknown;
 }
 
-export const PatternsVoronoiVoronoi3DNode: NodeDefinition<Voronoi3DInputs, Voronoi3DOutputs, Voronoi3DParams> = {
+export const PatternsVoronoiVoronoi3DNode: NodeDefinition<
+  Voronoi3DInputs,
+  Voronoi3DOutputs,
+  Voronoi3DParams
+> = {
   id: 'Patterns::Voronoi3D',
   type: 'Patterns::Voronoi3D',
   category: 'Patterns',
@@ -24,30 +28,30 @@ export const PatternsVoronoiVoronoi3DNode: NodeDefinition<Voronoi3DInputs, Voron
     points: {
       type: 'Point[]',
       label: 'Points',
-      required: true
+      required: true,
     },
     bounds: {
       type: 'Box',
       label: 'Bounds',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     cells: {
       type: 'Shape[]',
-      label: 'Cells'
+      label: 'Cells',
     },
     faces: {
       type: 'Face[]',
-      label: 'Faces'
-    }
+      label: 'Faces',
+    },
   },
   params: {
     clipToBox: {
       type: 'boolean',
       label: 'Clip To Box',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -55,13 +59,13 @@ export const PatternsVoronoiVoronoi3DNode: NodeDefinition<Voronoi3DInputs, Voron
       params: {
         points: inputs.points,
         bounds: inputs.bounds,
-        clipToBox: params.clipToBox
-      }
+        clipToBox: params.clipToBox,
+      },
     });
-    
+
     return {
       cells: results.cells,
-      faces: results.faces
+      faces: results.faces,
     };
   },
 };

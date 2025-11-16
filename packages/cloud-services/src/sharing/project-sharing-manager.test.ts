@@ -51,9 +51,17 @@ const projectMetadata: ProjectMetadata = {
 
 const makeApiMock = () => ({
   createShareLink: vi.fn(async () => ({ ...shareLink })),
-  updateShareLink: vi.fn(async (_id: string, updates: Partial<ShareLink>) => ({ ...shareLink, ...updates })),
+  updateShareLink: vi.fn(async (_id: string, updates: Partial<ShareLink>) => ({
+    ...shareLink,
+    ...updates,
+  })),
   getShareLink: vi.fn(async () => ({ ...shareLink })),
-  getShareAnalytics: vi.fn(async () => ({ totalAccesses: 5, uniqueUsers: 3, lastAccessed: new Date().toISOString(), accessHistory: [] })),
+  getShareAnalytics: vi.fn(async () => ({
+    totalAccesses: 5,
+    uniqueUsers: 3,
+    lastAccessed: new Date().toISOString(),
+    accessHistory: [],
+  })),
   logShareAccess: vi.fn(async () => {}),
   sendInvitation: vi.fn(async () => {}),
   getProject: vi.fn(async () => ({ ...projectMetadata })),
@@ -66,7 +74,11 @@ const makeApiMock = () => ({
     email: `${userId}@example.com`,
     name: userId,
     isEmailVerified: true,
-    preferences: { theme: 'dark', notifications: { email: true, push: false }, privacy: { analytics: true, personalized: false } },
+    preferences: {
+      theme: 'dark',
+      notifications: { email: true, push: false },
+      privacy: { analytics: true, personalized: false },
+    },
     subscription: { plan: 'pro', status: 'active', renewsAt: new Date(), cancelAt: null },
     teams: [],
     createdAt: new Date(),
@@ -85,10 +97,13 @@ describe('ProjectSharingManager', () => {
 
     const result = await manager.createShareLink('project-1', 'owner', { accessLevel: 'editor' });
 
-    expect(api.createShareLink).toHaveBeenCalledWith('project-1', expect.objectContaining({
-      createdBy: 'owner',
-      accessLevel: 'editor',
-    }));
+    expect(api.createShareLink).toHaveBeenCalledWith(
+      'project-1',
+      expect.objectContaining({
+        createdBy: 'owner',
+        accessLevel: 'editor',
+      })
+    );
     expect(result.accessLevel).toBe('editor');
     expect((manager as any).shareCache.get(result.id)).toEqual(result);
   });
@@ -107,11 +122,14 @@ describe('ProjectSharingManager', () => {
     });
 
     expect(api.getProject).toHaveBeenCalledWith('project-1');
-    expect(api.sendInvitation).toHaveBeenCalledWith('project-1', expect.objectContaining({
-      userIds: ['owner'],
-      emails: ['invitee@example.com'],
-      role: 'viewer',
-    }));
+    expect(api.sendInvitation).toHaveBeenCalledWith(
+      'project-1',
+      expect.objectContaining({
+        userIds: ['owner'],
+        emails: ['invitee@example.com'],
+        role: 'viewer',
+      })
+    );
   });
 
   it('tracks access via share link and grants collaborator access for authenticated users', async () => {
@@ -126,9 +144,15 @@ describe('ProjectSharingManager', () => {
       userAgent: 'vitest',
     });
 
-    expect(api.logShareAccess).toHaveBeenCalledWith('share-1', expect.objectContaining({ userId: 'guest' }));
+    expect(api.logShareAccess).toHaveBeenCalledWith(
+      'share-1',
+      expect.objectContaining({ userId: 'guest' })
+    );
     expect(api.updateShareLink).toHaveBeenCalled();
-    expect(api.addCollaborator).toHaveBeenCalledWith('project-1', expect.objectContaining({ userId: 'guest' }));
+    expect(api.addCollaborator).toHaveBeenCalledWith(
+      'project-1',
+      expect.objectContaining({ userId: 'guest' })
+    );
     expect(result.temporaryAccess).toBe(false);
   });
 
@@ -145,4 +169,3 @@ describe('ProjectSharingManager', () => {
     expect(analytics.uniqueUsers).toBe(3);
   });
 });
-

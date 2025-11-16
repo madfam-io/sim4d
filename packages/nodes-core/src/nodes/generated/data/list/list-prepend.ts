@@ -11,7 +11,11 @@ interface ListPrependOutputs {
   result: unknown;
 }
 
-export const DataListListPrependNode: NodeDefinition<ListPrependInputs, ListPrependOutputs, ListPrependParams> = {
+export const DataListListPrependNode: NodeDefinition<
+  ListPrependInputs,
+  ListPrependOutputs,
+  ListPrependParams
+> = {
   id: 'Data::ListPrepend',
   type: 'Data::ListPrepend',
   category: 'Data',
@@ -21,19 +25,19 @@ export const DataListListPrependNode: NodeDefinition<ListPrependInputs, ListPrep
     list: {
       type: 'Data[]',
       label: 'List',
-      required: true
+      required: true,
     },
     item: {
       type: 'Data',
       label: 'Item',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'Data[]',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -41,12 +45,12 @@ export const DataListListPrependNode: NodeDefinition<ListPrependInputs, ListPrep
       type: 'listPrepend',
       params: {
         list: inputs.list,
-        item: inputs.item
-      }
+        item: inputs.item,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

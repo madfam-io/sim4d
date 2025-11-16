@@ -11,7 +11,11 @@ interface CurveOnSurfaceOutputs {
   curve: unknown;
 }
 
-export const SurfaceCurveOpsCurveOnSurfaceNode: NodeDefinition<CurveOnSurfaceInputs, CurveOnSurfaceOutputs, CurveOnSurfaceParams> = {
+export const SurfaceCurveOpsCurveOnSurfaceNode: NodeDefinition<
+  CurveOnSurfaceInputs,
+  CurveOnSurfaceOutputs,
+  CurveOnSurfaceParams
+> = {
   id: 'Surface::CurveOnSurface',
   type: 'Surface::CurveOnSurface',
   category: 'Surface',
@@ -21,19 +25,19 @@ export const SurfaceCurveOpsCurveOnSurfaceNode: NodeDefinition<CurveOnSurfaceInp
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
+      required: true,
     },
     uvPoints: {
       type: 'Point2D[]',
       label: 'Uv Points',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     curve: {
       type: 'Wire',
-      label: 'Curve'
-    }
+      label: 'Curve',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -41,12 +45,12 @@ export const SurfaceCurveOpsCurveOnSurfaceNode: NodeDefinition<CurveOnSurfaceInp
       type: 'curveOnSurface',
       params: {
         surface: inputs.surface,
-        uvPoints: inputs.uvPoints
-      }
+        uvPoints: inputs.uvPoints,
+      },
     });
-    
+
     return {
-      curve: result
+      curve: result,
     };
   },
 };

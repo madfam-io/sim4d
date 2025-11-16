@@ -23,14 +23,14 @@ export const SolidParametricPrismNode: NodeDefinition<PrismInputs, PrismOutputs,
     profile: {
       type: 'Wire',
       label: 'Profile',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     solid: {
       type: 'Solid',
-      label: 'Solid'
-    }
+      label: 'Solid',
+    },
   },
   params: {
     height: {
@@ -38,22 +38,22 @@ export const SolidParametricPrismNode: NodeDefinition<PrismInputs, PrismOutputs,
       label: 'Height',
       default: 100,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     twist: {
       type: 'number',
       label: 'Twist',
       default: 0,
       min: -360,
-      max: 360
+      max: 360,
     },
     taper: {
       type: 'number',
       label: 'Taper',
       default: 1,
       min: 0.1,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -62,12 +62,12 @@ export const SolidParametricPrismNode: NodeDefinition<PrismInputs, PrismOutputs,
         profile: inputs.profile,
         height: params.height,
         twist: params.twist,
-        taper: params.taper
-      }
+        taper: params.taper,
+      },
     });
-    
+
     return {
-      solid: result
+      solid: result,
     };
   },
 };

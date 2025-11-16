@@ -14,7 +14,11 @@ interface SlidingWindowOutputs {
   panels: unknown;
 }
 
-export const ArchitectureWindowsSlidingWindowNode: NodeDefinition<SlidingWindowInputs, SlidingWindowOutputs, SlidingWindowParams> = {
+export const ArchitectureWindowsSlidingWindowNode: NodeDefinition<
+  SlidingWindowInputs,
+  SlidingWindowOutputs,
+  SlidingWindowParams
+> = {
   id: 'Architecture::SlidingWindow',
   type: 'Architecture::SlidingWindow',
   category: 'Architecture',
@@ -24,18 +28,18 @@ export const ArchitectureWindowsSlidingWindowNode: NodeDefinition<SlidingWindowI
     opening: {
       type: 'Wire',
       label: 'Opening',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     window: {
       type: 'Shape',
-      label: 'Window'
+      label: 'Window',
     },
     panels: {
       type: 'Shape[]',
-      label: 'Panels'
-    }
+      label: 'Panels',
+    },
   },
   params: {
     panels: {
@@ -44,14 +48,14 @@ export const ArchitectureWindowsSlidingWindowNode: NodeDefinition<SlidingWindowI
       default: 2,
       min: 2,
       max: 4,
-      step: 1
+      step: 1,
     },
     operablePanel: {
       type: 'enum',
       label: 'Operable Panel',
-      default: "left",
-      options: ["left","right","both"]
-    }
+      default: 'left',
+      options: ['left', 'right', 'both'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -59,13 +63,13 @@ export const ArchitectureWindowsSlidingWindowNode: NodeDefinition<SlidingWindowI
       params: {
         opening: inputs.opening,
         panels: params.panels,
-        operablePanel: params.operablePanel
-      }
+        operablePanel: params.operablePanel,
+      },
     });
-    
+
     return {
       window: results.window,
-      panels: results.panels
+      panels: results.panels,
     };
   },
 };

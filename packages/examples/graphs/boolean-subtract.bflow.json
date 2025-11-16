@@ -35,9 +35,7 @@
       "position": { "x": 320, "y": 220 },
       "inputs": {
         "base": { "nodeId": "base-block", "socketId": "shape" },
-        "tools": [
-          { "nodeId": "cut-cylinder", "socketId": "shape" }
-        ]
+        "tools": [{ "nodeId": "cut-cylinder", "socketId": "shape" }]
       },
       "params": {
         "simplify": true
@@ -48,9 +46,7 @@
       "type": "IO::ExportSTEP",
       "position": { "x": 520, "y": 220 },
       "inputs": {
-        "shapes": [
-          { "nodeId": "subtract-cut", "socketId": "shape" }
-        ]
+        "shapes": [{ "nodeId": "subtract-cut", "socketId": "shape" }]
       },
       "params": {
         "filepath": "boolean-subtract.step",

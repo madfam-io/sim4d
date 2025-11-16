@@ -28,14 +28,14 @@ export const TransformRotateNode: NodeDefinition<RotateInputs, RotateOutputs, Ro
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     rotated: {
       type: 'Shape',
-      label: 'Rotated'
-    }
+      label: 'Rotated',
+    },
   },
   params: {
     angle: {
@@ -43,55 +43,55 @@ export const TransformRotateNode: NodeDefinition<RotateInputs, RotateOutputs, Ro
       label: 'Angle',
       default: 45,
       min: -360,
-      max: 360
+      max: 360,
     },
     axisX: {
       type: 'number',
       label: 'Axis X',
       default: 0,
       min: -1,
-      max: 1
+      max: 1,
     },
     axisY: {
       type: 'number',
       label: 'Axis Y',
       default: 0,
       min: -1,
-      max: 1
+      max: 1,
     },
     axisZ: {
       type: 'number',
       label: 'Axis Z',
       default: 1,
       min: -1,
-      max: 1
+      max: 1,
     },
     centerX: {
       type: 'number',
       label: 'Center X',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     centerY: {
       type: 'number',
       label: 'Center Y',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     centerZ: {
       type: 'number',
       label: 'Center Z',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     copy: {
       type: 'boolean',
       label: 'Copy',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -105,12 +105,12 @@ export const TransformRotateNode: NodeDefinition<RotateInputs, RotateOutputs, Ro
         centerX: params.centerX,
         centerY: params.centerY,
         centerZ: params.centerZ,
-        copy: params.copy
-      }
+        copy: params.copy,
+      },
     });
-    
+
     return {
-      rotated: result
+      rotated: result,
     };
   },
 };

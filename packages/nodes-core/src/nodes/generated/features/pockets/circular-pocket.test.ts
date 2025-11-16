@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { FeaturesPocketsCircularPocketNode } from './circular-pocket.node';
 import { createTestContext } from '../test-utils';
@@ -8,12 +7,12 @@ describe('FeaturesPocketsCircularPocketNode', () => {
     const context = createTestContext();
     const inputs = {
       face: undefined,
-      position: undefined
+      position: undefined,
     } as any;
     const params = {
       diameter: 40,
       depth: 10,
-      draftAngle: 0
+      draftAngle: 0,
     } as any;
 
     const result = await FeaturesPocketsCircularPocketNode.evaluate(context, inputs, params);

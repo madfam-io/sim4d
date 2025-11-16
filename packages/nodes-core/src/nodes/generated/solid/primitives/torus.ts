@@ -27,8 +27,8 @@ export const SolidPrimitivesTorusNode: NodeDefinition<TorusInputs, TorusOutputs,
   outputs: {
     solid: {
       type: 'Solid',
-      label: 'Solid'
-    }
+      label: 'Solid',
+    },
   },
   params: {
     majorRadius: {
@@ -36,57 +36,57 @@ export const SolidPrimitivesTorusNode: NodeDefinition<TorusInputs, TorusOutputs,
       label: 'Major Radius',
       default: 50,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     minorRadius: {
       type: 'number',
       label: 'Minor Radius',
       default: 10,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     centerX: {
       type: 'number',
       label: 'Center X',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     centerY: {
       type: 'number',
       label: 'Center Y',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     centerZ: {
       type: 'number',
       label: 'Center Z',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     angle1: {
       type: 'number',
       label: 'Angle1',
       default: 0,
       min: 0,
-      max: 360
+      max: 360,
     },
     angle2: {
       type: 'number',
       label: 'Angle2',
       default: 360,
       min: 0,
-      max: 360
+      max: 360,
     },
     angle: {
       type: 'number',
       label: 'Angle',
       default: 360,
       min: 0,
-      max: 360
-    }
+      max: 360,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -99,12 +99,12 @@ export const SolidPrimitivesTorusNode: NodeDefinition<TorusInputs, TorusOutputs,
         centerZ: params.centerZ,
         angle1: params.angle1,
         angle2: params.angle2,
-        angle: params.angle
-      }
+        angle: params.angle,
+      },
     });
-    
+
     return {
-      solid: result
+      solid: result,
     };
   },
 };

@@ -14,7 +14,11 @@ interface ExportIGESOutputs {
   igesData: unknown;
 }
 
-export const IOCADExportIGESNode: NodeDefinition<ExportIGESInputs, ExportIGESOutputs, ExportIGESParams> = {
+export const IOCADExportIGESNode: NodeDefinition<
+  ExportIGESInputs,
+  ExportIGESOutputs,
+  ExportIGESParams
+> = {
   id: 'IO::ExportIGES',
   type: 'IO::ExportIGES',
   category: 'IO',
@@ -24,33 +28,33 @@ export const IOCADExportIGESNode: NodeDefinition<ExportIGESInputs, ExportIGESOut
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     igesData: {
       type: 'Data',
-      label: 'Iges Data'
-    }
+      label: 'Iges Data',
+    },
   },
   params: {
     brepMode: {
       type: 'enum',
       label: 'Brep Mode',
-      default: "faces",
-      options: ["faces","shells"]
+      default: 'faces',
+      options: ['faces', 'shells'],
     },
     units: {
       type: 'enum',
       label: 'Units',
-      default: "mm",
-      options: ["mm","cm","m","inch"]
+      default: 'mm',
+      options: ['mm', 'cm', 'm', 'inch'],
     },
     author: {
       type: 'string',
       label: 'Author',
-      default: ""
-    }
+      default: '',
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -59,12 +63,12 @@ export const IOCADExportIGESNode: NodeDefinition<ExportIGESInputs, ExportIGESOut
         shape: inputs.shape,
         brepMode: params.brepMode,
         units: params.units,
-        author: params.author
-      }
+        author: params.author,
+      },
     });
-    
+
     return {
-      igesData: result
+      igesData: result,
     };
   },
 };

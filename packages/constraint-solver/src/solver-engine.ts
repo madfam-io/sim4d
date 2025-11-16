@@ -63,7 +63,9 @@ export class ConstraintSolverEngine {
     const conflicts = success ? undefined : this.detectConflicts(workingEntities);
 
     if (this.options.verbose) {
-      console.log(`Solver ${success ? 'converged' : 'failed'} in ${iterations} iterations (${Date.now() - startTime}ms)`);
+      console.log(
+        `Solver ${success ? 'converged' : 'failed'} in ${iterations} iterations (${Date.now() - startTime}ms)`
+      );
     }
 
     return {
@@ -75,7 +77,9 @@ export class ConstraintSolverEngine {
     };
   }
 
-  private computeGradients(entities: Map<string, ConstraintEntity>): Map<string, Map<string, number>> {
+  private computeGradients(
+    entities: Map<string, ConstraintEntity>
+  ): Map<string, Map<string, number>> {
     const gradients = new Map<string, Map<string, number>>();
 
     for (const constraint of this.constraints.values()) {
@@ -98,7 +102,7 @@ export class ConstraintSolverEngine {
             posArray[i] += delta;
             const modifiedEntity = {
               ...entity,
-              position: { x: posArray[0], y: posArray[1], z: posArray[2] }
+              position: { x: posArray[0], y: posArray[1], z: posArray[2] },
             };
 
             const modifiedEntities = new Map(entities);
@@ -205,8 +209,13 @@ export class ConstraintSolverEngine {
 
   private createEvaluator(constraint: Constraint): GeometricConstraint | DimensionalConstraint {
     const geometricTypes: Set<string> = new Set([
-      'coincident', 'parallel', 'perpendicular', 'tangent',
-      'horizontal', 'vertical', 'concentric'
+      'coincident',
+      'parallel',
+      'perpendicular',
+      'tangent',
+      'horizontal',
+      'vertical',
+      'concentric',
     ]);
 
     if (geometricTypes.has(constraint.type)) {

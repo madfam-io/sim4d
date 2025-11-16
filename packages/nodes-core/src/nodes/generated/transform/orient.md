@@ -1,4 +1,3 @@
-
 # Orient Node
 
 **Category:** Transform
@@ -11,31 +10,23 @@ This node has no parameters.
 
 ## Inputs
 
-
 ### Shape
+
 - **Type:** Shape
 - **Required:** Yes
 
-
-
 ### From Direction
+
 - **Type:** Vector
 - **Required:** Yes
-
-
 
 ### To Direction
+
 - **Type:** Vector
 - **Required:** Yes
-
-
 
 ## Outputs
 
-
 ### Oriented
+
 - **Type:** Shape
-
-
-
-

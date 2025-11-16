@@ -13,7 +13,11 @@ interface RainScreenOutputs {
   rainScreen: unknown;
 }
 
-export const ArchitectureWallsRainScreenNode: NodeDefinition<RainScreenInputs, RainScreenOutputs, RainScreenParams> = {
+export const ArchitectureWallsRainScreenNode: NodeDefinition<
+  RainScreenInputs,
+  RainScreenOutputs,
+  RainScreenParams
+> = {
   id: 'Architecture::RainScreen',
   category: 'Architecture',
   label: 'RainScreen',
@@ -22,29 +26,29 @@ export const ArchitectureWallsRainScreenNode: NodeDefinition<RainScreenInputs, R
     wall: {
       type: 'Shape',
       label: 'Wall',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     rainScreen: {
       type: 'Shape',
-      label: 'Rain Screen'
-    }
+      label: 'Rain Screen',
+    },
   },
   params: {
     claddingType: {
       type: 'enum',
       label: 'Cladding Type',
-      default: "composite",
-      options: ["metal","composite","terracotta","wood"]
+      default: 'composite',
+      options: ['metal', 'composite', 'terracotta', 'wood'],
     },
     ventGap: {
       type: 'number',
       label: 'Vent Gap',
       default: 25,
       min: 20,
-      max: 50
-    }
+      max: 50,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -52,12 +56,12 @@ export const ArchitectureWallsRainScreenNode: NodeDefinition<RainScreenInputs, R
       params: {
         wall: inputs.wall,
         claddingType: params.claddingType,
-        ventGap: params.ventGap
-      }
+        ventGap: params.ventGap,
+      },
     });
-    
+
     return {
-      rainScreen: result
+      rainScreen: result,
     };
   },
 };

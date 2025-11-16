@@ -28,12 +28,14 @@ describe('Advanced Operations', () => {
         await geometryAPI.init();
 
         const box = await geometryAPI.invoke('MAKE_BOX', {
-          width: 100, height: 100, depth: 100
+          width: 100,
+          height: 100,
+          depth: 100,
         });
 
         const filletedBox = await geometryAPI.invoke('MAKE_FILLET', {
           shape: box,
-          radius: 10
+          radius: 10,
         });
 
         expect(filletedBox).toBeDefined();
@@ -48,17 +50,18 @@ describe('Advanced Operations', () => {
         await geometryAPI.init();
 
         const cylinder = await geometryAPI.invoke('MAKE_CYLINDER', {
-          radius: 50, height: 100
+          radius: 50,
+          height: 100,
         });
 
         const smallFillet = await geometryAPI.invoke('MAKE_FILLET', {
           shape: cylinder,
-          radius: 2
+          radius: 2,
         });
 
         const largeFillet = await geometryAPI.invoke('MAKE_FILLET', {
           shape: cylinder,
-          radius: 15
+          radius: 15,
         });
 
         expect(smallFillet.volume).toBeGreaterThan(largeFillet.volume);
@@ -69,26 +72,34 @@ describe('Advanced Operations', () => {
         await geometryAPI.init();
 
         const box = await geometryAPI.invoke('MAKE_BOX', {
-          width: 20, height: 20, depth: 20
+          width: 20,
+          height: 20,
+          depth: 20,
         });
 
         // Fillet radius too large
-        await expect(geometryAPI.invoke('MAKE_FILLET', {
-          shape: box,
-          radius: 15 // Larger than half the smallest dimension
-        })).rejects.toThrow();
+        await expect(
+          geometryAPI.invoke('MAKE_FILLET', {
+            shape: box,
+            radius: 15, // Larger than half the smallest dimension
+          })
+        ).rejects.toThrow();
 
         // Zero radius
-        await expect(geometryAPI.invoke('MAKE_FILLET', {
-          shape: box,
-          radius: 0
-        })).rejects.toThrow();
+        await expect(
+          geometryAPI.invoke('MAKE_FILLET', {
+            shape: box,
+            radius: 0,
+          })
+        ).rejects.toThrow();
 
         // Negative radius
-        await expect(geometryAPI.invoke('MAKE_FILLET', {
-          shape: box,
-          radius: -5
-        })).rejects.toThrow();
+        await expect(
+          geometryAPI.invoke('MAKE_FILLET', {
+            shape: box,
+            radius: -5,
+          })
+        ).rejects.toThrow();
       });
     });
 
@@ -97,12 +108,14 @@ describe('Advanced Operations', () => {
         await geometryAPI.init();
 
         const box = await geometryAPI.invoke('MAKE_BOX', {
-          width: 100, height: 100, depth: 100
+          width: 100,
+          height: 100,
+          depth: 100,
         });
 
         const chamferedBox = await geometryAPI.invoke('MAKE_CHAMFER', {
           shape: box,
-          distance: 5
+          distance: 5,
         });
 
         expect(chamferedBox).toBeDefined();
@@ -114,17 +127,19 @@ describe('Advanced Operations', () => {
         await geometryAPI.init();
 
         const cone = await geometryAPI.invoke('MAKE_CONE', {
-          radius1: 50, radius2: 25, height: 100
+          radius1: 50,
+          radius2: 25,
+          height: 100,
         });
 
         const smallChamfer = await geometryAPI.invoke('MAKE_CHAMFER', {
           shape: cone,
-          distance: 1
+          distance: 1,
         });
 
         const largeChamfer = await geometryAPI.invoke('MAKE_CHAMFER', {
           shape: cone,
-          distance: 8
+          distance: 8,
         });
 
         expect(smallChamfer.volume).toBeGreaterThan(largeChamfer.volume);
@@ -136,12 +151,12 @@ describe('Advanced Operations', () => {
         await geometryAPI.init();
 
         const sphere = await geometryAPI.invoke('MAKE_SPHERE', {
-          radius: 50
+          radius: 50,
         });
 
         const shell = await geometryAPI.invoke('MAKE_SHELL', {
           shape: sphere,
-          thickness: 5
+          thickness: 5,
         });
 
         expect(shell).toBeDefined();
@@ -154,17 +169,19 @@ describe('Advanced Operations', () => {
         await geometryAPI.init();
 
         const box = await geometryAPI.invoke('MAKE_BOX', {
-          width: 100, height: 100, depth: 100
+          width: 100,
+          height: 100,
+          depth: 100,
         });
 
         const thinShell = await geometryAPI.invoke('MAKE_SHELL', {
           shape: box,
-          thickness: 2
+          thickness: 2,
         });
 
         const thickShell = await geometryAPI.invoke('MAKE_SHELL', {
           shape: box,
-          thickness: 10
+          thickness: 10,
         });
 
         expect(thinShell.volume).toBeLessThan(thickShell.volume);
@@ -180,12 +197,14 @@ describe('Advanced Operations', () => {
 
         // Create a circular profile (using a sphere as proxy for circle)
         const profile = await geometryAPI.invoke('MAKE_SPHERE', {
-          radius: 25
+          radius: 25,
         });
 
         const extruded = await geometryAPI.invoke('EXTRUDE', {
           profile: profile,
-          dx: 0, dy: 0, dz: 100
+          dx: 0,
+          dy: 0,
+          dz: 100,
         });
 
         expect(extruded).toBeDefined();
@@ -197,19 +216,25 @@ describe('Advanced Operations', () => {
         await geometryAPI.init();
 
         const profile = await geometryAPI.invoke('MAKE_BOX', {
-          width: 50, height: 30, depth: 10
+          width: 50,
+          height: 30,
+          depth: 10,
         });
 
         // Extrude along X
         const extrudedX = await geometryAPI.invoke('EXTRUDE', {
           profile: profile,
-          dx: 100, dy: 0, dz: 0
+          dx: 100,
+          dy: 0,
+          dz: 0,
         });
 
         // Extrude along Y
         const extrudedY = await geometryAPI.invoke('EXTRUDE', {
           profile: profile,
-          dx: 0, dy: 100, dz: 0
+          dx: 0,
+          dy: 100,
+          dz: 0,
         });
 
         expect(extrudedX.bbox_max_x).toBeGreaterThan(profile.bbox_max_x);
@@ -220,12 +245,15 @@ describe('Advanced Operations', () => {
         await geometryAPI.init();
 
         const profile = await geometryAPI.invoke('MAKE_CYLINDER', {
-          radius: 20, height: 10
+          radius: 20,
+          height: 10,
         });
 
         const extruded = await geometryAPI.invoke('EXTRUDE', {
           profile: profile,
-          dx: 50, dy: 50, dz: 100
+          dx: 50,
+          dy: 50,
+          dz: 100,
         });
 
         expect(extruded).toBeDefined();
@@ -240,14 +268,20 @@ describe('Advanced Operations', () => {
         await geometryAPI.init();
 
         const profile = await geometryAPI.invoke('MAKE_BOX', {
-          width: 10, height: 50, depth: 10
+          width: 10,
+          height: 50,
+          depth: 10,
         });
 
         const revolved = await geometryAPI.invoke('REVOLVE', {
           profile: profile,
           angle: Math.PI, // 180 degrees
-          axisX: 0, axisY: 0, axisZ: 1,
-          originX: 0, originY: 0, originZ: 0
+          axisX: 0,
+          axisY: 0,
+          axisZ: 1,
+          originX: 0,
+          originY: 0,
+          originZ: 0,
         });
 
         expect(revolved).toBeDefined();
@@ -259,14 +293,20 @@ describe('Advanced Operations', () => {
         await geometryAPI.init();
 
         const profile = await geometryAPI.invoke('MAKE_BOX', {
-          width: 20, height: 30, depth: 5
+          width: 20,
+          height: 30,
+          depth: 5,
         });
 
         const fullRevolution = await geometryAPI.invoke('REVOLVE', {
           profile: profile,
           angle: 2 * Math.PI, // 360 degrees
-          axisX: 1, axisY: 0, axisZ: 0,
-          originX: 0, originY: 0, originZ: 0
+          axisX: 1,
+          axisY: 0,
+          axisZ: 0,
+          originX: 0,
+          originY: 0,
+          originZ: 0,
         });
 
         expect(fullRevolution).toBeDefined();
@@ -277,24 +317,36 @@ describe('Advanced Operations', () => {
         await geometryAPI.init();
 
         const profile = await geometryAPI.invoke('MAKE_SPHERE', {
-          radius: 25
+          radius: 25,
         });
 
         // Invalid angle
-        await expect(geometryAPI.invoke('REVOLVE', {
-          profile: profile,
-          angle: 0,
-          axisX: 0, axisY: 0, axisZ: 1,
-          originX: 0, originY: 0, originZ: 0
-        })).rejects.toThrow();
+        await expect(
+          geometryAPI.invoke('REVOLVE', {
+            profile: profile,
+            angle: 0,
+            axisX: 0,
+            axisY: 0,
+            axisZ: 1,
+            originX: 0,
+            originY: 0,
+            originZ: 0,
+          })
+        ).rejects.toThrow();
 
         // Invalid axis (zero vector)
-        await expect(geometryAPI.invoke('REVOLVE', {
-          profile: profile,
-          angle: Math.PI,
-          axisX: 0, axisY: 0, axisZ: 0,
-          originX: 0, originY: 0, originZ: 0
-        })).rejects.toThrow();
+        await expect(
+          geometryAPI.invoke('REVOLVE', {
+            profile: profile,
+            angle: Math.PI,
+            axisX: 0,
+            axisY: 0,
+            axisZ: 0,
+            originX: 0,
+            originY: 0,
+            originZ: 0,
+          })
+        ).rejects.toThrow();
       });
     });
   });
@@ -304,11 +356,11 @@ describe('Advanced Operations', () => {
       await geometryAPI.init();
 
       const sphere = await geometryAPI.invoke('MAKE_SPHERE', {
-        radius: 50
+        radius: 50,
       });
 
       const { mesh } = await geometryAPI.invoke('TESSELLATE', {
-        shape: sphere
+        shape: sphere,
       });
 
       expect(mesh).toBeDefined();
@@ -323,19 +375,21 @@ describe('Advanced Operations', () => {
       await geometryAPI.init();
 
       const box = await geometryAPI.invoke('MAKE_BOX', {
-        width: 100, height: 100, depth: 100
+        width: 100,
+        height: 100,
+        depth: 100,
       });
 
       const coarse = await geometryAPI.invoke('TESSELLATE_WITH_PARAMS', {
         shape: box,
         precision: 1.0,
-        angle: 0.5
+        angle: 0.5,
       });
 
       const fine = await geometryAPI.invoke('TESSELLATE_WITH_PARAMS', {
         shape: box,
         precision: 0.1,
-        angle: 0.1
+        angle: 0.1,
       });
 
       expect(fine.mesh.vertexCount).toBeGreaterThan(coarse.mesh.vertexCount);
@@ -346,22 +400,27 @@ describe('Advanced Operations', () => {
       await geometryAPI.init();
 
       const cylinder = await geometryAPI.invoke('MAKE_CYLINDER', {
-        radius: 30, height: 60
+        radius: 30,
+        height: 60,
       });
 
       // Invalid precision (negative)
-      await expect(geometryAPI.invoke('TESSELLATE_WITH_PARAMS', {
-        shape: cylinder,
-        precision: -0.1,
-        angle: 0.1
-      })).rejects.toThrow();
+      await expect(
+        geometryAPI.invoke('TESSELLATE_WITH_PARAMS', {
+          shape: cylinder,
+          precision: -0.1,
+          angle: 0.1,
+        })
+      ).rejects.toThrow();
 
       // Invalid angle (negative)
-      await expect(geometryAPI.invoke('TESSELLATE_WITH_PARAMS', {
-        shape: cylinder,
-        precision: 0.1,
-        angle: -0.1
-      })).rejects.toThrow();
+      await expect(
+        geometryAPI.invoke('TESSELLATE_WITH_PARAMS', {
+          shape: cylinder,
+          precision: 0.1,
+          angle: -0.1,
+        })
+      ).rejects.toThrow();
     });
   });
 
@@ -371,11 +430,12 @@ describe('Advanced Operations', () => {
         await geometryAPI.init();
 
         const torus = await geometryAPI.invoke('MAKE_TORUS', {
-          majorRadius: 50, minorRadius: 15
+          majorRadius: 50,
+          minorRadius: 15,
         });
 
         const stepData = await geometryAPI.invoke('EXPORT_STEP', {
-          shape: torus
+          shape: torus,
         });
 
         expect(stepData).toBeDefined();
@@ -398,7 +458,7 @@ ENDSEC;
 END-ISO-10303-21;`;
 
         const importedShape = await geometryAPI.invoke('IMPORT_STEP', {
-          data: mockStepData
+          data: mockStepData,
         });
 
         expect(importedShape).toBeDefined();
@@ -411,9 +471,11 @@ END-ISO-10303-21;`;
 
         const invalidStepData = 'Not a valid STEP file';
 
-        await expect(geometryAPI.invoke('IMPORT_STEP', {
-          data: invalidStepData
-        })).rejects.toThrow();
+        await expect(
+          geometryAPI.invoke('IMPORT_STEP', {
+            data: invalidStepData,
+          })
+        ).rejects.toThrow();
       });
     });
 
@@ -422,12 +484,14 @@ END-ISO-10303-21;`;
         await geometryAPI.init();
 
         const cone = await geometryAPI.invoke('MAKE_CONE', {
-          radius1: 40, radius2: 20, height: 80
+          radius1: 40,
+          radius2: 20,
+          height: 80,
         });
 
         const stlData = await geometryAPI.invoke('EXPORT_STL', {
           shape: cone,
-          binary: false
+          binary: false,
         });
 
         expect(stlData).toBeDefined();
@@ -442,12 +506,12 @@ END-ISO-10303-21;`;
         await geometryAPI.init();
 
         const sphere = await geometryAPI.invoke('MAKE_SPHERE', {
-          radius: 25
+          radius: 25,
         });
 
         const binaryStlData = await geometryAPI.invoke('EXPORT_STL', {
           shape: sphere,
-          binary: true
+          binary: true,
         });
 
         expect(binaryStlData).toBeDefined();
@@ -462,18 +526,20 @@ END-ISO-10303-21;`;
       await geometryAPI.init();
 
       const targets = {
-        'MAKE_FILLET': 100,           // ms
-        'MAKE_CHAMFER': 75,           // ms
-        'MAKE_SHELL': 150,            // ms
-        'EXTRUDE': 100,               // ms
-        'REVOLVE': 200,               // ms
-        'TESSELLATE': 50,             // ms
-        'EXPORT_STEP': 75,            // ms
-        'EXPORT_STL': 50              // ms
+        MAKE_FILLET: 100, // ms
+        MAKE_CHAMFER: 75, // ms
+        MAKE_SHELL: 150, // ms
+        EXTRUDE: 100, // ms
+        REVOLVE: 200, // ms
+        TESSELLATE: 50, // ms
+        EXPORT_STEP: 75, // ms
+        EXPORT_STL: 50, // ms
       };
 
       const box = await geometryAPI.invoke('MAKE_BOX', {
-        width: 100, height: 100, depth: 100
+        width: 100,
+        height: 100,
+        depth: 100,
       });
 
       for (const [operation, targetTime] of Object.entries(targets)) {
@@ -492,14 +558,22 @@ END-ISO-10303-21;`;
             break;
           case 'EXTRUDE':
             result = await geometryAPI.invoke(operation, {
-              profile: box, dx: 0, dy: 0, dz: 50
+              profile: box,
+              dx: 0,
+              dy: 0,
+              dz: 50,
             });
             break;
           case 'REVOLVE':
             result = await geometryAPI.invoke(operation, {
-              profile: box, angle: Math.PI,
-              axisX: 0, axisY: 0, axisZ: 1,
-              originX: 0, originY: 0, originZ: 0
+              profile: box,
+              angle: Math.PI,
+              axisX: 0,
+              axisY: 0,
+              axisZ: 1,
+              originX: 0,
+              originY: 0,
+              originZ: 0,
             });
             break;
           case 'TESSELLATE':
@@ -528,23 +602,25 @@ END-ISO-10303-21;`;
 
       // Create base shape
       const baseBox = await geometryAPI.invoke('MAKE_BOX', {
-        width: 100, height: 100, depth: 100
+        width: 100,
+        height: 100,
+        depth: 100,
       });
 
       // Perform various operations
       const filleted = await geometryAPI.invoke('MAKE_FILLET', {
         shape: baseBox,
-        radius: 8
+        radius: 8,
       });
 
       const chamfered = await geometryAPI.invoke('MAKE_CHAMFER', {
         shape: filleted,
-        distance: 5
+        distance: 5,
       });
 
       const shell = await geometryAPI.invoke('MAKE_SHELL', {
         shape: chamfered,
-        thickness: 10
+        thickness: 10,
       });
 
       const currentCount = await geometryAPI.invoke('GET_SHAPE_COUNT', {});
@@ -564,14 +640,15 @@ END-ISO-10303-21;`;
       await geometryAPI.init();
 
       const torus = await geometryAPI.invoke('MAKE_TORUS', {
-        majorRadius: 100, minorRadius: 25
+        majorRadius: 100,
+        minorRadius: 25,
       });
 
       // Fine tessellation should still complete within memory limits
       const fine = await geometryAPI.invoke('TESSELLATE_WITH_PARAMS', {
         shape: torus,
         precision: 0.1,
-        angle: 0.05
+        angle: 0.05,
       });
 
       expect(fine.mesh.vertexCount).toBeGreaterThan(1000);

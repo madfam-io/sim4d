@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -19,7 +18,11 @@ interface Outputs {
   predictions: number[];
 }
 
-export const NeuralNetworkNode: NodeDefinition<NeuralNetworkInputs, NeuralNetworkOutputs, NeuralNetworkParams> = {
+export const NeuralNetworkNode: NodeDefinition<
+  NeuralNetworkInputs,
+  NeuralNetworkOutputs,
+  NeuralNetworkParams
+> = {
   type: 'Algorithmic::NeuralNetwork',
   category: 'Algorithmic',
   subcategory: 'MachineLearning',
@@ -27,50 +30,43 @@ export const NeuralNetworkNode: NodeDefinition<NeuralNetworkInputs, NeuralNetwor
   metadata: {
     label: 'NeuralNetwork',
     description: 'Multi-layer perceptron neural network',
-    
-    
   },
 
   params: {
-        hiddenLayers: {
-      "default": "10,5",
-      "description": "Comma-separated layer sizes"
+    hiddenLayers: {
+      default: '10,5',
+      description: 'Comma-separated layer sizes',
     },
     activation: {
-      "default": "relu",
-      "options": [
-        "relu",
-        "sigmoid",
-        "tanh"
-      ]
+      default: 'relu',
+      options: ['relu', 'sigmoid', 'tanh'],
     },
     learningRate: {
-      "default": 0.01,
-      "min": 0.001,
-      "max": 1
+      default: 0.01,
+      min: 0.001,
+      max: 1,
     },
     epochs: {
-      "default": 100,
-      "min": 10,
-      "max": 1000
-    }
+      default: 100,
+      min: 10,
+      max: 1000,
+    },
   },
 
   inputs: {
-        trainingData: 'Properties[]',
+    trainingData: 'Properties[]',
     features: 'string[]',
-    target: 'string'
+    target: 'string',
   },
 
   outputs: {
-        model: 'Properties',
+    model: 'Properties',
     loss: 'number[]',
     accuracy: 'number',
-    predictions: 'number[]'
+    predictions: 'number[]',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'neuralNetwork',
       params: {
@@ -80,15 +76,15 @@ export const NeuralNetworkNode: NodeDefinition<NeuralNetworkInputs, NeuralNetwor
         hiddenLayers: params.hiddenLayers,
         activation: params.activation,
         learningRate: params.learningRate,
-        epochs: params.epochs
-      }
+        epochs: params.epochs,
+      },
     });
 
     return {
       model: result,
       loss: result,
       accuracy: result,
-      predictions: result
+      predictions: result,
     };
-  }
+  },
 };

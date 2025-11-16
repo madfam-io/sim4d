@@ -15,7 +15,11 @@ interface ImportGLTFOutputs {
   animations: unknown;
 }
 
-export const IOExchangeImportGLTFNode: NodeDefinition<ImportGLTFInputs, ImportGLTFOutputs, ImportGLTFParams> = {
+export const IOExchangeImportGLTFNode: NodeDefinition<
+  ImportGLTFInputs,
+  ImportGLTFOutputs,
+  ImportGLTFParams
+> = {
   id: 'IO::ImportGLTF',
   type: 'IO::ImportGLTF',
   category: 'IO',
@@ -25,34 +29,34 @@ export const IOExchangeImportGLTFNode: NodeDefinition<ImportGLTFInputs, ImportGL
     fileData: {
       type: 'Data',
       label: 'File Data',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     mesh: {
       type: 'Mesh',
-      label: 'Mesh'
+      label: 'Mesh',
     },
     materials: {
       type: 'Data',
-      label: 'Materials'
+      label: 'Materials',
     },
     animations: {
       type: 'Data',
-      label: 'Animations'
-    }
+      label: 'Animations',
+    },
   },
   params: {
     importAnimations: {
       type: 'boolean',
       label: 'Import Animations',
-      default: false
+      default: false,
     },
     importMaterials: {
       type: 'boolean',
       label: 'Import Materials',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -60,14 +64,14 @@ export const IOExchangeImportGLTFNode: NodeDefinition<ImportGLTFInputs, ImportGL
       params: {
         fileData: inputs.fileData,
         importAnimations: params.importAnimations,
-        importMaterials: params.importMaterials
-      }
+        importMaterials: params.importMaterials,
+      },
     });
-    
+
     return {
       mesh: results.mesh,
       materials: results.materials,
-      animations: results.animations
+      animations: results.animations,
     };
   },
 };

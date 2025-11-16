@@ -17,7 +17,11 @@ interface DifferentialGearOutputs {
   gears: unknown;
 }
 
-export const MechanicalEngineeringGearsDifferentialGearNode: NodeDefinition<DifferentialGearInputs, DifferentialGearOutputs, DifferentialGearParams> = {
+export const MechanicalEngineeringGearsDifferentialGearNode: NodeDefinition<
+  DifferentialGearInputs,
+  DifferentialGearOutputs,
+  DifferentialGearParams
+> = {
   id: 'MechanicalEngineering::DifferentialGear',
   type: 'MechanicalEngineering::DifferentialGear',
   category: 'MechanicalEngineering',
@@ -27,22 +31,22 @@ export const MechanicalEngineeringGearsDifferentialGearNode: NodeDefinition<Diff
     housingCenter: {
       type: 'Point',
       label: 'Housing Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     assembly: {
       type: 'Shape',
-      label: 'Assembly'
+      label: 'Assembly',
     },
     housing: {
       type: 'Shape',
-      label: 'Housing'
+      label: 'Housing',
     },
     gears: {
       type: 'Shape[]',
-      label: 'Gears'
-    }
+      label: 'Gears',
+    },
   },
   params: {
     ringGearTeeth: {
@@ -50,29 +54,29 @@ export const MechanicalEngineeringGearsDifferentialGearNode: NodeDefinition<Diff
       label: 'Ring Gear Teeth',
       default: 41,
       min: 30,
-      max: 60
+      max: 60,
     },
     pinionTeeth: {
       type: 'number',
       label: 'Pinion Teeth',
       default: 13,
       min: 9,
-      max: 17
+      max: 17,
     },
     spiderGearTeeth: {
       type: 'number',
       label: 'Spider Gear Teeth',
       default: 10,
       min: 8,
-      max: 14
+      max: 14,
     },
     module: {
       type: 'number',
       label: 'Module',
       default: 3,
       min: 2,
-      max: 5
-    }
+      max: 5,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -82,14 +86,14 @@ export const MechanicalEngineeringGearsDifferentialGearNode: NodeDefinition<Diff
         ringGearTeeth: params.ringGearTeeth,
         pinionTeeth: params.pinionTeeth,
         spiderGearTeeth: params.spiderGearTeeth,
-        module: params.module
-      }
+        module: params.module,
+      },
     });
-    
+
     return {
       assembly: results.assembly,
       housing: results.housing,
-      gears: results.gears
+      gears: results.gears,
     };
   },
 };

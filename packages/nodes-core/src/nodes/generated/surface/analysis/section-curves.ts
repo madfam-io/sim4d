@@ -14,7 +14,11 @@ interface SectionCurvesOutputs {
   sections: unknown;
 }
 
-export const SurfaceAnalysisSectionCurvesNode: NodeDefinition<SectionCurvesInputs, SectionCurvesOutputs, SectionCurvesParams> = {
+export const SurfaceAnalysisSectionCurvesNode: NodeDefinition<
+  SectionCurvesInputs,
+  SectionCurvesOutputs,
+  SectionCurvesParams
+> = {
   id: 'Surface::SectionCurves',
   type: 'Surface::SectionCurves',
   category: 'Surface',
@@ -24,27 +28,27 @@ export const SurfaceAnalysisSectionCurvesNode: NodeDefinition<SectionCurvesInput
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     sections: {
       type: 'Wire[]',
-      label: 'Sections'
-    }
+      label: 'Sections',
+    },
   },
   params: {
     planeNormal: {
       type: 'vec3',
       label: 'Plane Normal',
-      default: [0,0,1]
+      default: [0, 0, 1],
     },
     spacing: {
       type: 'number',
       label: 'Spacing',
       default: 10,
       min: 0.1,
-      max: 1000
+      max: 1000,
     },
     count: {
       type: 'number',
@@ -52,8 +56,8 @@ export const SurfaceAnalysisSectionCurvesNode: NodeDefinition<SectionCurvesInput
       default: 10,
       min: 1,
       max: 100,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -62,12 +66,12 @@ export const SurfaceAnalysisSectionCurvesNode: NodeDefinition<SectionCurvesInput
         shape: inputs.shape,
         planeNormal: params.planeNormal,
         spacing: params.spacing,
-        count: params.count
-      }
+        count: params.count,
+      },
     });
-    
+
     return {
-      sections: result
+      sections: result,
     };
   },
 };

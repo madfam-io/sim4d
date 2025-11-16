@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -17,7 +16,11 @@ interface Outputs {
   inertia: number;
 }
 
-export const KMeansClusteringNode: NodeDefinition<KMeansClusteringInputs, KMeansClusteringOutputs, KMeansClusteringParams> = {
+export const KMeansClusteringNode: NodeDefinition<
+  KMeansClusteringInputs,
+  KMeansClusteringOutputs,
+  KMeansClusteringParams
+> = {
   type: 'Algorithmic::KMeansClustering',
   category: 'Algorithmic',
   subcategory: 'MachineLearning',
@@ -25,46 +28,43 @@ export const KMeansClusteringNode: NodeDefinition<KMeansClusteringInputs, KMeans
   metadata: {
     label: 'KMeansClustering',
     description: 'K-means clustering algorithm',
-    
-    
   },
 
   params: {
-        clusters: {
-      "default": 3,
-      "min": 2,
-      "max": 20
+    clusters: {
+      default: 3,
+      min: 2,
+      max: 20,
     },
     maxIterations: {
-      "default": 100,
-      "min": 10,
-      "max": 1000
+      default: 100,
+      min: 10,
+      max: 1000,
     },
     tolerance: {
-      "default": 0.001,
-      "min": 0.000001,
-      "max": 0.1
+      default: 0.001,
+      min: 0.000001,
+      max: 0.1,
     },
     randomSeed: {
-      "default": 42,
-      "min": 0,
-      "max": 1000
-    }
+      default: 42,
+      min: 0,
+      max: 1000,
+    },
   },
 
   inputs: {
-        data: 'Point[]'
+    data: 'Point[]',
   },
 
   outputs: {
-        centroids: 'Point[]',
+    centroids: 'Point[]',
     labels: 'number[]',
     clusters: 'Point[][]',
-    inertia: 'number'
+    inertia: 'number',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'kmeansClustering',
       params: {
@@ -72,15 +72,15 @@ export const KMeansClusteringNode: NodeDefinition<KMeansClusteringInputs, KMeans
         clusters: params.clusters,
         maxIterations: params.maxIterations,
         tolerance: params.tolerance,
-        randomSeed: params.randomSeed
-      }
+        randomSeed: params.randomSeed,
+      },
     });
 
     return {
       centroids: result,
       labels: result,
       clusters: result,
-      inertia: result
+      inertia: result,
     };
-  }
+  },
 };

@@ -11,7 +11,7 @@ test.describe('Plugin Integration with BrepFlow Core', () => {
     mockServices = new MockPluginServices(page);
 
     await mockServices.initialize({
-      marketplace: TEST_PLUGIN_CONFIGS.BASIC_MARKETPLACE
+      marketplace: TEST_PLUGIN_CONFIGS.BASIC_MARKETPLACE,
     });
 
     await page.goto('/');
@@ -55,7 +55,11 @@ test.describe('Plugin Integration with BrepFlow Core', () => {
     await pluginHelper.installPlugin(pluginId);
 
     // Create a plugin node
-    const nodeId = await pluginHelper.nodeHelper.createNode('Basic::Box', { width: 100, height: 50, depth: 25 });
+    const nodeId = await pluginHelper.nodeHelper.createNode('Basic::Box', {
+      width: 100,
+      height: 50,
+      depth: 25,
+    });
 
     // Select the node to activate inspector
     await pluginHelper.nodeHelper.selectNode(nodeId);
@@ -81,7 +85,11 @@ test.describe('Plugin Integration with BrepFlow Core', () => {
     await pluginHelper.installPlugin(pluginId);
 
     // Create a workflow with plugin nodes
-    const boxNode = await pluginHelper.nodeHelper.createNode('Basic::Box', { width: 100, height: 50, depth: 25 });
+    const boxNode = await pluginHelper.nodeHelper.createNode('Basic::Box', {
+      width: 100,
+      height: 50,
+      depth: 25,
+    });
     const sphereNode = await pluginHelper.nodeHelper.createNode('Basic::Sphere', { radius: 30 });
 
     // Trigger graph evaluation
@@ -120,7 +128,11 @@ test.describe('Plugin Integration with BrepFlow Core', () => {
     await pluginHelper.installPlugin(pluginId);
 
     // Create a graph with plugin nodes
-    const nodeId = await pluginHelper.nodeHelper.createNode('Basic::Box', { width: 100, height: 50, depth: 25 });
+    const nodeId = await pluginHelper.nodeHelper.createNode('Basic::Box', {
+      width: 100,
+      height: 50,
+      depth: 25,
+    });
 
     // Save the graph
     await page.keyboard.press('Control+S');
@@ -214,7 +226,11 @@ test.describe('Plugin Integration with BrepFlow Core', () => {
     await pluginHelper.installPlugin(pluginId);
 
     // Create geometry with plugin
-    const nodeId = await pluginHelper.nodeHelper.createNode('Basic::Box', { width: 100, height: 50, depth: 25 });
+    const nodeId = await pluginHelper.nodeHelper.createNode('Basic::Box', {
+      width: 100,
+      height: 50,
+      depth: 25,
+    });
     await pluginHelper.nodeHelper.evaluateGraph();
 
     // Test export functionality
@@ -241,26 +257,28 @@ test.describe('Plugin Integration with BrepFlow Core', () => {
     const nodeId = await pluginHelper.nodeHelper.createNode('Basic::Box', { width: 100 });
 
     // Mock plugin update
-    await mockServices.setupTestMarketplace([{
-      id: pluginId,
-      name: 'Basic Geometry',
-      version: '2.0.0',
-      author: 'BrepFlow Team',
-      description: 'Updated with new features',
-      category: 'Geometry',
-      rating: 4.5,
-      downloads: 1500,
-      verified: true,
-      price: 0,
-      bundle: { size: 512 * 1024, checksums: {}, dependencies: [], assets: [] },
-      manifest: {
-        nodes: ['Basic::Box', 'Basic::Sphere', 'Basic::Cylinder'], // Added cylinder
-        commands: [],
-        panels: [],
-        permissions: ['read:graph', 'write:graph'],
-        engines: { brepflow: '>=0.1.0' }
-      }
-    }]);
+    await mockServices.setupTestMarketplace([
+      {
+        id: pluginId,
+        name: 'Basic Geometry',
+        version: '2.0.0',
+        author: 'BrepFlow Team',
+        description: 'Updated with new features',
+        category: 'Geometry',
+        rating: 4.5,
+        downloads: 1500,
+        verified: true,
+        price: 0,
+        bundle: { size: 512 * 1024, checksums: {}, dependencies: [], assets: [] },
+        manifest: {
+          nodes: ['Basic::Box', 'Basic::Sphere', 'Basic::Cylinder'], // Added cylinder
+          commands: [],
+          panels: [],
+          permissions: ['read:graph', 'write:graph'],
+          engines: { brepflow: '>=0.1.0' },
+        },
+      },
+    ]);
 
     // Simulate plugin update
     // await pluginHelper.updatePlugin(pluginId, '2.0.0');
@@ -276,7 +294,9 @@ test.describe('Plugin Integration with BrepFlow Core', () => {
     await pluginHelper.installPlugin(pluginId);
 
     // Check if plugin registers custom UI panels
-    const customPanel = page.locator('[data-testid="plugin-custom-panel"], [data-plugin-panel="basic-geometry"]');
+    const customPanel = page.locator(
+      '[data-testid="plugin-custom-panel"], [data-plugin-panel="basic-geometry"]'
+    );
 
     // Plugin might register a custom panel
     if (await customPanel.isVisible({ timeout: 5000 })) {

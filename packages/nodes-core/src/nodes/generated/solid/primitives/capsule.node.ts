@@ -11,7 +11,11 @@ interface CapsuleOutputs {
   solid: unknown;
 }
 
-export const SolidPrimitivesCapsuleNode: NodeDefinition<CapsuleInputs, CapsuleOutputs, CapsuleParams> = {
+export const SolidPrimitivesCapsuleNode: NodeDefinition<
+  CapsuleInputs,
+  CapsuleOutputs,
+  CapsuleParams
+> = {
   id: 'Solid::Capsule',
   category: 'Solid',
   label: 'Capsule',
@@ -20,8 +24,8 @@ export const SolidPrimitivesCapsuleNode: NodeDefinition<CapsuleInputs, CapsuleOu
   outputs: {
     solid: {
       type: 'Solid',
-      label: 'Solid'
-    }
+      label: 'Solid',
+    },
   },
   params: {
     radius: {
@@ -29,27 +33,27 @@ export const SolidPrimitivesCapsuleNode: NodeDefinition<CapsuleInputs, CapsuleOu
       label: 'Radius',
       default: 25,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     height: {
       type: 'number',
       label: 'Height',
       default: 100,
       min: 0.1,
-      max: 10000
-    }
+      max: 10000,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'makeCapsule',
       params: {
         radius: params.radius,
-        height: params.height
-      }
+        height: params.height,
+      },
     });
-    
+
     return {
-      solid: result
+      solid: result,
     };
   },
 };

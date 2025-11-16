@@ -15,64 +15,65 @@ interface EmbossOutputs {
   embossed: unknown;
 }
 
-export const SpecializedTextEmbossNode: NodeDefinition<EmbossInputs, EmbossOutputs, EmbossParams> = {
-  id: 'Specialized::Emboss',
-  category: 'Specialized',
-  label: 'Emboss',
-  description: 'Emboss text or pattern',
-  inputs: {
-    targetFace: {
-      type: 'Face',
-      label: 'Target Face',
-      required: true
+export const SpecializedTextEmbossNode: NodeDefinition<EmbossInputs, EmbossOutputs, EmbossParams> =
+  {
+    id: 'Specialized::Emboss',
+    category: 'Specialized',
+    label: 'Emboss',
+    description: 'Emboss text or pattern',
+    inputs: {
+      targetFace: {
+        type: 'Face',
+        label: 'Target Face',
+        required: true,
+      },
+      pattern: {
+        type: 'Wire',
+        label: 'Pattern',
+        required: true,
+      },
     },
-    pattern: {
-      type: 'Wire',
-      label: 'Pattern',
-      required: true
-    }
-  },
-  outputs: {
-    embossed: {
-      type: 'Shape',
-      label: 'Embossed'
-    }
-  },
-  params: {
-    height: {
-      type: 'number',
-      label: 'Height',
-      default: 1,
-      min: 0.01,
-      max: 100
+    outputs: {
+      embossed: {
+        type: 'Shape',
+        label: 'Embossed',
+      },
     },
-    angle: {
-      type: 'number',
-      label: 'Angle',
-      default: 45,
-      min: 0,
-      max: 90
+    params: {
+      height: {
+        type: 'number',
+        label: 'Height',
+        default: 1,
+        min: 0.01,
+        max: 100,
+      },
+      angle: {
+        type: 'number',
+        label: 'Angle',
+        default: 45,
+        min: 0,
+        max: 90,
+      },
+      roundEdges: {
+        type: 'boolean',
+        label: 'Round Edges',
+        default: true,
+      },
     },
-    roundEdges: {
-      type: 'boolean',
-      label: 'Round Edges',
-      default: true
-    }
-  },
-  async evaluate(context, inputs, params) {
-    const result = await context.geometry.execute({
-      type: 'emboss',
-      params: {
-        targetFace: inputs.targetFace,
-        pattern: inputs.pattern,
-        height: params.height,
-        angle: params.angle,
-        roundEdges: params.roundEdges
-      }
-    });
-    
-    return {
-      embossed: result
-    };
-  },
-};
+    async evaluate(context, inputs, params) {
+      const result = await context.geometry.execute({
+        type: 'emboss',
+        params: {
+          targetFace: inputs.targetFace,
+          pattern: inputs.pattern,
+          height: params.height,
+          angle: params.angle,
+          roundEdges: params.roundEdges,
+        },
+      });
+
+      return {
+        embossed: result,
+      };
+    },
+  };

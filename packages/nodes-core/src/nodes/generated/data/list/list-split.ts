@@ -12,7 +12,11 @@ interface ListSplitOutputs {
   after: unknown;
 }
 
-export const DataListListSplitNode: NodeDefinition<ListSplitInputs, ListSplitOutputs, ListSplitParams> = {
+export const DataListListSplitNode: NodeDefinition<
+  ListSplitInputs,
+  ListSplitOutputs,
+  ListSplitParams
+> = {
   id: 'Data::ListSplit',
   type: 'Data::ListSplit',
   category: 'Data',
@@ -22,23 +26,23 @@ export const DataListListSplitNode: NodeDefinition<ListSplitInputs, ListSplitOut
     list: {
       type: 'Data[]',
       label: 'List',
-      required: true
+      required: true,
     },
     index: {
       type: 'number',
       label: 'Index',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     before: {
       type: 'Data[]',
-      label: 'Before'
+      label: 'Before',
     },
     after: {
       type: 'Data[]',
-      label: 'After'
-    }
+      label: 'After',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -46,13 +50,13 @@ export const DataListListSplitNode: NodeDefinition<ListSplitInputs, ListSplitOut
       type: 'listSplit',
       params: {
         list: inputs.list,
-        index: inputs.index
-      }
+        index: inputs.index,
+      },
     });
-    
+
     return {
       before: results.before,
-      after: results.after
+      after: results.after,
     };
   },
 };

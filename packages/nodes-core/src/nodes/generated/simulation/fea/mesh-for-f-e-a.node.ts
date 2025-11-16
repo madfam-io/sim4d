@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -16,71 +15,63 @@ interface Outputs {
   qualityReport: Data;
 }
 
-export const MeshForFEANode: NodeDefinition<MeshForFEAInputs, MeshForFEAOutputs, MeshForFEAParams> = {
-  type: 'Simulation::MeshForFEA',
-  category: 'Simulation',
-  subcategory: 'FEA',
+export const MeshForFEANode: NodeDefinition<MeshForFEAInputs, MeshForFEAOutputs, MeshForFEAParams> =
+  {
+    type: 'Simulation::MeshForFEA',
+    category: 'Simulation',
+    subcategory: 'FEA',
 
-  metadata: {
-    label: 'MeshForFEA',
-    description: 'Generate FEA-ready mesh',
-    
-    
-  },
-
-  params: {
-        elementType: {
-      "default": "auto",
-      "options": [
-        "tet4",
-        "tet10",
-        "hex8",
-        "hex20",
-        "auto"
-      ]
+    metadata: {
+      label: 'MeshForFEA',
+      description: 'Generate FEA-ready mesh',
     },
-    elementSize: {
-      "default": 5,
-      "min": 0.1,
-      "max": 100
+
+    params: {
+      elementType: {
+        default: 'auto',
+        options: ['tet4', 'tet10', 'hex8', 'hex20', 'auto'],
+      },
+      elementSize: {
+        default: 5,
+        min: 0.1,
+        max: 100,
+      },
+      refinementZones: {
+        default: true,
+      },
+      qualityTarget: {
+        default: 0.8,
+        min: 0.3,
+        max: 1,
+      },
     },
-    refinementZones: {
-      "default": true
+
+    inputs: {
+      shape: 'Shape',
+      refinementRegions: 'Shape[]',
     },
-    qualityTarget: {
-      "default": 0.8,
-      "min": 0.3,
-      "max": 1
-    }
-  },
 
-  inputs: {
-        shape: 'Shape',
-    refinementRegions: 'Shape[]'
-  },
+    outputs: {
+      feaMesh: 'Mesh',
+      qualityReport: 'Data',
+    },
 
-  outputs: {
-        feaMesh: 'Mesh',
-    qualityReport: 'Data'
-  },
+    async evaluate(context, inputs, params) {
+      const result = await context.geometry.execute({
+        type: 'meshForFEA',
+        params: {
+          shape: inputs.shape,
+          refinementRegions: inputs.refinementRegions,
+          elementType: params.elementType,
+          elementSize: params.elementSize,
+          refinementZones: params.refinementZones,
+          qualityTarget: params.qualityTarget,
+        },
+      });
 
-  async evaluate(context, inputs, params) {
-    
-    const result = await context.geometry.execute({
-      type: 'meshForFEA',
-      params: {
-        shape: inputs.shape,
-        refinementRegions: inputs.refinementRegions,
-        elementType: params.elementType,
-        elementSize: params.elementSize,
-        refinementZones: params.refinementZones,
-        qualityTarget: params.qualityTarget
-      }
-    });
-
-    return {
-      feaMesh: result,
-      qualityReport: result
-    };
-  }
-};
+      return {
+        feaMesh: result,
+        qualityReport: result,
+      };
+    },
+  };

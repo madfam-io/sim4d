@@ -16,7 +16,11 @@ interface PerlinNoiseOutputs {
   noise: unknown;
 }
 
-export const MathRandomPerlinNoiseNode: NodeDefinition<PerlinNoiseInputs, PerlinNoiseOutputs, PerlinNoiseParams> = {
+export const MathRandomPerlinNoiseNode: NodeDefinition<
+  PerlinNoiseInputs,
+  PerlinNoiseOutputs,
+  PerlinNoiseParams
+> = {
   id: 'Math::PerlinNoise',
   category: 'Math',
   label: 'PerlinNoise',
@@ -25,24 +29,24 @@ export const MathRandomPerlinNoiseNode: NodeDefinition<PerlinNoiseInputs, Perlin
     x: {
       type: 'number',
       label: 'X',
-      required: true
+      required: true,
     },
     y: {
       type: 'number',
       label: 'Y',
-      optional: true
+      optional: true,
     },
     z: {
       type: 'number',
       label: 'Z',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     noise: {
       type: 'number',
-      label: 'Noise'
-    }
+      label: 'Noise',
+    },
   },
   params: {
     octaves: {
@@ -51,22 +55,22 @@ export const MathRandomPerlinNoiseNode: NodeDefinition<PerlinNoiseInputs, Perlin
       default: 4,
       min: 1,
       max: 8,
-      step: 1
+      step: 1,
     },
     persistence: {
       type: 'number',
       label: 'Persistence',
       default: 0.5,
       min: 0,
-      max: 1
+      max: 1,
     },
     seed: {
       type: 'number',
       label: 'Seed',
       default: -1,
       min: -1,
-      max: 999999
-    }
+      max: 999999,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -77,12 +81,12 @@ export const MathRandomPerlinNoiseNode: NodeDefinition<PerlinNoiseInputs, Perlin
         z: inputs.z,
         octaves: params.octaves,
         persistence: params.persistence,
-        seed: params.seed
-      }
+        seed: params.seed,
+      },
     });
-    
+
     return {
-      noise: result
+      noise: result,
     };
   },
 };

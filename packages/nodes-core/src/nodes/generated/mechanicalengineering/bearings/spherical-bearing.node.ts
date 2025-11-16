@@ -17,7 +17,11 @@ interface SphericalBearingOutputs {
   housing: unknown;
 }
 
-export const MechanicalEngineeringBearingsSphericalBearingNode: NodeDefinition<SphericalBearingInputs, SphericalBearingOutputs, SphericalBearingParams> = {
+export const MechanicalEngineeringBearingsSphericalBearingNode: NodeDefinition<
+  SphericalBearingInputs,
+  SphericalBearingOutputs,
+  SphericalBearingParams
+> = {
   id: 'MechanicalEngineering::SphericalBearing',
   category: 'MechanicalEngineering',
   label: 'SphericalBearing',
@@ -26,22 +30,22 @@ export const MechanicalEngineeringBearingsSphericalBearingNode: NodeDefinition<S
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     bearing: {
       type: 'Shape',
-      label: 'Bearing'
+      label: 'Bearing',
     },
     ball: {
       type: 'Shape',
-      label: 'Ball'
+      label: 'Ball',
     },
     housing: {
       type: 'Shape',
-      label: 'Housing'
-    }
+      label: 'Housing',
+    },
   },
   params: {
     ballDiameter: {
@@ -49,29 +53,29 @@ export const MechanicalEngineeringBearingsSphericalBearingNode: NodeDefinition<S
       label: 'Ball Diameter',
       default: 20,
       min: 5,
-      max: 100
+      max: 100,
     },
     boreDiameter: {
       type: 'number',
       label: 'Bore Diameter',
       default: 8,
       min: 3,
-      max: 50
+      max: 50,
     },
     housingDiameter: {
       type: 'number',
       label: 'Housing Diameter',
       default: 30,
       min: 10,
-      max: 150
+      max: 150,
     },
     misalignmentAngle: {
       type: 'number',
       label: 'Misalignment Angle',
       default: 15,
       min: 5,
-      max: 30
-    }
+      max: 30,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -81,14 +85,14 @@ export const MechanicalEngineeringBearingsSphericalBearingNode: NodeDefinition<S
         ballDiameter: params.ballDiameter,
         boreDiameter: params.boreDiameter,
         housingDiameter: params.housingDiameter,
-        misalignmentAngle: params.misalignmentAngle
-      }
+        misalignmentAngle: params.misalignmentAngle,
+      },
     });
-    
+
     return {
       bearing: results.bearing,
       ball: results.ball,
-      housing: results.housing
+      housing: results.housing,
     };
   },
 };

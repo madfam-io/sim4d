@@ -13,7 +13,11 @@ interface PolygonalTessellationOutputs {
   tiles: unknown;
 }
 
-export const PatternsGeometricPolygonalTessellationNode: NodeDefinition<PolygonalTessellationInputs, PolygonalTessellationOutputs, PolygonalTessellationParams> = {
+export const PatternsGeometricPolygonalTessellationNode: NodeDefinition<
+  PolygonalTessellationInputs,
+  PolygonalTessellationOutputs,
+  PolygonalTessellationParams
+> = {
   id: 'Patterns::PolygonalTessellation',
   category: 'Patterns',
   label: 'PolygonalTessellation',
@@ -22,28 +26,28 @@ export const PatternsGeometricPolygonalTessellationNode: NodeDefinition<Polygona
     boundary: {
       type: 'Wire',
       label: 'Boundary',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     tiles: {
       type: 'Face[]',
-      label: 'Tiles'
-    }
+      label: 'Tiles',
+    },
   },
   params: {
     polygonType: {
       type: 'enum',
       label: 'Polygon Type',
-      default: "hexagonal",
-      options: ["triangular","square","hexagonal","octagonal"]
+      default: 'hexagonal',
+      options: ['triangular', 'square', 'hexagonal', 'octagonal'],
     },
     size: {
       type: 'number',
       label: 'Size',
       default: 10,
-      min: 1
-    }
+      min: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -51,12 +55,12 @@ export const PatternsGeometricPolygonalTessellationNode: NodeDefinition<Polygona
       params: {
         boundary: inputs.boundary,
         polygonType: params.polygonType,
-        size: params.size
-      }
+        size: params.size,
+      },
     });
-    
+
     return {
-      tiles: result
+      tiles: result,
     };
   },
 };

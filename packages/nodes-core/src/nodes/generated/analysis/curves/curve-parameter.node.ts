@@ -15,7 +15,11 @@ interface CurveParameterOutputs {
   parameterValues: unknown;
 }
 
-export const AnalysisCurvesCurveParameterNode: NodeDefinition<CurveParameterInputs, CurveParameterOutputs, CurveParameterParams> = {
+export const AnalysisCurvesCurveParameterNode: NodeDefinition<
+  CurveParameterInputs,
+  CurveParameterOutputs,
+  CurveParameterParams
+> = {
   id: 'Analysis::CurveParameter',
   category: 'Analysis',
   label: 'CurveParameter',
@@ -24,22 +28,22 @@ export const AnalysisCurvesCurveParameterNode: NodeDefinition<CurveParameterInpu
     curve: {
       type: 'Wire',
       label: 'Curve',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     parameterRange: {
       type: 'number[]',
-      label: 'Parameter Range'
+      label: 'Parameter Range',
     },
     samplePoints: {
       type: 'Point[]',
-      label: 'Sample Points'
+      label: 'Sample Points',
     },
     parameterValues: {
       type: 'number[]',
-      label: 'Parameter Values'
-    }
+      label: 'Parameter Values',
+    },
   },
   params: {
     samples: {
@@ -47,13 +51,13 @@ export const AnalysisCurvesCurveParameterNode: NodeDefinition<CurveParameterInpu
       label: 'Samples',
       default: 50,
       min: 10,
-      max: 200
+      max: 200,
     },
     showParameter: {
       type: 'boolean',
       label: 'Show Parameter',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -61,14 +65,14 @@ export const AnalysisCurvesCurveParameterNode: NodeDefinition<CurveParameterInpu
       params: {
         curve: inputs.curve,
         samples: params.samples,
-        showParameter: params.showParameter
-      }
+        showParameter: params.showParameter,
+      },
     });
-    
+
     return {
       parameterRange: results.parameterRange,
       samplePoints: results.samplePoints,
-      parameterValues: results.parameterValues
+      parameterValues: results.parameterValues,
     };
   },
 };

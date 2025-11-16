@@ -21,8 +21,8 @@ export const SolidPrimitivesPipeNode: NodeDefinition<PipeInputs, PipeOutputs, Pi
   outputs: {
     solid: {
       type: 'Solid',
-      label: 'Solid'
-    }
+      label: 'Solid',
+    },
   },
   params: {
     outerRadius: {
@@ -30,22 +30,22 @@ export const SolidPrimitivesPipeNode: NodeDefinition<PipeInputs, PipeOutputs, Pi
       label: 'Outer Radius',
       default: 50,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     innerRadius: {
       type: 'number',
       label: 'Inner Radius',
       default: 40,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     height: {
       type: 'number',
       label: 'Height',
       default: 100,
       min: 0.1,
-      max: 10000
-    }
+      max: 10000,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +53,12 @@ export const SolidPrimitivesPipeNode: NodeDefinition<PipeInputs, PipeOutputs, Pi
       params: {
         outerRadius: params.outerRadius,
         innerRadius: params.innerRadius,
-        height: params.height
-      }
+        height: params.height,
+      },
     });
-    
+
     return {
-      solid: result
+      solid: result,
     };
   },
 };

@@ -14,7 +14,11 @@ interface BinaryTreeOutputs {
   tree: unknown;
 }
 
-export const PatternsAlgorithmicBinaryTreeNode: NodeDefinition<BinaryTreeInputs, BinaryTreeOutputs, BinaryTreeParams> = {
+export const PatternsAlgorithmicBinaryTreeNode: NodeDefinition<
+  BinaryTreeInputs,
+  BinaryTreeOutputs,
+  BinaryTreeParams
+> = {
   id: 'Patterns::BinaryTree',
   category: 'Patterns',
   label: 'BinaryTree',
@@ -23,14 +27,14 @@ export const PatternsAlgorithmicBinaryTreeNode: NodeDefinition<BinaryTreeInputs,
     root: {
       type: 'Point',
       label: 'Root',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     tree: {
       type: 'Wire[]',
-      label: 'Tree'
-    }
+      label: 'Tree',
+    },
   },
   params: {
     depth: {
@@ -39,22 +43,22 @@ export const PatternsAlgorithmicBinaryTreeNode: NodeDefinition<BinaryTreeInputs,
       default: 5,
       min: 1,
       max: 10,
-      step: 1
+      step: 1,
     },
     branchAngle: {
       type: 'number',
       label: 'Branch Angle',
       default: 30,
       min: 0,
-      max: 90
+      max: 90,
     },
     lengthRatio: {
       type: 'number',
       label: 'Length Ratio',
       default: 0.7,
       min: 0.3,
-      max: 0.9
-    }
+      max: 0.9,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -63,12 +67,12 @@ export const PatternsAlgorithmicBinaryTreeNode: NodeDefinition<BinaryTreeInputs,
         root: inputs.root,
         depth: params.depth,
         branchAngle: params.branchAngle,
-        lengthRatio: params.lengthRatio
-      }
+        lengthRatio: params.lengthRatio,
+      },
     });
-    
+
     return {
-      tree: result
+      tree: result,
     };
   },
 };

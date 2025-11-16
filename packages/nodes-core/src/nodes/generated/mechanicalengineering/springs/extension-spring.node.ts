@@ -17,7 +17,11 @@ interface ExtensionSpringOutputs {
   hooks: unknown;
 }
 
-export const MechanicalEngineeringSpringsExtensionSpringNode: NodeDefinition<ExtensionSpringInputs, ExtensionSpringOutputs, ExtensionSpringParams> = {
+export const MechanicalEngineeringSpringsExtensionSpringNode: NodeDefinition<
+  ExtensionSpringInputs,
+  ExtensionSpringOutputs,
+  ExtensionSpringParams
+> = {
   id: 'MechanicalEngineering::ExtensionSpring',
   category: 'MechanicalEngineering',
   label: 'ExtensionSpring',
@@ -26,18 +30,18 @@ export const MechanicalEngineeringSpringsExtensionSpringNode: NodeDefinition<Ext
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     spring: {
       type: 'Shape',
-      label: 'Spring'
+      label: 'Spring',
     },
     hooks: {
       type: 'Wire[]',
-      label: 'Hooks'
-    }
+      label: 'Hooks',
+    },
   },
   params: {
     wireDiameter: {
@@ -45,35 +49,35 @@ export const MechanicalEngineeringSpringsExtensionSpringNode: NodeDefinition<Ext
       label: 'Wire Diameter',
       default: 1.5,
       min: 0.5,
-      max: 8
+      max: 8,
     },
     coilDiameter: {
       type: 'number',
       label: 'Coil Diameter',
       default: 15,
       min: 5,
-      max: 80
+      max: 80,
     },
     bodyLength: {
       type: 'number',
       label: 'Body Length',
       default: 40,
       min: 10,
-      max: 150
+      max: 150,
     },
     coils: {
       type: 'number',
       label: 'Coils',
       default: 10,
       min: 5,
-      max: 40
+      max: 40,
     },
     hookType: {
       type: 'enum',
       label: 'Hook Type',
-      default: "machine",
-      options: ["machine","side","center"]
-    }
+      default: 'machine',
+      options: ['machine', 'side', 'center'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -84,13 +88,13 @@ export const MechanicalEngineeringSpringsExtensionSpringNode: NodeDefinition<Ext
         coilDiameter: params.coilDiameter,
         bodyLength: params.bodyLength,
         coils: params.coils,
-        hookType: params.hookType
-      }
+        hookType: params.hookType,
+      },
     });
-    
+
     return {
       spring: results.spring,
-      hooks: results.hooks
+      hooks: results.hooks,
     };
   },
 };

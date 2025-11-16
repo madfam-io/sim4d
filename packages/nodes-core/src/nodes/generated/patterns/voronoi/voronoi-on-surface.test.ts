@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { PatternsVoronoiVoronoiOnSurfaceNode } from './voronoi-on-surface.node';
 import { createTestContext } from '../test-utils';
@@ -8,10 +7,10 @@ describe('PatternsVoronoiVoronoiOnSurfaceNode', () => {
     const context = createTestContext();
     const inputs = {
       surface: undefined,
-      points: undefined
+      points: undefined,
     } as any;
     const params = {
-      geodesic: true
+      geodesic: true,
     } as any;
 
     const result = await PatternsVoronoiVoronoiOnSurfaceNode.evaluate(context, inputs, params);

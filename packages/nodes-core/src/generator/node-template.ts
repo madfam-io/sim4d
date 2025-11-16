@@ -16,7 +16,16 @@ export interface Parameter {
 
 export interface NodeTemplate {
   // Metadata
-  category: 'Sketch' | 'Solid' | 'Boolean' | 'Features' | 'Transform' | 'Analysis' | 'Manufacturing' | 'Assembly' | 'IO';
+  category:
+    | 'Sketch'
+    | 'Solid'
+    | 'Boolean'
+    | 'Features'
+    | 'Transform'
+    | 'Analysis'
+    | 'Manufacturing'
+    | 'Assembly'
+    | 'IO';
   subcategory?: string;
   name: string;
   description: string;
@@ -73,7 +82,7 @@ export function toPascalCase(value: string): string {
     .replace(/[^a-zA-Z0-9]+/g, ' ')
     .split(' ')
     .filter(Boolean)
-    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join('');
 }
 
@@ -94,7 +103,7 @@ function indentBlock(block: string, spaces = 2): string {
   const indent = ' '.repeat(spaces);
   return block
     .split('\n')
-    .map(line => (line.length > 0 ? indent + line : indent))
+    .map((line) => (line.length > 0 ? indent + line : indent))
     .join('\n');
 }
 
@@ -195,7 +204,11 @@ function renderParamInterface(typeName: string, parameters: Parameter[]): string
   return [`interface ${typeName} {`, ...fields, '}'].join('\n');
 }
 
-function renderSocketInterface(typeName: string, sockets: NodeTemplate['inputs'] | NodeTemplate['outputs'], isInput: boolean): string {
+function renderSocketInterface(
+  typeName: string,
+  sockets: NodeTemplate['inputs'] | NodeTemplate['outputs'],
+  isInput: boolean
+): string {
   if (sockets.length === 0) {
     return `type ${typeName} = ${isInput ? 'Record<string, never>' : 'Record<string, never>'};`;
   }
@@ -231,7 +244,7 @@ function renderParamSpec(parameters: Parameter[], indent = 2): string {
 
     lines.push(
       `${innerIndent}${param.name}: {
-${entries.map(entry => `${innerIndent}  ${entry}`).join(',\n')}
+${entries.map((entry) => `${innerIndent}  ${entry}`).join(',\n')}
 ${innerIndent}}${index < parameters.length - 1 ? ',' : ''}`
     );
   });
@@ -263,7 +276,7 @@ function renderInputSpec(inputs: NodeTemplate['inputs'], indent = 2): string {
 
     lines.push(
       `${innerIndent}${input.name}: {
-${entries.map(entry => `${innerIndent}  ${entry}`).join(',\n')}
+${entries.map((entry) => `${innerIndent}  ${entry}`).join(',\n')}
 ${innerIndent}}${index < inputs.length - 1 ? ',' : ''}`
     );
   });
@@ -289,7 +302,7 @@ function renderOutputSpec(outputs: NodeTemplate['outputs'], indent = 2): string 
 
     lines.push(
       `${innerIndent}${output.name}: {
-${entries.map(entry => `${innerIndent}  ${entry}`).join(',\n')}
+${entries.map((entry) => `${innerIndent}  ${entry}`).join(',\n')}
 ${innerIndent}}${index < outputs.length - 1 ? ',' : ''}`
     );
   });
@@ -310,9 +323,10 @@ function renderEvaluationLogic(template: NodeTemplate): string {
     paramEntries.push(`${param.name}: params.${param.name}`);
   });
 
-  const paramsBlock = paramEntries.length === 0
-    ? '{}'
-    : `{
+  const paramsBlock =
+    paramEntries.length === 0
+      ? '{}'
+      : `{
     ${paramEntries.join(',\n    ')}
   }`;
 
@@ -324,22 +338,14 @@ function renderEvaluationLogic(template: NodeTemplate): string {
     }
 
     if (template.outputs.length === 1) {
-      return [
-        'return {',
-        `  ${template.outputs[0].name}: ${resultIdentifier}`,
-        '};',
-      ];
+      return ['return {', `  ${template.outputs[0].name}: ${resultIdentifier}`, '};'];
     }
 
     const mapped = template.outputs.map((output, index) => {
       const suffix = index < template.outputs.length - 1 ? ',' : '';
       return `  ${output.name}: ${resultIdentifier}.${output.name}${suffix}`;
     });
-    return [
-      'return {',
-      ...mapped,
-      '};',
-    ];
+    return ['return {', ...mapped, '};'];
   })();
 
   return [
@@ -370,10 +376,13 @@ describe('${constantName}', () => {
   it('should evaluate without throwing', async () => {
     const context = createTestContext();
     const inputs = {
-${template.inputs.filter(i => i.required).map(i => `      ${i.name}: undefined`).join(',\n')}
+${template.inputs
+  .filter((i) => i.required)
+  .map((i) => `      ${i.name}: undefined`)
+  .join(',\n')}
     } as any;
     const params = {
-${template.parameters.map(p => `      ${p.name}: ${p.default !== undefined ? JSON.stringify(p.default) : 'undefined'}`).join(',\n')}
+${template.parameters.map((p) => `      ${p.name}: ${p.default !== undefined ? JSON.stringify(p.default) : 'undefined'}`).join(',\n')}
     } as any;
 
     const result = await ${constantName}.evaluate(context, inputs, params);
@@ -396,36 +405,60 @@ ${template.description}
 
 ## Parameters
 
-${template.parameters.length > 0 ? template.parameters.map(p => `
+${
+  template.parameters.length > 0
+    ? template.parameters
+        .map(
+          (p) => `
 ### ${titleFromName(p.name)}
 - **Type:** ${p.type}
 - **Default:** ${p.default !== undefined ? JSON.stringify(p.default) : 'None'}
 ${p.min !== undefined ? `- **Min:** ${p.min}` : ''}
 ${p.max !== undefined ? `- **Max:** ${p.max}` : ''}
 ${p.description ? `- **Description:** ${p.description}` : ''}
-`).join('\n') : 'This node has no parameters.'}
+`
+        )
+        .join('\n')
+    : 'This node has no parameters.'
+}
 
 ## Inputs
 
-${template.inputs.length > 0 ? template.inputs.map(i => `
+${
+  template.inputs.length > 0
+    ? template.inputs
+        .map(
+          (i) => `
 ### ${titleFromName(i.name)}
 - **Type:** ${i.type}
 - **Required:** ${i.required ? 'Yes' : 'No'}
 ${i.description ? `- **Description:** ${i.description}` : ''}
-`).join('\n') : 'This node has no inputs.'}
+`
+        )
+        .join('\n')
+    : 'This node has no inputs.'
+}
 
 ## Outputs
 
-${template.outputs.map(o => `
+${template.outputs
+  .map(
+    (o) => `
 ### ${titleFromName(o.name)}
 - **Type:** ${o.type}
 ${o.description ? `- **Description:** ${o.description}` : ''}
-`).join('\n')}
+`
+  )
+  .join('\n')}
 
-${template.examples && template.examples.length > 0 ? `
+${
+  template.examples && template.examples.length > 0
+    ? `
 ## Examples
 
-${template.examples.map(ex => `
+${template.examples
+  .map(
+    (ex) => `
 ### ${ex.title}
 ${ex.description || ''}
 
@@ -433,6 +466,10 @@ Parameters:
 \`\`\`json
 ${JSON.stringify(ex.parameters, null, 2)}
 \`\`\`
-`).join('\n')}` : ''}
+`
+  )
+  .join('\n')}`
+    : ''
+}
 `;
 }

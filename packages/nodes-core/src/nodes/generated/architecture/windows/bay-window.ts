@@ -15,7 +15,11 @@ interface BayWindowOutputs {
   windows: unknown;
 }
 
-export const ArchitectureWindowsBayWindowNode: NodeDefinition<BayWindowInputs, BayWindowOutputs, BayWindowParams> = {
+export const ArchitectureWindowsBayWindowNode: NodeDefinition<
+  BayWindowInputs,
+  BayWindowOutputs,
+  BayWindowParams
+> = {
   id: 'Architecture::BayWindow',
   type: 'Architecture::BayWindow',
   category: 'Architecture',
@@ -25,18 +29,18 @@ export const ArchitectureWindowsBayWindowNode: NodeDefinition<BayWindowInputs, B
     wallOpening: {
       type: 'Wire',
       label: 'Wall Opening',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     bayWindow: {
       type: 'Shape',
-      label: 'Bay Window'
+      label: 'Bay Window',
     },
     windows: {
       type: 'Shape[]',
-      label: 'Windows'
-    }
+      label: 'Windows',
+    },
   },
   params: {
     projection: {
@@ -44,7 +48,7 @@ export const ArchitectureWindowsBayWindowNode: NodeDefinition<BayWindowInputs, B
       label: 'Projection',
       default: 600,
       min: 400,
-      max: 1200
+      max: 1200,
     },
     angleCount: {
       type: 'number',
@@ -52,15 +56,15 @@ export const ArchitectureWindowsBayWindowNode: NodeDefinition<BayWindowInputs, B
       default: 3,
       min: 3,
       max: 5,
-      step: 1
+      step: 1,
     },
     centerAngle: {
       type: 'number',
       label: 'Center Angle',
       default: 135,
       min: 90,
-      max: 180
-    }
+      max: 180,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -69,13 +73,13 @@ export const ArchitectureWindowsBayWindowNode: NodeDefinition<BayWindowInputs, B
         wallOpening: inputs.wallOpening,
         projection: params.projection,
         angleCount: params.angleCount,
-        centerAngle: params.centerAngle
-      }
+        centerAngle: params.centerAngle,
+      },
     });
-    
+
     return {
       bayWindow: results.bayWindow,
-      windows: results.windows
+      windows: results.windows,
     };
   },
 };

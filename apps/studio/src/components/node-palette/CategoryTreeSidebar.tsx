@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 // import type { CategoryTree } from '@brepflow/nodes-core';
 
 // Temporary fallback type until build issues are resolved
-type CategoryTree = Record<string, { nodes: any[], subcategories: Record<string, any[]> }>;
+type CategoryTree = Record<string, { nodes: any[]; subcategories: Record<string, any[]> }>;
 
 interface CategoryTreeSidebarProps {
   categoryTree: CategoryTree;
@@ -39,7 +39,9 @@ function HighlightText({ text, highlight }: { text: string; highlight?: string }
     <span>
       {parts.map((part, index) =>
         regex.test(part) ? (
-          <mark key={index} className="search-highlight">{part}</mark>
+          <mark key={index} className="search-highlight">
+            {part}
+          </mark>
         ) : (
           <span key={index}>{part}</span>
         )
@@ -58,37 +60,37 @@ function CategoryNode({
   onExpand,
   searchHighlight,
   level = 0,
-  compact = false
+  compact = false,
 }: CategoryNodeProps) {
   const hasSubcategories = Object.keys(subcategories).length > 0;
 
   // Category icons mapping
   const getCategoryIcon = (category: string) => {
     const iconMap: Record<string, string> = {
-      'Architecture': '🏢',
-      'MechanicalEngineering': '⚙️',
-      'Analysis': '📊',
-      'Interoperability': '🔗',
-      'Algorithmic': '🤖',
-      'Features': '🔧',
-      'Solid': '📦',
-      'Sketch': '✏️',
-      'Boolean': '⚪',
-      'Transform': '🔄',
-      'Manufacturing': '🏭',
-      'Assembly': '🧩',
-      'SheetMetal': '📋',
-      'Advanced': '⚡',
-      'Surface': '🌊',
-      'Mesh': '🕸️',
-      'Import': '📥',
-      'Simulation': '🔬',
-      'Specialized': '🎯',
-      'Mathematics': '📐',
-      'Data': '💾',
-      'Fields': '🌐',
-      'Patterns': '🔢',
-      'Fabrication': '🛠️'
+      Architecture: '🏢',
+      MechanicalEngineering: '⚙️',
+      Analysis: '📊',
+      Interoperability: '🔗',
+      Algorithmic: '🤖',
+      Features: '🔧',
+      Solid: '📦',
+      Sketch: '✏️',
+      Boolean: '⚪',
+      Transform: '🔄',
+      Manufacturing: '🏭',
+      Assembly: '🧩',
+      SheetMetal: '📋',
+      Advanced: '⚡',
+      Surface: '🌊',
+      Mesh: '🕸️',
+      Import: '📥',
+      Simulation: '🔬',
+      Specialized: '🎯',
+      Mathematics: '📐',
+      Data: '💾',
+      Fields: '🌐',
+      Patterns: '🔢',
+      Fabrication: '🛠️',
     };
     return iconMap[category] || '📂';
   };
@@ -121,9 +123,7 @@ function CategoryNode({
             </button>
           )}
 
-          <span className="category-icon">
-            {getCategoryIcon(category)}
-          </span>
+          <span className="category-icon">{getCategoryIcon(category)}</span>
 
           <span className="category-name">
             <HighlightText text={category} highlight={searchHighlight} />
@@ -140,20 +140,20 @@ function CategoryNode({
           {Object.entries(subcategories)
             .sort(([a], [b]) => a.localeCompare(b))
             .map(([subcat, nodes]) => (
-            <CategoryNode
-              key={subcat}
-              category={subcat}
-              nodeCount={nodes.length}
-              subcategories={{}} // subcategories don't have further nesting
-              isSelected={false} // subcategories aren't selectable in this version
-              isExpanded={false}
-              onSelect={() => {}} // subcategories aren't selectable
-              onExpand={() => {}}
-              searchHighlight={searchHighlight}
-              level={level + 1}
-              compact={compact}
-            />
-          ))}
+              <CategoryNode
+                key={subcat}
+                category={subcat}
+                nodeCount={nodes.length}
+                subcategories={{}} // subcategories don't have further nesting
+                isSelected={false} // subcategories aren't selectable in this version
+                isExpanded={false}
+                onSelect={() => {}} // subcategories aren't selectable
+                onExpand={() => {}}
+                searchHighlight={searchHighlight}
+                level={level + 1}
+                compact={compact}
+              />
+            ))}
         </div>
       )}
     </div>
@@ -167,7 +167,7 @@ export function CategoryTreeSidebar({
   onCategorySelect,
   onCategoryExpand,
   searchQuery,
-  compact = false
+  compact = false,
 }: CategoryTreeSidebarProps) {
   const [showAll, setShowAll] = useState(false);
 
@@ -177,7 +177,7 @@ export function CategoryTreeSidebar({
   };
 
   const collapseAll = () => {
-    Object.keys(categoryTree).forEach(category => {
+    Object.keys(categoryTree).forEach((category) => {
       if (expandedCategories.has(category)) {
         onCategoryExpand(category, false);
       }
@@ -185,7 +185,7 @@ export function CategoryTreeSidebar({
   };
 
   const expandAll = () => {
-    Object.keys(categoryTree).forEach(category => {
+    Object.keys(categoryTree).forEach((category) => {
       if (!expandedCategories.has(category)) {
         onCategoryExpand(category, true);
       }
@@ -211,24 +211,14 @@ export function CategoryTreeSidebar({
       <div className="category-tree-header">
         <div className="header-title">
           <h4>Categories</h4>
-          <span className="category-count">
-            {Object.keys(categoryTree).length} categories
-          </span>
+          <span className="category-count">{Object.keys(categoryTree).length} categories</span>
         </div>
 
         <div className="header-actions">
-          <button
-            className="action-btn"
-            onClick={expandAll}
-            title="Expand all categories"
-          >
+          <button className="action-btn" onClick={expandAll} title="Expand all categories">
             ⬇
           </button>
-          <button
-            className="action-btn"
-            onClick={collapseAll}
-            title="Collapse all categories"
-          >
+          <button className="action-btn" onClick={collapseAll} title="Collapse all categories">
             ⬆
           </button>
         </div>
@@ -254,15 +244,8 @@ export function CategoryTreeSidebar({
 
         {hasMoreCategories && (
           <div className="show-more-container">
-            <button
-              className="show-more-btn"
-              onClick={() => setShowAll(!showAll)}
-            >
-              {showAll ? (
-                <>⬆ Show Less</>
-              ) : (
-                <>⬇ Show {sortedCategories.length - 8} More</>
-              )}
+            <button className="show-more-btn" onClick={() => setShowAll(!showAll)}>
+              {showAll ? <>⬆ Show Less</> : <>⬇ Show {sortedCategories.length - 8} More</>}
             </button>
           </div>
         )}
@@ -273,9 +256,9 @@ export function CategoryTreeSidebar({
               <span className="category-icon">
                 {(() => {
                   const iconMap: Record<string, string> = {
-                    'Architecture': '🏢',
-                    'MechanicalEngineering': '⚙️',
-                    'Analysis': '📊'
+                    Architecture: '🏢',
+                    MechanicalEngineering: '⚙️',
+                    Analysis: '📊',
                   };
                   return iconMap[selectedCategory] || '📂';
                 })()}

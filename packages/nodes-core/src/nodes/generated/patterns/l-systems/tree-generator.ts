@@ -16,7 +16,11 @@ interface TreeGeneratorOutputs {
   leaves: Array<[number, number, number]>;
 }
 
-export const PatternsLSystemsTreeGeneratorNode: NodeDefinition<TreeGeneratorInputs, TreeGeneratorOutputs, TreeGeneratorParams> = {
+export const PatternsLSystemsTreeGeneratorNode: NodeDefinition<
+  TreeGeneratorInputs,
+  TreeGeneratorOutputs,
+  TreeGeneratorParams
+> = {
   id: 'Patterns::TreeGenerator',
   type: 'Patterns::TreeGenerator',
   category: 'Patterns',
@@ -26,31 +30,31 @@ export const PatternsLSystemsTreeGeneratorNode: NodeDefinition<TreeGeneratorInpu
     base: {
       type: 'Point',
       label: 'Base',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     trunk: {
       type: 'Wire[]',
-      label: 'Trunk'
+      label: 'Trunk',
     },
     leaves: {
       type: 'Point[]',
-      label: 'Leaves'
-    }
+      label: 'Leaves',
+    },
   },
   params: {
     treeType: {
       type: 'enum',
       label: 'Tree Type',
-      default: "oak",
-      options: ["oak","pine","willow","palm","fractal"]
+      default: 'oak',
+      options: ['oak', 'pine', 'willow', 'palm', 'fractal'],
     },
     height: {
       type: 'number',
       label: 'Height',
       default: 100,
-      min: 10
+      min: 10,
     },
     branches: {
       type: 'number',
@@ -58,15 +62,15 @@ export const PatternsLSystemsTreeGeneratorNode: NodeDefinition<TreeGeneratorInpu
       default: 5,
       min: 2,
       max: 10,
-      step: 1
+      step: 1,
     },
     seed: {
       type: 'number',
       label: 'Seed',
       default: 0,
       min: 0,
-      max: 999999
-    }
+      max: 999999,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -76,13 +80,13 @@ export const PatternsLSystemsTreeGeneratorNode: NodeDefinition<TreeGeneratorInpu
         treeType: params.treeType,
         height: params.height,
         branches: params.branches,
-        seed: params.seed
-      }
+        seed: params.seed,
+      },
     });
-    
+
     return {
       trunk: results.trunk,
-      leaves: results.leaves
+      leaves: results.leaves,
     };
   },
 };

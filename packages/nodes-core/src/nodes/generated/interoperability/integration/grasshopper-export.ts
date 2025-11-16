@@ -15,7 +15,11 @@ interface GrasshopperExportOutputs {
   componentCount: unknown;
 }
 
-export const InteroperabilityIntegrationGrasshopperExportNode: NodeDefinition<GrasshopperExportInputs, GrasshopperExportOutputs, GrasshopperExportParams> = {
+export const InteroperabilityIntegrationGrasshopperExportNode: NodeDefinition<
+  GrasshopperExportInputs,
+  GrasshopperExportOutputs,
+  GrasshopperExportParams
+> = {
   id: 'Interoperability::GrasshopperExport',
   type: 'Interoperability::GrasshopperExport',
   category: 'Interoperability',
@@ -25,36 +29,36 @@ export const InteroperabilityIntegrationGrasshopperExportNode: NodeDefinition<Gr
     definition: {
       type: 'Properties',
       label: 'Definition',
-      required: true
+      required: true,
     },
     filePath: {
       type: 'string',
       label: 'File Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     success: {
       type: 'boolean',
-      label: 'Success'
+      label: 'Success',
     },
     componentCount: {
       type: 'number',
-      label: 'Component Count'
-    }
+      label: 'Component Count',
+    },
   },
   params: {
     version: {
       type: 'enum',
       label: 'Version',
-      default: "GH1",
-      options: ["GH1","GH2"]
+      default: 'GH1',
+      options: ['GH1', 'GH2'],
     },
     embedGeometry: {
       type: 'boolean',
       label: 'Embed Geometry',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -63,13 +67,13 @@ export const InteroperabilityIntegrationGrasshopperExportNode: NodeDefinition<Gr
         definition: inputs.definition,
         filePath: inputs.filePath,
         version: params.version,
-        embedGeometry: params.embedGeometry
-      }
+        embedGeometry: params.embedGeometry,
+      },
     });
-    
+
     return {
       success: results.success,
-      componentCount: results.componentCount
+      componentCount: results.componentCount,
     };
   },
 };

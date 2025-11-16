@@ -10,7 +10,11 @@ interface FieldMinOutputs {
   field: unknown;
 }
 
-export const FieldOperationsFieldMinNode: NodeDefinition<FieldMinInputs, FieldMinOutputs, FieldMinParams> = {
+export const FieldOperationsFieldMinNode: NodeDefinition<
+  FieldMinInputs,
+  FieldMinOutputs,
+  FieldMinParams
+> = {
   id: 'Field::FieldMin',
   type: 'Field::FieldMin',
   category: 'Field',
@@ -20,26 +24,26 @@ export const FieldOperationsFieldMinNode: NodeDefinition<FieldMinInputs, FieldMi
     fields: {
       type: 'ScalarField[]',
       label: 'Fields',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     field: {
       type: 'ScalarField',
-      label: 'Field'
-    }
+      label: 'Field',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'fieldMin',
       params: {
-        fields: inputs.fields
-      }
+        fields: inputs.fields,
+      },
     });
-    
+
     return {
-      field: result
+      field: result,
     };
   },
 };

@@ -14,7 +14,11 @@ interface CurvatureAnalysisOutputs {
   visualization: unknown;
 }
 
-export const SurfaceAnalysisCurvatureAnalysisNode: NodeDefinition<CurvatureAnalysisInputs, CurvatureAnalysisOutputs, CurvatureAnalysisParams> = {
+export const SurfaceAnalysisCurvatureAnalysisNode: NodeDefinition<
+  CurvatureAnalysisInputs,
+  CurvatureAnalysisOutputs,
+  CurvatureAnalysisParams
+> = {
   id: 'Surface::CurvatureAnalysis',
   type: 'Surface::CurvatureAnalysis',
   category: 'Surface',
@@ -24,25 +28,25 @@ export const SurfaceAnalysisCurvatureAnalysisNode: NodeDefinition<CurvatureAnaly
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     analysis: {
       type: 'Data',
-      label: 'Analysis'
+      label: 'Analysis',
     },
     visualization: {
       type: 'Shape',
-      label: 'Visualization'
-    }
+      label: 'Visualization',
+    },
   },
   params: {
     analysisType: {
       type: 'enum',
       label: 'Analysis Type',
-      default: "gaussian",
-      options: ["gaussian","mean","principal","radius"]
+      default: 'gaussian',
+      options: ['gaussian', 'mean', 'principal', 'radius'],
     },
     sampleDensity: {
       type: 'number',
@@ -50,8 +54,8 @@ export const SurfaceAnalysisCurvatureAnalysisNode: NodeDefinition<CurvatureAnaly
       default: 50,
       min: 10,
       max: 200,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -59,13 +63,13 @@ export const SurfaceAnalysisCurvatureAnalysisNode: NodeDefinition<CurvatureAnaly
       params: {
         surface: inputs.surface,
         analysisType: params.analysisType,
-        sampleDensity: params.sampleDensity
-      }
+        sampleDensity: params.sampleDensity,
+      },
     });
-    
+
     return {
       analysis: results.analysis,
-      visualization: results.visualization
+      visualization: results.visualization,
     };
   },
 };

@@ -14,7 +14,11 @@ interface SmartFastenersOutputs {
   fasteners: unknown;
 }
 
-export const AssemblyPatternsSmartFastenersNode: NodeDefinition<SmartFastenersInputs, SmartFastenersOutputs, SmartFastenersParams> = {
+export const AssemblyPatternsSmartFastenersNode: NodeDefinition<
+  SmartFastenersInputs,
+  SmartFastenersOutputs,
+  SmartFastenersParams
+> = {
   id: 'Assembly::SmartFasteners',
   type: 'Assembly::SmartFasteners',
   category: 'Assembly',
@@ -24,34 +28,34 @@ export const AssemblyPatternsSmartFastenersNode: NodeDefinition<SmartFastenersIn
     holes: {
       type: 'Face[]',
       label: 'Holes',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     fasteners: {
       type: 'Shape[]',
-      label: 'Fasteners'
-    }
+      label: 'Fasteners',
+    },
   },
   params: {
     type: {
       type: 'enum',
       label: 'Type',
-      default: "bolt",
-      options: ["bolt","screw","rivet","weld"]
+      default: 'bolt',
+      options: ['bolt', 'screw', 'rivet', 'weld'],
     },
     size: {
       type: 'number',
       label: 'Size',
       default: 10,
       min: 1,
-      max: 100
+      max: 100,
     },
     autoSize: {
       type: 'boolean',
       label: 'Auto Size',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -60,12 +64,12 @@ export const AssemblyPatternsSmartFastenersNode: NodeDefinition<SmartFastenersIn
         holes: inputs.holes,
         type: params.type,
         size: params.size,
-        autoSize: params.autoSize
-      }
+        autoSize: params.autoSize,
+      },
     });
-    
+
     return {
-      fasteners: result
+      fasteners: result,
     };
   },
 };

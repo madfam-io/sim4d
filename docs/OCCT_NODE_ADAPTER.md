@@ -74,18 +74,18 @@ private createEnhancedContext(baseContext: EvalContext): any {
 
 The system maps 90+ operations across multiple categories:
 
-| Category | Operations | Example Mapping |
-|----------|-----------|-----------------|
-| Primitives | 10 | `makeBox` → `makeBox` |
-| Boolean | 4 | `performUnion` → `performUnion` |
-| Transform | 7 | `move` → `translate` |
-| Features | 14 | `extrude` → `extrude` |
-| Sketch | 10 | `makeCircle` → `makeCircle` |
-| Surface | 6 | `makeSurface` → `makeSurface` |
-| Analysis | 8 | `calculateVolume` → `calculateVolume` |
-| Mesh | 5 | `tessellate` → `tessellate` |
-| I/O | 8 | `importSTEP` → `importSTEP` |
-| Advanced | 10+ | `projectCurve` → `projectCurve` |
+| Category   | Operations | Example Mapping                       |
+| ---------- | ---------- | ------------------------------------- |
+| Primitives | 10         | `makeBox` → `makeBox`                 |
+| Boolean    | 4          | `performUnion` → `performUnion`       |
+| Transform  | 7          | `move` → `translate`                  |
+| Features   | 14         | `extrude` → `extrude`                 |
+| Sketch     | 10         | `makeCircle` → `makeCircle`           |
+| Surface    | 6          | `makeSurface` → `makeSurface`         |
+| Analysis   | 8          | `calculateVolume` → `calculateVolume` |
+| Mesh       | 5          | `tessellate` → `tessellate`           |
+| I/O        | 8          | `importSTEP` → `importSTEP`           |
+| Advanced   | 10+        | `projectCurve` → `projectCurve`       |
 
 ## Node Integration
 
@@ -105,12 +105,12 @@ export const BoxNode: NodeDefinition = {
       params: {
         width: params.width,
         height: params.height,
-        depth: params.depth
-      }
+        depth: params.depth,
+      },
     });
 
     return { solid: result };
-  }
+  },
 };
 ```
 
@@ -141,12 +141,14 @@ export const BoxNode: NodeDefinition = {
    - Modern browser (Chrome 90+, Firefox 89+, Safari 15.2+)
 
 2. **Server Headers** (Required for threading):
+
    ```
    Cross-Origin-Opener-Policy: same-origin
    Cross-Origin-Embedder-Policy: require-corp
    ```
 
 3. **Development Setup**:
+
    ```bash
    # One-time WASM compilation (already done)
    pnpm run build:wasm
@@ -207,10 +209,11 @@ node packages/engine-occt/src/test-runner.ts
 To add a new operation:
 
 1. Add mapping in `OPERATION_MAP`:
+
    ```typescript
    export const OPERATION_MAP = {
      // ... existing mappings
-     'newOperation': 'occtMethodName',
+     newOperation: 'occtMethodName',
    };
    ```
 
@@ -225,13 +228,13 @@ To add a new operation:
 
 ### Common Issues
 
-| Issue | Solution |
-|-------|----------|
+| Issue                            | Solution                                |
+| -------------------------------- | --------------------------------------- |
 | "context.geometry not available" | Ensure DAG engine uses enhanced context |
-| "Operation not supported" | Add mapping in OPERATION_MAP |
-| "WASM not loading" | Check COOP/COEP headers |
-| "Performance issues" | Enable worker pooling |
-| "Memory pressure" | Configure memory manager limits |
+| "Operation not supported"        | Add mapping in OPERATION_MAP            |
+| "WASM not loading"               | Check COOP/COEP headers                 |
+| "Performance issues"             | Enable worker pooling                   |
+| "Memory pressure"                | Configure memory manager limits         |
 
 ### Debug Mode
 

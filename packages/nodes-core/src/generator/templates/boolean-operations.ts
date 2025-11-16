@@ -16,21 +16,29 @@ export const booleanOperationTemplates: NodeTemplate[] = [
     operation: 'BOOLEAN_UNION',
     occtBinding: 'booleanUnion',
     parameters: [
-      { name: 'keepOriginals', type: 'boolean', default: false, description: 'Keep original shapes' },
-      { name: 'fuzzyValue', type: 'number', default: 1e-7, min: 0, max: 1, description: 'Tolerance for fuzzy boolean' }
+      {
+        name: 'keepOriginals',
+        type: 'boolean',
+        default: false,
+        description: 'Keep original shapes',
+      },
+      {
+        name: 'fuzzyValue',
+        type: 'number',
+        default: 1e-7,
+        min: 0,
+        max: 1,
+        description: 'Tolerance for fuzzy boolean',
+      },
     ],
-    inputs: [
-      { name: 'shapes', type: 'Shape[]', required: true, description: 'Shapes to unite' }
-    ],
-    outputs: [
-      { name: 'result', type: 'Shape', description: 'United shape' }
-    ],
+    inputs: [{ name: 'shapes', type: 'Shape[]', required: true, description: 'Shapes to unite' }],
+    outputs: [{ name: 'result', type: 'Shape', description: 'United shape' }],
     examples: [
       {
         title: 'Simple Union',
-        parameters: { keepOriginals: false }
-      }
-    ]
+        parameters: { keepOriginals: false },
+      },
+    ],
   },
 
   {
@@ -41,15 +49,13 @@ export const booleanOperationTemplates: NodeTemplate[] = [
     occtBinding: 'booleanDifference',
     parameters: [
       { name: 'keepOriginals', type: 'boolean', default: false },
-      { name: 'fuzzyValue', type: 'number', default: 1e-7, min: 0, max: 1 }
+      { name: 'fuzzyValue', type: 'number', default: 1e-7, min: 0, max: 1 },
     ],
     inputs: [
       { name: 'base', type: 'Shape', required: true, description: 'Base shape' },
-      { name: 'tools', type: 'Shape[]', required: true, description: 'Shapes to subtract' }
+      { name: 'tools', type: 'Shape[]', required: true, description: 'Shapes to subtract' },
     ],
-    outputs: [
-      { name: 'result', type: 'Shape', description: 'Difference result' }
-    ]
+    outputs: [{ name: 'result', type: 'Shape', description: 'Difference result' }],
   },
 
   {
@@ -60,14 +66,12 @@ export const booleanOperationTemplates: NodeTemplate[] = [
     occtBinding: 'booleanIntersection',
     parameters: [
       { name: 'keepOriginals', type: 'boolean', default: false },
-      { name: 'fuzzyValue', type: 'number', default: 1e-7, min: 0, max: 1 }
+      { name: 'fuzzyValue', type: 'number', default: 1e-7, min: 0, max: 1 },
     ],
     inputs: [
-      { name: 'shapes', type: 'Shape[]', required: true, description: 'Shapes to intersect' }
+      { name: 'shapes', type: 'Shape[]', required: true, description: 'Shapes to intersect' },
     ],
-    outputs: [
-      { name: 'result', type: 'Shape', description: 'Intersection result' }
-    ]
+    outputs: [{ name: 'result', type: 'Shape', description: 'Intersection result' }],
   },
 
   {
@@ -78,14 +82,10 @@ export const booleanOperationTemplates: NodeTemplate[] = [
     occtBinding: 'booleanXOR',
     parameters: [
       { name: 'keepOriginals', type: 'boolean', default: false },
-      { name: 'fuzzyValue', type: 'number', default: 1e-7, min: 0, max: 1 }
+      { name: 'fuzzyValue', type: 'number', default: 1e-7, min: 0, max: 1 },
     ],
-    inputs: [
-      { name: 'shapes', type: 'Shape[]', required: true, description: 'Shapes for XOR' }
-    ],
-    outputs: [
-      { name: 'result', type: 'Shape', description: 'XOR result' }
-    ]
+    inputs: [{ name: 'shapes', type: 'Shape[]', required: true, description: 'Shapes for XOR' }],
+    outputs: [{ name: 'result', type: 'Shape', description: 'XOR result' }],
   },
 
   {
@@ -95,15 +95,13 @@ export const booleanOperationTemplates: NodeTemplate[] = [
     operation: 'BOOLEAN_SPLIT',
     occtBinding: 'booleanSplit',
     parameters: [
-      { name: 'keepAll', type: 'boolean', default: true, description: 'Keep all fragments' }
+      { name: 'keepAll', type: 'boolean', default: true, description: 'Keep all fragments' },
     ],
     inputs: [
       { name: 'shapes', type: 'Shape[]', required: true, description: 'Shapes to split' },
-      { name: 'tools', type: 'Shape[]', required: true, description: 'Splitting tools' }
+      { name: 'tools', type: 'Shape[]', required: true, description: 'Splitting tools' },
     ],
-    outputs: [
-      { name: 'fragments', type: 'Shape[]', description: 'Split fragments' }
-    ]
+    outputs: [{ name: 'fragments', type: 'Shape[]', description: 'Split fragments' }],
   },
 
   {
@@ -114,11 +112,9 @@ export const booleanOperationTemplates: NodeTemplate[] = [
     occtBinding: 'booleanFragment',
     parameters: [],
     inputs: [
-      { name: 'shapes', type: 'Shape[]', required: true, description: 'Shapes to fragment' }
+      { name: 'shapes', type: 'Shape[]', required: true, description: 'Shapes to fragment' },
     ],
-    outputs: [
-      { name: 'fragments', type: 'Shape[]', description: 'All fragments' }
-    ]
+    outputs: [{ name: 'fragments', type: 'Shape[]', description: 'All fragments' }],
   },
 
   {
@@ -130,11 +126,9 @@ export const booleanOperationTemplates: NodeTemplate[] = [
     parameters: [],
     inputs: [
       { name: 'shape1', type: 'Shape', required: true },
-      { name: 'shape2', type: 'Shape', required: true }
+      { name: 'shape2', type: 'Shape', required: true },
     ],
-    outputs: [
-      { name: 'edges', type: 'Edge[]', description: 'Common edges' }
-    ]
+    outputs: [{ name: 'edges', type: 'Edge[]', description: 'Common edges' }],
   },
 
   {
@@ -144,15 +138,20 @@ export const booleanOperationTemplates: NodeTemplate[] = [
     operation: 'BOOLEAN_IMPRINT',
     occtBinding: 'booleanImprint',
     parameters: [
-      { name: 'depth', type: 'number', default: 1, min: 0.01, max: 1000, description: 'Imprint depth' }
+      {
+        name: 'depth',
+        type: 'number',
+        default: 1,
+        min: 0.01,
+        max: 1000,
+        description: 'Imprint depth',
+      },
     ],
     inputs: [
       { name: 'base', type: 'Shape', required: true, description: 'Base shape' },
-      { name: 'imprint', type: 'Shape', required: true, description: 'Shape to imprint' }
+      { name: 'imprint', type: 'Shape', required: true, description: 'Shape to imprint' },
     ],
-    outputs: [
-      { name: 'result', type: 'Shape', description: 'Imprinted shape' }
-    ]
+    outputs: [{ name: 'result', type: 'Shape', description: 'Imprinted shape' }],
   },
 
   {
@@ -161,15 +160,9 @@ export const booleanOperationTemplates: NodeTemplate[] = [
     description: 'Glue shapes together at common faces',
     operation: 'BOOLEAN_GLUE',
     occtBinding: 'booleanGlue',
-    parameters: [
-      { name: 'tolerance', type: 'number', default: 1e-7, min: 0, max: 1 }
-    ],
-    inputs: [
-      { name: 'shapes', type: 'Shape[]', required: true, description: 'Shapes to glue' }
-    ],
-    outputs: [
-      { name: 'result', type: 'Shape', description: 'Glued shape' }
-    ]
+    parameters: [{ name: 'tolerance', type: 'number', default: 1e-7, min: 0, max: 1 }],
+    inputs: [{ name: 'shapes', type: 'Shape[]', required: true, description: 'Shapes to glue' }],
+    outputs: [{ name: 'result', type: 'Shape', description: 'Glued shape' }],
   },
 
   {
@@ -180,15 +173,11 @@ export const booleanOperationTemplates: NodeTemplate[] = [
     occtBinding: 'makeCompound',
     parameters: [],
     inputs: [
-      { name: 'shapes', type: 'Shape[]', required: true, description: 'Shapes to compound' }
+      { name: 'shapes', type: 'Shape[]', required: true, description: 'Shapes to compound' },
     ],
-    outputs: [
-      { name: 'compound', type: 'Compound', description: 'Compound shape' }
-    ]
-  }
+    outputs: [{ name: 'compound', type: 'Compound', description: 'Compound shape' }],
+  },
 ];
 
 // Export all templates
-export const allBooleanTemplates = [
-  ...booleanOperationTemplates
-];
+export const allBooleanTemplates = [...booleanOperationTemplates];

@@ -15,7 +15,11 @@ interface GrammarShapesOutputs {
   result: unknown;
 }
 
-export const PatternsProceduralGrammarShapesNode: NodeDefinition<GrammarShapesInputs, GrammarShapesOutputs, GrammarShapesParams> = {
+export const PatternsProceduralGrammarShapesNode: NodeDefinition<
+  GrammarShapesInputs,
+  GrammarShapesOutputs,
+  GrammarShapesParams
+> = {
   id: 'Patterns::GrammarShapes',
   category: 'Patterns',
   label: 'GrammarShapes',
@@ -24,25 +28,25 @@ export const PatternsProceduralGrammarShapesNode: NodeDefinition<GrammarShapesIn
     shapeA: {
       type: 'Shape',
       label: 'Shape A',
-      required: true
+      required: true,
     },
     shapeB: {
       type: 'Shape',
       label: 'Shape B',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     result: {
       type: 'Shape[]',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {
     grammar: {
       type: 'string',
       label: 'Grammar',
-      default: "A->AB,B->A"
+      default: 'A->AB,B->A',
     },
     iterations: {
       type: 'number',
@@ -50,13 +54,13 @@ export const PatternsProceduralGrammarShapesNode: NodeDefinition<GrammarShapesIn
       default: 5,
       min: 1,
       max: 10,
-      step: 1
+      step: 1,
     },
     seed: {
       type: 'string',
       label: 'Seed',
-      default: "A"
-    }
+      default: 'A',
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -66,12 +70,12 @@ export const PatternsProceduralGrammarShapesNode: NodeDefinition<GrammarShapesIn
         shapeB: inputs.shapeB,
         grammar: params.grammar,
         iterations: params.iterations,
-        seed: params.seed
-      }
+        seed: params.seed,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

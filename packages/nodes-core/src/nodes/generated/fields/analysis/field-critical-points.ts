@@ -16,7 +16,11 @@ interface FieldCriticalPointsOutputs {
   values: unknown;
 }
 
-export const FieldsAnalysisFieldCriticalPointsNode: NodeDefinition<FieldCriticalPointsInputs, FieldCriticalPointsOutputs, FieldCriticalPointsParams> = {
+export const FieldsAnalysisFieldCriticalPointsNode: NodeDefinition<
+  FieldCriticalPointsInputs,
+  FieldCriticalPointsOutputs,
+  FieldCriticalPointsParams
+> = {
   id: 'Fields::FieldCriticalPoints',
   type: 'Fields::FieldCriticalPoints',
   category: 'Fields',
@@ -26,27 +30,27 @@ export const FieldsAnalysisFieldCriticalPointsNode: NodeDefinition<FieldCritical
     field: {
       type: 'Field',
       label: 'Field',
-      optional: true
+      optional: true,
     },
     domain: {
       type: 'Geometry',
       label: 'Domain',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     points: {
       type: 'PointSet',
-      label: 'Points'
+      label: 'Points',
     },
     types: {
       type: 'StringList',
-      label: 'Types'
+      label: 'Types',
     },
     values: {
       type: 'NumberList',
-      label: 'Values'
-    }
+      label: 'Values',
+    },
   },
   params: {
     tolerance: {
@@ -54,14 +58,14 @@ export const FieldsAnalysisFieldCriticalPointsNode: NodeDefinition<FieldCritical
       label: 'Tolerance',
       default: 0.001,
       min: 0,
-      max: 1
+      max: 1,
     },
     type: {
       type: 'enum',
       label: 'Type',
-      default: "\"all\"",
-      options: ["all","minima","maxima","saddles"]
-    }
+      default: '"all"',
+      options: ['all', 'minima', 'maxima', 'saddles'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -70,14 +74,14 @@ export const FieldsAnalysisFieldCriticalPointsNode: NodeDefinition<FieldCritical
         field: inputs.field,
         domain: inputs.domain,
         tolerance: params.tolerance,
-        type: params.type
-      }
+        type: params.type,
+      },
     });
-    
+
     return {
       points: results.points,
       types: results.types,
-      values: results.values
+      values: results.values,
     };
   },
 };

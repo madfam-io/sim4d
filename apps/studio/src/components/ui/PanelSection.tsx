@@ -19,7 +19,7 @@ export const PanelSection: React.FC<PanelSectionProps> = ({
   defaultCollapsed = false,
   actions,
   children,
-  className = ''
+  className = '',
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
 
@@ -56,11 +56,7 @@ export const PanelSection: React.FC<PanelSectionProps> = ({
           )}
         </div>
       )}
-      {!isCollapsed && (
-        <div className="panel-section-content">
-          {children}
-        </div>
-      )}
+      {!isCollapsed && <div className="panel-section-content">{children}</div>}
     </div>
   );
 };

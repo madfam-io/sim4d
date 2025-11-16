@@ -30,10 +30,7 @@ export class DocumentStore {
     return this.documents.get(id);
   }
 
-  async applyOperation(
-    documentId: string,
-    operation: Operation
-  ): Promise<Document> {
+  async applyOperation(documentId: string, operation: Operation): Promise<Document> {
     const document = this.documents.get(documentId);
     if (!document) {
       throw new Error(`Document ${documentId} not found`);
@@ -47,9 +44,7 @@ export class DocumentStore {
 
     // Trim history if needed
     if (document.operations.length > this.operationHistoryLimit) {
-      document.operations = document.operations.slice(
-        -this.operationHistoryLimit
-      );
+      document.operations = document.operations.slice(-this.operationHistoryLimit);
     }
 
     // Increment version
@@ -73,9 +68,7 @@ export class DocumentStore {
         break;
 
       case 'UPDATE_NODE':
-        const nodeIndex = graph.nodes.findIndex(
-          (n) => n.id === operation.nodeId
-        );
+        const nodeIndex = graph.nodes.findIndex((n) => n.id === operation.nodeId);
         if (nodeIndex >= 0) {
           graph.nodes[nodeIndex] = {
             ...graph.nodes[nodeIndex],

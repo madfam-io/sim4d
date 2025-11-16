@@ -48,7 +48,7 @@ describe('Production Geometry Integration', () => {
   describe('Health Checks', () => {
     it('should report healthy status when properly initialized', async () => {
       const health = await healthService.getHealth();
-      
+
       expect(health.status).toBe('healthy');
       expect(health.checks.geometry.status).toBe('pass');
       expect(health.checks.wasm.status).toBe('pass');
@@ -57,14 +57,14 @@ describe('Production Geometry Integration', () => {
 
     it('should check geometry service health', async () => {
       const health = await geometryService.checkHealth();
-      
+
       expect(health.healthy).toBe(true);
       expect(health.details.api).toBe('connected');
     });
 
     it('should report readiness', async () => {
       const readiness = await healthService.getReadiness();
-      
+
       expect(readiness.ready).toBe(true);
       expect(readiness.message).toBe('Ready to serve');
     });
@@ -81,7 +81,7 @@ describe('Production Geometry Integration', () => {
       expect(box).toBeDefined();
       expect(box.type).toBe('Shape');
       expect(box.shapeType).toBe('SOLID');
-      
+
       // Validate bounding box
       const bounds = await geometryService.execute('GET_BOUNDING_BOX', { shape: box });
       expect(bounds.max.x - bounds.min.x).toBeCloseTo(100, 1);
@@ -97,7 +97,7 @@ describe('Production Geometry Integration', () => {
       expect(sphere).toBeDefined();
       expect(sphere.type).toBe('Shape');
       expect(sphere.shapeType).toBe('SOLID');
-      
+
       // Validate bounding box
       const bounds = await geometryService.execute('GET_BOUNDING_BOX', { shape: sphere });
       const size = Math.max(
@@ -166,10 +166,10 @@ describe('Production Geometry Integration', () => {
 
       expect(intersection).toBeDefined();
       expect(intersection.type).toBe('Shape');
-      
+
       // Intersection should be smaller than either input
       const bounds = await geometryService.execute('GET_BOUNDING_BOX', { shape: intersection });
-      const volume = 
+      const volume =
         (bounds.max.x - bounds.min.x) *
         (bounds.max.y - bounds.min.y) *
         (bounds.max.z - bounds.min.z);
@@ -245,7 +245,7 @@ describe('Production Geometry Integration', () => {
       });
 
       const stepData = await geometryService.export(box, 'STEP');
-      
+
       expect(stepData).toBeDefined();
       expect(typeof stepData).toBe('string');
       expect(stepData).toContain('ISO-10303-21');
@@ -261,10 +261,10 @@ describe('Production Geometry Integration', () => {
         binary: true,
         tolerance: 0.01,
       });
-      
+
       expect(stlData).toBeDefined();
       expect(stlData instanceof ArrayBuffer).toBe(true);
-      
+
       // Check STL binary header
       const view = new DataView(stlData as ArrayBuffer);
       expect(view.byteLength).toBeGreaterThan(84); // Header + at least one triangle
@@ -277,7 +277,7 @@ describe('Production Geometry Integration', () => {
       });
 
       const igesData = await geometryService.export(cylinder, 'IGES');
-      
+
       expect(igesData).toBeDefined();
       expect(typeof igesData).toBe('string');
       expect(igesData).toMatch(/^[SG]/); // IGES starts with S or G
@@ -300,19 +300,25 @@ describe('Production Geometry Integration', () => {
       const promises = [];
       for (let i = 0; i < 100; i++) {
         promises.push(
-          geometryService.execute('MAKE_BOX', {
-            width: Math.random() * 100,
-            height: Math.random() * 100,
-            depth: Math.random() * 100,
-          }, {
-            timeout: 100, // Very short timeout
-          }).catch(() => null)
+          geometryService
+            .execute(
+              'MAKE_BOX',
+              {
+                width: Math.random() * 100,
+                height: Math.random() * 100,
+                depth: Math.random() * 100,
+              },
+              {
+                timeout: 100, // Very short timeout
+              }
+            )
+            .catch(() => null)
         );
       }
 
       const results = await Promise.all(promises);
-      const timeouts = results.filter(r => r === null);
-      
+      const timeouts = results.filter((r) => r === null);
+
       // Some operations should have timed out
       expect(timeouts.length).toBeGreaterThan(0);
     });
@@ -328,8 +334,8 @@ describe('Production Geometry Integration', () => {
   describe('Performance', () => {
     it('should handle multiple concurrent operations', async () => {
       const startTime = Date.now();
-      
-      const operations = Array.from({ length: 10 }, (_, i) => 
+
+      const operations = Array.from({ length: 10 }, (_, i) =>
         geometryService.execute('MAKE_BOX', {
           width: 100 + i * 10,
           height: 100 + i * 10,
@@ -341,7 +347,7 @@ describe('Production Geometry Integration', () => {
       const duration = Date.now() - startTime;
 
       expect(results).toHaveLength(10);
-      results.forEach(result => {
+      results.forEach((result) => {
         expect(result).toBeDefined();
         expect(result.type).toBe('Shape');
       });
@@ -352,7 +358,7 @@ describe('Production Geometry Integration', () => {
 
     it('should report memory usage', async () => {
       const metrics = await geometryService.getMetrics();
-      
+
       expect(metrics).toBeDefined();
       expect(metrics.memoryUsage).toBeDefined();
     });

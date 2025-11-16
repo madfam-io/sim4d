@@ -1,9 +1,9 @@
-# BrepFlow — SOFTWARE\_SPEC.md
+# BrepFlow — SOFTWARE_SPEC.md
 
-*Owner:* Aureo Labs (a MADFAM company)
-*Product:* **BrepFlow** — Web‑first, node‑based parametric CAD on exact B‑Rep/NURBS
-*Doc:* Software Specification
-*Status:* Draft v0.1 · 2025‑09‑13
+_Owner:_ Aureo Labs (a MADFAM company)
+_Product:_ **BrepFlow** — Web‑first, node‑based parametric CAD on exact B‑Rep/NURBS
+_Doc:_ Software Specification
+_Status:_ Draft v0.1 · 2025‑09‑13
 
 > **Purpose** — This spec defines the architecture, modules, data formats, APIs, performance budgets, and non‑functional requirements to deliver BrepFlow MVP (v0.1) and set foundations for v0.5.
 
@@ -17,12 +17,12 @@
 
 **Design principles:**
 
-* **Exactness by default** (OCCT B‑Rep/NURBS)
-* **Web‑native UX** (no installs; workers; transferables)
-* **Engine/UI separation** (canvas‑agnostic execution)
-* **Deterministic & cacheable** (stable IDs + content hashing)
-* **Interop first** (STEP AP242 priority; 3DM/USD next)
-* **Extensible** (typed Node SDK; sandboxed plugins)
+- **Exactness by default** (OCCT B‑Rep/NURBS)
+- **Web‑native UX** (no installs; workers; transferables)
+- **Engine/UI separation** (canvas‑agnostic execution)
+- **Deterministic & cacheable** (stable IDs + content hashing)
+- **Interop first** (STEP AP242 priority; 3DM/USD next)
+- **Extensible** (typed Node SDK; sandboxed plugins)
 
 ---
 
@@ -93,11 +93,16 @@ Versioned JSON (UTF‑8). Stable IDs (UUIDv7). Units & tolerances embedded.
   "units": "mm",
   "tolerance": 0.001,
   "nodes": [
-    {"id":"sk1","type":"Sketch2D","params":{},"state":{}},
-    {"id":"ex1","type":"Extrude","inputs":{"profile":"sk1:face"},"params":{"distance":25}}
+    { "id": "sk1", "type": "Sketch2D", "params": {}, "state": {} },
+    {
+      "id": "ex1",
+      "type": "Extrude",
+      "inputs": { "profile": "sk1:face" },
+      "params": { "distance": 25 }
+    }
   ],
-  "edges": [ {"from":"sk1:face","to":"ex1:profile"} ],
-  "metadata": {"created": "2025-09-13T12:00:00Z", "author":"user"}
+  "edges": [{ "from": "sk1:face", "to": "ex1:profile" }],
+  "metadata": { "created": "2025-09-13T12:00:00Z", "author": "user" }
 }
 ```
 
@@ -105,14 +110,14 @@ Versioned JSON (UTF‑8). Stable IDs (UUIDv7). Units & tolerances embedded.
 
 ```ts
 export type ParamValue = number | string | boolean | Vec3 | Mat4 | EnumVal | Expr;
-export interface NodeInstance<I=any,O=any,P=any> {
+export interface NodeInstance<I = any, O = any, P = any> {
   id: NodeId;
   type: NodeType;
   inputs: Partial<Record<keyof I, SocketRef>>;
   params: P; // serializable
   state?: Record<string, unknown>; // non‑serialized editor state
 }
-export interface NodeDef<I,O,P> {
+export interface NodeDef<I, O, P> {
   type: NodeType;
   inputs: Record<keyof I, SocketSpec>;
   outputs: Record<keyof O, SocketSpec>;
@@ -123,30 +128,34 @@ export interface NodeDef<I,O,P> {
 
 ### 4.3 Shape Handles & Hashing
 
-* **Opaque handles** in workers; main thread stores `HandleId` strings.
-* **Content hash** (xxHash64) over OCCT B‑Rep persistence (BREP string) + params + inputs.
-* **Memoization**: node output cache keyed by `(nodeId, inputHashes, paramHash)`.
+- **Opaque handles** in workers; main thread stores `HandleId` strings.
+- **Content hash** (xxHash64) over OCCT B‑Rep persistence (BREP string) + params + inputs.
+- **Memoization**: node output cache keyed by `(nodeId, inputHashes, paramHash)`.
 
 ---
 
 ## 5. Execution Model
 
-* **Dirty Propagation:** On param/input change → mark downstream nodes dirty → topological re‑eval.
-* **Scheduling:** BFS by levels; coalesce micro‑tasks; debounce rapid edits (16–32ms).
-* **Determinism:** Evaluation order derived from DAG; no nondeterministic sources.
-* **Cancellation:** Per‑node abort controller; stale computations dropped.
+- **Dirty Propagation:** On param/input change → mark downstream nodes dirty → topological re‑eval.
+- **Scheduling:** BFS by levels; coalesce micro‑tasks; debounce rapid edits (16–32ms).
+- **Determinism:** Evaluation order derived from DAG; no nondeterministic sources.
+- **Cancellation:** Per‑node abort controller; stale computations dropped.
 
 Pseudocode:
 
 ```ts
 function recompute(changed: Set<NodeId>) {
-  const queue = topoOrder.filter(n => isAffected(n, changed));
+  const queue = topoOrder.filter((n) => isAffected(n, changed));
   for (const nid of queue) {
     const inVals = readInputs(nid);
     const key = hash(nid, inVals, params[nid]);
-    if (cache.has(key)) { setOutputs(nid, cache.get(key)); continue; }
+    if (cache.has(key)) {
+      setOutputs(nid, cache.get(key));
+      continue;
+    }
     const out = await evalNode(nid, inVals, params[nid]);
-    cache.set(key, out); setOutputs(nid, out);
+    cache.set(key, out);
+    setOutputs(nid, out);
   }
 }
 ```
@@ -157,9 +166,9 @@ function recompute(changed: Set<NodeId>) {
 
 ### 6.1 Build Targets
 
-* Emscripten `-sWASM=1 -sUSE_PTHREADS=1 -sALLOW_MEMORY_GROWTH=1`
-* COOP/COEP headers required for threads (served via dev server & production CDN).
-* OCCT modules: ModelingData, ModelingAlgorithms, BRep, BRepAlgo, STEPCAFControl, IGESControl, BRepMesh.
+- Emscripten `-sWASM=1 -sUSE_PTHREADS=1 -sALLOW_MEMORY_GROWTH=1`
+- COOP/COEP headers required for threads (served via dev server & production CDN).
+- OCCT modules: ModelingData, ModelingAlgorithms, BRep, BRepAlgo, STEPCAFControl, IGESControl, BRepMesh.
 
 ### 6.2 Worker API (Message Protocol)
 
@@ -176,9 +185,9 @@ All geometry ops live **inside worker**. Triangulations are returned as transfer
 
 ### 6.3 Tessellation Pipeline
 
-* Use `BRepMesh_IncrementalMesh` with **deflection** derived from model size & pixel density.
-* LODs: `{preview: 0.5%, medium: 0.2%, high: 0.1%}` of bbox diagonal.
-* Cache: `HandleId -> {lod -> MeshBuffers}` in worker; LRU eviction by bytes.
+- Use `BRepMesh_IncrementalMesh` with **deflection** derived from model size & pixel density.
+- LODs: `{preview: 0.5%, medium: 0.2%, high: 0.1%}` of bbox diagonal.
+- Cache: `HandleId -> {lod -> MeshBuffers}` in worker; LRU eviction by bytes.
 
 ### 6.4 Error Classes
 
@@ -188,9 +197,9 @@ All geometry ops live **inside worker**. Triangulations are returned as transfer
 
 ## 7. Rendering
 
-* Default: **Three.js WebGL2** renderer; core features: PBR-ish mat, edges, x‑ray, section planes, selection outlines.
-* **WebGPU** path behind experimental flag (Chrome/Edge/Safari TP). Switchable adapters at runtime.
-* Instanced draws for arrays; frustum culling; screen‑space edge rendering.
+- Default: **Three.js WebGL2** renderer; core features: PBR-ish mat, edges, x‑ray, section planes, selection outlines.
+- **WebGPU** path behind experimental flag (Chrome/Edge/Safari TP). Switchable adapters at runtime.
+- Instanced draws for arrays; frustum culling; screen‑space edge rendering.
 
 ---
 
@@ -209,17 +218,17 @@ Each node exposes: **preview toggle**, **error badge**, **compute time**.
 
 ## 9. Units, Tolerances, Expressions
 
-* **Units:** default mm; supported: mm, cm, m, in. Values are unit‑aware (`10 mm + 0.5 in`).
-* **Model tolerance:** default 1e‑3 in graph header; ops use this unless overridden.
-* **Expression language:** safe evaluator (subset: + − × ÷, pow, min/max, trig, conditionals). References other params by `node.param` or global `@L`/`@W` conventions. No user‑defined functions in MVP.
+- **Units:** default mm; supported: mm, cm, m, in. Values are unit‑aware (`10 mm + 0.5 in`).
+- **Model tolerance:** default 1e‑3 in graph header; ops use this unless overridden.
+- **Expression language:** safe evaluator (subset: + − × ÷, pow, min/max, trig, conditionals). References other params by `node.param` or global `@L`/`@W` conventions. No user‑defined functions in MVP.
 
 ---
 
 ## 10. Interoperability
 
-* **Import:** STEP AP242, IGES 5.3 (Phase 1); 3DM (openNURBS) Phase 2.
-* **Export:** STEP AP242, STL (binary) (MVP); glTF/USD (Phase 2).
-* **Metadata:** preserve names/layers where available; write unit/tolerance notes.
+- **Import:** STEP AP242, IGES 5.3 (Phase 1); 3DM (openNURBS) Phase 2.
+- **Export:** STEP AP242, STL (binary) (MVP); glTF/USD (Phase 2).
+- **Metadata:** preserve names/layers where available; write unit/tolerance notes.
 
 ---
 
@@ -235,9 +244,9 @@ $ brepflow render graph.bflow.json \
 $ brepflow sweep variants.json --graph enclosure.bflow.json --matrix params.csv
 ```
 
-* Headless Node.js; loads same WASM builds.
-* Outputs deterministic content hashes; writes `manifest.json` with artifacts & provenance.
-* Exit codes: `0` ok, `2` recoverable errors (some nodes failed), `10` fatal.
+- Headless Node.js; loads same WASM builds.
+- Outputs deterministic content hashes; writes `manifest.json` with artifacts & provenance.
+- Exit codes: `0` ok, `2` recoverable errors (some nodes failed), `10` fatal.
 
 ---
 
@@ -248,12 +257,17 @@ $ brepflow sweep variants.json --graph enclosure.bflow.json --matrix params.csv
 ### 12.1 Node SDK (TypeScript)
 
 ```ts
-registerNode<Inputs,Outputs,Params>({
-  type: "MyCompany::Gear",
-  params: { module:NumberParam({min:0.1}), teeth:IntParam({min:6}), pressureAngle:EnumParam(["20","14.5"]) },
-  inputs: { axis:"Vector", plane:"Plane" },
-  outputs: { shape:"Shape" },
-  evaluate: async (ctx, I, P) => ctx.geom.invoke("GEAR_MAKE", {module:P.module, z:P.teeth, pa:P.pressureAngle})
+registerNode<Inputs, Outputs, Params>({
+  type: 'MyCompany::Gear',
+  params: {
+    module: NumberParam({ min: 0.1 }),
+    teeth: IntParam({ min: 6 }),
+    pressureAngle: EnumParam(['20', '14.5']),
+  },
+  inputs: { axis: 'Vector', plane: 'Plane' },
+  outputs: { shape: 'Shape' },
+  evaluate: async (ctx, I, P) =>
+    ctx.geom.invoke('GEAR_MAKE', { module: P.module, z: P.teeth, pa: P.pressureAngle }),
 });
 ```
 
@@ -261,93 +275,93 @@ registerNode<Inputs,Outputs,Params>({
 
 ### 12.2 Plugin Packaging
 
-* `package.json` with `brepflow` manifest block (node list, version range).
-* Signed bundle (ed25519) for registry distribution; local dev bypass via flag.
-* Sandboxed execution in a dedicated worker with a **capability whitelist**.
+- `package.json` with `brepflow` manifest block (node list, version range).
+- Signed bundle (ed25519) for registry distribution; local dev bypass via flag.
+- Sandboxed execution in a dedicated worker with a **capability whitelist**.
 
 ---
 
 ## 13. Performance Budgets (MVP)
 
-* App cold load ≤ **3.0 s** on M1/modern Windows.
-* Viewport ≥ **60 FPS** at ≤ **2M** triangles; ≥ 30 FPS at ≤ 5M.
-* Typical boolean (<50k faces) ≤ **1000 ms** p95.
-* Memory ceiling per tab: **1.5–2.0 GB** (graceful degradation beyond).
+- App cold load ≤ **3.0 s** on M1/modern Windows.
+- Viewport ≥ **60 FPS** at ≤ **2M** triangles; ≥ 30 FPS at ≤ 5M.
+- Typical boolean (<50k faces) ≤ **1000 ms** p95.
+- Memory ceiling per tab: **1.5–2.0 GB** (graceful degradation beyond).
 
 ---
 
 ## 14. Reliability & Recovery
 
-* Autosave every 60 s; 5 versions kept.
-* Crash guard: worker isolation; restart worker on fault; surface error to console with replay info.
-* Project backup export (zip: graph + assets + meshes) for issue reports.
+- Autosave every 60 s; 5 versions kept.
+- Crash guard: worker isolation; restart worker on fault; surface error to console with replay info.
+- Project backup export (zip: graph + assets + meshes) for issue reports.
 
 ---
 
 ## 15. Security & Privacy
 
-* COOP/COEP enabled for WASM threads.
-* CSP strict; no inline eval; Subresource Integrity for CDN assets.
-* Plugins: no network/file access unless permitted; message quota & timeouts.
-* Telemetry: **opt‑in**; aggregates only (counts, timings). Diagnostic bundle explicit.
+- COOP/COEP enabled for WASM threads.
+- CSP strict; no inline eval; Subresource Integrity for CDN assets.
+- Plugins: no network/file access unless permitted; message quota & timeouts.
+- Telemetry: **opt‑in**; aggregates only (counts, timings). Diagnostic bundle explicit.
 
 ---
 
 ## 16. Testing Strategy
 
-* **Unit:** geometry adapters, hashing, expression evaluator.
-* **Integration:** node chains (golden outputs via STEP hashes + mesh stats).
-* **E2E:** Playwright flows: create→edit→export; recover from crash.
-* **Interoperability:** Import/export round‑trips against Onshape, FreeCAD, SolidWorks in CI using headless import validators (where possible) and STEP parsers.
-* **Fuzz:** Random param sweeps on representative graphs; watch for OCCT exceptions.
+- **Unit:** geometry adapters, hashing, expression evaluator.
+- **Integration:** node chains (golden outputs via STEP hashes + mesh stats).
+- **E2E:** Playwright flows: create→edit→export; recover from crash.
+- **Interoperability:** Import/export round‑trips against Onshape, FreeCAD, SolidWorks in CI using headless import validators (where possible) and STEP parsers.
+- **Fuzz:** Random param sweeps on representative graphs; watch for OCCT exceptions.
 
 ---
 
 ## 17. Accessibility & i18n
 
-* Keyboard‑first graph editing (tab/focus rings, shortcuts, ARIA for canvas items).
-* Color‑contrast AA; color‑independent cues.
-* i18n scaffolding via ICU MessageFormat; initial locales: en, es.
+- Keyboard‑first graph editing (tab/focus rings, shortcuts, ARIA for canvas items).
+- Color‑contrast AA; color‑independent cues.
+- i18n scaffolding via ICU MessageFormat; initial locales: en, es.
 
 ---
 
 ## 18. Logging & Telemetry (Opt‑in)
 
-* Events: node create/delete, compute timings, worker restarts, import/export success.
-* No geometry payloads by default; hashed identifiers only.
-* Privacy mode for offline use (default in enterprise builds).
+- Events: node create/delete, compute timings, worker restarts, import/export success.
+- No geometry payloads by default; hashed identifiers only.
+- Privacy mode for offline use (default in enterprise builds).
 
 ---
 
 ## 19. Config & Feature Flags
 
-* `bflow.config.json` in project root: renderer (`webgl2|webgpu`), tessellation quality, autosave interval.
-* Flags: `webgpu`, `plugins`, `telemetry`, `3dm-io`.
+- `bflow.config.json` in project root: renderer (`webgl2|webgpu`), tessellation quality, autosave interval.
+- Flags: `webgpu`, `plugins`, `telemetry`, `3dm-io`.
 
 ---
 
 ## 20. Roadmap Hooks (v0.5+)
 
-* 3DM read/write (openNURBS.wasm).
-* USD/glTF export; USD stage viewer.
-* Node subgraphs/presets; constraint snippets; mesh ops (hull/minkowski).
-* Marketplace & signed plugin registry; team sync (self‑hosted S3).
+- 3DM read/write (openNURBS.wasm).
+- USD/glTF export; USD stage viewer.
+- Node subgraphs/presets; constraint snippets; mesh ops (hull/minkowski).
+- Marketplace & signed plugin registry; team sync (self‑hosted S3).
 
 ---
 
 ## 21. Open Questions
 
-* Final render backend choice for WebGPU (native vs Three.js WebGPU renderer)?
-* Tolerance strategy per op vs global (how exposed in UI)?
-* Topological naming across edits (MVP: best‑effort; v0.5: robust mapping?).
+- Final render backend choice for WebGPU (native vs Three.js WebGPU renderer)?
+- Tolerance strategy per op vs global (how exposed in UI)?
+- Topological naming across edits (MVP: best‑effort; v0.5: robust mapping?).
 
 ---
 
 ## 22. License & Credits
 
-* Core: **MPL‑2.0** (tentative).
-* Geometry: OCCT (LGPL‑2.1 + exception) dynamically linked via WASM.
-* Acknowledgements: OCCT, Three.js, React Flow.
+- Core: **MPL‑2.0** (tentative).
+- Geometry: OCCT (LGPL‑2.1 + exception) dynamically linked via WASM.
+- Acknowledgements: OCCT, Three.js, React Flow.
 
 ---
 

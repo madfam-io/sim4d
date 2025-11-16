@@ -13,7 +13,11 @@ interface CubicLatticeOutputs {
   lattice: unknown;
 }
 
-export const PatternsLatticeCubicLatticeNode: NodeDefinition<CubicLatticeInputs, CubicLatticeOutputs, CubicLatticeParams> = {
+export const PatternsLatticeCubicLatticeNode: NodeDefinition<
+  CubicLatticeInputs,
+  CubicLatticeOutputs,
+  CubicLatticeParams
+> = {
   id: 'Patterns::CubicLattice',
   type: 'Patterns::CubicLattice',
   category: 'Patterns',
@@ -23,28 +27,28 @@ export const PatternsLatticeCubicLatticeNode: NodeDefinition<CubicLatticeInputs,
     bounds: {
       type: 'Box',
       label: 'Bounds',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     lattice: {
       type: 'Wire[]',
-      label: 'Lattice'
-    }
+      label: 'Lattice',
+    },
   },
   params: {
     cellSize: {
       type: 'number',
       label: 'Cell Size',
       default: 10,
-      min: 1
+      min: 1,
     },
     strutDiameter: {
       type: 'number',
       label: 'Strut Diameter',
       default: 1,
-      min: 0.1
-    }
+      min: 0.1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -52,12 +56,12 @@ export const PatternsLatticeCubicLatticeNode: NodeDefinition<CubicLatticeInputs,
       params: {
         bounds: inputs.bounds,
         cellSize: params.cellSize,
-        strutDiameter: params.strutDiameter
-      }
+        strutDiameter: params.strutDiameter,
+      },
     });
-    
+
     return {
-      lattice: result
+      lattice: result,
     };
   },
 };

@@ -13,7 +13,11 @@ interface WeightedVoronoiOutputs {
   cells: unknown;
 }
 
-export const PatternsVoronoiWeightedVoronoiNode: NodeDefinition<WeightedVoronoiInputs, WeightedVoronoiOutputs, WeightedVoronoiParams> = {
+export const PatternsVoronoiWeightedVoronoiNode: NodeDefinition<
+  WeightedVoronoiInputs,
+  WeightedVoronoiOutputs,
+  WeightedVoronoiParams
+> = {
   id: 'Patterns::WeightedVoronoi',
   type: 'Patterns::WeightedVoronoi',
   category: 'Patterns',
@@ -23,19 +27,19 @@ export const PatternsVoronoiWeightedVoronoiNode: NodeDefinition<WeightedVoronoiI
     points: {
       type: 'Point[]',
       label: 'Points',
-      required: true
+      required: true,
     },
     weights: {
       type: 'number[]',
       label: 'Weights',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     cells: {
       type: 'Wire[]',
-      label: 'Cells'
-    }
+      label: 'Cells',
+    },
   },
   params: {
     powerExponent: {
@@ -43,8 +47,8 @@ export const PatternsVoronoiWeightedVoronoiNode: NodeDefinition<WeightedVoronoiI
       label: 'Power Exponent',
       default: 2,
       min: 1,
-      max: 5
-    }
+      max: 5,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -52,12 +56,12 @@ export const PatternsVoronoiWeightedVoronoiNode: NodeDefinition<WeightedVoronoiI
       params: {
         points: inputs.points,
         weights: inputs.weights,
-        powerExponent: params.powerExponent
-      }
+        powerExponent: params.powerExponent,
+      },
     });
-    
+
     return {
-      cells: result
+      cells: result,
     };
   },
 };

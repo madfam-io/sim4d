@@ -13,12 +13,11 @@ interface MonitoringDashboardProps {
   onClose: () => void;
 }
 
-export const MonitoringDashboard: React.FC<MonitoringDashboardProps> = ({
-  isVisible,
-  onClose
-}) => {
+export const MonitoringDashboard: React.FC<MonitoringDashboardProps> = ({ isVisible, onClose }) => {
   const [dashboardData, setDashboardData] = useState<any>(null);
-  const [selectedTab, setSelectedTab] = useState<'health' | 'errors' | 'metrics' | 'logs'>('health');
+  const [selectedTab, setSelectedTab] = useState<'health' | 'errors' | 'metrics' | 'logs'>(
+    'health'
+  );
   const [refreshInterval, setRefreshInterval] = useState<number | null>(null);
 
   const refreshData = useCallback(() => {
@@ -69,10 +68,14 @@ export const MonitoringDashboard: React.FC<MonitoringDashboardProps> = ({
 
   const getSeverityColor = (severity: string): string => {
     switch (severity) {
-      case 'critical': return '#dc2626';
-      case 'warning': return '#f59e0b';
-      case 'info': return '#3b82f6';
-      default: return '#6b7280';
+      case 'critical':
+        return '#dc2626';
+      case 'warning':
+        return '#f59e0b';
+      case 'info':
+        return '#3b82f6';
+      default:
+        return '#6b7280';
     }
   };
 
@@ -87,13 +90,20 @@ export const MonitoringDashboard: React.FC<MonitoringDashboardProps> = ({
           </div>
           <div className={styles.metric}>
             <label>Error Rate:</label>
-            <span style={{ color: dashboardData.systemHealth.errorRate > 5 ? '#dc2626' : '#10b981' }}>
+            <span
+              style={{ color: dashboardData.systemHealth.errorRate > 5 ? '#dc2626' : '#10b981' }}
+            >
               {formatPercent(dashboardData.systemHealth.errorRate)}
             </span>
           </div>
           <div className={styles.metric}>
             <label>Avg Response Time:</label>
-            <span style={{ color: dashboardData.systemHealth.averageResponseTime > 1000 ? '#f59e0b' : '#10b981' }}>
+            <span
+              style={{
+                color:
+                  dashboardData.systemHealth.averageResponseTime > 1000 ? '#f59e0b' : '#10b981',
+              }}
+            >
               {dashboardData.systemHealth.averageResponseTime.toFixed(0)}ms
             </span>
           </div>
@@ -118,7 +128,10 @@ export const MonitoringDashboard: React.FC<MonitoringDashboardProps> = ({
               >
                 <div className={styles['alert-header']}>
                   <span className={styles['alert-type']}>{alert.type}</span>
-                  <span className={styles['alert-severity']} style={{ color: getSeverityColor(alert.severity) }}>
+                  <span
+                    className={styles['alert-severity']}
+                    style={{ color: getSeverityColor(alert.severity) }}
+                  >
                     {alert.severity}
                   </span>
                   <span className={styles['alert-time']}>{formatTime(alert.timestamp)}</span>
@@ -144,10 +157,15 @@ export const MonitoringDashboard: React.FC<MonitoringDashboardProps> = ({
               <div key={error.id} className={styles['error-item']}>
                 <div className={styles['error-header']}>
                   <span className={styles['error-code']}>{error.code}</span>
-                  <span className={styles['error-severity']} style={{ color: getSeverityColor(error.severity) }}>
+                  <span
+                    className={styles['error-severity']}
+                    style={{ color: getSeverityColor(error.severity) }}
+                  >
                     {error.severity}
                   </span>
-                  <span className={styles['error-time']}>{formatTime(error.occurredAt.getTime())}</span>
+                  <span className={styles['error-time']}>
+                    {formatTime(error.occurredAt.getTime())}
+                  </span>
                 </div>
                 <div className={styles['error-message']}>{error.userMessage}</div>
                 {error.context.nodeId && (
@@ -185,10 +203,11 @@ export const MonitoringDashboard: React.FC<MonitoringDashboardProps> = ({
               <div key={key} className={styles['metric-item']}>
                 <label>{key}:</label>
                 <span>
-                  {typeof value === 'number' ?
-                    (key.includes('bytes') ? formatBytes(value as number) : value) :
-                    String(value)
-                  }
+                  {typeof value === 'number'
+                    ? key.includes('bytes')
+                      ? formatBytes(value as number)
+                      : value
+                    : String(value)}
                 </span>
               </div>
             ))}
@@ -221,12 +240,14 @@ export const MonitoringDashboard: React.FC<MonitoringDashboardProps> = ({
         <p>Logs are available in the browser console. Enable remote logging to view them here.</p>
         <div className={styles['log-controls']}>
           <button onClick={() => console.clear()}>Clear Console</button>
-          <button onClick={() => {
-            const newWindow = window.open('', '_blank');
-            if (newWindow && (newWindow as any).console) {
-              (newWindow as any).console.log('Console opened');
-            }
-          }}>
+          <button
+            onClick={() => {
+              const newWindow = window.open('', '_blank');
+              if (newWindow && (newWindow as any).console) {
+                (newWindow as any).console.log('Console opened');
+              }
+            }}
+          >
             Open Console
           </button>
         </div>
@@ -283,7 +304,6 @@ export const MonitoringDashboard: React.FC<MonitoringDashboardProps> = ({
           {selectedTab === 'logs' && renderLogsTab()}
         </div>
       </div>
-
     </div>
   );
 };

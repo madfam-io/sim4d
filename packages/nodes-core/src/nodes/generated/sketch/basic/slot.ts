@@ -24,8 +24,8 @@ export const SketchBasicSlotNode: NodeDefinition<SlotInputs, SlotOutputs, SlotPa
   outputs: {
     face: {
       type: 'Face',
-      label: 'Face'
-    }
+      label: 'Face',
+    },
   },
   params: {
     centerX: {
@@ -33,36 +33,36 @@ export const SketchBasicSlotNode: NodeDefinition<SlotInputs, SlotOutputs, SlotPa
       label: 'Center X',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     centerY: {
       type: 'number',
       label: 'Center Y',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     length: {
       type: 'number',
       label: 'Length',
       default: 100,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     width: {
       type: 'number',
       label: 'Width',
       default: 20,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     angle: {
       type: 'number',
       label: 'Angle',
       default: 0,
       min: -180,
-      max: 180
-    }
+      max: 180,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -72,12 +72,12 @@ export const SketchBasicSlotNode: NodeDefinition<SlotInputs, SlotOutputs, SlotPa
         centerY: params.centerY,
         length: params.length,
         width: params.width,
-        angle: params.angle
-      }
+        angle: params.angle,
+      },
     });
-    
+
     return {
-      face: result
+      face: result,
     };
   },
 };

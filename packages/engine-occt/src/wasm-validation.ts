@@ -94,11 +94,7 @@ export class WASMValidator {
 
     try {
       // Check for WASM files
-      const wasmFiles = [
-        '/wasm/occt.wasm',
-        '/wasm/occt.js',
-        '/wasm/occt_geometry.wasm',
-      ];
+      const wasmFiles = ['/wasm/occt.wasm', '/wasm/occt.js', '/wasm/occt_geometry.wasm'];
 
       for (const file of wasmFiles) {
         try {
@@ -138,7 +134,9 @@ export class WASMValidator {
 
     try {
       // Use existing loader infrastructure
-      const config = this.loader.generateOCCTConfig(this.loader['capabilities'] || await this.loader.detectCapabilities());
+      const config = this.loader.generateOCCTConfig(
+        this.loader['capabilities'] || (await this.loader.detectCapabilities())
+      );
 
       // Attempt to load the module
       this.module = await this.loader.loadModule(config);
@@ -261,7 +259,7 @@ export class WASMValidator {
     sections.push(`1. COMPILATION STATUS: ${result.compiled ? '✅ COMPLETE' : '❌ INCOMPLETE'}`);
     if (!result.compiled) {
       sections.push('   Issues:');
-      result.errors.forEach(error => sections.push(`   - ${error}`));
+      result.errors.forEach((error) => sections.push(`   - ${error}`));
     }
 
     // Loading Status
@@ -269,14 +267,18 @@ export class WASMValidator {
     sections.push(`   Load Time: ${result.performance.loadTime.toFixed(2)}ms`);
 
     // Functionality Status
-    sections.push(`\n3. FUNCTIONALITY: ${result.functional ? '✅ OPERATIONAL' : '❌ NON-FUNCTIONAL'}`);
+    sections.push(
+      `\n3. FUNCTIONALITY: ${result.functional ? '✅ OPERATIONAL' : '❌ NON-FUNCTIONAL'}`
+    );
     sections.push(`   Operation Time: ${result.performance.operationTime.toFixed(2)}ms`);
 
     // Performance Metrics
     sections.push('\n4. PERFORMANCE METRICS:');
     sections.push(`   Memory Usage: ${result.performance.memoryUsage}MB`);
     sections.push(`   Threading: ${result.capabilities.hasThreads ? '✅ Enabled' : '❌ Disabled'}`);
-    sections.push(`   SharedArrayBuffer: ${result.capabilities.hasSharedArrayBuffer ? '✅ Available' : '❌ Unavailable'}`);
+    sections.push(
+      `   SharedArrayBuffer: ${result.capabilities.hasSharedArrayBuffer ? '✅ Available' : '❌ Unavailable'}`
+    );
 
     // Capabilities
     sections.push('\n5. BROWSER CAPABILITIES:');

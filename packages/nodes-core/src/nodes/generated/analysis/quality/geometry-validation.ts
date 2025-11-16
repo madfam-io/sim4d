@@ -17,7 +17,11 @@ interface GeometryValidationOutputs {
   problemAreas: unknown;
 }
 
-export const AnalysisQualityGeometryValidationNode: NodeDefinition<GeometryValidationInputs, GeometryValidationOutputs, GeometryValidationParams> = {
+export const AnalysisQualityGeometryValidationNode: NodeDefinition<
+  GeometryValidationInputs,
+  GeometryValidationOutputs,
+  GeometryValidationParams
+> = {
   id: 'Analysis::GeometryValidation',
   type: 'Analysis::GeometryValidation',
   category: 'Analysis',
@@ -27,26 +31,26 @@ export const AnalysisQualityGeometryValidationNode: NodeDefinition<GeometryValid
     geometry: {
       type: 'Shape',
       label: 'Geometry',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     isValid: {
       type: 'boolean',
-      label: 'Is Valid'
+      label: 'Is Valid',
     },
     isClosed: {
       type: 'boolean',
-      label: 'Is Closed'
+      label: 'Is Closed',
     },
     errors: {
       type: 'string[]',
-      label: 'Errors'
+      label: 'Errors',
     },
     problemAreas: {
       type: 'Shape[]',
-      label: 'Problem Areas'
-    }
+      label: 'Problem Areas',
+    },
   },
   params: {
     tolerance: {
@@ -54,18 +58,18 @@ export const AnalysisQualityGeometryValidationNode: NodeDefinition<GeometryValid
       label: 'Tolerance',
       default: 0.01,
       min: 0.001,
-      max: 1
+      max: 1,
     },
     checkClosed: {
       type: 'boolean',
       label: 'Check Closed',
-      default: true
+      default: true,
     },
     checkValid: {
       type: 'boolean',
       label: 'Check Valid',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -74,15 +78,15 @@ export const AnalysisQualityGeometryValidationNode: NodeDefinition<GeometryValid
         geometry: inputs.geometry,
         tolerance: params.tolerance,
         checkClosed: params.checkClosed,
-        checkValid: params.checkValid
-      }
+        checkValid: params.checkValid,
+      },
     });
-    
+
     return {
       isValid: results.isValid,
       isClosed: results.isClosed,
       errors: results.errors,
-      problemAreas: results.problemAreas
+      problemAreas: results.problemAreas,
     };
   },
 };

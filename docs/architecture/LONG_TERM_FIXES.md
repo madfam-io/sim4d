@@ -7,6 +7,7 @@ This document outlines sustainable, long-term solutions for the BrepFlow codebas
 ## 1. Type System Architecture
 
 ### Current Issues
+
 - Type definitions scattered across packages
 - Inconsistent type exports/imports
 - Circular dependencies between packages
@@ -15,6 +16,7 @@ This document outlines sustainable, long-term solutions for the BrepFlow codebas
 ### Long-Term Solution
 
 #### 1.1 Centralized Type Registry
+
 Create a single source of truth for all shared types:
 
 ```typescript
@@ -26,6 +28,7 @@ export * from './workers';
 ```
 
 #### 1.2 Type Hierarchy
+
 ```
 @brepflow/types (foundation)
   ├── Core Types (primitives, ids)
@@ -40,6 +43,7 @@ Package-specific types stay in packages
 ```
 
 #### 1.3 Implementation Strategy
+
 1. Create type migration script
 2. Update all imports systematically
 3. Add type validation at boundaries
@@ -48,6 +52,7 @@ Package-specific types stay in packages
 ## 2. Build System Architecture
 
 ### Current Issues
+
 - Inconsistent build configurations
 - Missing tsup configs
 - TypeScript compilation errors not blocking builds
@@ -56,9 +61,9 @@ Package-specific types stay in packages
 ### Long-Term Solution
 
 #### 2.1 Standardized Build Pipeline
+
 ```yaml
-Build Phases:
-  1. Type Check (strict, blocking)
+Build Phases: 1. Type Check (strict, blocking)
   2. Unit Tests (fast, isolated)
   3. Build (optimized bundles)
   4. Integration Tests (cross-package)
@@ -66,6 +71,7 @@ Build Phases:
 ```
 
 #### 2.2 Package Build Configuration
+
 ```typescript
 // Standard tsup.config.base.ts
 export const baseConfig = {
@@ -80,6 +86,7 @@ export const baseConfig = {
 ```
 
 #### 2.3 WASM Integration Strategy
+
 - Dedicated WASM loader package
 - Proper worker isolation
 - SharedArrayBuffer handling
@@ -88,6 +95,7 @@ export const baseConfig = {
 ## 3. Module Boundary Architecture
 
 ### Current Issues
+
 - Unclear package responsibilities
 - Cross-package dependencies
 - Tight coupling between layers
@@ -95,6 +103,7 @@ export const baseConfig = {
 ### Long-Term Solution
 
 #### 3.1 Clean Architecture Layers
+
 ```
 Presentation Layer (apps/)
   └── studio, marketing
@@ -115,6 +124,7 @@ Infrastructure Layer (packages/)
 ```
 
 #### 3.2 Dependency Rules
+
 - Dependencies flow inward only
 - Domain layer has no external dependencies
 - Infrastructure implements domain interfaces
@@ -123,6 +133,7 @@ Infrastructure Layer (packages/)
 ## 4. Testing Architecture
 
 ### Current Issues
+
 - Incomplete test coverage
 - Mock complexity
 - No integration testing
@@ -131,6 +142,7 @@ Infrastructure Layer (packages/)
 ### Long-Term Solution
 
 #### 4.1 Testing Pyramid
+
 ```
 E2E Tests (5%)
   └── Critical user journeys
@@ -143,6 +155,7 @@ Unit Tests (80%)
 ```
 
 #### 4.2 Test Infrastructure
+
 ```typescript
 // packages/testing/src/index.ts
 export const createTestContext = () => ({
@@ -155,6 +168,7 @@ export const createTestContext = () => ({
 ## 5. Error Handling Architecture
 
 ### Current Issues
+
 - Inconsistent error handling
 - No error boundaries
 - Missing error recovery
@@ -163,6 +177,7 @@ export const createTestContext = () => ({
 ### Long-Term Solution
 
 #### 5.1 Error Hierarchy
+
 ```typescript
 class BrepFlowError extends Error {
   constructor(
@@ -180,6 +195,7 @@ class NetworkError extends BrepFlowError {}
 ```
 
 #### 5.2 Error Recovery Strategy
+
 - Graceful degradation
 - Automatic retries with backoff
 - User-friendly error messages
@@ -188,6 +204,7 @@ class NetworkError extends BrepFlowError {}
 ## 6. Performance Architecture
 
 ### Current Issues
+
 - Large bundle sizes
 - No code splitting
 - Synchronous WASM loading
@@ -196,6 +213,7 @@ class NetworkError extends BrepFlowError {}
 ### Long-Term Solution
 
 #### 6.1 Code Splitting Strategy
+
 ```typescript
 // Lazy load heavy components
 const Viewport = lazy(() => import('./Viewport'));
@@ -203,6 +221,7 @@ const NodeEditor = lazy(() => import('./NodeEditor'));
 ```
 
 #### 6.2 Worker Pool Architecture
+
 ```typescript
 class WorkerPool {
   private workers: Worker[] = [];
@@ -218,6 +237,7 @@ class WorkerPool {
 ## 7. State Management Architecture
 
 ### Current Issues
+
 - Prop drilling
 - State synchronization issues
 - No proper state persistence
@@ -226,6 +246,7 @@ class WorkerPool {
 ### Long-Term Solution
 
 #### 7.1 Centralized State Store
+
 ```typescript
 // Zustand store with proper typing
 interface AppState {
@@ -241,6 +262,7 @@ interface AppState {
 ```
 
 #### 7.2 State Persistence
+
 - LocalStorage for preferences
 - IndexedDB for project data
 - Cloud sync for collaboration
@@ -248,6 +270,7 @@ interface AppState {
 ## 8. Documentation Architecture
 
 ### Current Issues
+
 - Incomplete API documentation
 - No architecture decision records
 - Missing onboarding guides
@@ -255,6 +278,7 @@ interface AppState {
 ### Long-Term Solution
 
 #### 8.1 Documentation Structure
+
 ```
 docs/
   ├── architecture/     # ADRs and design docs
@@ -265,6 +289,7 @@ docs/
 ```
 
 #### 8.2 Automated Documentation
+
 - TSDoc for all public APIs
 - Generated API reference
 - Interactive examples
@@ -273,21 +298,25 @@ docs/
 ## Implementation Roadmap
 
 ### Phase 1: Foundation (Week 1-2)
+
 - [ ] Implement centralized type system
 - [ ] Standardize build configurations
 - [ ] Set up proper module boundaries
 
 ### Phase 2: Quality (Week 3-4)
+
 - [ ] Implement comprehensive testing
 - [ ] Add error handling architecture
 - [ ] Set up monitoring and logging
 
 ### Phase 3: Performance (Week 5-6)
+
 - [ ] Implement code splitting
 - [ ] Optimize bundle sizes
 - [ ] Set up worker pool
 
 ### Phase 4: Polish (Week 7-8)
+
 - [ ] Complete documentation
 - [ ] Add remaining tests
 - [ ] Performance optimization
@@ -318,6 +347,7 @@ docs/
 ## Conclusion
 
 These long-term solutions prioritize:
+
 - **Maintainability** over quick fixes
 - **Scalability** over current needs
 - **Developer Experience** over complexity

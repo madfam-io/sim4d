@@ -20,7 +20,9 @@ export class ViewportTestHelper {
   private canvas: Locator;
 
   constructor(private page: Page) {
-    this.canvas = this.page.locator('[data-testid="viewport-canvas"], [data-testid="three-canvas"], canvas').first();
+    this.canvas = this.page
+      .locator('[data-testid="viewport-canvas"], [data-testid="three-canvas"], canvas')
+      .first();
   }
 
   /**
@@ -31,18 +33,26 @@ export class ViewportTestHelper {
     await expect(this.canvas).toBeVisible({ timeout: 10000 });
 
     // Wait for Three.js/viewport to be initialized
-    await this.page.waitForFunction(() => {
-      return (window as any).brepflow?.viewport?.isInitialized?.() === true ||
-             (window as any).THREE !== undefined;
-    }, { timeout: 15000 });
+    await this.page.waitForFunction(
+      () => {
+        return (
+          (window as any).brepflow?.viewport?.isInitialized?.() === true ||
+          (window as any).THREE !== undefined
+        );
+      },
+      { timeout: 15000 }
+    );
 
     // Wait for WebGL context
-    await this.page.waitForFunction(() => {
-      const canvas = document.querySelector('canvas');
-      if (!canvas) return false;
-      const gl = canvas.getContext('webgl') || canvas.getContext('webgl2');
-      return !!gl;
-    }, { timeout: 10000 });
+    await this.page.waitForFunction(
+      () => {
+        const canvas = document.querySelector('canvas');
+        if (!canvas) return false;
+        const gl = canvas.getContext('webgl') || canvas.getContext('webgl2');
+        return !!gl;
+      },
+      { timeout: 10000 }
+    );
 
     // Additional wait for scene setup
     await this.page.waitForTimeout(1000);
@@ -134,7 +144,9 @@ export class ViewportTestHelper {
    */
   async fitAll(): Promise<void> {
     // Try to find and click fit view button
-    const fitButton = this.page.locator('[data-testid="fit-view"], [data-testid="fit-all"], button:has-text("Fit")').first();
+    const fitButton = this.page
+      .locator('[data-testid="fit-view"], [data-testid="fit-all"], button:has-text("Fit")')
+      .first();
 
     if (await fitButton.isVisible({ timeout: 2000 })) {
       await fitButton.click();
@@ -150,7 +162,9 @@ export class ViewportTestHelper {
    * Reset camera to default position
    */
   async resetCamera(): Promise<void> {
-    const resetButton = this.page.locator('[data-testid="reset-camera"], [data-testid="home-view"], button:has-text("Reset")').first();
+    const resetButton = this.page
+      .locator('[data-testid="reset-camera"], [data-testid="home-view"], button:has-text("Reset")')
+      .first();
 
     if (await resetButton.isVisible({ timeout: 2000 })) {
       await resetButton.click();
@@ -171,7 +185,11 @@ export class ViewportTestHelper {
    * Switch rendering mode (wireframe, solid, etc.)
    */
   async setRenderingMode(mode: 'solid' | 'wireframe' | 'points'): Promise<void> {
-    const modeButton = this.page.locator(`[data-testid="${mode}-mode"], button:has-text("${mode}")`, { hasText: new RegExp(mode, 'i') }).first();
+    const modeButton = this.page
+      .locator(`[data-testid="${mode}-mode"], button:has-text("${mode}")`, {
+        hasText: new RegExp(mode, 'i'),
+      })
+      .first();
 
     if (await modeButton.isVisible({ timeout: 2000 })) {
       await modeButton.click();
@@ -200,9 +218,12 @@ export class ViewportTestHelper {
    */
   async waitForGeometryRendered(): Promise<void> {
     // Wait for render complete indicator
-    await this.page.waitForSelector('[data-testid="render-complete"], [data-testid="geometry-rendered"]', {
-      timeout: 15000
-    });
+    await this.page.waitForSelector(
+      '[data-testid="render-complete"], [data-testid="geometry-rendered"]',
+      {
+        timeout: 15000,
+      }
+    );
 
     // Additional wait for frame rendering
     await this.page.waitForTimeout(500);
@@ -221,7 +242,7 @@ export class ViewportTestHelper {
       return {
         fps: viewport?.getFPS?.() || 0,
         renderTime: viewport?.getLastRenderTime?.() || 0,
-        triangleCount: viewport?.getTriangleCount?.() || 0
+        triangleCount: viewport?.getTriangleCount?.() || 0,
       };
     });
   }
@@ -255,10 +276,7 @@ export class ViewportTestHelper {
 
     while (Date.now() - startTime < duration) {
       // Perform random camera movements
-      await this.orbitCamera(
-        Math.random() * 90 - 45,
-        Math.random() * 60 - 30
-      );
+      await this.orbitCamera(Math.random() * 90 - 45, Math.random() * 60 - 30);
 
       // Collect performance data
       const metrics = await this.getPerformanceMetrics();
@@ -271,7 +289,7 @@ export class ViewportTestHelper {
     return {
       averageFPS: fpsReadings.reduce((a, b) => a + b, 0) / fpsReadings.length,
       minFPS: Math.min(...fpsReadings),
-      maxRenderTime: Math.max(...renderTimes)
+      maxRenderTime: Math.max(...renderTimes),
     };
   }
 
@@ -296,10 +314,15 @@ export class ViewportTestHelper {
     screenshotName: string
   ): Promise<void> {
     // Change parameter
-    await this.page.fill(`[data-testid="inspector-param-${paramName}"], [name="${paramName}"]`, value);
+    await this.page.fill(
+      `[data-testid="inspector-param-${paramName}"], [name="${paramName}"]`,
+      value
+    );
 
     // Trigger evaluation
-    const evaluateButton = this.page.locator('[data-testid="evaluate"], button:has-text("Evaluate")').first();
+    const evaluateButton = this.page
+      .locator('[data-testid="evaluate"], button:has-text("Evaluate")')
+      .first();
     if (await evaluateButton.isVisible({ timeout: 2000 })) {
       await evaluateButton.click();
     }
@@ -339,7 +362,11 @@ export class ViewportTestHelper {
    * Toggle viewport overlays (grid, axes, etc.)
    */
   async toggleOverlay(overlay: 'grid' | 'axes' | 'stats'): Promise<void> {
-    const toggleButton = this.page.locator(`[data-testid="toggle-${overlay}"], button:has-text("${overlay}")`, { hasText: new RegExp(overlay, 'i') }).first();
+    const toggleButton = this.page
+      .locator(`[data-testid="toggle-${overlay}"], button:has-text("${overlay}")`, {
+        hasText: new RegExp(overlay, 'i'),
+      })
+      .first();
 
     if (await toggleButton.isVisible({ timeout: 2000 })) {
       await toggleButton.click();
@@ -348,7 +375,7 @@ export class ViewportTestHelper {
       const shortcuts: Record<string, string> = {
         grid: 'g',
         axes: 'a',
-        stats: 's'
+        stats: 's',
       };
       await this.page.keyboard.press(shortcuts[overlay] || 'g');
     }

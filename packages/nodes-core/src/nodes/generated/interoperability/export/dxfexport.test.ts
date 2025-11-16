@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { InteroperabilityExportDXFExportNode } from './dxfexport.node';
 import { createTestContext } from '../test-utils';
@@ -8,12 +7,12 @@ describe('InteroperabilityExportDXFExportNode', () => {
     const context = createTestContext();
     const inputs = {
       curves: undefined,
-      filePath: undefined
+      filePath: undefined,
     } as any;
     const params = {
-      version: "2000",
-      units: "mm",
-      layerName: "BrepFlow"
+      version: '2000',
+      units: 'mm',
+      layerName: 'BrepFlow',
     } as any;
 
     const result = await InteroperabilityExportDXFExportNode.evaluate(context, inputs, params);

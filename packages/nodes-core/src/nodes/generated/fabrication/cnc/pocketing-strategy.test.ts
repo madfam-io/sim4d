@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { FabricationCNCPocketingStrategyNode } from './pocketing-strategy.node';
 import { createTestContext } from '../test-utils';
@@ -8,12 +7,12 @@ describe('FabricationCNCPocketingStrategyNode', () => {
     const context = createTestContext();
     const inputs = {
       pocket: undefined,
-      depth: undefined
+      depth: undefined,
     } as any;
     const params = {
-      pattern: "spiral",
+      pattern: 'spiral',
       stepdown: 2,
-      finishPass: true
+      finishPass: true,
     } as any;
 
     const result = await FabricationCNCPocketingStrategyNode.evaluate(context, inputs, params);

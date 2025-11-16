@@ -14,7 +14,11 @@ interface RampEntryOutputs {
   rampPath: unknown;
 }
 
-export const FabricationCNCRampEntryNode: NodeDefinition<RampEntryInputs, RampEntryOutputs, RampEntryParams> = {
+export const FabricationCNCRampEntryNode: NodeDefinition<
+  RampEntryInputs,
+  RampEntryOutputs,
+  RampEntryParams
+> = {
   id: 'Fabrication::RampEntry',
   type: 'Fabrication::RampEntry',
   category: 'Fabrication',
@@ -24,19 +28,19 @@ export const FabricationCNCRampEntryNode: NodeDefinition<RampEntryInputs, RampEn
     entryEdge: {
       type: 'Edge',
       label: 'Entry Edge',
-      required: true
+      required: true,
     },
     depth: {
       type: 'Number',
       label: 'Depth',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     rampPath: {
       type: 'Wire',
-      label: 'Ramp Path'
-    }
+      label: 'Ramp Path',
+    },
   },
   params: {
     rampAngle: {
@@ -44,15 +48,15 @@ export const FabricationCNCRampEntryNode: NodeDefinition<RampEntryInputs, RampEn
       label: 'Ramp Angle',
       default: 5,
       min: 1,
-      max: 30
+      max: 30,
     },
     rampLength: {
       type: 'number',
       label: 'Ramp Length',
       default: 20,
       min: 5,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -61,12 +65,12 @@ export const FabricationCNCRampEntryNode: NodeDefinition<RampEntryInputs, RampEn
         entryEdge: inputs.entryEdge,
         depth: inputs.depth,
         rampAngle: params.rampAngle,
-        rampLength: params.rampLength
-      }
+        rampLength: params.rampLength,
+      },
     });
-    
+
     return {
-      rampPath: result
+      rampPath: result,
     };
   },
 };

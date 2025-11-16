@@ -1,4 +1,3 @@
-
 # FieldLaplacian Node
 
 **Category:** Field / Operations
@@ -11,19 +10,13 @@ This node has no parameters.
 
 ## Inputs
 
-
 ### Field
+
 - **Type:** ScalarField
 - **Required:** Yes
 
-
-
 ## Outputs
 
-
 ### Laplacian
+
 - **Type:** ScalarField
-
-
-
-

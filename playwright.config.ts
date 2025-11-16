@@ -15,13 +15,13 @@ export default defineConfig({
     timeout: 15000, // Allow time for geometry rendering
     toHaveScreenshot: {
       threshold: 0.15, // Allow 15% difference for Three.js rendering variations
-      animations: 'disabled'
-    }
+      animations: 'disabled',
+    },
   },
   reporter: [
     ['html'],
     ['junit', { outputFile: 'test-results/junit.xml' }],
-    process.env.CI ? ['github'] : ['list']
+    process.env.CI ? ['github'] : ['list'],
   ],
   use: {
     baseURL: 'http://127.0.0.1:5173',
@@ -37,9 +37,9 @@ export default defineConfig({
         '--enable-shared-array-buffer',
         '--enable-unsafe-webgpu', // For future WebGPU support
         '--disable-web-security', // For WASM SharedArrayBuffer
-        '--enable-features=SharedArrayBuffer'
-      ]
-    }
+        '--enable-features=SharedArrayBuffer',
+      ],
+    },
   },
   projects: [
     {

@@ -14,7 +14,11 @@ interface ScallopHeightOutputs {
   maxScallop: number;
 }
 
-export const FabricationCNCScallopHeightNode: NodeDefinition<ScallopHeightInputs, ScallopHeightOutputs, ScallopHeightParams> = {
+export const FabricationCNCScallopHeightNode: NodeDefinition<
+  ScallopHeightInputs,
+  ScallopHeightOutputs,
+  ScallopHeightParams
+> = {
   id: 'Fabrication::ScallopHeight',
   category: 'Fabrication',
   label: 'ScallopHeight',
@@ -23,18 +27,18 @@ export const FabricationCNCScallopHeightNode: NodeDefinition<ScallopHeightInputs
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     scallopMap: {
       type: 'Data',
-      label: 'Scallop Map'
+      label: 'Scallop Map',
     },
     maxScallop: {
       type: 'Number',
-      label: 'Max Scallop'
-    }
+      label: 'Max Scallop',
+    },
   },
   params: {
     ballRadius: {
@@ -42,15 +46,15 @@ export const FabricationCNCScallopHeightNode: NodeDefinition<ScallopHeightInputs
       label: 'Ball Radius',
       default: 3,
       min: 0.5,
-      max: 25
+      max: 25,
     },
     stepover: {
       type: 'number',
       label: 'Stepover',
       default: 1,
       min: 0.1,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -58,13 +62,13 @@ export const FabricationCNCScallopHeightNode: NodeDefinition<ScallopHeightInputs
       params: {
         surface: inputs.surface,
         ballRadius: params.ballRadius,
-        stepover: params.stepover
-      }
+        stepover: params.stepover,
+      },
     });
-    
+
     return {
       scallopMap: results.scallopMap,
-      maxScallop: results.maxScallop
+      maxScallop: results.maxScallop,
     };
   },
 };

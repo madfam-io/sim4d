@@ -14,7 +14,11 @@ interface CoincidentOutputs {
   constraint: unknown;
 }
 
-export const AssemblyConstraintsCoincidentNode: NodeDefinition<CoincidentInputs, CoincidentOutputs, CoincidentParams> = {
+export const AssemblyConstraintsCoincidentNode: NodeDefinition<
+  CoincidentInputs,
+  CoincidentOutputs,
+  CoincidentParams
+> = {
   id: 'Assembly::Coincident',
   category: 'Assembly',
   label: 'Coincident',
@@ -23,23 +27,23 @@ export const AssemblyConstraintsCoincidentNode: NodeDefinition<CoincidentInputs,
     entity1: {
       type: 'Shape',
       label: 'Entity1',
-      required: true
+      required: true,
     },
     entity2: {
       type: 'Shape',
       label: 'Entity2',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     constrained: {
       type: 'Shape[]',
-      label: 'Constrained'
+      label: 'Constrained',
     },
     constraint: {
       type: 'Constraint',
-      label: 'Constraint'
-    }
+      label: 'Constraint',
+    },
   },
   params: {
     tolerance: {
@@ -47,8 +51,8 @@ export const AssemblyConstraintsCoincidentNode: NodeDefinition<CoincidentInputs,
       label: 'Tolerance',
       default: 0.001,
       min: 0,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -56,13 +60,13 @@ export const AssemblyConstraintsCoincidentNode: NodeDefinition<CoincidentInputs,
       params: {
         entity1: inputs.entity1,
         entity2: inputs.entity2,
-        tolerance: params.tolerance
-      }
+        tolerance: params.tolerance,
+      },
     });
-    
+
     return {
       constrained: results.constrained,
-      constraint: results.constraint
+      constraint: results.constraint,
     };
   },
 };

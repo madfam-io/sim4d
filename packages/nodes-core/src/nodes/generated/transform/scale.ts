@@ -29,14 +29,14 @@ export const TransformScaleNode: NodeDefinition<ScaleInputs, ScaleOutputs, Scale
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     scaled: {
       type: 'Shape',
-      label: 'Scaled'
-    }
+      label: 'Scaled',
+    },
   },
   params: {
     scaleX: {
@@ -44,53 +44,53 @@ export const TransformScaleNode: NodeDefinition<ScaleInputs, ScaleOutputs, Scale
       label: 'Scale X',
       default: 1,
       min: 0.001,
-      max: 1000
+      max: 1000,
     },
     scaleY: {
       type: 'number',
       label: 'Scale Y',
       default: 1,
       min: 0.001,
-      max: 1000
+      max: 1000,
     },
     scaleZ: {
       type: 'number',
       label: 'Scale Z',
       default: 1,
       min: 0.001,
-      max: 1000
+      max: 1000,
     },
     uniform: {
       type: 'boolean',
       label: 'Uniform',
-      default: true
+      default: true,
     },
     centerX: {
       type: 'number',
       label: 'Center X',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     centerY: {
       type: 'number',
       label: 'Center Y',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     centerZ: {
       type: 'number',
       label: 'Center Z',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     copy: {
       type: 'boolean',
       label: 'Copy',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -104,12 +104,12 @@ export const TransformScaleNode: NodeDefinition<ScaleInputs, ScaleOutputs, Scale
         centerX: params.centerX,
         centerY: params.centerY,
         centerZ: params.centerZ,
-        copy: params.copy
-      }
+        copy: params.copy,
+      },
     });
-    
+
     return {
-      scaled: result
+      scaled: result,
     };
   },
 };

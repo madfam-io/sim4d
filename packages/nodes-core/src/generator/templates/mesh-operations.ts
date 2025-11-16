@@ -17,19 +17,31 @@ export const tessellationTemplates: NodeTemplate[] = [
     operation: 'TESSELLATE',
     occtBinding: 'tessellate',
     parameters: [
-      { name: 'linearDeflection', type: 'number', default: 0.1, min: 0.001, max: 10, description: 'Maximum deviation from true surface' },
-      { name: 'angularDeflection', type: 'number', default: 0.5, min: 0.01, max: 1, description: 'Angular deflection in radians' },
+      {
+        name: 'linearDeflection',
+        type: 'number',
+        default: 0.1,
+        min: 0.001,
+        max: 10,
+        description: 'Maximum deviation from true surface',
+      },
+      {
+        name: 'angularDeflection',
+        type: 'number',
+        default: 0.5,
+        min: 0.01,
+        max: 1,
+        description: 'Angular deflection in radians',
+      },
       { name: 'relative', type: 'boolean', default: false, description: 'Use relative deflection' },
-      { name: 'qualityNormals', type: 'boolean', default: true }
+      { name: 'qualityNormals', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'shape', type: 'Shape', required: true }
-    ],
+    inputs: [{ name: 'shape', type: 'Shape', required: true }],
     outputs: [
       { name: 'mesh', type: 'Mesh' },
       { name: 'triangleCount', type: 'number' },
-      { name: 'vertexCount', type: 'number' }
-    ]
+      { name: 'vertexCount', type: 'number' },
+    ],
   },
 
   {
@@ -42,14 +54,10 @@ export const tessellationTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'minEdgeLength', type: 'number', default: 0.1, min: 0.001, max: 100 },
       { name: 'maxEdgeLength', type: 'number', default: 10, min: 0.1, max: 1000 },
-      { name: 'curvatureFactor', type: 'number', default: 1, min: 0.1, max: 10 }
+      { name: 'curvatureFactor', type: 'number', default: 1, min: 0.1, max: 10 },
     ],
-    inputs: [
-      { name: 'shape', type: 'Shape', required: true }
-    ],
-    outputs: [
-      { name: 'mesh', type: 'Mesh' }
-    ]
+    inputs: [{ name: 'shape', type: 'Shape', required: true }],
+    outputs: [{ name: 'mesh', type: 'Mesh' }],
   },
 
   {
@@ -62,14 +70,10 @@ export const tessellationTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'targetEdgeLength', type: 'number', default: 1, min: 0.01, max: 100 },
       { name: 'iterations', type: 'number', default: 3, min: 1, max: 10, step: 1 },
-      { name: 'preserveFeatures', type: 'boolean', default: true }
+      { name: 'preserveFeatures', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'mesh', type: 'Mesh', required: true }
-    ],
-    outputs: [
-      { name: 'remeshed', type: 'Mesh' }
-    ]
+    inputs: [{ name: 'mesh', type: 'Mesh', required: true }],
+    outputs: [{ name: 'remeshed', type: 'Mesh' }],
   },
 
   {
@@ -81,14 +85,10 @@ export const tessellationTemplates: NodeTemplate[] = [
     occtBinding: 'quadMesh',
     parameters: [
       { name: 'targetQuadSize', type: 'number', default: 5, min: 0.1, max: 100 },
-      { name: 'quadDominance', type: 'number', default: 0.8, min: 0, max: 1 }
+      { name: 'quadDominance', type: 'number', default: 0.8, min: 0, max: 1 },
     ],
-    inputs: [
-      { name: 'shape', type: 'Shape', required: true }
-    ],
-    outputs: [
-      { name: 'quadMesh', type: 'Mesh' }
-    ]
+    inputs: [{ name: 'shape', type: 'Shape', required: true }],
+    outputs: [{ name: 'quadMesh', type: 'Mesh' }],
   },
 
   {
@@ -100,15 +100,11 @@ export const tessellationTemplates: NodeTemplate[] = [
     occtBinding: 'voxelMesh',
     parameters: [
       { name: 'voxelSize', type: 'number', default: 1, min: 0.01, max: 100 },
-      { name: 'fillInterior', type: 'boolean', default: false }
+      { name: 'fillInterior', type: 'boolean', default: false },
     ],
-    inputs: [
-      { name: 'shape', type: 'Shape', required: true }
-    ],
-    outputs: [
-      { name: 'voxels', type: 'Mesh' }
-    ]
-  }
+    inputs: [{ name: 'shape', type: 'Shape', required: true }],
+    outputs: [{ name: 'voxels', type: 'Mesh' }],
+  },
 ];
 
 /**
@@ -127,15 +123,13 @@ export const meshRepairTemplates: NodeTemplate[] = [
       { name: 'fixNormals', type: 'boolean', default: true },
       { name: 'removeDegenerate', type: 'boolean', default: true },
       { name: 'removeDuplicates', type: 'boolean', default: true },
-      { name: 'makeManifold', type: 'boolean', default: false }
+      { name: 'makeManifold', type: 'boolean', default: false },
     ],
-    inputs: [
-      { name: 'mesh', type: 'Mesh', required: true }
-    ],
+    inputs: [{ name: 'mesh', type: 'Mesh', required: true }],
     outputs: [
       { name: 'repaired', type: 'Mesh' },
-      { name: 'report', type: 'Data' }
-    ]
+      { name: 'report', type: 'Data' },
+    ],
   },
 
   {
@@ -146,18 +140,23 @@ export const meshRepairTemplates: NodeTemplate[] = [
     operation: 'SIMPLIFY_MESH',
     occtBinding: 'simplifyMesh',
     parameters: [
-      { name: 'targetRatio', type: 'number', default: 0.5, min: 0.01, max: 1, description: 'Target triangle ratio' },
+      {
+        name: 'targetRatio',
+        type: 'number',
+        default: 0.5,
+        min: 0.01,
+        max: 1,
+        description: 'Target triangle ratio',
+      },
       { name: 'preserveBoundaries', type: 'boolean', default: true },
       { name: 'preserveTopology', type: 'boolean', default: false },
-      { name: 'maxError', type: 'number', default: 0.1, min: 0.001, max: 10 }
+      { name: 'maxError', type: 'number', default: 0.1, min: 0.001, max: 10 },
     ],
-    inputs: [
-      { name: 'mesh', type: 'Mesh', required: true }
-    ],
+    inputs: [{ name: 'mesh', type: 'Mesh', required: true }],
     outputs: [
       { name: 'simplified', type: 'Mesh' },
-      { name: 'triangleCount', type: 'number' }
-    ]
+      { name: 'triangleCount', type: 'number' },
+    ],
   },
 
   {
@@ -168,16 +167,26 @@ export const meshRepairTemplates: NodeTemplate[] = [
     operation: 'FILL_HOLES',
     occtBinding: 'fillHoles',
     parameters: [
-      { name: 'maxHoleSize', type: 'number', default: 100, min: 1, max: 10000, description: 'Max edges in hole boundary' },
-      { name: 'fillMethod', type: 'enum', options: ['flat', 'smooth', 'curvature'], default: 'smooth' }
+      {
+        name: 'maxHoleSize',
+        type: 'number',
+        default: 100,
+        min: 1,
+        max: 10000,
+        description: 'Max edges in hole boundary',
+      },
+      {
+        name: 'fillMethod',
+        type: 'enum',
+        options: ['flat', 'smooth', 'curvature'],
+        default: 'smooth',
+      },
     ],
-    inputs: [
-      { name: 'mesh', type: 'Mesh', required: true }
-    ],
+    inputs: [{ name: 'mesh', type: 'Mesh', required: true }],
     outputs: [
       { name: 'filled', type: 'Mesh' },
-      { name: 'holesCount', type: 'number' }
-    ]
+      { name: 'holesCount', type: 'number' },
+    ],
   },
 
   {
@@ -190,14 +199,10 @@ export const meshRepairTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'iterations', type: 'number', default: 5, min: 1, max: 100, step: 1 },
       { name: 'smoothingFactor', type: 'number', default: 0.5, min: 0, max: 1 },
-      { name: 'preserveVolume', type: 'boolean', default: true }
+      { name: 'preserveVolume', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'mesh', type: 'Mesh', required: true }
-    ],
-    outputs: [
-      { name: 'smoothed', type: 'Mesh' }
-    ]
+    inputs: [{ name: 'mesh', type: 'Mesh', required: true }],
+    outputs: [{ name: 'smoothed', type: 'Mesh' }],
   },
 
   {
@@ -210,14 +215,10 @@ export const meshRepairTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'targetTriangles', type: 'number', default: 1000, min: 10, max: 1000000, step: 100 },
       { name: 'preserveFeatures', type: 'boolean', default: true },
-      { name: 'featureAngle', type: 'number', default: 30, min: 0, max: 180 }
+      { name: 'featureAngle', type: 'number', default: 30, min: 0, max: 180 },
     ],
-    inputs: [
-      { name: 'mesh', type: 'Mesh', required: true }
-    ],
-    outputs: [
-      { name: 'decimated', type: 'Mesh' }
-    ]
+    inputs: [{ name: 'mesh', type: 'Mesh', required: true }],
+    outputs: [{ name: 'decimated', type: 'Mesh' }],
   },
 
   {
@@ -228,15 +229,16 @@ export const meshRepairTemplates: NodeTemplate[] = [
     operation: 'SUBDIVIDE_MESH',
     occtBinding: 'subdivideMesh',
     parameters: [
-      { name: 'subdivisionType', type: 'enum', options: ['loop', 'catmull-clark', 'simple'], default: 'loop' },
-      { name: 'levels', type: 'number', default: 1, min: 1, max: 5, step: 1 }
+      {
+        name: 'subdivisionType',
+        type: 'enum',
+        options: ['loop', 'catmull-clark', 'simple'],
+        default: 'loop',
+      },
+      { name: 'levels', type: 'number', default: 1, min: 1, max: 5, step: 1 },
     ],
-    inputs: [
-      { name: 'mesh', type: 'Mesh', required: true }
-    ],
-    outputs: [
-      { name: 'subdivided', type: 'Mesh' }
-    ]
+    inputs: [{ name: 'mesh', type: 'Mesh', required: true }],
+    outputs: [{ name: 'subdivided', type: 'Mesh' }],
   },
 
   {
@@ -247,16 +249,19 @@ export const meshRepairTemplates: NodeTemplate[] = [
     operation: 'MESH_BOOLEAN',
     occtBinding: 'meshBoolean',
     parameters: [
-      { name: 'operation', type: 'enum', options: ['union', 'difference', 'intersection'], default: 'union' },
-      { name: 'tolerance', type: 'number', default: 0.01, min: 0.0001, max: 1 }
+      {
+        name: 'operation',
+        type: 'enum',
+        options: ['union', 'difference', 'intersection'],
+        default: 'union',
+      },
+      { name: 'tolerance', type: 'number', default: 0.01, min: 0.0001, max: 1 },
     ],
     inputs: [
       { name: 'mesh1', type: 'Mesh', required: true },
-      { name: 'mesh2', type: 'Mesh', required: true }
+      { name: 'mesh2', type: 'Mesh', required: true },
     ],
-    outputs: [
-      { name: 'result', type: 'Mesh' }
-    ]
+    outputs: [{ name: 'result', type: 'Mesh' }],
   },
 
   {
@@ -268,15 +273,11 @@ export const meshRepairTemplates: NodeTemplate[] = [
     occtBinding: 'meshOffset',
     parameters: [
       { name: 'offsetDistance', type: 'number', default: 1, min: -100, max: 100 },
-      { name: 'solidify', type: 'boolean', default: false }
+      { name: 'solidify', type: 'boolean', default: false },
     ],
-    inputs: [
-      { name: 'mesh', type: 'Mesh', required: true }
-    ],
-    outputs: [
-      { name: 'offset', type: 'Mesh' }
-    ]
-  }
+    inputs: [{ name: 'mesh', type: 'Mesh', required: true }],
+    outputs: [{ name: 'offset', type: 'Mesh' }],
+  },
 ];
 
 /**
@@ -292,15 +293,13 @@ export const meshFileTemplates: NodeTemplate[] = [
     occtBinding: 'importSTL',
     parameters: [
       { name: 'units', type: 'enum', options: ['mm', 'cm', 'm', 'inch', 'foot'], default: 'mm' },
-      { name: 'validate', type: 'boolean', default: true }
+      { name: 'validate', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'fileData', type: 'Data', required: true }
-    ],
+    inputs: [{ name: 'fileData', type: 'Data', required: true }],
     outputs: [
       { name: 'mesh', type: 'Mesh' },
-      { name: 'isValid', type: 'boolean' }
-    ]
+      { name: 'isValid', type: 'boolean' },
+    ],
   },
 
   {
@@ -312,14 +311,10 @@ export const meshFileTemplates: NodeTemplate[] = [
     occtBinding: 'exportSTL',
     parameters: [
       { name: 'format', type: 'enum', options: ['ascii', 'binary'], default: 'binary' },
-      { name: 'units', type: 'enum', options: ['mm', 'cm', 'm', 'inch', 'foot'], default: 'mm' }
+      { name: 'units', type: 'enum', options: ['mm', 'cm', 'm', 'inch', 'foot'], default: 'mm' },
     ],
-    inputs: [
-      { name: 'mesh', type: 'Mesh', required: true }
-    ],
-    outputs: [
-      { name: 'stlData', type: 'Data' }
-    ]
+    inputs: [{ name: 'mesh', type: 'Mesh', required: true }],
+    outputs: [{ name: 'stlData', type: 'Data' }],
   },
 
   {
@@ -331,15 +326,13 @@ export const meshFileTemplates: NodeTemplate[] = [
     occtBinding: 'importOBJ',
     parameters: [
       { name: 'importMaterials', type: 'boolean', default: true },
-      { name: 'importTextures', type: 'boolean', default: false }
+      { name: 'importTextures', type: 'boolean', default: false },
     ],
-    inputs: [
-      { name: 'fileData', type: 'Data', required: true }
-    ],
+    inputs: [{ name: 'fileData', type: 'Data', required: true }],
     outputs: [
       { name: 'mesh', type: 'Mesh' },
-      { name: 'materials', type: 'Data' }
-    ]
+      { name: 'materials', type: 'Data' },
+    ],
   },
 
   {
@@ -351,16 +344,16 @@ export const meshFileTemplates: NodeTemplate[] = [
     occtBinding: 'exportOBJ',
     parameters: [
       { name: 'exportNormals', type: 'boolean', default: true },
-      { name: 'exportUVs', type: 'boolean', default: false }
+      { name: 'exportUVs', type: 'boolean', default: false },
     ],
     inputs: [
       { name: 'mesh', type: 'Mesh', required: true },
-      { name: 'materials', type: 'Data', required: false }
+      { name: 'materials', type: 'Data', required: false },
     ],
     outputs: [
       { name: 'objData', type: 'Data' },
-      { name: 'mtlData', type: 'Data' }
-    ]
+      { name: 'mtlData', type: 'Data' },
+    ],
   },
 
   {
@@ -372,15 +365,13 @@ export const meshFileTemplates: NodeTemplate[] = [
     occtBinding: 'importPLY',
     parameters: [
       { name: 'importColors', type: 'boolean', default: true },
-      { name: 'importProperties', type: 'boolean', default: true }
+      { name: 'importProperties', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'fileData', type: 'Data', required: true }
-    ],
+    inputs: [{ name: 'fileData', type: 'Data', required: true }],
     outputs: [
       { name: 'mesh', type: 'Mesh' },
-      { name: 'properties', type: 'Data' }
-    ]
+      { name: 'properties', type: 'Data' },
+    ],
   },
 
   {
@@ -393,15 +384,13 @@ export const meshFileTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'includeColors', type: 'boolean', default: true },
       { name: 'includeMaterials', type: 'boolean', default: true },
-      { name: 'includeMetadata', type: 'boolean', default: true }
+      { name: 'includeMetadata', type: 'boolean', default: true },
     ],
     inputs: [
       { name: 'mesh', type: 'Mesh', required: true },
-      { name: 'metadata', type: 'Data', required: false }
+      { name: 'metadata', type: 'Data', required: false },
     ],
-    outputs: [
-      { name: 'file3MF', type: 'Data' }
-    ]
+    outputs: [{ name: 'file3MF', type: 'Data' }],
   },
 
   {
@@ -413,20 +402,16 @@ export const meshFileTemplates: NodeTemplate[] = [
     occtBinding: 'meshToShape',
     parameters: [
       { name: 'tolerance', type: 'number', default: 0.01, min: 0.0001, max: 1 },
-      { name: 'sewFaces', type: 'boolean', default: true }
+      { name: 'sewFaces', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'mesh', type: 'Mesh', required: true }
-    ],
-    outputs: [
-      { name: 'shape', type: 'Shape' }
-    ]
-  }
+    inputs: [{ name: 'mesh', type: 'Mesh', required: true }],
+    outputs: [{ name: 'shape', type: 'Shape' }],
+  },
 ];
 
 // Export all templates
 export const allMeshOperationTemplates = [
   ...tessellationTemplates,
   ...meshRepairTemplates,
-  ...meshFileTemplates
+  ...meshFileTemplates,
 ];

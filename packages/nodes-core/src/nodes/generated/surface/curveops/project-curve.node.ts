@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -13,7 +12,11 @@ interface Outputs {
   projectedCurve: Wire;
 }
 
-export const ProjectCurveNode: NodeDefinition<ProjectCurveInputs, ProjectCurveOutputs, ProjectCurveParams> = {
+export const ProjectCurveNode: NodeDefinition<
+  ProjectCurveInputs,
+  ProjectCurveOutputs,
+  ProjectCurveParams
+> = {
   type: 'Surface::ProjectCurve',
   category: 'Surface',
   subcategory: 'CurveOps',
@@ -21,34 +24,27 @@ export const ProjectCurveNode: NodeDefinition<ProjectCurveInputs, ProjectCurveOu
   metadata: {
     label: 'ProjectCurve',
     description: 'Project curve onto surface',
-    
-    
   },
 
   params: {
-        projectionDirection: {
-      "default": [
-        0,
-        0,
-        -1
-      ]
+    projectionDirection: {
+      default: [0, 0, -1],
     },
     projectBoth: {
-      "default": false
-    }
+      default: false,
+    },
   },
 
   inputs: {
-        curve: 'Wire',
-    surface: 'Face'
+    curve: 'Wire',
+    surface: 'Face',
   },
 
   outputs: {
-        projectedCurve: 'Wire'
+    projectedCurve: 'Wire',
   },
 
   async evaluate(context, inputs, params) {
-    
     const direction = params.projectionDirection || [0, 0, -1];
 
     const result = await context.geometry.execute({
@@ -57,14 +53,14 @@ export const ProjectCurveNode: NodeDefinition<ProjectCurveInputs, ProjectCurveOu
         curve: inputs.curve,
         surface: inputs.surface,
         projectionDirection: direction,
-        projectBoth: params.projectBoth
-      }
+        projectBoth: params.projectBoth,
+      },
     });
 
-    const projectedCurve = Array.isArray(result) ? result[0] ?? null : result;
+    const projectedCurve = Array.isArray(result) ? (result[0] ?? null) : result;
 
     return {
-      projectedCurve
+      projectedCurve,
     };
-  }
+  },
 };

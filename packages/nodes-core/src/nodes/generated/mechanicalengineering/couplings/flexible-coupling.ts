@@ -16,7 +16,11 @@ interface FlexibleCouplingOutputs {
   element: unknown;
 }
 
-export const MechanicalEngineeringCouplingsFlexibleCouplingNode: NodeDefinition<FlexibleCouplingInputs, FlexibleCouplingOutputs, FlexibleCouplingParams> = {
+export const MechanicalEngineeringCouplingsFlexibleCouplingNode: NodeDefinition<
+  FlexibleCouplingInputs,
+  FlexibleCouplingOutputs,
+  FlexibleCouplingParams
+> = {
   id: 'MechanicalEngineering::FlexibleCoupling',
   type: 'MechanicalEngineering::FlexibleCoupling',
   category: 'MechanicalEngineering',
@@ -26,47 +30,47 @@ export const MechanicalEngineeringCouplingsFlexibleCouplingNode: NodeDefinition<
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     coupling: {
       type: 'Shape',
-      label: 'Coupling'
+      label: 'Coupling',
     },
     element: {
       type: 'Shape',
-      label: 'Element'
-    }
+      label: 'Element',
+    },
   },
   params: {
     type: {
       type: 'enum',
       label: 'Type',
-      default: "jaw",
-      options: ["jaw","disc","beam","oldham"]
+      default: 'jaw',
+      options: ['jaw', 'disc', 'beam', 'oldham'],
     },
     boreDiameter1: {
       type: 'number',
       label: 'Bore Diameter1',
       default: 10,
       min: 3,
-      max: 50
+      max: 50,
     },
     boreDiameter2: {
       type: 'number',
       label: 'Bore Diameter2',
       default: 10,
       min: 3,
-      max: 50
+      max: 50,
     },
     outerDiameter: {
       type: 'number',
       label: 'Outer Diameter',
       default: 30,
       min: 10,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -76,13 +80,13 @@ export const MechanicalEngineeringCouplingsFlexibleCouplingNode: NodeDefinition<
         type: params.type,
         boreDiameter1: params.boreDiameter1,
         boreDiameter2: params.boreDiameter2,
-        outerDiameter: params.outerDiameter
-      }
+        outerDiameter: params.outerDiameter,
+      },
     });
-    
+
     return {
       coupling: results.coupling,
-      element: results.element
+      element: results.element,
     };
   },
 };

@@ -14,7 +14,11 @@ interface ProceduralTextureOutputs {
   texture: unknown;
 }
 
-export const PatternsProceduralProceduralTextureNode: NodeDefinition<ProceduralTextureInputs, ProceduralTextureOutputs, ProceduralTextureParams> = {
+export const PatternsProceduralProceduralTextureNode: NodeDefinition<
+  ProceduralTextureInputs,
+  ProceduralTextureOutputs,
+  ProceduralTextureParams
+> = {
   id: 'Patterns::ProceduralTexture',
   category: 'Patterns',
   label: 'ProceduralTexture',
@@ -23,36 +27,36 @@ export const PatternsProceduralProceduralTextureNode: NodeDefinition<ProceduralT
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     texture: {
       type: 'Data',
-      label: 'Texture'
-    }
+      label: 'Texture',
+    },
   },
   params: {
     type: {
       type: 'enum',
       label: 'Type',
-      default: "wood",
-      options: ["wood","marble","clouds","rust","concrete"]
+      default: 'wood',
+      options: ['wood', 'marble', 'clouds', 'rust', 'concrete'],
     },
     scale: {
       type: 'number',
       label: 'Scale',
       default: 10,
       min: 1,
-      max: 100
+      max: 100,
     },
     seed: {
       type: 'number',
       label: 'Seed',
       default: 0,
       min: 0,
-      max: 999999
-    }
+      max: 999999,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -61,12 +65,12 @@ export const PatternsProceduralProceduralTextureNode: NodeDefinition<ProceduralT
         surface: inputs.surface,
         type: params.type,
         scale: params.scale,
-        seed: params.seed
-      }
+        seed: params.seed,
+      },
     });
-    
+
     return {
-      texture: result
+      texture: result,
     };
   },
 };

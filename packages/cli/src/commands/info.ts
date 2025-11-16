@@ -13,7 +13,7 @@ export const infoCommand = new Command('info')
   .action(async (graphPath, options) => {
     try {
       // Check if file exists
-      if (!await fs.pathExists(graphPath)) {
+      if (!(await fs.pathExists(graphPath))) {
         console.error(chalk.red(`Graph file not found: ${graphPath}`));
         process.exit(1);
       }
@@ -46,7 +46,6 @@ export const infoCommand = new Command('info')
       } else {
         displayInfo(info);
       }
-
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       console.error(chalk.red(`Error: ${errorMessage}`));

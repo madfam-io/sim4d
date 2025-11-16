@@ -25,8 +25,8 @@ export const SketchBasicArcNode: NodeDefinition<ArcInputs, ArcOutputs, ArcParams
   outputs: {
     edge: {
       type: 'Edge',
-      label: 'Edge'
-    }
+      label: 'Edge',
+    },
   },
   params: {
     centerX: {
@@ -34,43 +34,43 @@ export const SketchBasicArcNode: NodeDefinition<ArcInputs, ArcOutputs, ArcParams
       label: 'Center X',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     centerY: {
       type: 'number',
       label: 'Center Y',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     centerZ: {
       type: 'number',
       label: 'Center Z',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     radius: {
       type: 'number',
       label: 'Radius',
       default: 50,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     startAngle: {
       type: 'number',
       label: 'Start Angle',
       default: 0,
       min: 0,
-      max: 360
+      max: 360,
     },
     endAngle: {
       type: 'number',
       label: 'End Angle',
       default: 90,
       min: 0,
-      max: 360
-    }
+      max: 360,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -81,12 +81,12 @@ export const SketchBasicArcNode: NodeDefinition<ArcInputs, ArcOutputs, ArcParams
         centerZ: params.centerZ,
         radius: params.radius,
         startAngle: params.startAngle,
-        endAngle: params.endAngle
-      }
+        endAngle: params.endAngle,
+      },
     });
-    
+
     return {
-      edge: result
+      edge: result,
     };
   },
 };

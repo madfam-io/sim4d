@@ -112,8 +112,8 @@ class KeyboardShortcutManager {
     if (this.activeContext) {
       const context = this.contexts.get(this.activeContext);
       if (context) {
-        const contextShortcut = context.shortcuts.find(s =>
-          this.getShortcutKey(s) === shortcutKey
+        const contextShortcut = context.shortcuts.find(
+          (s) => this.getShortcutKey(s) === shortcutKey
         );
         if (contextShortcut) {
           event.preventDefault();
@@ -258,7 +258,7 @@ export const useKeyboardShortcuts = () => {
     loadPreset,
     resetToDefault,
     currentLayout,
-    focusMode
+    focusMode,
   } = useLayoutStore();
 
   const {
@@ -271,7 +271,7 @@ export const useKeyboardShortcuts = () => {
     undo,
     redo,
     selectNode,
-    addNode
+    addNode,
   } = useGraphStore();
 
   const { copyNodes, pasteNodes, hasClipboardData } = useClipboard();
@@ -290,15 +290,15 @@ export const useKeyboardShortcuts = () => {
 
     shortcutManager.registerActionCallback('selectAll', () => {
       // Select all nodes in the current graph
-      const allNodeIds = graph.nodes.map(node => node.id);
-      graph.nodes.forEach(node => selectNode(node.id));
+      const allNodeIds = graph.nodes.map((node) => node.id);
+      graph.nodes.forEach((node) => selectNode(node.id));
       console.log(`Selected all ${allNodeIds.length} nodes`);
     });
 
     shortcutManager.registerActionCallback('copy', () => {
       // Copy selected nodes to clipboard
       if (selectedNodes.size > 0) {
-        const nodesToCopy = graph.nodes.filter(node => selectedNodes.has(node.id));
+        const nodesToCopy = graph.nodes.filter((node) => selectedNodes.has(node.id));
         copyNodes(nodesToCopy);
         console.log(`📋 Copied ${nodesToCopy.length} selected nodes`);
       } else {
@@ -310,7 +310,7 @@ export const useKeyboardShortcuts = () => {
       // Paste nodes from clipboard
       if (hasClipboardData()) {
         const pastedNodes = pasteNodes();
-        pastedNodes.forEach(node => addNode(node));
+        pastedNodes.forEach((node) => addNode(node));
         console.log(`📋 Pasted ${pastedNodes.length} nodes`);
       } else {
         console.log('No nodes in clipboard to paste');
@@ -321,14 +321,14 @@ export const useKeyboardShortcuts = () => {
       // Delete selected nodes and their connected edges
       if (selectedNodes.size > 0) {
         // First, find and remove edges connected to selected nodes
-        const edgesToRemove = graph.edges.filter(edge =>
-          selectedNodes.has(edge.source) || selectedNodes.has(edge.target)
+        const edgesToRemove = graph.edges.filter(
+          (edge) => selectedNodes.has(edge.source) || selectedNodes.has(edge.target)
         );
 
-        edgesToRemove.forEach(edge => removeEdge(edge.id));
+        edgesToRemove.forEach((edge) => removeEdge(edge.id));
 
         // Then remove the nodes
-        selectedNodes.forEach(nodeId => removeNode(nodeId));
+        selectedNodes.forEach((nodeId) => removeNode(nodeId));
 
         console.log(`Deleted ${selectedNodes.size} nodes and ${edgesToRemove.length} edges`);
       }
@@ -443,7 +443,7 @@ export const useKeyboardShortcuts = () => {
       'ctrl+shift+5': () => togglePanelVisibility('console'),
 
       // Panel focus mode
-      'f': () => {
+      f: () => {
         if (focusMode.focusedPanel) {
           exitFocusMode();
         } else {
@@ -503,11 +503,11 @@ export const useKeyboardShortcuts = () => {
       'ctrl+alt+0': () => resetToDefault(),
 
       // Exit focus mode
-      'escape': () => {
+      escape: () => {
         if (focusMode.focusedPanel) {
           exitFocusMode();
         }
-      }
+      },
     };
   }, [
     togglePanelVisibility,
@@ -520,7 +520,7 @@ export const useKeyboardShortcuts = () => {
     currentLayout,
     focusMode,
     evaluateGraph,
-    clearGraph
+    clearGraph,
   ]);
 
   const [currentShortcuts, setCurrentShortcuts] = useState<KeyboardShortcut[]>([]);
@@ -533,7 +533,7 @@ export const useKeyboardShortcuts = () => {
   return {
     shortcuts: shortcutManager.getAllShortcuts(),
     currentShortcuts,
-    manager: shortcutManager
+    manager: shortcutManager,
   };
 };
 
@@ -592,4 +592,4 @@ export function useContextualShortcuts(
     registerShortcut,
     setContext,
   };
-};
+}

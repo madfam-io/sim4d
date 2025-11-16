@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { DraftAngleNode } from './draftangle.node';
 import { createTestContext } from './../../test-utils';
@@ -7,12 +6,12 @@ describe('DraftAngleNode', () => {
   it('should create DraftAngle', async () => {
     const context = createTestContext();
     const inputs = {
-      solid: null
+      solid: null,
     };
     const params = {
-      pullDirection: [0,0,1],
+      pullDirection: [0, 0, 1],
       minAngle: 1,
-      maxAngle: 10
+      maxAngle: 10,
     };
 
     const result = await DraftAngleNode.evaluate(context, inputs, params);
@@ -22,6 +21,4 @@ describe('DraftAngleNode', () => {
     expect(result.invalidFaces).toBeDefined();
     expect(result.verticalFaces).toBeDefined();
   });
-
-  
 });

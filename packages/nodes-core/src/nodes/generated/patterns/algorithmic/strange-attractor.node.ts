@@ -15,7 +15,11 @@ interface StrangeAttractorOutputs {
   trajectory: unknown;
 }
 
-export const PatternsAlgorithmicStrangeAttractorNode: NodeDefinition<StrangeAttractorInputs, StrangeAttractorOutputs, StrangeAttractorParams> = {
+export const PatternsAlgorithmicStrangeAttractorNode: NodeDefinition<
+  StrangeAttractorInputs,
+  StrangeAttractorOutputs,
+  StrangeAttractorParams
+> = {
   id: 'Patterns::StrangeAttractor',
   category: 'Patterns',
   label: 'StrangeAttractor',
@@ -24,25 +28,25 @@ export const PatternsAlgorithmicStrangeAttractorNode: NodeDefinition<StrangeAttr
     initial: {
       type: 'Point',
       label: 'Initial',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     attractor: {
       type: 'Point[]',
-      label: 'Attractor'
+      label: 'Attractor',
     },
     trajectory: {
       type: 'Wire',
-      label: 'Trajectory'
-    }
+      label: 'Trajectory',
+    },
   },
   params: {
     type: {
       type: 'enum',
       label: 'Type',
-      default: "lorenz",
-      options: ["lorenz","rossler","henon","duffing"]
+      default: 'lorenz',
+      options: ['lorenz', 'rossler', 'henon', 'duffing'],
     },
     iterations: {
       type: 'number',
@@ -50,15 +54,15 @@ export const PatternsAlgorithmicStrangeAttractorNode: NodeDefinition<StrangeAttr
       default: 10000,
       min: 100,
       max: 100000,
-      step: 100
+      step: 100,
     },
     dt: {
       type: 'number',
       label: 'Dt',
       default: 0.01,
       min: 0.001,
-      max: 0.1
-    }
+      max: 0.1,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -67,13 +71,13 @@ export const PatternsAlgorithmicStrangeAttractorNode: NodeDefinition<StrangeAttr
         initial: inputs.initial,
         type: params.type,
         iterations: params.iterations,
-        dt: params.dt
-      }
+        dt: params.dt,
+      },
     });
-    
+
     return {
       attractor: results.attractor,
-      trajectory: results.trajectory
+      trajectory: results.trajectory,
     };
   },
 };

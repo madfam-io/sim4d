@@ -73,7 +73,7 @@ describe('graph-converter', () => {
       const graph = createMockGraph();
       const result = convertToReactFlow(graph);
 
-      const node1 = result.nodes.find(n => n.id === 'node1');
+      const node1 = result.nodes.find((n) => n.id === 'node1');
       expect(node1).toBeDefined();
       expect(node1?.position).toEqual({ x: 100, y: 200 });
       expect(node1?.data.type).toBe('Solid::Box');
@@ -83,14 +83,16 @@ describe('graph-converter', () => {
     it('handles nodes with missing positions', () => {
       const graph: GraphInstance = {
         ...createMockGraph(),
-        nodes: [{
-          id: 'node1',
-          type: 'Test',
-          inputs: {},
-          params: {},
-          outputs: {},
-          // No position property
-        } as NodeInstance],
+        nodes: [
+          {
+            id: 'node1',
+            type: 'Test',
+            inputs: {},
+            params: {},
+            outputs: {},
+            // No position property
+          } as NodeInstance,
+        ],
       };
 
       const result = convertToReactFlow(graph);
@@ -101,9 +103,9 @@ describe('graph-converter', () => {
       const graph = createMockGraph();
       const result = convertToReactFlow(graph);
 
-      const importNode = result.nodes.find(n => n.id === 'node3');
-      const exportNode = result.nodes.find(n => n.id === 'node4');
-      const defaultNode = result.nodes.find(n => n.id === 'node1');
+      const importNode = result.nodes.find((n) => n.id === 'node3');
+      const exportNode = result.nodes.find((n) => n.id === 'node4');
+      const defaultNode = result.nodes.find((n) => n.id === 'node1');
 
       expect(importNode?.type).toBe('input');
       expect(exportNode?.type).toBe('output');
@@ -114,9 +116,9 @@ describe('graph-converter', () => {
       const graph = createMockGraph();
       const result = convertToReactFlow(graph);
 
-      const boxNode = result.nodes.find(n => n.id === 'node1');
-      const filletNode = result.nodes.find(n => n.id === 'node2');
-      const importNode = result.nodes.find(n => n.id === 'node3');
+      const boxNode = result.nodes.find((n) => n.id === 'node1');
+      const filletNode = result.nodes.find((n) => n.id === 'node2');
+      const importNode = result.nodes.find((n) => n.id === 'node3');
 
       expect(boxNode?.data.label).toBe('Box (10×20×30)');
       expect(filletNode?.data.label).toBe('Fillet (R5)');
@@ -128,9 +130,9 @@ describe('graph-converter', () => {
       const selectedNodes = new Set(['node1', 'node3']);
       const result = convertToReactFlow(graph, selectedNodes);
 
-      const node1 = result.nodes.find(n => n.id === 'node1');
-      const node2 = result.nodes.find(n => n.id === 'node2');
-      const node3 = result.nodes.find(n => n.id === 'node3');
+      const node1 = result.nodes.find((n) => n.id === 'node1');
+      const node2 = result.nodes.find((n) => n.id === 'node2');
+      const node3 = result.nodes.find((n) => n.id === 'node3');
 
       expect(node1?.data.isSelected).toBe(true);
       expect(node2?.data.isSelected).toBe(false);
@@ -139,12 +141,15 @@ describe('graph-converter', () => {
 
     it('handles errors parameter', () => {
       const graph = createMockGraph();
-      const errors = new Map([['node1', 'Test error'], ['node2', 'Another error']]);
+      const errors = new Map([
+        ['node1', 'Test error'],
+        ['node2', 'Another error'],
+      ]);
       const result = convertToReactFlow(graph, undefined, errors);
 
-      const node1 = result.nodes.find(n => n.id === 'node1');
-      const node2 = result.nodes.find(n => n.id === 'node2');
-      const node3 = result.nodes.find(n => n.id === 'node3');
+      const node1 = result.nodes.find((n) => n.id === 'node1');
+      const node2 = result.nodes.find((n) => n.id === 'node2');
+      const node3 = result.nodes.find((n) => n.id === 'node3');
 
       expect(node1?.data.hasError).toBe(true);
       expect(node2?.data.hasError).toBe(true);
@@ -154,10 +159,12 @@ describe('graph-converter', () => {
     it('handles executing state', () => {
       const graph: GraphInstance = {
         ...createMockGraph(),
-        nodes: [{
-          ...createMockGraph().nodes[0],
-          state: 'executing' as any,
-        }],
+        nodes: [
+          {
+            ...createMockGraph().nodes[0],
+            state: 'executing' as any,
+          },
+        ],
       };
 
       const result = convertToReactFlow(graph);
@@ -168,7 +175,7 @@ describe('graph-converter', () => {
       const graph = createMockGraph();
       const result = convertToReactFlow(graph);
 
-      const edge1 = result.edges.find(e => e.id === 'edge1');
+      const edge1 = result.edges.find((e) => e.id === 'edge1');
       expect(edge1).toBeDefined();
       expect(edge1?.source).toBe('node1');
       expect(edge1?.sourceHandle).toBe('out');
@@ -183,13 +190,13 @@ describe('graph-converter', () => {
     it('accepts optional onOpenParameterDialog callback parameter', () => {
       const graph = createMockGraph();
       const mockCallback = () => {};
-      
+
       // Should not throw when callback provided
       expect(() => convertToReactFlow(graph, undefined, undefined, mockCallback)).not.toThrow();
-      
+
       // Should not throw when callback not provided
       expect(() => convertToReactFlow(graph)).not.toThrow();
-      
+
       // Both should return same number of nodes
       const resultWithCallback = convertToReactFlow(graph, undefined, undefined, mockCallback);
       const resultWithoutCallback = convertToReactFlow(graph);
@@ -250,7 +257,7 @@ describe('graph-converter', () => {
       expect(result.nodes).toHaveLength(2);
       expect(result.edges).toHaveLength(2);
 
-      const node1 = result.nodes.find(n => n.id === 'node1');
+      const node1 = result.nodes.find((n) => n.id === 'node1');
       expect(node1?.type).toBe('Solid::Box');
       expect(node1?.position).toEqual({ x: 100, y: 200 });
       expect(node1?.inputs).toEqual({ input1: 'value1' });
@@ -259,13 +266,13 @@ describe('graph-converter', () => {
       expect(node1?.state).toBe('ready');
       expect(node1?.dirty).toBe(false);
 
-      const edge1 = result.edges.find(e => e.id === 'edge1');
+      const edge1 = result.edges.find((e) => e.id === 'edge1');
       expect(edge1?.source).toBe('node1');
       expect(edge1?.sourceHandle).toBe('out');
       expect(edge1?.target).toBe('node2');
       expect(edge1?.targetHandle).toBe('in');
 
-      const edge2 = result.edges.find(e => e.id === 'edge2');
+      const edge2 = result.edges.find((e) => e.id === 'edge2');
       expect(edge2?.sourceHandle).toBe('');
       expect(edge2?.targetHandle).toBe('');
     });
@@ -289,13 +296,13 @@ describe('graph-converter', () => {
       const result = convertFromReactFlow(nodes, []);
 
       expect(result.nodes).toHaveLength(2);
-      
-      const node1 = result.nodes.find(n => n.id === 'node1');
+
+      const node1 = result.nodes.find((n) => n.id === 'node1');
       expect(node1?.type).toBe('custom'); // Uses node.type when data.type is missing
       expect(node1?.inputs).toEqual({});
       expect(node1?.params).toEqual({});
 
-      const node2 = result.nodes.find(n => n.id === 'node2');
+      const node2 = result.nodes.find((n) => n.id === 'node2');
       expect(node2?.type).toBe('default'); // Uses node.type when data is missing
       expect(node2?.inputs).toEqual({});
       expect(node2?.params).toEqual({});
@@ -323,42 +330,105 @@ describe('graph-converter', () => {
       const graph: GraphInstance = {
         ...createMockGraph(),
         nodes: [
-          { id: '1', type: 'IO::Import::STEP', position: { x: 0, y: 0 }, inputs: {}, params: {}, outputs: {} },
-          { id: '2', type: 'IO::Import::IGES', position: { x: 0, y: 0 }, inputs: {}, params: {}, outputs: {} },
-          { id: '3', type: 'IO::Import::STL', position: { x: 0, y: 0 }, inputs: {}, params: {}, outputs: {} },
+          {
+            id: '1',
+            type: 'IO::Import::STEP',
+            position: { x: 0, y: 0 },
+            inputs: {},
+            params: {},
+            outputs: {},
+          },
+          {
+            id: '2',
+            type: 'IO::Import::IGES',
+            position: { x: 0, y: 0 },
+            inputs: {},
+            params: {},
+            outputs: {},
+          },
+          {
+            id: '3',
+            type: 'IO::Import::STL',
+            position: { x: 0, y: 0 },
+            inputs: {},
+            params: {},
+            outputs: {},
+          },
         ],
       };
 
       const result = convertToReactFlow(graph);
-      expect(result.nodes.every(n => n.type === 'input')).toBe(true);
+      expect(result.nodes.every((n) => n.type === 'input')).toBe(true);
     });
 
     it('correctly identifies export nodes', () => {
       const graph: GraphInstance = {
         ...createMockGraph(),
         nodes: [
-          { id: '1', type: 'IO::Export::STEP', position: { x: 0, y: 0 }, inputs: {}, params: {}, outputs: {} },
-          { id: '2', type: 'IO::Export::STL', position: { x: 0, y: 0 }, inputs: {}, params: {}, outputs: {} },
-          { id: '3', type: 'IO::Export::IGES', position: { x: 0, y: 0 }, inputs: {}, params: {}, outputs: {} },
+          {
+            id: '1',
+            type: 'IO::Export::STEP',
+            position: { x: 0, y: 0 },
+            inputs: {},
+            params: {},
+            outputs: {},
+          },
+          {
+            id: '2',
+            type: 'IO::Export::STL',
+            position: { x: 0, y: 0 },
+            inputs: {},
+            params: {},
+            outputs: {},
+          },
+          {
+            id: '3',
+            type: 'IO::Export::IGES',
+            position: { x: 0, y: 0 },
+            inputs: {},
+            params: {},
+            outputs: {},
+          },
         ],
       };
 
       const result = convertToReactFlow(graph);
-      expect(result.nodes.every(n => n.type === 'output')).toBe(true);
+      expect(result.nodes.every((n) => n.type === 'output')).toBe(true);
     });
 
     it('defaults to default type for other nodes', () => {
       const graph: GraphInstance = {
         ...createMockGraph(),
         nodes: [
-          { id: '1', type: 'Solid::Box', position: { x: 0, y: 0 }, inputs: {}, params: {}, outputs: {} },
-          { id: '2', type: 'Features::Fillet', position: { x: 0, y: 0 }, inputs: {}, params: {}, outputs: {} },
-          { id: '3', type: 'Math::Add', position: { x: 0, y: 0 }, inputs: {}, params: {}, outputs: {} },
+          {
+            id: '1',
+            type: 'Solid::Box',
+            position: { x: 0, y: 0 },
+            inputs: {},
+            params: {},
+            outputs: {},
+          },
+          {
+            id: '2',
+            type: 'Features::Fillet',
+            position: { x: 0, y: 0 },
+            inputs: {},
+            params: {},
+            outputs: {},
+          },
+          {
+            id: '3',
+            type: 'Math::Add',
+            position: { x: 0, y: 0 },
+            inputs: {},
+            params: {},
+            outputs: {},
+          },
         ],
       };
 
       const result = convertToReactFlow(graph);
-      expect(result.nodes.every(n => n.type === 'default')).toBe(true);
+      expect(result.nodes.every((n) => n.type === 'default')).toBe(true);
     });
   });
 
@@ -367,16 +437,37 @@ describe('graph-converter', () => {
       const graph: GraphInstance = {
         ...createMockGraph(),
         nodes: [
-          { id: '1', type: 'Solid::Sphere', position: { x: 0, y: 0 }, inputs: {}, params: {}, outputs: {} },
-          { id: '2', type: 'Features::Chamfer', position: { x: 0, y: 0 }, inputs: {}, params: {}, outputs: {} },
-          { id: '3', type: 'SingleWord', position: { x: 0, y: 0 }, inputs: {}, params: {}, outputs: {} },
+          {
+            id: '1',
+            type: 'Solid::Sphere',
+            position: { x: 0, y: 0 },
+            inputs: {},
+            params: {},
+            outputs: {},
+          },
+          {
+            id: '2',
+            type: 'Features::Chamfer',
+            position: { x: 0, y: 0 },
+            inputs: {},
+            params: {},
+            outputs: {},
+          },
+          {
+            id: '3',
+            type: 'SingleWord',
+            position: { x: 0, y: 0 },
+            inputs: {},
+            params: {},
+            outputs: {},
+          },
         ],
       };
 
       const result = convertToReactFlow(graph);
-      expect(result.nodes.find(n => n.id === '1')?.data.label).toBe('Sphere');
-      expect(result.nodes.find(n => n.id === '2')?.data.label).toBe('Chamfer');
-      expect(result.nodes.find(n => n.id === '3')?.data.label).toBe('SingleWord');
+      expect(result.nodes.find((n) => n.id === '1')?.data.label).toBe('Sphere');
+      expect(result.nodes.find((n) => n.id === '2')?.data.label).toBe('Chamfer');
+      expect(result.nodes.find((n) => n.id === '3')?.data.label).toBe('SingleWord');
     });
 
     it('handles Box nodes with dimension parameters', () => {
@@ -411,9 +502,9 @@ describe('graph-converter', () => {
       };
 
       const result = convertToReactFlow(graph);
-      expect(result.nodes.find(n => n.id === '1')?.data.label).toBe('Box (5×10×15)');
-      expect(result.nodes.find(n => n.id === '2')?.data.label).toBe('Box');
-      expect(result.nodes.find(n => n.id === '3')?.data.label).toBe('Box');
+      expect(result.nodes.find((n) => n.id === '1')?.data.label).toBe('Box (5×10×15)');
+      expect(result.nodes.find((n) => n.id === '2')?.data.label).toBe('Box');
+      expect(result.nodes.find((n) => n.id === '3')?.data.label).toBe('Box');
     });
 
     it('handles Fillet nodes with radius parameter', () => {
@@ -440,8 +531,8 @@ describe('graph-converter', () => {
       };
 
       const result = convertToReactFlow(graph);
-      expect(result.nodes.find(n => n.id === '1')?.data.label).toBe('Fillet (R2.5)');
-      expect(result.nodes.find(n => n.id === '2')?.data.label).toBe('Fillet');
+      expect(result.nodes.find((n) => n.id === '1')?.data.label).toBe('Fillet (R2.5)');
+      expect(result.nodes.find((n) => n.id === '2')?.data.label).toBe('Fillet');
     });
 
     it('returns Unknown for empty type', () => {

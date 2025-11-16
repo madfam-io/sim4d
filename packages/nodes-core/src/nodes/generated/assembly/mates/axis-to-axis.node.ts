@@ -15,7 +15,11 @@ interface AxisToAxisOutputs {
   mate: unknown;
 }
 
-export const AssemblyMatesAxisToAxisNode: NodeDefinition<AxisToAxisInputs, AxisToAxisOutputs, AxisToAxisParams> = {
+export const AssemblyMatesAxisToAxisNode: NodeDefinition<
+  AxisToAxisInputs,
+  AxisToAxisOutputs,
+  AxisToAxisParams
+> = {
   id: 'Assembly::AxisToAxis',
   category: 'Assembly',
   label: 'AxisToAxis',
@@ -24,35 +28,35 @@ export const AssemblyMatesAxisToAxisNode: NodeDefinition<AxisToAxisInputs, AxisT
     axis1: {
       type: 'Axis',
       label: 'Axis1',
-      required: true
+      required: true,
     },
     axis2: {
       type: 'Axis',
       label: 'Axis2',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     mated: {
       type: 'Shape[]',
-      label: 'Mated'
+      label: 'Mated',
     },
     mate: {
       type: 'Mate',
-      label: 'Mate'
-    }
+      label: 'Mate',
+    },
   },
   params: {
     colinear: {
       type: 'boolean',
       label: 'Colinear',
-      default: true
+      default: true,
     },
     offset: {
       type: 'number',
       label: 'Offset',
-      default: 0
-    }
+      default: 0,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -61,13 +65,13 @@ export const AssemblyMatesAxisToAxisNode: NodeDefinition<AxisToAxisInputs, AxisT
         axis1: inputs.axis1,
         axis2: inputs.axis2,
         colinear: params.colinear,
-        offset: params.offset
-      }
+        offset: params.offset,
+      },
     });
-    
+
     return {
       mated: results.mated,
-      mate: results.mate
+      mate: results.mate,
     };
   },
 };

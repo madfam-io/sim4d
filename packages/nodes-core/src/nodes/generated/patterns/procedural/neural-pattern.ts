@@ -13,7 +13,11 @@ interface NeuralPatternOutputs {
   network: unknown;
 }
 
-export const PatternsProceduralNeuralPatternNode: NodeDefinition<NeuralPatternInputs, NeuralPatternOutputs, NeuralPatternParams> = {
+export const PatternsProceduralNeuralPatternNode: NodeDefinition<
+  NeuralPatternInputs,
+  NeuralPatternOutputs,
+  NeuralPatternParams
+> = {
   id: 'Patterns::NeuralPattern',
   type: 'Patterns::NeuralPattern',
   category: 'Patterns',
@@ -23,14 +27,14 @@ export const PatternsProceduralNeuralPatternNode: NodeDefinition<NeuralPatternIn
     inputPoints: {
       type: 'Point[]',
       label: 'Input Points',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     network: {
       type: 'Wire[]',
-      label: 'Network'
-    }
+      label: 'Network',
+    },
   },
   params: {
     neurons: {
@@ -39,7 +43,7 @@ export const PatternsProceduralNeuralPatternNode: NodeDefinition<NeuralPatternIn
       default: 100,
       min: 10,
       max: 1000,
-      step: 10
+      step: 10,
     },
     connections: {
       type: 'number',
@@ -47,8 +51,8 @@ export const PatternsProceduralNeuralPatternNode: NodeDefinition<NeuralPatternIn
       default: 3,
       min: 1,
       max: 10,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -56,12 +60,12 @@ export const PatternsProceduralNeuralPatternNode: NodeDefinition<NeuralPatternIn
       params: {
         inputPoints: inputs.inputPoints,
         neurons: params.neurons,
-        connections: params.connections
-      }
+        connections: params.connections,
+      },
     });
-    
+
     return {
-      network: result
+      network: result,
     };
   },
 };

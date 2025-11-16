@@ -14,7 +14,11 @@ interface MandelbrotSetOutputs {
   fractal: unknown;
 }
 
-export const PatternsFractalsMandelbrotSetNode: NodeDefinition<MandelbrotSetInputs, MandelbrotSetOutputs, MandelbrotSetParams> = {
+export const PatternsFractalsMandelbrotSetNode: NodeDefinition<
+  MandelbrotSetInputs,
+  MandelbrotSetOutputs,
+  MandelbrotSetParams
+> = {
   id: 'Patterns::MandelbrotSet',
   type: 'Patterns::MandelbrotSet',
   category: 'Patterns',
@@ -24,14 +28,14 @@ export const PatternsFractalsMandelbrotSetNode: NodeDefinition<MandelbrotSetInpu
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     fractal: {
       type: 'Mesh',
-      label: 'Fractal'
-    }
+      label: 'Fractal',
+    },
   },
   params: {
     iterations: {
@@ -40,7 +44,7 @@ export const PatternsFractalsMandelbrotSetNode: NodeDefinition<MandelbrotSetInpu
       default: 100,
       min: 10,
       max: 1000,
-      step: 10
+      step: 10,
     },
     resolution: {
       type: 'number',
@@ -48,15 +52,15 @@ export const PatternsFractalsMandelbrotSetNode: NodeDefinition<MandelbrotSetInpu
       default: 200,
       min: 50,
       max: 1000,
-      step: 10
+      step: 10,
     },
     zoom: {
       type: 'number',
       label: 'Zoom',
       default: 1,
       min: 0.1,
-      max: 1000
-    }
+      max: 1000,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -65,12 +69,12 @@ export const PatternsFractalsMandelbrotSetNode: NodeDefinition<MandelbrotSetInpu
         center: inputs.center,
         iterations: params.iterations,
         resolution: params.resolution,
-        zoom: params.zoom
-      }
+        zoom: params.zoom,
+      },
     });
-    
+
     return {
-      fractal: result
+      fractal: result,
     };
   },
 };

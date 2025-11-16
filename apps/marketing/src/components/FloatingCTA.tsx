@@ -87,9 +87,7 @@ export function FloatingCTA({ showDelay = 3000, hideOnScroll = false }: Floating
 
               {/* Header */}
               <div className="mb-4">
-                <h3 className="text-lg font-bold text-white mb-1">
-                  Ready to Build?
-                </h3>
+                <h3 className="text-lg font-bold text-white mb-1">Ready to Build?</h3>
                 <p className="text-sm text-gray-300">
                   Experience parametric CAD in your browser. No installation required.
                 </p>

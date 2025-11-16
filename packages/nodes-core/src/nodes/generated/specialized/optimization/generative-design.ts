@@ -16,7 +16,11 @@ interface GenerativeDesignOutputs {
   paretoFront: unknown;
 }
 
-export const SpecializedOptimizationGenerativeDesignNode: NodeDefinition<GenerativeDesignInputs, GenerativeDesignOutputs, GenerativeDesignParams> = {
+export const SpecializedOptimizationGenerativeDesignNode: NodeDefinition<
+  GenerativeDesignInputs,
+  GenerativeDesignOutputs,
+  GenerativeDesignParams
+> = {
   id: 'Specialized::GenerativeDesign',
   type: 'Specialized::GenerativeDesign',
   category: 'Specialized',
@@ -26,29 +30,29 @@ export const SpecializedOptimizationGenerativeDesignNode: NodeDefinition<Generat
     designSpace: {
       type: 'Shape',
       label: 'Design Space',
-      required: true
+      required: true,
     },
     requirements: {
       type: 'Data',
       label: 'Requirements',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     designs: {
       type: 'Shape[]',
-      label: 'Designs'
+      label: 'Designs',
     },
     paretoFront: {
       type: 'Data',
-      label: 'Pareto Front'
-    }
+      label: 'Pareto Front',
+    },
   },
   params: {
     objectives: {
       type: 'string[]',
       label: 'Objectives',
-      default: ["weight","strength"]
+      default: ['weight', 'strength'],
     },
     generations: {
       type: 'number',
@@ -56,7 +60,7 @@ export const SpecializedOptimizationGenerativeDesignNode: NodeDefinition<Generat
       default: 20,
       min: 5,
       max: 100,
-      step: 5
+      step: 5,
     },
     populationSize: {
       type: 'number',
@@ -64,8 +68,8 @@ export const SpecializedOptimizationGenerativeDesignNode: NodeDefinition<Generat
       default: 50,
       min: 10,
       max: 500,
-      step: 10
-    }
+      step: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -75,13 +79,13 @@ export const SpecializedOptimizationGenerativeDesignNode: NodeDefinition<Generat
         requirements: inputs.requirements,
         objectives: params.objectives,
         generations: params.generations,
-        populationSize: params.populationSize
-      }
+        populationSize: params.populationSize,
+      },
     });
-    
+
     return {
       designs: results.designs,
-      paretoFront: results.paretoFront
+      paretoFront: results.paretoFront,
     };
   },
 };

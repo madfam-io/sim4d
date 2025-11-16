@@ -17,7 +17,11 @@ interface PillowBlockOutputs {
   mountingPoints: Array<[number, number, number]>;
 }
 
-export const MechanicalEngineeringBearingsPillowBlockNode: NodeDefinition<PillowBlockInputs, PillowBlockOutputs, PillowBlockParams> = {
+export const MechanicalEngineeringBearingsPillowBlockNode: NodeDefinition<
+  PillowBlockInputs,
+  PillowBlockOutputs,
+  PillowBlockParams
+> = {
   id: 'MechanicalEngineering::PillowBlock',
   type: 'MechanicalEngineering::PillowBlock',
   category: 'MechanicalEngineering',
@@ -27,22 +31,22 @@ export const MechanicalEngineeringBearingsPillowBlockNode: NodeDefinition<Pillow
     position: {
       type: 'Point',
       label: 'Position',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     housing: {
       type: 'Shape',
-      label: 'Housing'
+      label: 'Housing',
     },
     bearing: {
       type: 'Shape',
-      label: 'Bearing'
+      label: 'Bearing',
     },
     mountingPoints: {
       type: 'Point[]',
-      label: 'Mounting Points'
-    }
+      label: 'Mounting Points',
+    },
   },
   params: {
     shaftDiameter: {
@@ -50,29 +54,29 @@ export const MechanicalEngineeringBearingsPillowBlockNode: NodeDefinition<Pillow
       label: 'Shaft Diameter',
       default: 20,
       min: 8,
-      max: 100
+      max: 100,
     },
     mountingHoles: {
       type: 'number',
       label: 'Mounting Holes',
       default: 2,
       min: 2,
-      max: 4
+      max: 4,
     },
     baseWidth: {
       type: 'number',
       label: 'Base Width',
       default: 80,
       min: 30,
-      max: 200
+      max: 200,
     },
     height: {
       type: 'number',
       label: 'Height',
       default: 50,
       min: 20,
-      max: 150
-    }
+      max: 150,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -82,14 +86,14 @@ export const MechanicalEngineeringBearingsPillowBlockNode: NodeDefinition<Pillow
         shaftDiameter: params.shaftDiameter,
         mountingHoles: params.mountingHoles,
         baseWidth: params.baseWidth,
-        height: params.height
-      }
+        height: params.height,
+      },
     });
-    
+
     return {
       housing: results.housing,
       bearing: results.bearing,
-      mountingPoints: results.mountingPoints
+      mountingPoints: results.mountingPoints,
     };
   },
 };

@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -13,54 +12,49 @@ interface Outputs {
   gltfData: Data;
 }
 
-export const ExportGLTFNode: NodeDefinition<ExportGLTFInputs, ExportGLTFOutputs, ExportGLTFParams> = {
-  type: 'IO::ExportGLTF',
-  category: 'IO',
-  subcategory: 'Exchange',
+export const ExportGLTFNode: NodeDefinition<ExportGLTFInputs, ExportGLTFOutputs, ExportGLTFParams> =
+  {
+    type: 'IO::ExportGLTF',
+    category: 'IO',
+    subcategory: 'Exchange',
 
-  metadata: {
-    label: 'ExportGLTF',
-    description: 'Export to GLTF/GLB',
-    
-    
-  },
-
-  params: {
-        format: {
-      "default": "glb",
-      "options": [
-        "gltf",
-        "glb"
-      ]
+    metadata: {
+      label: 'ExportGLTF',
+      description: 'Export to GLTF/GLB',
     },
-    draco: {
-      "default": false
-    }
-  },
 
-  inputs: {
-        shape: 'Shape',
-    materials: 'Data'
-  },
+    params: {
+      format: {
+        default: 'glb',
+        options: ['gltf', 'glb'],
+      },
+      draco: {
+        default: false,
+      },
+    },
 
-  outputs: {
-        gltfData: 'Data'
-  },
+    inputs: {
+      shape: 'Shape',
+      materials: 'Data',
+    },
 
-  async evaluate(context, inputs, params) {
-    
-    const result = await context.geometry.execute({
-      type: 'exportGLTF',
-      params: {
-        shape: inputs.shape,
-        materials: inputs.materials,
-        format: params.format,
-        draco: params.draco
-      }
-    });
+    outputs: {
+      gltfData: 'Data',
+    },
 
-    return {
-      gltfData: result
-    };
-  }
-};
+    async evaluate(context, inputs, params) {
+      const result = await context.geometry.execute({
+        type: 'exportGLTF',
+        params: {
+          shape: inputs.shape,
+          materials: inputs.materials,
+          format: params.format,
+          draco: params.draco,
+        },
+      });
+
+      return {
+        gltfData: result,
+      };
+    },
+  };

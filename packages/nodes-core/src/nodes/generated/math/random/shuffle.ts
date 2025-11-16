@@ -22,14 +22,14 @@ export const MathRandomShuffleNode: NodeDefinition<ShuffleInputs, ShuffleOutputs
     list: {
       type: 'Data[]',
       label: 'List',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shuffled: {
       type: 'Data[]',
-      label: 'Shuffled'
-    }
+      label: 'Shuffled',
+    },
   },
   params: {
     seed: {
@@ -37,20 +37,20 @@ export const MathRandomShuffleNode: NodeDefinition<ShuffleInputs, ShuffleOutputs
       label: 'Seed',
       default: -1,
       min: -1,
-      max: 999999
-    }
+      max: 999999,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathShuffle',
       params: {
         list: inputs.list,
-        seed: params.seed
-      }
+        seed: params.seed,
+      },
     });
-    
+
     return {
-      shuffled: result
+      shuffled: result,
     };
   },
 };

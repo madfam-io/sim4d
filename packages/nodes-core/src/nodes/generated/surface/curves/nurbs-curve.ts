@@ -15,7 +15,11 @@ interface NurbsCurveOutputs {
   curve: unknown;
 }
 
-export const SurfaceCurvesNurbsCurveNode: NodeDefinition<NurbsCurveInputs, NurbsCurveOutputs, NurbsCurveParams> = {
+export const SurfaceCurvesNurbsCurveNode: NodeDefinition<
+  NurbsCurveInputs,
+  NurbsCurveOutputs,
+  NurbsCurveParams
+> = {
   id: 'Surface::NurbsCurve',
   type: 'Surface::NurbsCurve',
   category: 'Surface',
@@ -25,24 +29,24 @@ export const SurfaceCurvesNurbsCurveNode: NodeDefinition<NurbsCurveInputs, Nurbs
     controlPoints: {
       type: 'Point[]',
       label: 'Control Points',
-      required: true
+      required: true,
     },
     weights: {
       type: 'number[]',
       label: 'Weights',
-      optional: true
+      optional: true,
     },
     knots: {
       type: 'number[]',
       label: 'Knots',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     curve: {
       type: 'Wire',
-      label: 'Curve'
-    }
+      label: 'Curve',
+    },
   },
   params: {
     degree: {
@@ -51,13 +55,13 @@ export const SurfaceCurvesNurbsCurveNode: NodeDefinition<NurbsCurveInputs, Nurbs
       default: 3,
       min: 1,
       max: 10,
-      step: 1
+      step: 1,
     },
     periodic: {
       type: 'boolean',
       label: 'Periodic',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -67,12 +71,12 @@ export const SurfaceCurvesNurbsCurveNode: NodeDefinition<NurbsCurveInputs, Nurbs
         weights: inputs.weights,
         knots: inputs.knots,
         degree: params.degree,
-        periodic: params.periodic
-      }
+        periodic: params.periodic,
+      },
     });
-    
+
     return {
-      curve: result
+      curve: result,
     };
   },
 };

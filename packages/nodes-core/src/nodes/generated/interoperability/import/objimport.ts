@@ -16,7 +16,11 @@ interface OBJImportOutputs {
   groups: unknown;
 }
 
-export const InteroperabilityImportOBJImportNode: NodeDefinition<OBJImportInputs, OBJImportOutputs, OBJImportParams> = {
+export const InteroperabilityImportOBJImportNode: NodeDefinition<
+  OBJImportInputs,
+  OBJImportOutputs,
+  OBJImportParams
+> = {
   id: 'Interoperability::OBJImport',
   type: 'Interoperability::OBJImport',
   category: 'Interoperability',
@@ -26,22 +30,22 @@ export const InteroperabilityImportOBJImportNode: NodeDefinition<OBJImportInputs
     filePath: {
       type: 'string',
       label: 'File Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     meshes: {
       type: 'Shape[]',
-      label: 'Meshes'
+      label: 'Meshes',
     },
     materials: {
       type: 'Properties[]',
-      label: 'Materials'
+      label: 'Materials',
     },
     groups: {
       type: 'string[]',
-      label: 'Groups'
-    }
+      label: 'Groups',
+    },
   },
   params: {
     scale: {
@@ -49,18 +53,18 @@ export const InteroperabilityImportOBJImportNode: NodeDefinition<OBJImportInputs
       label: 'Scale',
       default: 1,
       min: 0.001,
-      max: 1000
+      max: 1000,
     },
     flipNormals: {
       type: 'boolean',
       label: 'Flip Normals',
-      default: false
+      default: false,
     },
     loadMaterials: {
       type: 'boolean',
       label: 'Load Materials',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -69,14 +73,14 @@ export const InteroperabilityImportOBJImportNode: NodeDefinition<OBJImportInputs
         filePath: inputs.filePath,
         scale: params.scale,
         flipNormals: params.flipNormals,
-        loadMaterials: params.loadMaterials
-      }
+        loadMaterials: params.loadMaterials,
+      },
     });
-    
+
     return {
       meshes: results.meshes,
       materials: results.materials,
-      groups: results.groups
+      groups: results.groups,
     };
   },
 };

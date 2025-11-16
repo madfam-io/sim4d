@@ -1,6 +1,6 @@
 /**
  * Standalone Collaboration Server
- * 
+ *
  * Runs both Socket.IO collaboration server and Express REST API
  * for session management and geometry export
  */
@@ -25,13 +25,15 @@ export async function startCollaborationServer(): Promise<{
 }> {
   // Create Express app
   const app = express();
-  
+
   // Middleware
   app.use(express.json());
-  app.use(cors({
-    origin: CORS_ORIGIN,
-    credentials: true,
-  }));
+  app.use(
+    cors({
+      origin: CORS_ORIGIN,
+      credentials: true,
+    })
+  );
 
   // Health check endpoint
   app.get('/health', (req, res) => {

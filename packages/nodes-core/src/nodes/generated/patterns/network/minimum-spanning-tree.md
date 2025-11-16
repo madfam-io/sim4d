@@ -1,4 +1,3 @@
-
 # MinimumSpanningTree Node
 
 **Category:** Patterns / Network
@@ -11,19 +10,13 @@ This node has no parameters.
 
 ## Inputs
 
-
 ### Points
+
 - **Type:** Point[]
 - **Required:** Yes
 
-
-
 ## Outputs
 
-
 ### Tree
+
 - **Type:** Wire[]
-
-
-
-

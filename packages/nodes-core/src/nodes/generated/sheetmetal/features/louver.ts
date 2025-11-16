@@ -17,7 +17,11 @@ interface LouverOutputs {
   result: unknown;
 }
 
-export const SheetMetalFeaturesLouverNode: NodeDefinition<LouverInputs, LouverOutputs, LouverParams> = {
+export const SheetMetalFeaturesLouverNode: NodeDefinition<
+  LouverInputs,
+  LouverOutputs,
+  LouverParams
+> = {
   id: 'SheetMetal::Louver',
   type: 'SheetMetal::Louver',
   category: 'SheetMetal',
@@ -27,24 +31,24 @@ export const SheetMetalFeaturesLouverNode: NodeDefinition<LouverInputs, LouverOu
     sheet: {
       type: 'Shape',
       label: 'Sheet',
-      required: true
+      required: true,
     },
     position: {
       type: 'Point',
       label: 'Position',
-      required: true
+      required: true,
     },
     direction: {
       type: 'Vector',
       label: 'Direction',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'Shape',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {
     louverLength: {
@@ -52,29 +56,29 @@ export const SheetMetalFeaturesLouverNode: NodeDefinition<LouverInputs, LouverOu
       label: 'Louver Length',
       default: 30,
       min: 1,
-      max: 500
+      max: 500,
     },
     louverWidth: {
       type: 'number',
       label: 'Louver Width',
       default: 5,
       min: 0.5,
-      max: 100
+      max: 100,
     },
     louverHeight: {
       type: 'number',
       label: 'Louver Height',
       default: 5,
       min: 0.5,
-      max: 50
+      max: 50,
     },
     louverAngle: {
       type: 'number',
       label: 'Louver Angle',
       default: 45,
       min: 0,
-      max: 90
-    }
+      max: 90,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -86,12 +90,12 @@ export const SheetMetalFeaturesLouverNode: NodeDefinition<LouverInputs, LouverOu
         louverLength: params.louverLength,
         louverWidth: params.louverWidth,
         louverHeight: params.louverHeight,
-        louverAngle: params.louverAngle
-      }
+        louverAngle: params.louverAngle,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

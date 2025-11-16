@@ -14,7 +14,11 @@ interface ExtendSurfaceOutputs {
   extendedSurface: unknown;
 }
 
-export const AdvancedSurfaceExtendSurfaceNode: NodeDefinition<ExtendSurfaceInputs, ExtendSurfaceOutputs, ExtendSurfaceParams> = {
+export const AdvancedSurfaceExtendSurfaceNode: NodeDefinition<
+  ExtendSurfaceInputs,
+  ExtendSurfaceOutputs,
+  ExtendSurfaceParams
+> = {
   id: 'Advanced::ExtendSurface',
   category: 'Advanced',
   label: 'ExtendSurface',
@@ -23,19 +27,19 @@ export const AdvancedSurfaceExtendSurfaceNode: NodeDefinition<ExtendSurfaceInput
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
+      required: true,
     },
     edges: {
       type: 'Edge[]',
       label: 'Edges',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     extendedSurface: {
       type: 'Face',
-      label: 'Extended Surface'
-    }
+      label: 'Extended Surface',
+    },
   },
   params: {
     extensionLength: {
@@ -43,14 +47,14 @@ export const AdvancedSurfaceExtendSurfaceNode: NodeDefinition<ExtendSurfaceInput
       label: 'Extension Length',
       default: 10,
       min: 0.1,
-      max: 1000
+      max: 1000,
     },
     extensionType: {
       type: 'enum',
       label: 'Extension Type',
-      default: "natural",
-      options: ["linear","natural","reflective"]
-    }
+      default: 'natural',
+      options: ['linear', 'natural', 'reflective'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -59,12 +63,12 @@ export const AdvancedSurfaceExtendSurfaceNode: NodeDefinition<ExtendSurfaceInput
         surface: inputs.surface,
         edges: inputs.edges,
         extensionLength: params.extensionLength,
-        extensionType: params.extensionType
-      }
+        extensionType: params.extensionType,
+      },
     });
-    
+
     return {
-      extendedSurface: result
+      extendedSurface: result,
     };
   },
 };

@@ -23,26 +23,26 @@ export const BooleanSplitNode: NodeDefinition<SplitInputs, SplitOutputs, SplitPa
     shapes: {
       type: 'Shape[]',
       label: 'Shapes',
-      required: true
+      required: true,
     },
     tools: {
       type: 'Shape[]',
       label: 'Tools',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     fragments: {
       type: 'Shape[]',
-      label: 'Fragments'
-    }
+      label: 'Fragments',
+    },
   },
   params: {
     keepAll: {
       type: 'boolean',
       label: 'Keep All',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -50,12 +50,12 @@ export const BooleanSplitNode: NodeDefinition<SplitInputs, SplitOutputs, SplitPa
       params: {
         shapes: inputs.shapes,
         tools: inputs.tools,
-        keepAll: params.keepAll
-      }
+        keepAll: params.keepAll,
+      },
     });
-    
+
     return {
-      fragments: result
+      fragments: result,
     };
   },
 };

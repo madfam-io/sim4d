@@ -13,7 +13,11 @@ interface RetractionOptimizationOutputs {
   retractionPoints: Array<[number, number, number]>;
 }
 
-export const Fabrication3DPrintingRetractionOptimizationNode: NodeDefinition<RetractionOptimizationInputs, RetractionOptimizationOutputs, RetractionOptimizationParams> = {
+export const Fabrication3DPrintingRetractionOptimizationNode: NodeDefinition<
+  RetractionOptimizationInputs,
+  RetractionOptimizationOutputs,
+  RetractionOptimizationParams
+> = {
   id: 'Fabrication::RetractionOptimization',
   category: 'Fabrication',
   label: 'RetractionOptimization',
@@ -22,14 +26,14 @@ export const Fabrication3DPrintingRetractionOptimizationNode: NodeDefinition<Ret
     toolpath: {
       type: 'Wire[]',
       label: 'Toolpath',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     retractionPoints: {
       type: 'Point[]',
-      label: 'Retraction Points'
-    }
+      label: 'Retraction Points',
+    },
   },
   params: {
     retractionDistance: {
@@ -37,15 +41,15 @@ export const Fabrication3DPrintingRetractionOptimizationNode: NodeDefinition<Ret
       label: 'Retraction Distance',
       default: 1,
       min: 0,
-      max: 10
+      max: 10,
     },
     minTravelDistance: {
       type: 'number',
       label: 'Min Travel Distance',
       default: 2,
       min: 0.5,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const Fabrication3DPrintingRetractionOptimizationNode: NodeDefinition<Ret
       params: {
         toolpath: inputs.toolpath,
         retractionDistance: params.retractionDistance,
-        minTravelDistance: params.minTravelDistance
-      }
+        minTravelDistance: params.minTravelDistance,
+      },
     });
-    
+
     return {
-      retractionPoints: result
+      retractionPoints: result,
     };
   },
 };

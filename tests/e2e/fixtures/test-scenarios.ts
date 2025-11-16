@@ -62,8 +62,8 @@ export const NodeScenarios: Record<string, NodeScenario> = {
     expectedGeometry: {
       vertices: 8,
       faces: 6,
-      volume: 125000
-    }
+      volume: 125000,
+    },
   },
 
   largeBox: {
@@ -74,8 +74,8 @@ export const NodeScenarios: Record<string, NodeScenario> = {
     parameters: { width: 1000, height: 500, depth: 250 },
     position: { x: 400, y: 300 },
     expectedGeometry: {
-      volume: 125000000
-    }
+      volume: 125000000,
+    },
   },
 
   smallBox: {
@@ -86,8 +86,8 @@ export const NodeScenarios: Record<string, NodeScenario> = {
     parameters: { width: 1, height: 1, depth: 1 },
     position: { x: 400, y: 300 },
     expectedGeometry: {
-      volume: 1
-    }
+      volume: 1,
+    },
   },
 
   cubeBox: {
@@ -98,8 +98,8 @@ export const NodeScenarios: Record<string, NodeScenario> = {
     parameters: { width: 50, height: 50, depth: 50 },
     position: { x: 400, y: 300 },
     expectedGeometry: {
-      volume: 125000
-    }
+      volume: 125000,
+    },
   },
 
   // Cylinder Geometries
@@ -111,8 +111,8 @@ export const NodeScenarios: Record<string, NodeScenario> = {
     parameters: { radius: 25, height: 100 },
     position: { x: 400, y: 300 },
     expectedGeometry: {
-      volume: Math.PI * 25 * 25 * 100
-    }
+      volume: Math.PI * 25 * 25 * 100,
+    },
   },
 
   tallCylinder: {
@@ -121,7 +121,7 @@ export const NodeScenarios: Record<string, NodeScenario> = {
     description: 'Tall cylinder for aspect ratio testing',
     nodeType: 'Solid::Cylinder',
     parameters: { radius: 10, height: 200 },
-    position: { x: 400, y: 300 }
+    position: { x: 400, y: 300 },
   },
 
   wideCylinder: {
@@ -130,8 +130,8 @@ export const NodeScenarios: Record<string, NodeScenario> = {
     description: 'Wide cylinder for aspect ratio testing',
     nodeType: 'Solid::Cylinder',
     parameters: { radius: 50, height: 20 },
-    position: { x: 400, y: 300 }
-  }
+    position: { x: 400, y: 300 },
+  },
 };
 
 /**
@@ -144,13 +144,13 @@ export const WorkflowScenarios: Record<string, WorkflowScenario> = {
     description: 'Basic workflow with two separate geometries',
     nodes: [
       { ...NodeScenarios.standardBox, position: { x: 200, y: 200 } },
-      { ...NodeScenarios.standardCylinder, position: { x: 200, y: 350 } }
+      { ...NodeScenarios.standardCylinder, position: { x: 200, y: 350 } },
     ],
     expectedResults: {
       totalNodes: 2,
       totalConnections: 0,
-      finalGeometryCount: 2
-    }
+      finalGeometryCount: 2,
+    },
   },
 
   multiBoxArrangement: {
@@ -162,13 +162,13 @@ export const WorkflowScenarios: Record<string, WorkflowScenario> = {
       { ...NodeScenarios.cubeBox, id: 'box-2', position: { x: 350, y: 200 } },
       { ...NodeScenarios.smallBox, id: 'box-3', position: { x: 500, y: 200 } },
       { ...NodeScenarios.standardBox, id: 'box-4', position: { x: 200, y: 350 } },
-      { ...NodeScenarios.cubeBox, id: 'box-5', position: { x: 350, y: 350 } }
+      { ...NodeScenarios.cubeBox, id: 'box-5', position: { x: 350, y: 350 } },
     ],
     expectedResults: {
       totalNodes: 5,
       totalConnections: 0,
-      finalGeometryCount: 5
-    }
+      finalGeometryCount: 5,
+    },
   },
 
   cylinderVariations: {
@@ -178,13 +178,13 @@ export const WorkflowScenarios: Record<string, WorkflowScenario> = {
     nodes: [
       { ...NodeScenarios.standardCylinder, id: 'cyl-1', position: { x: 200, y: 200 } },
       { ...NodeScenarios.tallCylinder, id: 'cyl-2', position: { x: 350, y: 200 } },
-      { ...NodeScenarios.wideCylinder, id: 'cyl-3', position: { x: 500, y: 200 } }
+      { ...NodeScenarios.wideCylinder, id: 'cyl-3', position: { x: 500, y: 200 } },
     ],
     expectedResults: {
       totalNodes: 3,
       totalConnections: 0,
-      finalGeometryCount: 3
-    }
+      finalGeometryCount: 3,
+    },
   },
 
   complexMixedWorkflow: {
@@ -195,14 +195,14 @@ export const WorkflowScenarios: Record<string, WorkflowScenario> = {
       { ...NodeScenarios.standardBox, id: 'main-box', position: { x: 200, y: 200 } },
       { ...NodeScenarios.standardCylinder, id: 'main-cylinder', position: { x: 200, y: 350 } },
       { ...NodeScenarios.cubeBox, id: 'secondary-box', position: { x: 400, y: 200 } },
-      { ...NodeScenarios.tallCylinder, id: 'secondary-cylinder', position: { x: 400, y: 350 } }
+      { ...NodeScenarios.tallCylinder, id: 'secondary-cylinder', position: { x: 400, y: 350 } },
     ],
     expectedResults: {
       totalNodes: 4,
       totalConnections: 0,
-      finalGeometryCount: 4
-    }
-  }
+      finalGeometryCount: 4,
+    },
+  },
 };
 
 /**
@@ -212,23 +212,23 @@ export const TestParameters: TestParameters = {
   width: {
     valid: [1, 10, 50, 100, 500, 1000],
     invalid: [0, -1, -10, 'abc', null, undefined],
-    edge: [0.001, 0.1, 9999, 10000]
+    edge: [0.001, 0.1, 9999, 10000],
   },
   height: {
     valid: [1, 10, 50, 100, 500, 1000],
     invalid: [0, -1, -10, 'abc', null, undefined],
-    edge: [0.001, 0.1, 9999, 10000]
+    edge: [0.001, 0.1, 9999, 10000],
   },
   depth: {
     valid: [1, 10, 50, 100, 500, 1000],
     invalid: [0, -1, -10, 'abc', null, undefined],
-    edge: [0.001, 0.1, 9999, 10000]
+    edge: [0.001, 0.1, 9999, 10000],
   },
   radius: {
     valid: [1, 5, 10, 25, 50, 100],
     invalid: [0, -1, -5, 'abc', null, undefined],
-    edge: [0.001, 0.1, 999, 1000]
-  }
+    edge: [0.001, 0.1, 999, 1000],
+  },
 };
 
 /**
@@ -240,7 +240,7 @@ export const PerformanceScenarios = {
     description: '1-3 simple nodes',
     maxNodes: 3,
     maxEvaluationTime: 1000, // 1 second
-    maxMemoryUsage: 50 * 1024 * 1024 // 50MB
+    maxMemoryUsage: 50 * 1024 * 1024, // 50MB
   },
 
   mediumLoad: {
@@ -248,7 +248,7 @@ export const PerformanceScenarios = {
     description: '5-10 nodes with connections',
     maxNodes: 10,
     maxEvaluationTime: 5000, // 5 seconds
-    maxMemoryUsage: 150 * 1024 * 1024 // 150MB
+    maxMemoryUsage: 150 * 1024 * 1024, // 150MB
   },
 
   heavyLoad: {
@@ -256,8 +256,8 @@ export const PerformanceScenarios = {
     description: '20+ nodes with complex operations',
     maxNodes: 25,
     maxEvaluationTime: 15000, // 15 seconds
-    maxMemoryUsage: 300 * 1024 * 1024 // 300MB
-  }
+    maxMemoryUsage: 300 * 1024 * 1024, // 300MB
+  },
 };
 
 /**
@@ -271,7 +271,7 @@ export const VisualTestScenarios = {
     { name: 'left', camera: { azimuth: 270, elevation: 0 } },
     { name: 'top', camera: { azimuth: 0, elevation: 90 } },
     { name: 'bottom', camera: { azimuth: 0, elevation: -90 } },
-    { name: 'isometric', camera: { azimuth: 45, elevation: 30 } }
+    { name: 'isometric', camera: { azimuth: 45, elevation: 30 } },
   ],
 
   renderingModes: ['solid', 'wireframe'],
@@ -279,8 +279,8 @@ export const VisualTestScenarios = {
   zoomLevels: [
     { name: 'far', zoomOut: 5 },
     { name: 'normal', fitAll: true },
-    { name: 'close', zoomIn: 3 }
-  ]
+    { name: 'close', zoomIn: 3 },
+  ],
 };
 
 /**
@@ -291,14 +291,14 @@ export const ErrorScenarios = {
     { parameter: 'width', value: -10, expectedError: 'negative_value' },
     { parameter: 'height', value: 0, expectedError: 'zero_value' },
     { parameter: 'radius', value: 'abc', expectedError: 'invalid_type' },
-    { parameter: 'depth', value: null, expectedError: 'null_value' }
+    { parameter: 'depth', value: null, expectedError: 'null_value' },
   ],
 
   extremeValues: [
     { parameter: 'width', value: 999999, expectedBehavior: 'clamp_or_error' },
     { parameter: 'height', value: 0.0001, expectedBehavior: 'precision_limit' },
-    { parameter: 'radius', value: -999, expectedBehavior: 'validation_error' }
-  ]
+    { parameter: 'radius', value: -999, expectedBehavior: 'validation_error' },
+  ],
 };
 
 /**
@@ -309,20 +309,20 @@ export const InspectorTestScenarios = {
     singleParameter: [
       { name: 'width', from: '100', to: '200' },
       { name: 'height', from: '50', to: '75' },
-      { name: 'radius', from: '25', to: '40' }
+      { name: 'radius', from: '25', to: '40' },
     ],
     multipleParameters: [
       { name: 'width', from: '100', to: '150' },
       { name: 'height', from: '50', to: '80' },
-      { name: 'depth', from: '25', to: '35' }
-    ]
+      { name: 'depth', from: '25', to: '35' },
+    ],
   },
 
   performanceThresholds: {
     responseTime: 500, // 500ms
     evaluationTime: 2000, // 2 seconds
-    memoryGrowth: 10 * 1024 * 1024 // 10MB
-  }
+    memoryGrowth: 10 * 1024 * 1024, // 10MB
+  },
 };
 
 /**
@@ -347,15 +347,19 @@ export class TestScenarioHelper {
     return values ? values[Math.floor(Math.random() * values.length)] : -1;
   }
 
-  static createParameterVariant(baseScenario: NodeScenario, parameterName: string, value: any): NodeScenario {
+  static createParameterVariant(
+    baseScenario: NodeScenario,
+    parameterName: string,
+    value: any
+  ): NodeScenario {
     return {
       ...baseScenario,
       id: `${baseScenario.id}-${parameterName}-${value}`,
       name: `${baseScenario.name} (${parameterName}: ${value})`,
       parameters: {
         ...baseScenario.parameters,
-        [parameterName]: value
-      }
+        [parameterName]: value,
+      },
     };
   }
 
@@ -370,8 +374,8 @@ export class TestScenarioHelper {
         id: `perf-node-${i}`,
         position: {
           x: 200 + (i % 5) * 150,
-          y: 200 + Math.floor(i / 5) * 150
-        }
+          y: 200 + Math.floor(i / 5) * 150,
+        },
       });
     }
 
@@ -383,8 +387,8 @@ export class TestScenarioHelper {
       expectedResults: {
         totalNodes: nodeCount,
         totalConnections: 0,
-        finalGeometryCount: nodeCount
-      }
+        finalGeometryCount: nodeCount,
+      },
     };
   }
 }

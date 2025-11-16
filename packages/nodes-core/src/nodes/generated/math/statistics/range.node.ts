@@ -21,36 +21,36 @@ export const MathStatisticsRangeNode: NodeDefinition<RangeInputs, RangeOutputs, 
     values: {
       type: 'number[]',
       label: 'Values',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     min: {
       type: 'number',
-      label: 'Min'
+      label: 'Min',
     },
     max: {
       type: 'number',
-      label: 'Max'
+      label: 'Max',
     },
     range: {
       type: 'number',
-      label: 'Range'
-    }
+      label: 'Range',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
       type: 'mathRange',
       params: {
-        values: inputs.values
-      }
+        values: inputs.values,
+      },
     });
-    
+
     return {
       min: results.min,
       max: results.max,
-      range: results.range
+      range: results.range,
     };
   },
 };

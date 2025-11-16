@@ -17,7 +17,11 @@ interface CurveClosestPointOutputs {
   connectionLine: unknown;
 }
 
-export const AnalysisCurvesCurveClosestPointNode: NodeDefinition<CurveClosestPointInputs, CurveClosestPointOutputs, CurveClosestPointParams> = {
+export const AnalysisCurvesCurveClosestPointNode: NodeDefinition<
+  CurveClosestPointInputs,
+  CurveClosestPointOutputs,
+  CurveClosestPointParams
+> = {
   id: 'Analysis::CurveClosestPoint',
   type: 'Analysis::CurveClosestPoint',
   category: 'Analysis',
@@ -27,31 +31,31 @@ export const AnalysisCurvesCurveClosestPointNode: NodeDefinition<CurveClosestPoi
     curve: {
       type: 'Wire',
       label: 'Curve',
-      required: true
+      required: true,
     },
     point: {
       type: 'Point',
       label: 'Point',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     closestPoint: {
       type: 'Point',
-      label: 'Closest Point'
+      label: 'Closest Point',
     },
     distance: {
       type: 'number',
-      label: 'Distance'
+      label: 'Distance',
     },
     parameter: {
       type: 'number',
-      label: 'Parameter'
+      label: 'Parameter',
     },
     connectionLine: {
       type: 'Wire',
-      label: 'Connection Line'
-    }
+      label: 'Connection Line',
+    },
   },
   params: {
     tolerance: {
@@ -59,13 +63,13 @@ export const AnalysisCurvesCurveClosestPointNode: NodeDefinition<CurveClosestPoi
       label: 'Tolerance',
       default: 0.01,
       min: 0.001,
-      max: 1
+      max: 1,
     },
     showConnection: {
       type: 'boolean',
       label: 'Show Connection',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -74,15 +78,15 @@ export const AnalysisCurvesCurveClosestPointNode: NodeDefinition<CurveClosestPoi
         curve: inputs.curve,
         point: inputs.point,
         tolerance: params.tolerance,
-        showConnection: params.showConnection
-      }
+        showConnection: params.showConnection,
+      },
     });
-    
+
     return {
       closestPoint: results.closestPoint,
       distance: results.distance,
       parameter: results.parameter,
-      connectionLine: results.connectionLine
+      connectionLine: results.connectionLine,
     };
   },
 };

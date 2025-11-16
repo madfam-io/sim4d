@@ -10,7 +10,11 @@ interface FieldLaplacianOutputs {
   laplacian: unknown;
 }
 
-export const FieldOperationsFieldLaplacianNode: NodeDefinition<FieldLaplacianInputs, FieldLaplacianOutputs, FieldLaplacianParams> = {
+export const FieldOperationsFieldLaplacianNode: NodeDefinition<
+  FieldLaplacianInputs,
+  FieldLaplacianOutputs,
+  FieldLaplacianParams
+> = {
   id: 'Field::FieldLaplacian',
   type: 'Field::FieldLaplacian',
   category: 'Field',
@@ -20,26 +24,26 @@ export const FieldOperationsFieldLaplacianNode: NodeDefinition<FieldLaplacianInp
     field: {
       type: 'ScalarField',
       label: 'Field',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     laplacian: {
       type: 'ScalarField',
-      label: 'Laplacian'
-    }
+      label: 'Laplacian',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'fieldLaplacian',
       params: {
-        field: inputs.field
-      }
+        field: inputs.field,
+      },
     });
-    
+
     return {
-      laplacian: result
+      laplacian: result,
     };
   },
 };

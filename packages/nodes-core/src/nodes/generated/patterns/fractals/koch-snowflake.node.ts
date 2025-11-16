@@ -12,7 +12,11 @@ interface KochSnowflakeOutputs {
   fractal: unknown;
 }
 
-export const PatternsFractalsKochSnowflakeNode: NodeDefinition<KochSnowflakeInputs, KochSnowflakeOutputs, KochSnowflakeParams> = {
+export const PatternsFractalsKochSnowflakeNode: NodeDefinition<
+  KochSnowflakeInputs,
+  KochSnowflakeOutputs,
+  KochSnowflakeParams
+> = {
   id: 'Patterns::KochSnowflake',
   category: 'Patterns',
   label: 'KochSnowflake',
@@ -21,14 +25,14 @@ export const PatternsFractalsKochSnowflakeNode: NodeDefinition<KochSnowflakeInpu
     triangle: {
       type: 'Wire',
       label: 'Triangle',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     fractal: {
       type: 'Wire',
-      label: 'Fractal'
-    }
+      label: 'Fractal',
+    },
   },
   params: {
     iterations: {
@@ -37,20 +41,20 @@ export const PatternsFractalsKochSnowflakeNode: NodeDefinition<KochSnowflakeInpu
       default: 4,
       min: 0,
       max: 8,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'kochSnowflake',
       params: {
         triangle: inputs.triangle,
-        iterations: params.iterations
-      }
+        iterations: params.iterations,
+      },
     });
-    
+
     return {
-      fractal: result
+      fractal: result,
     };
   },
 };

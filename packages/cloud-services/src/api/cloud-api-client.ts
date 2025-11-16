@@ -90,7 +90,10 @@ export class CloudApiClient {
     return response.data!;
   }
 
-  async updateProject(projectId: ProjectId, data: Partial<ProjectMetadata>): Promise<ProjectMetadata> {
+  async updateProject(
+    projectId: ProjectId,
+    data: Partial<ProjectMetadata>
+  ): Promise<ProjectMetadata> {
     const response = await this.request<ProjectMetadata>('PUT', `/projects/${projectId}`, {
       data,
       cache: false,
@@ -269,9 +272,7 @@ export class CloudApiClient {
   }
 
   async getPlugin(pluginId: PluginId, version?: string): Promise<Plugin> {
-    const url = version
-      ? `/plugins/${pluginId}/versions/${version}`
-      : `/plugins/${pluginId}`;
+    const url = version ? `/plugins/${pluginId}/versions/${version}` : `/plugins/${pluginId}`;
 
     const response = await this.request<Plugin>('GET', url);
     return response.data!;
@@ -404,7 +405,7 @@ export class CloudApiClient {
 
         if (attempt < maxAttempts) {
           const delay = Math.pow(2, attempt - 1) * 1000;
-          await new Promise(resolve => setTimeout(resolve, delay));
+          await new Promise((resolve) => setTimeout(resolve, delay));
         }
       }
     }

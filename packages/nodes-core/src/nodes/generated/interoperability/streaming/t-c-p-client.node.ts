@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -23,52 +22,49 @@ export const TCPClientNode: NodeDefinition<TCPClientInputs, TCPClientOutputs, TC
   metadata: {
     label: 'TCPClient',
     description: 'TCP socket client connection',
-    
-    
   },
 
   params: {
-        host: {
-      "default": "localhost"
+    host: {
+      default: 'localhost',
     },
     port: {
-      "default": 8080,
-      "min": 1,
-      "max": 65535
+      default: 8080,
+      min: 1,
+      max: 65535,
     },
     timeout: {
-      "default": 30,
-      "min": 1,
-      "max": 300
-    }
+      default: 30,
+      min: 1,
+      max: 300,
+    },
   },
 
   inputs: {
-        data: 'string'
+    data: 'string',
   },
 
   outputs: {
-        connected: 'boolean',
+    connected: 'boolean',
     response: 'string',
-    error: 'string'
+    error: 'string',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'tcpClient',
       params: {
         data: inputs.data,
         host: params.host,
         port: params.port,
-        timeout: params.timeout
-      }
+        timeout: params.timeout,
+      },
     });
 
     return {
       connected: result,
       response: result,
-      error: result
+      error: result,
     };
-  }
+  },
 };

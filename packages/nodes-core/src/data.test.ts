@@ -140,7 +140,7 @@ describe('Data Nodes', () => {
 
       const result = await listRangeNode.execute(inputs, params, mockContext);
 
-      expect(result.range.every(v => v === 5)).toBe(true);
+      expect(result.range.every((v) => v === 5)).toBe(true);
     });
   });
 
@@ -211,12 +211,22 @@ describe('Data Nodes', () => {
     });
 
     it('should handle depth 0', async () => {
-      const inputs = { tree: [[1, 2], [3, 4]] };
+      const inputs = {
+        tree: [
+          [1, 2],
+          [3, 4],
+        ],
+      };
       const params = { depth: 0 };
 
       const result = await flattenNode.execute(inputs, params, mockContext);
 
-      expect(result.flat).toEqual([[[1, 2], [3, 4]]]);
+      expect(result.flat).toEqual([
+        [
+          [1, 2],
+          [3, 4],
+        ],
+      ]);
     });
 
     it('should handle non-array input', async () => {
@@ -245,7 +255,11 @@ describe('Data Nodes', () => {
 
       const result = await partitionNode.execute(inputs, params, mockContext);
 
-      expect(result.partitions).toEqual([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
+      expect(result.partitions).toEqual([
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9],
+      ]);
     });
 
     it('should handle overlapping partitions', async () => {
@@ -254,7 +268,10 @@ describe('Data Nodes', () => {
 
       const result = await partitionNode.execute(inputs, params, mockContext);
 
-      expect(result.partitions).toEqual([[1, 2, 3], [3, 4, 5]]);
+      expect(result.partitions).toEqual([
+        [1, 2, 3],
+        [3, 4, 5],
+      ]);
     });
 
     it('should handle partial last partition', async () => {
@@ -297,9 +314,9 @@ describe('Data Nodes', () => {
     });
 
     it('should sort with custom keys', async () => {
-      const inputs = { 
+      const inputs = {
         list: ['a', 'b', 'c'],
-        keys: [3, 1, 2]
+        keys: [3, 1, 2],
       };
       const params = { reverse: false };
 
@@ -369,9 +386,9 @@ describe('Data Nodes', () => {
 
   describe('Cull Pattern Node', () => {
     it('should cull items by pattern', async () => {
-      const inputs = { 
+      const inputs = {
         list: [1, 2, 3, 4, 5, 6],
-        pattern: [true, false, true]
+        pattern: [true, false, true],
       };
       const params = { invert: false };
 
@@ -382,9 +399,9 @@ describe('Data Nodes', () => {
     });
 
     it('should handle pattern inversion', async () => {
-      const inputs = { 
+      const inputs = {
         list: [1, 2, 3, 4],
-        pattern: [true, false]
+        pattern: [true, false],
       };
       const params = { invert: true };
 
@@ -395,9 +412,9 @@ describe('Data Nodes', () => {
     });
 
     it('should repeat pattern for longer lists', async () => {
-      const inputs = { 
+      const inputs = {
         list: [1, 2, 3, 4, 5],
-        pattern: [true, true]
+        pattern: [true, true],
       };
       const params = { invert: false };
 
@@ -410,8 +427,12 @@ describe('Data Nodes', () => {
 
   describe('Weave Node', () => {
     it('should weave lists together', async () => {
-      const inputs = { 
-        lists: [[1, 2], [3, 4], [5, 6]]
+      const inputs = {
+        lists: [
+          [1, 2],
+          [3, 4],
+          [5, 6],
+        ],
       };
       const params = {};
 
@@ -421,9 +442,13 @@ describe('Data Nodes', () => {
     });
 
     it('should weave with custom pattern', async () => {
-      const inputs = { 
-        lists: [['a', 'b'], ['c', 'd'], ['e', 'f']],
-        pattern: [0, 0, 1, 2]
+      const inputs = {
+        lists: [
+          ['a', 'b'],
+          ['c', 'd'],
+          ['e', 'f'],
+        ],
+        pattern: [0, 0, 1, 2],
       };
       const params = {};
 
@@ -434,8 +459,8 @@ describe('Data Nodes', () => {
     });
 
     it('should handle uneven list lengths', async () => {
-      const inputs = { 
-        lists: [[1, 2, 3], [4], [5, 6]]
+      const inputs = {
+        lists: [[1, 2, 3], [4], [5, 6]],
       };
       const params = {};
 

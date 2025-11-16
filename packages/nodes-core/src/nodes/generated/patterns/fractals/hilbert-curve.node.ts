@@ -13,7 +13,11 @@ interface HilbertCurveOutputs {
   curve: unknown;
 }
 
-export const PatternsFractalsHilbertCurveNode: NodeDefinition<HilbertCurveInputs, HilbertCurveOutputs, HilbertCurveParams> = {
+export const PatternsFractalsHilbertCurveNode: NodeDefinition<
+  HilbertCurveInputs,
+  HilbertCurveOutputs,
+  HilbertCurveParams
+> = {
   id: 'Patterns::HilbertCurve',
   category: 'Patterns',
   label: 'HilbertCurve',
@@ -22,14 +26,14 @@ export const PatternsFractalsHilbertCurveNode: NodeDefinition<HilbertCurveInputs
     bounds: {
       type: 'Box',
       label: 'Bounds',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     curve: {
       type: 'Wire',
-      label: 'Curve'
-    }
+      label: 'Curve',
+    },
   },
   params: {
     order: {
@@ -38,14 +42,14 @@ export const PatternsFractalsHilbertCurveNode: NodeDefinition<HilbertCurveInputs
       default: 4,
       min: 1,
       max: 8,
-      step: 1
+      step: 1,
     },
     dimension: {
       type: 'enum',
       label: 'Dimension',
-      default: "2D",
-      options: ["2D","3D"]
-    }
+      default: '2D',
+      options: ['2D', '3D'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const PatternsFractalsHilbertCurveNode: NodeDefinition<HilbertCurveInputs
       params: {
         bounds: inputs.bounds,
         order: params.order,
-        dimension: params.dimension
-      }
+        dimension: params.dimension,
+      },
     });
-    
+
     return {
-      curve: result
+      curve: result,
     };
   },
 };

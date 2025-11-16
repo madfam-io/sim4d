@@ -11,7 +11,11 @@ interface FieldSubtractOutputs {
   field: unknown;
 }
 
-export const FieldOperationsFieldSubtractNode: NodeDefinition<FieldSubtractInputs, FieldSubtractOutputs, FieldSubtractParams> = {
+export const FieldOperationsFieldSubtractNode: NodeDefinition<
+  FieldSubtractInputs,
+  FieldSubtractOutputs,
+  FieldSubtractParams
+> = {
   id: 'Field::FieldSubtract',
   category: 'Field',
   label: 'FieldSubtract',
@@ -20,19 +24,19 @@ export const FieldOperationsFieldSubtractNode: NodeDefinition<FieldSubtractInput
     fieldA: {
       type: 'ScalarField',
       label: 'Field A',
-      required: true
+      required: true,
     },
     fieldB: {
       type: 'ScalarField',
       label: 'Field B',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     field: {
       type: 'ScalarField',
-      label: 'Field'
-    }
+      label: 'Field',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -40,12 +44,12 @@ export const FieldOperationsFieldSubtractNode: NodeDefinition<FieldSubtractInput
       type: 'fieldSubtract',
       params: {
         fieldA: inputs.fieldA,
-        fieldB: inputs.fieldB
-      }
+        fieldB: inputs.fieldB,
+      },
     });
-    
+
     return {
-      field: result
+      field: result,
     };
   },
 };

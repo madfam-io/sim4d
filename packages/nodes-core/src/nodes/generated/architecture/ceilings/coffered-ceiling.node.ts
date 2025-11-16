@@ -14,7 +14,11 @@ interface CofferedCeilingOutputs {
   cofferedCeiling: unknown;
 }
 
-export const ArchitectureCeilingsCofferedCeilingNode: NodeDefinition<CofferedCeilingInputs, CofferedCeilingOutputs, CofferedCeilingParams> = {
+export const ArchitectureCeilingsCofferedCeilingNode: NodeDefinition<
+  CofferedCeilingInputs,
+  CofferedCeilingOutputs,
+  CofferedCeilingParams
+> = {
   id: 'Architecture::CofferedCeiling',
   category: 'Architecture',
   label: 'CofferedCeiling',
@@ -23,14 +27,14 @@ export const ArchitectureCeilingsCofferedCeilingNode: NodeDefinition<CofferedCei
     ceilingBoundary: {
       type: 'Wire',
       label: 'Ceiling Boundary',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     cofferedCeiling: {
       type: 'Shape',
-      label: 'Coffered Ceiling'
-    }
+      label: 'Coffered Ceiling',
+    },
   },
   params: {
     cofferSize: {
@@ -38,22 +42,22 @@ export const ArchitectureCeilingsCofferedCeilingNode: NodeDefinition<CofferedCei
       label: 'Coffer Size',
       default: 1200,
       min: 600,
-      max: 2000
+      max: 2000,
     },
     cofferDepth: {
       type: 'number',
       label: 'Coffer Depth',
       default: 150,
       min: 50,
-      max: 300
+      max: 300,
     },
     beamWidth: {
       type: 'number',
       label: 'Beam Width',
       default: 200,
       min: 100,
-      max: 400
-    }
+      max: 400,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -62,12 +66,12 @@ export const ArchitectureCeilingsCofferedCeilingNode: NodeDefinition<CofferedCei
         ceilingBoundary: inputs.ceilingBoundary,
         cofferSize: params.cofferSize,
         cofferDepth: params.cofferDepth,
-        beamWidth: params.beamWidth
-      }
+        beamWidth: params.beamWidth,
+      },
     });
-    
+
     return {
-      cofferedCeiling: result
+      cofferedCeiling: result,
     };
   },
 };

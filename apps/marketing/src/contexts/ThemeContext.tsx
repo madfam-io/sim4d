@@ -38,7 +38,7 @@ export function ThemeProvider({ children, defaultTheme = 'dark' }: ThemeProvider
   };
 
   const toggleTheme = () => {
-    setThemeState(prev => prev === 'dark' ? 'light' : 'dark');
+    setThemeState((prev) => (prev === 'dark' ? 'light' : 'dark'));
   };
 
   const value: ThemeContextType = {
@@ -49,9 +49,7 @@ export function ThemeProvider({ children, defaultTheme = 'dark' }: ThemeProvider
 
   return (
     <ThemeContext.Provider value={value}>
-      <div className={`theme-${theme}`}>
-        {children}
-      </div>
+      <div className={`theme-${theme}`}>{children}</div>
     </ThemeContext.Provider>
   );
 }

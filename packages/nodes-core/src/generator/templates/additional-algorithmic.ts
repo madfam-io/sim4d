@@ -17,19 +17,19 @@ export const additionalAlgorithmicNodes: NodeTemplate[] = [
       { name: 'generations', type: 'number', default: 50, min: 5, max: 500 },
       { name: 'mutationRate', type: 'number', default: 0.1, min: 0.01, max: 0.5 },
       { name: 'crossoverRate', type: 'number', default: 0.8, min: 0.1, max: 1.0 },
-      { name: 'elitism', type: 'number', default: 0.1, min: 0, max: 0.5 }
+      { name: 'elitism', type: 'number', default: 0.1, min: 0, max: 0.5 },
     ],
     inputs: [
       { name: 'objectives', type: 'Properties', required: true },
       { name: 'constraints', type: 'Properties', required: false },
-      { name: 'bounds', type: 'Properties', required: true }
+      { name: 'bounds', type: 'Properties', required: true },
     ],
     outputs: [
       { name: 'bestSolution', type: 'Properties' },
       { name: 'fitness', type: 'number' },
       { name: 'generations', type: 'Properties[]' },
-      { name: 'convergence', type: 'number[]' }
-    ]
+      { name: 'convergence', type: 'number[]' },
+    ],
   },
   {
     category: 'Algorithmic',
@@ -43,17 +43,17 @@ export const additionalAlgorithmicNodes: NodeTemplate[] = [
       { name: 'iterations', type: 'number', default: 100, min: 10, max: 1000 },
       { name: 'inertia', type: 'number', default: 0.7, min: 0.1, max: 1.0 },
       { name: 'cognitive', type: 'number', default: 2.0, min: 0.1, max: 4.0 },
-      { name: 'social', type: 'number', default: 2.0, min: 0.1, max: 4.0 }
+      { name: 'social', type: 'number', default: 2.0, min: 0.1, max: 4.0 },
     ],
     inputs: [
       { name: 'objective', type: 'Properties', required: true },
-      { name: 'bounds', type: 'Properties', required: true }
+      { name: 'bounds', type: 'Properties', required: true },
     ],
     outputs: [
       { name: 'globalBest', type: 'Properties' },
       { name: 'bestValue', type: 'number' },
-      { name: 'swarmHistory', type: 'Properties[]' }
-    ]
+      { name: 'swarmHistory', type: 'Properties[]' },
+    ],
   },
   {
     category: 'Algorithmic',
@@ -66,18 +66,18 @@ export const additionalAlgorithmicNodes: NodeTemplate[] = [
       { name: 'initialTemp', type: 'number', default: 1000, min: 1, max: 10000 },
       { name: 'finalTemp', type: 'number', default: 0.1, min: 0.001, max: 10 },
       { name: 'coolingRate', type: 'number', default: 0.95, min: 0.8, max: 0.99 },
-      { name: 'maxIterations', type: 'number', default: 1000, min: 100, max: 10000 }
+      { name: 'maxIterations', type: 'number', default: 1000, min: 100, max: 10000 },
     ],
     inputs: [
       { name: 'objective', type: 'Properties', required: true },
-      { name: 'initialSolution', type: 'Properties', required: true }
+      { name: 'initialSolution', type: 'Properties', required: true },
     ],
     outputs: [
       { name: 'bestSolution', type: 'Properties' },
       { name: 'bestValue', type: 'number' },
       { name: 'temperature', type: 'number[]' },
-      { name: 'values', type: 'number[]' }
-    ]
+      { name: 'values', type: 'number[]' },
+    ],
   },
   {
     category: 'Algorithmic',
@@ -90,18 +90,18 @@ export const additionalAlgorithmicNodes: NodeTemplate[] = [
       { name: 'learningRate', type: 'number', default: 0.01, min: 0.001, max: 1.0 },
       { name: 'maxIterations', type: 'number', default: 1000, min: 10, max: 10000 },
       { name: 'tolerance', type: 'number', default: 0.001, min: 1e-6, max: 0.1 },
-      { name: 'momentum', type: 'number', default: 0.9, min: 0, max: 1 }
+      { name: 'momentum', type: 'number', default: 0.9, min: 0, max: 1 },
     ],
     inputs: [
       { name: 'objective', type: 'Properties', required: true },
-      { name: 'initialPoint', type: 'Point', required: true }
+      { name: 'initialPoint', type: 'Point', required: true },
     ],
     outputs: [
       { name: 'optimumPoint', type: 'Point' },
       { name: 'optimumValue', type: 'number' },
       { name: 'trajectory', type: 'Point[]' },
-      { name: 'convergence', type: 'number[]' }
-    ]
+      { name: 'convergence', type: 'number[]' },
+    ],
   },
   {
     category: 'Algorithmic',
@@ -114,18 +114,18 @@ export const additionalAlgorithmicNodes: NodeTemplate[] = [
       { name: 'densityElements', type: 'number', default: 100, min: 10, max: 1000 },
       { name: 'volumeFraction', type: 'number', default: 0.5, min: 0.1, max: 0.9 },
       { name: 'penalization', type: 'number', default: 3.0, min: 1.0, max: 5.0 },
-      { name: 'filter', type: 'boolean', default: true }
+      { name: 'filter', type: 'boolean', default: true },
     ],
     inputs: [
       { name: 'designDomain', type: 'Shape', required: true },
       { name: 'loads', type: 'Properties[]', required: true },
-      { name: 'supports', type: 'Properties[]', required: true }
+      { name: 'supports', type: 'Properties[]', required: true },
     ],
     outputs: [
       { name: 'optimizedShape', type: 'Shape' },
       { name: 'densityField', type: 'Properties' },
-      { name: 'compliance', type: 'number' }
-    ]
+      { name: 'compliance', type: 'number' },
+    ],
   },
 
   // ============================================================
@@ -139,21 +139,26 @@ export const additionalAlgorithmicNodes: NodeTemplate[] = [
     operation: 'LINEAR_REGRESSION',
     occtBinding: 'linearRegression',
     parameters: [
-      { name: 'regularization', type: 'enum', options: ['none', 'ridge', 'lasso'], default: 'none' },
+      {
+        name: 'regularization',
+        type: 'enum',
+        options: ['none', 'ridge', 'lasso'],
+        default: 'none',
+      },
       { name: 'alpha', type: 'number', default: 1.0, min: 0.001, max: 100 },
-      { name: 'normalize', type: 'boolean', default: true }
+      { name: 'normalize', type: 'boolean', default: true },
     ],
     inputs: [
       { name: 'trainingData', type: 'Properties[]', required: true },
       { name: 'features', type: 'string[]', required: true },
-      { name: 'target', type: 'string', required: true }
+      { name: 'target', type: 'string', required: true },
     ],
     outputs: [
       { name: 'model', type: 'Properties' },
       { name: 'coefficients', type: 'number[]' },
       { name: 'rSquared', type: 'number' },
-      { name: 'predictions', type: 'number[]' }
-    ]
+      { name: 'predictions', type: 'number[]' },
+    ],
   },
   {
     category: 'Algorithmic',
@@ -166,17 +171,15 @@ export const additionalAlgorithmicNodes: NodeTemplate[] = [
       { name: 'clusters', type: 'number', default: 3, min: 2, max: 20 },
       { name: 'maxIterations', type: 'number', default: 100, min: 10, max: 1000 },
       { name: 'tolerance', type: 'number', default: 0.001, min: 1e-6, max: 0.1 },
-      { name: 'randomSeed', type: 'number', default: 42, min: 0, max: 1000 }
+      { name: 'randomSeed', type: 'number', default: 42, min: 0, max: 1000 },
     ],
-    inputs: [
-      { name: 'data', type: 'Point[]', required: true }
-    ],
+    inputs: [{ name: 'data', type: 'Point[]', required: true }],
     outputs: [
       { name: 'centroids', type: 'Point[]' },
       { name: 'labels', type: 'number[]' },
       { name: 'clusters', type: 'Point[][]' },
-      { name: 'inertia', type: 'number' }
-    ]
+      { name: 'inertia', type: 'number' },
+    ],
   },
   {
     category: 'Algorithmic',
@@ -188,18 +191,18 @@ export const additionalAlgorithmicNodes: NodeTemplate[] = [
     parameters: [
       { name: 'maxDepth', type: 'number', default: 5, min: 1, max: 20 },
       { name: 'minSamplesSplit', type: 'number', default: 2, min: 2, max: 50 },
-      { name: 'criterion', type: 'enum', options: ['gini', 'entropy'], default: 'gini' }
+      { name: 'criterion', type: 'enum', options: ['gini', 'entropy'], default: 'gini' },
     ],
     inputs: [
       { name: 'trainingData', type: 'Properties[]', required: true },
       { name: 'features', type: 'string[]', required: true },
-      { name: 'target', type: 'string', required: true }
+      { name: 'target', type: 'string', required: true },
     ],
     outputs: [
       { name: 'tree', type: 'Properties' },
       { name: 'accuracy', type: 'number' },
-      { name: 'featureImportance', type: 'Properties' }
-    ]
+      { name: 'featureImportance', type: 'Properties' },
+    ],
   },
   {
     category: 'Algorithmic',
@@ -209,22 +212,27 @@ export const additionalAlgorithmicNodes: NodeTemplate[] = [
     operation: 'NEURAL_NETWORK',
     occtBinding: 'neuralNetwork',
     parameters: [
-      { name: 'hiddenLayers', type: 'string', default: '10,5', description: 'Comma-separated layer sizes' },
+      {
+        name: 'hiddenLayers',
+        type: 'string',
+        default: '10,5',
+        description: 'Comma-separated layer sizes',
+      },
       { name: 'activation', type: 'enum', options: ['relu', 'sigmoid', 'tanh'], default: 'relu' },
       { name: 'learningRate', type: 'number', default: 0.01, min: 0.001, max: 1 },
-      { name: 'epochs', type: 'number', default: 100, min: 10, max: 1000 }
+      { name: 'epochs', type: 'number', default: 100, min: 10, max: 1000 },
     ],
     inputs: [
       { name: 'trainingData', type: 'Properties[]', required: true },
       { name: 'features', type: 'string[]', required: true },
-      { name: 'target', type: 'string', required: true }
+      { name: 'target', type: 'string', required: true },
     ],
     outputs: [
       { name: 'model', type: 'Properties' },
       { name: 'loss', type: 'number[]' },
       { name: 'accuracy', type: 'number' },
-      { name: 'predictions', type: 'number[]' }
-    ]
+      { name: 'predictions', type: 'number[]' },
+    ],
   },
   {
     category: 'Algorithmic',
@@ -236,18 +244,18 @@ export const additionalAlgorithmicNodes: NodeTemplate[] = [
     parameters: [
       { name: 'kernel', type: 'enum', options: ['linear', 'rbf', 'poly'], default: 'rbf' },
       { name: 'c', type: 'number', default: 1.0, min: 0.001, max: 1000 },
-      { name: 'gamma', type: 'enum', options: ['scale', 'auto'], default: 'scale' }
+      { name: 'gamma', type: 'enum', options: ['scale', 'auto'], default: 'scale' },
     ],
     inputs: [
       { name: 'trainingData', type: 'Properties[]', required: true },
       { name: 'features', type: 'string[]', required: true },
-      { name: 'target', type: 'string', required: true }
+      { name: 'target', type: 'string', required: true },
     ],
     outputs: [
       { name: 'model', type: 'Properties' },
       { name: 'supportVectors', type: 'Properties[]' },
-      { name: 'accuracy', type: 'number' }
-    ]
+      { name: 'accuracy', type: 'number' },
+    ],
   },
 
   // ============================================================
@@ -262,17 +270,15 @@ export const additionalAlgorithmicNodes: NodeTemplate[] = [
     occtBinding: 'convexHull3D',
     parameters: [
       { name: 'tolerance', type: 'number', default: 0.01, min: 0.001, max: 1 },
-      { name: 'includeInterior', type: 'boolean', default: false }
+      { name: 'includeInterior', type: 'boolean', default: false },
     ],
-    inputs: [
-      { name: 'points', type: 'Point[]', required: true }
-    ],
+    inputs: [{ name: 'points', type: 'Point[]', required: true }],
     outputs: [
       { name: 'hull', type: 'Shape' },
       { name: 'vertices', type: 'Point[]' },
       { name: 'faces', type: 'Face[]' },
-      { name: 'volume', type: 'number' }
-    ]
+      { name: 'volume', type: 'number' },
+    ],
   },
   {
     category: 'Algorithmic',
@@ -283,16 +289,14 @@ export const additionalAlgorithmicNodes: NodeTemplate[] = [
     occtBinding: 'alphaShape',
     parameters: [
       { name: 'alpha', type: 'number', default: 1.0, min: 0.1, max: 100 },
-      { name: 'mode', type: 'enum', options: ['3D', '2D'], default: '3D' }
+      { name: 'mode', type: 'enum', options: ['3D', '2D'], default: '3D' },
     ],
-    inputs: [
-      { name: 'points', type: 'Point[]', required: true }
-    ],
+    inputs: [{ name: 'points', type: 'Point[]', required: true }],
     outputs: [
       { name: 'shape', type: 'Shape' },
       { name: 'boundary', type: 'Wire[]' },
-      { name: 'simplices', type: 'Properties[]' }
-    ]
+      { name: 'simplices', type: 'Properties[]' },
+    ],
   },
   {
     category: 'Algorithmic',
@@ -303,16 +307,14 @@ export const additionalAlgorithmicNodes: NodeTemplate[] = [
     occtBinding: 'minimumSpanningTree',
     parameters: [
       { name: 'algorithm', type: 'enum', options: ['kruskal', 'prim'], default: 'kruskal' },
-      { name: 'showWeights', type: 'boolean', default: false }
+      { name: 'showWeights', type: 'boolean', default: false },
     ],
-    inputs: [
-      { name: 'points', type: 'Point[]', required: true }
-    ],
+    inputs: [{ name: 'points', type: 'Point[]', required: true }],
     outputs: [
       { name: 'tree', type: 'Wire[]' },
       { name: 'totalWeight', type: 'number' },
-      { name: 'edges', type: 'Properties[]' }
-    ]
+      { name: 'edges', type: 'Properties[]' },
+    ],
   },
   {
     category: 'Algorithmic',
@@ -323,18 +325,23 @@ export const additionalAlgorithmicNodes: NodeTemplate[] = [
     occtBinding: 'shortestPath',
     parameters: [
       { name: 'algorithm', type: 'enum', options: ['dijkstra', 'astar'], default: 'dijkstra' },
-      { name: 'heuristic', type: 'enum', options: ['euclidean', 'manhattan'], default: 'euclidean' }
+      {
+        name: 'heuristic',
+        type: 'enum',
+        options: ['euclidean', 'manhattan'],
+        default: 'euclidean',
+      },
     ],
     inputs: [
       { name: 'graph', type: 'Properties', required: true },
       { name: 'start', type: 'Point', required: true },
-      { name: 'end', type: 'Point', required: true }
+      { name: 'end', type: 'Point', required: true },
     ],
     outputs: [
       { name: 'path', type: 'Wire' },
       { name: 'distance', type: 'number' },
-      { name: 'nodes', type: 'Point[]' }
-    ]
+      { name: 'nodes', type: 'Point[]' },
+    ],
   },
   {
     category: 'Algorithmic',
@@ -345,18 +352,18 @@ export const additionalAlgorithmicNodes: NodeTemplate[] = [
     occtBinding: 'visibilityGraph',
     parameters: [
       { name: 'epsilon', type: 'number', default: 0.01, min: 0.001, max: 1 },
-      { name: 'includeInterior', type: 'boolean', default: false }
+      { name: 'includeInterior', type: 'boolean', default: false },
     ],
     inputs: [
       { name: 'obstacles', type: 'Shape[]', required: true },
       { name: 'start', type: 'Point', required: true },
-      { name: 'goal', type: 'Point', required: true }
+      { name: 'goal', type: 'Point', required: true },
     ],
     outputs: [
       { name: 'graph', type: 'Wire[]' },
       { name: 'vertices', type: 'Point[]' },
-      { name: 'edges', type: 'Properties[]' }
-    ]
+      { name: 'edges', type: 'Properties[]' },
+    ],
   },
   {
     category: 'Algorithmic',
@@ -368,16 +375,14 @@ export const additionalAlgorithmicNodes: NodeTemplate[] = [
     parameters: [
       { name: 'resolution', type: 'number', default: 0.1, min: 0.01, max: 1 },
       { name: 'pruning', type: 'number', default: 0.1, min: 0, max: 1 },
-      { name: 'simplify', type: 'boolean', default: true }
+      { name: 'simplify', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'shape', type: 'Shape', required: true }
-    ],
+    inputs: [{ name: 'shape', type: 'Shape', required: true }],
     outputs: [
       { name: 'skeleton', type: 'Wire[]' },
       { name: 'branchPoints', type: 'Point[]' },
-      { name: 'endpoints', type: 'Point[]' }
-    ]
+      { name: 'endpoints', type: 'Point[]' },
+    ],
   },
   {
     category: 'Algorithmic',
@@ -389,16 +394,14 @@ export const additionalAlgorithmicNodes: NodeTemplate[] = [
     parameters: [
       { name: 'resolution', type: 'number', default: 50, min: 10, max: 200 },
       { name: 'bounds', type: 'Vector', default: '100,100,100', description: 'Bounding box size' },
-      { name: 'signed', type: 'boolean', default: true }
+      { name: 'signed', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'geometry', type: 'Shape', required: true }
-    ],
+    inputs: [{ name: 'geometry', type: 'Shape', required: true }],
     outputs: [
       { name: 'field', type: 'Properties' },
       { name: 'isosurface', type: 'Shape' },
-      { name: 'gradient', type: 'Vector[]' }
-    ]
+      { name: 'gradient', type: 'Vector[]' },
+    ],
   },
   {
     category: 'Algorithmic',
@@ -410,16 +413,14 @@ export const additionalAlgorithmicNodes: NodeTemplate[] = [
     parameters: [
       { name: 'isovalue', type: 'number', default: 0.0, min: -100, max: 100 },
       { name: 'resolution', type: 'number', default: 32, min: 8, max: 128 },
-      { name: 'smooth', type: 'boolean', default: true }
+      { name: 'smooth', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'scalarField', type: 'Properties', required: true }
-    ],
+    inputs: [{ name: 'scalarField', type: 'Properties', required: true }],
     outputs: [
       { name: 'mesh', type: 'Shape' },
       { name: 'vertices', type: 'Point[]' },
-      { name: 'normals', type: 'Vector[]' }
-    ]
+      { name: 'normals', type: 'Vector[]' },
+    ],
   },
   {
     category: 'Algorithmic',
@@ -431,16 +432,14 @@ export const additionalAlgorithmicNodes: NodeTemplate[] = [
     parameters: [
       { name: 'type', type: 'enum', options: ['octree', 'kdtree', 'bvh'], default: 'octree' },
       { name: 'maxDepth', type: 'number', default: 8, min: 3, max: 15 },
-      { name: 'leafSize', type: 'number', default: 10, min: 1, max: 100 }
+      { name: 'leafSize', type: 'number', default: 10, min: 1, max: 100 },
     ],
-    inputs: [
-      { name: 'objects', type: 'Shape[]', required: true }
-    ],
+    inputs: [{ name: 'objects', type: 'Shape[]', required: true }],
     outputs: [
       { name: 'structure', type: 'Properties' },
       { name: 'stats', type: 'Properties' },
-      { name: 'visualization', type: 'Wire[]' }
-    ]
+      { name: 'visualization', type: 'Wire[]' },
+    ],
   },
   {
     category: 'Algorithmic',
@@ -452,16 +451,14 @@ export const additionalAlgorithmicNodes: NodeTemplate[] = [
     parameters: [
       { name: 'voxelSize', type: 'number', default: 1.0, min: 0.1, max: 10 },
       { name: 'fillInterior', type: 'boolean', default: true },
-      { name: 'optimize', type: 'boolean', default: true }
+      { name: 'optimize', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'geometry', type: 'Shape', required: true }
-    ],
+    inputs: [{ name: 'geometry', type: 'Shape', required: true }],
     outputs: [
       { name: 'voxels', type: 'Shape[]' },
       { name: 'grid', type: 'Properties' },
-      { name: 'bounds', type: 'Properties' }
-    ]
+      { name: 'bounds', type: 'Properties' },
+    ],
   },
   {
     category: 'Algorithmic',
@@ -471,18 +468,21 @@ export const additionalAlgorithmicNodes: NodeTemplate[] = [
     operation: 'POINT_CLOUD_PROCESSING',
     occtBinding: 'pointCloudProcessing',
     parameters: [
-      { name: 'operation', type: 'enum', options: ['filter', 'downsample', 'normal', 'cluster'], default: 'filter' },
+      {
+        name: 'operation',
+        type: 'enum',
+        options: ['filter', 'downsample', 'normal', 'cluster'],
+        default: 'filter',
+      },
       { name: 'radius', type: 'number', default: 1.0, min: 0.1, max: 10 },
-      { name: 'neighbors', type: 'number', default: 6, min: 3, max: 50 }
+      { name: 'neighbors', type: 'number', default: 6, min: 3, max: 50 },
     ],
-    inputs: [
-      { name: 'points', type: 'Point[]', required: true }
-    ],
+    inputs: [{ name: 'points', type: 'Point[]', required: true }],
     outputs: [
       { name: 'processed', type: 'Point[]' },
       { name: 'normals', type: 'Vector[]' },
-      { name: 'indices', type: 'number[]' }
-    ]
+      { name: 'indices', type: 'number[]' },
+    ],
   },
   {
     category: 'Algorithmic',
@@ -492,19 +492,24 @@ export const additionalAlgorithmicNodes: NodeTemplate[] = [
     operation: 'SURFACE_RECONSTRUCTION',
     occtBinding: 'surfaceReconstruction',
     parameters: [
-      { name: 'algorithm', type: 'enum', options: ['poisson', 'delaunay', 'rbf'], default: 'poisson' },
+      {
+        name: 'algorithm',
+        type: 'enum',
+        options: ['poisson', 'delaunay', 'rbf'],
+        default: 'poisson',
+      },
       { name: 'depth', type: 'number', default: 8, min: 4, max: 12 },
-      { name: 'samples', type: 'number', default: 1.0, min: 0.1, max: 10 }
+      { name: 'samples', type: 'number', default: 1.0, min: 0.1, max: 10 },
     ],
     inputs: [
       { name: 'points', type: 'Point[]', required: true },
-      { name: 'normals', type: 'Vector[]', required: false }
+      { name: 'normals', type: 'Vector[]', required: false },
     ],
     outputs: [
       { name: 'surface', type: 'Shape' },
       { name: 'mesh', type: 'Shape' },
-      { name: 'quality', type: 'number' }
-    ]
+      { name: 'quality', type: 'number' },
+    ],
   },
   {
     category: 'Algorithmic',
@@ -514,18 +519,21 @@ export const additionalAlgorithmicNodes: NodeTemplate[] = [
     operation: 'GEOMETRY_SIMPLIFICATION',
     occtBinding: 'geometrySimplification',
     parameters: [
-      { name: 'algorithm', type: 'enum', options: ['decimate', 'quadric', 'vertex'], default: 'quadric' },
+      {
+        name: 'algorithm',
+        type: 'enum',
+        options: ['decimate', 'quadric', 'vertex'],
+        default: 'quadric',
+      },
       { name: 'reduction', type: 'number', default: 0.5, min: 0.1, max: 0.9 },
-      { name: 'preserveBoundary', type: 'boolean', default: true }
+      { name: 'preserveBoundary', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'geometry', type: 'Shape', required: true }
-    ],
+    inputs: [{ name: 'geometry', type: 'Shape', required: true }],
     outputs: [
       { name: 'simplified', type: 'Shape' },
       { name: 'reductionRatio', type: 'number' },
-      { name: 'error', type: 'number' }
-    ]
+      { name: 'error', type: 'number' },
+    ],
   },
   {
     category: 'Algorithmic',
@@ -537,18 +545,18 @@ export const additionalAlgorithmicNodes: NodeTemplate[] = [
     parameters: [
       { name: 'algorithm', type: 'enum', options: ['icp', 'feature', 'global'], default: 'icp' },
       { name: 'tolerance', type: 'number', default: 0.01, min: 0.001, max: 1 },
-      { name: 'iterations', type: 'number', default: 50, min: 10, max: 500 }
+      { name: 'iterations', type: 'number', default: 50, min: 10, max: 500 },
     ],
     inputs: [
       { name: 'source', type: 'Shape', required: true },
-      { name: 'target', type: 'Shape', required: true }
+      { name: 'target', type: 'Shape', required: true },
     ],
     outputs: [
       { name: 'transform', type: 'Properties' },
       { name: 'aligned', type: 'Shape' },
       { name: 'error', type: 'number' },
-      { name: 'correspondences', type: 'Properties[]' }
-    ]
+      { name: 'correspondences', type: 'Properties[]' },
+    ],
   },
   {
     category: 'Algorithmic',
@@ -558,17 +566,20 @@ export const additionalAlgorithmicNodes: NodeTemplate[] = [
     operation: 'SHAPE_DESCRIPTOR',
     occtBinding: 'shapeDescriptor',
     parameters: [
-      { name: 'descriptor', type: 'enum', options: ['moments', 'fourier', 'histogram'], default: 'moments' },
+      {
+        name: 'descriptor',
+        type: 'enum',
+        options: ['moments', 'fourier', 'histogram'],
+        default: 'moments',
+      },
       { name: 'resolution', type: 'number', default: 32, min: 8, max: 128 },
-      { name: 'normalize', type: 'boolean', default: true }
+      { name: 'normalize', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'shape', type: 'Shape', required: true }
-    ],
+    inputs: [{ name: 'shape', type: 'Shape', required: true }],
     outputs: [
       { name: 'descriptor', type: 'number[]' },
       { name: 'features', type: 'Properties' },
-      { name: 'similarity', type: 'number' }
-    ]
-  }
+      { name: 'similarity', type: 'number' },
+    ],
+  },
 ];

@@ -18,7 +18,11 @@ interface JointDefinitionOutputs {
   assembly: unknown;
 }
 
-export const SimulationKinematicsJointDefinitionNode: NodeDefinition<JointDefinitionInputs, JointDefinitionOutputs, JointDefinitionParams> = {
+export const SimulationKinematicsJointDefinitionNode: NodeDefinition<
+  JointDefinitionInputs,
+  JointDefinitionOutputs,
+  JointDefinitionParams
+> = {
   id: 'Simulation::JointDefinition',
   type: 'Simulation::JointDefinition',
   category: 'Simulation',
@@ -28,55 +32,55 @@ export const SimulationKinematicsJointDefinitionNode: NodeDefinition<JointDefini
     body1: {
       type: 'Shape',
       label: 'Body1',
-      required: true
+      required: true,
     },
     body2: {
       type: 'Shape',
       label: 'Body2',
-      required: true
+      required: true,
     },
     jointLocation: {
       type: 'Point',
       label: 'Joint Location',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     joint: {
       type: 'Data',
-      label: 'Joint'
+      label: 'Joint',
     },
     assembly: {
       type: 'Shape',
-      label: 'Assembly'
-    }
+      label: 'Assembly',
+    },
   },
   params: {
     jointType: {
       type: 'enum',
       label: 'Joint Type',
-      default: "revolute",
-      options: ["revolute","prismatic","cylindrical","spherical","planar","fixed"]
+      default: 'revolute',
+      options: ['revolute', 'prismatic', 'cylindrical', 'spherical', 'planar', 'fixed'],
     },
     axis: {
       type: 'vec3',
       label: 'Axis',
-      default: [0,0,1]
+      default: [0, 0, 1],
     },
     minLimit: {
       type: 'number',
       label: 'Min Limit',
       default: -180,
       min: -360,
-      max: 360
+      max: 360,
     },
     maxLimit: {
       type: 'number',
       label: 'Max Limit',
       default: 180,
       min: -360,
-      max: 360
-    }
+      max: 360,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -88,13 +92,13 @@ export const SimulationKinematicsJointDefinitionNode: NodeDefinition<JointDefini
         jointType: params.jointType,
         axis: params.axis,
         minLimit: params.minLimit,
-        maxLimit: params.maxLimit
-      }
+        maxLimit: params.maxLimit,
+      },
     });
-    
+
     return {
       joint: results.joint,
-      assembly: results.assembly
+      assembly: results.assembly,
     };
   },
 };

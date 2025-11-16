@@ -15,7 +15,11 @@ interface JobTimeEstimateOutputs {
   engravingTime: number;
 }
 
-export const FabricationLaserJobTimeEstimateNode: NodeDefinition<JobTimeEstimateInputs, JobTimeEstimateOutputs, JobTimeEstimateParams> = {
+export const FabricationLaserJobTimeEstimateNode: NodeDefinition<
+  JobTimeEstimateInputs,
+  JobTimeEstimateOutputs,
+  JobTimeEstimateParams
+> = {
   id: 'Fabrication::JobTimeEstimate',
   category: 'Fabrication',
   label: 'JobTimeEstimate',
@@ -24,27 +28,27 @@ export const FabricationLaserJobTimeEstimateNode: NodeDefinition<JobTimeEstimate
     cuttingPaths: {
       type: 'Wire[]',
       label: 'Cutting Paths',
-      required: true
+      required: true,
     },
     engravingPaths: {
       type: 'Wire[]',
       label: 'Engraving Paths',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     totalTime: {
       type: 'Number',
-      label: 'Total Time'
+      label: 'Total Time',
     },
     cuttingTime: {
       type: 'Number',
-      label: 'Cutting Time'
+      label: 'Cutting Time',
     },
     engravingTime: {
       type: 'Number',
-      label: 'Engraving Time'
-    }
+      label: 'Engraving Time',
+    },
   },
   params: {
     rapidSpeed: {
@@ -52,8 +56,8 @@ export const FabricationLaserJobTimeEstimateNode: NodeDefinition<JobTimeEstimate
       label: 'Rapid Speed',
       default: 500,
       min: 100,
-      max: 1000
-    }
+      max: 1000,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -61,14 +65,14 @@ export const FabricationLaserJobTimeEstimateNode: NodeDefinition<JobTimeEstimate
       params: {
         cuttingPaths: inputs.cuttingPaths,
         engravingPaths: inputs.engravingPaths,
-        rapidSpeed: params.rapidSpeed
-      }
+        rapidSpeed: params.rapidSpeed,
+      },
     });
-    
+
     return {
       totalTime: results.totalTime,
       cuttingTime: results.cuttingTime,
-      engravingTime: results.engravingTime
+      engravingTime: results.engravingTime,
     };
   },
 };

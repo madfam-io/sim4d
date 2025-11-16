@@ -17,7 +17,11 @@ interface AirBearingOutputs {
   restrictors: unknown;
 }
 
-export const MechanicalEngineeringBearingsAirBearingNode: NodeDefinition<AirBearingInputs, AirBearingOutputs, AirBearingParams> = {
+export const MechanicalEngineeringBearingsAirBearingNode: NodeDefinition<
+  AirBearingInputs,
+  AirBearingOutputs,
+  AirBearingParams
+> = {
   id: 'MechanicalEngineering::AirBearing',
   type: 'MechanicalEngineering::AirBearing',
   category: 'MechanicalEngineering',
@@ -27,22 +31,22 @@ export const MechanicalEngineeringBearingsAirBearingNode: NodeDefinition<AirBear
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     bearing: {
       type: 'Shape',
-      label: 'Bearing'
+      label: 'Bearing',
     },
     pockets: {
       type: 'Face[]',
-      label: 'Pockets'
+      label: 'Pockets',
     },
     restrictors: {
       type: 'Wire[]',
-      label: 'Restrictors'
-    }
+      label: 'Restrictors',
+    },
   },
   params: {
     diameter: {
@@ -50,28 +54,28 @@ export const MechanicalEngineeringBearingsAirBearingNode: NodeDefinition<AirBear
       label: 'Diameter',
       default: 50,
       min: 20,
-      max: 200
+      max: 200,
     },
     thickness: {
       type: 'number',
       label: 'Thickness',
       default: 10,
       min: 5,
-      max: 30
+      max: 30,
     },
     pocketCount: {
       type: 'number',
       label: 'Pocket Count',
       default: 6,
       min: 3,
-      max: 12
+      max: 12,
     },
     restrictorType: {
       type: 'enum',
       label: 'Restrictor Type',
-      default: "orifice",
-      options: ["orifice","porous","groove"]
-    }
+      default: 'orifice',
+      options: ['orifice', 'porous', 'groove'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -81,14 +85,14 @@ export const MechanicalEngineeringBearingsAirBearingNode: NodeDefinition<AirBear
         diameter: params.diameter,
         thickness: params.thickness,
         pocketCount: params.pocketCount,
-        restrictorType: params.restrictorType
-      }
+        restrictorType: params.restrictorType,
+      },
     });
-    
+
     return {
       bearing: results.bearing,
       pockets: results.pockets,
-      restrictors: results.restrictors
+      restrictors: results.restrictors,
     };
   },
 };

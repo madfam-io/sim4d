@@ -14,7 +14,11 @@ interface MezzanineFloorOutputs {
   structure: unknown;
 }
 
-export const ArchitectureFloorsMezzanineFloorNode: NodeDefinition<MezzanineFloorInputs, MezzanineFloorOutputs, MezzanineFloorParams> = {
+export const ArchitectureFloorsMezzanineFloorNode: NodeDefinition<
+  MezzanineFloorInputs,
+  MezzanineFloorOutputs,
+  MezzanineFloorParams
+> = {
   id: 'Architecture::MezzanineFloor',
   type: 'Architecture::MezzanineFloor',
   category: 'Architecture',
@@ -24,33 +28,33 @@ export const ArchitectureFloorsMezzanineFloorNode: NodeDefinition<MezzanineFloor
     mezzanineOutline: {
       type: 'Wire',
       label: 'Mezzanine Outline',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     mezzanine: {
       type: 'Shape',
-      label: 'Mezzanine'
+      label: 'Mezzanine',
     },
     structure: {
       type: 'Shape[]',
-      label: 'Structure'
-    }
+      label: 'Structure',
+    },
   },
   params: {
     structureType: {
       type: 'enum',
       label: 'Structure Type',
-      default: "steel",
-      options: ["steel","concrete","wood"]
+      default: 'steel',
+      options: ['steel', 'concrete', 'wood'],
     },
     clearHeight: {
       type: 'number',
       label: 'Clear Height',
       default: 2400,
       min: 2100,
-      max: 3000
-    }
+      max: 3000,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -58,13 +62,13 @@ export const ArchitectureFloorsMezzanineFloorNode: NodeDefinition<MezzanineFloor
       params: {
         mezzanineOutline: inputs.mezzanineOutline,
         structureType: params.structureType,
-        clearHeight: params.clearHeight
-      }
+        clearHeight: params.clearHeight,
+      },
     });
-    
+
     return {
       mezzanine: results.mezzanine,
-      structure: results.structure
+      structure: results.structure,
     };
   },
 };

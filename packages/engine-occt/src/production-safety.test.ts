@@ -5,7 +5,7 @@ import {
   createProductionSafeConfig,
   createProductionErrorBoundary,
   ProductionSafetyError,
-  type EnvironmentConfig
+  type EnvironmentConfig,
 } from './production-safety';
 
 describe('Production Safety', () => {
@@ -52,7 +52,7 @@ describe('Production Safety', () => {
         isProduction: true,
         isDevelopment: false,
         isTest: false,
-        nodeEnv: 'production'
+        nodeEnv: 'production',
       };
 
       expect(() => {
@@ -69,7 +69,7 @@ describe('Production Safety', () => {
         isProduction: true,
         isDevelopment: false,
         isTest: false,
-        nodeEnv: 'production'
+        nodeEnv: 'production',
       };
 
       expect(() => {
@@ -82,7 +82,7 @@ describe('Production Safety', () => {
         isProduction: false,
         isDevelopment: true,
         isTest: false,
-        nodeEnv: 'development'
+        nodeEnv: 'development',
       };
 
       expect(() => {
@@ -118,7 +118,7 @@ describe('Production Safety', () => {
       expect(() => {
         createProductionSafeConfig({ enableRealOCCT: false });
       }).toThrow(ProductionSafetyError);
-      
+
       expect(() => {
         createProductionSafeConfig({ enableRealOCCT: false });
       }).toThrow('Real OCCT cannot be disabled');
@@ -131,7 +131,7 @@ describe('Production Safety', () => {
         isProduction: true,
         isDevelopment: false,
         isTest: false,
-        nodeEnv: 'production'
+        nodeEnv: 'production',
       };
 
       const error = createProductionErrorBoundary('TEST_OPERATION', productionEnv);
@@ -168,7 +168,7 @@ describe('Production Safety', () => {
 
       Object.defineProperty(window, 'location', {
         value: { hostname: 'localhost' },
-        writable: true
+        writable: true,
       });
 
       const env = detectEnvironment();
@@ -184,7 +184,7 @@ describe('Production Safety', () => {
 
       Object.defineProperty(window, 'location', {
         value: { hostname: 'app.example.com' },
-        writable: true
+        writable: true,
       });
 
       const env = detectEnvironment();

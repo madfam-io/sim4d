@@ -37,7 +37,7 @@ const PLAYGROUND_CONFIGS = [
 ];
 
 interface PlaygroundCardProps {
-  playground: typeof PLAYGROUND_CONFIGS[0];
+  playground: (typeof PLAYGROUND_CONFIGS)[0];
   isActive: boolean;
   isCompleted: boolean;
   onSelect: () => void;
@@ -67,8 +67,11 @@ const PlaygroundCard: React.FC<PlaygroundCardProps> = ({
 
     <div className="playground-meta">
       <div className="difficulty-badge">
-        {playground.difficulty === 'easy' ? '🟢 Easy' :
-         playground.difficulty === 'medium' ? '🟡 Medium' : '🔴 Hard'}
+        {playground.difficulty === 'easy'
+          ? '🟢 Easy'
+          : playground.difficulty === 'medium'
+            ? '🟡 Medium'
+            : '🔴 Hard'}
       </div>
       <div className="time-estimate">⏱️ {playground.estimatedTime}</div>
     </div>
@@ -89,7 +92,7 @@ export const PlaygroundManager: React.FC = () => {
   const { state, enterPlayground, exitPlayground } = useOnboardingStore();
 
   const availablePlaygrounds = useMemo(() => {
-    return PLAYGROUND_CONFIGS.filter(playground => {
+    return PLAYGROUND_CONFIGS.filter((playground) => {
       if (state.userSkillLevel === 'skip') return false;
       if (state.userSkillLevel === 'neophyte') return true;
       return playground.requiredSkill === 'beginner' || playground.id === 'first-shape';
@@ -110,7 +113,7 @@ export const PlaygroundManager: React.FC = () => {
 
   // If in a specific playground, render that playground component
   if (state.currentPlayground) {
-    const playground = PLAYGROUND_CONFIGS.find(p => p.id === state.currentPlayground);
+    const playground = PLAYGROUND_CONFIGS.find((p) => p.id === state.currentPlayground);
     if (playground) {
       const PlaygroundComponent = playground.component;
       return (
@@ -197,7 +200,6 @@ export const PlaygroundManager: React.FC = () => {
           </p>
         </motion.div>
       </div>
-
     </motion.div>
   );
 };

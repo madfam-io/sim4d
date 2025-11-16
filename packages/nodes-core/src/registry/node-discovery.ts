@@ -32,9 +32,9 @@ export async function discoverAllNodes(): Promise<{
   const generatedNodeDefinitions = Object.values(generatedNodes).filter(
     (node): node is NodeDefinition => node && typeof node === 'object' && 'type' in node
   );
-  
+
   console.log(`📦 Found ${generatedNodeDefinitions.length} generated nodes`);
-  
+
   for (const nodeDefinition of generatedNodeDefinitions) {
     try {
       registry.registerNode(nodeDefinition);
@@ -43,7 +43,7 @@ export async function discoverAllNodes(): Promise<{
       console.warn(`⚠️ Failed to register generated node ${nodeDefinition.type}:`, error);
     }
   }
-  
+
   console.log(`✅ Registered ${generatedNodeDefinitions.length} generated nodes`);
 
   // Get final statistics
@@ -51,7 +51,9 @@ export async function discoverAllNodes(): Promise<{
   const categories = registry.getCategories();
 
   console.log('✅ Node discovery complete!');
-  console.log(`📊 Registered ${statistics.totalNodes} nodes across ${statistics.totalCategories} categories`);
+  console.log(
+    `📊 Registered ${statistics.totalNodes} nodes across ${statistics.totalCategories} categories`
+  );
   console.log(`🏷️ Found ${statistics.totalTags} unique tags`);
 
   return {
@@ -68,10 +70,13 @@ export function getNodeSummary(): Record<string, number> {
   const registry = EnhancedNodeRegistry.getInstance();
   const categories = registry.getCategories();
 
-  return categories.reduce((summary, category) => {
-    summary[category] = registry.getNodesByCategory(category).length;
-    return summary;
-  }, {} as Record<string, number>);
+  return categories.reduce(
+    (summary, category) => {
+      summary[category] = registry.getNodesByCategory(category).length;
+      return summary;
+    },
+    {} as Record<string, number>
+  );
 }
 
 /**
@@ -110,25 +115,27 @@ export function validateNodeDiscovery(): {
     'Data',
     'Fields',
     'Patterns',
-    'Fabrication'
+    'Fabrication',
   ];
 
   const discoveredCategories = registry.getCategories();
-  const missingCategories = expectedCategories.filter(
-    cat => !discoveredCategories.includes(cat)
-  );
+  const missingCategories = expectedCategories.filter((cat) => !discoveredCategories.includes(cat));
 
   // Validate that we have all production nodes available
   const isValid = statistics.totalNodes >= 800; // Adjusted to match actual generated node count
 
   if (missingCategories.length > 0) {
-    console.warn(`⚠️ Some categories missing from production nodes: ${missingCategories.join(', ')}`);
+    console.warn(
+      `⚠️ Some categories missing from production nodes: ${missingCategories.join(', ')}`
+    );
   }
 
   if (isValid) {
     console.log('✅ Production node discovery validation passed');
   } else {
-    console.error(`❌ Production node discovery validation failed: only ${statistics.totalNodes} nodes found (expected at least 800)`);
+    console.error(
+      `❌ Production node discovery validation failed: only ${statistics.totalNodes} nodes found (expected at least 800)`
+    );
   }
 
   return {

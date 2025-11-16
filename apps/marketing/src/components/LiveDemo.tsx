@@ -13,22 +13,22 @@ export function LiveDemo({ isVisible }: LiveDemoProps) {
   const [currentStep, setCurrentStep] = useState(0);
 
   const demoSteps = [
-    { 
+    {
       title: 'Create Base Geometry',
       description: 'Start with primitive shapes using parametric controls',
       duration: 3000,
     },
-    { 
+    {
       title: 'Apply Transformations',
       description: 'Transform and array geometry with node connections',
       duration: 3000,
     },
-    { 
+    {
       title: 'Boolean Operations',
       description: 'Combine shapes with union, difference, and intersection',
       duration: 3000,
     },
-    { 
+    {
       title: 'Export to STEP',
       description: 'Export manufacturing-ready files instantly',
       duration: 3000,
@@ -77,7 +77,8 @@ export function LiveDemo({ isVisible }: LiveDemoProps) {
                 </span>
               </h2>
               <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-                Watch how BrepFlow transforms visual node graphs into precise CAD geometry in real-time
+                Watch how BrepFlow transforms visual node graphs into precise CAD geometry in
+                real-time
               </p>
             </div>
 
@@ -159,18 +160,10 @@ export function LiveDemo({ isVisible }: LiveDemoProps) {
                 Ready to experience the future of parametric CAD?
               </p>
               <div className="flex justify-center gap-4">
-                <GlowButton
-                  href="https://studio.brepflow.com"
-                  variant="primary"
-                  size="large"
-                >
+                <GlowButton href="https://studio.brepflow.com" variant="primary" size="large">
                   Launch BrepFlow Studio
                 </GlowButton>
-                <GlowButton
-                  href="/docs/getting-started"
-                  variant="secondary"
-                  size="large"
-                >
+                <GlowButton href="/docs/getting-started" variant="secondary" size="large">
                   Read Documentation
                 </GlowButton>
               </div>

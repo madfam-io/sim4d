@@ -5,6 +5,7 @@ Command-line interface for BrepFlow - headless graph execution and batch process
 ## Overview
 
 The BrepFlow CLI enables automation and batch processing of parametric CAD models. It provides:
+
 - **Headless execution**: Run graphs without UI
 - **Parameter overrides**: Set values at runtime
 - **Batch processing**: Process multiple variants
@@ -15,16 +16,19 @@ The BrepFlow CLI enables automation and batch processing of parametric CAD model
 ## Installation
 
 ### Global Installation
+
 ```bash
 npm install -g @brepflow/cli
 ```
 
 ### Local Installation
+
 ```bash
 pnpm add @brepflow/cli
 ```
 
 ### From Source
+
 ```bash
 cd packages/cli
 pnpm build
@@ -42,6 +46,7 @@ brepflow render <graph.bflow.json> [options]
 ```
 
 **Options:**
+
 - `--export <formats>` - Export formats (step,iges,stl,obj)
 - `--out <directory>` - Output directory
 - `--set <param=value>` - Override parameters
@@ -51,6 +56,7 @@ brepflow render <graph.bflow.json> [options]
 - `--dry-run` - Validate without executing
 
 **Examples:**
+
 ```bash
 # Basic rendering
 brepflow render enclosure.bflow.json --export step --out dist/
@@ -83,6 +89,7 @@ brepflow sweep --graph <graph.bflow.json> --matrix <params.csv> [options]
 ```
 
 **Options:**
+
 - `--matrix <file>` - CSV parameter matrix
 - `--export <formats>` - Export formats
 - `--out <directory>` - Output directory
@@ -91,6 +98,7 @@ brepflow sweep --graph <graph.bflow.json> --matrix <params.csv> [options]
 - `--filter <expression>` - Variant filtering
 
 **Matrix Format (CSV):**
+
 ```csv
 width,height,depth,material
 100,50,25,aluminum
@@ -99,6 +107,7 @@ width,height,depth,material
 ```
 
 **Examples:**
+
 ```bash
 # Basic sweep
 brepflow sweep \
@@ -131,6 +140,7 @@ brepflow validate <graph.bflow.json> [options]
 ```
 
 **Options:**
+
 - `--strict` - Strict validation mode
 - `--check-types` - Validate parameter types
 - `--check-connections` - Validate edge connections
@@ -138,6 +148,7 @@ brepflow validate <graph.bflow.json> [options]
 - `--format <json|text>` - Output format
 
 **Examples:**
+
 ```bash
 # Basic validation
 brepflow validate my-graph.bflow.json
@@ -163,12 +174,14 @@ brepflow info <graph.bflow.json> [options]
 ```
 
 **Options:**
+
 - `--format <json|yaml|text>` - Output format
 - `--stats` - Include statistics
 - `--dependencies` - Show dependency tree
 - `--parameters` - List all parameters
 
 **Examples:**
+
 ```bash
 # Basic info
 brepflow info my-model.bflow.json
@@ -276,6 +289,7 @@ export BREPFLOW_TELEMETRY=false
 ### CI/CD Integration
 
 **GitHub Actions:**
+
 ```yaml
 name: Build Models
 
@@ -310,6 +324,7 @@ jobs:
 ```
 
 **Makefile:**
+
 ```makefile
 MODELS := $(wildcard models/*.bflow.json)
 BUILDS := $(MODELS:models/%.bflow.json=dist/%)
@@ -342,6 +357,7 @@ sweep:
 ### Scripting Examples
 
 **Bash script for batch processing:**
+
 ```bash
 #!/bin/bash
 # build-all.sh
@@ -370,6 +386,7 @@ echo "All models built successfully!"
 ```
 
 **Python script for parameter exploration:**
+
 ```python
 #!/usr/bin/env python3
 import subprocess
@@ -442,11 +459,13 @@ if __name__ == '__main__':
 ### File Naming
 
 Generated files follow this pattern:
+
 ```
 {model-name}_{hash}.{format}
 ```
 
 Where:
+
 - `model-name`: Original graph filename (without .bflow.json)
 - `hash`: Content-addressed hash for deterministic builds
 - `format`: Export format (step, iges, stl, obj)
@@ -597,8 +616,8 @@ const result = await cli.render({
   out: 'dist/',
   parameters: {
     width: 100,
-    height: 50
-  }
+    height: 50,
+  },
 });
 
 // Batch processing
@@ -606,7 +625,7 @@ const sweepResult = await cli.sweep({
   graph: 'model.bflow.json',
   matrix: 'variants.csv',
   export: ['step'],
-  parallel: 4
+  parallel: 4,
 });
 ```
 

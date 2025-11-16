@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -23,47 +22,33 @@ export const DXFExportNode: NodeDefinition<DXFExportInputs, DXFExportOutputs, DX
   metadata: {
     label: 'DXFExport',
     description: 'Export 2D geometry to DXF format',
-    
-    
   },
 
   params: {
-        version: {
-      "default": "2000",
-      "options": [
-        "R12",
-        "R14",
-        "2000",
-        "2004",
-        "2007"
-      ]
+    version: {
+      default: '2000',
+      options: ['R12', 'R14', '2000', '2004', '2007'],
     },
     units: {
-      "default": "mm",
-      "options": [
-        "mm",
-        "cm",
-        "m",
-        "inch"
-      ]
+      default: 'mm',
+      options: ['mm', 'cm', 'm', 'inch'],
     },
     layerName: {
-      "default": "BrepFlow"
-    }
+      default: 'BrepFlow',
+    },
   },
 
   inputs: {
-        curves: 'Wire[]',
-    filePath: 'string'
+    curves: 'Wire[]',
+    filePath: 'string',
   },
 
   outputs: {
-        success: 'boolean',
-    entityCount: 'number'
+    success: 'boolean',
+    entityCount: 'number',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'dxfExport',
       params: {
@@ -71,13 +56,13 @@ export const DXFExportNode: NodeDefinition<DXFExportInputs, DXFExportOutputs, DX
         filePath: inputs.filePath,
         version: params.version,
         units: params.units,
-        layerName: params.layerName
-      }
+        layerName: params.layerName,
+      },
     });
 
     return {
       success: result,
-      entityCount: result
+      entityCount: result,
     };
-  }
+  },
 };

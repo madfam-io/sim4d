@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -23,38 +22,32 @@ export const CSVWriterNode: NodeDefinition<CSVWriterInputs, CSVWriterOutputs, CS
   metadata: {
     label: 'CSVWriter',
     description: 'Write data to CSV files',
-    
-    
   },
 
   params: {
-        delimiter: {
-      "default": ","
+    delimiter: {
+      default: ',',
     },
     includeHeader: {
-      "default": true
+      default: true,
     },
     encoding: {
-      "default": "utf-8",
-      "options": [
-        "utf-8",
-        "ascii"
-      ]
-    }
+      default: 'utf-8',
+      options: ['utf-8', 'ascii'],
+    },
   },
 
   inputs: {
-        data: 'Properties[]',
-    filePath: 'string'
+    data: 'Properties[]',
+    filePath: 'string',
   },
 
   outputs: {
-        success: 'boolean',
-    rowsWritten: 'number'
+    success: 'boolean',
+    rowsWritten: 'number',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'csvWriter',
       params: {
@@ -62,13 +55,13 @@ export const CSVWriterNode: NodeDefinition<CSVWriterInputs, CSVWriterOutputs, CS
         filePath: inputs.filePath,
         delimiter: params.delimiter,
         includeHeader: params.includeHeader,
-        encoding: params.encoding
-      }
+        encoding: params.encoding,
+      },
     });
 
     return {
       success: result,
-      rowsWritten: result
+      rowsWritten: result,
     };
-  }
+  },
 };

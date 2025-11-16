@@ -12,7 +12,11 @@ interface VariableShellOutputs {
   shell: unknown;
 }
 
-export const AdvancedShellVariableShellNode: NodeDefinition<VariableShellInputs, VariableShellOutputs, VariableShellParams> = {
+export const AdvancedShellVariableShellNode: NodeDefinition<
+  VariableShellInputs,
+  VariableShellOutputs,
+  VariableShellParams
+> = {
   id: 'Advanced::VariableShell',
   category: 'Advanced',
   label: 'VariableShell',
@@ -21,24 +25,24 @@ export const AdvancedShellVariableShellNode: NodeDefinition<VariableShellInputs,
     solid: {
       type: 'Shape',
       label: 'Solid',
-      required: true
+      required: true,
     },
     facesToRemove: {
       type: 'Face[]',
       label: 'Faces To Remove',
-      required: true
+      required: true,
     },
     thicknessMap: {
       type: 'Data',
       label: 'Thickness Map',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shell: {
       type: 'Shape',
-      label: 'Shell'
-    }
+      label: 'Shell',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -47,12 +51,12 @@ export const AdvancedShellVariableShellNode: NodeDefinition<VariableShellInputs,
       params: {
         solid: inputs.solid,
         facesToRemove: inputs.facesToRemove,
-        thicknessMap: inputs.thicknessMap
-      }
+        thicknessMap: inputs.thicknessMap,
+      },
     });
-    
+
     return {
-      shell: result
+      shell: result,
     };
   },
 };

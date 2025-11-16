@@ -110,9 +110,7 @@ import { collaborationAPI } from './collaboration';
 
 // Update server URL based on environment
 const serverUrl =
-  process.env.NODE_ENV === 'production'
-    ? 'https://collab.brepflow.com'
-    : 'http://localhost:8080';
+  process.env.NODE_ENV === 'production' ? 'https://collab.brepflow.com' : 'http://localhost:8080';
 
 collaborationAPI.updateConfig({ serverUrl });
 ```
@@ -159,6 +157,7 @@ function YourComponent() {
 ### Production Checklist
 
 - [ ] **Strong Secrets**: Generate cryptographically secure secrets
+
   ```bash
   # Generate strong secrets
   openssl rand -base64 32  # SESSION_SECRET
@@ -166,6 +165,7 @@ function YourComponent() {
   ```
 
 - [ ] **HTTPS Only**: Enable `secure` flag on cookies
+
   ```typescript
   cookie: {
     secure: true, // HTTPS only
@@ -175,15 +175,14 @@ function YourComponent() {
   ```
 
 - [ ] **Explicit Origins**: No wildcard CORS
+
   ```typescript
-  corsOrigin: [
-    'https://studio.brepflow.com',
-    'https://app.brepflow.com',
-  ]
+  corsOrigin: ['https://studio.brepflow.com', 'https://app.brepflow.com'];
   // NEVER: corsOrigin: '*'
   ```
 
 - [ ] **Rate Limiting**: Prevent DoS attacks
+
   ```typescript
   enableRateLimiting: true,
   maxConnectionsPerIP: 10, // Adjust based on usage patterns
@@ -252,14 +251,13 @@ done
 const origins = [
   'http://localhost:5173', // Should work (whitelisted)
   'http://localhost:3000', // Should work (whitelisted)
-  'http://malicious.com',  // Should fail (not whitelisted)
+  'http://malicious.com', // Should fail (not whitelisted)
 ];
 
 for (const origin of origins) {
-  const response = await fetch(
-    `${origin}/api/collaboration/csrf-token`,
-    { credentials: 'include' }
-  );
+  const response = await fetch(`${origin}/api/collaboration/csrf-token`, {
+    credentials: 'include',
+  });
   console.log(`${origin}:`, response.status);
 }
 ```

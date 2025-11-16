@@ -10,7 +10,11 @@ interface TreePathsOutputs {
   paths: unknown;
 }
 
-export const DataTreeTreePathsNode: NodeDefinition<TreePathsInputs, TreePathsOutputs, TreePathsParams> = {
+export const DataTreeTreePathsNode: NodeDefinition<
+  TreePathsInputs,
+  TreePathsOutputs,
+  TreePathsParams
+> = {
   id: 'Data::TreePaths',
   category: 'Data',
   label: 'TreePaths',
@@ -19,26 +23,26 @@ export const DataTreeTreePathsNode: NodeDefinition<TreePathsInputs, TreePathsOut
     tree: {
       type: 'DataTree',
       label: 'Tree',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     paths: {
       type: 'string[]',
-      label: 'Paths'
-    }
+      label: 'Paths',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'treePaths',
       params: {
-        tree: inputs.tree
-      }
+        tree: inputs.tree,
+      },
     });
-    
+
     return {
-      paths: result
+      paths: result,
     };
   },
 };

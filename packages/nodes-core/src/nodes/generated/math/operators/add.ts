@@ -21,19 +21,19 @@ export const MathOperatorsAddNode: NodeDefinition<AddInputs, AddOutputs, AddPara
     a: {
       type: 'number',
       label: 'A',
-      required: true
+      required: true,
     },
     b: {
       type: 'number',
       label: 'B',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'number',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -41,12 +41,12 @@ export const MathOperatorsAddNode: NodeDefinition<AddInputs, AddOutputs, AddPara
       type: 'mathAdd',
       params: {
         a: inputs.a,
-        b: inputs.b
-      }
+        b: inputs.b,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

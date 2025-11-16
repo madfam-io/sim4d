@@ -17,7 +17,11 @@ interface FieldGridOutputs {
   values: unknown;
 }
 
-export const FieldSampleFieldGridNode: NodeDefinition<FieldGridInputs, FieldGridOutputs, FieldGridParams> = {
+export const FieldSampleFieldGridNode: NodeDefinition<
+  FieldGridInputs,
+  FieldGridOutputs,
+  FieldGridParams
+> = {
   id: 'Field::FieldGrid',
   category: 'Field',
   label: 'FieldGrid',
@@ -26,27 +30,27 @@ export const FieldSampleFieldGridNode: NodeDefinition<FieldGridInputs, FieldGrid
     field: {
       type: 'ScalarField',
       label: 'Field',
-      required: true
+      required: true,
     },
     bounds: {
       type: 'Box',
       label: 'Bounds',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     grid: {
       type: 'Data',
-      label: 'Grid'
+      label: 'Grid',
     },
     points: {
       type: 'Point[]',
-      label: 'Points'
+      label: 'Points',
     },
     values: {
       type: 'number[]',
-      label: 'Values'
-    }
+      label: 'Values',
+    },
   },
   params: {
     resolutionX: {
@@ -55,7 +59,7 @@ export const FieldSampleFieldGridNode: NodeDefinition<FieldGridInputs, FieldGrid
       default: 10,
       min: 2,
       max: 100,
-      step: 1
+      step: 1,
     },
     resolutionY: {
       type: 'number',
@@ -63,7 +67,7 @@ export const FieldSampleFieldGridNode: NodeDefinition<FieldGridInputs, FieldGrid
       default: 10,
       min: 2,
       max: 100,
-      step: 1
+      step: 1,
     },
     resolutionZ: {
       type: 'number',
@@ -71,8 +75,8 @@ export const FieldSampleFieldGridNode: NodeDefinition<FieldGridInputs, FieldGrid
       default: 10,
       min: 2,
       max: 100,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -82,14 +86,14 @@ export const FieldSampleFieldGridNode: NodeDefinition<FieldGridInputs, FieldGrid
         bounds: inputs.bounds,
         resolutionX: params.resolutionX,
         resolutionY: params.resolutionY,
-        resolutionZ: params.resolutionZ
-      }
+        resolutionZ: params.resolutionZ,
+      },
     });
-    
+
     return {
       grid: results.grid,
       points: results.points,
-      values: results.values
+      values: results.values,
     };
   },
 };

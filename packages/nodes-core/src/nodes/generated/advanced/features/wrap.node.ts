@@ -24,39 +24,39 @@ export const AdvancedFeaturesWrapNode: NodeDefinition<WrapInputs, WrapOutputs, W
     targetSurface: {
       type: 'Face',
       label: 'Target Surface',
-      required: true
+      required: true,
     },
     sketch: {
       type: 'Wire',
       label: 'Sketch',
-      required: true
+      required: true,
     },
     projectionDirection: {
       type: 'Vector',
       label: 'Projection Direction',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     wrappedShape: {
       type: 'Shape',
-      label: 'Wrapped Shape'
-    }
+      label: 'Wrapped Shape',
+    },
   },
   params: {
     wrapType: {
       type: 'enum',
       label: 'Wrap Type',
-      default: "emboss",
-      options: ["scribe","emboss","deboss"]
+      default: 'emboss',
+      options: ['scribe', 'emboss', 'deboss'],
     },
     depth: {
       type: 'number',
       label: 'Depth',
       default: 1,
       min: 0.01,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -66,12 +66,12 @@ export const AdvancedFeaturesWrapNode: NodeDefinition<WrapInputs, WrapOutputs, W
         sketch: inputs.sketch,
         projectionDirection: inputs.projectionDirection,
         wrapType: params.wrapType,
-        depth: params.depth
-      }
+        depth: params.depth,
+      },
     });
-    
+
     return {
-      wrappedShape: result
+      wrappedShape: result,
     };
   },
 };

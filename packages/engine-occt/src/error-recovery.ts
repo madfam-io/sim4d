@@ -11,7 +11,7 @@ export enum ErrorSeverity {
   LOW = 'low',
   MEDIUM = 'medium',
   HIGH = 'high',
-  CRITICAL = 'critical'
+  CRITICAL = 'critical',
 }
 
 export enum ErrorCategory {
@@ -22,7 +22,7 @@ export enum ErrorCategory {
   WORKER_ERROR = 'worker_error',
   NETWORK_ERROR = 'network_error',
   TIMEOUT_ERROR = 'timeout_error',
-  UNKNOWN_ERROR = 'unknown_error'
+  UNKNOWN_ERROR = 'unknown_error',
 }
 
 export interface ErrorContext {
@@ -90,7 +90,10 @@ export class ErrorRecoverySystem {
   private recoveryStrategies: RecoveryStrategy[] = [];
   private errorHistory: OCCTError[] = [];
   private recoveryAttempts = new Map<string, number>();
-  private circuitBreakers = new Map<string, { failures: number; lastFailure: number; isOpen: boolean }>();
+  private circuitBreakers = new Map<
+    string,
+    { failures: number; lastFailure: number; isOpen: boolean }
+  >();
 
   constructor() {
     this.initializeDefaultRules();
@@ -107,7 +110,7 @@ export class ErrorRecoverySystem {
     const result: ValidationResult = {
       valid: true,
       errors: [],
-      warnings: []
+      warnings: [],
     };
 
     // Apply relevant validation rules
@@ -201,7 +204,6 @@ export class ErrorRecoverySystem {
           console.log(`[ErrorRecovery] Successfully recovered using ${strategy.name}`);
           if (endMeasurement) endMeasurement();
           return { recovered: true, result };
-
         } catch (recoveryError) {
           console.warn(`[ErrorRecovery] Recovery strategy ${strategy.name} failed:`, recoveryError);
           continue;
@@ -252,7 +254,11 @@ export class ErrorRecoverySystem {
       category = ErrorCategory.VALIDATION_ERROR;
       severity = ErrorSeverity.LOW;
       recoverable = false;
-    } else if (message.includes('geometry') || message.includes('shape') || message.includes('mesh')) {
+    } else if (
+      message.includes('geometry') ||
+      message.includes('shape') ||
+      message.includes('mesh')
+    ) {
       category = ErrorCategory.GEOMETRY_ERROR;
       severity = ErrorSeverity.MEDIUM;
     }
@@ -264,7 +270,7 @@ export class ErrorRecoverySystem {
       stackTrace: error.stack,
       retryCount: 0,
       userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : undefined,
-      ...context
+      ...context,
     };
 
     return new OCCTError(error.message, category, severity, fullContext, recoverable);
@@ -302,9 +308,9 @@ export class ErrorRecoverySystem {
         return {
           valid: errors.length === 0,
           errors,
-          warnings
+          warnings,
         };
-      }
+      },
     });
 
     // Memory pressure validation
@@ -332,12 +338,13 @@ export class ErrorRecoverySystem {
           suggestedFix: () => {
             // Suggest reduced parameters for high memory pressure
             const fixedParams = { ...params };
-            if (fixedParams.tolerance) fixedParams.tolerance = Math.max(fixedParams.tolerance * 2, 0.1);
+            if (fixedParams.tolerance)
+              fixedParams.tolerance = Math.max(fixedParams.tolerance * 2, 0.1);
             if (fixedParams.detail) fixedParams.detail = Math.max(fixedParams.detail - 1, 1);
             return fixedParams;
-          }
+          },
         };
-      }
+      },
     });
 
     // Operation-specific validation
@@ -377,12 +384,19 @@ export class ErrorRecoverySystem {
           case 'BOOLEAN_INTERSECT':
             // Union and intersect expect shapes array
             if (!params.shapes || !Array.isArray(params.shapes) || params.shapes.length < 2) {
-              errors.push('Boolean union/intersect operations require at least two shapes in shapes array.');
+              errors.push(
+                'Boolean union/intersect operations require at least two shapes in shapes array.'
+              );
             }
             break;
           case 'BOOLEAN_SUBTRACT':
             // Subtract expects base and tools
-            if (!params.base || !params.tools || !Array.isArray(params.tools) || params.tools.length === 0) {
+            if (
+              !params.base ||
+              !params.tools ||
+              !Array.isArray(params.tools) ||
+              params.tools.length === 0
+            ) {
               errors.push('Boolean subtract operation requires base shape and tools array.');
             }
             break;
@@ -391,9 +405,9 @@ export class ErrorRecoverySystem {
         return {
           valid: errors.length === 0,
           errors,
-          warnings
+          warnings,
         };
-      }
+      },
     });
   }
 
@@ -419,7 +433,7 @@ export class ErrorRecoverySystem {
         // Retry with simplified parameters if possible
         const simplifiedParams = this.simplifyParameters(context.params, context.operation);
         return this.retryOperation(context.operation, simplifiedParams);
-      }
+      },
     });
 
     // Worker restart recovery
@@ -440,7 +454,7 @@ export class ErrorRecoverySystem {
 
         await this.delay(2000);
         return this.retryOperation(context.operation, context.params);
-      }
+      },
     });
 
     // WASM module reload recovery
@@ -457,7 +471,7 @@ export class ErrorRecoverySystem {
 
         await this.delay(5000);
         return this.retryOperation(context.operation, context.params);
-      }
+      },
     });
 
     // Note: Mock geometry fallback has been removed - only real OCCT geometry is supported
@@ -475,7 +489,7 @@ export class ErrorRecoverySystem {
 
         const simplifiedParams = this.simplifyParameters(context.params, context.operation);
         return this.retryOperation(context.operation, simplifiedParams);
-      }
+      },
     });
   }
 
@@ -509,7 +523,6 @@ export class ErrorRecoverySystem {
     return simplified;
   }
 
-
   /**
    * Retry operation (placeholder for integration with actual operation system)
    */
@@ -531,7 +544,7 @@ export class ErrorRecoverySystem {
 
     // Reset circuit breaker after cooldown period
     const cooldownMs = 60000; // 1 minute
-    if (breaker.isOpen && (Date.now() - breaker.lastFailure) > cooldownMs) {
+    if (breaker.isOpen && Date.now() - breaker.lastFailure > cooldownMs) {
       breaker.isOpen = false;
       breaker.failures = 0;
     }
@@ -573,7 +586,7 @@ export class ErrorRecoverySystem {
    * Utility methods
    */
   private delay(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   private limitErrorHistory(): void {
@@ -613,7 +626,7 @@ export class ErrorRecoverySystem {
       bySeverity: Object.fromEntries(severityStats),
       activeCircuitBreakers: Array.from(this.circuitBreakers.entries())
         .filter(([_, breaker]) => breaker.isOpen)
-        .map(([operation, breaker]) => ({ operation, failures: breaker.failures }))
+        .map(([operation, breaker]) => ({ operation, failures: breaker.failures })),
     };
   }
 
@@ -625,14 +638,18 @@ export class ErrorRecoverySystem {
 Total Errors Recorded: ${stats.totalErrors}
 
 === Error Categories ===
-${Object.entries(stats.byCategory).map(([cat, count]) => `${cat}: ${count}`).join('\n')}
+${Object.entries(stats.byCategory)
+  .map(([cat, count]) => `${cat}: ${count}`)
+  .join('\n')}
 
 === Error Severity ===
-${Object.entries(stats.bySeverity).map(([sev, count]) => `${sev}: ${count}`).join('\n')}
+${Object.entries(stats.bySeverity)
+  .map(([sev, count]) => `${sev}: ${count}`)
+  .join('\n')}
 
 === Circuit Breakers ===
 Active: ${stats.activeCircuitBreakers.length}
-${stats.activeCircuitBreakers.map(cb => `- ${cb.operation} (${cb.failures} failures)`).join('\n')}
+${stats.activeCircuitBreakers.map((cb) => `- ${cb.operation} (${cb.failures} failures)`).join('\n')}
 
 === Validation Rules ===
 Active Rules: ${this.validationRules.length}

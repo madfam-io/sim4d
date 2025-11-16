@@ -22,7 +22,7 @@ export const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
   expanded,
   onToggle,
   hidden = false,
-  position = 'bottom-right'
+  position = 'bottom-right',
 }) => {
   const [isAnimating, setIsAnimating] = useState(false);
   const fabRef = useRef<HTMLDivElement>(null);
@@ -72,7 +72,7 @@ export const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
                 className="fab-action-item"
                 style={{
                   animationDelay: `${index * 50}ms`,
-                  backgroundColor: action.color
+                  backgroundColor: action.color,
                 }}
               >
                 <span className="fab-action-label">{action.label}</span>

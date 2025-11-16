@@ -17,7 +17,11 @@ interface BSplineSurfaceOutputs {
   surface: unknown;
 }
 
-export const SolidSurfaceBSplineSurfaceNode: NodeDefinition<BSplineSurfaceInputs, BSplineSurfaceOutputs, BSplineSurfaceParams> = {
+export const SolidSurfaceBSplineSurfaceNode: NodeDefinition<
+  BSplineSurfaceInputs,
+  BSplineSurfaceOutputs,
+  BSplineSurfaceParams
+> = {
   id: 'Solid::BSplineSurface',
   category: 'Solid',
   label: 'BSplineSurface',
@@ -26,24 +30,24 @@ export const SolidSurfaceBSplineSurfaceNode: NodeDefinition<BSplineSurfaceInputs
     controlPoints: {
       type: 'Point[][]',
       label: 'Control Points',
-      required: true
+      required: true,
     },
     uKnots: {
       type: 'number[]',
       label: 'U Knots',
-      optional: true
+      optional: true,
     },
     vKnots: {
       type: 'number[]',
       label: 'V Knots',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     surface: {
       type: 'Face',
-      label: 'Surface'
-    }
+      label: 'Surface',
+    },
   },
   params: {
     uDegree: {
@@ -51,25 +55,25 @@ export const SolidSurfaceBSplineSurfaceNode: NodeDefinition<BSplineSurfaceInputs
       label: 'U Degree',
       default: 3,
       min: 1,
-      max: 10
+      max: 10,
     },
     vDegree: {
       type: 'number',
       label: 'V Degree',
       default: 3,
       min: 1,
-      max: 10
+      max: 10,
     },
     uPeriodic: {
       type: 'boolean',
       label: 'U Periodic',
-      default: false
+      default: false,
     },
     vPeriodic: {
       type: 'boolean',
       label: 'V Periodic',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -81,12 +85,12 @@ export const SolidSurfaceBSplineSurfaceNode: NodeDefinition<BSplineSurfaceInputs
         uDegree: params.uDegree,
         vDegree: params.vDegree,
         uPeriodic: params.uPeriodic,
-        vPeriodic: params.vPeriodic
-      }
+        vPeriodic: params.vPeriodic,
+      },
     });
-    
+
     return {
-      surface: result
+      surface: result,
     };
   },
 };

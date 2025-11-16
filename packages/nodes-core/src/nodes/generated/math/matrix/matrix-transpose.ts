@@ -10,7 +10,11 @@ interface MatrixTransposeOutputs {
   transpose: unknown;
 }
 
-export const MathMatrixMatrixTransposeNode: NodeDefinition<MatrixTransposeInputs, MatrixTransposeOutputs, MatrixTransposeParams> = {
+export const MathMatrixMatrixTransposeNode: NodeDefinition<
+  MatrixTransposeInputs,
+  MatrixTransposeOutputs,
+  MatrixTransposeParams
+> = {
   id: 'Math::MatrixTranspose',
   type: 'Math::MatrixTranspose',
   category: 'Math',
@@ -20,26 +24,26 @@ export const MathMatrixMatrixTransposeNode: NodeDefinition<MatrixTransposeInputs
     matrix: {
       type: 'Matrix',
       label: 'Matrix',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     transpose: {
       type: 'Matrix',
-      label: 'Transpose'
-    }
+      label: 'Transpose',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathMatrixTranspose',
       params: {
-        matrix: inputs.matrix
-      }
+        matrix: inputs.matrix,
+      },
     });
-    
+
     return {
-      transpose: result
+      transpose: result,
     };
   },
 };

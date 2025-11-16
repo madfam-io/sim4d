@@ -16,16 +16,16 @@ import { Button, IconButton } from '@brepflow/studio/components/ui';
 
 #### Button Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'primary' \| 'secondary' \| 'tertiary' \| 'ghost' \| 'danger'` | `'secondary'` | Visual style variant |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Button size |
-| `icon` | `IconName` | - | Icon to display |
-| `iconPosition` | `'left' \| 'right'` | `'left'` | Icon position relative to text |
-| `loading` | `boolean` | `false` | Show loading state |
-| `disabled` | `boolean` | `false` | Disable interaction |
-| `fullWidth` | `boolean` | `false` | Expand to full container width |
-| `onClick` | `() => void` | - | Click handler |
+| Prop           | Type                                                            | Default       | Description                    |
+| -------------- | --------------------------------------------------------------- | ------------- | ------------------------------ |
+| `variant`      | `'primary' \| 'secondary' \| 'tertiary' \| 'ghost' \| 'danger'` | `'secondary'` | Visual style variant           |
+| `size`         | `'sm' \| 'md' \| 'lg'`                                          | `'md'`        | Button size                    |
+| `icon`         | `IconName`                                                      | -             | Icon to display                |
+| `iconPosition` | `'left' \| 'right'`                                             | `'left'`      | Icon position relative to text |
+| `loading`      | `boolean`                                                       | `false`       | Show loading state             |
+| `disabled`     | `boolean`                                                       | `false`       | Disable interaction            |
+| `fullWidth`    | `boolean`                                                       | `false`       | Expand to full container width |
+| `onClick`      | `() => void`                                                    | -             | Click handler                  |
 
 #### IconButton Props
 
@@ -70,29 +70,29 @@ import { Panel, PanelSection } from '@brepflow/studio/components/ui';
 
 #### Panel Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `title` | `string` | - | Panel header title |
-| `subtitle` | `string` | - | Secondary header text |
-| `headerActions` | `ReactNode` | - | Actions in header |
-| `resizable` | `boolean` | `false` | Enable resize handle |
-| `collapsible` | `boolean` | `false` | Enable collapse functionality |
-| `defaultCollapsed` | `boolean` | `false` | Initial collapse state |
-| `minWidth` | `number` | `240` | Minimum width (px) when resizable |
-| `maxWidth` | `number` | `800` | Maximum width (px) when resizable |
-| `variant` | `'default' \| 'primary' \| 'secondary' \| 'floating' \| 'compact'` | `'default'` | Visual variant |
-| `onResize` | `(width: number) => void` | - | Resize callback |
-| `onCollapse` | `(collapsed: boolean) => void` | - | Collapse state callback |
+| Prop               | Type                                                               | Default     | Description                       |
+| ------------------ | ------------------------------------------------------------------ | ----------- | --------------------------------- |
+| `title`            | `string`                                                           | -           | Panel header title                |
+| `subtitle`         | `string`                                                           | -           | Secondary header text             |
+| `headerActions`    | `ReactNode`                                                        | -           | Actions in header                 |
+| `resizable`        | `boolean`                                                          | `false`     | Enable resize handle              |
+| `collapsible`      | `boolean`                                                          | `false`     | Enable collapse functionality     |
+| `defaultCollapsed` | `boolean`                                                          | `false`     | Initial collapse state            |
+| `minWidth`         | `number`                                                           | `240`       | Minimum width (px) when resizable |
+| `maxWidth`         | `number`                                                           | `800`       | Maximum width (px) when resizable |
+| `variant`          | `'default' \| 'primary' \| 'secondary' \| 'floating' \| 'compact'` | `'default'` | Visual variant                    |
+| `onResize`         | `(width: number) => void`                                          | -           | Resize callback                   |
+| `onCollapse`       | `(collapsed: boolean) => void`                                     | -           | Collapse state callback           |
 
 #### PanelSection Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `title` | `string` | - | Section title |
-| `subtitle` | `string` | - | Section subtitle |
-| `collapsible` | `boolean` | `false` | Enable collapse |
-| `defaultCollapsed` | `boolean` | `false` | Initial state |
-| `actions` | `ReactNode` | - | Section actions |
+| Prop               | Type        | Default | Description      |
+| ------------------ | ----------- | ------- | ---------------- |
+| `title`            | `string`    | -       | Section title    |
+| `subtitle`         | `string`    | -       | Section subtitle |
+| `collapsible`      | `boolean`   | `false` | Enable collapse  |
+| `defaultCollapsed` | `boolean`   | `false` | Initial state    |
+| `actions`          | `ReactNode` | -       | Section actions  |
 
 #### Usage Examples
 
@@ -141,44 +141,44 @@ import { Input, NumberInput, CoordinateInput } from '@brepflow/studio/components
 
 #### Input Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `label` | `string` | - | Field label |
-| `helpText` | `string` | - | Help message |
-| `errorText` | `string` | - | Error message |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Input size |
-| `variant` | `'default' \| 'technical' \| 'measurement'` | `'default'` | Visual variant |
-| `leftIcon` | `IconName` | - | Icon on left |
-| `rightIcon` | `IconName` | - | Icon on right |
-| `unit` | `string` | - | Unit display |
-| `clearable` | `boolean` | `false` | Show clear button |
-| `loading` | `boolean` | `false` | Loading state |
-| `onClear` | `() => void` | - | Clear callback |
+| Prop        | Type                                        | Default     | Description       |
+| ----------- | ------------------------------------------- | ----------- | ----------------- |
+| `label`     | `string`                                    | -           | Field label       |
+| `helpText`  | `string`                                    | -           | Help message      |
+| `errorText` | `string`                                    | -           | Error message     |
+| `size`      | `'sm' \| 'md' \| 'lg'`                      | `'md'`      | Input size        |
+| `variant`   | `'default' \| 'technical' \| 'measurement'` | `'default'` | Visual variant    |
+| `leftIcon`  | `IconName`                                  | -           | Icon on left      |
+| `rightIcon` | `IconName`                                  | -           | Icon on right     |
+| `unit`      | `string`                                    | -           | Unit display      |
+| `clearable` | `boolean`                                   | `false`     | Show clear button |
+| `loading`   | `boolean`                                   | `false`     | Loading state     |
+| `onClear`   | `() => void`                                | -           | Clear callback    |
 
 #### NumberInput Props
 
 Extends Input props with:
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `min` | `number` | - | Minimum value |
-| `max` | `number` | - | Maximum value |
-| `step` | `number` | `1` | Step increment |
-| `precision` | `number` | - | Decimal precision |
-| `showSteppers` | `boolean` | `false` | Show up/down buttons |
-| `onValueChange` | `(value: number \| undefined) => void` | - | Value change callback |
+| Prop            | Type                                   | Default | Description           |
+| --------------- | -------------------------------------- | ------- | --------------------- |
+| `min`           | `number`                               | -       | Minimum value         |
+| `max`           | `number`                               | -       | Maximum value         |
+| `step`          | `number`                               | `1`     | Step increment        |
+| `precision`     | `number`                               | -       | Decimal precision     |
+| `showSteppers`  | `boolean`                              | `false` | Show up/down buttons  |
+| `onValueChange` | `(value: number \| undefined) => void` | -       | Value change callback |
 
 #### CoordinateInput Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `{ x?: number; y?: number; z?: number }` | `{}` | 3D coordinates |
-| `onChange` | `(value: Coordinates) => void` | - | Change callback |
-| `labels` | `{ x?: string; y?: string; z?: string }` | `{ x: 'X', y: 'Y', z: 'Z' }` | Axis labels |
-| `unit` | `string` | `'mm'` | Unit for all axes |
-| `precision` | `number` | `2` | Decimal precision |
-| `disabled` | `boolean` | `false` | Disable all inputs |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Input size |
+| Prop        | Type                                     | Default                      | Description        |
+| ----------- | ---------------------------------------- | ---------------------------- | ------------------ |
+| `value`     | `{ x?: number; y?: number; z?: number }` | `{}`                         | 3D coordinates     |
+| `onChange`  | `(value: Coordinates) => void`           | -                            | Change callback    |
+| `labels`    | `{ x?: string; y?: string; z?: string }` | `{ x: 'X', y: 'Y', z: 'Z' }` | Axis labels        |
+| `unit`      | `string`                                 | `'mm'`                       | Unit for all axes  |
+| `precision` | `number`                                 | `2`                          | Decimal precision  |
+| `disabled`  | `boolean`                                | `false`                      | Disable all inputs |
+| `size`      | `'sm' \| 'md' \| 'lg'`                   | `'md'`                       | Input size         |
 
 #### Usage Examples
 
@@ -229,12 +229,12 @@ import { Enhanced3DViewport } from '@brepflow/studio/components/viewport';
 
 #### ViewportProps
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `className` | `string` | - | Additional CSS class |
-| `onToolChange` | `(toolId: string) => void` | - | Tool selection callback |
-| `onViewChange` | `(view: string) => void` | - | View change callback |
-| `onMeasurement` | `(type: string, data: any) => void` | - | Measurement callback |
+| Prop            | Type                                | Default | Description             |
+| --------------- | ----------------------------------- | ------- | ----------------------- |
+| `className`     | `string`                            | -       | Additional CSS class    |
+| `onToolChange`  | `(toolId: string) => void`          | -       | Tool selection callback |
+| `onViewChange`  | `(view: string) => void`            | -       | View change callback    |
+| `onMeasurement` | `(type: string, data: any) => void` | -       | Measurement callback    |
 
 #### Available Tools
 
@@ -388,7 +388,7 @@ import type {
   CoordinateInputProps,
   ViewportProps,
   ViewportToolConfig,
-  PerformanceMetrics
+  PerformanceMetrics,
 } from '@brepflow/studio/components/ui';
 ```
 
@@ -438,6 +438,7 @@ If upgrading from previous UI system:
 ## Support
 
 For issues or questions:
+
 - GitHub Issues: [github.com/aureo-labs/brepflow/issues](https://github.com/aureo-labs/brepflow/issues)
 - Documentation: [docs.brepflow.com](https://docs.brepflow.com)
 - Discord: [discord.gg/brepflow](https://discord.gg/brepflow)

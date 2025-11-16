@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -13,7 +12,11 @@ interface Outputs {
   centroids: Point[];
 }
 
-export const KMeansClusteringNode: NodeDefinition<KMeansClusteringInputs, KMeansClusteringOutputs, KMeansClusteringParams> = {
+export const KMeansClusteringNode: NodeDefinition<
+  KMeansClusteringInputs,
+  KMeansClusteringOutputs,
+  KMeansClusteringParams
+> = {
   type: 'Patterns::KMeansClustering',
   category: 'Patterns',
   subcategory: 'Algorithmic',
@@ -21,48 +24,45 @@ export const KMeansClusteringNode: NodeDefinition<KMeansClusteringInputs, KMeans
   metadata: {
     label: 'KMeansClustering',
     description: 'K-means point clustering',
-    
-    
   },
 
   params: {
-        k: {
-      "default": 5,
-      "min": 2,
-      "max": 20,
-      "step": 1
+    k: {
+      default: 5,
+      min: 2,
+      max: 20,
+      step: 1,
     },
     iterations: {
-      "default": 100,
-      "min": 10,
-      "max": 1000,
-      "step": 10
-    }
+      default: 100,
+      min: 10,
+      max: 1000,
+      step: 10,
+    },
   },
 
   inputs: {
-        points: 'Point[]'
+    points: 'Point[]',
   },
 
   outputs: {
-        clusters: 'Point[][]',
-    centroids: 'Point[]'
+    clusters: 'Point[][]',
+    centroids: 'Point[]',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'kmeansClustering',
       params: {
         points: inputs.points,
         k: params.k,
-        iterations: params.iterations
-      }
+        iterations: params.iterations,
+      },
     });
 
     return {
       clusters: result,
-      centroids: result
+      centroids: result,
     };
-  }
+  },
 };

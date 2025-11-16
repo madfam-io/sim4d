@@ -13,7 +13,11 @@ interface DragonCurveOutputs {
   curve: unknown;
 }
 
-export const PatternsFractalsDragonCurveNode: NodeDefinition<DragonCurveInputs, DragonCurveOutputs, DragonCurveParams> = {
+export const PatternsFractalsDragonCurveNode: NodeDefinition<
+  DragonCurveInputs,
+  DragonCurveOutputs,
+  DragonCurveParams
+> = {
   id: 'Patterns::DragonCurve',
   category: 'Patterns',
   label: 'DragonCurve',
@@ -22,14 +26,14 @@ export const PatternsFractalsDragonCurveNode: NodeDefinition<DragonCurveInputs, 
     startSegment: {
       type: 'Edge',
       label: 'Start Segment',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     curve: {
       type: 'Wire',
-      label: 'Curve'
-    }
+      label: 'Curve',
+    },
   },
   params: {
     iterations: {
@@ -38,15 +42,15 @@ export const PatternsFractalsDragonCurveNode: NodeDefinition<DragonCurveInputs, 
       default: 10,
       min: 0,
       max: 15,
-      step: 1
+      step: 1,
     },
     angle: {
       type: 'number',
       label: 'Angle',
       default: 90,
       min: 0,
-      max: 180
-    }
+      max: 180,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -54,12 +58,12 @@ export const PatternsFractalsDragonCurveNode: NodeDefinition<DragonCurveInputs, 
       params: {
         startSegment: inputs.startSegment,
         iterations: params.iterations,
-        angle: params.angle
-      }
+        angle: params.angle,
+      },
     });
-    
+
     return {
-      curve: result
+      curve: result,
     };
   },
 };

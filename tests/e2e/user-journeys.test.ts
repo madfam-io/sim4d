@@ -27,20 +27,24 @@ async function waitForAppReady(page: Page) {
 // Helper function to add a node to the canvas
 async function addNode(page: Page, nodeType: string) {
   // Look for node palette or add button
-  const nodePalette = page.locator('[data-testid="node-palette"], .node-palette, button:has-text("Add Node")');
+  const nodePalette = page.locator(
+    '[data-testid="node-palette"], .node-palette, button:has-text("Add Node")'
+  );
 
-  if (await nodePalette.count() > 0) {
+  if ((await nodePalette.count()) > 0) {
     await nodePalette.first().click();
 
     // Search for node type
     const searchInput = page.locator('input[placeholder*="Search"], input[type="search"]');
-    if (await searchInput.count() > 0) {
+    if ((await searchInput.count()) > 0) {
       await searchInput.fill(nodeType);
       await page.waitForTimeout(300);
     }
 
     // Click the node type
-    const nodeButton = page.locator(`[data-node-type*="${nodeType}"], button:has-text("${nodeType}")`).first();
+    const nodeButton = page
+      .locator(`[data-node-type*="${nodeType}"], button:has-text("${nodeType}")`)
+      .first();
     await nodeButton.click();
 
     return true;
@@ -54,31 +58,30 @@ async function captureScreenshot(page: Page, name: string) {
   const timestamp = Date.now();
   await page.screenshot({
     path: `test-results/screenshots/${name}-${timestamp}.png`,
-    fullPage: true
+    fullPage: true,
   });
 }
 
 test.describe('🎯 Complete User Journeys - Real-Time Integration Tests', () => {
-
   test.beforeEach(async ({ page }) => {
     // Set viewport for consistent testing
     await page.setViewportSize({ width: 1920, height: 1080 });
 
     // Enable detailed console logging
-    page.on('console', msg => {
+    page.on('console', (msg) => {
       if (msg.type() === 'error') {
         console.error('Browser console error:', msg.text());
       }
     });
 
     // Track network requests
-    page.on('request', request => {
+    page.on('request', (request) => {
       if (request.url().includes('/api/')) {
         console.log('→ API Request:', request.method(), request.url());
       }
     });
 
-    page.on('response', response => {
+    page.on('response', (response) => {
       if (response.url().includes('/api/')) {
         console.log('← API Response:', response.status(), response.url());
       }
@@ -121,7 +124,9 @@ test.describe('🎯 Complete User Journeys - Real-Time Integration Tests', () =>
 
     // Step 5: Export STEP file
     console.log('  → Testing STEP export...');
-    const stepButton = page.locator('button:has-text("Export STEP"), button:has-text("STEP")').first();
+    const stepButton = page
+      .locator('button:has-text("Export STEP"), button:has-text("STEP")')
+      .first();
     await expect(stepButton).toBeVisible({ timeout: 5000 });
 
     const downloadPromise = page.waitForEvent('download', { timeout: 30000 });
@@ -174,7 +179,9 @@ test.describe('🎯 Complete User Journeys - Real-Time Integration Tests', () =>
     await captureScreenshot(page, 'journey2-01-box-added');
 
     // Look for parameter controls
-    const paramControls = page.locator('[data-testid="param-control"], input[type="number"], .parameter-input');
+    const paramControls = page.locator(
+      '[data-testid="param-control"], input[type="number"], .parameter-input'
+    );
     const paramCount = await paramControls.count();
     console.log(`  → Found ${paramCount} parameter controls`);
 
@@ -404,7 +411,9 @@ test.describe('🎯 Complete User Journeys - Real-Time Integration Tests', () =>
     await captureScreenshot(page, 'journey7-01-before-refresh');
 
     // Get node count before refresh
-    const nodesBefore = await page.locator('.react-flow__node, [class*="react-flow__node"]').count();
+    const nodesBefore = await page
+      .locator('.react-flow__node, [class*="react-flow__node"]')
+      .count();
     console.log(`  → Nodes before refresh: ${nodesBefore}`);
 
     // Refresh page
@@ -453,12 +462,13 @@ test.describe('🎯 Complete User Journeys - Real-Time Integration Tests', () =>
     await stepButton.click();
 
     const stepFile = await stepDownload;
-    const stepSize = await stepFile.createReadStream().then(stream =>
-      new Promise<number>((resolve) => {
-        let size = 0;
-        stream.on('data', chunk => size += chunk.length);
-        stream.on('end', () => resolve(size));
-      })
+    const stepSize = await stepFile.createReadStream().then(
+      (stream) =>
+        new Promise<number>((resolve) => {
+          let size = 0;
+          stream.on('data', (chunk) => (size += chunk.length));
+          stream.on('end', () => resolve(size));
+        })
     );
 
     console.log(`  ✓ STEP exported: ${stepFile.suggestedFilename()} (${stepSize} bytes)`);
@@ -471,12 +481,13 @@ test.describe('🎯 Complete User Journeys - Real-Time Integration Tests', () =>
     await stlButton.click();
 
     const stlFile = await stlDownload;
-    const stlSize = await stlFile.createReadStream().then(stream =>
-      new Promise<number>((resolve) => {
-        let size = 0;
-        stream.on('data', chunk => size += chunk.length);
-        stream.on('end', () => resolve(size));
-      })
+    const stlSize = await stlFile.createReadStream().then(
+      (stream) =>
+        new Promise<number>((resolve) => {
+          let size = 0;
+          stream.on('data', (chunk) => (size += chunk.length));
+          stream.on('end', () => resolve(size));
+        })
     );
 
     console.log(`  ✓ STL exported: ${stlFile.suggestedFilename()} (${stlSize} bytes)`);
@@ -505,10 +516,10 @@ test.describe('🎯 Complete User Journeys - Real-Time Integration Tests', () =>
 
     // Check for focus indicators
     const focusedElement = page.locator(':focus');
-    const hasFocus = await focusedElement.count() > 0;
+    const hasFocus = (await focusedElement.count()) > 0;
 
     if (hasFocus) {
-      const tagName = await focusedElement.evaluate(el => el.tagName);
+      const tagName = await focusedElement.evaluate((el) => el.tagName);
       console.log(`  ✓ Keyboard focus active on: ${tagName}`);
     }
 
@@ -609,7 +620,6 @@ test.describe('🎯 Complete User Journeys - Real-Time Integration Tests', () =>
 });
 
 test.describe('🔍 Real-Time Monitoring & Performance', () => {
-
   test('Monitor: Network Performance & API Response Times', async ({ page }) => {
     console.log('🔍 Monitoring: Network performance');
 
@@ -621,7 +631,7 @@ test.describe('🔍 Real-Time Monitoring & Performance', () => {
         apiCalls.push({
           url: response.url(),
           duration: timing.responseEnd,
-          status: response.status()
+          status: response.status(),
         });
       }
     });
@@ -635,14 +645,14 @@ test.describe('🔍 Real-Time Monitoring & Performance', () => {
     await page.waitForTimeout(2000);
 
     const stepButton = page.locator('button:has-text("Export STEP")').first();
-    if (await stepButton.count() > 0) {
+    if ((await stepButton.count()) > 0) {
       await stepButton.click();
       await page.waitForTimeout(5000);
     }
 
     // Analyze API performance
     console.log('\n  📊 API Performance Metrics:');
-    apiCalls.forEach(call => {
+    apiCalls.forEach((call) => {
       console.log(`    ${call.status} ${call.duration}ms - ${call.url}`);
     });
 
@@ -684,7 +694,9 @@ test.describe('🔍 Real-Time Monitoring & Performance', () => {
 
     console.log('\n  Final Memory:');
     console.log(`    JS Heap: ${(finalMetrics.jsHeap / 1024 / 1024).toFixed(2)} MB`);
-    console.log(`    Delta: +${((finalMetrics.jsHeap - initialMetrics.jsHeap) / 1024 / 1024).toFixed(2)} MB`);
+    console.log(
+      `    Delta: +${((finalMetrics.jsHeap - initialMetrics.jsHeap) / 1024 / 1024).toFixed(2)} MB`
+    );
 
     // Memory should not grow excessively
     const memoryGrowth = finalMetrics.jsHeap - initialMetrics.jsHeap;
@@ -698,19 +710,19 @@ test.describe('🔍 Real-Time Monitoring & Performance', () => {
 
     const consoleMessages: Array<{ type: string; text: string }> = [];
 
-    page.on('console', msg => {
+    page.on('console', (msg) => {
       if (msg.type() === 'error' || msg.type() === 'warning') {
         consoleMessages.push({
           type: msg.type(),
-          text: msg.text()
+          text: msg.text(),
         });
       }
     });
 
-    page.on('pageerror', error => {
+    page.on('pageerror', (error) => {
       consoleMessages.push({
         type: 'error',
-        text: error.message
+        text: error.message,
       });
     });
 
@@ -723,19 +735,18 @@ test.describe('🔍 Real-Time Monitoring & Performance', () => {
     await page.waitForTimeout(2000);
 
     // Report console issues
-    const errors = consoleMessages.filter(m => m.type === 'error');
-    const warnings = consoleMessages.filter(m => m.type === 'warning');
+    const errors = consoleMessages.filter((m) => m.type === 'error');
+    const warnings = consoleMessages.filter((m) => m.type === 'warning');
 
     console.log(`\n  Console Errors: ${errors.length}`);
-    errors.forEach(error => console.log(`    ❌ ${error.text}`));
+    errors.forEach((error) => console.log(`    ❌ ${error.text}`));
 
     console.log(`\n  Console Warnings: ${warnings.length}`);
-    warnings.slice(0, 5).forEach(warning => console.log(`    ⚠️ ${warning.text}`));
+    warnings.slice(0, 5).forEach((warning) => console.log(`    ⚠️ ${warning.text}`));
 
     // Critical errors should be zero
-    const criticalErrors = errors.filter(e =>
-      !e.text.includes('favicon') &&
-      !e.text.includes('baseline-browser-mapping')
+    const criticalErrors = errors.filter(
+      (e) => !e.text.includes('favicon') && !e.text.includes('baseline-browser-mapping')
     );
 
     expect(criticalErrors.length).toBe(0);

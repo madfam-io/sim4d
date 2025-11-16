@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { InteroperabilityExportOBJExportNode } from './objexport.node';
 import { createTestContext } from '../test-utils';
@@ -8,12 +7,12 @@ describe('InteroperabilityExportOBJExportNode', () => {
     const context = createTestContext();
     const inputs = {
       meshes: undefined,
-      filePath: undefined
+      filePath: undefined,
     } as any;
     const params = {
       includeNormals: true,
       includeTexCoords: false,
-      smoothing: true
+      smoothing: true,
     } as any;
 
     const result = await InteroperabilityExportOBJExportNode.evaluate(context, inputs, params);

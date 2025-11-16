@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -15,58 +14,56 @@ interface Outputs {
   metadata: Data;
 }
 
-export const ImportSTEPNode: NodeDefinition<ImportSTEPInputs, ImportSTEPOutputs, ImportSTEPParams> = {
-  type: 'IO::ImportSTEP',
-  category: 'IO',
-  subcategory: 'CAD',
+export const ImportSTEPNode: NodeDefinition<ImportSTEPInputs, ImportSTEPOutputs, ImportSTEPParams> =
+  {
+    type: 'IO::ImportSTEP',
+    category: 'IO',
+    subcategory: 'CAD',
 
-  metadata: {
-    label: 'ImportSTEP',
-    description: 'Import STEP file',
-    
-    
-  },
-
-  params: {
-        readColors: {
-      "default": true
+    metadata: {
+      label: 'ImportSTEP',
+      description: 'Import STEP file',
     },
-    readNames: {
-      "default": true
+
+    params: {
+      readColors: {
+        default: true,
+      },
+      readNames: {
+        default: true,
+      },
+      readLayers: {
+        default: true,
+      },
+      preferBrep: {
+        default: true,
+      },
     },
-    readLayers: {
-      "default": true
+
+    inputs: {
+      fileData: 'Data',
     },
-    preferBrep: {
-      "default": true
-    }
-  },
 
-  inputs: {
-        fileData: 'Data'
-  },
+    outputs: {
+      shape: 'Shape',
+      metadata: 'Data',
+    },
 
-  outputs: {
-        shape: 'Shape',
-    metadata: 'Data'
-  },
+    async evaluate(context, inputs, params) {
+      const result = await context.geometry.execute({
+        type: 'importSTEP',
+        params: {
+          fileData: inputs.fileData,
+          readColors: params.readColors,
+          readNames: params.readNames,
+          readLayers: params.readLayers,
+          preferBrep: params.preferBrep,
+        },
+      });
 
-  async evaluate(context, inputs, params) {
-    
-    const result = await context.geometry.execute({
-      type: 'importSTEP',
-      params: {
-        fileData: inputs.fileData,
-        readColors: params.readColors,
-        readNames: params.readNames,
-        readLayers: params.readLayers,
-        preferBrep: params.preferBrep
-      }
-    });
-
-    return {
-      shape: result,
-      metadata: result
-    };
-  }
-};
+      return {
+        shape: result,
+        metadata: result,
+      };
+    },
+  };

@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { DataStringStringMatchNode } from './string-match.node';
 import { createTestContext } from '../test-utils';
@@ -8,10 +7,10 @@ describe('DataStringStringMatchNode', () => {
     const context = createTestContext();
     const inputs = {
       string: undefined,
-      pattern: undefined
+      pattern: undefined,
     } as any;
     const params = {
-      global: false
+      global: false,
     } as any;
 
     const result = await DataStringStringMatchNode.evaluate(context, inputs, params);

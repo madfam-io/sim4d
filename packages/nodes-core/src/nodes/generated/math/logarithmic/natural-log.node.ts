@@ -10,7 +10,11 @@ interface NaturalLogOutputs {
   result: unknown;
 }
 
-export const MathLogarithmicNaturalLogNode: NodeDefinition<NaturalLogInputs, NaturalLogOutputs, NaturalLogParams> = {
+export const MathLogarithmicNaturalLogNode: NodeDefinition<
+  NaturalLogInputs,
+  NaturalLogOutputs,
+  NaturalLogParams
+> = {
   id: 'Math::NaturalLog',
   category: 'Math',
   label: 'NaturalLog',
@@ -19,26 +23,26 @@ export const MathLogarithmicNaturalLogNode: NodeDefinition<NaturalLogInputs, Nat
     value: {
       type: 'number',
       label: 'Value',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'number',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathLn',
       params: {
-        value: inputs.value
-      }
+        value: inputs.value,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

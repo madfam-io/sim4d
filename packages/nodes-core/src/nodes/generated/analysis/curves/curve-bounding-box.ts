@@ -16,7 +16,11 @@ interface CurveBoundingBoxOutputs {
   dimensions: [number, number, number];
 }
 
-export const AnalysisCurvesCurveBoundingBoxNode: NodeDefinition<CurveBoundingBoxInputs, CurveBoundingBoxOutputs, CurveBoundingBoxParams> = {
+export const AnalysisCurvesCurveBoundingBoxNode: NodeDefinition<
+  CurveBoundingBoxInputs,
+  CurveBoundingBoxOutputs,
+  CurveBoundingBoxParams
+> = {
   id: 'Analysis::CurveBoundingBox',
   type: 'Analysis::CurveBoundingBox',
   category: 'Analysis',
@@ -26,39 +30,39 @@ export const AnalysisCurvesCurveBoundingBoxNode: NodeDefinition<CurveBoundingBox
     curve: {
       type: 'Wire',
       label: 'Curve',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     boundingBox: {
       type: 'Shape',
-      label: 'Bounding Box'
+      label: 'Bounding Box',
     },
     minPoint: {
       type: 'Point',
-      label: 'Min Point'
+      label: 'Min Point',
     },
     maxPoint: {
       type: 'Point',
-      label: 'Max Point'
+      label: 'Max Point',
     },
     dimensions: {
       type: 'Vector',
-      label: 'Dimensions'
-    }
+      label: 'Dimensions',
+    },
   },
   params: {
     orientation: {
       type: 'enum',
       label: 'Orientation',
-      default: "axis-aligned",
-      options: ["axis-aligned","minimal"]
+      default: 'axis-aligned',
+      options: ['axis-aligned', 'minimal'],
     },
     showBox: {
       type: 'boolean',
       label: 'Show Box',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -66,15 +70,15 @@ export const AnalysisCurvesCurveBoundingBoxNode: NodeDefinition<CurveBoundingBox
       params: {
         curve: inputs.curve,
         orientation: params.orientation,
-        showBox: params.showBox
-      }
+        showBox: params.showBox,
+      },
     });
-    
+
     return {
       boundingBox: results.boundingBox,
       minPoint: results.minPoint,
       maxPoint: results.maxPoint,
-      dimensions: results.dimensions
+      dimensions: results.dimensions,
     };
   },
 };

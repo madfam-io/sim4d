@@ -38,13 +38,16 @@ export function CustomNode({ id, data, selected }: CustomNodeProps) {
     setTimeout(() => setShowPreview(false), 300);
   }, []);
 
-  const handleDoubleClick = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    // Open parameter dialog for node editing
-    if (data.onOpenParameterDialog && data.nodeType) {
-      data.onOpenParameterDialog(data.nodeType, { x: e.clientX, y: e.clientY });
-    }
-  }, [data]);
+  const handleDoubleClick = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      // Open parameter dialog for node editing
+      if (data.onOpenParameterDialog && data.nodeType) {
+        data.onOpenParameterDialog(data.nodeType, { x: e.clientX, y: e.clientY });
+      }
+    },
+    [data]
+  );
 
   // Determine node status
   const isError = data.hasError;
@@ -79,13 +82,15 @@ export function CustomNode({ id, data, selected }: CustomNodeProps) {
             : isHovered
               ? 'var(--color-surface-secondary)'
               : 'var(--color-surface-primary)',
-          border: `2px solid ${isSelected
-            ? 'var(--color-primary-500)'
-            : isError
-              ? 'var(--color-error-500)'
-              : isHovered
-                ? 'var(--color-border-strong)'
-                : 'var(--color-border)'}`,
+          border: `2px solid ${
+            isSelected
+              ? 'var(--color-primary-500)'
+              : isError
+                ? 'var(--color-error-500)'
+                : isHovered
+                  ? 'var(--color-border-strong)'
+                  : 'var(--color-border)'
+          }`,
           borderRadius: 'var(--radius-lg)',
           padding: 'var(--spacing-3)',
           minHeight: '60px',
@@ -207,9 +212,7 @@ export function CustomNode({ id, data, selected }: CustomNodeProps) {
             animation: 'fadeInUp 0.2s ease-out forwards',
           }}
         >
-          <div style={{ fontWeight: 'var(--font-weight-medium)' }}>
-            {data.label || operation}
-          </div>
+          <div style={{ fontWeight: 'var(--font-weight-medium)' }}>{data.label || operation}</div>
           <div style={{ color: 'var(--color-text-secondary)', marginTop: '2px' }}>
             Double-click to configure
           </div>

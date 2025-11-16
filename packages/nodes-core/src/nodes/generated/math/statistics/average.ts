@@ -10,7 +10,11 @@ interface AverageOutputs {
   average: unknown;
 }
 
-export const MathStatisticsAverageNode: NodeDefinition<AverageInputs, AverageOutputs, AverageParams> = {
+export const MathStatisticsAverageNode: NodeDefinition<
+  AverageInputs,
+  AverageOutputs,
+  AverageParams
+> = {
   id: 'Math::Average',
   type: 'Math::Average',
   category: 'Math',
@@ -20,26 +24,26 @@ export const MathStatisticsAverageNode: NodeDefinition<AverageInputs, AverageOut
     values: {
       type: 'number[]',
       label: 'Values',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     average: {
       type: 'number',
-      label: 'Average'
-    }
+      label: 'Average',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathAverage',
       params: {
-        values: inputs.values
-      }
+        values: inputs.values,
+      },
     });
-    
+
     return {
-      average: result
+      average: result,
     };
   },
 };

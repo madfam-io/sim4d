@@ -15,7 +15,11 @@ interface NoisePatternOutputs {
   noiseField: unknown;
 }
 
-export const PatternsProceduralNoisePatternNode: NodeDefinition<NoisePatternInputs, NoisePatternOutputs, NoisePatternParams> = {
+export const PatternsProceduralNoisePatternNode: NodeDefinition<
+  NoisePatternInputs,
+  NoisePatternOutputs,
+  NoisePatternParams
+> = {
   id: 'Patterns::NoisePattern',
   category: 'Patterns',
   label: 'NoisePattern',
@@ -24,21 +28,21 @@ export const PatternsProceduralNoisePatternNode: NodeDefinition<NoisePatternInpu
     domain: {
       type: 'Box',
       label: 'Domain',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     noiseField: {
       type: 'Data',
-      label: 'Noise Field'
-    }
+      label: 'Noise Field',
+    },
   },
   params: {
     noiseType: {
       type: 'enum',
       label: 'Noise Type',
-      default: "perlin",
-      options: ["perlin","simplex","worley","value","white"]
+      default: 'perlin',
+      options: ['perlin', 'simplex', 'worley', 'value', 'white'],
     },
     octaves: {
       type: 'number',
@@ -46,22 +50,22 @@ export const PatternsProceduralNoisePatternNode: NodeDefinition<NoisePatternInpu
       default: 4,
       min: 1,
       max: 8,
-      step: 1
+      step: 1,
     },
     frequency: {
       type: 'number',
       label: 'Frequency',
       default: 1,
       min: 0.1,
-      max: 10
+      max: 10,
     },
     amplitude: {
       type: 'number',
       label: 'Amplitude',
       default: 1,
       min: 0.1,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -71,12 +75,12 @@ export const PatternsProceduralNoisePatternNode: NodeDefinition<NoisePatternInpu
         noiseType: params.noiseType,
         octaves: params.octaves,
         frequency: params.frequency,
-        amplitude: params.amplitude
-      }
+        amplitude: params.amplitude,
+      },
     });
-    
+
     return {
-      noiseField: result
+      noiseField: result,
     };
   },
 };

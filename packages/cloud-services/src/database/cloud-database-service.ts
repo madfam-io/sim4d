@@ -185,21 +185,13 @@ export class CloudDatabaseService extends EventEmitter {
   }
 
   async getUserById(userId: UserId, options: QueryOptions = {}): Promise<User | null> {
-    const result = await this.query(
-      'SELECT * FROM users WHERE id = ?',
-      [userId],
-      options
-    );
+    const result = await this.query('SELECT * FROM users WHERE id = ?', [userId], options);
 
     return result.length > 0 ? this.parseUser(result[0]) : null;
   }
 
   async getUserByEmail(email: string, options: QueryOptions = {}): Promise<User | null> {
-    const result = await this.query(
-      'SELECT * FROM users WHERE email = ?',
-      [email],
-      options
-    );
+    const result = await this.query('SELECT * FROM users WHERE email = ?', [email], options);
 
     return result.length > 0 ? this.parseUser(result[0]) : null;
   }
@@ -223,10 +215,7 @@ export class CloudDatabaseService extends EventEmitter {
 
     values.push(userId);
 
-    await this.query(
-      `UPDATE users SET ${setClause.join(', ')} WHERE id = ?`,
-      values
-    );
+    await this.query(`UPDATE users SET ${setClause.join(', ')} WHERE id = ?`, values);
 
     const updatedUser = await this.getUserById(userId);
     this.emit('user-updated', updatedUser);
@@ -273,12 +262,11 @@ export class CloudDatabaseService extends EventEmitter {
     return projectData;
   }
 
-  async getProjectById(projectId: ProjectId, options: QueryOptions = {}): Promise<ProjectMetadata | null> {
-    const result = await this.query(
-      'SELECT * FROM projects WHERE id = ?',
-      [projectId],
-      options
-    );
+  async getProjectById(
+    projectId: ProjectId,
+    options: QueryOptions = {}
+  ): Promise<ProjectMetadata | null> {
+    const result = await this.query('SELECT * FROM projects WHERE id = ?', [projectId], options);
 
     return result.length > 0 ? this.parseProject(result[0]) : null;
   }
@@ -310,7 +298,10 @@ export class CloudDatabaseService extends EventEmitter {
     };
   }
 
-  async updateProject(projectId: ProjectId, updates: Partial<ProjectMetadata>): Promise<ProjectMetadata> {
+  async updateProject(
+    projectId: ProjectId,
+    updates: Partial<ProjectMetadata>
+  ): Promise<ProjectMetadata> {
     const setClause = [];
     const values = [];
 
@@ -329,10 +320,7 @@ export class CloudDatabaseService extends EventEmitter {
 
     values.push(projectId);
 
-    await this.query(
-      `UPDATE projects SET ${setClause.join(', ')} WHERE id = ?`,
-      values
-    );
+    await this.query(`UPDATE projects SET ${setClause.join(', ')} WHERE id = ?`, values);
 
     const updatedProject = await this.getProjectById(projectId);
     this.emit('project-updated', updatedProject);
@@ -344,8 +332,12 @@ export class CloudDatabaseService extends EventEmitter {
 
     try {
       // Delete related data
-      await this.query('DELETE FROM project_operations WHERE project_id = ?', [projectId], { transaction });
-      await this.query('DELETE FROM share_links WHERE project_id = ?', [projectId], { transaction });
+      await this.query('DELETE FROM project_operations WHERE project_id = ?', [projectId], {
+        transaction,
+      });
+      await this.query('DELETE FROM share_links WHERE project_id = ?', [projectId], {
+        transaction,
+      });
       await this.query('DELETE FROM projects WHERE id = ?', [projectId], { transaction });
 
       await this.commitTransaction(transaction);
@@ -479,12 +471,9 @@ export class CloudDatabaseService extends EventEmitter {
 
     values.push(shareId);
 
-    await this.query(
-      `UPDATE share_links SET ${setClause.join(', ')} WHERE id = ?`,
-      values
-    );
+    await this.query(`UPDATE share_links SET ${setClause.join(', ')} WHERE id = ?`, values);
 
-    return await this.getShareLink(shareId) as ShareLink;
+    return (await this.getShareLink(shareId)) as ShareLink;
   }
 
   /**
@@ -522,7 +511,10 @@ export class CloudDatabaseService extends EventEmitter {
     );
   }
 
-  async searchPlugins(query: SearchQuery, options: QueryOptions = {}): Promise<SearchResult<Plugin>> {
+  async searchPlugins(
+    query: SearchQuery,
+    options: QueryOptions = {}
+  ): Promise<SearchResult<Plugin>> {
     // Build search SQL based on query
     let sql = 'SELECT * FROM plugins WHERE 1=1';
     const params: any[] = [];
@@ -543,7 +535,7 @@ export class CloudDatabaseService extends EventEmitter {
     // Add sorting
     if (query.sort && query.sort.length > 0) {
       const sortClauses = query.sort.map(
-        sort => `${this.camelToSnake(sort.field)} ${sort.direction.toUpperCase()}`
+        (sort) => `${this.camelToSnake(sort.field)} ${sort.direction.toUpperCase()}`
       );
       sql += ` ORDER BY ${sortClauses.join(', ')}`;
     }
@@ -558,7 +550,10 @@ export class CloudDatabaseService extends EventEmitter {
     const plugins = results.map(this.parsePlugin);
 
     // Get total count
-    const countSql = sql.replace(/SELECT \*/, 'SELECT COUNT(*) as total').replace(/ORDER BY.*$/, '').replace(/LIMIT.*$/, '');
+    const countSql = sql
+      .replace(/SELECT \*/, 'SELECT COUNT(*) as total')
+      .replace(/ORDER BY.*$/, '')
+      .replace(/LIMIT.*$/, '');
     const countResult = await this.query(countSql, params.slice(0, -2), options);
 
     return {
@@ -697,7 +692,7 @@ export class CloudDatabaseService extends EventEmitter {
    * Utility Methods
    */
   private camelToSnake(str: string): string {
-    return str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
+    return str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
   }
 
   private generateUserId(): UserId {

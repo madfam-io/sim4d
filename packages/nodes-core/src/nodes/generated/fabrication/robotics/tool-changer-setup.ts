@@ -12,7 +12,11 @@ interface ToolChangerSetupOutputs {
   toolChangeSequence: unknown;
 }
 
-export const FabricationRoboticsToolChangerSetupNode: NodeDefinition<ToolChangerSetupInputs, ToolChangerSetupOutputs, ToolChangerSetupParams> = {
+export const FabricationRoboticsToolChangerSetupNode: NodeDefinition<
+  ToolChangerSetupInputs,
+  ToolChangerSetupOutputs,
+  ToolChangerSetupParams
+> = {
   id: 'Fabrication::ToolChangerSetup',
   type: 'Fabrication::ToolChangerSetup',
   category: 'Fabrication',
@@ -22,14 +26,14 @@ export const FabricationRoboticsToolChangerSetupNode: NodeDefinition<ToolChanger
     toolRack: {
       type: 'Transform',
       label: 'Tool Rack',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     toolChangeSequence: {
       type: 'Transform[]',
-      label: 'Tool Change Sequence'
-    }
+      label: 'Tool Change Sequence',
+    },
   },
   params: {
     toolCount: {
@@ -38,20 +42,20 @@ export const FabricationRoboticsToolChangerSetupNode: NodeDefinition<ToolChanger
       default: 6,
       min: 1,
       max: 20,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'toolChangerSetup',
       params: {
         toolRack: inputs.toolRack,
-        toolCount: params.toolCount
-      }
+        toolCount: params.toolCount,
+      },
     });
-    
+
     return {
-      toolChangeSequence: result
+      toolChangeSequence: result,
     };
   },
 };

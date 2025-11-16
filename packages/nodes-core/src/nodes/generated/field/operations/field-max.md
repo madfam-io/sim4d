@@ -1,4 +1,3 @@
-
 # FieldMax Node
 
 **Category:** Field / Operations
@@ -11,19 +10,13 @@ This node has no parameters.
 
 ## Inputs
 
-
 ### Fields
+
 - **Type:** ScalarField[]
 - **Required:** Yes
 
-
-
 ## Outputs
 
-
 ### Field
+
 - **Type:** ScalarField
-
-
-
-

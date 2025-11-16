@@ -120,9 +120,7 @@ export class CollaborationClient {
         );
         break;
       case 'UPDATE_NODE':
-        const nodeIndex = this.document.graph.nodes.findIndex(
-          (n) => n.id === operation.nodeId
-        );
+        const nodeIndex = this.document.graph.nodes.findIndex((n) => n.id === operation.nodeId);
         if (nodeIndex >= 0) {
           this.document.graph.nodes[nodeIndex] = {
             ...this.document.graph.nodes[nodeIndex],
@@ -202,21 +200,14 @@ export class CollaborationClient {
     this.socket.emit('document:request-sync');
   }
 
-  private throttledPresenceUpdate(
-    type: string,
-    data: any,
-    callback: () => void
-  ): void {
+  private throttledPresenceUpdate(type: string, data: any, callback: () => void): void {
     // Clear existing timeout
     if (this.presenceThrottle.has(type)) {
       clearTimeout(this.presenceThrottle.get(type));
     }
 
     // Set new timeout
-    const timeout = setTimeout(
-      callback,
-      this.options.presenceThrottle ?? 50
-    );
+    const timeout = setTimeout(callback, this.options.presenceThrottle ?? 50);
     this.presenceThrottle.set(type, timeout);
   }
 

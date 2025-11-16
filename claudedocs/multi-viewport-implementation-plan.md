@@ -1,4 +1,5 @@
 # Multi-Viewport Implementation Plan
+
 **Phase 2: Enterprise-Grade Multi-Viewport Development Strategy**
 
 ## Overview
@@ -8,9 +9,11 @@ Incremental implementation plan for transforming BrepFlow from single viewport t
 ## Development Phases
 
 ### Phase 2.1: Foundation & Core Components (Week 1-2)
+
 **Goal**: Create multi-viewport foundation without breaking existing functionality
 
 #### 2.1.1: Core Interface Implementation
+
 ```
 Day 1-2: Interface & Type Definitions
 ├── Create multi-viewport-interfaces.ts (✅ Complete)
@@ -26,6 +29,7 @@ Day 3-4: Base Component Structure
 ```
 
 **File Structure**:
+
 ```
 packages/viewport/src/
 ├── multi-viewport/
@@ -49,13 +53,14 @@ packages/viewport/src/
 ```
 
 #### 2.1.2: Layout System Integration
+
 ```typescript
 // Update apps/studio/src/types/layout.ts
 export type PanelId =
   | 'nodePanel'
   | 'nodeEditor'
-  | 'viewport3d'      // Single viewport (legacy)
-  | 'multiViewport'   // New multi-viewport panel
+  | 'viewport3d' // Single viewport (legacy)
+  | 'multiViewport' // New multi-viewport panel
   | 'inspector'
   | 'console'
   | 'toolbar';
@@ -69,6 +74,7 @@ export interface ViewportPanelConfig extends PanelConfig {
 ```
 
 #### 2.1.3: Backward Compatibility Layer
+
 ```typescript
 // Create compatibility wrapper
 export const EnhancedViewportWrapper: React.FC<ViewportProps> = (props) => {
@@ -85,6 +91,7 @@ export const EnhancedViewportWrapper: React.FC<ViewportProps> = (props) => {
 ```
 
 **Deliverables**:
+
 - ✅ Complete interface definitions
 - 🔄 Basic component structure with TypeScript shells
 - 🔄 Layout system integration points
@@ -92,9 +99,11 @@ export const EnhancedViewportWrapper: React.FC<ViewportProps> = (props) => {
 - 🔄 Unit tests for core interfaces
 
 ### Phase 2.2: Geometry Management & Sharing (Week 3)
+
 **Goal**: Implement shared geometry system for performance optimization
 
 #### 2.2.1: GeometryManager Implementation
+
 ```typescript
 // packages/viewport/src/multi-viewport/managers/GeometryManager.ts
 export class GeometryManager implements IGeometryManager {
@@ -102,7 +111,10 @@ export class GeometryManager implements IGeometryManager {
   private memoryPool = new MemoryPool();
   private lodGenerator = new LODGenerator();
 
-  async shareGeometry(nodeId: string, geometry: THREE.BufferGeometry): Promise<SharedGeometryInstance> {
+  async shareGeometry(
+    nodeId: string,
+    geometry: THREE.BufferGeometry
+  ): Promise<SharedGeometryInstance> {
     // Implementation with memory management
   }
 
@@ -118,6 +130,7 @@ export class GeometryManager implements IGeometryManager {
 ```
 
 #### 2.2.2: Performance Optimization
+
 ```typescript
 // Memory management with cleanup
 export class ViewportMemoryManager {
@@ -138,6 +151,7 @@ export class ViewportMemoryManager {
 ```
 
 #### 2.2.3: Integration with OCCT Pipeline
+
 ```typescript
 // Extend existing Viewport.tsx geometry pipeline
 const updateSceneGeometry = useCallback(async () => {
@@ -147,7 +161,7 @@ const updateSceneGeometry = useCallback(async () => {
       const shapeHandle = node.outputs?.shape?.value as ShapeHandle;
       const meshData = await dagEngine.geometryAPI.invoke('TESSELLATE', {
         shape: shapeHandle,
-        deflection: 0.01
+        deflection: 0.01,
       });
 
       // Share geometry across all viewports
@@ -160,6 +174,7 @@ const updateSceneGeometry = useCallback(async () => {
 ```
 
 **Deliverables**:
+
 - 🔄 GeometryManager with memory pooling
 - 🔄 LOD generation system
 - 🔄 Integration with existing OCCT pipeline
@@ -167,9 +182,11 @@ const updateSceneGeometry = useCallback(async () => {
 - 🔄 Memory pressure handling
 
 ### Phase 2.3: Camera System & Synchronization (Week 4)
+
 **Goal**: Professional camera synchronization with orthographic view support
 
 #### 2.3.1: Camera State Management
+
 ```typescript
 // Camera state normalization
 export class CameraStateManager {
@@ -188,6 +205,7 @@ export class CameraStateManager {
 ```
 
 #### 2.3.2: Synchronization Engine
+
 ```typescript
 // packages/viewport/src/multi-viewport/managers/CameraSyncManager.ts
 export class CameraSyncManager implements ICameraSyncManager {
@@ -237,6 +255,7 @@ export class CameraSyncManager implements ICameraSyncManager {
 ```
 
 #### 2.3.3: View Type Enforcement
+
 ```typescript
 // Ensure orthographic views maintain proper constraints
 export const VIEWPORT_CONSTRAINTS: Record<ViewportType, CameraSyncConstraints> = {
@@ -244,24 +263,25 @@ export const VIEWPORT_CONSTRAINTS: Record<ViewportType, CameraSyncConstraints> =
     allowRotationSync: false, // Maintain front view
     allowPanSync: true,
     allowZoomSync: true,
-    axisConstraints: { lockZ: true }
+    axisConstraints: { lockZ: true },
   },
   top: {
     allowRotationSync: false,
     allowPanSync: true,
     allowZoomSync: true,
-    axisConstraints: { lockY: true }
+    axisConstraints: { lockY: true },
   },
   perspective: {
     allowRotationSync: true,
     allowPanSync: true,
-    allowZoomSync: true
-  }
+    allowZoomSync: true,
+  },
   // ... other view types
 };
 ```
 
 **Deliverables**:
+
 - 🔄 CameraSyncManager with orthographic support
 - 🔄 View type constraint system
 - 🔄 Smooth synchronization animations
@@ -269,9 +289,11 @@ export const VIEWPORT_CONSTRAINTS: Record<ViewportType, CameraSyncConstraints> =
 - 🔄 Sync mode UI controls
 
 ### Phase 2.4: Layout & UI Integration (Week 5)
+
 **Goal**: Complete UI integration with layout switching and controls
 
 #### 2.4.1: Layout System Implementation
+
 ```typescript
 // packages/viewport/src/multi-viewport/ViewportLayoutManager.tsx
 export const ViewportLayoutManager: React.FC<MultiViewportLayoutProps> = ({
@@ -312,6 +334,7 @@ export const ViewportLayoutManager: React.FC<MultiViewportLayoutProps> = ({
 ```
 
 #### 2.4.2: Quad Layout Implementation
+
 ```typescript
 // Pre-defined quad layout with standard CAD views
 export const QuadViewportLayout: React.FC<QuadLayoutProps> = ({
@@ -384,6 +407,7 @@ export const QuadViewportLayout: React.FC<QuadLayoutProps> = ({
 ```
 
 #### 2.4.3: Viewport Controls UI
+
 ```typescript
 // Multi-viewport controls with layout switching
 export const ViewportControls: React.FC<ViewportControlsProps> = ({
@@ -438,6 +462,7 @@ export const ViewportControls: React.FC<ViewportControlsProps> = ({
 ```
 
 #### 2.4.4: WorkbenchLayoutManager Integration
+
 ```typescript
 // Update apps/studio/src/components/layout/WorkbenchLayoutManager.tsx
 const renderPanelContent = (panelId: PanelId) => {
@@ -463,6 +488,7 @@ const renderPanelContent = (panelId: PanelId) => {
 ```
 
 **Deliverables**:
+
 - 🔄 Complete ViewportLayoutManager implementation
 - 🔄 Quad, horizontal, vertical layout templates
 - 🔄 Multi-viewport controls UI
@@ -470,9 +496,11 @@ const renderPanelContent = (panelId: PanelId) => {
 - 🔄 Layout persistence and recovery
 
 ### Phase 2.5: Testing & Performance Optimization (Week 6)
+
 **Goal**: Comprehensive testing and performance validation
 
 #### 2.5.1: Unit & Integration Tests
+
 ```typescript
 // packages/viewport/src/multi-viewport/__tests__/
 describe('GeometryManager', () => {
@@ -516,6 +544,7 @@ describe('CameraSyncManager', () => {
 ```
 
 #### 2.5.2: Performance Benchmarks
+
 ```typescript
 // Performance testing suite
 describe('Multi-Viewport Performance', () => {
@@ -527,7 +556,7 @@ describe('Multi-Viewport Performance', () => {
     performanceMonitor.start();
 
     // Render for 5 seconds
-    await new Promise(resolve => setTimeout(resolve, 5000));
+    await new Promise((resolve) => setTimeout(resolve, 5000));
 
     const stats = performanceMonitor.getStats();
     expect(stats.averageFPS).toBeGreaterThan(30);
@@ -545,6 +574,7 @@ describe('Multi-Viewport Performance', () => {
 ```
 
 #### 2.5.3: E2E Testing with Playwright
+
 ```typescript
 // tests/e2e/multi-viewport.spec.ts
 import { test, expect } from '@playwright/test';
@@ -566,7 +596,7 @@ test('multi-viewport layout switching', async ({ page }) => {
   const perspectiveViewport = viewports.nth(0);
   await perspectiveViewport.dragTo(perspectiveViewport, {
     sourcePosition: { x: 100, y: 100 },
-    targetPosition: { x: 150, y: 150 }
+    targetPosition: { x: 150, y: 150 },
   });
 
   // Verify other viewports updated
@@ -575,6 +605,7 @@ test('multi-viewport layout switching', async ({ page }) => {
 ```
 
 **Deliverables**:
+
 - 🔄 Comprehensive unit test suite (>80% coverage)
 - 🔄 Performance benchmark suite
 - 🔄 E2E test scenarios for all major workflows
@@ -584,6 +615,7 @@ test('multi-viewport layout switching', async ({ page }) => {
 ## Integration Points
 
 ### 1. Layout System Integration
+
 ```typescript
 // apps/studio/src/config/layout-presets.ts
 export const LAYOUT_PRESETS: Record<LayoutPresetId, WorkbenchLayout> = {
@@ -594,14 +626,15 @@ export const LAYOUT_PRESETS: Record<LayoutPresetId, WorkbenchLayout> = {
         visible: true,
         position: 'center',
         viewportLayout: 'quad',
-        viewportConfigs: DEFAULT_QUAD_VIEWPORTS
-      }
-    }
-  }
+        viewportConfigs: DEFAULT_QUAD_VIEWPORTS,
+      },
+    },
+  },
 };
 ```
 
 ### 2. State Management Integration
+
 ```typescript
 // apps/studio/src/store/layout-store.ts
 interface LayoutStoreExtended extends LayoutStore {
@@ -618,6 +651,7 @@ interface LayoutStoreExtended extends LayoutStore {
 ```
 
 ### 3. Performance Monitoring Integration
+
 ```typescript
 // apps/studio/src/hooks/useMonitoring.ts
 export const useViewportMonitoring = () => {
@@ -636,18 +670,21 @@ export const useViewportMonitoring = () => {
 ## Migration Strategy
 
 ### Backward Compatibility
+
 1. **Preserve existing Enhanced3DViewport** as single viewport option
 2. **Gradual adoption** through layout presets
 3. **Feature flag** for multi-viewport beta testing
 4. **Migration tools** for converting saved layouts
 
 ### User Experience Transition
+
 1. **Default to single viewport** for new users
 2. **Professional preset** includes quad layout
 3. **Progressive disclosure** of advanced features
 4. **In-app tutorials** for multi-viewport workflows
 
 ### Performance Safeguards
+
 1. **Automatic quality scaling** based on hardware detection
 2. **Memory pressure handling** with graceful degradation
 3. **Performance warnings** when approaching limits
@@ -656,6 +693,7 @@ export const useViewportMonitoring = () => {
 ## Success Criteria
 
 ### Functional Requirements ✅
+
 - [ ] Quad layout with Front/Top/Right/ISO viewports
 - [ ] Independent camera controls per viewport
 - [ ] Camera synchronization (rotation, pan, zoom, full)
@@ -664,6 +702,7 @@ export const useViewportMonitoring = () => {
 - [ ] Seamless integration with existing tools
 
 ### Performance Requirements 📊
+
 - [ ] 4 viewports @ 30+ FPS with complex geometry
 - [ ] <25% memory increase over single viewport
 - [ ] <16ms camera synchronization latency
@@ -671,6 +710,7 @@ export const useViewportMonitoring = () => {
 - [ ] Memory usage <2GB for typical workflows
 
 ### User Experience Requirements 🎯
+
 - [ ] Professional CAD-grade multi-viewport behavior
 - [ ] Intuitive layout switching and customization
 - [ ] Preserved measurement and tool functionality across views
@@ -678,6 +718,7 @@ export const useViewportMonitoring = () => {
 - [ ] Backward compatibility with existing workflows
 
 ### Technical Requirements ⚙️
+
 - [ ] Clean, maintainable component architecture
 - [ ] Comprehensive test coverage (>80%)
 - [ ] TypeScript interface completeness
@@ -686,13 +727,13 @@ export const useViewportMonitoring = () => {
 
 ## Timeline Summary
 
-| Phase | Duration | Key Deliverables | Success Criteria |
-|-------|----------|------------------|------------------|
-| 2.1 | Week 1-2 | Foundation & interfaces | Components render without errors |
-| 2.2 | Week 3 | Geometry management | Shared geometry works efficiently |
-| 2.3 | Week 4 | Camera synchronization | Professional sync behavior |
-| 2.4 | Week 5 | UI integration | Complete multi-viewport workflow |
-| 2.5 | Week 6 | Testing & optimization | Performance targets met |
+| Phase | Duration | Key Deliverables        | Success Criteria                  |
+| ----- | -------- | ----------------------- | --------------------------------- |
+| 2.1   | Week 1-2 | Foundation & interfaces | Components render without errors  |
+| 2.2   | Week 3   | Geometry management     | Shared geometry works efficiently |
+| 2.3   | Week 4   | Camera synchronization  | Professional sync behavior        |
+| 2.4   | Week 5   | UI integration          | Complete multi-viewport workflow  |
+| 2.5   | Week 6   | Testing & optimization  | Performance targets met           |
 
 **Total Duration**: 6 weeks for complete Phase 2 implementation
 

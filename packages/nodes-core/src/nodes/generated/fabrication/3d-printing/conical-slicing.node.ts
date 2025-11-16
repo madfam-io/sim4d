@@ -12,7 +12,11 @@ interface ConicalSlicingOutputs {
   conicalSlices: unknown;
 }
 
-export const Fabrication3DPrintingConicalSlicingNode: NodeDefinition<ConicalSlicingInputs, ConicalSlicingOutputs, ConicalSlicingParams> = {
+export const Fabrication3DPrintingConicalSlicingNode: NodeDefinition<
+  ConicalSlicingInputs,
+  ConicalSlicingOutputs,
+  ConicalSlicingParams
+> = {
   id: 'Fabrication::ConicalSlicing',
   category: 'Fabrication',
   label: 'ConicalSlicing',
@@ -21,33 +25,33 @@ export const Fabrication3DPrintingConicalSlicingNode: NodeDefinition<ConicalSlic
     model: {
       type: 'Shape',
       label: 'Model',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     conicalSlices: {
       type: 'Wire[]',
-      label: 'Conical Slices'
-    }
+      label: 'Conical Slices',
+    },
   },
   params: {
     axis: {
       type: 'vec3',
       label: 'Axis',
-      default: "[0, 0, 1]"
-    }
+      default: '[0, 0, 1]',
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'conicalSlicing',
       params: {
         model: inputs.model,
-        axis: params.axis
-      }
+        axis: params.axis,
+      },
     });
-    
+
     return {
-      conicalSlices: result
+      conicalSlices: result,
     };
   },
 };

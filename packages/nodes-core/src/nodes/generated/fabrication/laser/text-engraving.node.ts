@@ -14,7 +14,11 @@ interface TextEngravingOutputs {
   textPaths: unknown;
 }
 
-export const FabricationLaserTextEngravingNode: NodeDefinition<TextEngravingInputs, TextEngravingOutputs, TextEngravingParams> = {
+export const FabricationLaserTextEngravingNode: NodeDefinition<
+  TextEngravingInputs,
+  TextEngravingOutputs,
+  TextEngravingParams
+> = {
   id: 'Fabrication::TextEngraving',
   category: 'Fabrication',
   label: 'TextEngraving',
@@ -23,34 +27,34 @@ export const FabricationLaserTextEngravingNode: NodeDefinition<TextEngravingInpu
     text: {
       type: 'Data',
       label: 'Text',
-      required: true
+      required: true,
     },
     position: {
       type: 'Point',
       label: 'Position',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     textPaths: {
       type: 'Wire[]',
-      label: 'Text Paths'
-    }
+      label: 'Text Paths',
+    },
   },
   params: {
     font: {
       type: 'enum',
       label: 'Font',
-      default: "single-line",
-      options: ["single-line","outline","filled"]
+      default: 'single-line',
+      options: ['single-line', 'outline', 'filled'],
     },
     height: {
       type: 'number',
       label: 'Height',
       default: 10,
       min: 1,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -59,12 +63,12 @@ export const FabricationLaserTextEngravingNode: NodeDefinition<TextEngravingInpu
         text: inputs.text,
         position: inputs.position,
         font: params.font,
-        height: params.height
-      }
+        height: params.height,
+      },
     });
-    
+
     return {
-      textPaths: result
+      textPaths: result,
     };
   },
 };

@@ -13,7 +13,11 @@ interface ImportParasolidOutputs {
   shape: unknown;
 }
 
-export const IOCADImportParasolidNode: NodeDefinition<ImportParasolidInputs, ImportParasolidOutputs, ImportParasolidParams> = {
+export const IOCADImportParasolidNode: NodeDefinition<
+  ImportParasolidInputs,
+  ImportParasolidOutputs,
+  ImportParasolidParams
+> = {
   id: 'IO::ImportParasolid',
   category: 'IO',
   label: 'ImportParasolid',
@@ -22,26 +26,26 @@ export const IOCADImportParasolidNode: NodeDefinition<ImportParasolidInputs, Imp
     fileData: {
       type: 'Data',
       label: 'File Data',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shape: {
       type: 'Shape',
-      label: 'Shape'
-    }
+      label: 'Shape',
+    },
   },
   params: {
     healGeometry: {
       type: 'boolean',
       label: 'Heal Geometry',
-      default: true
+      default: true,
     },
     simplifyGeometry: {
       type: 'boolean',
       label: 'Simplify Geometry',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -49,12 +53,12 @@ export const IOCADImportParasolidNode: NodeDefinition<ImportParasolidInputs, Imp
       params: {
         fileData: inputs.fileData,
         healGeometry: params.healGeometry,
-        simplifyGeometry: params.simplifyGeometry
-      }
+        simplifyGeometry: params.simplifyGeometry,
+      },
     });
-    
+
     return {
-      shape: result
+      shape: result,
     };
   },
 };

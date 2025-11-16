@@ -13,7 +13,11 @@ interface GCodePostProcessorOutputs {
   gcode: unknown;
 }
 
-export const Fabrication3DPrintingGCodePostProcessorNode: NodeDefinition<GCodePostProcessorInputs, GCodePostProcessorOutputs, GCodePostProcessorParams> = {
+export const Fabrication3DPrintingGCodePostProcessorNode: NodeDefinition<
+  GCodePostProcessorInputs,
+  GCodePostProcessorOutputs,
+  GCodePostProcessorParams
+> = {
   id: 'Fabrication::GCodePostProcessor',
   category: 'Fabrication',
   label: 'GCodePostProcessor',
@@ -22,27 +26,27 @@ export const Fabrication3DPrintingGCodePostProcessorNode: NodeDefinition<GCodePo
     toolpaths: {
       type: 'Wire[]',
       label: 'Toolpaths',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     gcode: {
       type: 'Data',
-      label: 'Gcode'
-    }
+      label: 'Gcode',
+    },
   },
   params: {
     flavor: {
       type: 'enum',
       label: 'Flavor',
-      default: "marlin",
-      options: ["marlin","reprap","klipper","smoothie"]
+      default: 'marlin',
+      options: ['marlin', 'reprap', 'klipper', 'smoothie'],
     },
     optimize: {
       type: 'boolean',
       label: 'Optimize',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -50,12 +54,12 @@ export const Fabrication3DPrintingGCodePostProcessorNode: NodeDefinition<GCodePo
       params: {
         toolpaths: inputs.toolpaths,
         flavor: params.flavor,
-        optimize: params.optimize
-      }
+        optimize: params.optimize,
+      },
     });
-    
+
     return {
-      gcode: result
+      gcode: result,
     };
   },
 };

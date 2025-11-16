@@ -15,7 +15,11 @@ interface CentroidalVoronoiOutputs {
   centroids: Array<[number, number, number]>;
 }
 
-export const PatternsVoronoiCentroidalVoronoiNode: NodeDefinition<CentroidalVoronoiInputs, CentroidalVoronoiOutputs, CentroidalVoronoiParams> = {
+export const PatternsVoronoiCentroidalVoronoiNode: NodeDefinition<
+  CentroidalVoronoiInputs,
+  CentroidalVoronoiOutputs,
+  CentroidalVoronoiParams
+> = {
   id: 'Patterns::CentroidalVoronoi',
   type: 'Patterns::CentroidalVoronoi',
   category: 'Patterns',
@@ -25,23 +29,23 @@ export const PatternsVoronoiCentroidalVoronoiNode: NodeDefinition<CentroidalVoro
     points: {
       type: 'Point[]',
       label: 'Points',
-      required: true
+      required: true,
     },
     boundary: {
       type: 'Wire',
       label: 'Boundary',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     cells: {
       type: 'Wire[]',
-      label: 'Cells'
+      label: 'Cells',
     },
     centroids: {
       type: 'Point[]',
-      label: 'Centroids'
-    }
+      label: 'Centroids',
+    },
   },
   params: {
     iterations: {
@@ -50,14 +54,14 @@ export const PatternsVoronoiCentroidalVoronoiNode: NodeDefinition<CentroidalVoro
       default: 10,
       min: 1,
       max: 100,
-      step: 1
+      step: 1,
     },
     convergence: {
       type: 'number',
       label: 'Convergence',
       default: 0.001,
-      min: 0
-    }
+      min: 0,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -66,13 +70,13 @@ export const PatternsVoronoiCentroidalVoronoiNode: NodeDefinition<CentroidalVoro
         points: inputs.points,
         boundary: inputs.boundary,
         iterations: params.iterations,
-        convergence: params.convergence
-      }
+        convergence: params.convergence,
+      },
     });
-    
+
     return {
       cells: results.cells,
-      centroids: results.centroids
+      centroids: results.centroids,
     };
   },
 };

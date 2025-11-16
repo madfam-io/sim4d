@@ -18,7 +18,11 @@ interface NurbsSurfaceOutputs {
   surface: unknown;
 }
 
-export const SurfaceNURBSNurbsSurfaceNode: NodeDefinition<NurbsSurfaceInputs, NurbsSurfaceOutputs, NurbsSurfaceParams> = {
+export const SurfaceNURBSNurbsSurfaceNode: NodeDefinition<
+  NurbsSurfaceInputs,
+  NurbsSurfaceOutputs,
+  NurbsSurfaceParams
+> = {
   id: 'Surface::NurbsSurface',
   category: 'Surface',
   label: 'NurbsSurface',
@@ -27,29 +31,29 @@ export const SurfaceNURBSNurbsSurfaceNode: NodeDefinition<NurbsSurfaceInputs, Nu
     controlPoints: {
       type: 'Point[][]',
       label: 'Control Points',
-      required: true
+      required: true,
     },
     weights: {
       type: 'number[][]',
       label: 'Weights',
-      optional: true
+      optional: true,
     },
     knotsU: {
       type: 'number[]',
       label: 'Knots U',
-      optional: true
+      optional: true,
     },
     knotsV: {
       type: 'number[]',
       label: 'Knots V',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     surface: {
       type: 'Face',
-      label: 'Surface'
-    }
+      label: 'Surface',
+    },
   },
   params: {
     degreeU: {
@@ -58,7 +62,7 @@ export const SurfaceNURBSNurbsSurfaceNode: NodeDefinition<NurbsSurfaceInputs, Nu
       default: 3,
       min: 1,
       max: 10,
-      step: 1
+      step: 1,
     },
     degreeV: {
       type: 'number',
@@ -66,18 +70,18 @@ export const SurfaceNURBSNurbsSurfaceNode: NodeDefinition<NurbsSurfaceInputs, Nu
       default: 3,
       min: 1,
       max: 10,
-      step: 1
+      step: 1,
     },
     periodicU: {
       type: 'boolean',
       label: 'Periodic U',
-      default: false
+      default: false,
     },
     periodicV: {
       type: 'boolean',
       label: 'Periodic V',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -90,12 +94,12 @@ export const SurfaceNURBSNurbsSurfaceNode: NodeDefinition<NurbsSurfaceInputs, Nu
         degreeU: params.degreeU,
         degreeV: params.degreeV,
         periodicU: params.periodicU,
-        periodicV: params.periodicV
-      }
+        periodicV: params.periodicV,
+      },
     });
-    
+
     return {
-      surface: result
+      surface: result,
     };
   },
 };

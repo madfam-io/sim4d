@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { AlgorithmicMachineLearningLinearRegressionNode } from './linear-regression.node';
 import { createTestContext } from '../test-utils';
@@ -9,15 +8,19 @@ describe('AlgorithmicMachineLearningLinearRegressionNode', () => {
     const inputs = {
       trainingData: undefined,
       features: undefined,
-      target: undefined
+      target: undefined,
     } as any;
     const params = {
-      regularization: "none",
+      regularization: 'none',
       alpha: 1,
-      normalize: true
+      normalize: true,
     } as any;
 
-    const result = await AlgorithmicMachineLearningLinearRegressionNode.evaluate(context, inputs, params);
+    const result = await AlgorithmicMachineLearningLinearRegressionNode.evaluate(
+      context,
+      inputs,
+      params
+    );
     expect(result).toBeDefined();
   });
 });

@@ -14,7 +14,11 @@ interface WaveFunctionCollapseOutputs {
   pattern: unknown;
 }
 
-export const PatternsProceduralWaveFunctionCollapseNode: NodeDefinition<WaveFunctionCollapseInputs, WaveFunctionCollapseOutputs, WaveFunctionCollapseParams> = {
+export const PatternsProceduralWaveFunctionCollapseNode: NodeDefinition<
+  WaveFunctionCollapseInputs,
+  WaveFunctionCollapseOutputs,
+  WaveFunctionCollapseParams
+> = {
   id: 'Patterns::WaveFunctionCollapse',
   type: 'Patterns::WaveFunctionCollapse',
   category: 'Patterns',
@@ -24,14 +28,14 @@ export const PatternsProceduralWaveFunctionCollapseNode: NodeDefinition<WaveFunc
     tileset: {
       type: 'Face[]',
       label: 'Tileset',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     pattern: {
       type: 'Face[]',
-      label: 'Pattern'
-    }
+      label: 'Pattern',
+    },
   },
   params: {
     tilesetSize: {
@@ -40,7 +44,7 @@ export const PatternsProceduralWaveFunctionCollapseNode: NodeDefinition<WaveFunc
       default: 5,
       min: 2,
       max: 20,
-      step: 1
+      step: 1,
     },
     gridWidth: {
       type: 'number',
@@ -48,7 +52,7 @@ export const PatternsProceduralWaveFunctionCollapseNode: NodeDefinition<WaveFunc
       default: 20,
       min: 5,
       max: 100,
-      step: 1
+      step: 1,
     },
     gridHeight: {
       type: 'number',
@@ -56,8 +60,8 @@ export const PatternsProceduralWaveFunctionCollapseNode: NodeDefinition<WaveFunc
       default: 20,
       min: 5,
       max: 100,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -66,12 +70,12 @@ export const PatternsProceduralWaveFunctionCollapseNode: NodeDefinition<WaveFunc
         tileset: inputs.tileset,
         tilesetSize: params.tilesetSize,
         gridWidth: params.gridWidth,
-        gridHeight: params.gridHeight
-      }
+        gridHeight: params.gridHeight,
+      },
     });
-    
+
     return {
-      pattern: result
+      pattern: result,
     };
   },
 };

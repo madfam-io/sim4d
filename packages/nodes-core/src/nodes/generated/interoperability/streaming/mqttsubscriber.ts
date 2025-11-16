@@ -15,7 +15,11 @@ interface MQTTSubscriberOutputs {
   lastMessage: unknown;
 }
 
-export const InteroperabilityStreamingMQTTSubscriberNode: NodeDefinition<MQTTSubscriberInputs, MQTTSubscriberOutputs, MQTTSubscriberParams> = {
+export const InteroperabilityStreamingMQTTSubscriberNode: NodeDefinition<
+  MQTTSubscriberInputs,
+  MQTTSubscriberOutputs,
+  MQTTSubscriberParams
+> = {
   id: 'Interoperability::MQTTSubscriber',
   type: 'Interoperability::MQTTSubscriber',
   category: 'Interoperability',
@@ -25,41 +29,41 @@ export const InteroperabilityStreamingMQTTSubscriberNode: NodeDefinition<MQTTSub
   outputs: {
     connected: {
       type: 'boolean',
-      label: 'Connected'
+      label: 'Connected',
     },
     messages: {
       type: 'string[]',
-      label: 'Messages'
+      label: 'Messages',
     },
     lastMessage: {
       type: 'string',
-      label: 'Last Message'
-    }
+      label: 'Last Message',
+    },
   },
   params: {
     broker: {
       type: 'string',
       label: 'Broker',
-      default: ""
+      default: '',
     },
     port: {
       type: 'number',
       label: 'Port',
       default: 1883,
       min: 1,
-      max: 65535
+      max: 65535,
     },
     topic: {
       type: 'string',
       label: 'Topic',
-      default: ""
+      default: '',
     },
     qos: {
       type: 'enum',
       label: 'Qos',
-      default: "0",
-      options: ["0","1","2"]
-    }
+      default: '0',
+      options: ['0', '1', '2'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -68,14 +72,14 @@ export const InteroperabilityStreamingMQTTSubscriberNode: NodeDefinition<MQTTSub
         broker: params.broker,
         port: params.port,
         topic: params.topic,
-        qos: params.qos
-      }
+        qos: params.qos,
+      },
     });
-    
+
     return {
       connected: results.connected,
       messages: results.messages,
-      lastMessage: results.lastMessage
+      lastMessage: results.lastMessage,
     };
   },
 };

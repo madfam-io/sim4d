@@ -15,7 +15,11 @@ interface LatticeStructureOutputs {
   lattice: unknown;
 }
 
-export const SpecializedLatticeLatticeStructureNode: NodeDefinition<LatticeStructureInputs, LatticeStructureOutputs, LatticeStructureParams> = {
+export const SpecializedLatticeLatticeStructureNode: NodeDefinition<
+  LatticeStructureInputs,
+  LatticeStructureOutputs,
+  LatticeStructureParams
+> = {
   id: 'Specialized::LatticeStructure',
   category: 'Specialized',
   label: 'LatticeStructure',
@@ -24,43 +28,43 @@ export const SpecializedLatticeLatticeStructureNode: NodeDefinition<LatticeStruc
     boundingShape: {
       type: 'Shape',
       label: 'Bounding Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     lattice: {
       type: 'Shape',
-      label: 'Lattice'
-    }
+      label: 'Lattice',
+    },
   },
   params: {
     cellType: {
       type: 'enum',
       label: 'Cell Type',
-      default: "cubic",
-      options: ["cubic","gyroid","diamond","schwarz","bcc","fcc"]
+      default: 'cubic',
+      options: ['cubic', 'gyroid', 'diamond', 'schwarz', 'bcc', 'fcc'],
     },
     cellSize: {
       type: 'number',
       label: 'Cell Size',
       default: 10,
       min: 0.1,
-      max: 100
+      max: 100,
     },
     strutDiameter: {
       type: 'number',
       label: 'Strut Diameter',
       default: 1,
       min: 0.1,
-      max: 10
+      max: 10,
     },
     porosity: {
       type: 'number',
       label: 'Porosity',
       default: 0.7,
       min: 0.1,
-      max: 0.95
-    }
+      max: 0.95,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -70,12 +74,12 @@ export const SpecializedLatticeLatticeStructureNode: NodeDefinition<LatticeStruc
         cellType: params.cellType,
         cellSize: params.cellSize,
         strutDiameter: params.strutDiameter,
-        porosity: params.porosity
-      }
+        porosity: params.porosity,
+      },
     });
-    
+
     return {
-      lattice: result
+      lattice: result,
     };
   },
 };

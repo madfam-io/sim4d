@@ -11,7 +11,11 @@ interface FieldCirculationOutputs {
   circulation: number;
 }
 
-export const FieldsAnalysisFieldCirculationNode: NodeDefinition<FieldCirculationInputs, FieldCirculationOutputs, FieldCirculationParams> = {
+export const FieldsAnalysisFieldCirculationNode: NodeDefinition<
+  FieldCirculationInputs,
+  FieldCirculationOutputs,
+  FieldCirculationParams
+> = {
   id: 'Fields::FieldCirculation',
   category: 'Fields',
   label: 'FieldCirculation',
@@ -20,19 +24,19 @@ export const FieldsAnalysisFieldCirculationNode: NodeDefinition<FieldCirculation
     vectorField: {
       type: 'VectorField',
       label: 'Vector Field',
-      optional: true
+      optional: true,
     },
     curve: {
       type: 'Curve',
       label: 'Curve',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     circulation: {
       type: 'Number',
-      label: 'Circulation'
-    }
+      label: 'Circulation',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -40,12 +44,12 @@ export const FieldsAnalysisFieldCirculationNode: NodeDefinition<FieldCirculation
       type: 'calculateCirculation',
       params: {
         vectorField: inputs.vectorField,
-        curve: inputs.curve
-      }
+        curve: inputs.curve,
+      },
     });
-    
+
     return {
-      circulation: result
+      circulation: result,
     };
   },
 };

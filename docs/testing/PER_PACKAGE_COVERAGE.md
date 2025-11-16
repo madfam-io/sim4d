@@ -5,24 +5,25 @@
 - Generated: 2025-09-22T19:17:30.614Z
 - Threshold: 80%
 
-| Package | Statements | Branches | Functions | Lines | Status |
-|---------|------------|----------|-----------|-------|--------|
-| apps/marketing | 0.00% | 0.00% | 0.00% | 0.00% | ⚠️ 0.00% |
-| apps/studio | 0.00% | 7.77% | 7.77% | 0.00% | ⚠️ 0.00% |
-| packages/cli | 0.00% | 0.00% | 0.00% | 0.00% | ⚠️ 0.00% |
-| packages/collaboration | 0.00% | 5.26% | 5.26% | 0.00% | ⚠️ 0.00% |
-| packages/constraint-solver | 0.00% | 21.05% | 21.05% | 0.00% | ⚠️ 0.00% |
-| packages/engine-core | 3.90% | 35.00% | 25.67% | 3.90% | ⚠️ 3.90% |
-| packages/engine-occt | 3.00% | 30.76% | 18.96% | 3.00% | ⚠️ 3.00% |
-| packages/examples | 0.00% | 0.00% | 0.00% | 0.00% | ⚠️ 0.00% |
-| packages/nodes-core | 0.00% | 94.73% | 94.73% | 0.00% | ⚠️ 0.00% |
-| packages/schemas | 0.00% | 25.00% | 25.00% | 0.00% | ⚠️ 0.00% |
-| packages/sdk | 0.00% | 50.00% | 50.00% | 0.00% | ⚠️ 0.00% |
-| packages/types | 35.32% | 41.66% | 13.63% | 35.32% | ⚠️ 13.63% |
-| packages/version-control | 0.00% | 50.00% | 50.00% | 0.00% | ⚠️ 0.00% |
-| packages/viewport | 0.00% | 20.00% | 20.00% | 0.00% | ⚠️ 0.00% |
+| Package                    | Statements | Branches | Functions | Lines  | Status    |
+| -------------------------- | ---------- | -------- | --------- | ------ | --------- |
+| apps/marketing             | 0.00%      | 0.00%    | 0.00%     | 0.00%  | ⚠️ 0.00%  |
+| apps/studio                | 0.00%      | 7.77%    | 7.77%     | 0.00%  | ⚠️ 0.00%  |
+| packages/cli               | 0.00%      | 0.00%    | 0.00%     | 0.00%  | ⚠️ 0.00%  |
+| packages/collaboration     | 0.00%      | 5.26%    | 5.26%     | 0.00%  | ⚠️ 0.00%  |
+| packages/constraint-solver | 0.00%      | 21.05%   | 21.05%    | 0.00%  | ⚠️ 0.00%  |
+| packages/engine-core       | 3.90%      | 35.00%   | 25.67%    | 3.90%  | ⚠️ 3.90%  |
+| packages/engine-occt       | 3.00%      | 30.76%   | 18.96%    | 3.00%  | ⚠️ 3.00%  |
+| packages/examples          | 0.00%      | 0.00%    | 0.00%     | 0.00%  | ⚠️ 0.00%  |
+| packages/nodes-core        | 0.00%      | 94.73%   | 94.73%    | 0.00%  | ⚠️ 0.00%  |
+| packages/schemas           | 0.00%      | 25.00%   | 25.00%    | 0.00%  | ⚠️ 0.00%  |
+| packages/sdk               | 0.00%      | 50.00%   | 50.00%    | 0.00%  | ⚠️ 0.00%  |
+| packages/types             | 35.32%     | 41.66%   | 13.63%    | 35.32% | ⚠️ 13.63% |
+| packages/version-control   | 0.00%      | 50.00%   | 50.00%    | 0.00%  | ⚠️ 0.00%  |
+| packages/viewport          | 0.00%      | 20.00%   | 20.00%    | 0.00%  | ⚠️ 0.00%  |
 
 ## Packages Below Threshold
+
 - apps/marketing — lowest metric 0.00%
 - apps/studio — lowest metric 0.00%
 - packages/cli — lowest metric 0.00%

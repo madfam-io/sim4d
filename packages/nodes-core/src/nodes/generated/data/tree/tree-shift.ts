@@ -11,7 +11,11 @@ interface TreeShiftOutputs {
   shifted: unknown;
 }
 
-export const DataTreeTreeShiftNode: NodeDefinition<TreeShiftInputs, TreeShiftOutputs, TreeShiftParams> = {
+export const DataTreeTreeShiftNode: NodeDefinition<
+  TreeShiftInputs,
+  TreeShiftOutputs,
+  TreeShiftParams
+> = {
   id: 'Data::TreeShift',
   type: 'Data::TreeShift',
   category: 'Data',
@@ -21,19 +25,19 @@ export const DataTreeTreeShiftNode: NodeDefinition<TreeShiftInputs, TreeShiftOut
     tree: {
       type: 'DataTree',
       label: 'Tree',
-      required: true
+      required: true,
     },
     offset: {
       type: 'number',
       label: 'Offset',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shifted: {
       type: 'DataTree',
-      label: 'Shifted'
-    }
+      label: 'Shifted',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -41,12 +45,12 @@ export const DataTreeTreeShiftNode: NodeDefinition<TreeShiftInputs, TreeShiftOut
       type: 'treeShift',
       params: {
         tree: inputs.tree,
-        offset: inputs.offset
-      }
+        offset: inputs.offset,
+      },
     });
-    
+
     return {
-      shifted: result
+      shifted: result,
     };
   },
 };

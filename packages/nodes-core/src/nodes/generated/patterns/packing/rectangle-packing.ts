@@ -14,7 +14,11 @@ interface RectanglePackingOutputs {
   transforms: unknown;
 }
 
-export const PatternsPackingRectanglePackingNode: NodeDefinition<RectanglePackingInputs, RectanglePackingOutputs, RectanglePackingParams> = {
+export const PatternsPackingRectanglePackingNode: NodeDefinition<
+  RectanglePackingInputs,
+  RectanglePackingOutputs,
+  RectanglePackingParams
+> = {
   id: 'Patterns::RectanglePacking',
   type: 'Patterns::RectanglePacking',
   category: 'Patterns',
@@ -24,31 +28,31 @@ export const PatternsPackingRectanglePackingNode: NodeDefinition<RectanglePackin
     container: {
       type: 'Face',
       label: 'Container',
-      required: true
+      required: true,
     },
     rectangles: {
       type: 'Face[]',
       label: 'Rectangles',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     packed: {
       type: 'Face[]',
-      label: 'Packed'
+      label: 'Packed',
     },
     transforms: {
       type: 'Transform[]',
-      label: 'Transforms'
-    }
+      label: 'Transforms',
+    },
   },
   params: {
     algorithm: {
       type: 'enum',
       label: 'Algorithm',
-      default: "maxrects",
-      options: ["guillotine","maxrects","skyline","shelf"]
-    }
+      default: 'maxrects',
+      options: ['guillotine', 'maxrects', 'skyline', 'shelf'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -56,13 +60,13 @@ export const PatternsPackingRectanglePackingNode: NodeDefinition<RectanglePackin
       params: {
         container: inputs.container,
         rectangles: inputs.rectangles,
-        algorithm: params.algorithm
-      }
+        algorithm: params.algorithm,
+      },
     });
-    
+
     return {
       packed: results.packed,
-      transforms: results.transforms
+      transforms: results.transforms,
     };
   },
 };

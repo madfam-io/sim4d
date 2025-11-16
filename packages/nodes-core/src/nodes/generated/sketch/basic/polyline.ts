@@ -12,7 +12,11 @@ interface PolylineOutputs {
   wire: unknown;
 }
 
-export const SketchBasicPolylineNode: NodeDefinition<PolylineInputs, PolylineOutputs, PolylineParams> = {
+export const SketchBasicPolylineNode: NodeDefinition<
+  PolylineInputs,
+  PolylineOutputs,
+  PolylineParams
+> = {
   id: 'Sketch::Polyline',
   type: 'Sketch::Polyline',
   category: 'Sketch',
@@ -22,33 +26,33 @@ export const SketchBasicPolylineNode: NodeDefinition<PolylineInputs, PolylineOut
     points: {
       type: 'Point[]',
       label: 'Points',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     wire: {
       type: 'Wire',
-      label: 'Wire'
-    }
+      label: 'Wire',
+    },
   },
   params: {
     closed: {
       type: 'boolean',
       label: 'Closed',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'makePolyline',
       params: {
         points: inputs.points,
-        closed: params.closed
-      }
+        closed: params.closed,
+      },
     });
-    
+
     return {
-      wire: result
+      wire: result,
     };
   },
 };

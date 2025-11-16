@@ -13,7 +13,11 @@ interface BarcodeOutputs {
   barcode: unknown;
 }
 
-export const SpecializedTextBarcodeNode: NodeDefinition<BarcodeInputs, BarcodeOutputs, BarcodeParams> = {
+export const SpecializedTextBarcodeNode: NodeDefinition<
+  BarcodeInputs,
+  BarcodeOutputs,
+  BarcodeParams
+> = {
   id: 'Specialized::Barcode',
   category: 'Specialized',
   label: 'Barcode',
@@ -22,35 +26,35 @@ export const SpecializedTextBarcodeNode: NodeDefinition<BarcodeInputs, BarcodeOu
   outputs: {
     barcode: {
       type: 'Shape',
-      label: 'Barcode'
-    }
+      label: 'Barcode',
+    },
   },
   params: {
     type: {
       type: 'enum',
       label: 'Type',
-      default: "QR",
-      options: ["QR","Code128","Code39","EAN13"]
+      default: 'QR',
+      options: ['QR', 'Code128', 'Code39', 'EAN13'],
     },
     data: {
       type: 'string',
       label: 'Data',
-      default: "123456789"
+      default: '123456789',
     },
     size: {
       type: 'number',
       label: 'Size',
       default: 20,
       min: 5,
-      max: 200
+      max: 200,
     },
     height: {
       type: 'number',
       label: 'Height',
       default: 0.5,
       min: 0.01,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -59,12 +63,12 @@ export const SpecializedTextBarcodeNode: NodeDefinition<BarcodeInputs, BarcodeOu
         type: params.type,
         data: params.data,
         size: params.size,
-        height: params.height
-      }
+        height: params.height,
+      },
     });
-    
+
     return {
-      barcode: result
+      barcode: result,
     };
   },
 };

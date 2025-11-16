@@ -15,7 +15,11 @@ interface VortexAttractorOutputs {
   field: unknown;
 }
 
-export const FieldAttractorVortexAttractorNode: NodeDefinition<VortexAttractorInputs, VortexAttractorOutputs, VortexAttractorParams> = {
+export const FieldAttractorVortexAttractorNode: NodeDefinition<
+  VortexAttractorInputs,
+  VortexAttractorOutputs,
+  VortexAttractorParams
+> = {
   id: 'Field::VortexAttractor',
   type: 'Field::VortexAttractor',
   category: 'Field',
@@ -25,14 +29,14 @@ export const FieldAttractorVortexAttractorNode: NodeDefinition<VortexAttractorIn
     axis: {
       type: 'Line',
       label: 'Axis',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     field: {
       type: 'VectorField',
-      label: 'Field'
-    }
+      label: 'Field',
+    },
   },
   params: {
     strength: {
@@ -40,26 +44,26 @@ export const FieldAttractorVortexAttractorNode: NodeDefinition<VortexAttractorIn
       label: 'Strength',
       default: 1,
       min: -10,
-      max: 10
+      max: 10,
     },
     radius: {
       type: 'number',
       label: 'Radius',
       default: 100,
-      min: 0.1
+      min: 0.1,
     },
     coreRadius: {
       type: 'number',
       label: 'Core Radius',
       default: 10,
-      min: 0.1
+      min: 0.1,
     },
     height: {
       type: 'number',
       label: 'Height',
       default: 200,
-      min: 0.1
-    }
+      min: 0.1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -69,12 +73,12 @@ export const FieldAttractorVortexAttractorNode: NodeDefinition<VortexAttractorIn
         strength: params.strength,
         radius: params.radius,
         coreRadius: params.coreRadius,
-        height: params.height
-      }
+        height: params.height,
+      },
     });
-    
+
     return {
-      field: result
+      field: result,
     };
   },
 };

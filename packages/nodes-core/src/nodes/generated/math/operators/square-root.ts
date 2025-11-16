@@ -10,7 +10,11 @@ interface SquareRootOutputs {
   result: unknown;
 }
 
-export const MathOperatorsSquareRootNode: NodeDefinition<SquareRootInputs, SquareRootOutputs, SquareRootParams> = {
+export const MathOperatorsSquareRootNode: NodeDefinition<
+  SquareRootInputs,
+  SquareRootOutputs,
+  SquareRootParams
+> = {
   id: 'Math::SquareRoot',
   type: 'Math::SquareRoot',
   category: 'Math',
@@ -20,26 +24,26 @@ export const MathOperatorsSquareRootNode: NodeDefinition<SquareRootInputs, Squar
     value: {
       type: 'number',
       label: 'Value',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'number',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathSqrt',
       params: {
-        value: inputs.value
-      }
+        value: inputs.value,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

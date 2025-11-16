@@ -14,7 +14,11 @@ interface RobotSimulationOutputs {
   cycleTime: number;
 }
 
-export const FabricationRoboticsRobotSimulationNode: NodeDefinition<RobotSimulationInputs, RobotSimulationOutputs, RobotSimulationParams> = {
+export const FabricationRoboticsRobotSimulationNode: NodeDefinition<
+  RobotSimulationInputs,
+  RobotSimulationOutputs,
+  RobotSimulationParams
+> = {
   id: 'Fabrication::RobotSimulation',
   type: 'Fabrication::RobotSimulation',
   category: 'Fabrication',
@@ -24,18 +28,18 @@ export const FabricationRoboticsRobotSimulationNode: NodeDefinition<RobotSimulat
     program: {
       type: 'Data',
       label: 'Program',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     simulation: {
       type: 'Data',
-      label: 'Simulation'
+      label: 'Simulation',
     },
     cycleTime: {
       type: 'Number',
-      label: 'Cycle Time'
-    }
+      label: 'Cycle Time',
+    },
   },
   params: {
     timeStep: {
@@ -43,13 +47,13 @@ export const FabricationRoboticsRobotSimulationNode: NodeDefinition<RobotSimulat
       label: 'Time Step',
       default: 0.01,
       min: 0.001,
-      max: 0.1
+      max: 0.1,
     },
     dynamics: {
       type: 'boolean',
       label: 'Dynamics',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -57,13 +61,13 @@ export const FabricationRoboticsRobotSimulationNode: NodeDefinition<RobotSimulat
       params: {
         program: inputs.program,
         timeStep: params.timeStep,
-        dynamics: params.dynamics
-      }
+        dynamics: params.dynamics,
+      },
     });
-    
+
     return {
       simulation: results.simulation,
-      cycleTime: results.cycleTime
+      cycleTime: results.cycleTime,
     };
   },
 };

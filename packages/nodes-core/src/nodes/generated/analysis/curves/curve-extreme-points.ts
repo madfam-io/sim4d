@@ -15,7 +15,11 @@ interface CurveExtremePointsOutputs {
   extremeValues: unknown;
 }
 
-export const AnalysisCurvesCurveExtremePointsNode: NodeDefinition<CurveExtremePointsInputs, CurveExtremePointsOutputs, CurveExtremePointsParams> = {
+export const AnalysisCurvesCurveExtremePointsNode: NodeDefinition<
+  CurveExtremePointsInputs,
+  CurveExtremePointsOutputs,
+  CurveExtremePointsParams
+> = {
   id: 'Analysis::CurveExtremePoints',
   type: 'Analysis::CurveExtremePoints',
   category: 'Analysis',
@@ -25,35 +29,35 @@ export const AnalysisCurvesCurveExtremePointsNode: NodeDefinition<CurveExtremePo
     curve: {
       type: 'Wire',
       label: 'Curve',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     minPoints: {
       type: 'Point[]',
-      label: 'Min Points'
+      label: 'Min Points',
     },
     maxPoints: {
       type: 'Point[]',
-      label: 'Max Points'
+      label: 'Max Points',
     },
     extremeValues: {
       type: 'number[]',
-      label: 'Extreme Values'
-    }
+      label: 'Extreme Values',
+    },
   },
   params: {
     axis: {
       type: 'enum',
       label: 'Axis',
-      default: "all",
-      options: ["X","Y","Z","all"]
+      default: 'all',
+      options: ['X', 'Y', 'Z', 'all'],
     },
     markPoints: {
       type: 'boolean',
       label: 'Mark Points',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -61,14 +65,14 @@ export const AnalysisCurvesCurveExtremePointsNode: NodeDefinition<CurveExtremePo
       params: {
         curve: inputs.curve,
         axis: params.axis,
-        markPoints: params.markPoints
-      }
+        markPoints: params.markPoints,
+      },
     });
-    
+
     return {
       minPoints: results.minPoints,
       maxPoints: results.maxPoints,
-      extremeValues: results.extremeValues
+      extremeValues: results.extremeValues,
     };
   },
 };

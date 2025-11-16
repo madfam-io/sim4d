@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { IOExchangeImportJSONNode } from './import-json.node';
 import { createTestContext } from '../test-utils';
@@ -7,10 +6,10 @@ describe('IOExchangeImportJSONNode', () => {
   it('should evaluate without throwing', async () => {
     const context = createTestContext();
     const inputs = {
-      jsonData: undefined
+      jsonData: undefined,
     } as any;
     const params = {
-      format: "brepflow"
+      format: 'brepflow',
     } as any;
 
     const result = await IOExchangeImportJSONNode.evaluate(context, inputs, params);

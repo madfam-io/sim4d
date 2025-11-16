@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { FeaturesHolesThreadedHoleNode } from './threaded-hole.node';
 import { createTestContext } from '../test-utils';
@@ -8,13 +7,13 @@ describe('FeaturesHolesThreadedHoleNode', () => {
     const context = createTestContext();
     const inputs = {
       solid: undefined,
-      position: undefined
+      position: undefined,
     } as any;
     const params = {
-      threadSize: "M6",
+      threadSize: 'M6',
       pitch: 1,
       depth: 20,
-      threadClass: "6H"
+      threadClass: '6H',
     } as any;
 
     const result = await FeaturesHolesThreadedHoleNode.evaluate(context, inputs, params);

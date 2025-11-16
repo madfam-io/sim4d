@@ -52,9 +52,12 @@ class EnvironmentManager {
   private parseConfig(): EnvironmentConfig {
     // Check if we're in a browser environment
     const isBrowser = typeof window !== 'undefined';
-    const processEnv = isBrowser ? {} : (typeof process !== 'undefined' ? process.env : {});
-    
-    const mode = (processEnv.BREPFLOW_MODE || processEnv.NODE_ENV || 'development') as 'production' | 'development' | 'test';
+    const processEnv = isBrowser ? {} : typeof process !== 'undefined' ? process.env : {};
+
+    const mode = (processEnv.BREPFLOW_MODE || processEnv.NODE_ENV || 'development') as
+      | 'production'
+      | 'development'
+      | 'test';
     const isProduction = mode === 'production';
     const isDevelopment = mode === 'development';
 
@@ -82,10 +85,17 @@ class EnvironmentManager {
       allowedOrigins: this.parseStringArray(processEnv.ALLOWED_ORIGINS, ['https://brepflow.com']),
 
       // Logging
-      logLevel: (processEnv.LOG_LEVEL || (isDevelopment ? 'debug' : 'error')) as 'error' | 'warn' | 'info' | 'debug',
+      logLevel: (processEnv.LOG_LEVEL || (isDevelopment ? 'debug' : 'error')) as
+        | 'error'
+        | 'warn'
+        | 'info'
+        | 'debug',
       enableErrorReporting: this.parseBoolean(processEnv.ENABLE_ERROR_REPORTING, isProduction),
       sentryDSN: processEnv.SENTRY_DSN,
-      enablePerformanceMonitoring: this.parseBoolean(processEnv.ENABLE_PERFORMANCE_MONITORING, isProduction),
+      enablePerformanceMonitoring: this.parseBoolean(
+        processEnv.ENABLE_PERFORMANCE_MONITORING,
+        isProduction
+      ),
 
       // Features
       enableExportValidation: this.parseBoolean(processEnv.ENABLE_EXPORT_VALIDATION, isProduction),
@@ -94,8 +104,16 @@ class EnvironmentManager {
 
       // Export
       maxExportSizeMB: this.parseNumber(processEnv.MAX_EXPORT_SIZE_MB, 100),
-      supportedFormats: this.parseStringArray(processEnv.SUPPORTED_FORMATS, ['step', 'iges', 'stl', 'obj']),
-      requireExportValidation: this.parseBoolean(processEnv.REQUIRE_EXPORT_VALIDATION, isProduction),
+      supportedFormats: this.parseStringArray(processEnv.SUPPORTED_FORMATS, [
+        'step',
+        'iges',
+        'stl',
+        'obj',
+      ]),
+      requireExportValidation: this.parseBoolean(
+        processEnv.REQUIRE_EXPORT_VALIDATION,
+        isProduction
+      ),
     };
   }
 
@@ -121,7 +139,10 @@ class EnvironmentManager {
    */
   private parseStringArray(value: string | undefined, defaultValue: string[]): string[] {
     if (!value) return defaultValue;
-    return value.split(',').map(s => s.trim()).filter(Boolean);
+    return value
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean);
   }
 
   /**

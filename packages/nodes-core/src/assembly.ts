@@ -63,7 +63,15 @@ export const MateNode: NodeDefinition<
       type: 'string',
       label: 'Mate Type',
       default: 'coincident',
-      options: ['coincident', 'concentric', 'parallel', 'perpendicular', 'tangent', 'distance', 'angle'],
+      options: [
+        'coincident',
+        'concentric',
+        'parallel',
+        'perpendicular',
+        'tangent',
+        'distance',
+        'angle',
+      ],
     },
     axis1: {
       type: 'vec3',

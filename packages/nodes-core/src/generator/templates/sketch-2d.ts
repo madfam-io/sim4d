@@ -22,12 +22,10 @@ export const sketch2DTemplates: NodeTemplate[] = [
       { name: 'startZ', type: 'number', default: 0, min: -10000, max: 10000 },
       { name: 'endX', type: 'number', default: 100, min: -10000, max: 10000 },
       { name: 'endY', type: 'number', default: 0, min: -10000, max: 10000 },
-      { name: 'endZ', type: 'number', default: 0, min: -10000, max: 10000 }
+      { name: 'endZ', type: 'number', default: 0, min: -10000, max: 10000 },
     ],
     inputs: [],
-    outputs: [
-      { name: 'edge', type: 'Edge', description: 'Line segment' }
-    ]
+    outputs: [{ name: 'edge', type: 'Edge', description: 'Line segment' }],
   },
 
   {
@@ -42,13 +40,25 @@ export const sketch2DTemplates: NodeTemplate[] = [
       { name: 'centerY', type: 'number', default: 0, min: -10000, max: 10000 },
       { name: 'centerZ', type: 'number', default: 0, min: -10000, max: 10000 },
       { name: 'radius', type: 'number', default: 50, min: 0.1, max: 10000 },
-      { name: 'startAngle', type: 'number', default: 0, min: 0, max: 360, description: 'Start angle in degrees' },
-      { name: 'endAngle', type: 'number', default: 90, min: 0, max: 360, description: 'End angle in degrees' }
+      {
+        name: 'startAngle',
+        type: 'number',
+        default: 0,
+        min: 0,
+        max: 360,
+        description: 'Start angle in degrees',
+      },
+      {
+        name: 'endAngle',
+        type: 'number',
+        default: 90,
+        min: 0,
+        max: 360,
+        description: 'End angle in degrees',
+      },
     ],
     inputs: [],
-    outputs: [
-      { name: 'edge', type: 'Edge', description: 'Arc segment' }
-    ]
+    outputs: [{ name: 'edge', type: 'Edge', description: 'Arc segment' }],
   },
 
   {
@@ -63,12 +73,15 @@ export const sketch2DTemplates: NodeTemplate[] = [
       { name: 'centerY', type: 'number', default: 0, min: -10000, max: 10000 },
       { name: 'centerZ', type: 'number', default: 0, min: -10000, max: 10000 },
       { name: 'radius', type: 'number', default: 50, min: 0.1, max: 10000 },
-      { name: 'filled', type: 'boolean', default: true, description: 'Create as face (filled) or wire (outline)' }
+      {
+        name: 'filled',
+        type: 'boolean',
+        default: true,
+        description: 'Create as face (filled) or wire (outline)',
+      },
     ],
     inputs: [],
-    outputs: [
-      { name: 'shape', type: 'Shape', description: 'Circle face or wire' }
-    ]
+    outputs: [{ name: 'shape', type: 'Shape', description: 'Circle face or wire' }],
   },
 
   {
@@ -83,13 +96,23 @@ export const sketch2DTemplates: NodeTemplate[] = [
       { name: 'centerY', type: 'number', default: 0, min: -10000, max: 10000 },
       { name: 'width', type: 'number', default: 100, min: 0.1, max: 10000 },
       { name: 'height', type: 'number', default: 50, min: 0.1, max: 10000 },
-      { name: 'filled', type: 'boolean', default: true, description: 'Create as face (filled) or wire (outline)' },
-      { name: 'cornerRadius', type: 'number', default: 0, min: 0, max: 1000, description: 'Corner rounding radius' }
+      {
+        name: 'filled',
+        type: 'boolean',
+        default: true,
+        description: 'Create as face (filled) or wire (outline)',
+      },
+      {
+        name: 'cornerRadius',
+        type: 'number',
+        default: 0,
+        min: 0,
+        max: 1000,
+        description: 'Corner rounding radius',
+      },
     ],
     inputs: [],
-    outputs: [
-      { name: 'shape', type: 'Shape', description: 'Rectangle face or wire' }
-    ]
+    outputs: [{ name: 'shape', type: 'Shape', description: 'Rectangle face or wire' }],
   },
 
   {
@@ -100,14 +123,10 @@ export const sketch2DTemplates: NodeTemplate[] = [
     operation: 'MAKE_POLYLINE',
     occtBinding: 'makePolyline',
     parameters: [
-      { name: 'closed', type: 'boolean', default: false, description: 'Close the polyline' }
+      { name: 'closed', type: 'boolean', default: false, description: 'Close the polyline' },
     ],
-    inputs: [
-      { name: 'points', type: 'Point[]', required: true, description: 'Array of points' }
-    ],
-    outputs: [
-      { name: 'wire', type: 'Wire', description: 'Polyline wire' }
-    ]
+    inputs: [{ name: 'points', type: 'Point[]', required: true, description: 'Array of points' }],
+    outputs: [{ name: 'wire', type: 'Wire', description: 'Polyline wire' }],
   },
 
   {
@@ -120,15 +139,18 @@ export const sketch2DTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'degree', type: 'number', default: 3, min: 1, max: 10, description: 'Spline degree' },
       { name: 'closed', type: 'boolean', default: false, description: 'Close the spline' },
-      { name: 'smooth', type: 'boolean', default: true, description: 'Smooth tangents' }
+      { name: 'smooth', type: 'boolean', default: true, description: 'Smooth tangents' },
     ],
     inputs: [
       { name: 'points', type: 'Point[]', required: true, description: 'Control points' },
-      { name: 'tangents', type: 'Vector[]', required: false, description: 'Optional tangent vectors' }
+      {
+        name: 'tangents',
+        type: 'Vector[]',
+        required: false,
+        description: 'Optional tangent vectors',
+      },
     ],
-    outputs: [
-      { name: 'curve', type: 'Wire', description: 'Spline curve' }
-    ]
+    outputs: [{ name: 'curve', type: 'Wire', description: 'Spline curve' }],
   },
 
   {
@@ -140,11 +162,14 @@ export const sketch2DTemplates: NodeTemplate[] = [
     occtBinding: 'makeBezier',
     parameters: [],
     inputs: [
-      { name: 'controlPoints', type: 'Point[]', required: true, description: 'Bezier control points' }
+      {
+        name: 'controlPoints',
+        type: 'Point[]',
+        required: true,
+        description: 'Bezier control points',
+      },
     ],
-    outputs: [
-      { name: 'curve', type: 'Wire', description: 'Bezier curve' }
-    ]
+    outputs: [{ name: 'curve', type: 'Wire', description: 'Bezier curve' }],
   },
 
   {
@@ -156,16 +181,14 @@ export const sketch2DTemplates: NodeTemplate[] = [
     occtBinding: 'makeBSpline',
     parameters: [
       { name: 'degree', type: 'number', default: 3, min: 1, max: 10 },
-      { name: 'periodic', type: 'boolean', default: false }
+      { name: 'periodic', type: 'boolean', default: false },
     ],
     inputs: [
       { name: 'controlPoints', type: 'Point[]', required: true },
       { name: 'knots', type: 'number[]', required: false, description: 'Knot vector' },
-      { name: 'weights', type: 'number[]', required: false, description: 'Control point weights' }
+      { name: 'weights', type: 'number[]', required: false, description: 'Control point weights' },
     ],
-    outputs: [
-      { name: 'curve', type: 'Wire', description: 'B-Spline curve' }
-    ]
+    outputs: [{ name: 'curve', type: 'Wire', description: 'B-Spline curve' }],
   },
 
   {
@@ -178,12 +201,10 @@ export const sketch2DTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'x', type: 'number', default: 0, min: -10000, max: 10000 },
       { name: 'y', type: 'number', default: 0, min: -10000, max: 10000 },
-      { name: 'z', type: 'number', default: 0, min: -10000, max: 10000 }
+      { name: 'z', type: 'number', default: 0, min: -10000, max: 10000 },
     ],
     inputs: [],
-    outputs: [
-      { name: 'point', type: 'Point', description: 'Point vertex' }
-    ]
+    outputs: [{ name: 'point', type: 'Point', description: 'Point vertex' }],
   },
 
   {
@@ -198,12 +219,17 @@ export const sketch2DTemplates: NodeTemplate[] = [
       { name: 'centerY', type: 'number', default: 0, min: -10000, max: 10000 },
       { name: 'length', type: 'number', default: 100, min: 0.1, max: 10000 },
       { name: 'width', type: 'number', default: 20, min: 0.1, max: 10000 },
-      { name: 'angle', type: 'number', default: 0, min: -180, max: 180, description: 'Rotation angle' }
+      {
+        name: 'angle',
+        type: 'number',
+        default: 0,
+        min: -180,
+        max: 180,
+        description: 'Rotation angle',
+      },
     ],
     inputs: [],
-    outputs: [
-      { name: 'face', type: 'Face', description: 'Slot face' }
-    ]
+    outputs: [{ name: 'face', type: 'Face', description: 'Slot face' }],
   },
 
   {
@@ -220,12 +246,10 @@ export const sketch2DTemplates: NodeTemplate[] = [
       { name: 'bold', type: 'boolean', default: false },
       { name: 'italic', type: 'boolean', default: false },
       { name: 'x', type: 'number', default: 0, min: -10000, max: 10000 },
-      { name: 'y', type: 'number', default: 0, min: -10000, max: 10000 }
+      { name: 'y', type: 'number', default: 0, min: -10000, max: 10000 },
     ],
     inputs: [],
-    outputs: [
-      { name: 'shape', type: 'Shape', description: 'Text as geometry' }
-    ]
+    outputs: [{ name: 'shape', type: 'Shape', description: 'Text as geometry' }],
   },
 
   {
@@ -237,14 +261,10 @@ export const sketch2DTemplates: NodeTemplate[] = [
     occtBinding: 'offsetCurve',
     parameters: [
       { name: 'distance', type: 'number', default: 10, min: -10000, max: 10000 },
-      { name: 'side', type: 'enum', options: ['left', 'right', 'both'], default: 'right' }
+      { name: 'side', type: 'enum', options: ['left', 'right', 'both'], default: 'right' },
     ],
-    inputs: [
-      { name: 'curve', type: 'Wire', required: true, description: 'Curve to offset' }
-    ],
-    outputs: [
-      { name: 'offset', type: 'Wire', description: 'Offset curve' }
-    ]
+    inputs: [{ name: 'curve', type: 'Wire', required: true, description: 'Curve to offset' }],
+    outputs: [{ name: 'offset', type: 'Wire', description: 'Offset curve' }],
   },
 
   {
@@ -256,15 +276,18 @@ export const sketch2DTemplates: NodeTemplate[] = [
     occtBinding: 'fillet2D',
     parameters: [
       { name: 'radius', type: 'number', default: 5, min: 0.1, max: 1000 },
-      { name: 'allCorners', type: 'boolean', default: true }
+      { name: 'allCorners', type: 'boolean', default: true },
     ],
     inputs: [
       { name: 'wire', type: 'Wire', required: true, description: 'Wire to fillet' },
-      { name: 'vertices', type: 'Vertex[]', required: false, description: 'Specific vertices to fillet' }
+      {
+        name: 'vertices',
+        type: 'Vertex[]',
+        required: false,
+        description: 'Specific vertices to fillet',
+      },
     ],
-    outputs: [
-      { name: 'filleted', type: 'Wire', description: 'Filleted wire' }
-    ]
+    outputs: [{ name: 'filleted', type: 'Wire', description: 'Filleted wire' }],
   },
 
   {
@@ -274,16 +297,12 @@ export const sketch2DTemplates: NodeTemplate[] = [
     description: 'Chamfer corners of a 2D shape',
     operation: 'CHAMFER_2D',
     occtBinding: 'chamfer2D',
-    parameters: [
-      { name: 'distance', type: 'number', default: 5, min: 0.1, max: 1000 }
-    ],
+    parameters: [{ name: 'distance', type: 'number', default: 5, min: 0.1, max: 1000 }],
     inputs: [
       { name: 'wire', type: 'Wire', required: true },
-      { name: 'vertices', type: 'Vertex[]', required: false }
+      { name: 'vertices', type: 'Vertex[]', required: false },
     ],
-    outputs: [
-      { name: 'chamfered', type: 'Wire', description: 'Chamfered wire' }
-    ]
+    outputs: [{ name: 'chamfered', type: 'Wire', description: 'Chamfered wire' }],
   },
 
   {
@@ -295,18 +314,12 @@ export const sketch2DTemplates: NodeTemplate[] = [
     occtBinding: 'trimCurve',
     parameters: [
       { name: 'startParameter', type: 'number', default: 0, min: 0, max: 1 },
-      { name: 'endParameter', type: 'number', default: 1, min: 0, max: 1 }
+      { name: 'endParameter', type: 'number', default: 1, min: 0, max: 1 },
     ],
-    inputs: [
-      { name: 'curve', type: 'Wire', required: true }
-    ],
-    outputs: [
-      { name: 'trimmed', type: 'Wire', description: 'Trimmed curve' }
-    ]
-  }
+    inputs: [{ name: 'curve', type: 'Wire', required: true }],
+    outputs: [{ name: 'trimmed', type: 'Wire', description: 'Trimmed curve' }],
+  },
 ];
 
 // Export all templates
-export const allSketch2DTemplates = [
-  ...sketch2DTemplates
-];
+export const allSketch2DTemplates = [...sketch2DTemplates];

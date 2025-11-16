@@ -13,7 +13,11 @@ interface StairBalustradeOutputs {
   balustrade: unknown;
 }
 
-export const ArchitectureStairsStairBalustradeNode: NodeDefinition<StairBalustradeInputs, StairBalustradeOutputs, StairBalustradeParams> = {
+export const ArchitectureStairsStairBalustradeNode: NodeDefinition<
+  StairBalustradeInputs,
+  StairBalustradeOutputs,
+  StairBalustradeParams
+> = {
   id: 'Architecture::StairBalustrade',
   type: 'Architecture::StairBalustrade',
   category: 'Architecture',
@@ -23,29 +27,29 @@ export const ArchitectureStairsStairBalustradeNode: NodeDefinition<StairBalustra
     stairSide: {
       type: 'Wire',
       label: 'Stair Side',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     balustrade: {
       type: 'Shape',
-      label: 'Balustrade'
-    }
+      label: 'Balustrade',
+    },
   },
   params: {
     style: {
       type: 'enum',
       label: 'Style',
-      default: "vertical",
-      options: ["vertical","horizontal","glass","cable"]
+      default: 'vertical',
+      options: ['vertical', 'horizontal', 'glass', 'cable'],
     },
     spacing: {
       type: 'number',
       label: 'Spacing',
       default: 100,
       min: 75,
-      max: 125
-    }
+      max: 125,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const ArchitectureStairsStairBalustradeNode: NodeDefinition<StairBalustra
       params: {
         stairSide: inputs.stairSide,
         style: params.style,
-        spacing: params.spacing
-      }
+        spacing: params.spacing,
+      },
     });
-    
+
     return {
-      balustrade: result
+      balustrade: result,
     };
   },
 };

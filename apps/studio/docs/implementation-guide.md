@@ -19,7 +19,7 @@ import {
   NumberInput,
   CoordinateInput,
   Enhanced3DViewport,
-  DESIGN_TOKENS
+  DESIGN_TOKENS,
 } from './components/ui';
 ```
 
@@ -36,13 +36,13 @@ The enhanced design tokens are already integrated into your existing `tokens.css
 ### 3. Replace Existing Components
 
 #### Before (Old Button):
+
 ```tsx
-<button className="btn btn-primary">
-  Save Project
-</button>
+<button className="btn btn-primary">Save Project</button>
 ```
 
 #### After (Enhanced Button):
+
 ```tsx
 <Button variant="primary" icon="save" size="md">
   Save Project
@@ -50,18 +50,18 @@ The enhanced design tokens are already integrated into your existing `tokens.css
 ```
 
 #### Before (Old Panel):
+
 ```tsx
 <div className="panel">
   <div className="panel-header">
     <h3>Properties</h3>
   </div>
-  <div className="panel-content">
-    {children}
-  </div>
+  <div className="panel-content">{children}</div>
 </div>
 ```
 
 #### After (Enhanced Panel):
+
 ```tsx
 <Panel
   title="Properties"
@@ -273,7 +273,7 @@ const EnhancedWorkspace: React.FC = () => {
 const nodeStyle = {
   background: DESIGN_TOKENS.colors.engineering[50],
   border: `1px solid ${DESIGN_TOKENS.colors.engineering[200]}`,
-  color: DESIGN_TOKENS.colors.engineering[700]
+  color: DESIGN_TOKENS.colors.engineering[700],
 };
 
 // Status colors for different states
@@ -312,13 +312,13 @@ const getNodeStatusColor = (status: string) => {
 const containerStyle = {
   padding: DESIGN_TOKENS.spacing[4],
   margin: DESIGN_TOKENS.spacing[2],
-  gap: DESIGN_TOKENS.spacing[3]
+  gap: DESIGN_TOKENS.spacing[3],
 };
 
 // Component sizing
 const buttonStyle = {
   height: COMPONENT_SIZES.button.md.height,
-  padding: COMPONENT_SIZES.button.md.padding
+  padding: COMPONENT_SIZES.button.md.padding,
 };
 ```
 
@@ -412,7 +412,7 @@ const Enhanced3DViewport = React.memo(() => {
   const [performanceStats, setPerformanceStats] = useState({
     fps: 60,
     triangles: 0,
-    renderTime: 0
+    renderTime: 0,
   });
 
   // Throttle performance updates
@@ -462,21 +462,25 @@ const Enhanced3DViewport = React.memo(() => {
 ## Migration Strategy
 
 ### Phase 1: Core Components (Week 1-2)
+
 1. Replace all buttons with `Button` and `IconButton`
 2. Update form inputs to use `Input` and `NumberInput`
 3. Integrate enhanced design tokens
 
 ### Phase 2: Layout Enhancement (Week 3-4)
+
 1. Implement `Panel` components
 2. Update workspace layout system
 3. Add professional toolbar
 
 ### Phase 3: 3D Viewport (Week 5-6)
+
 1. Integrate `Enhanced3DViewport`
 2. Add measurement tools
 3. Implement navigation cube
 
 ### Phase 4: Polish & Optimization (Week 7-8)
+
 1. Add animations and micro-interactions
 2. Optimize performance
 3. Accessibility audit and fixes
@@ -484,6 +488,7 @@ const Enhanced3DViewport = React.memo(() => {
 ## Testing Strategy
 
 ### Visual Regression Testing
+
 ```typescript
 // Test component visual consistency
 describe('Enhanced Button', () => {
@@ -498,6 +503,7 @@ describe('Enhanced Button', () => {
 ```
 
 ### Accessibility Testing
+
 ```typescript
 // Test ARIA compliance
 describe('Enhanced Panel', () => {
@@ -515,6 +521,7 @@ describe('Enhanced Panel', () => {
 ```
 
 ### Performance Testing
+
 ```typescript
 // Test rendering performance
 describe('Enhanced3DViewport', () => {

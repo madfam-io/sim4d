@@ -14,7 +14,11 @@ interface StringContainsOutputs {
   index: unknown;
 }
 
-export const DataStringStringContainsNode: NodeDefinition<StringContainsInputs, StringContainsOutputs, StringContainsParams> = {
+export const DataStringStringContainsNode: NodeDefinition<
+  StringContainsInputs,
+  StringContainsOutputs,
+  StringContainsParams
+> = {
   id: 'Data::StringContains',
   type: 'Data::StringContains',
   category: 'Data',
@@ -24,30 +28,30 @@ export const DataStringStringContainsNode: NodeDefinition<StringContainsInputs, 
     string: {
       type: 'string',
       label: 'String',
-      required: true
+      required: true,
     },
     search: {
       type: 'string',
       label: 'Search',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     contains: {
       type: 'boolean',
-      label: 'Contains'
+      label: 'Contains',
     },
     index: {
       type: 'number',
-      label: 'Index'
-    }
+      label: 'Index',
+    },
   },
   params: {
     caseSensitive: {
       type: 'boolean',
       label: 'Case Sensitive',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -55,13 +59,13 @@ export const DataStringStringContainsNode: NodeDefinition<StringContainsInputs, 
       params: {
         string: inputs.string,
         search: inputs.search,
-        caseSensitive: params.caseSensitive
-      }
+        caseSensitive: params.caseSensitive,
+      },
     });
-    
+
     return {
       contains: results.contains,
-      index: results.index
+      index: results.index,
     };
   },
 };

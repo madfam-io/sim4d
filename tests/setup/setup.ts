@@ -60,7 +60,8 @@ vi.setConfig({
   testTimeout: 10000, // 10 seconds
 });
 // Ensure OCCT assets resolve during tests
-process.env.OCCT_WASM_PATH = process.env.OCCT_WASM_PATH || path.resolve(process.cwd(), 'packages/engine-occt/wasm');
+process.env.OCCT_WASM_PATH =
+  process.env.OCCT_WASM_PATH || path.resolve(process.cwd(), 'packages/engine-occt/wasm');
 
 // Stub fetch to acknowledge OCCT asset checks during unit tests
 if (typeof global.fetch === 'undefined') {

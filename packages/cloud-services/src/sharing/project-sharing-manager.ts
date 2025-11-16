@@ -20,11 +20,18 @@ import {
 import { CloudApiClient } from '../api/cloud-api-client';
 
 const isSharingEnabled = (): boolean => {
-  if (typeof process !== 'undefined' && process.env && 'BREPFLOW_ENABLE_PROJECT_SHARING' in process.env) {
+  if (
+    typeof process !== 'undefined' &&
+    process.env &&
+    'BREPFLOW_ENABLE_PROJECT_SHARING' in process.env
+  ) {
     return process.env.BREPFLOW_ENABLE_PROJECT_SHARING === 'true';
   }
 
-  if (typeof globalThis !== 'undefined' && '__BREPFLOW_ENABLE_PROJECT_SHARING__' in (globalThis as any)) {
+  if (
+    typeof globalThis !== 'undefined' &&
+    '__BREPFLOW_ENABLE_PROJECT_SHARING__' in (globalThis as any)
+  ) {
     return Boolean((globalThis as any).__BREPFLOW_ENABLE_PROJECT_SHARING__);
   }
 
@@ -72,18 +79,22 @@ export class ProjectSharingManager extends EventEmitter {
   constructor(config: SharingConfig, apiClient?: CloudApiClient) {
     super();
     if (!isSharingEnabled()) {
-      throw new Error('Project sharing is disabled. Set BREPFLOW_ENABLE_PROJECT_SHARING=true (or globalThis.__BREPFLOW_ENABLE_PROJECT_SHARING__ = true) to enable this experimental feature.');
+      throw new Error(
+        'Project sharing is disabled. Set BREPFLOW_ENABLE_PROJECT_SHARING=true (or globalThis.__BREPFLOW_ENABLE_PROJECT_SHARING__ = true) to enable this experimental feature.'
+      );
     }
     this.config = config;
-    this.apiClient = apiClient ?? new CloudApiClient({
-      baseUrl: config.apiEndpoint,
-      apiKey: config.apiKey || '',
-      userId: 'system',
-      timeout: config.requestTimeout ?? 10000,
-      retryAttempts: 2,
-      cacheEnabled: true,
-      cacheTTL: 30_000,
-    });
+    this.apiClient =
+      apiClient ??
+      new CloudApiClient({
+        baseUrl: config.apiEndpoint,
+        apiKey: config.apiKey || '',
+        userId: 'system',
+        timeout: config.requestTimeout ?? 10000,
+        retryAttempts: 2,
+        cacheEnabled: true,
+        cacheTTL: 30_000,
+      });
   }
 
   /**
@@ -352,11 +363,7 @@ export class ProjectSharingManager extends EventEmitter {
   /**
    * Remove collaborator from project
    */
-  async removeCollaborator(
-    projectId: ProjectId,
-    userId: UserId,
-    removedBy: UserId
-  ): Promise<void> {
+  async removeCollaborator(projectId: ProjectId, userId: UserId, removedBy: UserId): Promise<void> {
     try {
       // Validate permissions
       await this.validateUserPermission(removedBy, projectId, 'admin');
@@ -563,7 +570,7 @@ export class ProjectSharingManager extends EventEmitter {
       return;
     }
 
-    const collaborator = project.collaborators?.find(c => c.userId === userId);
+    const collaborator = project.collaborators?.find((c) => c.userId === userId);
     if (!collaborator) {
       throw new Error(`User ${userId} is not a collaborator on project ${projectId}`);
     }
@@ -579,7 +586,7 @@ export class ProjectSharingManager extends EventEmitter {
 
     const requiredAction = permissionMap[action] || 'read';
     const hasPermission = collaborator.permissions.some(
-      permission => permission.action === requiredAction && permission.granted
+      (permission) => permission.action === requiredAction && permission.granted
     );
 
     if (!hasPermission) {
@@ -628,11 +635,17 @@ export class ProjectSharingManager extends EventEmitter {
     return this.apiClient.getProject(projectId);
   }
 
-  private async addCollaborator(projectId: ProjectId, collaborator: CollaboratorAccess): Promise<void> {
+  private async addCollaborator(
+    projectId: ProjectId,
+    collaborator: CollaboratorAccess
+  ): Promise<void> {
     await this.apiClient.addCollaborator(projectId, collaborator);
   }
 
-  private async updateCollaborator(projectId: ProjectId, collaborator: CollaboratorAccess): Promise<void> {
+  private async updateCollaborator(
+    projectId: ProjectId,
+    collaborator: CollaboratorAccess
+  ): Promise<void> {
     await this.apiClient.updateCollaborator(projectId, collaborator);
   }
 
@@ -640,9 +653,12 @@ export class ProjectSharingManager extends EventEmitter {
     await this.apiClient.removeCollaborator(projectId, userId);
   }
 
-  private async getCollaborator(projectId: ProjectId, userId: UserId): Promise<CollaboratorAccess | null> {
+  private async getCollaborator(
+    projectId: ProjectId,
+    userId: UserId
+  ): Promise<CollaboratorAccess | null> {
     const collaborators = await this.fetchCollaborators(projectId);
-    return collaborators.find(collaborator => collaborator.userId === userId) || null;
+    return collaborators.find((collaborator) => collaborator.userId === userId) || null;
   }
 
   private async fetchCollaborators(projectId: ProjectId): Promise<CollaboratorAccess[]> {

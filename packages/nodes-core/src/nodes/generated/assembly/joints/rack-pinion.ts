@@ -13,7 +13,11 @@ interface RackPinionOutputs {
   joint: unknown;
 }
 
-export const AssemblyJointsRackPinionNode: NodeDefinition<RackPinionInputs, RackPinionOutputs, RackPinionParams> = {
+export const AssemblyJointsRackPinionNode: NodeDefinition<
+  RackPinionInputs,
+  RackPinionOutputs,
+  RackPinionParams
+> = {
   id: 'Assembly::RackPinion',
   type: 'Assembly::RackPinion',
   category: 'Assembly',
@@ -23,19 +27,19 @@ export const AssemblyJointsRackPinionNode: NodeDefinition<RackPinionInputs, Rack
     rack: {
       type: 'Shape',
       label: 'Rack',
-      required: true
+      required: true,
     },
     pinion: {
       type: 'Shape',
       label: 'Pinion',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     joint: {
       type: 'Joint',
-      label: 'Joint'
-    }
+      label: 'Joint',
+    },
   },
   params: {
     module: {
@@ -43,8 +47,8 @@ export const AssemblyJointsRackPinionNode: NodeDefinition<RackPinionInputs, Rack
       label: 'Module',
       default: 1,
       min: 0.1,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -52,12 +56,12 @@ export const AssemblyJointsRackPinionNode: NodeDefinition<RackPinionInputs, Rack
       params: {
         rack: inputs.rack,
         pinion: inputs.pinion,
-        module: params.module
-      }
+        module: params.module,
+      },
     });
-    
+
     return {
-      joint: result
+      joint: result,
     };
   },
 };

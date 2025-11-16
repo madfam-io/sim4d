@@ -13,7 +13,11 @@ interface JitteredGridOutputs {
   points: Array<[number, number, number]>;
 }
 
-export const PatternsStochasticJitteredGridNode: NodeDefinition<JitteredGridInputs, JitteredGridOutputs, JitteredGridParams> = {
+export const PatternsStochasticJitteredGridNode: NodeDefinition<
+  JitteredGridInputs,
+  JitteredGridOutputs,
+  JitteredGridParams
+> = {
   id: 'Patterns::JitteredGrid',
   type: 'Patterns::JitteredGrid',
   category: 'Patterns',
@@ -23,14 +27,14 @@ export const PatternsStochasticJitteredGridNode: NodeDefinition<JitteredGridInpu
     boundary: {
       type: 'Wire',
       label: 'Boundary',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     points: {
       type: 'Point[]',
-      label: 'Points'
-    }
+      label: 'Points',
+    },
   },
   params: {
     gridSize: {
@@ -39,15 +43,15 @@ export const PatternsStochasticJitteredGridNode: NodeDefinition<JitteredGridInpu
       default: 10,
       min: 2,
       max: 100,
-      step: 1
+      step: 1,
     },
     jitter: {
       type: 'number',
       label: 'Jitter',
       default: 0.5,
       min: 0,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -55,12 +59,12 @@ export const PatternsStochasticJitteredGridNode: NodeDefinition<JitteredGridInpu
       params: {
         boundary: inputs.boundary,
         gridSize: params.gridSize,
-        jitter: params.jitter
-      }
+        jitter: params.jitter,
+      },
     });
-    
+
     return {
-      points: result
+      points: result,
     };
   },
 };

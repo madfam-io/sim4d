@@ -11,7 +11,11 @@ interface CommonEdgesOutputs {
   edges: unknown;
 }
 
-export const BooleanCommonEdgesNode: NodeDefinition<CommonEdgesInputs, CommonEdgesOutputs, CommonEdgesParams> = {
+export const BooleanCommonEdgesNode: NodeDefinition<
+  CommonEdgesInputs,
+  CommonEdgesOutputs,
+  CommonEdgesParams
+> = {
   id: 'Boolean::CommonEdges',
   type: 'Boolean::CommonEdges',
   category: 'Boolean',
@@ -21,19 +25,19 @@ export const BooleanCommonEdgesNode: NodeDefinition<CommonEdgesInputs, CommonEdg
     shape1: {
       type: 'Shape',
       label: 'Shape1',
-      required: true
+      required: true,
     },
     shape2: {
       type: 'Shape',
       label: 'Shape2',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     edges: {
       type: 'Edge[]',
-      label: 'Edges'
-    }
+      label: 'Edges',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -41,12 +45,12 @@ export const BooleanCommonEdgesNode: NodeDefinition<CommonEdgesInputs, CommonEdg
       type: 'booleanCommonEdges',
       params: {
         shape1: inputs.shape1,
-        shape2: inputs.shape2
-      }
+        shape2: inputs.shape2,
+      },
     });
-    
+
     return {
-      edges: result
+      edges: result,
     };
   },
 };

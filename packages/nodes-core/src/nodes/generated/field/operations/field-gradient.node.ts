@@ -10,7 +10,11 @@ interface FieldGradientOutputs {
   gradient: unknown;
 }
 
-export const FieldOperationsFieldGradientNode: NodeDefinition<FieldGradientInputs, FieldGradientOutputs, FieldGradientParams> = {
+export const FieldOperationsFieldGradientNode: NodeDefinition<
+  FieldGradientInputs,
+  FieldGradientOutputs,
+  FieldGradientParams
+> = {
   id: 'Field::FieldGradient',
   category: 'Field',
   label: 'FieldGradient',
@@ -19,26 +23,26 @@ export const FieldOperationsFieldGradientNode: NodeDefinition<FieldGradientInput
     field: {
       type: 'ScalarField',
       label: 'Field',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     gradient: {
       type: 'VectorField',
-      label: 'Gradient'
-    }
+      label: 'Gradient',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'fieldGradient',
       params: {
-        field: inputs.field
-      }
+        field: inputs.field,
+      },
     });
-    
+
     return {
-      gradient: result
+      gradient: result,
     };
   },
 };

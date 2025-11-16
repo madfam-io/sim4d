@@ -12,7 +12,11 @@ interface ListRemoveOutputs {
   removed: unknown;
 }
 
-export const DataListListRemoveNode: NodeDefinition<ListRemoveInputs, ListRemoveOutputs, ListRemoveParams> = {
+export const DataListListRemoveNode: NodeDefinition<
+  ListRemoveInputs,
+  ListRemoveOutputs,
+  ListRemoveParams
+> = {
   id: 'Data::ListRemove',
   category: 'Data',
   label: 'ListRemove',
@@ -21,23 +25,23 @@ export const DataListListRemoveNode: NodeDefinition<ListRemoveInputs, ListRemove
     list: {
       type: 'Data[]',
       label: 'List',
-      required: true
+      required: true,
     },
     index: {
       type: 'number',
       label: 'Index',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'Data[]',
-      label: 'Result'
+      label: 'Result',
     },
     removed: {
       type: 'Data',
-      label: 'Removed'
-    }
+      label: 'Removed',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -45,13 +49,13 @@ export const DataListListRemoveNode: NodeDefinition<ListRemoveInputs, ListRemove
       type: 'listRemove',
       params: {
         list: inputs.list,
-        index: inputs.index
-      }
+        index: inputs.index,
+      },
     });
-    
+
     return {
       result: results.result,
-      removed: results.removed
+      removed: results.removed,
     };
   },
 };

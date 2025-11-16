@@ -14,7 +14,11 @@ interface MeshBooleanOutputs {
   result: unknown;
 }
 
-export const MeshRepairMeshBooleanNode: NodeDefinition<MeshBooleanInputs, MeshBooleanOutputs, MeshBooleanParams> = {
+export const MeshRepairMeshBooleanNode: NodeDefinition<
+  MeshBooleanInputs,
+  MeshBooleanOutputs,
+  MeshBooleanParams
+> = {
   id: 'Mesh::MeshBoolean',
   type: 'Mesh::MeshBoolean',
   category: 'Mesh',
@@ -24,34 +28,34 @@ export const MeshRepairMeshBooleanNode: NodeDefinition<MeshBooleanInputs, MeshBo
     mesh1: {
       type: 'Mesh',
       label: 'Mesh1',
-      required: true
+      required: true,
     },
     mesh2: {
       type: 'Mesh',
       label: 'Mesh2',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'Mesh',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {
     operation: {
       type: 'enum',
       label: 'Operation',
-      default: "union",
-      options: ["union","difference","intersection"]
+      default: 'union',
+      options: ['union', 'difference', 'intersection'],
     },
     tolerance: {
       type: 'number',
       label: 'Tolerance',
       default: 0.01,
       min: 0.0001,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -60,12 +64,12 @@ export const MeshRepairMeshBooleanNode: NodeDefinition<MeshBooleanInputs, MeshBo
         mesh1: inputs.mesh1,
         mesh2: inputs.mesh2,
         operation: params.operation,
-        tolerance: params.tolerance
-      }
+        tolerance: params.tolerance,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

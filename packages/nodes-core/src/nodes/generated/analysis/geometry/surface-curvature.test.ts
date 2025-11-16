@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { SurfaceCurvatureNode } from './surfacecurvature.node';
 import { createTestContext } from './../../test-utils';
@@ -7,11 +6,11 @@ describe('SurfaceCurvatureNode', () => {
   it('should create SurfaceCurvature', async () => {
     const context = createTestContext();
     const inputs = {
-      surface: null
+      surface: null,
     };
     const params = {
       u: 0.5,
-      v: 0.5
+      v: 0.5,
     };
 
     const result = await SurfaceCurvatureNode.evaluate(context, inputs, params);
@@ -22,6 +21,4 @@ describe('SurfaceCurvatureNode', () => {
     expect(result.minCurvature).toBeDefined();
     expect(result.maxCurvature).toBeDefined();
   });
-
-  
 });

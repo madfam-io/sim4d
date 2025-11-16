@@ -1,4 +1,3 @@
-
 # TreeShift Node
 
 **Category:** Data / Tree
@@ -11,25 +10,18 @@ This node has no parameters.
 
 ## Inputs
 
-
 ### Tree
+
 - **Type:** DataTree
 - **Required:** Yes
 
-
-
 ### Offset
+
 - **Type:** number
 - **Required:** Yes
 
-
-
 ## Outputs
 
-
 ### Shifted
+
 - **Type:** DataTree
-
-
-
-

@@ -11,7 +11,11 @@ interface LogBaseOutputs {
   result: unknown;
 }
 
-export const MathLogarithmicLogBaseNode: NodeDefinition<LogBaseInputs, LogBaseOutputs, LogBaseParams> = {
+export const MathLogarithmicLogBaseNode: NodeDefinition<
+  LogBaseInputs,
+  LogBaseOutputs,
+  LogBaseParams
+> = {
   id: 'Math::LogBase',
   type: 'Math::LogBase',
   category: 'Math',
@@ -21,19 +25,19 @@ export const MathLogarithmicLogBaseNode: NodeDefinition<LogBaseInputs, LogBaseOu
     value: {
       type: 'number',
       label: 'Value',
-      required: true
+      required: true,
     },
     base: {
       type: 'number',
       label: 'Base',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'number',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -41,12 +45,12 @@ export const MathLogarithmicLogBaseNode: NodeDefinition<LogBaseInputs, LogBaseOu
       type: 'mathLogBase',
       params: {
         value: inputs.value,
-        base: inputs.base
-      }
+        base: inputs.base,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

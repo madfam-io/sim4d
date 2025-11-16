@@ -9,6 +9,7 @@ This comprehensive design system elevates BrepFlow Studio to rival professional 
 ### 1.1 Professional Color Schemes
 
 #### Primary Professional Palette
+
 ```css
 /* Engineering Blue - Primary Brand */
 --color-engineering-50: #f0f7ff;
@@ -16,7 +17,7 @@ This comprehensive design system elevates BrepFlow Studio to rival professional 
 --color-engineering-200: #bae0ff;
 --color-engineering-300: #7cc8ff;
 --color-engineering-400: #36abff;
---color-engineering-500: #0891ff;  /* Primary */
+--color-engineering-500: #0891ff; /* Primary */
 --color-engineering-600: #0070f3;
 --color-engineering-700: #0060df;
 --color-engineering-800: #004fb8;
@@ -28,7 +29,7 @@ This comprehensive design system elevates BrepFlow Studio to rival professional 
 --color-technical-200: #d8dce2;
 --color-technical-300: #b3bac5;
 --color-technical-400: #8892a3;
---color-technical-500: #64748b;  /* Primary Gray */
+--color-technical-500: #64748b; /* Primary Gray */
 --color-technical-600: #4a5568;
 --color-technical-700: #374151;
 --color-technical-800: #1f2937;
@@ -40,7 +41,7 @@ This comprehensive design system elevates BrepFlow Studio to rival professional 
 --color-precision-200: #fed7aa;
 --color-precision-300: #fdba74;
 --color-precision-400: #fb923c;
---color-precision-500: #f97316;  /* Precision Accent */
+--color-precision-500: #f97316; /* Precision Accent */
 --color-precision-600: #ea580c;
 --color-precision-700: #c2410c;
 --color-precision-800: #9a3412;
@@ -48,27 +49,29 @@ This comprehensive design system elevates BrepFlow Studio to rival professional 
 ```
 
 #### CAD-Specific Status Colors
+
 ```css
 /* Geometry States */
---color-geometry-valid: #10b981;      /* Valid geometry */
---color-geometry-invalid: #ef4444;    /* Invalid/error geometry */
---color-geometry-pending: #f59e0b;    /* Computing/pending */
---color-geometry-preview: #8b5cf6;    /* Preview mode */
+--color-geometry-valid: #10b981; /* Valid geometry */
+--color-geometry-invalid: #ef4444; /* Invalid/error geometry */
+--color-geometry-pending: #f59e0b; /* Computing/pending */
+--color-geometry-preview: #8b5cf6; /* Preview mode */
 
 /* Node States */
---color-node-selected: #0891ff;       /* Selected node */
---color-node-executing: #f59e0b;      /* Executing node */
---color-node-error: #ef4444;          /* Error node */
---color-node-success: #10b981;        /* Successfully computed */
+--color-node-selected: #0891ff; /* Selected node */
+--color-node-executing: #f59e0b; /* Executing node */
+--color-node-error: #ef4444; /* Error node */
+--color-node-success: #10b981; /* Successfully computed */
 
 /* Connection Types */
---color-connection-shape: #0891ff;    /* Shape/geometry connections */
---color-connection-number: #10b981;   /* Numeric parameters */
---color-connection-vector: #8b5cf6;   /* Vector/coordinate data */
---color-connection-boolean: #f59e0b;  /* Boolean operations */
+--color-connection-shape: #0891ff; /* Shape/geometry connections */
+--color-connection-number: #10b981; /* Numeric parameters */
+--color-connection-vector: #8b5cf6; /* Vector/coordinate data */
+--color-connection-boolean: #f59e0b; /* Boolean operations */
 ```
 
 #### Dark Theme Professional Variant
+
 ```css
 /* Dark Mode Engineering Colors */
 --color-dark-surface-primary: #0f1419;
@@ -88,9 +91,11 @@ This comprehensive design system elevates BrepFlow Studio to rival professional 
 ### 1.2 Professional Typography System
 
 #### Font Stack
+
 ```css
 /* Primary UI Font - Technical Precision */
---font-family-ui: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+--font-family-ui:
+  'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
 
 /* Code/Technical Font - Measurements & Values */
 --font-family-mono: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Consolas', monospace;
@@ -100,54 +105,57 @@ This comprehensive design system elevates BrepFlow Studio to rival professional 
 ```
 
 #### Type Scale - Engineering Precision
+
 ```css
 /* Display Hierarchy */
---font-size-display-xl: 3.75rem;    /* 60px - Major headers */
---font-size-display-lg: 3rem;       /* 48px - Section headers */
---font-size-display-md: 2.25rem;    /* 36px - Panel headers */
+--font-size-display-xl: 3.75rem; /* 60px - Major headers */
+--font-size-display-lg: 3rem; /* 48px - Section headers */
+--font-size-display-md: 2.25rem; /* 36px - Panel headers */
 
 /* UI Hierarchy */
---font-size-h1: 1.875rem;           /* 30px - Main headings */
---font-size-h2: 1.5rem;             /* 24px - Sub headings */
---font-size-h3: 1.25rem;            /* 20px - Section headings */
---font-size-h4: 1.125rem;           /* 18px - Component headings */
+--font-size-h1: 1.875rem; /* 30px - Main headings */
+--font-size-h2: 1.5rem; /* 24px - Sub headings */
+--font-size-h3: 1.25rem; /* 20px - Section headings */
+--font-size-h4: 1.125rem; /* 18px - Component headings */
 
 /* Body & Interface */
---font-size-base: 0.875rem;         /* 14px - Primary UI text */
---font-size-sm: 0.8125rem;          /* 13px - Secondary text */
---font-size-xs: 0.75rem;            /* 12px - Labels, captions */
---font-size-xxs: 0.6875rem;         /* 11px - Technical annotations */
+--font-size-base: 0.875rem; /* 14px - Primary UI text */
+--font-size-sm: 0.8125rem; /* 13px - Secondary text */
+--font-size-xs: 0.75rem; /* 12px - Labels, captions */
+--font-size-xxs: 0.6875rem; /* 11px - Technical annotations */
 
 /* Technical/Measurement Text */
---font-size-technical: 0.8125rem;   /* 13px - Coordinates, measurements */
---font-size-code: 0.75rem;          /* 12px - Code, node types */
+--font-size-technical: 0.8125rem; /* 13px - Coordinates, measurements */
+--font-size-code: 0.75rem; /* 12px - Code, node types */
 ```
 
 #### Weight & Spacing System
+
 ```css
 /* Professional Weight Hierarchy */
 --font-weight-light: 300;
 --font-weight-regular: 400;
---font-weight-medium: 500;          /* Primary UI weight */
---font-weight-semibold: 600;        /* Emphasis, headers */
---font-weight-bold: 700;            /* Strong emphasis */
+--font-weight-medium: 500; /* Primary UI weight */
+--font-weight-semibold: 600; /* Emphasis, headers */
+--font-weight-bold: 700; /* Strong emphasis */
 
 /* Letter Spacing for Technical Clarity */
---letter-spacing-tight: -0.01em;    /* Display text */
---letter-spacing-normal: 0;         /* Body text */
---letter-spacing-wide: 0.025em;     /* All caps, labels */
+--letter-spacing-tight: -0.01em; /* Display text */
+--letter-spacing-normal: 0; /* Body text */
+--letter-spacing-wide: 0.025em; /* All caps, labels */
 --letter-spacing-technical: 0.01em; /* Technical measurements */
 
 /* Line Heights for Readability */
---line-height-tight: 1.2;          /* Headlines */
---line-height-snug: 1.375;         /* UI text */
---line-height-base: 1.5;           /* Body text */
---line-height-relaxed: 1.625;      /* Reading content */
+--line-height-tight: 1.2; /* Headlines */
+--line-height-snug: 1.375; /* UI text */
+--line-height-base: 1.5; /* Body text */
+--line-height-relaxed: 1.625; /* Reading content */
 ```
 
 ### 1.3 Enhanced Shadow System
 
 #### Depth Hierarchy for CAD Interface
+
 ```css
 /* Surface Elevation System */
 --shadow-surface-flat: none;
@@ -183,22 +191,24 @@ This comprehensive design system elevates BrepFlow Studio to rival professional 
 ### 1.4 Motion & Animation System
 
 #### Professional Easing Curves
+
 ```css
 /* CAD Interface Easing */
---ease-precise: cubic-bezier(0.4, 0, 0.2, 1);      /* UI interactions */
+--ease-precise: cubic-bezier(0.4, 0, 0.2, 1); /* UI interactions */
 --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Panel transitions */
---ease-snap: cubic-bezier(0.34, 1.56, 0.64, 1);    /* Snapping actions */
---ease-technical: cubic-bezier(0.4, 0, 0.6, 1);    /* Technical animations */
+--ease-snap: cubic-bezier(0.34, 1.56, 0.64, 1); /* Snapping actions */
+--ease-technical: cubic-bezier(0.4, 0, 0.6, 1); /* Technical animations */
 
 /* Duration Scale */
---duration-instant: 100ms;          /* Micro-interactions */
---duration-fast: 150ms;             /* Button states */
---duration-normal: 200ms;           /* Panel transitions */
---duration-smooth: 300ms;           /* Complex animations */
---duration-slow: 400ms;             /* Page transitions */
+--duration-instant: 100ms; /* Micro-interactions */
+--duration-fast: 150ms; /* Button states */
+--duration-normal: 200ms; /* Panel transitions */
+--duration-smooth: 300ms; /* Complex animations */
+--duration-slow: 400ms; /* Page transitions */
 ```
 
 #### Animation Patterns
+
 ```css
 /* Micro-Interactions */
 .anim-button-press {
@@ -216,14 +226,23 @@ This comprehensive design system elevates BrepFlow Studio to rival professional 
 
 /* Node Connection Animation */
 @keyframes connection-flow {
-  0% { stroke-dashoffset: 10px; }
-  100% { stroke-dashoffset: 0px; }
+  0% {
+    stroke-dashoffset: 10px;
+  }
+  100% {
+    stroke-dashoffset: 0px;
+  }
 }
 
 /* Geometry Loading Animation */
 @keyframes geometry-pulse {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 ```
 
@@ -232,6 +251,7 @@ This comprehensive design system elevates BrepFlow Studio to rival professional 
 ### 2.1 Button System
 
 #### Primary Button Components
+
 ```tsx
 // Professional Button Variants
 interface ButtonProps {
@@ -278,7 +298,7 @@ const Button: React.FC<ButtonProps> = ({
   const sizeClasses = {
     sm: 'px-3 py-1.5 text-sm h-8',
     md: 'px-4 py-2 text-sm h-10',
-    lg: 'px-6 py-3 text-base h-12'
+    lg: 'px-6 py-3 text-base h-12',
   };
 
   return (
@@ -302,6 +322,7 @@ const Button: React.FC<ButtonProps> = ({
 ```
 
 #### CSS Implementation
+
 ```css
 /* Professional Button System */
 .btn {
@@ -330,8 +351,11 @@ const Button: React.FC<ButtonProps> = ({
 .btn::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
   opacity: 0;
   transition: opacity var(--duration-fast) var(--ease-precise);
 }
@@ -416,6 +440,7 @@ const Button: React.FC<ButtonProps> = ({
 ### 2.2 Enhanced Panel System
 
 #### Panel Component Architecture
+
 ```tsx
 interface PanelProps {
   title?: string;
@@ -440,7 +465,7 @@ const Panel: React.FC<PanelProps> = ({
   minWidth = 240,
   maxWidth = 800,
   className = '',
-  children
+  children,
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
 
@@ -466,11 +491,7 @@ const Panel: React.FC<PanelProps> = ({
               {subtitle && <p className="panel-subtitle">{subtitle}</p>}
             </div>
           </div>
-          {headerActions && (
-            <div className="panel-header-actions">
-              {headerActions}
-            </div>
-          )}
+          {headerActions && <div className="panel-header-actions">{headerActions}</div>}
         </div>
       )}
 
@@ -478,15 +499,14 @@ const Panel: React.FC<PanelProps> = ({
         {children}
       </div>
 
-      {resizable && (
-        <div className="panel-resize-handle" />
-      )}
+      {resizable && <div className="panel-resize-handle" />}
     </div>
   );
 };
 ```
 
 #### Professional Panel Styling
+
 ```css
 /* Professional Panel System */
 .panel {
@@ -505,7 +525,11 @@ const Panel: React.FC<PanelProps> = ({
   align-items: center;
   justify-content: space-between;
   padding: var(--spacing-4) var(--spacing-4) var(--spacing-3);
-  background: linear-gradient(135deg, var(--color-surface-primary) 0%, var(--color-surface-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-surface-primary) 0%,
+    var(--color-surface-secondary) 100%
+  );
   border-bottom: 1px solid var(--color-border);
   min-height: var(--panel-header-height);
 }
@@ -599,7 +623,11 @@ const Panel: React.FC<PanelProps> = ({
 }
 
 .panel-primary .panel-header {
-  background: linear-gradient(135deg, var(--color-engineering-50) 0%, var(--color-engineering-100) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-engineering-50) 0%,
+    var(--color-engineering-100) 100%
+  );
   border-bottom-color: var(--color-engineering-200);
 }
 
@@ -634,6 +662,7 @@ const Panel: React.FC<PanelProps> = ({
 ### 2.3 Advanced Form Controls
 
 #### Professional Input System
+
 ```css
 /* Professional Form Controls */
 .form-group {
@@ -788,6 +817,7 @@ const Panel: React.FC<PanelProps> = ({
 ### 3.1 Professional Icon Guidelines
 
 #### Icon Design Principles
+
 ```typescript
 // Icon System Specifications
 interface IconProps {
@@ -825,6 +855,7 @@ const CAD_ICONS = {
 ```
 
 #### Icon Implementation
+
 ```css
 /* Professional Icon System */
 .icon {
@@ -836,21 +867,53 @@ const CAD_ICONS = {
   user-select: none;
 }
 
-.icon-12 { width: 0.75rem; height: 0.75rem; }
-.icon-14 { width: 0.875rem; height: 0.875rem; }
-.icon-16 { width: 1rem; height: 1rem; }
-.icon-20 { width: 1.25rem; height: 1.25rem; }
-.icon-24 { width: 1.5rem; height: 1.5rem; }
-.icon-32 { width: 2rem; height: 2rem; }
+.icon-12 {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+.icon-14 {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+.icon-16 {
+  width: 1rem;
+  height: 1rem;
+}
+.icon-20 {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.icon-24 {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.icon-32 {
+  width: 2rem;
+  height: 2rem;
+}
 
 /* Icon Color Variants */
-.icon-primary { color: var(--color-text-primary); }
-.icon-secondary { color: var(--color-text-secondary); }
-.icon-tertiary { color: var(--color-text-tertiary); }
-.icon-accent { color: var(--color-engineering-500); }
-.icon-success { color: var(--color-success); }
-.icon-warning { color: var(--color-warning); }
-.icon-error { color: var(--color-error); }
+.icon-primary {
+  color: var(--color-text-primary);
+}
+.icon-secondary {
+  color: var(--color-text-secondary);
+}
+.icon-tertiary {
+  color: var(--color-text-tertiary);
+}
+.icon-accent {
+  color: var(--color-engineering-500);
+}
+.icon-success {
+  color: var(--color-success);
+}
+.icon-warning {
+  color: var(--color-warning);
+}
+.icon-error {
+  color: var(--color-error);
+}
 
 /* Icon Button Integration */
 .btn-icon {
@@ -886,6 +949,7 @@ const CAD_ICONS = {
 ### 3.2 Node Visual System
 
 #### Enhanced Node Styling
+
 ```css
 /* Professional Node Editor */
 .custom-node {
@@ -934,7 +998,10 @@ const CAD_ICONS = {
 .custom-node.executing .node-container::after {
   content: '';
   position: absolute;
-  top: -2px; left: -2px; right: -2px; bottom: -2px;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
   border: 2px solid var(--color-warning);
   border-radius: inherit;
   animation: pulse-border 1.5s ease-in-out infinite;
@@ -1091,7 +1158,8 @@ const CAD_ICONS = {
 
 /* Node Animations */
 @keyframes pulse-border {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
     transform: scale(1);
   }
@@ -1102,9 +1170,16 @@ const CAD_ICONS = {
 }
 
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-2px); }
-  75% { transform: translateX(2px); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px);
+  }
+  75% {
+    transform: translateX(2px);
+  }
 }
 
 @keyframes fadeInUp {
@@ -1119,8 +1194,13 @@ const CAD_ICONS = {
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 ```
 
@@ -1129,14 +1209,15 @@ const CAD_ICONS = {
 ### 4.1 Professional Workspace Layout
 
 #### Responsive Grid System
+
 ```css
 /* Professional Workspace Grid */
 .workbench-layout {
   display: grid;
   grid-template-areas:
-    "toolbar toolbar toolbar"
-    "sidebar main-content inspector"
-    "sidebar console inspector";
+    'toolbar toolbar toolbar'
+    'sidebar main-content inspector'
+    'sidebar console inspector';
   grid-template-columns: var(--width-sidebar) 1fr var(--width-inspector);
   grid-template-rows: var(--toolbar-height) 1fr auto;
   height: 100vh;
@@ -1198,9 +1279,9 @@ const CAD_ICONS = {
 @media (max-width: 1200px) {
   .workbench-layout {
     grid-template-areas:
-      "toolbar toolbar"
-      "main-content inspector"
-      "console console";
+      'toolbar toolbar'
+      'main-content inspector'
+      'console console';
     grid-template-columns: 1fr var(--width-inspector);
     grid-template-rows: var(--toolbar-height) 1fr auto;
   }
@@ -1224,9 +1305,9 @@ const CAD_ICONS = {
 @media (max-width: 768px) {
   .workbench-layout {
     grid-template-areas:
-      "toolbar"
-      "main-content"
-      "console";
+      'toolbar'
+      'main-content'
+      'console';
     grid-template-columns: 1fr;
     grid-template-rows: var(--toolbar-height) 1fr auto;
   }
@@ -1251,6 +1332,7 @@ const CAD_ICONS = {
 ### 4.2 Advanced Panel Management
 
 #### Resizable Panel System
+
 ```typescript
 // Advanced Panel Management
 interface PanelLayoutConfig {
@@ -1277,7 +1359,7 @@ const PANEL_CONFIGS: PanelLayoutConfig[] = [
     resizable: true,
     collapsible: true,
     position: 'left',
-    order: 1
+    order: 1,
   },
   {
     id: 'viewport-3d',
@@ -1289,7 +1371,7 @@ const PANEL_CONFIGS: PanelLayoutConfig[] = [
     resizable: true,
     collapsible: false,
     position: 'center',
-    order: 1
+    order: 1,
   },
   {
     id: 'node-editor',
@@ -1301,7 +1383,7 @@ const PANEL_CONFIGS: PanelLayoutConfig[] = [
     resizable: true,
     collapsible: false,
     position: 'center',
-    order: 2
+    order: 2,
   },
   {
     id: 'inspector',
@@ -1313,7 +1395,7 @@ const PANEL_CONFIGS: PanelLayoutConfig[] = [
     resizable: true,
     collapsible: true,
     position: 'right',
-    order: 1
+    order: 1,
   },
   {
     id: 'console',
@@ -1325,12 +1407,13 @@ const PANEL_CONFIGS: PanelLayoutConfig[] = [
     resizable: true,
     collapsible: true,
     position: 'bottom',
-    order: 1
-  }
+    order: 1,
+  },
 ];
 ```
 
 #### Panel State Management
+
 ```css
 /* Advanced Panel Transitions */
 .panel-container {
@@ -1452,6 +1535,7 @@ const PANEL_CONFIGS: PanelLayoutConfig[] = [
 ### 5.1 Professional 3D Interface
 
 #### Enhanced Viewport Controls
+
 ```css
 /* Professional 3D Viewport */
 .viewport-3d {
@@ -1697,8 +1781,12 @@ const PANEL_CONFIGS: PanelLayoutConfig[] = [
   top: -3px;
 }
 
-.scale-line::before { left: 0; }
-.scale-line::after { right: 0; }
+.scale-line::before {
+  left: 0;
+}
+.scale-line::after {
+  right: 0;
+}
 
 .scale-label {
   font-family: var(--font-family-mono);
@@ -1762,6 +1850,7 @@ const PANEL_CONFIGS: PanelLayoutConfig[] = [
 ### 5.2 Advanced Measurement Tools
 
 #### Professional Measurement Interface
+
 ```css
 /* Professional Measurement Panel */
 .measurement-panel {
@@ -1782,7 +1871,11 @@ const PANEL_CONFIGS: PanelLayoutConfig[] = [
 .measurement-header {
   padding: var(--spacing-3);
   border-bottom: 1px solid var(--color-border);
-  background: linear-gradient(135deg, var(--color-surface-primary) 0%, var(--color-surface-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-surface-primary) 0%,
+    var(--color-surface-secondary) 100%
+  );
 }
 
 .measurement-title {

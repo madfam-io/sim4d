@@ -24,8 +24,8 @@ export const SolidHelicalThreadNode: NodeDefinition<ThreadInputs, ThreadOutputs,
   outputs: {
     thread: {
       type: 'Solid',
-      label: 'Thread'
-    }
+      label: 'Thread',
+    },
   },
   params: {
     majorRadius: {
@@ -33,34 +33,34 @@ export const SolidHelicalThreadNode: NodeDefinition<ThreadInputs, ThreadOutputs,
       label: 'Major Radius',
       default: 50,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     pitch: {
       type: 'number',
       label: 'Pitch',
       default: 5,
       min: 0.1,
-      max: 100
+      max: 100,
     },
     height: {
       type: 'number',
       label: 'Height',
       default: 100,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     threadAngle: {
       type: 'number',
       label: 'Thread Angle',
       default: 60,
       min: 30,
-      max: 90
+      max: 90,
     },
     internal: {
       type: 'boolean',
       label: 'Internal',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -70,12 +70,12 @@ export const SolidHelicalThreadNode: NodeDefinition<ThreadInputs, ThreadOutputs,
         pitch: params.pitch,
         height: params.height,
         threadAngle: params.threadAngle,
-        internal: params.internal
-      }
+        internal: params.internal,
+      },
     });
-    
+
     return {
-      thread: result
+      thread: result,
     };
   },
 };

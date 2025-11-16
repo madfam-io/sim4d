@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { MathInterpolationSmootherStepNode } from './smoother-step.node';
 import { createTestContext } from '../test-utils';
@@ -9,11 +8,9 @@ describe('MathInterpolationSmootherStepNode', () => {
     const inputs = {
       edge0: undefined,
       edge1: undefined,
-      x: undefined
+      x: undefined,
     } as any;
-    const params = {
-
-    } as any;
+    const params = {} as any;
 
     const result = await MathInterpolationSmootherStepNode.evaluate(context, inputs, params);
     expect(result).toBeDefined();

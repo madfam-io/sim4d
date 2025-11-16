@@ -15,7 +15,7 @@ export const ResponsiveLayoutManager: React.FC<ResponsiveLayoutProps> = ({
   enableGestures = true,
   enableKeyboardShortcuts = true,
   theme = 'auto',
-  useAdaptiveEngine = true
+  useAdaptiveEngine = true,
 }) => {
   const { deviceType, isMobile, isTablet, isDesktop, capabilities, dimensions } = useResponsive();
   const [activePanel, setActivePanel] = useState(defaultPanel);
@@ -24,10 +24,13 @@ export const ResponsiveLayoutManager: React.FC<ResponsiveLayoutProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Handle panel change
-  const handlePanelChange = useCallback((panelId: string) => {
-    setActivePanel(panelId);
-    onPanelChange?.(panelId);
-  }, [onPanelChange]);
+  const handlePanelChange = useCallback(
+    (panelId: string) => {
+      setActivePanel(panelId);
+      onPanelChange?.(panelId);
+    },
+    [onPanelChange]
+  );
 
   // Handle keyboard shortcuts
   useEffect(() => {
@@ -47,7 +50,7 @@ export const ResponsiveLayoutManager: React.FC<ResponsiveLayoutProps> = ({
       // Cmd/Ctrl + F for fullscreen
       if ((e.metaKey || e.ctrlKey) && e.key === 'f') {
         e.preventDefault();
-        setIsFullscreen(prev => !prev);
+        setIsFullscreen((prev) => !prev);
       }
     };
 
@@ -109,7 +112,7 @@ export const ResponsiveLayoutManager: React.FC<ResponsiveLayoutProps> = ({
       isFullscreen,
       onFullscreenToggle: () => setIsFullscreen(!isFullscreen),
       dimensions,
-      capabilities
+      capabilities,
     };
 
     if (isMobile) {
@@ -118,11 +121,7 @@ export const ResponsiveLayoutManager: React.FC<ResponsiveLayoutProps> = ({
 
     if (isTablet) {
       return (
-        <TabletLayout
-          {...layoutProps}
-          splitRatio={splitRatio}
-          onSplitRatioChange={setSplitRatio}
-        />
+        <TabletLayout {...layoutProps} splitRatio={splitRatio} onSplitRatioChange={setSplitRatio} />
       );
     }
 
@@ -149,11 +148,7 @@ export const ResponsiveLayoutManager: React.FC<ResponsiveLayoutProps> = ({
 
   // Wrap with AdaptiveLayoutEngine if enabled
   if (useAdaptiveEngine) {
-    return (
-      <AdaptiveLayoutEngine>
-        {layoutContent}
-      </AdaptiveLayoutEngine>
-    );
+    return <AdaptiveLayoutEngine>{layoutContent}</AdaptiveLayoutEngine>;
   }
 
   return layoutContent;

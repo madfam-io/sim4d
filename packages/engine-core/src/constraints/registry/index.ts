@@ -16,7 +16,7 @@ import {
   GeometryElement,
   Point2D,
   Line2D,
-  Circle2D
+  Circle2D,
 } from '../types';
 
 /**
@@ -117,7 +117,7 @@ export class ConstraintRegistry {
 
     // Create constraint using factory
     const constraint = definition.factory(elements, params);
-    
+
     // Set common properties
     constraint.id = this.generateConstraintId();
     constraint.priority = priority;
@@ -153,11 +153,9 @@ export class ConstraintRegistry {
       description: 'Maintain fixed distance between two points',
       requiredElements: 2,
       elementTypes: ['Point2D', 'Point2D'],
-      parameters: [
-        { name: 'distance', type: 'number', required: true, min: 0 }
-      ],
+      parameters: [{ name: 'distance', type: 'number', required: true, min: 0 }],
       factory: (elements, params) => this.createDistanceConstraint(elements, params),
-      validator: (elements, params) => this.validateDistanceConstraint(elements, params)
+      validator: (elements, params) => this.validateDistanceConstraint(elements, params),
     });
 
     // Coincident constraint
@@ -169,7 +167,7 @@ export class ConstraintRegistry {
       elementTypes: ['Point2D', 'Point2D'],
       parameters: [],
       factory: (elements, params) => this.createCoincidentConstraint(elements, params),
-      validator: (elements, params) => this.validateCoincidentConstraint(elements, params)
+      validator: (elements, params) => this.validateCoincidentConstraint(elements, params),
     });
 
     // Parallel constraint
@@ -181,7 +179,7 @@ export class ConstraintRegistry {
       elementTypes: ['Line2D', 'Line2D'],
       parameters: [],
       factory: (elements, params) => this.createParallelConstraint(elements, params),
-      validator: (elements, params) => this.validateParallelConstraint(elements, params)
+      validator: (elements, params) => this.validateParallelConstraint(elements, params),
     });
 
     // Perpendicular constraint
@@ -193,7 +191,7 @@ export class ConstraintRegistry {
       elementTypes: ['Line2D', 'Line2D'],
       parameters: [],
       factory: (elements, params) => this.createPerpendicularConstraint(elements, params),
-      validator: (elements, params) => this.validatePerpendicularConstraint(elements, params)
+      validator: (elements, params) => this.validatePerpendicularConstraint(elements, params),
     });
 
     // Horizontal constraint
@@ -205,7 +203,7 @@ export class ConstraintRegistry {
       elementTypes: ['Line2D'],
       parameters: [],
       factory: (elements, params) => this.createHorizontalConstraint(elements, params),
-      validator: (elements, params) => this.validateHorizontalConstraint(elements, params)
+      validator: (elements, params) => this.validateHorizontalConstraint(elements, params),
     });
 
     // Vertical constraint
@@ -217,7 +215,7 @@ export class ConstraintRegistry {
       elementTypes: ['Line2D'],
       parameters: [],
       factory: (elements, params) => this.createVerticalConstraint(elements, params),
-      validator: (elements, params) => this.validateVerticalConstraint(elements, params)
+      validator: (elements, params) => this.validateVerticalConstraint(elements, params),
     });
 
     // Angle constraint
@@ -227,11 +225,9 @@ export class ConstraintRegistry {
       description: 'Set angle between two lines',
       requiredElements: 2,
       elementTypes: ['Line2D', 'Line2D'],
-      parameters: [
-        { name: 'angle', type: 'number', required: true, min: 0, max: 180 }
-      ],
+      parameters: [{ name: 'angle', type: 'number', required: true, min: 0, max: 180 }],
       factory: (elements, params) => this.createAngleConstraint(elements, params),
-      validator: (elements, params) => this.validateAngleConstraint(elements, params)
+      validator: (elements, params) => this.validateAngleConstraint(elements, params),
     });
 
     // Radius constraint
@@ -241,11 +237,9 @@ export class ConstraintRegistry {
       description: 'Set circle radius',
       requiredElements: 1,
       elementTypes: ['Circle2D'],
-      parameters: [
-        { name: 'radius', type: 'number', required: true, min: 0.001 }
-      ],
+      parameters: [{ name: 'radius', type: 'number', required: true, min: 0.001 }],
       factory: (elements, params) => this.createRadiusConstraint(elements, params),
-      validator: (elements, params) => this.validateRadiusConstraint(elements, params)
+      validator: (elements, params) => this.validateRadiusConstraint(elements, params),
     });
   }
 
@@ -257,17 +251,20 @@ export class ConstraintRegistry {
       elements: [elements[0].id, elements[1].id],
       distance: params.distance,
       priority: 1,
-      enabled: true
+      enabled: true,
     };
   }
 
-  private createCoincidentConstraint(elements: GeometryElement[], params: any): CoincidentConstraint {
+  private createCoincidentConstraint(
+    elements: GeometryElement[],
+    params: any
+  ): CoincidentConstraint {
     return {
       id: '',
       type: ConstraintType.COINCIDENT,
       elements: [elements[0].id, elements[1].id],
       priority: 10, // High priority for coincidence
-      enabled: true
+      enabled: true,
     };
   }
 
@@ -277,27 +274,33 @@ export class ConstraintRegistry {
       type: ConstraintType.PARALLEL,
       elements: [elements[0].id, elements[1].id],
       priority: 1,
-      enabled: true
+      enabled: true,
     };
   }
 
-  private createPerpendicularConstraint(elements: GeometryElement[], params: any): PerpendicularConstraint {
+  private createPerpendicularConstraint(
+    elements: GeometryElement[],
+    params: any
+  ): PerpendicularConstraint {
     return {
       id: '',
       type: ConstraintType.PERPENDICULAR,
       elements: [elements[0].id, elements[1].id],
       priority: 1,
-      enabled: true
+      enabled: true,
     };
   }
 
-  private createHorizontalConstraint(elements: GeometryElement[], params: any): HorizontalConstraint {
+  private createHorizontalConstraint(
+    elements: GeometryElement[],
+    params: any
+  ): HorizontalConstraint {
     return {
       id: '',
       type: ConstraintType.HORIZONTAL,
       elements: [elements[0].id],
       priority: 1,
-      enabled: true
+      enabled: true,
     };
   }
 
@@ -307,7 +310,7 @@ export class ConstraintRegistry {
       type: ConstraintType.VERTICAL,
       elements: [elements[0].id],
       priority: 1,
-      enabled: true
+      enabled: true,
     };
   }
 
@@ -318,7 +321,7 @@ export class ConstraintRegistry {
       elements: [elements[0].id, elements[1].id],
       angle: params.angle,
       priority: 1,
-      enabled: true
+      enabled: true,
     };
   }
 
@@ -329,116 +332,140 @@ export class ConstraintRegistry {
       elements: [elements[0].id],
       radius: params.radius,
       priority: 1,
-      enabled: true
+      enabled: true,
     };
   }
 
   // Validation methods
-  private validateDistanceConstraint(elements: GeometryElement[], params: any): { valid: boolean; error?: string } {
+  private validateDistanceConstraint(
+    elements: GeometryElement[],
+    params: any
+  ): { valid: boolean; error?: string } {
     if (elements.length !== 2) {
       return { valid: false, error: 'Distance constraint requires exactly 2 points' };
     }
-    
-    if (!elements.every(e => e.id && this.isPoint(e))) {
+
+    if (!elements.every((e) => e.id && this.isPoint(e))) {
       return { valid: false, error: 'Distance constraint requires two Point2D elements' };
     }
-    
+
     if (typeof params.distance !== 'number' || params.distance < 0) {
       return { valid: false, error: 'Distance must be a non-negative number' };
     }
-    
+
     return { valid: true };
   }
 
-  private validateCoincidentConstraint(elements: GeometryElement[], params: any): { valid: boolean; error?: string } {
+  private validateCoincidentConstraint(
+    elements: GeometryElement[],
+    params: any
+  ): { valid: boolean; error?: string } {
     if (elements.length !== 2) {
       return { valid: false, error: 'Coincident constraint requires exactly 2 points' };
     }
-    
-    if (!elements.every(e => this.isPoint(e))) {
+
+    if (!elements.every((e) => this.isPoint(e))) {
       return { valid: false, error: 'Coincident constraint requires two Point2D elements' };
     }
-    
+
     return { valid: true };
   }
 
-  private validateParallelConstraint(elements: GeometryElement[], params: any): { valid: boolean; error?: string } {
+  private validateParallelConstraint(
+    elements: GeometryElement[],
+    params: any
+  ): { valid: boolean; error?: string } {
     if (elements.length !== 2) {
       return { valid: false, error: 'Parallel constraint requires exactly 2 lines' };
     }
-    
-    if (!elements.every(e => this.isLine(e))) {
+
+    if (!elements.every((e) => this.isLine(e))) {
       return { valid: false, error: 'Parallel constraint requires two Line2D elements' };
     }
-    
+
     return { valid: true };
   }
 
-  private validatePerpendicularConstraint(elements: GeometryElement[], params: any): { valid: boolean; error?: string } {
+  private validatePerpendicularConstraint(
+    elements: GeometryElement[],
+    params: any
+  ): { valid: boolean; error?: string } {
     if (elements.length !== 2) {
       return { valid: false, error: 'Perpendicular constraint requires exactly 2 lines' };
     }
-    
-    if (!elements.every(e => this.isLine(e))) {
+
+    if (!elements.every((e) => this.isLine(e))) {
       return { valid: false, error: 'Perpendicular constraint requires two Line2D elements' };
     }
-    
+
     return { valid: true };
   }
 
-  private validateHorizontalConstraint(elements: GeometryElement[], params: any): { valid: boolean; error?: string } {
+  private validateHorizontalConstraint(
+    elements: GeometryElement[],
+    params: any
+  ): { valid: boolean; error?: string } {
     if (elements.length !== 1) {
       return { valid: false, error: 'Horizontal constraint requires exactly 1 line' };
     }
-    
+
     if (!this.isLine(elements[0])) {
       return { valid: false, error: 'Horizontal constraint requires a Line2D element' };
     }
-    
+
     return { valid: true };
   }
 
-  private validateVerticalConstraint(elements: GeometryElement[], params: any): { valid: boolean; error?: string } {
+  private validateVerticalConstraint(
+    elements: GeometryElement[],
+    params: any
+  ): { valid: boolean; error?: string } {
     if (elements.length !== 1) {
       return { valid: false, error: 'Vertical constraint requires exactly 1 line' };
     }
-    
+
     if (!this.isLine(elements[0])) {
       return { valid: false, error: 'Vertical constraint requires a Line2D element' };
     }
-    
+
     return { valid: true };
   }
 
-  private validateAngleConstraint(elements: GeometryElement[], params: any): { valid: boolean; error?: string } {
+  private validateAngleConstraint(
+    elements: GeometryElement[],
+    params: any
+  ): { valid: boolean; error?: string } {
     if (elements.length !== 2) {
       return { valid: false, error: 'Angle constraint requires exactly 2 lines' };
     }
-    
-    if (!elements.every(e => this.isLine(e))) {
+
+    if (!elements.every((e) => this.isLine(e))) {
       return { valid: false, error: 'Angle constraint requires two Line2D elements' };
     }
-    
+
     if (typeof params.angle !== 'number' || params.angle < 0 || params.angle > 180) {
       return { valid: false, error: 'Angle must be between 0 and 180 degrees' };
     }
-    
+
     return { valid: true };
   }
 
-  private validateRadiusConstraint(elements: GeometryElement[], params: any): { valid: boolean; error?: string } {
+  private validateRadiusConstraint(
+    elements: GeometryElement[],
+    params: any
+  ): { valid: boolean; error?: string } {
     if (elements.length !== 1) {
       return { valid: false, error: 'Radius constraint requires exactly 1 circle' };
     }
-    
+
     if (!this.isCircle(elements[0])) {
       return { valid: false, error: 'Radius constraint requires a Circle2D element' };
     }
-    
+
     if (typeof params.radius !== 'number' || params.radius <= 0) {
       return { valid: false, error: 'Radius must be a positive number' };
     }
-    
+
     return { valid: true };
   }
 

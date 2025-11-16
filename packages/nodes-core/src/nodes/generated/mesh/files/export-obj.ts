@@ -15,7 +15,11 @@ interface ExportOBJOutputs {
   mtlData: unknown;
 }
 
-export const MeshFilesExportOBJNode: NodeDefinition<ExportOBJInputs, ExportOBJOutputs, ExportOBJParams> = {
+export const MeshFilesExportOBJNode: NodeDefinition<
+  ExportOBJInputs,
+  ExportOBJOutputs,
+  ExportOBJParams
+> = {
   id: 'Mesh::ExportOBJ',
   type: 'Mesh::ExportOBJ',
   category: 'Mesh',
@@ -25,35 +29,35 @@ export const MeshFilesExportOBJNode: NodeDefinition<ExportOBJInputs, ExportOBJOu
     mesh: {
       type: 'Mesh',
       label: 'Mesh',
-      required: true
+      required: true,
     },
     materials: {
       type: 'Data',
       label: 'Materials',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     objData: {
       type: 'Data',
-      label: 'Obj Data'
+      label: 'Obj Data',
     },
     mtlData: {
       type: 'Data',
-      label: 'Mtl Data'
-    }
+      label: 'Mtl Data',
+    },
   },
   params: {
     exportNormals: {
       type: 'boolean',
       label: 'Export Normals',
-      default: true
+      default: true,
     },
     exportUVs: {
       type: 'boolean',
       label: 'Export UVs',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -62,13 +66,13 @@ export const MeshFilesExportOBJNode: NodeDefinition<ExportOBJInputs, ExportOBJOu
         mesh: inputs.mesh,
         materials: inputs.materials,
         exportNormals: params.exportNormals,
-        exportUVs: params.exportUVs
-      }
+        exportUVs: params.exportUVs,
+      },
     });
-    
+
     return {
       objData: results.objData,
-      mtlData: results.mtlData
+      mtlData: results.mtlData,
     };
   },
 };

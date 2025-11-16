@@ -6,12 +6,12 @@ The BrepFlow geometry runtime depends on a WebAssembly build of **Open CASCADE T
 
 ## 1. Required toolchain
 
-| Dependency | Version (tested) | Notes |
-| --- | --- | --- |
-| [Emscripten SDK](https://emscripten.org/docs/getting_started/downloads.html) | 3.1.45+ | Required for `emcc`, `em++`, `emmake`, `emcmake`. Install under `third_party/emsdk/` or add to `PATH` globally. |
-| CMake | 3.24+ | Pulled in automatically by emsdk; otherwise install via your package manager. |
-| Ninja / Make | Either is fine | `build-occt.sh` uses `make`; feel free to swap to Ninja if you maintain the script. |
-| Python 3 | 3.9+ | Needed by the OCCT build system during configuration. |
+| Dependency                                                                   | Version (tested) | Notes                                                                                                           |
+| ---------------------------------------------------------------------------- | ---------------- | --------------------------------------------------------------------------------------------------------------- |
+| [Emscripten SDK](https://emscripten.org/docs/getting_started/downloads.html) | 3.1.45+          | Required for `emcc`, `em++`, `emmake`, `emcmake`. Install under `third_party/emsdk/` or add to `PATH` globally. |
+| CMake                                                                        | 3.24+            | Pulled in automatically by emsdk; otherwise install via your package manager.                                   |
+| Ninja / Make                                                                 | Either is fine   | `build-occt.sh` uses `make`; feel free to swap to Ninja if you maintain the script.                             |
+| Python 3                                                                     | 3.9+             | Needed by the OCCT build system during configuration.                                                           |
 
 ## 2. Directory layout
 
@@ -41,12 +41,12 @@ Place the OCCT sources under `third_party/occt/`. The build script creates `buil
 
 2. Optional environment overrides:
 
-   | Variable | Default | Purpose |
-   | --- | --- | --- |
-   | `OCCT_THREAD_POOL_SIZE` | `4` | Number of worker threads enabled in the threaded WebAssembly build. |
-   | `OCCT_INITIAL_MEMORY_MB` | `512` | Initial heap size for the web builds. Increase for large assemblies. |
-   | `OCCT_MAX_MEMORY_MB` | `2048` | Upper bound for WebAssembly memory growth. |
-   | `OCCT_NODE_INITIAL_MEMORY_MB` | `512` | Initial heap size for the Node.js bundle. |
+   | Variable                      | Default | Purpose                                                              |
+   | ----------------------------- | ------- | -------------------------------------------------------------------- |
+   | `OCCT_THREAD_POOL_SIZE`       | `4`     | Number of worker threads enabled in the threaded WebAssembly build.  |
+   | `OCCT_INITIAL_MEMORY_MB`      | `512`   | Initial heap size for the web builds. Increase for large assemblies. |
+   | `OCCT_MAX_MEMORY_MB`          | `2048`  | Upper bound for WebAssembly memory growth.                           |
+   | `OCCT_NODE_INITIAL_MEMORY_MB` | `512`   | Initial heap size for the Node.js bundle.                            |
 
    Set these before invoking the build script if you need bespoke tuning.
 
@@ -84,11 +84,11 @@ If any of those checks fail, re-run the build with `OCCT_BUILD_DEBUG=1 scripts/b
 
 ## 6. Troubleshooting
 
-| Symptom | Cause | Fix |
-| --- | --- | --- |
-| `Emscripten not found in PATH` | `emcc` unavailable | `source emsdk_env.sh` or install emsdk under `third_party/emsdk`. |
-| `libTK*.a missing` | OCCT build skipped modules | Ensure `third_party/occt/` is up to date and rerun the script; it compiles the Modeling, ModelingAlgorithms, and DataExchange modules by default. |
-| Browser shows `SharedArrayBuffer` errors | COOP/COEP headers missing | Use `pnpm dev` (headers enabled) or configure your server for cross-origin isolation. |
-| CLI reports `createOCCTModule is not a function` | Wrong artefact served | Confirm `packages/engine-occt/wasm/occt.js` was updated and that build output is copied to deployment targets. |
+| Symptom                                          | Cause                      | Fix                                                                                                                                               |
+| ------------------------------------------------ | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Emscripten not found in PATH`                   | `emcc` unavailable         | `source emsdk_env.sh` or install emsdk under `third_party/emsdk`.                                                                                 |
+| `libTK*.a missing`                               | OCCT build skipped modules | Ensure `third_party/occt/` is up to date and rerun the script; it compiles the Modeling, ModelingAlgorithms, and DataExchange modules by default. |
+| Browser shows `SharedArrayBuffer` errors         | COOP/COEP headers missing  | Use `pnpm dev` (headers enabled) or configure your server for cross-origin isolation.                                                             |
+| CLI reports `createOCCTModule is not a function` | Wrong artefact served      | Confirm `packages/engine-occt/wasm/occt.js` was updated and that build output is copied to deployment targets.                                    |
 
 Still stuck? Open an issue with the console output from `scripts/build-occt.sh` and the contents of `packages/engine-occt/wasm/`.

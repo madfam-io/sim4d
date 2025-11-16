@@ -12,7 +12,7 @@ test.describe('Plugin Lifecycle Management', () => {
 
     // Initialize mock services with basic test configuration
     await mockServices.initialize({
-      marketplace: TEST_PLUGIN_CONFIGS.BASIC_MARKETPLACE
+      marketplace: TEST_PLUGIN_CONFIGS.BASIC_MARKETPLACE,
     });
 
     // Navigate to BrepFlow Studio
@@ -41,7 +41,7 @@ test.describe('Plugin Lifecycle Management', () => {
     // Install the plugin
     const context = await pluginHelper.installPlugin(pluginId, {
       source: 'marketplace',
-      permissions: ['read:graph', 'write:graph']
+      permissions: ['read:graph', 'write:graph'],
     });
 
     expect(context.pluginId).toBe(pluginId);
@@ -50,23 +50,27 @@ test.describe('Plugin Lifecycle Management', () => {
 
     // Verify plugin appears in installed plugins list
     await pluginHelper.navigateToInstalledPlugins();
-    await expect(page.locator(`[data-plugin-id="${pluginId}"][data-status="installed"]`)).toBeVisible();
+    await expect(
+      page.locator(`[data-plugin-id="${pluginId}"][data-status="installed"]`)
+    ).toBeVisible();
   });
 
   test('should handle plugin installation with permission requests', async ({ page }) => {
     const pluginId = 'basic-geometry';
 
     // Mock permission dialog
-    page.on('dialog', async dialog => {
+    page.on('dialog', async (dialog) => {
       expect(dialog.message()).toContain('permissions');
       await dialog.accept();
     });
 
     const context = await pluginHelper.installPlugin(pluginId, {
-      permissions: ['read:graph', 'write:graph', 'worker:spawn']
+      permissions: ['read:graph', 'write:graph', 'worker:spawn'],
     });
 
-    expect(context.manifest.permissions).toEqual(expect.arrayContaining(['read:graph', 'write:graph']));
+    expect(context.manifest.permissions).toEqual(
+      expect.arrayContaining(['read:graph', 'write:graph'])
+    );
   });
 
   test('should activate and deactivate plugins', async () => {
@@ -89,13 +93,17 @@ test.describe('Plugin Lifecycle Management', () => {
     await pluginHelper.installPlugin(pluginId);
 
     // Verify installation
-    await expect(page.locator(`[data-plugin-id="${pluginId}"][data-status="installed"]`)).toBeVisible();
+    await expect(
+      page.locator(`[data-plugin-id="${pluginId}"][data-status="installed"]`)
+    ).toBeVisible();
 
     // Uninstall plugin
     await pluginHelper.uninstallPlugin(pluginId);
 
     // Verify plugin is removed
-    await expect(page.locator(`[data-plugin-id="${pluginId}"][data-status="installed"]`)).not.toBeVisible();
+    await expect(
+      page.locator(`[data-plugin-id="${pluginId}"][data-status="installed"]`)
+    ).not.toBeVisible();
   });
 
   test('should handle plugin installation failures gracefully', async () => {
@@ -111,7 +119,7 @@ test.describe('Plugin Lifecycle Management', () => {
 
     // Verify no partial installation
     const installedPlugins = await pluginHelper.getInstalledPlugins();
-    expect(installedPlugins.find(p => p.id === pluginId)).toBeUndefined();
+    expect(installedPlugins.find((p) => p.id === pluginId)).toBeUndefined();
   });
 
   test('should validate plugin version compatibility', async () => {
@@ -132,26 +140,28 @@ test.describe('Plugin Lifecycle Management', () => {
     await pluginHelper.installPlugin(pluginId);
 
     // Mock newer version available
-    await mockServices.setupTestMarketplace([{
-      id: pluginId,
-      name: 'Basic Geometry',
-      version: '2.0.0', // Newer version
-      author: 'BrepFlow Team',
-      description: 'Updated basic geometry operations',
-      category: 'Geometry',
-      rating: 4.5,
-      downloads: 1500,
-      verified: true,
-      price: 0,
-      bundle: { size: 512 * 1024, checksums: {}, dependencies: [], assets: [] },
-      manifest: {
-        nodes: ['Basic::Box', 'Basic::Sphere', 'Basic::Cylinder'], // Added node
-        commands: [],
-        panels: [],
-        permissions: ['read:graph', 'write:graph'],
-        engines: { brepflow: '>=0.1.0' }
-      }
-    }]);
+    await mockServices.setupTestMarketplace([
+      {
+        id: pluginId,
+        name: 'Basic Geometry',
+        version: '2.0.0', // Newer version
+        author: 'BrepFlow Team',
+        description: 'Updated basic geometry operations',
+        category: 'Geometry',
+        rating: 4.5,
+        downloads: 1500,
+        verified: true,
+        price: 0,
+        bundle: { size: 512 * 1024, checksums: {}, dependencies: [], assets: [] },
+        manifest: {
+          nodes: ['Basic::Box', 'Basic::Sphere', 'Basic::Cylinder'], // Added node
+          commands: [],
+          panels: [],
+          permissions: ['read:graph', 'write:graph'],
+          engines: { brepflow: '>=0.1.0' },
+        },
+      },
+    ]);
 
     // Test update functionality
     // Note: This would require implementing update functionality in the helper
@@ -164,7 +174,9 @@ test.describe('Plugin Lifecycle Management', () => {
     await pluginHelper.installPlugin(pluginId);
 
     // Execute plugin function
-    const result = await pluginHelper.executePluginFunction(pluginId, 'createBox', [{ width: 10, height: 10, depth: 10 }]);
+    const result = await pluginHelper.executePluginFunction(pluginId, 'createBox', [
+      { width: 10, height: 10, depth: 10 },
+    ]);
 
     expect(result.success).toBe(true);
     expect(result.executionTime).toBeGreaterThan(0);
@@ -178,27 +190,29 @@ test.describe('Plugin Lifecycle Management', () => {
     await pluginHelper.installPlugin(pluginId);
 
     // Mock corrupted update
-    await mockServices.setupTestMarketplace([{
-      id: pluginId,
-      name: 'Basic Geometry',
-      version: '2.0.0',
-      author: 'BrepFlow Team',
-      description: 'Corrupted version',
-      category: 'Geometry',
-      rating: 4.5,
-      downloads: 1500,
-      verified: true,
-      price: 0,
-      bundle: { size: 0, checksums: { 'sha256': 'invalid' }, dependencies: [], assets: [] },
-      manifest: {
-        nodes: ['Basic::Box'],
-        commands: [],
-        panels: [],
-        permissions: ['read:graph', 'write:graph'],
-        engines: { brepflow: '>=0.1.0' },
-        signature: 'invalid_signature'
-      }
-    }]);
+    await mockServices.setupTestMarketplace([
+      {
+        id: pluginId,
+        name: 'Basic Geometry',
+        version: '2.0.0',
+        author: 'BrepFlow Team',
+        description: 'Corrupted version',
+        category: 'Geometry',
+        rating: 4.5,
+        downloads: 1500,
+        verified: true,
+        price: 0,
+        bundle: { size: 0, checksums: { sha256: 'invalid' }, dependencies: [], assets: [] },
+        manifest: {
+          nodes: ['Basic::Box'],
+          commands: [],
+          panels: [],
+          permissions: ['read:graph', 'write:graph'],
+          engines: { brepflow: '>=0.1.0' },
+          signature: 'invalid_signature',
+        },
+      },
+    ]);
 
     // Attempt update - should fail and rollback
     // Implementation would depend on update/rollback functionality

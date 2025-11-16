@@ -5,6 +5,7 @@ This document describes the comprehensive error handling and monitoring system i
 ## Overview
 
 The monitoring system provides:
+
 - **Error Handling**: Comprehensive error catching, reporting, and user-friendly recovery
 - **Performance Monitoring**: Real-time metrics collection and analysis
 - **Health Monitoring**: System health checks with configurable alerts
@@ -85,15 +86,15 @@ const error = errorManager.createError(
       {
         id: 'retry',
         label: 'Try Again',
-        action: () => retryOperation()
+        action: () => retryOperation(),
       },
       {
         id: 'reset',
         label: 'Reset Parameters',
         action: () => resetToDefaults(),
-        requiresConfirmation: true
-      }
-    ]
+        requiresConfirmation: true,
+      },
+    ],
   }
 );
 ```
@@ -129,6 +130,7 @@ setGauge('active_nodes', graph.nodes.length);
 ### Automatic Metrics
 
 The system automatically collects:
+
 - Page load times and performance
 - Memory usage and garbage collection
 - Network request performance
@@ -143,16 +145,16 @@ The system automatically collects:
 const healthThresholds = {
   memory: {
     warning: 500, // MB
-    critical: 1000 // MB
+    critical: 1000, // MB
   },
   errorRate: {
     warning: 5, // %
-    critical: 15 // %
+    critical: 15, // %
   },
   responseTime: {
     warning: 1000, // ms
-    critical: 5000 // ms
-  }
+    critical: 5000, // ms
+  },
 };
 ```
 
@@ -166,7 +168,7 @@ import { useHealthMonitoring } from './hooks/useMonitoring';
 const { alerts, dismissAlert } = useHealthMonitoring();
 
 // Display alerts to user
-alerts.forEach(alert => {
+alerts.forEach((alert) => {
   console.log(`${alert.severity}: ${alert.message}`);
 });
 ```
@@ -190,19 +192,20 @@ const logger = Logger.getInstance();
 logger.info('User action performed', {
   action: 'node_create',
   nodeType: 'box',
-  userId: 'user123'
+  userId: 'user123',
 });
 
 logger.error('Operation failed', {
   operation: 'geometry_computation',
   error: error.message,
-  context: { nodeId: 'node_456' }
+  context: { nodeId: 'node_456' },
 });
 ```
 
 ### Log Sanitization
 
 The system automatically removes sensitive information:
+
 - Passwords and tokens
 - API keys
 - Personal identifiers (configurable)
@@ -218,13 +221,13 @@ const {
   recordUserInteraction,
   executeMonitoredOperation,
   executeWasmOperation,
-  executeNetworkOperation
+  executeNetworkOperation,
 } = useMonitoring();
 
 // Record user interactions
 recordUserInteraction({
   type: 'button_click',
-  target: 'create_node'
+  target: 'create_node',
 });
 
 // Execute monitored operations
@@ -254,7 +257,7 @@ import { useErrorMonitoring } from './hooks/useMonitoring';
 const { errors, criticalErrors, resolveError } = useErrorMonitoring();
 
 // Handle errors in UI
-errors.forEach(error => {
+errors.forEach((error) => {
   if (error.recoverable) {
     // Show recovery options
   }
@@ -285,11 +288,7 @@ const testConfig = getMonitoringConfig('test');
 Easy integration with popular monitoring services:
 
 ```typescript
-import {
-  configureSentry,
-  configureDataDog,
-  configureLogRocket
-} from './config/monitoring';
+import { configureSentry, configureDataDog, configureLogRocket } from './config/monitoring';
 
 // Sentry error tracking
 const sentryConfig = configureSentry(process.env.SENTRY_DSN);
@@ -304,10 +303,12 @@ const logrocketConfig = configureLogRocket(process.env.LOGROCKET_APP_ID);
 ## Monitoring Dashboard
 
 Access the real-time monitoring dashboard:
+
 - **Keyboard Shortcut**: `Ctrl+Shift+M`
 - **Click**: Monitor button in the bottom-right corner
 
 Dashboard features:
+
 - System health overview
 - Active alerts and errors
 - Performance metrics
@@ -355,7 +356,7 @@ app.get('/health', (req, res) => {
     status: report.dashboard.activeAlerts.length === 0 ? 'healthy' : 'degraded',
     timestamp: report.timestamp,
     version: report.buildVersion,
-    alerts: report.dashboard.activeAlerts.length
+    alerts: report.dashboard.activeAlerts.length,
   });
 });
 ```
@@ -365,6 +366,7 @@ app.get('/health', (req, res) => {
 ### Memory Usage
 
 The monitoring system is designed to be lightweight:
+
 - Configurable sampling rates to reduce overhead
 - Automatic cleanup of old data
 - Memory-conscious buffering
@@ -407,9 +409,9 @@ await initializeMonitoring('development', {
     logging: {
       level: 'debug',
       console: true,
-      structured: true
-    }
-  }
+      structured: true,
+    },
+  },
 });
 ```
 

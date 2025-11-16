@@ -16,7 +16,11 @@ interface CounterboreHoleOutputs {
   shape: unknown;
 }
 
-export const FeaturesHolesCounterboreHoleNode: NodeDefinition<CounterboreHoleInputs, CounterboreHoleOutputs, CounterboreHoleParams> = {
+export const FeaturesHolesCounterboreHoleNode: NodeDefinition<
+  CounterboreHoleInputs,
+  CounterboreHoleOutputs,
+  CounterboreHoleParams
+> = {
   id: 'Features::CounterboreHole',
   type: 'Features::CounterboreHole',
   category: 'Features',
@@ -26,19 +30,19 @@ export const FeaturesHolesCounterboreHoleNode: NodeDefinition<CounterboreHoleInp
     solid: {
       type: 'Shape',
       label: 'Solid',
-      required: true
+      required: true,
     },
     position: {
       type: 'Point',
       label: 'Position',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shape: {
       type: 'Shape',
-      label: 'Shape'
-    }
+      label: 'Shape',
+    },
   },
   params: {
     holeDiameter: {
@@ -46,28 +50,28 @@ export const FeaturesHolesCounterboreHoleNode: NodeDefinition<CounterboreHoleInp
       label: 'Hole Diameter',
       default: 6.5,
       min: 0.1,
-      max: 100
+      max: 100,
     },
     counterbore: {
       type: 'number',
       label: 'Counterbore',
       default: 11,
       min: 0.1,
-      max: 200
+      max: 200,
     },
     cbDepth: {
       type: 'number',
       label: 'Cb Depth',
       default: 6,
       min: 0.1,
-      max: 100
+      max: 100,
     },
     holeDepth: {
       type: 'number',
       label: 'Hole Depth',
       default: -1,
-      min: -1
-    }
+      min: -1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -78,12 +82,12 @@ export const FeaturesHolesCounterboreHoleNode: NodeDefinition<CounterboreHoleInp
         holeDiameter: params.holeDiameter,
         counterbore: params.counterbore,
         cbDepth: params.cbDepth,
-        holeDepth: params.holeDepth
-      }
+        holeDepth: params.holeDepth,
+      },
     });
-    
+
     return {
-      shape: result
+      shape: result,
     };
   },
 };

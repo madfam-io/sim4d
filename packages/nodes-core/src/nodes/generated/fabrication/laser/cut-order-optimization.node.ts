@@ -14,7 +14,11 @@ interface CutOrderOptimizationOutputs {
   travelPath: unknown;
 }
 
-export const FabricationLaserCutOrderOptimizationNode: NodeDefinition<CutOrderOptimizationInputs, CutOrderOptimizationOutputs, CutOrderOptimizationParams> = {
+export const FabricationLaserCutOrderOptimizationNode: NodeDefinition<
+  CutOrderOptimizationInputs,
+  CutOrderOptimizationOutputs,
+  CutOrderOptimizationParams
+> = {
   id: 'Fabrication::CutOrderOptimization',
   category: 'Fabrication',
   label: 'CutOrderOptimization',
@@ -23,30 +27,30 @@ export const FabricationLaserCutOrderOptimizationNode: NodeDefinition<CutOrderOp
     paths: {
       type: 'Wire[]',
       label: 'Paths',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     orderedPaths: {
       type: 'Wire[]',
-      label: 'Ordered Paths'
+      label: 'Ordered Paths',
     },
     travelPath: {
       type: 'Wire',
-      label: 'Travel Path'
-    }
+      label: 'Travel Path',
+    },
   },
   params: {
     innerFirst: {
       type: 'boolean',
       label: 'Inner First',
-      default: true
+      default: true,
     },
     minimizeTravel: {
       type: 'boolean',
       label: 'Minimize Travel',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -54,13 +58,13 @@ export const FabricationLaserCutOrderOptimizationNode: NodeDefinition<CutOrderOp
       params: {
         paths: inputs.paths,
         innerFirst: params.innerFirst,
-        minimizeTravel: params.minimizeTravel
-      }
+        minimizeTravel: params.minimizeTravel,
+      },
     });
-    
+
     return {
       orderedPaths: results.orderedPaths,
-      travelPath: results.travelPath
+      travelPath: results.travelPath,
     };
   },
 };

@@ -13,7 +13,11 @@ interface FieldSmoothOutputs {
   smoothed: unknown;
 }
 
-export const FieldOperationsFieldSmoothNode: NodeDefinition<FieldSmoothInputs, FieldSmoothOutputs, FieldSmoothParams> = {
+export const FieldOperationsFieldSmoothNode: NodeDefinition<
+  FieldSmoothInputs,
+  FieldSmoothOutputs,
+  FieldSmoothParams
+> = {
   id: 'Field::FieldSmooth',
   type: 'Field::FieldSmooth',
   category: 'Field',
@@ -23,14 +27,14 @@ export const FieldOperationsFieldSmoothNode: NodeDefinition<FieldSmoothInputs, F
     field: {
       type: 'ScalarField',
       label: 'Field',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     smoothed: {
       type: 'ScalarField',
-      label: 'Smoothed'
-    }
+      label: 'Smoothed',
+    },
   },
   params: {
     iterations: {
@@ -39,15 +43,15 @@ export const FieldOperationsFieldSmoothNode: NodeDefinition<FieldSmoothInputs, F
       default: 3,
       min: 1,
       max: 10,
-      step: 1
+      step: 1,
     },
     factor: {
       type: 'number',
       label: 'Factor',
       default: 0.5,
       min: 0,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -55,12 +59,12 @@ export const FieldOperationsFieldSmoothNode: NodeDefinition<FieldSmoothInputs, F
       params: {
         field: inputs.field,
         iterations: params.iterations,
-        factor: params.factor
-      }
+        factor: params.factor,
+      },
     });
-    
+
     return {
-      smoothed: result
+      smoothed: result,
     };
   },
 };

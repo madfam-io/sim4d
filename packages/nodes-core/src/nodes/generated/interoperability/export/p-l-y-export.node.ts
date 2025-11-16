@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -25,40 +24,34 @@ export const PLYExportNode: NodeDefinition<PLYExportInputs, PLYExportOutputs, PL
   metadata: {
     label: 'PLYExport',
     description: 'Export point cloud to PLY format',
-    
-    
   },
 
   params: {
-        format: {
-      "default": "binary",
-      "options": [
-        "ascii",
-        "binary"
-      ]
+    format: {
+      default: 'binary',
+      options: ['ascii', 'binary'],
     },
     includeColors: {
-      "default": false
+      default: false,
     },
     includeNormals: {
-      "default": false
-    }
+      default: false,
+    },
   },
 
   inputs: {
-        points: 'Point[]',
+    points: 'Point[]',
     filePath: 'string',
     colors: 'number[][]',
-    normals: 'Vector[]'
+    normals: 'Vector[]',
   },
 
   outputs: {
-        success: 'boolean',
-    pointCount: 'number'
+    success: 'boolean',
+    pointCount: 'number',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'plyExport',
       params: {
@@ -68,13 +61,13 @@ export const PLYExportNode: NodeDefinition<PLYExportInputs, PLYExportOutputs, PL
         normals: inputs.normals,
         format: params.format,
         includeColors: params.includeColors,
-        includeNormals: params.includeNormals
-      }
+        includeNormals: params.includeNormals,
+      },
     });
 
     return {
       success: result,
-      pointCount: result
+      pointCount: result,
     };
-  }
+  },
 };

@@ -1,4 +1,3 @@
-
 # SampleField Node
 
 **Category:** Field / Sample
@@ -11,25 +10,18 @@ This node has no parameters.
 
 ## Inputs
 
-
 ### Field
+
 - **Type:** ScalarField
 - **Required:** Yes
 
-
-
 ### Points
+
 - **Type:** Point[]
 - **Required:** Yes
 
-
-
 ## Outputs
 
-
 ### Values
+
 - **Type:** number[]
-
-
-
-

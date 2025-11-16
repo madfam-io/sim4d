@@ -1,4 +1,3 @@
-
 # SetPowerSet Node
 
 **Category:** Data / Set
@@ -11,19 +10,13 @@ This node has no parameters.
 
 ## Inputs
 
-
 ### Set
+
 - **Type:** Data[]
 - **Required:** Yes
 
-
-
 ## Outputs
 
-
 ### Power Set
+
 - **Type:** Data[][]
-
-
-
-

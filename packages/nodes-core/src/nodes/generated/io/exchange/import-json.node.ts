@@ -13,7 +13,11 @@ interface ImportJSONOutputs {
   metadata: unknown;
 }
 
-export const IOExchangeImportJSONNode: NodeDefinition<ImportJSONInputs, ImportJSONOutputs, ImportJSONParams> = {
+export const IOExchangeImportJSONNode: NodeDefinition<
+  ImportJSONInputs,
+  ImportJSONOutputs,
+  ImportJSONParams
+> = {
   id: 'IO::ImportJSON',
   category: 'IO',
   label: 'ImportJSON',
@@ -22,39 +26,39 @@ export const IOExchangeImportJSONNode: NodeDefinition<ImportJSONInputs, ImportJS
     jsonData: {
       type: 'Data',
       label: 'Json Data',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shapes: {
       type: 'Shape[]',
-      label: 'Shapes'
+      label: 'Shapes',
     },
     metadata: {
       type: 'Data',
-      label: 'Metadata'
-    }
+      label: 'Metadata',
+    },
   },
   params: {
     format: {
       type: 'enum',
       label: 'Format',
-      default: "brepflow",
-      options: ["brepflow","three","custom"]
-    }
+      default: 'brepflow',
+      options: ['brepflow', 'three', 'custom'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
       type: 'importJSON',
       params: {
         jsonData: inputs.jsonData,
-        format: params.format
-      }
+        format: params.format,
+      },
     });
-    
+
     return {
       shapes: results.shapes,
-      metadata: results.metadata
+      metadata: results.metadata,
     };
   },
 };

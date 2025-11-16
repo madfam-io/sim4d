@@ -13,7 +13,11 @@ interface ListShiftOutputs {
   shifted: unknown;
 }
 
-export const DataListListShiftNode: NodeDefinition<ListShiftInputs, ListShiftOutputs, ListShiftParams> = {
+export const DataListListShiftNode: NodeDefinition<
+  ListShiftInputs,
+  ListShiftOutputs,
+  ListShiftParams
+> = {
   id: 'Data::ListShift',
   category: 'Data',
   label: 'ListShift',
@@ -22,26 +26,26 @@ export const DataListListShiftNode: NodeDefinition<ListShiftInputs, ListShiftOut
     list: {
       type: 'Data[]',
       label: 'List',
-      required: true
+      required: true,
     },
     offset: {
       type: 'number',
       label: 'Offset',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shifted: {
       type: 'Data[]',
-      label: 'Shifted'
-    }
+      label: 'Shifted',
+    },
   },
   params: {
     wrap: {
       type: 'boolean',
       label: 'Wrap',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -49,12 +53,12 @@ export const DataListListShiftNode: NodeDefinition<ListShiftInputs, ListShiftOut
       params: {
         list: inputs.list,
         offset: inputs.offset,
-        wrap: params.wrap
-      }
+        wrap: params.wrap,
+      },
     });
-    
+
     return {
-      shifted: result
+      shifted: result,
     };
   },
 };

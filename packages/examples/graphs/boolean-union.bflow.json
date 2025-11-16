@@ -48,9 +48,7 @@
       "type": "IO::ExportSTEP",
       "position": { "x": 520, "y": 200 },
       "inputs": {
-        "shapes": [
-          { "nodeId": "union-merge", "socketId": "shape" }
-        ]
+        "shapes": [{ "nodeId": "union-merge", "socketId": "shape" }]
       },
       "params": {
         "filepath": "boolean-union.step",

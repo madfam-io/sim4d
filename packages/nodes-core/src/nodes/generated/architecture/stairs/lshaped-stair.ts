@@ -15,7 +15,11 @@ interface LShapedStairOutputs {
   landing: unknown;
 }
 
-export const ArchitectureStairsLShapedStairNode: NodeDefinition<LShapedStairInputs, LShapedStairOutputs, LShapedStairParams> = {
+export const ArchitectureStairsLShapedStairNode: NodeDefinition<
+  LShapedStairInputs,
+  LShapedStairOutputs,
+  LShapedStairParams
+> = {
   id: 'Architecture::LShapedStair',
   type: 'Architecture::LShapedStair',
   category: 'Architecture',
@@ -25,18 +29,18 @@ export const ArchitectureStairsLShapedStairNode: NodeDefinition<LShapedStairInpu
     startPoint: {
       type: 'Point',
       label: 'Start Point',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     staircase: {
       type: 'Shape',
-      label: 'Staircase'
+      label: 'Staircase',
     },
     landing: {
       type: 'Shape',
-      label: 'Landing'
-    }
+      label: 'Landing',
+    },
   },
   params: {
     totalRise: {
@@ -44,21 +48,21 @@ export const ArchitectureStairsLShapedStairNode: NodeDefinition<LShapedStairInpu
       label: 'Total Rise',
       default: 3000,
       min: 1000,
-      max: 6000
+      max: 6000,
     },
     landingSize: {
       type: 'number',
       label: 'Landing Size',
       default: 1200,
       min: 900,
-      max: 2000
+      max: 2000,
     },
     turnDirection: {
       type: 'enum',
       label: 'Turn Direction',
-      default: "right",
-      options: ["left","right"]
-    }
+      default: 'right',
+      options: ['left', 'right'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -67,13 +71,13 @@ export const ArchitectureStairsLShapedStairNode: NodeDefinition<LShapedStairInpu
         startPoint: inputs.startPoint,
         totalRise: params.totalRise,
         landingSize: params.landingSize,
-        turnDirection: params.turnDirection
-      }
+        turnDirection: params.turnDirection,
+      },
     });
-    
+
     return {
       staircase: results.staircase,
-      landing: results.landing
+      landing: results.landing,
     };
   },
 };

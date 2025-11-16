@@ -18,7 +18,11 @@ interface PathArrayOutputs {
   merged: unknown;
 }
 
-export const TransformPathArrayNode: NodeDefinition<PathArrayInputs, PathArrayOutputs, PathArrayParams> = {
+export const TransformPathArrayNode: NodeDefinition<
+  PathArrayInputs,
+  PathArrayOutputs,
+  PathArrayParams
+> = {
   id: 'Transform::PathArray',
   category: 'Transform',
   label: 'PathArray',
@@ -27,23 +31,23 @@ export const TransformPathArrayNode: NodeDefinition<PathArrayInputs, PathArrayOu
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
+      required: true,
     },
     path: {
       type: 'Wire',
       label: 'Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     array: {
       type: 'Shape[]',
-      label: 'Array'
+      label: 'Array',
     },
     merged: {
       type: 'Shape',
-      label: 'Merged'
-    }
+      label: 'Merged',
+    },
   },
   params: {
     count: {
@@ -52,31 +56,31 @@ export const TransformPathArrayNode: NodeDefinition<PathArrayInputs, PathArrayOu
       default: 10,
       min: 2,
       max: 1000,
-      step: 1
+      step: 1,
     },
     alignToPath: {
       type: 'boolean',
       label: 'Align To Path',
-      default: true
+      default: true,
     },
     spacing: {
       type: 'enum',
       label: 'Spacing',
-      default: "equal",
-      options: ["equal","distance"]
+      default: 'equal',
+      options: ['equal', 'distance'],
     },
     distance: {
       type: 'number',
       label: 'Distance',
       default: 50,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     merge: {
       type: 'boolean',
       label: 'Merge',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -88,13 +92,13 @@ export const TransformPathArrayNode: NodeDefinition<PathArrayInputs, PathArrayOu
         alignToPath: params.alignToPath,
         spacing: params.spacing,
         distance: params.distance,
-        merge: params.merge
-      }
+        merge: params.merge,
+      },
     });
-    
+
     return {
       array: results.array,
-      merged: results.merged
+      merged: results.merged,
     };
   },
 };

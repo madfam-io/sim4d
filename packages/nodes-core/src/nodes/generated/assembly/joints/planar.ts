@@ -22,24 +22,24 @@ export const AssemblyJointsPlanarNode: NodeDefinition<PlanarInputs, PlanarOutput
     part1: {
       type: 'Shape',
       label: 'Part1',
-      required: true
+      required: true,
     },
     part2: {
       type: 'Shape',
       label: 'Part2',
-      required: true
+      required: true,
     },
     plane: {
       type: 'Plane',
       label: 'Plane',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     joint: {
       type: 'Joint',
-      label: 'Joint'
-    }
+      label: 'Joint',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -48,12 +48,12 @@ export const AssemblyJointsPlanarNode: NodeDefinition<PlanarInputs, PlanarOutput
       params: {
         part1: inputs.part1,
         part2: inputs.part2,
-        plane: inputs.plane
-      }
+        plane: inputs.plane,
+      },
     });
-    
+
     return {
-      joint: result
+      joint: result,
     };
   },
 };

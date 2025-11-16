@@ -10,7 +10,7 @@ import {
   ErrorSeverity,
   ErrorContext,
   RecoveryAction,
-  MonitoringConfig
+  MonitoringConfig,
 } from './types';
 import { Logger } from '../logging/logger';
 import { MetricsCollector } from '../monitoring/metrics-collector';
@@ -28,7 +28,7 @@ class SimpleEventEmitter {
 
   emit(event: string, ...args: any[]) {
     if (this.events[event]) {
-      this.events[event].forEach(callback => callback(...args));
+      this.events[event].forEach((callback) => callback(...args));
     }
   }
 
@@ -36,7 +36,7 @@ class SimpleEventEmitter {
     if (!this.events[event]) return;
 
     if (callback) {
-      this.events[event] = this.events[event].filter(cb => cb !== callback);
+      this.events[event] = this.events[event].filter((cb) => cb !== callback);
     } else {
       delete this.events[event];
     }
@@ -111,12 +111,12 @@ export class ErrorManager extends SimpleEventEmitter {
         buildVersion: this.buildVersion,
         userAgent: navigator.userAgent,
         url: window.location.href,
-        ...options.context
+        ...options.context,
       },
       recoverable: options.recoverable ?? this.isRecoverable(code),
       recoveryActions: options.recoveryActions || this.getDefaultRecoveryActions(code),
       reportedToService: false,
-      occurredAt: new Date()
+      occurredAt: new Date(),
     };
 
     this.registerError(error);
@@ -137,14 +137,14 @@ export class ErrorManager extends SimpleEventEmitter {
       category: error.category,
       severity: error.severity,
       message: error.message,
-      context: error.context
+      context: error.context,
     });
 
     // Update metrics
     this.metrics.incrementCounter('errors_total', {
       code: error.code,
       category: error.category,
-      severity: error.severity
+      severity: error.severity,
     });
 
     // Report to external service if configured
@@ -164,36 +164,28 @@ export class ErrorManager extends SimpleEventEmitter {
   private setupErrorHandlers(): void {
     // Global error handler
     window.addEventListener('error', (event) => {
-      this.createError(
-        ErrorCode.RUNTIME,
-        event.message,
-        {
-          category: ErrorCategory.RUNTIME,
-          severity: ErrorSeverity.HIGH,
-          technicalDetails: event.error?.stack,
-          context: {
-            filename: event.filename,
-            lineno: event.lineno,
-            colno: event.colno
-          }
-        }
-      );
+      this.createError(ErrorCode.RUNTIME, event.message, {
+        category: ErrorCategory.RUNTIME,
+        severity: ErrorSeverity.HIGH,
+        technicalDetails: event.error?.stack,
+        context: {
+          filename: event.filename,
+          lineno: event.lineno,
+          colno: event.colno,
+        },
+      });
     });
 
     // Unhandled promise rejection handler
     window.addEventListener('unhandledrejection', (event) => {
-      this.createError(
-        ErrorCode.RUNTIME,
-        `Unhandled promise rejection: ${event.reason}`,
-        {
-          category: ErrorCategory.RUNTIME,
-          severity: ErrorSeverity.HIGH,
-          technicalDetails: event.reason?.stack || String(event.reason),
-          context: {
-            rejectionType: 'unhandled_promise'
-          }
-        }
-      );
+      this.createError(ErrorCode.RUNTIME, `Unhandled promise rejection: ${event.reason}`, {
+        category: ErrorCategory.RUNTIME,
+        severity: ErrorSeverity.HIGH,
+        technicalDetails: event.reason?.stack || String(event.reason),
+        context: {
+          rejectionType: 'unhandled_promise',
+        },
+      });
     });
   }
 
@@ -210,8 +202,8 @@ export class ErrorManager extends SimpleEventEmitter {
       technicalDetails: error.stack,
       context: {
         ...options.context,
-        errorName: error.name
-      }
+        errorName: error.name,
+      },
     });
   }
 
@@ -227,7 +219,7 @@ export class ErrorManager extends SimpleEventEmitter {
       this.logger.info('Error resolved', { errorId });
       this.metrics.incrementCounter('errors_resolved_total', {
         code: error.code,
-        category: error.category
+        category: error.category,
       });
     }
   }
@@ -243,14 +235,14 @@ export class ErrorManager extends SimpleEventEmitter {
    * Get active (unresolved) errors
    */
   public getActiveErrors(): BrepFlowError[] {
-    return this.getErrors().filter(error => !error.resolvedAt);
+    return this.getErrors().filter((error) => !error.resolvedAt);
   }
 
   /**
    * Get errors by severity
    */
   public getErrorsBySeverity(severity: ErrorSeverity): BrepFlowError[] {
-    return this.getErrors().filter(error => error.severity === severity);
+    return this.getErrors().filter((error) => error.severity === severity);
   }
 
   /**
@@ -266,7 +258,7 @@ export class ErrorManager extends SimpleEventEmitter {
       }
     }
 
-    toDelete.forEach(id => this.errors.delete(id));
+    toDelete.forEach((id) => this.errors.delete(id));
   }
 
   /**
@@ -276,7 +268,7 @@ export class ErrorManager extends SimpleEventEmitter {
     const error = this.errors.get(errorId);
     if (!error) return false;
 
-    const action = error.recoveryActions?.find(a => a.id === actionId);
+    const action = error.recoveryActions?.find((a) => a.id === actionId);
     if (!action) return false;
 
     try {
@@ -292,7 +284,8 @@ export class ErrorManager extends SimpleEventEmitter {
       this.logger.error('Recovery action failed', {
         errorId,
         actionId,
-        recoveryError: recoveryError instanceof Error ? recoveryError.message : String(recoveryError)
+        recoveryError:
+          recoveryError instanceof Error ? recoveryError.message : String(recoveryError),
       });
       return false;
     }
@@ -316,21 +309,21 @@ export class ErrorManager extends SimpleEventEmitter {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.config.errorReporting.apiKey}`
+          Authorization: `Bearer ${this.config.errorReporting.apiKey}`,
         },
         body: JSON.stringify({
           ...error,
           stackTrace: this.config.errorReporting.includeStackTrace
             ? error.technicalDetails
-            : undefined
-        })
+            : undefined,
+        }),
       });
 
       error.reportedToService = true;
     } catch (reportError) {
       this.logger.warn('Failed to report error to service', {
         errorId: error.id,
-        reportError: reportError instanceof Error ? reportError.message : String(reportError)
+        reportError: reportError instanceof Error ? reportError.message : String(reportError),
       });
     }
   }
@@ -346,7 +339,7 @@ export class ErrorManager extends SimpleEventEmitter {
     this.logger.error('CRITICAL ERROR OCCURRED', {
       errorId: error.id,
       code: error.code,
-      message: error.message
+      message: error.message,
     });
   }
 
@@ -361,7 +354,8 @@ export class ErrorManager extends SimpleEventEmitter {
     if (codeString.includes('NETWORK') || codeString.includes('API')) return ErrorCategory.NETWORK;
     if (codeString.includes('VALIDATION')) return ErrorCategory.VALIDATION;
     if (codeString.includes('INPUT')) return ErrorCategory.USER_INPUT;
-    if (codeString.includes('SYSTEM') || codeString.includes('BROWSER')) return ErrorCategory.SYSTEM;
+    if (codeString.includes('SYSTEM') || codeString.includes('BROWSER'))
+      return ErrorCategory.SYSTEM;
     if (codeString.includes('UI') || codeString.includes('COMPONENT')) return ErrorCategory.UI;
 
     return ErrorCategory.RUNTIME;
@@ -374,19 +368,16 @@ export class ErrorManager extends SimpleEventEmitter {
     const criticalCodes = [
       ErrorCode.WASM_MODULE_LOAD_FAILED,
       ErrorCode.MEMORY_LIMIT_EXCEEDED,
-      ErrorCode.WORKER_THREAD_CRASHED
+      ErrorCode.WORKER_THREAD_CRASHED,
     ];
 
     const highCodes = [
       ErrorCode.GEOMETRY_ENGINE_NOT_INITIALIZED,
       ErrorCode.EVALUATION_TIMEOUT,
-      ErrorCode.CONNECTION_LOST
+      ErrorCode.CONNECTION_LOST,
     ];
 
-    const lowCodes = [
-      ErrorCode.INVALID_PARAMETER_VALUE,
-      ErrorCode.LAYOUT_UPDATE_FAILED
-    ];
+    const lowCodes = [ErrorCode.INVALID_PARAMETER_VALUE, ErrorCode.LAYOUT_UPDATE_FAILED];
 
     if (criticalCodes.includes(code)) return ErrorSeverity.CRITICAL;
     if (highCodes.includes(code)) return ErrorSeverity.HIGH;
@@ -401,46 +392,62 @@ export class ErrorManager extends SimpleEventEmitter {
   private generateUserMessage(code: ErrorCode, technicalMessage: string): string {
     const userMessages: Record<ErrorCode, string> = {
       // Geometry errors
-      [ErrorCode.GEOMETRY_COMPUTATION_FAILED]: 'Unable to compute geometry. Please check your parameters and try again.',
-      [ErrorCode.INVALID_GEOMETRY_PARAMETERS]: 'Invalid geometry parameters provided. Please check your input values.',
-      [ErrorCode.GEOMETRY_ENGINE_NOT_INITIALIZED]: 'Geometry engine is not ready. Please wait and try again.',
+      [ErrorCode.GEOMETRY_COMPUTATION_FAILED]:
+        'Unable to compute geometry. Please check your parameters and try again.',
+      [ErrorCode.INVALID_GEOMETRY_PARAMETERS]:
+        'Invalid geometry parameters provided. Please check your input values.',
+      [ErrorCode.GEOMETRY_ENGINE_NOT_INITIALIZED]:
+        'Geometry engine is not ready. Please wait and try again.',
 
       // WASM errors
-      [ErrorCode.WASM_MODULE_LOAD_FAILED]: 'Failed to load the geometry engine. Please refresh the page.',
-      [ErrorCode.WASM_EXECUTION_ERROR]: 'Geometry processing failed. Please try a different approach.',
-      [ErrorCode.SHARED_ARRAY_BUFFER_NOT_AVAILABLE]: 'Advanced features are disabled due to browser security settings.',
+      [ErrorCode.WASM_MODULE_LOAD_FAILED]:
+        'Failed to load the geometry engine. Please refresh the page.',
+      [ErrorCode.WASM_EXECUTION_ERROR]:
+        'Geometry processing failed. Please try a different approach.',
+      [ErrorCode.SHARED_ARRAY_BUFFER_NOT_AVAILABLE]:
+        'Advanced features are disabled due to browser security settings.',
 
       // Network errors
-      [ErrorCode.API_REQUEST_FAILED]: 'Network request failed. Please check your connection and try again.',
-      [ErrorCode.NETWORK_TIMEOUT]: 'Network request timed out. Please check your connection and try again.',
+      [ErrorCode.API_REQUEST_FAILED]:
+        'Network request failed. Please check your connection and try again.',
+      [ErrorCode.NETWORK_TIMEOUT]:
+        'Network request timed out. Please check your connection and try again.',
       [ErrorCode.CONNECTION_LOST]: 'Connection lost. Please check your network and try again.',
 
       // Validation errors
-      [ErrorCode.INVALID_NODE_CONNECTION]: 'Invalid node connection. Please check that input and output types match.',
-      [ErrorCode.CIRCULAR_DEPENDENCY]: 'Circular dependency detected in the node graph. Please remove the circular connection.',
-      [ErrorCode.MISSING_REQUIRED_INPUT]: 'Required input is missing. Please provide all necessary inputs.',
+      [ErrorCode.INVALID_NODE_CONNECTION]:
+        'Invalid node connection. Please check that input and output types match.',
+      [ErrorCode.CIRCULAR_DEPENDENCY]:
+        'Circular dependency detected in the node graph. Please remove the circular connection.',
+      [ErrorCode.MISSING_REQUIRED_INPUT]:
+        'Required input is missing. Please provide all necessary inputs.',
 
       // Runtime errors
       [ErrorCode.RUNTIME]: 'A runtime error occurred. Please try again.',
       [ErrorCode.EVALUATION_TIMEOUT]: 'Operation timed out. Please try with simpler parameters.',
-      [ErrorCode.MEMORY_LIMIT_EXCEEDED]: 'Out of memory. Please close other tabs or refresh the page.',
+      [ErrorCode.MEMORY_LIMIT_EXCEEDED]:
+        'Out of memory. Please close other tabs or refresh the page.',
       [ErrorCode.WORKER_THREAD_CRASHED]: 'Processing thread crashed. Please refresh the page.',
 
       // User input errors
       [ErrorCode.INVALID_PARAMETER_VALUE]: 'Invalid parameter value. Please check your input.',
-      [ErrorCode.FILE_IMPORT_FAILED]: 'Failed to import file. Please check the file format and try again.',
-      [ErrorCode.UNSUPPORTED_FILE_FORMAT]: 'File format not supported. Please use a supported format.',
+      [ErrorCode.FILE_IMPORT_FAILED]:
+        'Failed to import file. Please check the file format and try again.',
+      [ErrorCode.UNSUPPORTED_FILE_FORMAT]:
+        'File format not supported. Please use a supported format.',
 
       // System errors
       [ErrorCode.SYSTEM]: 'A system error occurred. Please refresh the page.',
-      [ErrorCode.LOCAL_STORAGE_QUOTA_EXCEEDED]: 'Storage limit exceeded. Please clear browser data.',
-      [ErrorCode.BROWSER_NOT_SUPPORTED]: 'Your browser is not supported. Please use a modern browser.',
+      [ErrorCode.LOCAL_STORAGE_QUOTA_EXCEEDED]:
+        'Storage limit exceeded. Please clear browser data.',
+      [ErrorCode.BROWSER_NOT_SUPPORTED]:
+        'Your browser is not supported. Please use a modern browser.',
       [ErrorCode.PERMISSIONS_DENIED]: 'Permission denied. Please check your browser settings.',
 
       // UI errors
       [ErrorCode.COMPONENT_RENDER_ERROR]: 'Component failed to render. Please refresh the page.',
       [ErrorCode.EVENT_HANDLER_ERROR]: 'An interaction error occurred. Please try again.',
-      [ErrorCode.LAYOUT_UPDATE_FAILED]: 'Layout update failed. Please refresh the page.'
+      [ErrorCode.LAYOUT_UPDATE_FAILED]: 'Layout update failed. Please refresh the page.',
     };
 
     return userMessages[code] || `An error occurred: ${technicalMessage}`;
@@ -453,7 +460,7 @@ export class ErrorManager extends SimpleEventEmitter {
     const nonRecoverableCodes = [
       ErrorCode.WASM_MODULE_LOAD_FAILED,
       ErrorCode.BROWSER_NOT_SUPPORTED,
-      ErrorCode.MEMORY_LIMIT_EXCEEDED
+      ErrorCode.MEMORY_LIMIT_EXCEEDED,
     ];
 
     return !nonRecoverableCodes.includes(code);
@@ -467,16 +474,19 @@ export class ErrorManager extends SimpleEventEmitter {
       id: 'retry',
       label: 'Retry',
       description: 'Try the operation again',
-      action: () => true
+      action: () => true,
     };
 
     const refresh = {
       id: 'refresh',
       label: 'Refresh Page',
       description: 'Refresh the page to reset the application',
-      action: () => { window.location.reload(); return true; },
+      action: () => {
+        window.location.reload();
+        return true;
+      },
       destructive: true,
-      requiresConfirmation: true
+      requiresConfirmation: true,
     };
 
     const actions: Record<ErrorCode, RecoveryAction[]> = {
@@ -488,16 +498,16 @@ export class ErrorManager extends SimpleEventEmitter {
           label: 'Reset Parameters',
           description: 'Reset node parameters to default values',
           action: () => true,
-          requiresConfirmation: true
-        }
+          requiresConfirmation: true,
+        },
       ],
       [ErrorCode.INVALID_GEOMETRY_PARAMETERS]: [
         {
           id: 'fix-parameters',
           label: 'Check Parameters',
           description: 'Review and fix parameter values',
-          action: () => true
-        }
+          action: () => true,
+        },
       ],
       [ErrorCode.GEOMETRY_ENGINE_NOT_INITIALIZED]: [basicRetry, refresh],
 
@@ -509,8 +519,8 @@ export class ErrorManager extends SimpleEventEmitter {
           id: 'enable-headers',
           label: 'Enable Headers',
           description: 'Contact administrator to enable COOP/COEP headers',
-          action: () => true
-        }
+          action: () => true,
+        },
       ],
 
       // Network errors
@@ -524,24 +534,24 @@ export class ErrorManager extends SimpleEventEmitter {
           id: 'disconnect',
           label: 'Disconnect',
           description: 'Remove invalid connection',
-          action: () => true
-        }
+          action: () => true,
+        },
       ],
       [ErrorCode.CIRCULAR_DEPENDENCY]: [
         {
           id: 'break-cycle',
           label: 'Break Cycle',
           description: 'Remove circular connection',
-          action: () => true
-        }
+          action: () => true,
+        },
       ],
       [ErrorCode.MISSING_REQUIRED_INPUT]: [
         {
           id: 'fix-inputs',
           label: 'Fix Inputs',
           description: 'Connect required inputs',
-          action: () => true
-        }
+          action: () => true,
+        },
       ],
 
       // Runtime errors
@@ -556,8 +566,8 @@ export class ErrorManager extends SimpleEventEmitter {
           id: 'fix-value',
           label: 'Fix Value',
           description: 'Correct the parameter value',
-          action: () => true
-        }
+          action: () => true,
+        },
       ],
       [ErrorCode.FILE_IMPORT_FAILED]: [basicRetry],
       [ErrorCode.UNSUPPORTED_FILE_FORMAT]: [
@@ -565,8 +575,8 @@ export class ErrorManager extends SimpleEventEmitter {
           id: 'convert-format',
           label: 'Convert Format',
           description: 'Convert to a supported format',
-          action: () => true
-        }
+          action: () => true,
+        },
       ],
 
       // System errors
@@ -576,10 +586,13 @@ export class ErrorManager extends SimpleEventEmitter {
           id: 'clear-storage',
           label: 'Clear Storage',
           description: 'Clear browser storage to free space',
-          action: () => { localStorage.clear(); return true; },
+          action: () => {
+            localStorage.clear();
+            return true;
+          },
           destructive: true,
-          requiresConfirmation: true
-        }
+          requiresConfirmation: true,
+        },
       ],
       [ErrorCode.BROWSER_NOT_SUPPORTED]: [],
       [ErrorCode.PERMISSIONS_DENIED]: [
@@ -587,14 +600,14 @@ export class ErrorManager extends SimpleEventEmitter {
           id: 'grant-permissions',
           label: 'Grant Permissions',
           description: 'Enable required browser permissions',
-          action: () => true
-        }
+          action: () => true,
+        },
       ],
 
       // UI errors
       [ErrorCode.COMPONENT_RENDER_ERROR]: [refresh],
       [ErrorCode.EVENT_HANDLER_ERROR]: [basicRetry],
-      [ErrorCode.LAYOUT_UPDATE_FAILED]: [refresh]
+      [ErrorCode.LAYOUT_UPDATE_FAILED]: [refresh],
     };
 
     return actions[code] || [basicRetry];

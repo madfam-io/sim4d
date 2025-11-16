@@ -13,7 +13,11 @@ interface PlantGrowthOutputs {
   plant: unknown;
 }
 
-export const PatternsLSystemsPlantGrowthNode: NodeDefinition<PlantGrowthInputs, PlantGrowthOutputs, PlantGrowthParams> = {
+export const PatternsLSystemsPlantGrowthNode: NodeDefinition<
+  PlantGrowthInputs,
+  PlantGrowthOutputs,
+  PlantGrowthParams
+> = {
   id: 'Patterns::PlantGrowth',
   category: 'Patterns',
   label: 'PlantGrowth',
@@ -22,21 +26,21 @@ export const PatternsLSystemsPlantGrowthNode: NodeDefinition<PlantGrowthInputs, 
     ground: {
       type: 'Plane',
       label: 'Ground',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     plant: {
       type: 'Wire[]',
-      label: 'Plant'
-    }
+      label: 'Plant',
+    },
   },
   params: {
     species: {
       type: 'enum',
       label: 'Species',
-      default: "fern",
-      options: ["fern","bush","weed","algae","moss"]
+      default: 'fern',
+      options: ['fern', 'bush', 'weed', 'algae', 'moss'],
     },
     age: {
       type: 'number',
@@ -44,8 +48,8 @@ export const PatternsLSystemsPlantGrowthNode: NodeDefinition<PlantGrowthInputs, 
       default: 5,
       min: 1,
       max: 20,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const PatternsLSystemsPlantGrowthNode: NodeDefinition<PlantGrowthInputs, 
       params: {
         ground: inputs.ground,
         species: params.species,
-        age: params.age
-      }
+        age: params.age,
+      },
     });
-    
+
     return {
-      plant: result
+      plant: result,
     };
   },
 };

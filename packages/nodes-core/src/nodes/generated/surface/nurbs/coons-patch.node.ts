@@ -13,7 +13,11 @@ interface CoonsPatchOutputs {
   surface: unknown;
 }
 
-export const SurfaceNURBSCoonsPatchNode: NodeDefinition<CoonsPatchInputs, CoonsPatchOutputs, CoonsPatchParams> = {
+export const SurfaceNURBSCoonsPatchNode: NodeDefinition<
+  CoonsPatchInputs,
+  CoonsPatchOutputs,
+  CoonsPatchParams
+> = {
   id: 'Surface::CoonsPatch',
   category: 'Surface',
   label: 'CoonsPatch',
@@ -22,29 +26,29 @@ export const SurfaceNURBSCoonsPatchNode: NodeDefinition<CoonsPatchInputs, CoonsP
     edge1: {
       type: 'Edge',
       label: 'Edge1',
-      required: true
+      required: true,
     },
     edge2: {
       type: 'Edge',
       label: 'Edge2',
-      required: true
+      required: true,
     },
     edge3: {
       type: 'Edge',
       label: 'Edge3',
-      required: true
+      required: true,
     },
     edge4: {
       type: 'Edge',
       label: 'Edge4',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     surface: {
       type: 'Face',
-      label: 'Surface'
-    }
+      label: 'Surface',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -54,12 +58,12 @@ export const SurfaceNURBSCoonsPatchNode: NodeDefinition<CoonsPatchInputs, CoonsP
         edge1: inputs.edge1,
         edge2: inputs.edge2,
         edge3: inputs.edge3,
-        edge4: inputs.edge4
-      }
+        edge4: inputs.edge4,
+      },
     });
-    
+
     return {
-      surface: result
+      surface: result,
     };
   },
 };

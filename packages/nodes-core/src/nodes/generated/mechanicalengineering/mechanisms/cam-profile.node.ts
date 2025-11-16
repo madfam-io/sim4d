@@ -17,7 +17,11 @@ interface CamProfileOutputs {
   profile: unknown;
 }
 
-export const MechanicalEngineeringMechanismsCamProfileNode: NodeDefinition<CamProfileInputs, CamProfileOutputs, CamProfileParams> = {
+export const MechanicalEngineeringMechanismsCamProfileNode: NodeDefinition<
+  CamProfileInputs,
+  CamProfileOutputs,
+  CamProfileParams
+> = {
   id: 'MechanicalEngineering::CamProfile',
   category: 'MechanicalEngineering',
   label: 'CamProfile',
@@ -26,23 +30,23 @@ export const MechanicalEngineeringMechanismsCamProfileNode: NodeDefinition<CamPr
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
+      required: true,
     },
     customProfile: {
       type: 'Wire',
       label: 'Custom Profile',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     cam: {
       type: 'Shape',
-      label: 'Cam'
+      label: 'Cam',
     },
     profile: {
       type: 'Wire',
-      label: 'Profile'
-    }
+      label: 'Profile',
+    },
   },
   params: {
     baseRadius: {
@@ -50,28 +54,28 @@ export const MechanicalEngineeringMechanismsCamProfileNode: NodeDefinition<CamPr
       label: 'Base Radius',
       default: 30,
       min: 10,
-      max: 100
+      max: 100,
     },
     lift: {
       type: 'number',
       label: 'Lift',
       default: 10,
       min: 2,
-      max: 50
+      max: 50,
     },
     profileType: {
       type: 'enum',
       label: 'Profile Type',
-      default: "harmonic",
-      options: ["harmonic","cycloidal","parabolic","custom"]
+      default: 'harmonic',
+      options: ['harmonic', 'cycloidal', 'parabolic', 'custom'],
     },
     dwellAngle: {
       type: 'number',
       label: 'Dwell Angle',
       default: 60,
       min: 0,
-      max: 180
-    }
+      max: 180,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -82,13 +86,13 @@ export const MechanicalEngineeringMechanismsCamProfileNode: NodeDefinition<CamPr
         baseRadius: params.baseRadius,
         lift: params.lift,
         profileType: params.profileType,
-        dwellAngle: params.dwellAngle
-      }
+        dwellAngle: params.dwellAngle,
+      },
     });
-    
+
     return {
       cam: results.cam,
-      profile: results.profile
+      profile: results.profile,
     };
   },
 };

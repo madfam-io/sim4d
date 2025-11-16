@@ -12,7 +12,11 @@ interface InverseLerpOutputs {
   t: unknown;
 }
 
-export const MathInterpolationInverseLerpNode: NodeDefinition<InverseLerpInputs, InverseLerpOutputs, InverseLerpParams> = {
+export const MathInterpolationInverseLerpNode: NodeDefinition<
+  InverseLerpInputs,
+  InverseLerpOutputs,
+  InverseLerpParams
+> = {
   id: 'Math::InverseLerp',
   category: 'Math',
   label: 'InverseLerp',
@@ -21,24 +25,24 @@ export const MathInterpolationInverseLerpNode: NodeDefinition<InverseLerpInputs,
     a: {
       type: 'number',
       label: 'A',
-      required: true
+      required: true,
     },
     b: {
       type: 'number',
       label: 'B',
-      required: true
+      required: true,
     },
     value: {
       type: 'number',
       label: 'Value',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     t: {
       type: 'number',
-      label: 'T'
-    }
+      label: 'T',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -47,12 +51,12 @@ export const MathInterpolationInverseLerpNode: NodeDefinition<InverseLerpInputs,
       params: {
         a: inputs.a,
         b: inputs.b,
-        value: inputs.value
-      }
+        value: inputs.value,
+      },
     });
-    
+
     return {
-      t: result
+      t: result,
     };
   },
 };

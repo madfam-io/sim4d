@@ -14,7 +14,11 @@ interface EngraveRasterOutputs {
   rasterData: unknown;
 }
 
-export const FabricationLaserEngraveRasterNode: NodeDefinition<EngraveRasterInputs, EngraveRasterOutputs, EngraveRasterParams> = {
+export const FabricationLaserEngraveRasterNode: NodeDefinition<
+  EngraveRasterInputs,
+  EngraveRasterOutputs,
+  EngraveRasterParams
+> = {
   id: 'Fabrication::EngraveRaster',
   type: 'Fabrication::EngraveRaster',
   category: 'Fabrication',
@@ -24,19 +28,19 @@ export const FabricationLaserEngraveRasterNode: NodeDefinition<EngraveRasterInpu
     image: {
       type: 'Data',
       label: 'Image',
-      required: true
+      required: true,
     },
     boundary: {
       type: 'Wire',
       label: 'Boundary',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     rasterData: {
       type: 'Data',
-      label: 'Raster Data'
-    }
+      label: 'Raster Data',
+    },
   },
   params: {
     resolution: {
@@ -44,14 +48,14 @@ export const FabricationLaserEngraveRasterNode: NodeDefinition<EngraveRasterInpu
       label: 'Resolution',
       default: 300,
       min: 100,
-      max: 1200
+      max: 1200,
     },
     dithering: {
       type: 'enum',
       label: 'Dithering',
-      default: "floyd-steinberg",
-      options: ["none","floyd-steinberg","ordered","random"]
-    }
+      default: 'floyd-steinberg',
+      options: ['none', 'floyd-steinberg', 'ordered', 'random'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -60,12 +64,12 @@ export const FabricationLaserEngraveRasterNode: NodeDefinition<EngraveRasterInpu
         image: inputs.image,
         boundary: inputs.boundary,
         resolution: params.resolution,
-        dithering: params.dithering
-      }
+        dithering: params.dithering,
+      },
     });
-    
+
     return {
-      rasterData: result
+      rasterData: result,
     };
   },
 };

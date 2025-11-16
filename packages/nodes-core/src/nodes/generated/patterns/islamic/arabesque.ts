@@ -13,7 +13,11 @@ interface ArabesqueOutputs {
   pattern: unknown;
 }
 
-export const PatternsIslamicArabesqueNode: NodeDefinition<ArabesqueInputs, ArabesqueOutputs, ArabesqueParams> = {
+export const PatternsIslamicArabesqueNode: NodeDefinition<
+  ArabesqueInputs,
+  ArabesqueOutputs,
+  ArabesqueParams
+> = {
   id: 'Patterns::Arabesque',
   type: 'Patterns::Arabesque',
   category: 'Patterns',
@@ -23,14 +27,14 @@ export const PatternsIslamicArabesqueNode: NodeDefinition<ArabesqueInputs, Arabe
     boundary: {
       type: 'Wire',
       label: 'Boundary',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     pattern: {
       type: 'Wire[]',
-      label: 'Pattern'
-    }
+      label: 'Pattern',
+    },
   },
   params: {
     complexity: {
@@ -39,7 +43,7 @@ export const PatternsIslamicArabesqueNode: NodeDefinition<ArabesqueInputs, Arabe
       default: 3,
       min: 1,
       max: 5,
-      step: 1
+      step: 1,
     },
     symmetry: {
       type: 'number',
@@ -47,8 +51,8 @@ export const PatternsIslamicArabesqueNode: NodeDefinition<ArabesqueInputs, Arabe
       default: 6,
       min: 3,
       max: 12,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -56,12 +60,12 @@ export const PatternsIslamicArabesqueNode: NodeDefinition<ArabesqueInputs, Arabe
       params: {
         boundary: inputs.boundary,
         complexity: params.complexity,
-        symmetry: params.symmetry
-      }
+        symmetry: params.symmetry,
+      },
     });
-    
+
     return {
-      pattern: result
+      pattern: result,
     };
   },
 };

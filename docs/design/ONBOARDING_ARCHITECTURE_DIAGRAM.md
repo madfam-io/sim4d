@@ -207,16 +207,19 @@ OnboardingProvider
 ## 📱 Responsive Considerations
 
 ### Desktop (1200px+)
+
 - Full sidebar layout with tour highlights
 - Side-by-side playground instructions
 - Rich animations and interactions
 
 ### Tablet (768px - 1199px)
+
 - Collapsible sidebar
 - Overlay-based instructions
 - Touch-optimized controls
 
 ### Mobile (< 768px)
+
 - Bottom sheet navigation
 - Full-screen playground mode
 - Gesture-based interactions
@@ -224,6 +227,7 @@ OnboardingProvider
 ## 🔌 Integration Points
 
 ### Existing System Integration
+
 ```typescript
 // App.tsx Integration
 const App = () => {
@@ -268,10 +272,17 @@ const useGraphStore = create((set, get) => ({
 ## 📊 Analytics & Metrics
 
 ### Event Tracking
+
 ```typescript
 interface OnboardingEvent {
-  type: 'started' | 'step_completed' | 'playground_entered' |
-        'objective_completed' | 'hint_requested' | 'abandoned' | 'completed';
+  type:
+    | 'started'
+    | 'step_completed'
+    | 'playground_entered'
+    | 'objective_completed'
+    | 'hint_requested'
+    | 'abandoned'
+    | 'completed';
   timestamp: number;
   metadata: {
     skillLevel?: string;
@@ -284,6 +295,7 @@ interface OnboardingEvent {
 ```
 
 ### Success Metrics
+
 - **Completion Rate**: % completing full onboarding
 - **Engagement Depth**: Average playgrounds completed
 - **Time to Success**: Time to first successful shape creation

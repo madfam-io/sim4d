@@ -14,7 +14,11 @@ interface CurveAttractorOutputs {
   field: unknown;
 }
 
-export const FieldAttractorCurveAttractorNode: NodeDefinition<CurveAttractorInputs, CurveAttractorOutputs, CurveAttractorParams> = {
+export const FieldAttractorCurveAttractorNode: NodeDefinition<
+  CurveAttractorInputs,
+  CurveAttractorOutputs,
+  CurveAttractorParams
+> = {
   id: 'Field::CurveAttractor',
   category: 'Field',
   label: 'CurveAttractor',
@@ -23,14 +27,14 @@ export const FieldAttractorCurveAttractorNode: NodeDefinition<CurveAttractorInpu
     curves: {
       type: 'Wire[]',
       label: 'Curves',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     field: {
       type: 'ScalarField',
-      label: 'Field'
-    }
+      label: 'Field',
+    },
   },
   params: {
     strength: {
@@ -38,20 +42,20 @@ export const FieldAttractorCurveAttractorNode: NodeDefinition<CurveAttractorInpu
       label: 'Strength',
       default: 1,
       min: -10,
-      max: 10
+      max: 10,
     },
     radius: {
       type: 'number',
       label: 'Radius',
       default: 50,
-      min: 0.1
+      min: 0.1,
     },
     falloff: {
       type: 'enum',
       label: 'Falloff',
-      default: "smooth",
-      options: ["linear","smooth","exponential"]
-    }
+      default: 'smooth',
+      options: ['linear', 'smooth', 'exponential'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -60,12 +64,12 @@ export const FieldAttractorCurveAttractorNode: NodeDefinition<CurveAttractorInpu
         curves: inputs.curves,
         strength: params.strength,
         radius: params.radius,
-        falloff: params.falloff
-      }
+        falloff: params.falloff,
+      },
     });
-    
+
     return {
-      field: result
+      field: result,
     };
   },
 };

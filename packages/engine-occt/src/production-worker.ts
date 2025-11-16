@@ -30,17 +30,20 @@ let memoryMonitor: NodeJS.Timeout | null = null;
 
 function startMemoryMonitoring() {
   if (memoryMonitor) return;
-  
+
   memoryMonitor = setInterval(() => {
     if (typeof performance !== 'undefined' && 'memory' in performance) {
       const memory = (performance as any).memory;
       const usedMB = Math.round(memory.usedJSHeapSize / 1024 / 1024);
       const totalMB = Math.round(memory.totalJSHeapSize / 1024 / 1024);
-      
+
       logger.debug(`Memory usage: ${usedMB}MB / ${totalMB}MB`);
-      
+
       // Check for memory pressure
-      const threshold = parseInt((typeof process !== 'undefined' ? process.env.WORKER_RESTART_THRESHOLD_MB : undefined) || '1800');
+      const threshold = parseInt(
+        (typeof process !== 'undefined' ? process.env.WORKER_RESTART_THRESHOLD_MB : undefined) ||
+          '1800'
+      );
       if (usedMB > threshold) {
         logger.warn(`Memory threshold exceeded: ${usedMB}MB > ${threshold}MB`);
         self.postMessage({
@@ -72,10 +75,10 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
       case 'INIT':
         if (!isInitialized) {
           logger.info('Initializing OCCT worker...');
-          
+
           try {
             occtModule = await loadOCCT();
-            
+
             // Verify OCCT is real, not mock
             if (!occtModule.getOCCTVersion) {
               throw new WorkerError(
@@ -84,14 +87,14 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
                 { hasVersion: false }
               );
             }
-            
+
             const version = occtModule.getOCCTVersion();
             logger.info(`OCCT initialized: ${version}`);
-            
+
             isInitialized = true;
             startMemoryMonitoring();
-            
-            result = { 
+
+            result = {
               initialized: true,
               version,
               capabilities: {
@@ -99,7 +102,7 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
                 fillet: !!occtModule.makeFillet,
                 chamfer: !!occtModule.makeChamfer,
                 shell: !!occtModule.makeShell,
-              }
+              },
             };
           } catch (error) {
             logger.error('OCCT initialization failed', error);
@@ -135,17 +138,17 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
         if (!isInitialized || !occtModule) {
           throw new WorkerError('NOT_INITIALIZED', 'OCCT not initialized');
         }
-        
+
         const box = occtModule.makeBox(
           request.params.width,
           request.params.height,
           request.params.depth
         );
-        
+
         if (validator.isEnabled()) {
           validator.validateShape(box, 'box');
         }
-        
+
         result = transformShapeHandle(box);
         logger.debug(`Created box: ${box.id}`);
         break;
@@ -154,16 +157,13 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
         if (!isInitialized || !occtModule) {
           throw new WorkerError('NOT_INITIALIZED', 'OCCT not initialized');
         }
-        
-        const cylinder = occtModule.makeCylinder(
-          request.params.radius,
-          request.params.height
-        );
-        
+
+        const cylinder = occtModule.makeCylinder(request.params.radius, request.params.height);
+
         if (validator.isEnabled()) {
           validator.validateShape(cylinder, 'cylinder');
         }
-        
+
         result = transformShapeHandle(cylinder);
         logger.debug(`Created cylinder: ${cylinder.id}`);
         break;
@@ -172,13 +172,13 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
         if (!isInitialized || !occtModule) {
           throw new WorkerError('NOT_INITIALIZED', 'OCCT not initialized');
         }
-        
+
         const sphere = occtModule.makeSphere(request.params.radius);
-        
+
         if (validator.isEnabled()) {
           validator.validateShape(sphere, 'sphere');
         }
-        
+
         result = transformShapeHandle(sphere);
         logger.debug(`Created sphere: ${sphere.id}`);
         break;
@@ -187,7 +187,7 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
         if (!isInitialized || !occtModule) {
           throw new WorkerError('NOT_INITIALIZED', 'OCCT not initialized');
         }
-        
+
         result = performBooleanUnion(request.params.shapes);
         break;
 
@@ -195,7 +195,7 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
         if (!isInitialized || !occtModule) {
           throw new WorkerError('NOT_INITIALIZED', 'OCCT not initialized');
         }
-        
+
         result = performBooleanSubtract(request.params.base, request.params.tools);
         break;
 
@@ -203,7 +203,7 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
         if (!isInitialized || !occtModule) {
           throw new WorkerError('NOT_INITIALIZED', 'OCCT not initialized');
         }
-        
+
         result = performBooleanIntersect(request.params.shapes);
         break;
 
@@ -211,16 +211,16 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
         if (!isInitialized || !occtModule) {
           throw new WorkerError('NOT_INITIALIZED', 'OCCT not initialized');
         }
-        
+
         const mesh = occtModule.tessellate(
           request.params.shape.id,
           request.params.deflection || 0.1
         );
-        
+
         if (validator.isEnabled()) {
           validator.validateMesh(mesh);
         }
-        
+
         result = {
           mesh,
           bbox: request.params.shape.bbox,
@@ -231,7 +231,7 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
         if (!isInitialized || !occtModule) {
           throw new WorkerError('NOT_INITIALIZED', 'OCCT not initialized');
         }
-        
+
         occtModule.deleteShape(request.params.handle);
         OCCTMemoryManager.untrackShape(request.params.handle);
         result = { disposed: true };
@@ -249,11 +249,9 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
         break;
 
       default:
-        throw new WorkerError(
-          'UNKNOWN_OPERATION',
-          `Unknown operation: ${request.type}`,
-          { operation: request.type }
-        );
+        throw new WorkerError('UNKNOWN_OPERATION', `Unknown operation: ${request.type}`, {
+          operation: request.type,
+        });
     }
 
     // Log performance metrics
@@ -269,10 +267,9 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
       result,
     };
     self.postMessage(response);
-
   } catch (error) {
     logger.error(`Operation ${request.type} failed`, error);
-    
+
     // Send error response
     const response: WorkerResponse = {
       id: request.id,
@@ -296,13 +293,13 @@ function transformShapeHandle(occtShape: any) {
       min: {
         x: occtShape.bbox_min_x,
         y: occtShape.bbox_min_y,
-        z: occtShape.bbox_min_z
+        z: occtShape.bbox_min_z,
       },
       max: {
         x: occtShape.bbox_max_x,
         y: occtShape.bbox_max_y,
-        z: occtShape.bbox_max_z
-      }
+        z: occtShape.bbox_max_z,
+      },
     },
     hash: occtShape.hash,
   };
@@ -311,23 +308,21 @@ function transformShapeHandle(occtShape: any) {
 // Boolean operations with validation
 function performBooleanUnion(shapes: any[]): any {
   if (shapes.length < 2) {
-    throw new WorkerError(
-      'INVALID_PARAMS',
-      'Boolean union requires at least 2 shapes',
-      { count: shapes.length }
-    );
+    throw new WorkerError('INVALID_PARAMS', 'Boolean union requires at least 2 shapes', {
+      count: shapes.length,
+    });
   }
 
   let result = shapes[0];
   for (let i = 1; i < shapes.length; i++) {
     const occtShape = occtModule.booleanUnion(result.id, shapes[i].id);
     result = transformShapeHandle(occtShape);
-    
+
     if (validator.isEnabled()) {
       validator.validateBooleanResult(result, 'union');
     }
   }
-  
+
   logger.debug(`Boolean union completed: ${result.id}`);
   return result;
 }
@@ -345,35 +340,33 @@ function performBooleanSubtract(base: any, tools: any[]): any {
   for (const tool of tools) {
     const occtShape = occtModule.booleanSubtract(result.id, tool.id);
     result = transformShapeHandle(occtShape);
-    
+
     if (validator.isEnabled()) {
       validator.validateBooleanResult(result, 'subtract');
     }
   }
-  
+
   logger.debug(`Boolean subtract completed: ${result.id}`);
   return result;
 }
 
 function performBooleanIntersect(shapes: any[]): any {
   if (shapes.length < 2) {
-    throw new WorkerError(
-      'INVALID_PARAMS',
-      'Boolean intersect requires at least 2 shapes',
-      { count: shapes.length }
-    );
+    throw new WorkerError('INVALID_PARAMS', 'Boolean intersect requires at least 2 shapes', {
+      count: shapes.length,
+    });
   }
 
   let result = shapes[0];
   for (let i = 1; i < shapes.length; i++) {
     const occtShape = occtModule.booleanIntersect(result.id, shapes[i].id);
     result = transformShapeHandle(occtShape);
-    
+
     if (validator.isEnabled()) {
       validator.validateBooleanResult(result, 'intersect');
     }
   }
-  
+
   logger.debug(`Boolean intersect completed: ${result.id}`);
   return result;
 }

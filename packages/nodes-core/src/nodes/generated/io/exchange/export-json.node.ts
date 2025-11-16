@@ -15,7 +15,11 @@ interface ExportJSONOutputs {
   jsonData: unknown;
 }
 
-export const IOExchangeExportJSONNode: NodeDefinition<ExportJSONInputs, ExportJSONOutputs, ExportJSONParams> = {
+export const IOExchangeExportJSONNode: NodeDefinition<
+  ExportJSONInputs,
+  ExportJSONOutputs,
+  ExportJSONParams
+> = {
   id: 'IO::ExportJSON',
   category: 'IO',
   label: 'ExportJSON',
@@ -24,26 +28,26 @@ export const IOExchangeExportJSONNode: NodeDefinition<ExportJSONInputs, ExportJS
     shapes: {
       type: 'Shape[]',
       label: 'Shapes',
-      required: true
+      required: true,
     },
     metadata: {
       type: 'Data',
       label: 'Metadata',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     jsonData: {
       type: 'string',
-      label: 'Json Data'
-    }
+      label: 'Json Data',
+    },
   },
   params: {
     format: {
       type: 'enum',
       label: 'Format',
-      default: "brepflow",
-      options: ["brepflow","three","custom"]
+      default: 'brepflow',
+      options: ['brepflow', 'three', 'custom'],
     },
     precision: {
       type: 'number',
@@ -51,13 +55,13 @@ export const IOExchangeExportJSONNode: NodeDefinition<ExportJSONInputs, ExportJS
       default: 6,
       min: 1,
       max: 15,
-      step: 1
+      step: 1,
     },
     includeTopology: {
       type: 'boolean',
       label: 'Include Topology',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -67,12 +71,12 @@ export const IOExchangeExportJSONNode: NodeDefinition<ExportJSONInputs, ExportJS
         metadata: inputs.metadata,
         format: params.format,
         precision: params.precision,
-        includeTopology: params.includeTopology
-      }
+        includeTopology: params.includeTopology,
+      },
     });
-    
+
     return {
-      jsonData: result
+      jsonData: result,
     };
   },
 };

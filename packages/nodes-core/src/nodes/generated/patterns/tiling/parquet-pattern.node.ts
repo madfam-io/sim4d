@@ -14,7 +14,11 @@ interface ParquetPatternOutputs {
   planks: unknown;
 }
 
-export const PatternsTilingParquetPatternNode: NodeDefinition<ParquetPatternInputs, ParquetPatternOutputs, ParquetPatternParams> = {
+export const PatternsTilingParquetPatternNode: NodeDefinition<
+  ParquetPatternInputs,
+  ParquetPatternOutputs,
+  ParquetPatternParams
+> = {
   id: 'Patterns::ParquetPattern',
   category: 'Patterns',
   label: 'ParquetPattern',
@@ -23,34 +27,34 @@ export const PatternsTilingParquetPatternNode: NodeDefinition<ParquetPatternInpu
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     planks: {
       type: 'Face[]',
-      label: 'Planks'
-    }
+      label: 'Planks',
+    },
   },
   params: {
     pattern: {
       type: 'enum',
       label: 'Pattern',
-      default: "herringbone",
-      options: ["herringbone","chevron","basket","versailles","chantilly"]
+      default: 'herringbone',
+      options: ['herringbone', 'chevron', 'basket', 'versailles', 'chantilly'],
     },
     plankLength: {
       type: 'number',
       label: 'Plank Length',
       default: 30,
-      min: 1
+      min: 1,
     },
     plankWidth: {
       type: 'number',
       label: 'Plank Width',
       default: 5,
-      min: 1
-    }
+      min: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -59,12 +63,12 @@ export const PatternsTilingParquetPatternNode: NodeDefinition<ParquetPatternInpu
         surface: inputs.surface,
         pattern: params.pattern,
         plankLength: params.plankLength,
-        plankWidth: params.plankWidth
-      }
+        plankWidth: params.plankWidth,
+      },
     });
-    
+
     return {
-      planks: result
+      planks: result,
     };
   },
 };

@@ -13,7 +13,11 @@ interface IntersectionOutputs {
   result: unknown;
 }
 
-export const BooleanIntersectionNode: NodeDefinition<IntersectionInputs, IntersectionOutputs, IntersectionParams> = {
+export const BooleanIntersectionNode: NodeDefinition<
+  IntersectionInputs,
+  IntersectionOutputs,
+  IntersectionParams
+> = {
   id: 'Boolean::Intersection',
   category: 'Boolean',
   label: 'Intersection',
@@ -22,28 +26,28 @@ export const BooleanIntersectionNode: NodeDefinition<IntersectionInputs, Interse
     shapes: {
       type: 'Shape[]',
       label: 'Shapes',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'Shape',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {
     keepOriginals: {
       type: 'boolean',
       label: 'Keep Originals',
-      default: false
+      default: false,
     },
     fuzzyValue: {
       type: 'number',
       label: 'Fuzzy Value',
       default: 1e-7,
       min: 0,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -51,12 +55,12 @@ export const BooleanIntersectionNode: NodeDefinition<IntersectionInputs, Interse
       params: {
         shapes: inputs.shapes,
         keepOriginals: params.keepOriginals,
-        fuzzyValue: params.fuzzyValue
-      }
+        fuzzyValue: params.fuzzyValue,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

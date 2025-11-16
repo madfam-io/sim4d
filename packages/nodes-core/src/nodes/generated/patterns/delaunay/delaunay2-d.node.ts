@@ -14,7 +14,11 @@ interface Delaunay2DOutputs {
   mesh: unknown;
 }
 
-export const PatternsDelaunayDelaunay2DNode: NodeDefinition<Delaunay2DInputs, Delaunay2DOutputs, Delaunay2DParams> = {
+export const PatternsDelaunayDelaunay2DNode: NodeDefinition<
+  Delaunay2DInputs,
+  Delaunay2DOutputs,
+  Delaunay2DParams
+> = {
   id: 'Patterns::Delaunay2D',
   category: 'Patterns',
   label: 'Delaunay2D',
@@ -23,30 +27,30 @@ export const PatternsDelaunayDelaunay2DNode: NodeDefinition<Delaunay2DInputs, De
     points: {
       type: 'Point[]',
       label: 'Points',
-      required: true
+      required: true,
     },
     constraints: {
       type: 'Edge[]',
       label: 'Constraints',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     triangles: {
       type: 'Face[]',
-      label: 'Triangles'
+      label: 'Triangles',
     },
     mesh: {
       type: 'Mesh',
-      label: 'Mesh'
-    }
+      label: 'Mesh',
+    },
   },
   params: {
     constrainEdges: {
       type: 'boolean',
       label: 'Constrain Edges',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -54,13 +58,13 @@ export const PatternsDelaunayDelaunay2DNode: NodeDefinition<Delaunay2DInputs, De
       params: {
         points: inputs.points,
         constraints: inputs.constraints,
-        constrainEdges: params.constrainEdges
-      }
+        constrainEdges: params.constrainEdges,
+      },
     });
-    
+
     return {
       triangles: results.triangles,
-      mesh: results.mesh
+      mesh: results.mesh,
     };
   },
 };

@@ -15,7 +15,11 @@ interface FieldRemapOutputs {
   remapped: unknown;
 }
 
-export const FieldOperationsFieldRemapNode: NodeDefinition<FieldRemapInputs, FieldRemapOutputs, FieldRemapParams> = {
+export const FieldOperationsFieldRemapNode: NodeDefinition<
+  FieldRemapInputs,
+  FieldRemapOutputs,
+  FieldRemapParams
+> = {
   id: 'Field::FieldRemap',
   type: 'Field::FieldRemap',
   category: 'Field',
@@ -25,36 +29,36 @@ export const FieldOperationsFieldRemapNode: NodeDefinition<FieldRemapInputs, Fie
     field: {
       type: 'ScalarField',
       label: 'Field',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     remapped: {
       type: 'ScalarField',
-      label: 'Remapped'
-    }
+      label: 'Remapped',
+    },
   },
   params: {
     fromMin: {
       type: 'number',
       label: 'From Min',
-      default: 0
+      default: 0,
     },
     fromMax: {
       type: 'number',
       label: 'From Max',
-      default: 1
+      default: 1,
     },
     toMin: {
       type: 'number',
       label: 'To Min',
-      default: 0
+      default: 0,
     },
     toMax: {
       type: 'number',
       label: 'To Max',
-      default: 100
-    }
+      default: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -64,12 +68,12 @@ export const FieldOperationsFieldRemapNode: NodeDefinition<FieldRemapInputs, Fie
         fromMin: params.fromMin,
         fromMax: params.fromMax,
         toMin: params.toMin,
-        toMax: params.toMax
-      }
+        toMax: params.toMax,
+      },
     });
-    
+
     return {
-      remapped: result
+      remapped: result,
     };
   },
 };

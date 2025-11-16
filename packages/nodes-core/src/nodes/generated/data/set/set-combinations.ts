@@ -12,7 +12,11 @@ interface SetCombinationsOutputs {
   combinations: unknown;
 }
 
-export const DataSetSetCombinationsNode: NodeDefinition<SetCombinationsInputs, SetCombinationsOutputs, SetCombinationsParams> = {
+export const DataSetSetCombinationsNode: NodeDefinition<
+  SetCombinationsInputs,
+  SetCombinationsOutputs,
+  SetCombinationsParams
+> = {
   id: 'Data::SetCombinations',
   type: 'Data::SetCombinations',
   category: 'Data',
@@ -22,14 +26,14 @@ export const DataSetSetCombinationsNode: NodeDefinition<SetCombinationsInputs, S
     set: {
       type: 'Data[]',
       label: 'Set',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     combinations: {
       type: 'Data[][]',
-      label: 'Combinations'
-    }
+      label: 'Combinations',
+    },
   },
   params: {
     k: {
@@ -37,20 +41,20 @@ export const DataSetSetCombinationsNode: NodeDefinition<SetCombinationsInputs, S
       label: 'K',
       default: 2,
       min: 1,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'setCombinations',
       params: {
         set: inputs.set,
-        k: params.k
-      }
+        k: params.k,
+      },
     });
-    
+
     return {
-      combinations: result
+      combinations: result,
     };
   },
 };

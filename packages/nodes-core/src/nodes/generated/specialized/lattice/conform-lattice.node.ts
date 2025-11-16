@@ -14,7 +14,11 @@ interface ConformLatticeOutputs {
   conformed: unknown;
 }
 
-export const SpecializedLatticeConformLatticeNode: NodeDefinition<ConformLatticeInputs, ConformLatticeOutputs, ConformLatticeParams> = {
+export const SpecializedLatticeConformLatticeNode: NodeDefinition<
+  ConformLatticeInputs,
+  ConformLatticeOutputs,
+  ConformLatticeParams
+> = {
   id: 'Specialized::ConformLattice',
   category: 'Specialized',
   label: 'ConformLattice',
@@ -23,34 +27,34 @@ export const SpecializedLatticeConformLatticeNode: NodeDefinition<ConformLattice
     targetShape: {
       type: 'Shape',
       label: 'Target Shape',
-      required: true
+      required: true,
     },
     latticePattern: {
       type: 'Shape',
       label: 'Lattice Pattern',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     conformed: {
       type: 'Shape',
-      label: 'Conformed'
-    }
+      label: 'Conformed',
+    },
   },
   params: {
     conformType: {
       type: 'enum',
       label: 'Conform Type',
-      default: "volume",
-      options: ["surface","volume"]
+      default: 'volume',
+      options: ['surface', 'volume'],
     },
     cellSize: {
       type: 'number',
       label: 'Cell Size',
       default: 10,
       min: 1,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -59,12 +63,12 @@ export const SpecializedLatticeConformLatticeNode: NodeDefinition<ConformLattice
         targetShape: inputs.targetShape,
         latticePattern: inputs.latticePattern,
         conformType: params.conformType,
-        cellSize: params.cellSize
-      }
+        cellSize: params.cellSize,
+      },
     });
-    
+
     return {
-      conformed: result
+      conformed: result,
     };
   },
 };

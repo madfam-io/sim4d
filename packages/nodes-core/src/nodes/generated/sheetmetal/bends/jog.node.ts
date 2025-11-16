@@ -24,19 +24,19 @@ export const SheetMetalBendsJogNode: NodeDefinition<JogInputs, JogOutputs, JogPa
     sheet: {
       type: 'Shape',
       label: 'Sheet',
-      required: true
+      required: true,
     },
     jogLine: {
       type: 'Edge',
       label: 'Jog Line',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'Shape',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {
     jogOffset: {
@@ -44,22 +44,22 @@ export const SheetMetalBendsJogNode: NodeDefinition<JogInputs, JogOutputs, JogPa
       label: 'Jog Offset',
       default: 10,
       min: 0.1,
-      max: 1000
+      max: 1000,
     },
     jogAngle: {
       type: 'number',
       label: 'Jog Angle',
       default: 90,
       min: 0,
-      max: 180
+      max: 180,
     },
     bendRadius: {
       type: 'number',
       label: 'Bend Radius',
       default: 3,
       min: 0.1,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -69,12 +69,12 @@ export const SheetMetalBendsJogNode: NodeDefinition<JogInputs, JogOutputs, JogPa
         jogLine: inputs.jogLine,
         jogOffset: params.jogOffset,
         jogAngle: params.jogAngle,
-        bendRadius: params.bendRadius
-      }
+        bendRadius: params.bendRadius,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

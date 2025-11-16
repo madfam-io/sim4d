@@ -16,7 +16,11 @@ interface StraightRampOutputs {
   handrails: unknown;
 }
 
-export const ArchitectureRampsStraightRampNode: NodeDefinition<StraightRampInputs, StraightRampOutputs, StraightRampParams> = {
+export const ArchitectureRampsStraightRampNode: NodeDefinition<
+  StraightRampInputs,
+  StraightRampOutputs,
+  StraightRampParams
+> = {
   id: 'Architecture::StraightRamp',
   category: 'Architecture',
   label: 'StraightRamp',
@@ -25,23 +29,23 @@ export const ArchitectureRampsStraightRampNode: NodeDefinition<StraightRampInput
     startPoint: {
       type: 'Point',
       label: 'Start Point',
-      required: true
+      required: true,
     },
     endPoint: {
       type: 'Point',
       label: 'End Point',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     ramp: {
       type: 'Shape',
-      label: 'Ramp'
+      label: 'Ramp',
     },
     handrails: {
       type: 'Shape[]',
-      label: 'Handrails'
-    }
+      label: 'Handrails',
+    },
   },
   params: {
     slope: {
@@ -49,20 +53,20 @@ export const ArchitectureRampsStraightRampNode: NodeDefinition<StraightRampInput
       label: 'Slope',
       default: 0.083,
       min: 0.05,
-      max: 0.125
+      max: 0.125,
     },
     width: {
       type: 'number',
       label: 'Width',
       default: 1200,
       min: 900,
-      max: 2000
+      max: 2000,
     },
     handrails: {
       type: 'boolean',
       label: 'Handrails',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -72,13 +76,13 @@ export const ArchitectureRampsStraightRampNode: NodeDefinition<StraightRampInput
         endPoint: inputs.endPoint,
         slope: params.slope,
         width: params.width,
-        handrails: params.handrails
-      }
+        handrails: params.handrails,
+      },
     });
-    
+
     return {
       ramp: results.ramp,
-      handrails: results.handrails
+      handrails: results.handrails,
     };
   },
 };

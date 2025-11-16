@@ -18,7 +18,11 @@ interface TopologyOptimizeOutputs {
   convergence: unknown;
 }
 
-export const SpecializedOptimizationTopologyOptimizeNode: NodeDefinition<TopologyOptimizeInputs, TopologyOptimizeOutputs, TopologyOptimizeParams> = {
+export const SpecializedOptimizationTopologyOptimizeNode: NodeDefinition<
+  TopologyOptimizeInputs,
+  TopologyOptimizeOutputs,
+  TopologyOptimizeParams
+> = {
   id: 'Specialized::TopologyOptimize',
   category: 'Specialized',
   label: 'TopologyOptimize',
@@ -27,28 +31,28 @@ export const SpecializedOptimizationTopologyOptimizeNode: NodeDefinition<Topolog
     designSpace: {
       type: 'Shape',
       label: 'Design Space',
-      required: true
+      required: true,
     },
     loads: {
       type: 'Data',
       label: 'Loads',
-      required: true
+      required: true,
     },
     constraints: {
       type: 'Data',
       label: 'Constraints',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     optimized: {
       type: 'Shape',
-      label: 'Optimized'
+      label: 'Optimized',
     },
     convergence: {
       type: 'Data',
-      label: 'Convergence'
-    }
+      label: 'Convergence',
+    },
   },
   params: {
     volumeFraction: {
@@ -56,21 +60,21 @@ export const SpecializedOptimizationTopologyOptimizeNode: NodeDefinition<Topolog
       label: 'Volume Fraction',
       default: 0.3,
       min: 0.1,
-      max: 0.9
+      max: 0.9,
     },
     penaltyFactor: {
       type: 'number',
       label: 'Penalty Factor',
       default: 3,
       min: 1,
-      max: 5
+      max: 5,
     },
     filterRadius: {
       type: 'number',
       label: 'Filter Radius',
       default: 2,
       min: 0.5,
-      max: 10
+      max: 10,
     },
     iterations: {
       type: 'number',
@@ -78,8 +82,8 @@ export const SpecializedOptimizationTopologyOptimizeNode: NodeDefinition<Topolog
       default: 100,
       min: 10,
       max: 500,
-      step: 10
-    }
+      step: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -91,13 +95,13 @@ export const SpecializedOptimizationTopologyOptimizeNode: NodeDefinition<Topolog
         volumeFraction: params.volumeFraction,
         penaltyFactor: params.penaltyFactor,
         filterRadius: params.filterRadius,
-        iterations: params.iterations
-      }
+        iterations: params.iterations,
+      },
     });
-    
+
     return {
       optimized: results.optimized,
-      convergence: results.convergence
+      convergence: results.convergence,
     };
   },
 };

@@ -17,7 +17,11 @@ interface TorsionSpringOutputs {
   legs: unknown;
 }
 
-export const MechanicalEngineeringSpringsTorsionSpringNode: NodeDefinition<TorsionSpringInputs, TorsionSpringOutputs, TorsionSpringParams> = {
+export const MechanicalEngineeringSpringsTorsionSpringNode: NodeDefinition<
+  TorsionSpringInputs,
+  TorsionSpringOutputs,
+  TorsionSpringParams
+> = {
   id: 'MechanicalEngineering::TorsionSpring',
   type: 'MechanicalEngineering::TorsionSpring',
   category: 'MechanicalEngineering',
@@ -27,18 +31,18 @@ export const MechanicalEngineeringSpringsTorsionSpringNode: NodeDefinition<Torsi
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     spring: {
       type: 'Shape',
-      label: 'Spring'
+      label: 'Spring',
     },
     legs: {
       type: 'Wire[]',
-      label: 'Legs'
-    }
+      label: 'Legs',
+    },
   },
   params: {
     wireDiameter: {
@@ -46,36 +50,36 @@ export const MechanicalEngineeringSpringsTorsionSpringNode: NodeDefinition<Torsi
       label: 'Wire Diameter',
       default: 2,
       min: 0.5,
-      max: 8
+      max: 8,
     },
     coilDiameter: {
       type: 'number',
       label: 'Coil Diameter',
       default: 20,
       min: 5,
-      max: 80
+      max: 80,
     },
     coils: {
       type: 'number',
       label: 'Coils',
       default: 5,
       min: 2,
-      max: 20
+      max: 20,
     },
     legLength: {
       type: 'number',
       label: 'Leg Length',
       default: 30,
       min: 10,
-      max: 100
+      max: 100,
     },
     legAngle: {
       type: 'number',
       label: 'Leg Angle',
       default: 90,
       min: 0,
-      max: 180
-    }
+      max: 180,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -86,13 +90,13 @@ export const MechanicalEngineeringSpringsTorsionSpringNode: NodeDefinition<Torsi
         coilDiameter: params.coilDiameter,
         coils: params.coils,
         legLength: params.legLength,
-        legAngle: params.legAngle
-      }
+        legAngle: params.legAngle,
+      },
     });
-    
+
     return {
       spring: results.spring,
-      legs: results.legs
+      legs: results.legs,
     };
   },
 };

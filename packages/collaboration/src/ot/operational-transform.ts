@@ -10,10 +10,7 @@ export class OperationalTransform {
 
     for (const concurrentOp of concurrentOps) {
       // Skip if same operation or from same user
-      if (
-        concurrentOp.id === operation.id ||
-        concurrentOp.userId === operation.userId
-      ) {
+      if (concurrentOp.id === operation.id || concurrentOp.userId === operation.userId) {
         continue;
       }
 
@@ -74,10 +71,7 @@ export class OperationalTransform {
     return op1;
   }
 
-  private transformAddNodeAddNode(
-    op1: Operation,
-    op2: Operation
-  ): Operation {
+  private transformAddNodeAddNode(op1: Operation, op2: Operation): Operation {
     if (op1.type !== 'ADD_NODE' || op2.type !== 'ADD_NODE') return op1;
 
     // If nodes have same ID, use timestamp to determine winner
@@ -97,10 +91,7 @@ export class OperationalTransform {
     return op1;
   }
 
-  private transformDeleteNodeDeleteNode(
-    op1: Operation,
-    op2: Operation
-  ): Operation {
+  private transformDeleteNodeDeleteNode(op1: Operation, op2: Operation): Operation {
     if (op1.type !== 'DELETE_NODE' || op2.type !== 'DELETE_NODE') return op1;
 
     // Both trying to delete same node - no conflict
@@ -111,10 +102,7 @@ export class OperationalTransform {
     return op1;
   }
 
-  private transformUpdateNodeUpdateNode(
-    op1: Operation,
-    op2: Operation
-  ): Operation {
+  private transformUpdateNodeUpdateNode(op1: Operation, op2: Operation): Operation {
     if (op1.type !== 'UPDATE_NODE' || op2.type !== 'UPDATE_NODE') return op1;
 
     // If updating same node, merge updates with timestamp priority
@@ -141,10 +129,7 @@ export class OperationalTransform {
     return op1;
   }
 
-  private transformDeleteNodeUpdateNode(
-    op1: Operation,
-    op2: Operation
-  ): Operation {
+  private transformDeleteNodeUpdateNode(op1: Operation, op2: Operation): Operation {
     if (op1.type !== 'DELETE_NODE' || op2.type !== 'UPDATE_NODE') return op1;
 
     // Delete wins over update
@@ -155,10 +140,7 @@ export class OperationalTransform {
     return op1;
   }
 
-  private transformUpdateNodeDeleteNode(
-    op1: Operation,
-    op2: Operation
-  ): Operation {
+  private transformUpdateNodeDeleteNode(op1: Operation, op2: Operation): Operation {
     if (op1.type !== 'UPDATE_NODE' || op2.type !== 'DELETE_NODE') return op1;
 
     // Delete wins over update - mark update as no-op
@@ -172,10 +154,7 @@ export class OperationalTransform {
     return op1;
   }
 
-  private transformAddEdgeAddEdge(
-    op1: Operation,
-    op2: Operation
-  ): Operation {
+  private transformAddEdgeAddEdge(op1: Operation, op2: Operation): Operation {
     if (op1.type !== 'ADD_EDGE' || op2.type !== 'ADD_EDGE') return op1;
 
     // If edges have same ID, use timestamp to determine winner
@@ -194,27 +173,18 @@ export class OperationalTransform {
     return op1;
   }
 
-  private transformDeleteEdgeDeleteEdge(
-    op1: Operation,
-    op2: Operation
-  ): Operation {
+  private transformDeleteEdgeDeleteEdge(op1: Operation, op2: Operation): Operation {
     if (op1.type !== 'DELETE_EDGE' || op2.type !== 'DELETE_EDGE') return op1;
 
     // Both trying to delete same edge - no conflict
     return op1;
   }
 
-  private transformAddEdgeDeleteNode(
-    op1: Operation,
-    op2: Operation
-  ): Operation {
+  private transformAddEdgeDeleteNode(op1: Operation, op2: Operation): Operation {
     if (op1.type !== 'ADD_EDGE' || op2.type !== 'DELETE_NODE') return op1;
 
     // If edge connects to deleted node, invalidate edge addition
-    if (
-      op1.edge.source === op2.nodeId ||
-      op1.edge.target === op2.nodeId
-    ) {
+    if (op1.edge.source === op2.nodeId || op1.edge.target === op2.nodeId) {
       // Return a no-op version of the operation
       return {
         ...op1,
@@ -228,10 +198,7 @@ export class OperationalTransform {
     return op1;
   }
 
-  private transformDeleteNodeAddEdge(
-    op1: Operation,
-    op2: Operation
-  ): Operation {
+  private transformDeleteNodeAddEdge(op1: Operation, op2: Operation): Operation {
     if (op1.type !== 'DELETE_NODE' || op2.type !== 'ADD_EDGE') return op1;
 
     // Delete node operation remains unchanged
@@ -241,10 +208,7 @@ export class OperationalTransform {
   /**
    * Detect conflicts between operations
    */
-  detectConflicts(
-    operation: Operation,
-    existingOps: Operation[]
-  ): Conflict[] {
+  detectConflicts(operation: Operation, existingOps: Operation[]): Conflict[] {
     const conflicts: Conflict[] = [];
 
     for (const existingOp of existingOps) {
@@ -268,37 +232,22 @@ export class OperationalTransform {
     if (op1.documentId !== op2.documentId) return false;
 
     // Check specific conflict conditions
-    if (
-      op1.type === 'UPDATE_NODE' &&
-      op2.type === 'UPDATE_NODE' &&
-      op1.nodeId === op2.nodeId
-    ) {
+    if (op1.type === 'UPDATE_NODE' && op2.type === 'UPDATE_NODE' && op1.nodeId === op2.nodeId) {
       return true; // Concurrent updates to same node
     }
 
-    if (
-      op1.type === 'DELETE_NODE' &&
-      op2.type === 'UPDATE_NODE' &&
-      op1.nodeId === op2.nodeId
-    ) {
+    if (op1.type === 'DELETE_NODE' && op2.type === 'UPDATE_NODE' && op1.nodeId === op2.nodeId) {
       return true; // Delete vs update conflict
     }
 
-    if (
-      op1.type === 'ADD_NODE' &&
-      op2.type === 'ADD_NODE' &&
-      op1.node.id === op2.node.id
-    ) {
+    if (op1.type === 'ADD_NODE' && op2.type === 'ADD_NODE' && op1.node.id === op2.node.id) {
       return true; // Same ID conflict
     }
 
     return false;
   }
 
-  private resolveConflict(
-    op1: Operation,
-    op2: Operation
-  ): Operation | undefined {
+  private resolveConflict(op1: Operation, op2: Operation): Operation | undefined {
     // Use timestamp-based resolution
     if (op1.timestamp > op2.timestamp) {
       return op1;

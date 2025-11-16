@@ -16,7 +16,11 @@ interface WormGearOutputs {
   throat: unknown;
 }
 
-export const MechanicalEngineeringGearsWormGearNode: NodeDefinition<WormGearInputs, WormGearOutputs, WormGearParams> = {
+export const MechanicalEngineeringGearsWormGearNode: NodeDefinition<
+  WormGearInputs,
+  WormGearOutputs,
+  WormGearParams
+> = {
   id: 'MechanicalEngineering::WormGear',
   category: 'MechanicalEngineering',
   label: 'WormGear',
@@ -25,18 +29,18 @@ export const MechanicalEngineeringGearsWormGearNode: NodeDefinition<WormGearInpu
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     gear: {
       type: 'Shape',
-      label: 'Gear'
+      label: 'Gear',
     },
     throat: {
       type: 'Wire',
-      label: 'Throat'
-    }
+      label: 'Throat',
+    },
   },
   params: {
     module: {
@@ -44,29 +48,29 @@ export const MechanicalEngineeringGearsWormGearNode: NodeDefinition<WormGearInpu
       label: 'Module',
       default: 2,
       min: 0.5,
-      max: 10
+      max: 10,
     },
     teeth: {
       type: 'number',
       label: 'Teeth',
       default: 30,
       min: 20,
-      max: 100
+      max: 100,
     },
     diameter: {
       type: 'number',
       label: 'Diameter',
       default: 60,
       min: 20,
-      max: 200
+      max: 200,
     },
     width: {
       type: 'number',
       label: 'Width',
       default: 20,
       min: 5,
-      max: 50
-    }
+      max: 50,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -76,13 +80,13 @@ export const MechanicalEngineeringGearsWormGearNode: NodeDefinition<WormGearInpu
         module: params.module,
         teeth: params.teeth,
         diameter: params.diameter,
-        width: params.width
-      }
+        width: params.width,
+      },
     });
-    
+
     return {
       gear: results.gear,
-      throat: results.throat
+      throat: results.throat,
     };
   },
 };

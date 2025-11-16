@@ -13,7 +13,11 @@ interface ConveyorTrackingOutputs {
   trackingTrajectory: unknown;
 }
 
-export const FabricationRoboticsConveyorTrackingNode: NodeDefinition<ConveyorTrackingInputs, ConveyorTrackingOutputs, ConveyorTrackingParams> = {
+export const FabricationRoboticsConveyorTrackingNode: NodeDefinition<
+  ConveyorTrackingInputs,
+  ConveyorTrackingOutputs,
+  ConveyorTrackingParams
+> = {
   id: 'Fabrication::ConveyorTracking',
   type: 'Fabrication::ConveyorTracking',
   category: 'Fabrication',
@@ -23,14 +27,14 @@ export const FabricationRoboticsConveyorTrackingNode: NodeDefinition<ConveyorTra
     objectPositions: {
       type: 'Point[]',
       label: 'Object Positions',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     trackingTrajectory: {
       type: 'Transform[]',
-      label: 'Tracking Trajectory'
-    }
+      label: 'Tracking Trajectory',
+    },
   },
   params: {
     conveyorSpeed: {
@@ -38,15 +42,15 @@ export const FabricationRoboticsConveyorTrackingNode: NodeDefinition<ConveyorTra
       label: 'Conveyor Speed',
       default: 100,
       min: 1,
-      max: 1000
+      max: 1000,
     },
     trackingWindow: {
       type: 'number',
       label: 'Tracking Window',
       default: 500,
       min: 100,
-      max: 2000
-    }
+      max: 2000,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -54,12 +58,12 @@ export const FabricationRoboticsConveyorTrackingNode: NodeDefinition<ConveyorTra
       params: {
         objectPositions: inputs.objectPositions,
         conveyorSpeed: params.conveyorSpeed,
-        trackingWindow: params.trackingWindow
-      }
+        trackingWindow: params.trackingWindow,
+      },
     });
-    
+
     return {
-      trackingTrajectory: result
+      trackingTrajectory: result,
     };
   },
 };

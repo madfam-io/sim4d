@@ -10,7 +10,11 @@ interface ProductOutputs {
   product: unknown;
 }
 
-export const MathStatisticsProductNode: NodeDefinition<ProductInputs, ProductOutputs, ProductParams> = {
+export const MathStatisticsProductNode: NodeDefinition<
+  ProductInputs,
+  ProductOutputs,
+  ProductParams
+> = {
   id: 'Math::Product',
   category: 'Math',
   label: 'Product',
@@ -19,26 +23,26 @@ export const MathStatisticsProductNode: NodeDefinition<ProductInputs, ProductOut
     values: {
       type: 'number[]',
       label: 'Values',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     product: {
       type: 'number',
-      label: 'Product'
-    }
+      label: 'Product',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathProduct',
       params: {
-        values: inputs.values
-      }
+        values: inputs.values,
+      },
     });
-    
+
     return {
-      product: result
+      product: result,
     };
   },
 };

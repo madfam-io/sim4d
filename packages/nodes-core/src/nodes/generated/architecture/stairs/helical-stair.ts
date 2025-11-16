@@ -14,7 +14,11 @@ interface HelicalStairOutputs {
   helicalStair: unknown;
 }
 
-export const ArchitectureStairsHelicalStairNode: NodeDefinition<HelicalStairInputs, HelicalStairOutputs, HelicalStairParams> = {
+export const ArchitectureStairsHelicalStairNode: NodeDefinition<
+  HelicalStairInputs,
+  HelicalStairOutputs,
+  HelicalStairParams
+> = {
   id: 'Architecture::HelicalStair',
   type: 'Architecture::HelicalStair',
   category: 'Architecture',
@@ -24,14 +28,14 @@ export const ArchitectureStairsHelicalStairNode: NodeDefinition<HelicalStairInpu
     centerPoint: {
       type: 'Point',
       label: 'Center Point',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     helicalStair: {
       type: 'Shape',
-      label: 'Helical Stair'
-    }
+      label: 'Helical Stair',
+    },
   },
   params: {
     innerRadius: {
@@ -39,22 +43,22 @@ export const ArchitectureStairsHelicalStairNode: NodeDefinition<HelicalStairInpu
       label: 'Inner Radius',
       default: 500,
       min: 0,
-      max: 1000
+      max: 1000,
     },
     outerRadius: {
       type: 'number',
       label: 'Outer Radius',
       default: 1500,
       min: 1000,
-      max: 3000
+      max: 3000,
     },
     totalRise: {
       type: 'number',
       label: 'Total Rise',
       default: 3000,
       min: 1000,
-      max: 6000
-    }
+      max: 6000,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -63,12 +67,12 @@ export const ArchitectureStairsHelicalStairNode: NodeDefinition<HelicalStairInpu
         centerPoint: inputs.centerPoint,
         innerRadius: params.innerRadius,
         outerRadius: params.outerRadius,
-        totalRise: params.totalRise
-      }
+        totalRise: params.totalRise,
+      },
     });
-    
+
     return {
-      helicalStair: result
+      helicalStair: result,
     };
   },
 };

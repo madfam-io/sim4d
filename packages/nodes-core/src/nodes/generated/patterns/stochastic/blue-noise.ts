@@ -13,7 +13,11 @@ interface BlueNoiseOutputs {
   points: Array<[number, number, number]>;
 }
 
-export const PatternsStochasticBlueNoiseNode: NodeDefinition<BlueNoiseInputs, BlueNoiseOutputs, BlueNoiseParams> = {
+export const PatternsStochasticBlueNoiseNode: NodeDefinition<
+  BlueNoiseInputs,
+  BlueNoiseOutputs,
+  BlueNoiseParams
+> = {
   id: 'Patterns::BlueNoise',
   type: 'Patterns::BlueNoise',
   category: 'Patterns',
@@ -23,14 +27,14 @@ export const PatternsStochasticBlueNoiseNode: NodeDefinition<BlueNoiseInputs, Bl
     boundary: {
       type: 'Wire',
       label: 'Boundary',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     points: {
       type: 'Point[]',
-      label: 'Points'
-    }
+      label: 'Points',
+    },
   },
   params: {
     count: {
@@ -39,14 +43,14 @@ export const PatternsStochasticBlueNoiseNode: NodeDefinition<BlueNoiseInputs, Bl
       default: 100,
       min: 10,
       max: 10000,
-      step: 10
+      step: 10,
     },
     minDistance: {
       type: 'number',
       label: 'Min Distance',
       default: 1,
-      min: 0.1
-    }
+      min: 0.1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -54,12 +58,12 @@ export const PatternsStochasticBlueNoiseNode: NodeDefinition<BlueNoiseInputs, Bl
       params: {
         boundary: inputs.boundary,
         count: params.count,
-        minDistance: params.minDistance
-      }
+        minDistance: params.minDistance,
+      },
     });
-    
+
     return {
-      points: result
+      points: result,
     };
   },
 };

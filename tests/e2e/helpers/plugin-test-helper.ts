@@ -5,7 +5,7 @@ import {
   PluginInstallOptions,
   PluginExecutionContext,
   PluginPermission,
-  PluginStatus
+  PluginStatus,
 } from '../../../packages/cloud-services/src/plugins/types';
 
 /**
@@ -18,7 +18,9 @@ export class PluginTestHelper {
   // === Plugin Discovery & Marketplace ===
 
   async openPluginMarketplace(): Promise<void> {
-    await this.page.click('[data-testid="plugin-marketplace-button"], [aria-label="Plugin Marketplace"]');
+    await this.page.click(
+      '[data-testid="plugin-marketplace-button"], [aria-label="Plugin Marketplace"]'
+    );
     await expect(this.page.locator('[data-testid="plugin-marketplace"]')).toBeVisible();
   }
 
@@ -44,7 +46,9 @@ export class PluginTestHelper {
 
     const name = await pluginCard.locator('[data-testid="plugin-name"]').textContent();
     const version = await pluginCard.locator('[data-testid="plugin-version"]').textContent();
-    const description = await pluginCard.locator('[data-testid="plugin-description"]').textContent();
+    const description = await pluginCard
+      .locator('[data-testid="plugin-description"]')
+      .textContent();
 
     return {
       id: pluginId,
@@ -58,18 +62,25 @@ export class PluginTestHelper {
       bundle: new Uint8Array(),
       signature: '',
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
   }
 
   // === Plugin Installation & Lifecycle ===
 
-  async installPlugin(pluginId: PluginId, options: Partial<PluginInstallOptions> = {}): Promise<void> {
+  async installPlugin(
+    pluginId: PluginId,
+    options: Partial<PluginInstallOptions> = {}
+  ): Promise<void> {
     const pluginCard = this.page.locator(`[data-plugin-id="${pluginId}"]`);
     await pluginCard.locator('[data-testid="install-plugin-button"]').click();
 
     // Handle permission dialog if it appears
-    if (await this.page.locator('[data-testid="plugin-permissions-dialog"]').isVisible({ timeout: 2000 })) {
+    if (
+      await this.page
+        .locator('[data-testid="plugin-permissions-dialog"]')
+        .isVisible({ timeout: 2000 })
+    ) {
       if (options.acceptPermissions !== false) {
         await this.page.click('[data-testid="accept-permissions-button"]');
       } else {
@@ -79,7 +90,9 @@ export class PluginTestHelper {
     }
 
     // Wait for installation to complete
-    await expect(pluginCard.locator('[data-testid="plugin-status"]')).toHaveText('Installed', { timeout: 10000 });
+    await expect(pluginCard.locator('[data-testid="plugin-status"]')).toHaveText('Installed', {
+      timeout: 10000,
+    });
   }
 
   async activatePlugin(pluginId: PluginId): Promise<void> {
@@ -114,10 +127,14 @@ export class PluginTestHelper {
     const statusText = await pluginRow.locator('[data-testid="plugin-status"]').textContent();
 
     switch (statusText?.toLowerCase()) {
-      case 'active': return 'active';
-      case 'installed': return 'installed';
-      case 'error': return 'error';
-      default: return 'inactive';
+      case 'active':
+        return 'active';
+      case 'installed':
+        return 'installed';
+      case 'error':
+        return 'error';
+      default:
+        return 'inactive';
     }
   }
 
@@ -148,11 +165,17 @@ export class PluginTestHelper {
     return nodeTypes;
   }
 
-  async createPluginNode(pluginId: PluginId, nodeType: string, position: { x: number; y: number }): Promise<string> {
+  async createPluginNode(
+    pluginId: PluginId,
+    nodeType: string,
+    position: { x: number; y: number }
+  ): Promise<string> {
     // Drag plugin node from panel to canvas
-    const nodeItem = this.page.locator(`[data-testid="plugin-nodes-${pluginId}"] [data-node-type="${nodeType}"]`);
+    const nodeItem = this.page.locator(
+      `[data-testid="plugin-nodes-${pluginId}"] [data-node-type="${nodeType}"]`
+    );
     await nodeItem.dragTo(this.page.locator('[data-testid="workflow-canvas"]'), {
-      targetPosition: position
+      targetPosition: position,
     });
 
     // Wait for node to be created and get its ID
@@ -172,8 +195,9 @@ export class PluginTestHelper {
     await this.page.click('[data-testid="evaluate-button"]');
 
     // Wait for execution to complete
-    await expect(this.page.locator(`[data-node-id="${nodeId}"]`).locator('[data-testid="node-status"]'))
-      .not.toHaveClass(/executing|pending/);
+    await expect(
+      this.page.locator(`[data-node-id="${nodeId}"]`).locator('[data-testid="node-status"]')
+    ).not.toHaveClass(/executing|pending/);
   }
 
   async getPluginNodeError(nodeId: string): Promise<string | null> {
@@ -197,28 +221,36 @@ export class PluginTestHelper {
       if (!pluginManager) return null;
 
       const sandbox = pluginManager.getSandbox(id);
-      return sandbox ? {
-        isWorker: sandbox.worker instanceof Worker,
-        hasIsolatedMemory: sandbox.memoryIsolated,
-        permissions: sandbox.permissions
-      } : null;
+      return sandbox
+        ? {
+            isWorker: sandbox.worker instanceof Worker,
+            hasIsolatedMemory: sandbox.memoryIsolated,
+            permissions: sandbox.permissions,
+          }
+        : null;
     }, pluginId);
 
     return workerInfo?.isWorker && workerInfo?.hasIsolatedMemory;
   }
 
-  async testPluginPermissions(pluginId: PluginId, permissions: PluginPermission[]): Promise<boolean[]> {
+  async testPluginPermissions(
+    pluginId: PluginId,
+    permissions: PluginPermission[]
+  ): Promise<boolean[]> {
     // Test each permission to see if it's properly enforced
     const results: boolean[] = [];
 
     for (const permission of permissions) {
-      const hasPermission = await this.page.evaluate(async (args) => {
-        const { pluginId, permission } = args;
-        const pluginManager = (window as any).brepflow?.pluginManager;
-        if (!pluginManager) return false;
+      const hasPermission = await this.page.evaluate(
+        async (args) => {
+          const { pluginId, permission } = args;
+          const pluginManager = (window as any).brepflow?.pluginManager;
+          if (!pluginManager) return false;
 
-        return pluginManager.checkPermission(pluginId, permission);
-      }, { pluginId, permission });
+          return pluginManager.checkPermission(pluginId, permission);
+        },
+        { pluginId, permission }
+      );
 
       results.push(hasPermission);
     }
@@ -228,18 +260,21 @@ export class PluginTestHelper {
 
   async attemptUnauthorizedAction(pluginId: PluginId, action: string): Promise<boolean> {
     // Try to perform an action the plugin shouldn't have access to
-    const blocked = await this.page.evaluate(async (args) => {
-      const { pluginId, action } = args;
-      const pluginManager = (window as any).brepflow?.pluginManager;
-      if (!pluginManager) return false;
+    const blocked = await this.page.evaluate(
+      async (args) => {
+        const { pluginId, action } = args;
+        const pluginManager = (window as any).brepflow?.pluginManager;
+        if (!pluginManager) return false;
 
-      try {
-        await pluginManager.executeAction(pluginId, action);
-        return false; // Action succeeded (bad)
-      } catch (error) {
-        return true; // Action blocked (good)
-      }
-    }, { pluginId, action });
+        try {
+          await pluginManager.executeAction(pluginId, action);
+          return false; // Action succeeded (bad)
+        } catch (error) {
+          return true; // Action blocked (good)
+        }
+      },
+      { pluginId, action }
+    );
 
     return blocked;
   }
@@ -250,13 +285,16 @@ export class PluginTestHelper {
     // This would require coordination with multiple browser contexts
     // For now, simulate by triggering plugin events
     for (let i = 0; i < users; i++) {
-      await this.page.evaluate(async (args) => {
-        const { pluginId, userId } = args;
-        const collaborationManager = (window as any).brepflow?.collaborationManager;
-        if (collaborationManager) {
-          await collaborationManager.simulateUserPluginAction(pluginId, `user-${userId}`);
-        }
-      }, { pluginId, userId: i });
+      await this.page.evaluate(
+        async (args) => {
+          const { pluginId, userId } = args;
+          const collaborationManager = (window as any).brepflow?.collaborationManager;
+          if (collaborationManager) {
+            await collaborationManager.simulateUserPluginAction(pluginId, `user-${userId}`);
+          }
+        },
+        { pluginId, userId: i }
+      );
     }
   }
 

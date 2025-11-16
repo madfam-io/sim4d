@@ -1,6 +1,11 @@
-
 import { NodeDefinition } from '@brepflow/types';
-import { NumberParam, BoolParam, StringParam, EnumParam, Vector3Param } from '../../../../utils/param-utils.js';
+import {
+  NumberParam,
+  BoolParam,
+  StringParam,
+  EnumParam,
+  Vector3Param,
+} from '../../../../utils/param-utils.js';
 
 type Params = {};
 interface Inputs {
@@ -10,7 +15,11 @@ interface Outputs {
   area: number;
 }
 
-export const SurfaceAreaNode: NodeDefinition<SurfaceAreaInputs, SurfaceAreaOutputs, SurfaceAreaParams> = {
+export const SurfaceAreaNode: NodeDefinition<
+  SurfaceAreaInputs,
+  SurfaceAreaOutputs,
+  SurfaceAreaParams
+> = {
   type: 'Analysis::SurfaceArea',
   category: 'Analysis',
   subcategory: 'Properties',
@@ -18,34 +27,28 @@ export const SurfaceAreaNode: NodeDefinition<SurfaceAreaInputs, SurfaceAreaOutpu
   metadata: {
     label: 'SurfaceArea',
     description: 'Calculate surface area',
-    
-    
   },
 
-  params: {
-    
-  },
+  params: {},
 
   inputs: {
-        shape: 'Shape'
+    shape: 'Shape',
   },
 
   outputs: {
-        area: 'number'
+    area: 'number',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'measureSurfaceArea',
       params: {
-        shape: inputs.shape
-        
-      }
+        shape: inputs.shape,
+      },
     });
 
     return {
-      area: result
+      area: result,
     };
-  }
+  },
 };

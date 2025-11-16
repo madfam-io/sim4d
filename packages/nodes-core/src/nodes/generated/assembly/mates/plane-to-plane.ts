@@ -15,7 +15,11 @@ interface PlaneToPlaneOutputs {
   mate: unknown;
 }
 
-export const AssemblyMatesPlaneToPlaneNode: NodeDefinition<PlaneToPlaneInputs, PlaneToPlaneOutputs, PlaneToPlaneParams> = {
+export const AssemblyMatesPlaneToPlaneNode: NodeDefinition<
+  PlaneToPlaneInputs,
+  PlaneToPlaneOutputs,
+  PlaneToPlaneParams
+> = {
   id: 'Assembly::PlaneToPlane',
   type: 'Assembly::PlaneToPlane',
   category: 'Assembly',
@@ -25,35 +29,35 @@ export const AssemblyMatesPlaneToPlaneNode: NodeDefinition<PlaneToPlaneInputs, P
     plane1: {
       type: 'Plane',
       label: 'Plane1',
-      required: true
+      required: true,
     },
     plane2: {
       type: 'Plane',
       label: 'Plane2',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     mated: {
       type: 'Shape[]',
-      label: 'Mated'
+      label: 'Mated',
     },
     mate: {
       type: 'Mate',
-      label: 'Mate'
-    }
+      label: 'Mate',
+    },
   },
   params: {
     distance: {
       type: 'number',
       label: 'Distance',
-      default: 0
+      default: 0,
     },
     parallel: {
       type: 'boolean',
       label: 'Parallel',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -62,13 +66,13 @@ export const AssemblyMatesPlaneToPlaneNode: NodeDefinition<PlaneToPlaneInputs, P
         plane1: inputs.plane1,
         plane2: inputs.plane2,
         distance: params.distance,
-        parallel: params.parallel
-      }
+        parallel: params.parallel,
+      },
     });
-    
+
     return {
       mated: results.mated,
-      mate: results.mate
+      mate: results.mate,
     };
   },
 };

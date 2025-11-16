@@ -13,7 +13,11 @@ interface GeodesicPatternOutputs {
   geodesic: unknown;
 }
 
-export const PatternsGeometricGeodesicPatternNode: NodeDefinition<GeodesicPatternInputs, GeodesicPatternOutputs, GeodesicPatternParams> = {
+export const PatternsGeometricGeodesicPatternNode: NodeDefinition<
+  GeodesicPatternInputs,
+  GeodesicPatternOutputs,
+  GeodesicPatternParams
+> = {
   id: 'Patterns::GeodesicPattern',
   category: 'Patterns',
   label: 'GeodesicPattern',
@@ -22,14 +26,14 @@ export const PatternsGeometricGeodesicPatternNode: NodeDefinition<GeodesicPatter
     sphere: {
       type: 'Face',
       label: 'Sphere',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     geodesic: {
       type: 'Wire[]',
-      label: 'Geodesic'
-    }
+      label: 'Geodesic',
+    },
   },
   params: {
     frequency: {
@@ -38,14 +42,14 @@ export const PatternsGeometricGeodesicPatternNode: NodeDefinition<GeodesicPatter
       default: 3,
       min: 1,
       max: 10,
-      step: 1
+      step: 1,
     },
     class: {
       type: 'enum',
       label: 'Class',
-      default: "I",
-      options: ["I","II","III"]
-    }
+      default: 'I',
+      options: ['I', 'II', 'III'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const PatternsGeometricGeodesicPatternNode: NodeDefinition<GeodesicPatter
       params: {
         sphere: inputs.sphere,
         frequency: params.frequency,
-        class: params.class
-      }
+        class: params.class,
+      },
     });
-    
+
     return {
-      geodesic: result
+      geodesic: result,
     };
   },
 };

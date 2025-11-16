@@ -14,7 +14,11 @@ interface EdgeToEdgeOutputs {
   mate: unknown;
 }
 
-export const AssemblyMatesEdgeToEdgeNode: NodeDefinition<EdgeToEdgeInputs, EdgeToEdgeOutputs, EdgeToEdgeParams> = {
+export const AssemblyMatesEdgeToEdgeNode: NodeDefinition<
+  EdgeToEdgeInputs,
+  EdgeToEdgeOutputs,
+  EdgeToEdgeParams
+> = {
   id: 'Assembly::EdgeToEdge',
   category: 'Assembly',
   label: 'EdgeToEdge',
@@ -23,31 +27,31 @@ export const AssemblyMatesEdgeToEdgeNode: NodeDefinition<EdgeToEdgeInputs, EdgeT
     edge1: {
       type: 'Edge',
       label: 'Edge1',
-      required: true
+      required: true,
     },
     edge2: {
       type: 'Edge',
       label: 'Edge2',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     mated: {
       type: 'Shape[]',
-      label: 'Mated'
+      label: 'Mated',
     },
     mate: {
       type: 'Mate',
-      label: 'Mate'
-    }
+      label: 'Mate',
+    },
   },
   params: {
     alignment: {
       type: 'enum',
       label: 'Alignment',
-      default: "aligned",
-      options: ["aligned","anti-aligned"]
-    }
+      default: 'aligned',
+      options: ['aligned', 'anti-aligned'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -55,13 +59,13 @@ export const AssemblyMatesEdgeToEdgeNode: NodeDefinition<EdgeToEdgeInputs, EdgeT
       params: {
         edge1: inputs.edge1,
         edge2: inputs.edge2,
-        alignment: params.alignment
-      }
+        alignment: params.alignment,
+      },
     });
-    
+
     return {
       mated: results.mated,
-      mate: results.mate
+      mate: results.mate,
     };
   },
 };

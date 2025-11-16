@@ -16,7 +16,11 @@ interface SQLInsertOutputs {
   errors: unknown;
 }
 
-export const InteroperabilityDatabaseSQLInsertNode: NodeDefinition<SQLInsertInputs, SQLInsertOutputs, SQLInsertParams> = {
+export const InteroperabilityDatabaseSQLInsertNode: NodeDefinition<
+  SQLInsertInputs,
+  SQLInsertOutputs,
+  SQLInsertParams
+> = {
   id: 'Interoperability::SQLInsert',
   type: 'Interoperability::SQLInsert',
   category: 'Interoperability',
@@ -26,41 +30,41 @@ export const InteroperabilityDatabaseSQLInsertNode: NodeDefinition<SQLInsertInpu
     data: {
       type: 'Properties[]',
       label: 'Data',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     success: {
       type: 'boolean',
-      label: 'Success'
+      label: 'Success',
     },
     insertedRows: {
       type: 'number',
-      label: 'Inserted Rows'
+      label: 'Inserted Rows',
     },
     errors: {
       type: 'string[]',
-      label: 'Errors'
-    }
+      label: 'Errors',
+    },
   },
   params: {
     connectionString: {
       type: 'string',
       label: 'Connection String',
-      default: ""
+      default: '',
     },
     tableName: {
       type: 'string',
       label: 'Table Name',
-      default: ""
+      default: '',
     },
     batchSize: {
       type: 'number',
       label: 'Batch Size',
       default: 100,
       min: 1,
-      max: 1000
-    }
+      max: 1000,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -69,14 +73,14 @@ export const InteroperabilityDatabaseSQLInsertNode: NodeDefinition<SQLInsertInpu
         data: inputs.data,
         connectionString: params.connectionString,
         tableName: params.tableName,
-        batchSize: params.batchSize
-      }
+        batchSize: params.batchSize,
+      },
     });
-    
+
     return {
       success: results.success,
       insertedRows: results.insertedRows,
-      errors: results.errors
+      errors: results.errors,
     };
   },
 };

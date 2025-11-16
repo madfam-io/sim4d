@@ -3,7 +3,11 @@
  * Helps recover from corrupted or broken layout states
  */
 
-import { LAYOUT_PRESETS, getDefaultLayoutForScreenSize, getScreenSizeFromWidth } from '../config/layout-presets';
+import {
+  LAYOUT_PRESETS,
+  getDefaultLayoutForScreenSize,
+  getScreenSizeFromWidth,
+} from '../config/layout-presets';
 import type { WorkbenchLayout } from '../types/layout';
 
 const STORAGE_KEY = 'brepflow-layout-state';
@@ -39,8 +43,10 @@ export function validateLayout(layout: any): LayoutValidationResult {
         issues.push(`Missing panel: ${panelId}`);
       } else {
         const panel = layout.panels[panelId];
-        if (typeof panel.visible !== 'boolean') issues.push(`Invalid visible property for ${panelId}`);
-        if (typeof panel.minimized !== 'boolean') issues.push(`Invalid minimized property for ${panelId}`);
+        if (typeof panel.visible !== 'boolean')
+          issues.push(`Invalid visible property for ${panelId}`);
+        if (typeof panel.minimized !== 'boolean')
+          issues.push(`Invalid minimized property for ${panelId}`);
         if (!panel.position) issues.push(`Missing position for ${panelId}`);
         if (!panel.size) issues.push(`Missing size for ${panelId}`);
       }
@@ -50,7 +56,7 @@ export function validateLayout(layout: any): LayoutValidationResult {
   return {
     isValid: issues.length === 0,
     issues,
-    layout: issues.length === 0 ? layout as WorkbenchLayout : undefined
+    layout: issues.length === 0 ? (layout as WorkbenchLayout) : undefined,
   };
 }
 
@@ -58,9 +64,8 @@ export function validateLayout(layout: any): LayoutValidationResult {
  * Attempts to recover a corrupted layout by merging with default values
  */
 export function recoverLayout(corruptedLayout: any): WorkbenchLayout {
-  const screenSize = typeof window !== 'undefined'
-    ? getScreenSizeFromWidth(window.innerWidth)
-    : 'desktop';
+  const screenSize =
+    typeof window !== 'undefined' ? getScreenSizeFromWidth(window.innerWidth) : 'desktop';
 
   const defaultLayout = getDefaultLayoutForScreenSize(screenSize);
 
@@ -76,8 +81,12 @@ export function recoverLayout(corruptedLayout: any): WorkbenchLayout {
         (recoveredPanels as any)[panelId] = {
           ...defaultPanel,
           // Preserve user settings if they're valid
-          visible: typeof panelConfig.visible === 'boolean' ? panelConfig.visible : defaultPanel.visible,
-          minimized: typeof panelConfig.minimized === 'boolean' ? panelConfig.minimized : defaultPanel.minimized,
+          visible:
+            typeof panelConfig.visible === 'boolean' ? panelConfig.visible : defaultPanel.visible,
+          minimized:
+            typeof panelConfig.minimized === 'boolean'
+              ? panelConfig.minimized
+              : defaultPanel.minimized,
         };
       }
     }
@@ -88,7 +97,7 @@ export function recoverLayout(corruptedLayout: any): WorkbenchLayout {
       metadata: {
         ...defaultLayout.metadata,
         modified: new Date(),
-      }
+      },
     };
   }
 
@@ -112,9 +121,7 @@ export function getSafeLayout(): WorkbenchLayout {
     if (!stored) {
       // No stored layout, use default
       return getDefaultLayoutForScreenSize(
-        typeof window !== 'undefined'
-          ? getScreenSizeFromWidth(window.innerWidth)
-          : 'desktop'
+        typeof window !== 'undefined' ? getScreenSizeFromWidth(window.innerWidth) : 'desktop'
       );
     }
 
@@ -133,16 +140,13 @@ export function getSafeLayout(): WorkbenchLayout {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(recovered));
 
     return recovered;
-
   } catch (error) {
     // JSON parsing failed or other error, clear storage and use default
     console.error('❌ Failed to load layout, using default:', error);
     clearLayoutStorage();
 
     return getDefaultLayoutForScreenSize(
-      typeof window !== 'undefined'
-        ? getScreenSizeFromWidth(window.innerWidth)
-        : 'desktop'
+      typeof window !== 'undefined' ? getScreenSizeFromWidth(window.innerWidth) : 'desktop'
     );
   }
 }
@@ -153,9 +157,7 @@ export function getSafeLayout(): WorkbenchLayout {
 export function forceResetLayout(): WorkbenchLayout {
   clearLayoutStorage();
   const defaultLayout = getDefaultLayoutForScreenSize(
-    typeof window !== 'undefined'
-      ? getScreenSizeFromWidth(window.innerWidth)
-      : 'desktop'
+    typeof window !== 'undefined' ? getScreenSizeFromWidth(window.innerWidth) : 'desktop'
   );
 
   // Save the default layout

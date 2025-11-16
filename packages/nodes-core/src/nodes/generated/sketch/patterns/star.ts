@@ -24,14 +24,14 @@ export const SketchPatternsStarNode: NodeDefinition<StarInputs, StarOutputs, Sta
     center: {
       type: 'Point',
       label: 'Center',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     star: {
       type: 'Wire',
-      label: 'Star'
-    }
+      label: 'Star',
+    },
   },
   params: {
     points: {
@@ -40,22 +40,22 @@ export const SketchPatternsStarNode: NodeDefinition<StarInputs, StarOutputs, Sta
       default: 5,
       min: 3,
       max: 100,
-      step: 1
+      step: 1,
     },
     outerRadius: {
       type: 'number',
       label: 'Outer Radius',
       default: 100,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     innerRadius: {
       type: 'number',
       label: 'Inner Radius',
       default: 40,
       min: 0.1,
-      max: 10000
-    }
+      max: 10000,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -64,12 +64,12 @@ export const SketchPatternsStarNode: NodeDefinition<StarInputs, StarOutputs, Sta
         center: inputs.center,
         points: params.points,
         outerRadius: params.outerRadius,
-        innerRadius: params.innerRadius
-      }
+        innerRadius: params.innerRadius,
+      },
     });
-    
+
     return {
-      star: result
+      star: result,
     };
   },
 };

@@ -10,7 +10,11 @@ interface ComplexPhaseOutputs {
   phase: unknown;
 }
 
-export const MathComplexComplexPhaseNode: NodeDefinition<ComplexPhaseInputs, ComplexPhaseOutputs, ComplexPhaseParams> = {
+export const MathComplexComplexPhaseNode: NodeDefinition<
+  ComplexPhaseInputs,
+  ComplexPhaseOutputs,
+  ComplexPhaseParams
+> = {
   id: 'Math::ComplexPhase',
   type: 'Math::ComplexPhase',
   category: 'Math',
@@ -20,26 +24,26 @@ export const MathComplexComplexPhaseNode: NodeDefinition<ComplexPhaseInputs, Com
     complex: {
       type: 'Complex',
       label: 'Complex',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     phase: {
       type: 'number',
-      label: 'Phase'
-    }
+      label: 'Phase',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathComplexPhase',
       params: {
-        complex: inputs.complex
-      }
+        complex: inputs.complex,
+      },
     });
-    
+
     return {
-      phase: result
+      phase: result,
     };
   },
 };

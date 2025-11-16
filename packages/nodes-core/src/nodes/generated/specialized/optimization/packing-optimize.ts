@@ -15,7 +15,11 @@ interface PackingOptimizeOutputs {
   efficiency: unknown;
 }
 
-export const SpecializedOptimizationPackingOptimizeNode: NodeDefinition<PackingOptimizeInputs, PackingOptimizeOutputs, PackingOptimizeParams> = {
+export const SpecializedOptimizationPackingOptimizeNode: NodeDefinition<
+  PackingOptimizeInputs,
+  PackingOptimizeOutputs,
+  PackingOptimizeParams
+> = {
   id: 'Specialized::PackingOptimize',
   type: 'Specialized::PackingOptimize',
   category: 'Specialized',
@@ -25,36 +29,36 @@ export const SpecializedOptimizationPackingOptimizeNode: NodeDefinition<PackingO
     parts: {
       type: 'Shape[]',
       label: 'Parts',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     packing: {
       type: 'Data',
-      label: 'Packing'
+      label: 'Packing',
     },
     efficiency: {
       type: 'number',
-      label: 'Efficiency'
-    }
+      label: 'Efficiency',
+    },
   },
   params: {
     containerSize: {
       type: 'vec3',
       label: 'Container Size',
-      default: [100,100,100]
+      default: [100, 100, 100],
     },
     rotationAllowed: {
       type: 'boolean',
       label: 'Rotation Allowed',
-      default: true
+      default: true,
     },
     algorithm: {
       type: 'enum',
       label: 'Algorithm',
-      default: "genetic",
-      options: ["greedy","genetic","simulated-annealing"]
-    }
+      default: 'genetic',
+      options: ['greedy', 'genetic', 'simulated-annealing'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -63,13 +67,13 @@ export const SpecializedOptimizationPackingOptimizeNode: NodeDefinition<PackingO
         parts: inputs.parts,
         containerSize: params.containerSize,
         rotationAllowed: params.rotationAllowed,
-        algorithm: params.algorithm
-      }
+        algorithm: params.algorithm,
+      },
     });
-    
+
     return {
       packing: results.packing,
-      efficiency: results.efficiency
+      efficiency: results.efficiency,
     };
   },
 };

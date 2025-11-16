@@ -15,7 +15,11 @@ interface RivetOutputs {
   rivet: unknown;
 }
 
-export const MechanicalEngineeringFastenersRivetNode: NodeDefinition<RivetInputs, RivetOutputs, RivetParams> = {
+export const MechanicalEngineeringFastenersRivetNode: NodeDefinition<
+  RivetInputs,
+  RivetOutputs,
+  RivetParams
+> = {
   id: 'MechanicalEngineering::Rivet',
   type: 'MechanicalEngineering::Rivet',
   category: 'MechanicalEngineering',
@@ -25,14 +29,14 @@ export const MechanicalEngineeringFastenersRivetNode: NodeDefinition<RivetInputs
     position: {
       type: 'Point',
       label: 'Position',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     rivet: {
       type: 'Shape',
-      label: 'Rivet'
-    }
+      label: 'Rivet',
+    },
   },
   params: {
     diameter: {
@@ -40,27 +44,27 @@ export const MechanicalEngineeringFastenersRivetNode: NodeDefinition<RivetInputs
       label: 'Diameter',
       default: 4,
       min: 2,
-      max: 10
+      max: 10,
     },
     length: {
       type: 'number',
       label: 'Length',
       default: 10,
       min: 5,
-      max: 30
+      max: 30,
     },
     headType: {
       type: 'enum',
       label: 'Head Type',
-      default: "round",
-      options: ["round","flat","countersunk","pan"]
+      default: 'round',
+      options: ['round', 'flat', 'countersunk', 'pan'],
     },
     material: {
       type: 'enum',
       label: 'Material',
-      default: "aluminum",
-      options: ["aluminum","steel","stainless","copper"]
-    }
+      default: 'aluminum',
+      options: ['aluminum', 'steel', 'stainless', 'copper'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -70,12 +74,12 @@ export const MechanicalEngineeringFastenersRivetNode: NodeDefinition<RivetInputs
         diameter: params.diameter,
         length: params.length,
         headType: params.headType,
-        material: params.material
-      }
+        material: params.material,
+      },
     });
-    
+
     return {
-      rivet: result
+      rivet: result,
     };
   },
 };

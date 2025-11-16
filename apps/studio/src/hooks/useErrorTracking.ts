@@ -31,12 +31,12 @@ export function useErrorTracking(): ErrorTracker {
       timestamp: new Date(),
     };
 
-    setErrors(prev => new Map(prev.set(id, error)));
-    
+    setErrors((prev) => new Map(prev.set(id, error)));
+
     // Auto-remove warnings and info after 10 seconds
     if (error.severity !== 'error') {
       setTimeout(() => {
-        setErrors(prev => {
+        setErrors((prev) => {
           const next = new Map(prev);
           next.delete(id);
           return next;
@@ -48,7 +48,7 @@ export function useErrorTracking(): ErrorTracker {
   }, []);
 
   const removeError = useCallback((id: string) => {
-    setErrors(prev => {
+    setErrors((prev) => {
       const next = new Map(prev);
       next.delete(id);
       return next;
@@ -59,9 +59,12 @@ export function useErrorTracking(): ErrorTracker {
     setErrors(new Map());
   }, []);
 
-  const getErrorsForNode = useCallback((nodeId: string): ErrorInfo[] => {
-    return Array.from(errors.values()).filter(error => error.nodeId === nodeId);
-  }, [errors]);
+  const getErrorsForNode = useCallback(
+    (nodeId: string): ErrorInfo[] => {
+      return Array.from(errors.values()).filter((error) => error.nodeId === nodeId);
+    },
+    [errors]
+  );
 
   return {
     errors,

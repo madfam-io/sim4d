@@ -9,42 +9,127 @@ vi.mock('../config/layout-presets', () => ({
       name: 'Desktop Default',
       description: 'Default desktop layout',
       panels: {
-        nodePanel: { visible: true, minimized: false, position: { x: 0, y: 0 }, size: { width: 300, height: 400 } },
-        nodeEditor: { visible: true, minimized: false, position: { x: 300, y: 0 }, size: { width: 800, height: 600 } },
-        viewport3d: { visible: true, minimized: false, position: { x: 1100, y: 0 }, size: { width: 600, height: 400 } },
-        inspector: { visible: true, minimized: false, position: { x: 1100, y: 400 }, size: { width: 600, height: 200 } },
-        toolbar: { visible: true, minimized: false, position: { x: 0, y: 600 }, size: { width: 1700, height: 50 } },
+        nodePanel: {
+          visible: true,
+          minimized: false,
+          position: { x: 0, y: 0 },
+          size: { width: 300, height: 400 },
+        },
+        nodeEditor: {
+          visible: true,
+          minimized: false,
+          position: { x: 300, y: 0 },
+          size: { width: 800, height: 600 },
+        },
+        viewport3d: {
+          visible: true,
+          minimized: false,
+          position: { x: 1100, y: 0 },
+          size: { width: 600, height: 400 },
+        },
+        inspector: {
+          visible: true,
+          minimized: false,
+          position: { x: 1100, y: 400 },
+          size: { width: 600, height: 200 },
+        },
+        toolbar: {
+          visible: true,
+          minimized: false,
+          position: { x: 0, y: 600 },
+          size: { width: 1700, height: 50 },
+        },
       },
-      metadata: { created: new Date('2023-01-01'), modified: new Date('2023-01-01'), screenSize: 'desktop', isDefault: true }
+      metadata: {
+        created: new Date('2023-01-01'),
+        modified: new Date('2023-01-01'),
+        screenSize: 'desktop',
+        isDefault: true,
+      },
     },
     'mobile-compact': {
       id: 'mobile-compact',
       name: 'Mobile Compact',
       description: 'Compact layout for mobile',
       panels: {
-        nodePanel: { visible: false, minimized: true, position: { x: 0, y: 0 }, size: { width: 100, height: 200 } },
-        nodeEditor: { visible: true, minimized: false, position: { x: 0, y: 200 }, size: { width: 400, height: 400 } },
-        viewport3d: { visible: true, minimized: false, position: { x: 0, y: 600 }, size: { width: 400, height: 300 } },
-        inspector: { visible: false, minimized: true, position: { x: 0, y: 900 }, size: { width: 400, height: 100 } },
-        toolbar: { visible: true, minimized: false, position: { x: 0, y: 1000 }, size: { width: 400, height: 40 } },
+        nodePanel: {
+          visible: false,
+          minimized: true,
+          position: { x: 0, y: 0 },
+          size: { width: 100, height: 200 },
+        },
+        nodeEditor: {
+          visible: true,
+          minimized: false,
+          position: { x: 0, y: 200 },
+          size: { width: 400, height: 400 },
+        },
+        viewport3d: {
+          visible: true,
+          minimized: false,
+          position: { x: 0, y: 600 },
+          size: { width: 400, height: 300 },
+        },
+        inspector: {
+          visible: false,
+          minimized: true,
+          position: { x: 0, y: 900 },
+          size: { width: 400, height: 100 },
+        },
+        toolbar: {
+          visible: true,
+          minimized: false,
+          position: { x: 0, y: 1000 },
+          size: { width: 400, height: 40 },
+        },
       },
-      metadata: { created: new Date('2023-01-01'), modified: new Date('2023-01-01'), screenSize: 'mobile', isDefault: true }
-    }
+      metadata: {
+        created: new Date('2023-01-01'),
+        modified: new Date('2023-01-01'),
+        screenSize: 'mobile',
+        isDefault: true,
+      },
+    },
   },
   getDefaultLayoutForScreenSize: vi.fn((screenSize: string) => ({
     id: `${screenSize}-default`,
     name: `${screenSize} Default`,
     description: `Default ${screenSize} layout`,
     panels: {
-      nodePanel: { visible: true, minimized: false, position: { x: 0, y: 0 }, size: { width: 300, height: 400 } },
-      nodeEditor: { visible: true, minimized: false, position: { x: 300, y: 0 }, size: { width: 800, height: 600 } },
-      viewport3d: { visible: true, minimized: false, position: { x: 1100, y: 0 }, size: { width: 600, height: 400 } },
-      inspector: { visible: true, minimized: false, position: { x: 1100, y: 400 }, size: { width: 600, height: 200 } },
-      toolbar: { visible: true, minimized: false, position: { x: 0, y: 600 }, size: { width: 1700, height: 50 } },
+      nodePanel: {
+        visible: true,
+        minimized: false,
+        position: { x: 0, y: 0 },
+        size: { width: 300, height: 400 },
+      },
+      nodeEditor: {
+        visible: true,
+        minimized: false,
+        position: { x: 300, y: 0 },
+        size: { width: 800, height: 600 },
+      },
+      viewport3d: {
+        visible: true,
+        minimized: false,
+        position: { x: 1100, y: 0 },
+        size: { width: 600, height: 400 },
+      },
+      inspector: {
+        visible: true,
+        minimized: false,
+        position: { x: 1100, y: 400 },
+        size: { width: 600, height: 200 },
+      },
+      toolbar: {
+        visible: true,
+        minimized: false,
+        position: { x: 0, y: 600 },
+        size: { width: 1700, height: 50 },
+      },
     },
-    metadata: { created: new Date(), modified: new Date(), screenSize, isDefault: true }
+    metadata: { created: new Date(), modified: new Date(), screenSize, isDefault: true },
   })),
-  getScreenSizeFromWidth: vi.fn((width: number) => width >= 1024 ? 'desktop' : 'mobile')
+  getScreenSizeFromWidth: vi.fn((width: number) => (width >= 1024 ? 'desktop' : 'mobile')),
 }));
 
 vi.mock('../utils/layout-recovery', () => ({
@@ -53,15 +138,45 @@ vi.mock('../utils/layout-recovery', () => ({
     name: 'Safe Layout',
     description: 'Safe recovered layout',
     panels: {
-      nodePanel: { visible: true, minimized: false, position: { x: 0, y: 0 }, size: { width: 300, height: 400 } },
-      nodeEditor: { visible: true, minimized: false, position: { x: 300, y: 0 }, size: { width: 800, height: 600 } },
-      viewport3d: { visible: true, minimized: false, position: { x: 1100, y: 0 }, size: { width: 600, height: 400 } },
-      inspector: { visible: true, minimized: false, position: { x: 1100, y: 400 }, size: { width: 600, height: 200 } },
-      toolbar: { visible: true, minimized: false, position: { x: 0, y: 600 }, size: { width: 1700, height: 50 } },
+      nodePanel: {
+        visible: true,
+        minimized: false,
+        position: { x: 0, y: 0 },
+        size: { width: 300, height: 400 },
+      },
+      nodeEditor: {
+        visible: true,
+        minimized: false,
+        position: { x: 300, y: 0 },
+        size: { width: 800, height: 600 },
+      },
+      viewport3d: {
+        visible: true,
+        minimized: false,
+        position: { x: 1100, y: 0 },
+        size: { width: 600, height: 400 },
+      },
+      inspector: {
+        visible: true,
+        minimized: false,
+        position: { x: 1100, y: 400 },
+        size: { width: 600, height: 200 },
+      },
+      toolbar: {
+        visible: true,
+        minimized: false,
+        position: { x: 0, y: 600 },
+        size: { width: 1700, height: 50 },
+      },
     },
-    metadata: { created: new Date(), modified: new Date(), screenSize: 'desktop', isDefault: false }
+    metadata: {
+      created: new Date(),
+      modified: new Date(),
+      screenSize: 'desktop',
+      isDefault: false,
+    },
   })),
-  validateLayout: vi.fn(() => ({ isValid: true, issues: [] }))
+  validateLayout: vi.fn(() => ({ isValid: true, issues: [] })),
 }));
 
 describe('layout-store', () => {
@@ -101,13 +216,43 @@ describe('layout-store', () => {
         name: 'Test Layout',
         description: 'Test description',
         panels: {
-          nodePanel: { visible: true, minimized: false, position: { x: 0, y: 0 }, size: { width: 300, height: 400 } },
-          nodeEditor: { visible: true, minimized: false, position: { x: 300, y: 0 }, size: { width: 800, height: 600 } },
-          viewport3d: { visible: true, minimized: false, position: { x: 1100, y: 0 }, size: { width: 600, height: 400 } },
-          inspector: { visible: true, minimized: false, position: { x: 1100, y: 400 }, size: { width: 600, height: 200 } },
-          toolbar: { visible: true, minimized: false, position: { x: 0, y: 600 }, size: { width: 1700, height: 50 } },
+          nodePanel: {
+            visible: true,
+            minimized: false,
+            position: { x: 0, y: 0 },
+            size: { width: 300, height: 400 },
+          },
+          nodeEditor: {
+            visible: true,
+            minimized: false,
+            position: { x: 300, y: 0 },
+            size: { width: 800, height: 600 },
+          },
+          viewport3d: {
+            visible: true,
+            minimized: false,
+            position: { x: 1100, y: 0 },
+            size: { width: 600, height: 400 },
+          },
+          inspector: {
+            visible: true,
+            minimized: false,
+            position: { x: 1100, y: 400 },
+            size: { width: 600, height: 200 },
+          },
+          toolbar: {
+            visible: true,
+            minimized: false,
+            position: { x: 0, y: 600 },
+            size: { width: 1700, height: 50 },
+          },
         },
-        metadata: { created: new Date(), modified: new Date(), screenSize: 'desktop', isDefault: false }
+        metadata: {
+          created: new Date(),
+          modified: new Date(),
+          screenSize: 'desktop',
+          isDefault: false,
+        },
       },
       focusMode: {
         focusedPanel: null,
@@ -133,13 +278,43 @@ describe('layout-store', () => {
         name: 'New Layout',
         description: 'New test layout',
         panels: {
-          nodePanel: { visible: false, minimized: true, position: { x: 0, y: 0 }, size: { width: 200, height: 300 } },
-          nodeEditor: { visible: true, minimized: false, position: { x: 200, y: 0 }, size: { width: 700, height: 500 } },
-          viewport3d: { visible: true, minimized: false, position: { x: 900, y: 0 }, size: { width: 500, height: 350 } },
-          inspector: { visible: true, minimized: false, position: { x: 900, y: 350 }, size: { width: 500, height: 150 } },
-          toolbar: { visible: true, minimized: false, position: { x: 0, y: 500 }, size: { width: 1400, height: 40 } },
+          nodePanel: {
+            visible: false,
+            minimized: true,
+            position: { x: 0, y: 0 },
+            size: { width: 200, height: 300 },
+          },
+          nodeEditor: {
+            visible: true,
+            minimized: false,
+            position: { x: 200, y: 0 },
+            size: { width: 700, height: 500 },
+          },
+          viewport3d: {
+            visible: true,
+            minimized: false,
+            position: { x: 900, y: 0 },
+            size: { width: 500, height: 350 },
+          },
+          inspector: {
+            visible: true,
+            minimized: false,
+            position: { x: 900, y: 350 },
+            size: { width: 500, height: 150 },
+          },
+          toolbar: {
+            visible: true,
+            minimized: false,
+            position: { x: 0, y: 500 },
+            size: { width: 1400, height: 40 },
+          },
         },
-        metadata: { created: new Date(), modified: new Date(), screenSize: 'desktop', isDefault: false }
+        metadata: {
+          created: new Date(),
+          modified: new Date(),
+          screenSize: 'desktop',
+          isDefault: false,
+        },
       };
 
       useLayoutStore.getState().setLayout(newLayout);
@@ -274,7 +449,7 @@ describe('layout-store', () => {
           dimOtherPanels: true,
           hideToolbars: false,
           transitionDuration: 300,
-        }
+        },
       });
 
       useLayoutStore.getState().exitFocusMode();
@@ -389,14 +564,44 @@ describe('layout-store', () => {
         name: 'Imported Layout',
         description: 'Imported test layout',
         panels: {
-          nodePanel: { visible: false, minimized: true, position: { x: 0, y: 0 }, size: { width: 200, height: 300 } },
-          nodeEditor: { visible: true, minimized: false, position: { x: 200, y: 0 }, size: { width: 700, height: 500 } },
-          viewport3d: { visible: true, minimized: false, position: { x: 900, y: 0 }, size: { width: 500, height: 350 } },
-          inspector: { visible: true, minimized: false, position: { x: 900, y: 350 }, size: { width: 500, height: 150 } },
-          toolbar: { visible: true, minimized: false, position: { x: 0, y: 500 }, size: { width: 1400, height: 40 } },
+          nodePanel: {
+            visible: false,
+            minimized: true,
+            position: { x: 0, y: 0 },
+            size: { width: 200, height: 300 },
+          },
+          nodeEditor: {
+            visible: true,
+            minimized: false,
+            position: { x: 200, y: 0 },
+            size: { width: 700, height: 500 },
+          },
+          viewport3d: {
+            visible: true,
+            minimized: false,
+            position: { x: 900, y: 0 },
+            size: { width: 500, height: 350 },
+          },
+          inspector: {
+            visible: true,
+            minimized: false,
+            position: { x: 900, y: 350 },
+            size: { width: 500, height: 150 },
+          },
+          toolbar: {
+            visible: true,
+            minimized: false,
+            position: { x: 0, y: 500 },
+            size: { width: 1400, height: 40 },
+          },
         },
         layout: {}, // Required for validation
-        metadata: { created: new Date('2023-01-01'), modified: new Date('2023-01-01'), screenSize: 'mobile', isDefault: false }
+        metadata: {
+          created: new Date('2023-01-01'),
+          modified: new Date('2023-01-01'),
+          screenSize: 'mobile',
+          isDefault: false,
+        },
       };
 
       useLayoutStore.getState().importLayout(JSON.stringify(layoutToImport));

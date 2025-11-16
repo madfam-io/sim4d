@@ -7,7 +7,7 @@ import type {
   GraphInstance,
   WorkerAPI,
   EvalContext,
-  NodeDefinition
+  NodeDefinition,
 } from '@brepflow/types';
 
 describe('DAGEngine', () => {
@@ -22,13 +22,13 @@ describe('DAGEngine', () => {
       tessellate: vi.fn().mockResolvedValue({
         vertices: new Float32Array([0, 0, 0, 1, 0, 0, 0, 1, 0]),
         indices: new Uint32Array([0, 1, 2]),
-        normals: new Float32Array([0, 0, 1, 0, 0, 1, 0, 0, 1])
+        normals: new Float32Array([0, 0, 1, 0, 0, 1, 0, 0, 1]),
       }),
       invoke: vi.fn().mockResolvedValue({ id: 'shape-1', type: 'shape' }),
       dispose: vi.fn().mockResolvedValue(undefined),
       getMetadata: vi.fn().mockResolvedValue({ volume: 100, area: 50 }),
       exportToFormat: vi.fn().mockResolvedValue(new Uint8Array([1, 2, 3])),
-      importFromFormat: vi.fn().mockResolvedValue({ id: 'imported-1', type: 'shape' })
+      importFromFormat: vi.fn().mockResolvedValue({ id: 'imported-1', type: 'shape' }),
     };
 
     // Create mock registry
@@ -41,9 +41,8 @@ describe('DAGEngine', () => {
     dagEngine = new DAGEngine({
       worker: mockWorker,
       cache: mockCache,
-      registry: mockRegistry
+      registry: mockRegistry,
     });
-
   });
 
   describe('Basic Operations', () => {
@@ -74,7 +73,7 @@ describe('DAGEngine', () => {
         params: { value: { type: 'number', default: 42 } },
         inputs: {},
         outputs: { result: 'number' },
-        evaluate: vi.fn().mockResolvedValue({ result: 42 })
+        evaluate: vi.fn().mockResolvedValue({ result: 42 }),
       };
       mockRegistry.registerNode(testNodeDef);
 
@@ -89,10 +88,10 @@ describe('DAGEngine', () => {
             params: { value: 42 },
             inputs: {},
             outputs: {},
-            dirty: true
-          }
+            dirty: true,
+          },
         ],
-        edges: []
+        edges: [],
       };
 
       const dirtyNodes = new Set(['node-1']);
@@ -117,7 +116,7 @@ describe('DAGEngine', () => {
         evaluate: vi.fn().mockImplementation(async (ctx) => {
           evaluationOrder.push('A');
           return { value: 1 };
-        })
+        }),
       };
 
       const nodeB: NodeDefinition = {
@@ -130,7 +129,7 @@ describe('DAGEngine', () => {
         evaluate: vi.fn().mockImplementation(async (ctx, inputs) => {
           evaluationOrder.push('B');
           return { value: (inputs.input || 0) + 1 };
-        })
+        }),
       };
 
       const nodeC: NodeDefinition = {
@@ -143,7 +142,7 @@ describe('DAGEngine', () => {
         evaluate: vi.fn().mockImplementation(async (ctx, inputs) => {
           evaluationOrder.push('C');
           return { value: (inputs.input || 0) + 1 };
-        })
+        }),
       };
 
       mockRegistry.registerNode(nodeA);
@@ -161,7 +160,7 @@ describe('DAGEngine', () => {
             params: {},
             inputs: {},
             outputs: {},
-            dirty: true
+            dirty: true,
           },
           {
             id: 'node-b',
@@ -170,7 +169,7 @@ describe('DAGEngine', () => {
             params: {},
             inputs: { input: { nodeId: 'node-a', socketId: 'value' } },
             outputs: {},
-            dirty: true
+            dirty: true,
           },
           {
             id: 'node-c',
@@ -179,8 +178,8 @@ describe('DAGEngine', () => {
             params: {},
             inputs: { input: { nodeId: 'node-b', socketId: 'value' } },
             outputs: {},
-            dirty: true
-          }
+            dirty: true,
+          },
         ],
         edges: [
           {
@@ -188,16 +187,16 @@ describe('DAGEngine', () => {
             source: 'node-a',
             sourceHandle: 'value',
             target: 'node-b',
-            targetHandle: 'input'
+            targetHandle: 'input',
           },
           {
             id: 'edge-2',
             source: 'node-b',
             sourceHandle: 'value',
             target: 'node-c',
-            targetHandle: 'input'
-          }
-        ]
+            targetHandle: 'input',
+          },
+        ],
       };
 
       const dirtyNodes = new Set(['node-a', 'node-b', 'node-c']);
@@ -220,7 +219,7 @@ describe('DAGEngine', () => {
         params: {},
         inputs: {},
         outputs: { result: 'any' },
-        evaluate: vi.fn().mockRejectedValue(new Error('Evaluation failed'))
+        evaluate: vi.fn().mockRejectedValue(new Error('Evaluation failed')),
       };
       mockRegistry.registerNode(errorNode);
 
@@ -235,10 +234,10 @@ describe('DAGEngine', () => {
             params: {},
             inputs: {},
             outputs: {},
-            dirty: true
-          }
+            dirty: true,
+          },
         ],
-        edges: []
+        edges: [],
       };
 
       const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
@@ -264,7 +263,7 @@ describe('DAGEngine', () => {
         params: {},
         inputs: { input: 'any' },
         outputs: { output: 'any' },
-        evaluate: vi.fn().mockResolvedValue({ output: 'value' })
+        evaluate: vi.fn().mockResolvedValue({ output: 'value' }),
       };
       mockRegistry.registerNode(testNode);
 
@@ -279,7 +278,7 @@ describe('DAGEngine', () => {
             params: {},
             inputs: { input: { nodeId: 'node-b', socketId: 'output' } },
             outputs: {},
-            dirty: true
+            dirty: true,
           },
           {
             id: 'node-b',
@@ -288,8 +287,8 @@ describe('DAGEngine', () => {
             params: {},
             inputs: { input: { nodeId: 'node-a', socketId: 'output' } },
             outputs: {},
-            dirty: true
-          }
+            dirty: true,
+          },
         ],
         edges: [
           {
@@ -297,22 +296,24 @@ describe('DAGEngine', () => {
             source: 'node-a',
             sourceHandle: 'output',
             target: 'node-b',
-            targetHandle: 'input'
+            targetHandle: 'input',
           },
           {
             id: 'edge-2',
             source: 'node-b',
             sourceHandle: 'output',
             target: 'node-a',
-            targetHandle: 'input'
-          }
-        ]
+            targetHandle: 'input',
+          },
+        ],
       };
 
       const dirtyNodes = new Set(['node-a', 'node-b']);
 
       // The topological sort should throw an error for cycles
-      await expect(dagEngine.evaluate(graph, dirtyNodes)).rejects.toThrow('Cycle detected in graph');
+      await expect(dagEngine.evaluate(graph, dirtyNodes)).rejects.toThrow(
+        'Cycle detected in graph'
+      );
     });
 
     it('should handle unknown node types', async () => {
@@ -327,10 +328,10 @@ describe('DAGEngine', () => {
             params: {},
             inputs: {},
             outputs: {},
-            dirty: true
-          }
+            dirty: true,
+          },
         ],
-        edges: []
+        edges: [],
       };
 
       const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
@@ -356,7 +357,7 @@ describe('DAGEngine', () => {
         params: {},
         inputs: {},
         outputs: { value: 'number' },
-        evaluate: vi.fn().mockResolvedValue({ value: 1 })
+        evaluate: vi.fn().mockResolvedValue({ value: 1 }),
       };
 
       const nodeB: NodeDefinition = {
@@ -366,7 +367,7 @@ describe('DAGEngine', () => {
         params: {},
         inputs: { input: 'number' },
         outputs: { value: 'number' },
-        evaluate: vi.fn().mockResolvedValue({ value: 2 })
+        evaluate: vi.fn().mockResolvedValue({ value: 2 }),
       };
 
       const nodeC: NodeDefinition = {
@@ -376,7 +377,7 @@ describe('DAGEngine', () => {
         params: {},
         inputs: { input: 'number' },
         outputs: { value: 'number' },
-        evaluate: vi.fn().mockResolvedValue({ value: 3 })
+        evaluate: vi.fn().mockResolvedValue({ value: 3 }),
       };
 
       mockRegistry.registerNode(nodeA);
@@ -394,7 +395,7 @@ describe('DAGEngine', () => {
             params: {},
             inputs: {},
             outputs: { value: 1 },
-            dirty: true
+            dirty: true,
           },
           {
             id: 'node-b',
@@ -403,7 +404,7 @@ describe('DAGEngine', () => {
             params: {},
             inputs: { input: { nodeId: 'node-a', socketId: 'value' } },
             outputs: { value: 2 },
-            dirty: false
+            dirty: false,
           },
           {
             id: 'node-c',
@@ -412,8 +413,8 @@ describe('DAGEngine', () => {
             params: {},
             inputs: { input: { nodeId: 'node-b', socketId: 'value' } },
             outputs: { value: 3 },
-            dirty: false
-          }
+            dirty: false,
+          },
         ],
         edges: [
           {
@@ -421,16 +422,16 @@ describe('DAGEngine', () => {
             source: 'node-a',
             sourceHandle: 'value',
             target: 'node-b',
-            targetHandle: 'input'
+            targetHandle: 'input',
           },
           {
             id: 'edge-2',
             source: 'node-b',
             sourceHandle: 'value',
             target: 'node-c',
-            targetHandle: 'input'
-          }
-        ]
+            targetHandle: 'input',
+          },
+        ],
       };
 
       // Only mark node-a as dirty
@@ -451,7 +452,7 @@ describe('DAGEngine', () => {
         params: {},
         inputs: {},
         outputs: { value: 'number' },
-        evaluate: vi.fn().mockResolvedValue({ value: 1 })
+        evaluate: vi.fn().mockResolvedValue({ value: 1 }),
       };
 
       const nodeB: NodeDefinition = {
@@ -461,7 +462,7 @@ describe('DAGEngine', () => {
         params: {},
         inputs: {},
         outputs: { value: 'number' },
-        evaluate: vi.fn().mockResolvedValue({ value: 2 })
+        evaluate: vi.fn().mockResolvedValue({ value: 2 }),
       };
 
       mockRegistry.registerNode(nodeA);
@@ -478,7 +479,7 @@ describe('DAGEngine', () => {
             params: {},
             inputs: {},
             outputs: { value: 1 },
-            dirty: true
+            dirty: true,
           },
           {
             id: 'node-b',
@@ -487,10 +488,10 @@ describe('DAGEngine', () => {
             params: {},
             inputs: {},
             outputs: { value: 2 },
-            dirty: false
-          }
+            dirty: false,
+          },
         ],
-        edges: []
+        edges: [],
       };
 
       // Only mark node-a as dirty
@@ -512,7 +513,7 @@ describe('DAGEngine', () => {
         params: { value: { type: 'number', default: 42 } },
         inputs: {},
         outputs: { result: 'number' },
-        evaluate: vi.fn().mockResolvedValue({ result: 42 })
+        evaluate: vi.fn().mockResolvedValue({ result: 42 }),
       };
       mockRegistry.registerNode(testNode);
 
@@ -527,10 +528,10 @@ describe('DAGEngine', () => {
             params: { value: 42 },
             inputs: {},
             outputs: {},
-            dirty: true
-          }
+            dirty: true,
+          },
         ],
-        edges: []
+        edges: [],
       };
 
       const dirtyNodes = new Set(['node-1']);
@@ -555,9 +556,10 @@ describe('DAGEngine', () => {
         params: { value: { type: 'number', default: 42 } },
         inputs: {},
         outputs: { result: 'number' },
-        evaluate: vi.fn()
+        evaluate: vi
+          .fn()
           .mockResolvedValueOnce({ result: 42 })
-          .mockResolvedValueOnce({ result: 100 })
+          .mockResolvedValueOnce({ result: 100 }),
       };
       mockRegistry.registerNode(testNode);
 
@@ -572,10 +574,10 @@ describe('DAGEngine', () => {
             params: { value: 42 },
             inputs: {},
             outputs: {},
-            dirty: true
-          }
+            dirty: true,
+          },
         ],
-        edges: []
+        edges: [],
       };
 
       const dirtyNodes = new Set(['node-1']);
@@ -645,7 +647,7 @@ describe('DAGEngine', () => {
         evaluate: vi.fn().mockImplementation(async (ctx, inputs) => {
           const sum = (inputs.values || []).reduce((a: number, b: number) => a + b, 0);
           return { sum };
-        })
+        }),
       };
 
       const nodeB: NodeDefinition = {
@@ -657,7 +659,7 @@ describe('DAGEngine', () => {
         outputs: { value: 'number' },
         evaluate: vi.fn().mockImplementation(async (ctx, inputs, params) => {
           return { value: params.value };
-        })
+        }),
       };
 
       mockRegistry.registerNode(nodeA);
@@ -674,7 +676,7 @@ describe('DAGEngine', () => {
             params: { value: 10 },
             inputs: {},
             outputs: {},
-            dirty: true
+            dirty: true,
           },
           {
             id: 'value-2',
@@ -683,7 +685,7 @@ describe('DAGEngine', () => {
             params: { value: 20 },
             inputs: {},
             outputs: {},
-            dirty: true
+            dirty: true,
           },
           {
             id: 'sum',
@@ -693,12 +695,12 @@ describe('DAGEngine', () => {
             inputs: {
               values: [
                 { nodeId: 'value-1', socketId: 'value' },
-                { nodeId: 'value-2', socketId: 'value' }
-              ]
+                { nodeId: 'value-2', socketId: 'value' },
+              ],
             },
             outputs: {},
-            dirty: true
-          }
+            dirty: true,
+          },
         ],
         edges: [
           {
@@ -706,16 +708,16 @@ describe('DAGEngine', () => {
             source: 'value-1',
             sourceHandle: 'value',
             target: 'sum',
-            targetHandle: 'values'
+            targetHandle: 'values',
           },
           {
             id: 'edge-2',
             source: 'value-2',
             sourceHandle: 'value',
             target: 'sum',
-            targetHandle: 'values'
-          }
-        ]
+            targetHandle: 'values',
+          },
+        ],
       };
 
       const dirtyNodes = new Set(['value-1', 'value-2', 'sum']);
@@ -732,7 +734,7 @@ describe('DAGEngine', () => {
         params: {},
         inputs: { input: 'any' },
         outputs: { output: 'any' },
-        evaluate: vi.fn().mockResolvedValue({ output: 'value' })
+        evaluate: vi.fn().mockResolvedValue({ output: 'value' }),
       };
       mockRegistry.registerNode(testNode);
 
@@ -747,10 +749,10 @@ describe('DAGEngine', () => {
             params: {},
             inputs: { input: { nodeId: 'missing-node', socketId: 'value' } },
             outputs: {},
-            dirty: true
-          }
+            dirty: true,
+          },
         ],
-        edges: []
+        edges: [],
       };
 
       const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
@@ -778,7 +780,7 @@ describe('DAGEngine', () => {
         evaluate: vi.fn().mockImplementation(async (ctx) => {
           capturedContext = ctx;
           return { shape: await ctx.worker.invoke('TEST_OP', {}) };
-        })
+        }),
       };
       mockRegistry.registerNode(testNode);
 
@@ -793,10 +795,10 @@ describe('DAGEngine', () => {
             params: {},
             inputs: {},
             outputs: {},
-            dirty: true
-          }
+            dirty: true,
+          },
         ],
-        edges: []
+        edges: [],
       };
 
       const dirtyNodes = new Set(['node-1']);

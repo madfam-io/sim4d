@@ -13,7 +13,11 @@ interface AdditiveManufacturingOutputs {
   roboticPrintPath: unknown;
 }
 
-export const FabricationRoboticsAdditiveManufacturingNode: NodeDefinition<AdditiveManufacturingInputs, AdditiveManufacturingOutputs, AdditiveManufacturingParams> = {
+export const FabricationRoboticsAdditiveManufacturingNode: NodeDefinition<
+  AdditiveManufacturingInputs,
+  AdditiveManufacturingOutputs,
+  AdditiveManufacturingParams
+> = {
   id: 'Fabrication::AdditiveManufacturing',
   type: 'Fabrication::AdditiveManufacturing',
   category: 'Fabrication',
@@ -23,14 +27,14 @@ export const FabricationRoboticsAdditiveManufacturingNode: NodeDefinition<Additi
     printPaths: {
       type: 'Wire[]',
       label: 'Print Paths',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     roboticPrintPath: {
       type: 'Transform[]',
-      label: 'Robotic Print Path'
-    }
+      label: 'Robotic Print Path',
+    },
   },
   params: {
     nozzleSize: {
@@ -38,15 +42,15 @@ export const FabricationRoboticsAdditiveManufacturingNode: NodeDefinition<Additi
       label: 'Nozzle Size',
       default: 4,
       min: 0.4,
-      max: 10
+      max: 10,
     },
     layerHeight: {
       type: 'number',
       label: 'Layer Height',
       default: 2,
       min: 0.1,
-      max: 5
-    }
+      max: 5,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -54,12 +58,12 @@ export const FabricationRoboticsAdditiveManufacturingNode: NodeDefinition<Additi
       params: {
         printPaths: inputs.printPaths,
         nozzleSize: params.nozzleSize,
-        layerHeight: params.layerHeight
-      }
+        layerHeight: params.layerHeight,
+      },
     });
-    
+
     return {
-      roboticPrintPath: result
+      roboticPrintPath: result,
     };
   },
 };

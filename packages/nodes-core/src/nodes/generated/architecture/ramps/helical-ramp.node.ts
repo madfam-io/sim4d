@@ -15,7 +15,11 @@ interface HelicalRampOutputs {
   helicalRamp: unknown;
 }
 
-export const ArchitectureRampsHelicalRampNode: NodeDefinition<HelicalRampInputs, HelicalRampOutputs, HelicalRampParams> = {
+export const ArchitectureRampsHelicalRampNode: NodeDefinition<
+  HelicalRampInputs,
+  HelicalRampOutputs,
+  HelicalRampParams
+> = {
   id: 'Architecture::HelicalRamp',
   category: 'Architecture',
   label: 'HelicalRamp',
@@ -24,19 +28,19 @@ export const ArchitectureRampsHelicalRampNode: NodeDefinition<HelicalRampInputs,
     centerPoint: {
       type: 'Point',
       label: 'Center Point',
-      required: true
+      required: true,
     },
     levels: {
       type: 'Number',
       label: 'Levels',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     helicalRamp: {
       type: 'Shape',
-      label: 'Helical Ramp'
-    }
+      label: 'Helical Ramp',
+    },
   },
   params: {
     radius: {
@@ -44,22 +48,22 @@ export const ArchitectureRampsHelicalRampNode: NodeDefinition<HelicalRampInputs,
       label: 'Radius',
       default: 15000,
       min: 10000,
-      max: 25000
+      max: 25000,
     },
     pitch: {
       type: 'number',
       label: 'Pitch',
       default: 3000,
       min: 2500,
-      max: 4000
+      max: 4000,
     },
     width: {
       type: 'number',
       label: 'Width',
       default: 7000,
       min: 5500,
-      max: 9000
-    }
+      max: 9000,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -69,12 +73,12 @@ export const ArchitectureRampsHelicalRampNode: NodeDefinition<HelicalRampInputs,
         levels: inputs.levels,
         radius: params.radius,
         pitch: params.pitch,
-        width: params.width
-      }
+        width: params.width,
+      },
     });
-    
+
     return {
-      helicalRamp: result
+      helicalRamp: result,
     };
   },
 };

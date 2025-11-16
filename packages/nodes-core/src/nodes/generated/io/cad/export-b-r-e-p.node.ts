@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -11,44 +10,42 @@ interface Outputs {
   brepData: Data;
 }
 
-export const ExportBREPNode: NodeDefinition<ExportBREPInputs, ExportBREPOutputs, ExportBREPParams> = {
-  type: 'IO::ExportBREP',
-  category: 'IO',
-  subcategory: 'CAD',
+export const ExportBREPNode: NodeDefinition<ExportBREPInputs, ExportBREPOutputs, ExportBREPParams> =
+  {
+    type: 'IO::ExportBREP',
+    category: 'IO',
+    subcategory: 'CAD',
 
-  metadata: {
-    label: 'ExportBREP',
-    description: 'Export to BREP format',
-    
-    
-  },
+    metadata: {
+      label: 'ExportBREP',
+      description: 'Export to BREP format',
+    },
 
-  params: {
-        binary: {
-      "default": false
-    }
-  },
+    params: {
+      binary: {
+        default: false,
+      },
+    },
 
-  inputs: {
-        shape: 'Shape'
-  },
+    inputs: {
+      shape: 'Shape',
+    },
 
-  outputs: {
-        brepData: 'Data'
-  },
+    outputs: {
+      brepData: 'Data',
+    },
 
-  async evaluate(context, inputs, params) {
-    
-    const result = await context.geometry.execute({
-      type: 'exportBREP',
-      params: {
-        shape: inputs.shape,
-        binary: params.binary
-      }
-    });
+    async evaluate(context, inputs, params) {
+      const result = await context.geometry.execute({
+        type: 'exportBREP',
+        params: {
+          shape: inputs.shape,
+          binary: params.binary,
+        },
+      });
 
-    return {
-      brepData: result
-    };
-  }
-};
+      return {
+        brepData: result,
+      };
+    },
+  };

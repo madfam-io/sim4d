@@ -10,7 +10,11 @@ interface ListLengthOutputs {
   length: unknown;
 }
 
-export const DataListListLengthNode: NodeDefinition<ListLengthInputs, ListLengthOutputs, ListLengthParams> = {
+export const DataListListLengthNode: NodeDefinition<
+  ListLengthInputs,
+  ListLengthOutputs,
+  ListLengthParams
+> = {
   id: 'Data::ListLength',
   category: 'Data',
   label: 'ListLength',
@@ -19,26 +23,26 @@ export const DataListListLengthNode: NodeDefinition<ListLengthInputs, ListLength
     list: {
       type: 'Data[]',
       label: 'List',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     length: {
       type: 'number',
-      label: 'Length'
-    }
+      label: 'Length',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'listLength',
       params: {
-        list: inputs.list
-      }
+        list: inputs.list,
+      },
     });
-    
+
     return {
-      length: result
+      length: result,
     };
   },
 };

@@ -17,7 +17,11 @@ interface LinearArrayOutputs {
   merged: unknown;
 }
 
-export const TransformLinearArrayNode: NodeDefinition<LinearArrayInputs, LinearArrayOutputs, LinearArrayParams> = {
+export const TransformLinearArrayNode: NodeDefinition<
+  LinearArrayInputs,
+  LinearArrayOutputs,
+  LinearArrayParams
+> = {
   id: 'Transform::LinearArray',
   category: 'Transform',
   label: 'LinearArray',
@@ -26,18 +30,18 @@ export const TransformLinearArrayNode: NodeDefinition<LinearArrayInputs, LinearA
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     array: {
       type: 'Shape[]',
-      label: 'Array'
+      label: 'Array',
     },
     merged: {
       type: 'Shape',
-      label: 'Merged'
-    }
+      label: 'Merged',
+    },
   },
   params: {
     count: {
@@ -46,34 +50,34 @@ export const TransformLinearArrayNode: NodeDefinition<LinearArrayInputs, LinearA
       default: 5,
       min: 2,
       max: 1000,
-      step: 1
+      step: 1,
     },
     spacingX: {
       type: 'number',
       label: 'Spacing X',
       default: 100,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     spacingY: {
       type: 'number',
       label: 'Spacing Y',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     spacingZ: {
       type: 'number',
       label: 'Spacing Z',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     merge: {
       type: 'boolean',
       label: 'Merge',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -84,13 +88,13 @@ export const TransformLinearArrayNode: NodeDefinition<LinearArrayInputs, LinearA
         spacingX: params.spacingX,
         spacingY: params.spacingY,
         spacingZ: params.spacingZ,
-        merge: params.merge
-      }
+        merge: params.merge,
+      },
     });
-    
+
     return {
       array: results.array,
-      merged: results.merged
+      merged: results.merged,
     };
   },
 };

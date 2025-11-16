@@ -10,7 +10,7 @@ interface LayoutControlsProps {
 
 const LayoutPresetButton: React.FC<{
   presetId: string;
-  preset: typeof LAYOUT_PRESETS[keyof typeof LAYOUT_PRESETS];
+  preset: (typeof LAYOUT_PRESETS)[keyof typeof LAYOUT_PRESETS];
   isActive: boolean;
   onClick: () => void;
 }> = ({ presetId, preset, isActive, onClick }) => (
@@ -96,27 +96,36 @@ export const LayoutControls: React.FC<LayoutControlsProps> = ({ position = 'floa
   const [importDialogOpen, setImportDialogOpen] = useState(false);
   const [importJson, setImportJson] = useState('');
 
-  const currentPresetId = Object.keys(LAYOUT_PRESETS).find(
-    key => LAYOUT_PRESETS[key]?.name === currentLayout.name
-  ) || null;
+  const currentPresetId =
+    Object.keys(LAYOUT_PRESETS).find((key) => LAYOUT_PRESETS[key]?.name === currentLayout.name) ||
+    null;
 
-  const handlePresetClick = useCallback((presetId: LayoutPresetId) => {
-    loadPreset(presetId);
-    setShowPresets(false);
-  }, [loadPreset]);
+  const handlePresetClick = useCallback(
+    (presetId: LayoutPresetId) => {
+      loadPreset(presetId);
+      setShowPresets(false);
+    },
+    [loadPreset]
+  );
 
-  const handlePanelToggle = useCallback((panelId: PanelId) => {
-    togglePanelVisibility(panelId);
-  }, [togglePanelVisibility]);
+  const handlePanelToggle = useCallback(
+    (panelId: PanelId) => {
+      togglePanelVisibility(panelId);
+    },
+    [togglePanelVisibility]
+  );
 
-  const handlePanelMinimize = useCallback((panelId: PanelId) => {
-    const panel = currentLayout.panels[panelId];
-    if (panel.minimized) {
-      maximizePanel(panelId);
-    } else {
-      minimizePanel(panelId);
-    }
-  }, [currentLayout.panels, maximizePanel, minimizePanel]);
+  const handlePanelMinimize = useCallback(
+    (panelId: PanelId) => {
+      const panel = currentLayout.panels[panelId];
+      if (panel.minimized) {
+        maximizePanel(panelId);
+      } else {
+        minimizePanel(panelId);
+      }
+    },
+    [currentLayout.panels, maximizePanel, minimizePanel]
+  );
 
   const handleSavePreset = useCallback(() => {
     if (newPresetName.trim()) {
@@ -180,10 +189,7 @@ export const LayoutControls: React.FC<LayoutControlsProps> = ({ position = 'floa
           >
             {/* Layout Presets */}
             <div className="control-section">
-              <button
-                className="section-header"
-                onClick={() => setShowPresets(!showPresets)}
-              >
+              <button className="section-header" onClick={() => setShowPresets(!showPresets)}>
                 📐 Layout Presets {showPresets ? '▼' : '▶'}
               </button>
 

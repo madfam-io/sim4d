@@ -16,7 +16,11 @@ interface ContourFlangeOutputs {
   result: unknown;
 }
 
-export const SheetMetalFlangesContourFlangeNode: NodeDefinition<ContourFlangeInputs, ContourFlangeOutputs, ContourFlangeParams> = {
+export const SheetMetalFlangesContourFlangeNode: NodeDefinition<
+  ContourFlangeInputs,
+  ContourFlangeOutputs,
+  ContourFlangeParams
+> = {
   id: 'SheetMetal::ContourFlange',
   type: 'SheetMetal::ContourFlange',
   category: 'SheetMetal',
@@ -26,24 +30,24 @@ export const SheetMetalFlangesContourFlangeNode: NodeDefinition<ContourFlangeInp
     sheet: {
       type: 'Shape',
       label: 'Sheet',
-      required: true
+      required: true,
     },
     contour: {
       type: 'Wire',
       label: 'Contour',
-      required: true
+      required: true,
     },
     profile: {
       type: 'Wire',
       label: 'Profile',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     result: {
       type: 'Shape',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {
     angle: {
@@ -51,21 +55,21 @@ export const SheetMetalFlangesContourFlangeNode: NodeDefinition<ContourFlangeInp
       label: 'Angle',
       default: 90,
       min: 0,
-      max: 180
+      max: 180,
     },
     bendRadius: {
       type: 'number',
       label: 'Bend Radius',
       default: 3,
       min: 0.1,
-      max: 100
+      max: 100,
     },
     flangePosition: {
       type: 'enum',
       label: 'Flange Position',
-      default: "material-inside",
-      options: ["material-inside","bend-outside","material-outside"]
-    }
+      default: 'material-inside',
+      options: ['material-inside', 'bend-outside', 'material-outside'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -76,12 +80,12 @@ export const SheetMetalFlangesContourFlangeNode: NodeDefinition<ContourFlangeInp
         profile: inputs.profile,
         angle: params.angle,
         bendRadius: params.bendRadius,
-        flangePosition: params.flangePosition
-      }
+        flangePosition: params.flangePosition,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

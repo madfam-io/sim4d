@@ -16,7 +16,11 @@ interface LinearPatternOutputs {
   compound: unknown;
 }
 
-export const TransformPatternsLinearPatternNode: NodeDefinition<LinearPatternInputs, LinearPatternOutputs, LinearPatternParams> = {
+export const TransformPatternsLinearPatternNode: NodeDefinition<
+  LinearPatternInputs,
+  LinearPatternOutputs,
+  LinearPatternParams
+> = {
   id: 'Transform::LinearPattern',
   type: 'Transform::LinearPattern',
   category: 'Transform',
@@ -26,18 +30,18 @@ export const TransformPatternsLinearPatternNode: NodeDefinition<LinearPatternInp
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shapes: {
       type: 'Shape[]',
-      label: 'Shapes'
+      label: 'Shapes',
     },
     compound: {
       type: 'Shape',
-      label: 'Compound'
-    }
+      label: 'Compound',
+    },
   },
   params: {
     count: {
@@ -46,25 +50,25 @@ export const TransformPatternsLinearPatternNode: NodeDefinition<LinearPatternInp
       default: 5,
       min: 2,
       max: 1000,
-      step: 1
+      step: 1,
     },
     spacing: {
       type: 'number',
       label: 'Spacing',
       default: 20,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     direction: {
       type: 'vec3',
       label: 'Direction',
-      default: [1,0,0]
+      default: [1, 0, 0],
     },
     centered: {
       type: 'boolean',
       label: 'Centered',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -74,13 +78,13 @@ export const TransformPatternsLinearPatternNode: NodeDefinition<LinearPatternInp
         count: params.count,
         spacing: params.spacing,
         direction: params.direction,
-        centered: params.centered
-      }
+        centered: params.centered,
+      },
     });
-    
+
     return {
       shapes: results.shapes,
-      compound: results.compound
+      compound: results.compound,
     };
   },
 };

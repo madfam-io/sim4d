@@ -16,7 +16,11 @@ interface ThreeMFImportOutputs {
   build: unknown;
 }
 
-export const InteroperabilityImportThreeMFImportNode: NodeDefinition<ThreeMFImportInputs, ThreeMFImportOutputs, ThreeMFImportParams> = {
+export const InteroperabilityImportThreeMFImportNode: NodeDefinition<
+  ThreeMFImportInputs,
+  ThreeMFImportOutputs,
+  ThreeMFImportParams
+> = {
   id: 'Interoperability::ThreeMFImport',
   category: 'Interoperability',
   label: 'ThreeMFImport',
@@ -25,40 +29,40 @@ export const InteroperabilityImportThreeMFImportNode: NodeDefinition<ThreeMFImpo
     filePath: {
       type: 'string',
       label: 'File Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     models: {
       type: 'Shape[]',
-      label: 'Models'
+      label: 'Models',
     },
     materials: {
       type: 'Properties[]',
-      label: 'Materials'
+      label: 'Materials',
     },
     build: {
       type: 'Properties',
-      label: 'Build'
-    }
+      label: 'Build',
+    },
   },
   params: {
     loadTextures: {
       type: 'boolean',
       label: 'Load Textures',
-      default: true
+      default: true,
     },
     loadMaterials: {
       type: 'boolean',
       label: 'Load Materials',
-      default: true
+      default: true,
     },
     units: {
       type: 'enum',
       label: 'Units',
-      default: "auto",
-      options: ["auto","mm","cm","m"]
-    }
+      default: 'auto',
+      options: ['auto', 'mm', 'cm', 'm'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -67,14 +71,14 @@ export const InteroperabilityImportThreeMFImportNode: NodeDefinition<ThreeMFImpo
         filePath: inputs.filePath,
         loadTextures: params.loadTextures,
         loadMaterials: params.loadMaterials,
-        units: params.units
-      }
+        units: params.units,
+      },
     });
-    
+
     return {
       models: results.models,
       materials: results.materials,
-      build: results.build
+      build: results.build,
     };
   },
 };

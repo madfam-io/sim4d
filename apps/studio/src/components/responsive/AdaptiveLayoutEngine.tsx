@@ -75,8 +75,11 @@ export const AdaptiveLayoutEngine: React.FC<AdaptiveLayoutEngineProps> = ({ chil
 
     // Estimate performance tier (simplified)
     const performance: DeviceProfile['performance'] =
-      navigator.hardwareConcurrency > 4 ? 'high' :
-      navigator.hardwareConcurrency > 2 ? 'medium' : 'low';
+      navigator.hardwareConcurrency > 4
+        ? 'high'
+        : navigator.hardwareConcurrency > 2
+          ? 'medium'
+          : 'low';
 
     return {
       type,
@@ -84,7 +87,7 @@ export const AdaptiveLayoutEngine: React.FC<AdaptiveLayoutEngineProps> = ({ chil
       inputMethod,
       screenSize,
       pixelDensity,
-      performance
+      performance,
     };
   }, []);
 
@@ -97,7 +100,7 @@ export const AdaptiveLayoutEngine: React.FC<AdaptiveLayoutEngineProps> = ({ chil
         panelArrangement: 'vertical',
         toolbarPosition: 'bottom',
         navigationStyle: 'tabs',
-        interactionMode: 'compact'
+        interactionMode: 'compact',
       },
       // Mobile Landscape
       'mobile-landscape': {
@@ -105,7 +108,7 @@ export const AdaptiveLayoutEngine: React.FC<AdaptiveLayoutEngineProps> = ({ chil
         panelArrangement: 'horizontal',
         toolbarPosition: 'bottom',
         navigationStyle: 'tabs',
-        interactionMode: 'compact'
+        interactionMode: 'compact',
       },
       // Tablet Portrait
       'tablet-portrait': {
@@ -113,7 +116,7 @@ export const AdaptiveLayoutEngine: React.FC<AdaptiveLayoutEngineProps> = ({ chil
         panelArrangement: 'vertical',
         toolbarPosition: 'top',
         navigationStyle: 'drawer',
-        interactionMode: 'comfortable'
+        interactionMode: 'comfortable',
       },
       // Tablet Landscape
       'tablet-landscape': {
@@ -121,15 +124,15 @@ export const AdaptiveLayoutEngine: React.FC<AdaptiveLayoutEngineProps> = ({ chil
         panelArrangement: 'horizontal',
         toolbarPosition: 'top',
         navigationStyle: 'sidebar',
-        interactionMode: 'comfortable'
+        interactionMode: 'comfortable',
       },
       // Desktop
-      'desktop': {
+      desktop: {
         layout: 'triple',
         panelArrangement: 'grid',
         toolbarPosition: 'top',
         navigationStyle: 'ribbon',
-        interactionMode: 'spacious'
+        interactionMode: 'spacious',
       },
       // Ultra-wide
       'ultra-wide': {
@@ -137,14 +140,15 @@ export const AdaptiveLayoutEngine: React.FC<AdaptiveLayoutEngineProps> = ({ chil
         panelArrangement: 'grid',
         toolbarPosition: 'top',
         navigationStyle: 'ribbon',
-        interactionMode: 'spacious'
-      }
+        interactionMode: 'spacious',
+      },
     };
 
     // Generate strategy key
-    const key = profile.type === 'desktop' || profile.type === 'ultra-wide'
-      ? profile.type
-      : `${profile.type}-${profile.orientation}`;
+    const key =
+      profile.type === 'desktop' || profile.type === 'ultra-wide'
+        ? profile.type
+        : `${profile.type}-${profile.orientation}`;
 
     // Get base strategy
     let strategy = strategies[key] || strategies['desktop'];
@@ -153,9 +157,13 @@ export const AdaptiveLayoutEngine: React.FC<AdaptiveLayoutEngineProps> = ({ chil
     if (profile.performance === 'low') {
       strategy = {
         ...strategy,
-        layout: strategy.layout === 'quad' ? 'triple' :
-                strategy.layout === 'triple' ? 'dual' : strategy.layout,
-        interactionMode: 'compact'
+        layout:
+          strategy.layout === 'quad'
+            ? 'triple'
+            : strategy.layout === 'triple'
+              ? 'dual'
+              : strategy.layout,
+        interactionMode: 'compact',
       };
     }
 
@@ -163,8 +171,9 @@ export const AdaptiveLayoutEngine: React.FC<AdaptiveLayoutEngineProps> = ({ chil
     if (profile.inputMethod === 'touch') {
       strategy = {
         ...strategy,
-        interactionMode: strategy.interactionMode === 'spacious' ? 'comfortable' : strategy.interactionMode,
-        toolbarPosition: 'bottom' // Better for thumb reach
+        interactionMode:
+          strategy.interactionMode === 'spacious' ? 'comfortable' : strategy.interactionMode,
+        toolbarPosition: 'bottom', // Better for thumb reach
       };
     }
 
@@ -176,7 +185,7 @@ export const AdaptiveLayoutEngine: React.FC<AdaptiveLayoutEngineProps> = ({ chil
     const handleResize = () => {
       setViewportDimensions({
         width: window.innerWidth,
-        height: window.innerHeight
+        height: window.innerHeight,
       });
 
       const profile = detectDeviceProfile();
@@ -209,7 +218,7 @@ export const AdaptiveLayoutEngine: React.FC<AdaptiveLayoutEngineProps> = ({ chil
     const spacing = {
       compact: { base: 4, panel: 8, toolbar: 48 },
       comfortable: { base: 8, panel: 16, toolbar: 56 },
-      spacious: { base: 12, panel: 24, toolbar: 64 }
+      spacious: { base: 12, panel: 24, toolbar: 64 },
     };
 
     const mode = layoutStrategy.interactionMode;
@@ -217,7 +226,8 @@ export const AdaptiveLayoutEngine: React.FC<AdaptiveLayoutEngineProps> = ({ chil
       '--adaptive-spacing-base': `${spacing[mode].base}px`,
       '--adaptive-spacing-panel': `${spacing[mode].panel}px`,
       '--adaptive-toolbar-height': `${spacing[mode].toolbar}px`,
-      '--adaptive-touch-target': mode === 'compact' ? '44px' : mode === 'comfortable' ? '48px' : '40px'
+      '--adaptive-touch-target':
+        mode === 'compact' ? '44px' : mode === 'comfortable' ? '48px' : '40px',
     };
   }, [layoutStrategy]);
 
@@ -241,7 +251,8 @@ export const AdaptiveLayoutEngine: React.FC<AdaptiveLayoutEngineProps> = ({ chil
     >
       <div className="adaptive-metadata">
         <span className="device-info">
-          {deviceProfile.type} | {deviceProfile.orientation} | {viewportDimensions.width}×{viewportDimensions.height}
+          {deviceProfile.type} | {deviceProfile.orientation} | {viewportDimensions.width}×
+          {viewportDimensions.height}
         </span>
         <span className="layout-info">
           {layoutStrategy.layout} layout | {layoutStrategy.panelArrangement} panels
@@ -250,19 +261,17 @@ export const AdaptiveLayoutEngine: React.FC<AdaptiveLayoutEngineProps> = ({ chil
 
       {/* Adaptive toolbar positioning */}
       <div className={`adaptive-toolbar toolbar-${layoutStrategy.toolbarPosition}`}>
-        <div className="toolbar-content">
-          {/* Toolbar items adapt based on available space */}
-        </div>
+        <div className="toolbar-content">{/* Toolbar items adapt based on available space */}</div>
       </div>
 
       {/* Main content area with adaptive panel arrangement */}
       <div className={`adaptive-content arrangement-${layoutStrategy.panelArrangement}`}>
         {children || (
           <ResponsiveLayoutManager
-            {...{
+            {...({
               forceDevice: deviceProfile.type,
               layoutHint: layoutStrategy.layout,
-            } as any}
+            } as any)}
           />
         )}
       </div>
@@ -276,9 +285,12 @@ export const AdaptiveLayoutEngine: React.FC<AdaptiveLayoutEngineProps> = ({ chil
       {process.env.NODE_ENV === 'development' && (
         <div className="performance-monitor">
           <span>FPS: calculating...</span>
-          <span>Memory: {(performance as any).memory ?
-            `${Math.round((performance as any).memory.usedJSHeapSize / 1048576)}MB` :
-            'N/A'}</span>
+          <span>
+            Memory:{' '}
+            {(performance as any).memory
+              ? `${Math.round((performance as any).memory.usedJSHeapSize / 1048576)}MB`
+              : 'N/A'}
+          </span>
           <span>Profile: {deviceProfile.performance}</span>
         </div>
       )}
@@ -301,12 +313,17 @@ export const useDeviceProfile = () => {
   return profile;
 };
 
-export const useAdaptiveSpacing = (mode: 'compact' | 'comfortable' | 'spacious' = 'comfortable') => {
-  return useMemo(() => ({
-    xs: mode === 'compact' ? 2 : mode === 'comfortable' ? 4 : 6,
-    sm: mode === 'compact' ? 4 : mode === 'comfortable' ? 8 : 12,
-    md: mode === 'compact' ? 8 : mode === 'comfortable' ? 16 : 24,
-    lg: mode === 'compact' ? 16 : mode === 'comfortable' ? 24 : 32,
-    xl: mode === 'compact' ? 24 : mode === 'comfortable' ? 32 : 48
-  }), [mode]);
+export const useAdaptiveSpacing = (
+  mode: 'compact' | 'comfortable' | 'spacious' = 'comfortable'
+) => {
+  return useMemo(
+    () => ({
+      xs: mode === 'compact' ? 2 : mode === 'comfortable' ? 4 : 6,
+      sm: mode === 'compact' ? 4 : mode === 'comfortable' ? 8 : 12,
+      md: mode === 'compact' ? 8 : mode === 'comfortable' ? 16 : 24,
+      lg: mode === 'compact' ? 16 : mode === 'comfortable' ? 24 : 32,
+      xl: mode === 'compact' ? 24 : mode === 'comfortable' ? 32 : 48,
+    }),
+    [mode]
+  );
 };

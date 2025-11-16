@@ -18,7 +18,11 @@ interface CompressionSpringOutputs {
   helix: unknown;
 }
 
-export const MechanicalEngineeringSpringsCompressionSpringNode: NodeDefinition<CompressionSpringInputs, CompressionSpringOutputs, CompressionSpringParams> = {
+export const MechanicalEngineeringSpringsCompressionSpringNode: NodeDefinition<
+  CompressionSpringInputs,
+  CompressionSpringOutputs,
+  CompressionSpringParams
+> = {
   id: 'MechanicalEngineering::CompressionSpring',
   category: 'MechanicalEngineering',
   label: 'CompressionSpring',
@@ -27,23 +31,23 @@ export const MechanicalEngineeringSpringsCompressionSpringNode: NodeDefinition<C
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
+      required: true,
     },
     axis: {
       type: 'Vector',
       label: 'Axis',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     spring: {
       type: 'Shape',
-      label: 'Spring'
+      label: 'Spring',
     },
     helix: {
       type: 'Wire',
-      label: 'Helix'
-    }
+      label: 'Helix',
+    },
   },
   params: {
     wireDiameter: {
@@ -51,35 +55,35 @@ export const MechanicalEngineeringSpringsCompressionSpringNode: NodeDefinition<C
       label: 'Wire Diameter',
       default: 2,
       min: 0.5,
-      max: 10
+      max: 10,
     },
     coilDiameter: {
       type: 'number',
       label: 'Coil Diameter',
       default: 20,
       min: 5,
-      max: 100
+      max: 100,
     },
     freeLength: {
       type: 'number',
       label: 'Free Length',
       default: 50,
       min: 10,
-      max: 200
+      max: 200,
     },
     coils: {
       type: 'number',
       label: 'Coils',
       default: 8,
       min: 3,
-      max: 30
+      max: 30,
     },
     endType: {
       type: 'enum',
       label: 'End Type',
-      default: "closed",
-      options: ["closed","open","ground"]
-    }
+      default: 'closed',
+      options: ['closed', 'open', 'ground'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -91,13 +95,13 @@ export const MechanicalEngineeringSpringsCompressionSpringNode: NodeDefinition<C
         coilDiameter: params.coilDiameter,
         freeLength: params.freeLength,
         coils: params.coils,
-        endType: params.endType
-      }
+        endType: params.endType,
+      },
     });
-    
+
     return {
       spring: results.spring,
-      helix: results.helix
+      helix: results.helix,
     };
   },
 };

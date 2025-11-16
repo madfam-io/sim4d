@@ -13,7 +13,11 @@ interface HoneycombPatternOutputs {
   honeycomb: unknown;
 }
 
-export const PatternsCellularHoneycombPatternNode: NodeDefinition<HoneycombPatternInputs, HoneycombPatternOutputs, HoneycombPatternParams> = {
+export const PatternsCellularHoneycombPatternNode: NodeDefinition<
+  HoneycombPatternInputs,
+  HoneycombPatternOutputs,
+  HoneycombPatternParams
+> = {
   id: 'Patterns::HoneycombPattern',
   category: 'Patterns',
   label: 'HoneycombPattern',
@@ -22,28 +26,28 @@ export const PatternsCellularHoneycombPatternNode: NodeDefinition<HoneycombPatte
     boundary: {
       type: 'Wire',
       label: 'Boundary',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     honeycomb: {
       type: 'Wire[]',
-      label: 'Honeycomb'
-    }
+      label: 'Honeycomb',
+    },
   },
   params: {
     cellSize: {
       type: 'number',
       label: 'Cell Size',
       default: 10,
-      min: 1
+      min: 1,
     },
     wallThickness: {
       type: 'number',
       label: 'Wall Thickness',
       default: 1,
-      min: 0.1
-    }
+      min: 0.1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -51,12 +55,12 @@ export const PatternsCellularHoneycombPatternNode: NodeDefinition<HoneycombPatte
       params: {
         boundary: inputs.boundary,
         cellSize: params.cellSize,
-        wallThickness: params.wallThickness
-      }
+        wallThickness: params.wallThickness,
+      },
     });
-    
+
     return {
-      honeycomb: result
+      honeycomb: result,
     };
   },
 };

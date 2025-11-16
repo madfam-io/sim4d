@@ -13,7 +13,11 @@ interface SubdivisionSurfaceOutputs {
   subdivided: unknown;
 }
 
-export const PatternsAlgorithmicSubdivisionSurfaceNode: NodeDefinition<SubdivisionSurfaceInputs, SubdivisionSurfaceOutputs, SubdivisionSurfaceParams> = {
+export const PatternsAlgorithmicSubdivisionSurfaceNode: NodeDefinition<
+  SubdivisionSurfaceInputs,
+  SubdivisionSurfaceOutputs,
+  SubdivisionSurfaceParams
+> = {
   id: 'Patterns::SubdivisionSurface',
   type: 'Patterns::SubdivisionSurface',
   category: 'Patterns',
@@ -23,21 +27,21 @@ export const PatternsAlgorithmicSubdivisionSurfaceNode: NodeDefinition<Subdivisi
     mesh: {
       type: 'Mesh',
       label: 'Mesh',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     subdivided: {
       type: 'Mesh',
-      label: 'Subdivided'
-    }
+      label: 'Subdivided',
+    },
   },
   params: {
     algorithm: {
       type: 'enum',
       label: 'Algorithm',
-      default: "catmull-clark",
-      options: ["catmull-clark","loop","doo-sabin","butterfly"]
+      default: 'catmull-clark',
+      options: ['catmull-clark', 'loop', 'doo-sabin', 'butterfly'],
     },
     iterations: {
       type: 'number',
@@ -45,8 +49,8 @@ export const PatternsAlgorithmicSubdivisionSurfaceNode: NodeDefinition<Subdivisi
       default: 2,
       min: 1,
       max: 5,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -54,12 +58,12 @@ export const PatternsAlgorithmicSubdivisionSurfaceNode: NodeDefinition<Subdivisi
       params: {
         mesh: inputs.mesh,
         algorithm: params.algorithm,
-        iterations: params.iterations
-      }
+        iterations: params.iterations,
+      },
     });
-    
+
     return {
-      subdivided: result
+      subdivided: result,
     };
   },
 };

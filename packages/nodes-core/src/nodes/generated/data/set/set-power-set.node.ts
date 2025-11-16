@@ -10,7 +10,11 @@ interface SetPowerSetOutputs {
   powerSet: unknown;
 }
 
-export const DataSetSetPowerSetNode: NodeDefinition<SetPowerSetInputs, SetPowerSetOutputs, SetPowerSetParams> = {
+export const DataSetSetPowerSetNode: NodeDefinition<
+  SetPowerSetInputs,
+  SetPowerSetOutputs,
+  SetPowerSetParams
+> = {
   id: 'Data::SetPowerSet',
   category: 'Data',
   label: 'SetPowerSet',
@@ -19,26 +23,26 @@ export const DataSetSetPowerSetNode: NodeDefinition<SetPowerSetInputs, SetPowerS
     set: {
       type: 'Data[]',
       label: 'Set',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     powerSet: {
       type: 'Data[][]',
-      label: 'Power Set'
-    }
+      label: 'Power Set',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'setPowerSet',
       params: {
-        set: inputs.set
-      }
+        set: inputs.set,
+      },
     });
-    
+
     return {
-      powerSet: result
+      powerSet: result,
     };
   },
 };

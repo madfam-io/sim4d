@@ -16,7 +16,11 @@ interface RetainingRingOutputs {
   groove: unknown;
 }
 
-export const MechanicalEngineeringFastenersRetainingRingNode: NodeDefinition<RetainingRingInputs, RetainingRingOutputs, RetainingRingParams> = {
+export const MechanicalEngineeringFastenersRetainingRingNode: NodeDefinition<
+  RetainingRingInputs,
+  RetainingRingOutputs,
+  RetainingRingParams
+> = {
   id: 'MechanicalEngineering::RetainingRing',
   type: 'MechanicalEngineering::RetainingRing',
   category: 'MechanicalEngineering',
@@ -26,18 +30,18 @@ export const MechanicalEngineeringFastenersRetainingRingNode: NodeDefinition<Ret
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     ring: {
       type: 'Shape',
-      label: 'Ring'
+      label: 'Ring',
     },
     groove: {
       type: 'Wire',
-      label: 'Groove'
-    }
+      label: 'Groove',
+    },
   },
   params: {
     shaftDiameter: {
@@ -45,28 +49,28 @@ export const MechanicalEngineeringFastenersRetainingRingNode: NodeDefinition<Ret
       label: 'Shaft Diameter',
       default: 10,
       min: 3,
-      max: 100
+      max: 100,
     },
     type: {
       type: 'enum',
       label: 'Type',
-      default: "external",
-      options: ["external","internal"]
+      default: 'external',
+      options: ['external', 'internal'],
     },
     thickness: {
       type: 'number',
       label: 'Thickness',
       default: 1,
       min: 0.5,
-      max: 3
+      max: 3,
     },
     grooveWidth: {
       type: 'number',
       label: 'Groove Width',
       default: 1.2,
       min: 0.6,
-      max: 4
-    }
+      max: 4,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -76,13 +80,13 @@ export const MechanicalEngineeringFastenersRetainingRingNode: NodeDefinition<Ret
         shaftDiameter: params.shaftDiameter,
         type: params.type,
         thickness: params.thickness,
-        grooveWidth: params.grooveWidth
-      }
+        grooveWidth: params.grooveWidth,
+      },
     });
-    
+
     return {
       ring: results.ring,
-      groove: results.groove
+      groove: results.groove,
     };
   },
 };

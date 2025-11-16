@@ -14,7 +14,11 @@ interface LinearFieldOutputs {
   field: unknown;
 }
 
-export const FieldGenerateLinearFieldNode: NodeDefinition<LinearFieldInputs, LinearFieldOutputs, LinearFieldParams> = {
+export const FieldGenerateLinearFieldNode: NodeDefinition<
+  LinearFieldInputs,
+  LinearFieldOutputs,
+  LinearFieldParams
+> = {
   id: 'Field::LinearField',
   category: 'Field',
   label: 'LinearField',
@@ -23,31 +27,31 @@ export const FieldGenerateLinearFieldNode: NodeDefinition<LinearFieldInputs, Lin
     bounds: {
       type: 'Box',
       label: 'Bounds',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     field: {
       type: 'ScalarField',
-      label: 'Field'
-    }
+      label: 'Field',
+    },
   },
   params: {
     direction: {
       type: 'vec3',
       label: 'Direction',
-      default: [1,0,0]
+      default: [1, 0, 0],
     },
     min: {
       type: 'number',
       label: 'Min',
-      default: 0
+      default: 0,
     },
     max: {
       type: 'number',
       label: 'Max',
-      default: 1
-    }
+      default: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -56,12 +60,12 @@ export const FieldGenerateLinearFieldNode: NodeDefinition<LinearFieldInputs, Lin
         bounds: inputs.bounds,
         direction: params.direction,
         min: params.min,
-        max: params.max
-      }
+        max: params.max,
+      },
     });
-    
+
     return {
-      field: result
+      field: result,
     };
   },
 };

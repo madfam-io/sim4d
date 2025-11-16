@@ -11,13 +11,14 @@
 The `JavaScriptExecutor` class uses the `Function()` constructor for dynamic script execution, which allows arbitrary code execution and sandbox escape. This is a **CRITICAL security vulnerability** (CVSS 9.8) that must be fixed before production deployment.
 
 **Vulnerable Code**:
+
 ```typescript
 // Line 102 (validate method)
-new Function(script);  // Syntax validation - UNSAFE
+new Function(script); // Syntax validation - UNSAFE
 
 // Lines 226-227, 513-514 (extractNodeDefinition, executeInSecureContext)
 const scriptFunction = new Function('return ' + wrappedScript)();
-return scriptFunction(...sandboxValues);  // Arbitrary code execution - UNSAFE
+return scriptFunction(...sandboxValues); // Arbitrary code execution - UNSAFE
 ```
 
 ---
@@ -28,7 +29,7 @@ return scriptFunction(...sandboxValues);  // Arbitrary code execution - UNSAFE
 
 1. **Script Size Limit**: 100KB maximum
 2. **Blacklist System**: Track and block malicious scripts by hash
-3. **Pattern Detection**: Block dangerous patterns (eval, Function, __proto__, etc.)
+3. **Pattern Detection**: Block dangerous patterns (eval, Function, **proto**, etc.)
 4. **CSP Compliance Check**: Validate against Content Security Policy
 5. **Input Sanitization**: Validate and sanitize all script inputs
 6. **Frozen Sandbox**: Use Object.freeze() to prevent prototype pollution
@@ -97,12 +98,14 @@ private async executeInSecureContext(
 ```
 
 **Pros**:
+
 - True isolation (separate V8 context)
 - Memory limits enforced at VM level
 - Production-grade security
 - No access to Node.js APIs
 
 **Cons**:
+
 - Node.js only (doesn't work in browser)
 - Native dependency (requires compilation)
 - Higher memory overhead
@@ -179,12 +182,14 @@ private async executeInSecureContext(
 ```
 
 **Pros**:
+
 - Works in browser
 - True thread isolation
 - Can terminate on timeout
 - Standard web API
 
 **Cons**:
+
 - Still uses Function() (but in isolated worker)
 - Can't share complex objects (serialization required)
 - Worker overhead for each execution
@@ -239,12 +244,14 @@ private async executeInSecureContext(
 ```
 
 **Pros**:
+
 - Lightweight (200KB)
 - Works in browser and Node.js
 - ES2020 support
 - Memory limits
 
 **Cons**:
+
 - Not full ES2022 support
 - Smaller ecosystem
 - Less battle-tested
@@ -256,6 +263,7 @@ private async executeInSecureContext(
 **Timeline**: Additional 1 week
 
 1. **Content Security Policy Headers**
+
    ```typescript
    // apps/studio/vite.config.production.ts
    headers: {
@@ -270,6 +278,7 @@ private async executeInSecureContext(
    ```
 
 2. **AST-Based Validation** (instead of regex)
+
    ```bash
    pnpm add acorn
    ```
@@ -324,6 +333,7 @@ private async executeInSecureContext(
    ```
 
 3. **Runtime Monitoring**
+
    ```typescript
    private async executeWithMonitoring(
      script: string,
@@ -367,6 +377,7 @@ private async executeInSecureContext(
    ```
 
 4. **Script Signing** (for plugin marketplace)
+
    ```typescript
    async function verifyScriptSignature(
      script: string,
@@ -453,9 +464,9 @@ describe('JavaScriptExecutor Security', () => {
       return huge;
     `;
 
-    await expect(
-      executor.execute(script, mockContext, mockPermissions)
-    ).rejects.toThrow(/memory limit/i);
+    await expect(executor.execute(script, mockContext, mockPermissions)).rejects.toThrow(
+      /memory limit/i
+    );
   });
 
   it('should enforce timeout limits', async () => {
@@ -485,7 +496,7 @@ describe('Penetration Tests', () => {
     `;
 
     const result = await executor.execute(script, mockContext, mockPermissions);
-    expect(Object.prototype.toString()).not.toBe("pwned");
+    expect(Object.prototype.toString()).not.toBe('pwned');
   });
 
   it('cannot access process object', async () => {

@@ -13,7 +13,11 @@ interface BowWindowOutputs {
   bowWindow: unknown;
 }
 
-export const ArchitectureWindowsBowWindowNode: NodeDefinition<BowWindowInputs, BowWindowOutputs, BowWindowParams> = {
+export const ArchitectureWindowsBowWindowNode: NodeDefinition<
+  BowWindowInputs,
+  BowWindowOutputs,
+  BowWindowParams
+> = {
   id: 'Architecture::BowWindow',
   category: 'Architecture',
   label: 'BowWindow',
@@ -22,14 +26,14 @@ export const ArchitectureWindowsBowWindowNode: NodeDefinition<BowWindowInputs, B
     wallOpening: {
       type: 'Wire',
       label: 'Wall Opening',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     bowWindow: {
       type: 'Shape',
-      label: 'Bow Window'
-    }
+      label: 'Bow Window',
+    },
   },
   params: {
     projection: {
@@ -37,7 +41,7 @@ export const ArchitectureWindowsBowWindowNode: NodeDefinition<BowWindowInputs, B
       label: 'Projection',
       default: 600,
       min: 400,
-      max: 1200
+      max: 1200,
     },
     segments: {
       type: 'number',
@@ -45,8 +49,8 @@ export const ArchitectureWindowsBowWindowNode: NodeDefinition<BowWindowInputs, B
       default: 5,
       min: 3,
       max: 7,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -54,12 +58,12 @@ export const ArchitectureWindowsBowWindowNode: NodeDefinition<BowWindowInputs, B
       params: {
         wallOpening: inputs.wallOpening,
         projection: params.projection,
-        segments: params.segments
-      }
+        segments: params.segments,
+      },
     });
-    
+
     return {
-      bowWindow: result
+      bowWindow: result,
     };
   },
 };

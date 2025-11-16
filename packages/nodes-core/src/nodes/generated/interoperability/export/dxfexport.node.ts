@@ -16,7 +16,11 @@ interface DXFExportOutputs {
   entityCount: unknown;
 }
 
-export const InteroperabilityExportDXFExportNode: NodeDefinition<DXFExportInputs, DXFExportOutputs, DXFExportParams> = {
+export const InteroperabilityExportDXFExportNode: NodeDefinition<
+  DXFExportInputs,
+  DXFExportOutputs,
+  DXFExportParams
+> = {
   id: 'Interoperability::DXFExport',
   category: 'Interoperability',
   label: 'DXFExport',
@@ -25,42 +29,42 @@ export const InteroperabilityExportDXFExportNode: NodeDefinition<DXFExportInputs
     curves: {
       type: 'Wire[]',
       label: 'Curves',
-      required: true
+      required: true,
     },
     filePath: {
       type: 'string',
       label: 'File Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     success: {
       type: 'boolean',
-      label: 'Success'
+      label: 'Success',
     },
     entityCount: {
       type: 'number',
-      label: 'Entity Count'
-    }
+      label: 'Entity Count',
+    },
   },
   params: {
     version: {
       type: 'enum',
       label: 'Version',
-      default: "2000",
-      options: ["R12","R14","2000","2004","2007"]
+      default: '2000',
+      options: ['R12', 'R14', '2000', '2004', '2007'],
     },
     units: {
       type: 'enum',
       label: 'Units',
-      default: "mm",
-      options: ["mm","cm","m","inch"]
+      default: 'mm',
+      options: ['mm', 'cm', 'm', 'inch'],
     },
     layerName: {
       type: 'string',
       label: 'Layer Name',
-      default: "BrepFlow"
-    }
+      default: 'BrepFlow',
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -70,13 +74,13 @@ export const InteroperabilityExportDXFExportNode: NodeDefinition<DXFExportInputs
         filePath: inputs.filePath,
         version: params.version,
         units: params.units,
-        layerName: params.layerName
-      }
+        layerName: params.layerName,
+      },
     });
-    
+
     return {
       success: results.success,
-      entityCount: results.entityCount
+      entityCount: results.entityCount,
     };
   },
 };

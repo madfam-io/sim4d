@@ -17,7 +17,11 @@ interface RepairMeshOutputs {
   report: unknown;
 }
 
-export const MeshRepairRepairMeshNode: NodeDefinition<RepairMeshInputs, RepairMeshOutputs, RepairMeshParams> = {
+export const MeshRepairRepairMeshNode: NodeDefinition<
+  RepairMeshInputs,
+  RepairMeshOutputs,
+  RepairMeshParams
+> = {
   id: 'Mesh::RepairMesh',
   category: 'Mesh',
   label: 'RepairMesh',
@@ -26,45 +30,45 @@ export const MeshRepairRepairMeshNode: NodeDefinition<RepairMeshInputs, RepairMe
     mesh: {
       type: 'Mesh',
       label: 'Mesh',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     repaired: {
       type: 'Mesh',
-      label: 'Repaired'
+      label: 'Repaired',
     },
     report: {
       type: 'Data',
-      label: 'Report'
-    }
+      label: 'Report',
+    },
   },
   params: {
     fillHoles: {
       type: 'boolean',
       label: 'Fill Holes',
-      default: true
+      default: true,
     },
     fixNormals: {
       type: 'boolean',
       label: 'Fix Normals',
-      default: true
+      default: true,
     },
     removeDegenerate: {
       type: 'boolean',
       label: 'Remove Degenerate',
-      default: true
+      default: true,
     },
     removeDuplicates: {
       type: 'boolean',
       label: 'Remove Duplicates',
-      default: true
+      default: true,
     },
     makeManifold: {
       type: 'boolean',
       label: 'Make Manifold',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -75,13 +79,13 @@ export const MeshRepairRepairMeshNode: NodeDefinition<RepairMeshInputs, RepairMe
         fixNormals: params.fixNormals,
         removeDegenerate: params.removeDegenerate,
         removeDuplicates: params.removeDuplicates,
-        makeManifold: params.makeManifold
-      }
+        makeManifold: params.makeManifold,
+      },
     });
-    
+
     return {
       repaired: results.repaired,
-      report: results.report
+      report: results.report,
     };
   },
 };

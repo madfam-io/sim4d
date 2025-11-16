@@ -14,7 +14,11 @@ interface Fillet2DOutputs {
   filleted: unknown;
 }
 
-export const SketchCurvesFillet2DNode: NodeDefinition<Fillet2DInputs, Fillet2DOutputs, Fillet2DParams> = {
+export const SketchCurvesFillet2DNode: NodeDefinition<
+  Fillet2DInputs,
+  Fillet2DOutputs,
+  Fillet2DParams
+> = {
   id: 'Sketch::Fillet2D',
   type: 'Sketch::Fillet2D',
   category: 'Sketch',
@@ -24,19 +28,19 @@ export const SketchCurvesFillet2DNode: NodeDefinition<Fillet2DInputs, Fillet2DOu
     wire: {
       type: 'Wire',
       label: 'Wire',
-      required: true
+      required: true,
     },
     vertices: {
       type: 'Vertex[]',
       label: 'Vertices',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     filleted: {
       type: 'Wire',
-      label: 'Filleted'
-    }
+      label: 'Filleted',
+    },
   },
   params: {
     radius: {
@@ -44,13 +48,13 @@ export const SketchCurvesFillet2DNode: NodeDefinition<Fillet2DInputs, Fillet2DOu
       label: 'Radius',
       default: 5,
       min: 0.1,
-      max: 1000
+      max: 1000,
     },
     allCorners: {
       type: 'boolean',
       label: 'All Corners',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -59,12 +63,12 @@ export const SketchCurvesFillet2DNode: NodeDefinition<Fillet2DInputs, Fillet2DOu
         wire: inputs.wire,
         vertices: inputs.vertices,
         radius: params.radius,
-        allCorners: params.allCorners
-      }
+        allCorners: params.allCorners,
+      },
     });
-    
+
     return {
-      filleted: result
+      filleted: result,
     };
   },
 };

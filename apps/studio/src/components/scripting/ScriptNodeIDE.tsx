@@ -95,32 +95,34 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
         setPermissions(editingNode.permissions);
       } else if (initialTemplate) {
         // Load template
-        const template = templates.find(t => t.name === initialTemplate);
+        const template = templates.find((t) => t.name === initialTemplate);
         if (template) {
           setScript(template.template);
           setLanguage(template.language);
-          setMetadata(prev => ({
+          setMetadata((prev) => ({
             ...prev,
             category: template.category,
           }));
-          setPermissions(prev => ({
+          setPermissions((prev) => ({
             ...prev,
             ...template.requiredPermissions,
           }));
         }
       } else {
         // Reset to default
-        setScript(templates.find(t => t.name === 'Empty Script')?.template || '');
+        setScript(templates.find((t) => t.name === 'Empty Script')?.template || '');
       }
 
       // Initialize main tab
-      setEditorTabs([{
-        id: 'main',
-        label: 'Main Script',
-        content: script,
-        language,
-        modified: false,
-      }]);
+      setEditorTabs([
+        {
+          id: 'main',
+          label: 'Main Script',
+          content: script,
+          language,
+          modified: false,
+        },
+      ]);
     }
   }, [isOpen, editingNode, initialTemplate, templates, language, script]);
 
@@ -175,17 +177,19 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
           log: (message: string) => console.log(message),
           progress: (value: number) => console.log(`Progress: ${value}%`),
           createVector: (x: number, y: number, z: number) => ({ x, y, z }),
-          measureDistance: (p1: any, p2: any) => Math.sqrt(
-            Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2) + Math.pow(p2.z - p1.z, 2)
-          ),
+          measureDistance: (p1: any, p2: any) =>
+            Math.sqrt(
+              Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2) + Math.pow(p2.z - p1.z, 2)
+            ),
           getParameter: (name: string, defaultValue?: any) => defaultValue,
           setOutput: (name: string, value: any) => console.log(`Output ${name}:`, value),
           getInput: (name: string) => undefined,
-          sleep: (ms: number) => new Promise(resolve => setTimeout(resolve, ms)),
-          timeout: (promise: Promise<any>, ms: number) => Promise.race([
-            promise,
-            new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), ms))
-          ]),
+          sleep: (ms: number) => new Promise((resolve) => setTimeout(resolve, ms)),
+          timeout: (promise: Promise<any>, ms: number) =>
+            Promise.race([
+              promise,
+              new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), ms)),
+            ]),
           startTimer: (label: string) => {
             const start = performance.now();
             return () => performance.now() - start;
@@ -247,11 +251,11 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
   const loadTemplate = useCallback((template: ScriptTemplate) => {
     setScript(template.template);
     setLanguage(template.language);
-    setMetadata(prev => ({
+    setMetadata((prev) => ({
       ...prev,
       category: template.category,
     }));
-    setPermissions(prev => ({
+    setPermissions((prev) => ({
       ...prev,
       ...template.requiredPermissions,
     }));
@@ -259,21 +263,24 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
   }, []);
 
   // Editor features
-  const insertCode = useCallback((code: string) => {
-    if (editorRef.current) {
-      const textarea = editorRef.current;
-      const start = textarea.selectionStart;
-      const end = textarea.selectionEnd;
-      const newScript = script.substring(0, start) + code + script.substring(end);
-      setScript(newScript);
+  const insertCode = useCallback(
+    (code: string) => {
+      if (editorRef.current) {
+        const textarea = editorRef.current;
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const newScript = script.substring(0, start) + code + script.substring(end);
+        setScript(newScript);
 
-      // Restore cursor position
-      setTimeout(() => {
-        textarea.focus();
-        textarea.setSelectionRange(start + code.length, start + code.length);
-      }, 0);
-    }
-  }, [script]);
+        // Restore cursor position
+        setTimeout(() => {
+          textarea.focus();
+          textarea.setSelectionRange(start + code.length, start + code.length);
+        }, 0);
+      }
+    },
+    [script]
+  );
 
   const formatCode = useCallback(async () => {
     try {
@@ -333,7 +340,7 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
             {/* Tab bar */}
             <div className="editor-tab-bar">
               <div className="tab-list">
-                {editorTabs.map(tab => (
+                {editorTabs.map((tab) => (
                   <button
                     key={tab.id}
                     className={`editor-tab ${activeTabId === tab.id ? 'active' : ''}`}
@@ -350,7 +357,7 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
                   onChange={(e) => setLanguage(e.target.value as ScriptLanguage)}
                   className="language-selector"
                 >
-                  {supportedLanguages.map(lang => (
+                  {supportedLanguages.map((lang) => (
                     <option key={lang} value={lang}>
                       {lang.charAt(0).toUpperCase() + lang.slice(1)}
                     </option>
@@ -435,7 +442,7 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
                     <input
                       type="text"
                       value={metadata.name}
-                      onChange={(e) => setMetadata(prev => ({ ...prev, name: e.target.value }))}
+                      onChange={(e) => setMetadata((prev) => ({ ...prev, name: e.target.value }))}
                       className="form-input"
                     />
                   </div>
@@ -443,7 +450,9 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
                     <label>Description</label>
                     <textarea
                       value={metadata.description}
-                      onChange={(e) => setMetadata(prev => ({ ...prev, description: e.target.value }))}
+                      onChange={(e) =>
+                        setMetadata((prev) => ({ ...prev, description: e.target.value }))
+                      }
                       className="form-textarea"
                       rows={3}
                     />
@@ -453,7 +462,9 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
                     <input
                       type="text"
                       value={metadata.category}
-                      onChange={(e) => setMetadata(prev => ({ ...prev, category: e.target.value }))}
+                      onChange={(e) =>
+                        setMetadata((prev) => ({ ...prev, category: e.target.value }))
+                      }
                       className="form-input"
                     />
                   </div>
@@ -462,7 +473,9 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
                     <input
                       type="text"
                       value={metadata.version}
-                      onChange={(e) => setMetadata(prev => ({ ...prev, version: e.target.value }))}
+                      onChange={(e) =>
+                        setMetadata((prev) => ({ ...prev, version: e.target.value }))
+                      }
                       className="form-input"
                     />
                   </div>
@@ -471,10 +484,15 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
                     <input
                       type="text"
                       value={metadata.tags.join(', ')}
-                      onChange={(e) => setMetadata(prev => ({
-                        ...prev,
-                        tags: e.target.value.split(',').map(t => t.trim()).filter(Boolean)
-                      }))}
+                      onChange={(e) =>
+                        setMetadata((prev) => ({
+                          ...prev,
+                          tags: e.target.value
+                            .split(',')
+                            .map((t) => t.trim())
+                            .filter(Boolean),
+                        }))
+                      }
                       className="form-input"
                     />
                   </div>
@@ -490,7 +508,9 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
                     </div>
                   ) : validationResult ? (
                     <div className="validation-results">
-                      <div className={`validation-status ${validationResult.valid ? 'valid' : 'invalid'}`}>
+                      <div
+                        className={`validation-status ${validationResult.valid ? 'valid' : 'invalid'}`}
+                      >
                         <Icon name={validationResult.valid ? 'check' : 'x'} size={16} />
                         <span>{validationResult.valid ? 'Valid' : 'Invalid'}</span>
                       </div>
@@ -501,7 +521,9 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
                           {validationResult.errors.map((error, index) => (
                             <div key={index} className="validation-message error">
                               <Icon name="x-circle" size={14} />
-                              <span>Line {error.line}: {error.message}</span>
+                              <span>
+                                Line {error.line}: {error.message}
+                              </span>
                             </div>
                           ))}
                         </div>
@@ -513,7 +535,9 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
                           {validationResult.warnings.map((warning, index) => (
                             <div key={index} className="validation-message warning">
                               <Icon name="alert-triangle" size={14} />
-                              <span>Line {warning.line}: {warning.message}</span>
+                              <span>
+                                Line {warning.line}: {warning.message}
+                              </span>
                             </div>
                           ))}
                         </div>
@@ -537,7 +561,9 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
                     </div>
                   ) : executionResult ? (
                     <div className="testing-results">
-                      <div className={`testing-status ${executionResult.success ? 'success' : 'error'}`}>
+                      <div
+                        className={`testing-status ${executionResult.success ? 'success' : 'error'}`}
+                      >
                         <Icon name={executionResult.success ? 'check' : 'x'} size={16} />
                         <span>{executionResult.success ? 'Success' : 'Failed'}</span>
                         <span className="execution-time">
@@ -624,7 +650,7 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
               </div>
               <div className="modal-body">
                 <div className="template-grid">
-                  {templates.map(template => (
+                  {templates.map((template) => (
                     <div
                       key={template.name}
                       className="template-card"
@@ -664,10 +690,12 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
                     <input
                       type="checkbox"
                       checked={permissions.allowGeometryAPI}
-                      onChange={(e) => setPermissions(prev => ({
-                        ...prev,
-                        allowGeometryAPI: e.target.checked
-                      }))}
+                      onChange={(e) =>
+                        setPermissions((prev) => ({
+                          ...prev,
+                          allowGeometryAPI: e.target.checked,
+                        }))
+                      }
                     />
                     <span>Allow Geometry API</span>
                     <small>Access to geometry operations</small>
@@ -677,10 +705,12 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
                     <input
                       type="checkbox"
                       checked={permissions.allowFileSystem}
-                      onChange={(e) => setPermissions(prev => ({
-                        ...prev,
-                        allowFileSystem: e.target.checked
-                      }))}
+                      onChange={(e) =>
+                        setPermissions((prev) => ({
+                          ...prev,
+                          allowFileSystem: e.target.checked,
+                        }))
+                      }
                     />
                     <span>Allow File System</span>
                     <small>Read/write files</small>
@@ -690,10 +720,12 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
                     <input
                       type="checkbox"
                       checked={permissions.allowNetworkAccess}
-                      onChange={(e) => setPermissions(prev => ({
-                        ...prev,
-                        allowNetworkAccess: e.target.checked
-                      }))}
+                      onChange={(e) =>
+                        setPermissions((prev) => ({
+                          ...prev,
+                          allowNetworkAccess: e.target.checked,
+                        }))
+                      }
                     />
                     <span>Allow Network Access</span>
                     <small>Make HTTP requests</small>
@@ -703,10 +735,12 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
                     <input
                       type="checkbox"
                       checked={permissions.allowWorkerThreads}
-                      onChange={(e) => setPermissions(prev => ({
-                        ...prev,
-                        allowWorkerThreads: e.target.checked
-                      }))}
+                      onChange={(e) =>
+                        setPermissions((prev) => ({
+                          ...prev,
+                          allowWorkerThreads: e.target.checked,
+                        }))
+                      }
                     />
                     <span>Allow Worker Threads</span>
                     <small>Use setTimeout/setInterval</small>
@@ -717,10 +751,12 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
                     <input
                       type="number"
                       value={permissions.memoryLimitMB}
-                      onChange={(e) => setPermissions(prev => ({
-                        ...prev,
-                        memoryLimitMB: parseInt(e.target.value) || 100
-                      }))}
+                      onChange={(e) =>
+                        setPermissions((prev) => ({
+                          ...prev,
+                          memoryLimitMB: parseInt(e.target.value) || 100,
+                        }))
+                      }
                       min={1}
                       max={1000}
                     />
@@ -731,10 +767,12 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
                     <input
                       type="number"
                       value={permissions.timeoutMS}
-                      onChange={(e) => setPermissions(prev => ({
-                        ...prev,
-                        timeoutMS: parseInt(e.target.value) || 5000
-                      }))}
+                      onChange={(e) =>
+                        setPermissions((prev) => ({
+                          ...prev,
+                          timeoutMS: parseInt(e.target.value) || 5000,
+                        }))
+                      }
                       min={1000}
                       max={60000}
                       step={1000}
@@ -743,10 +781,7 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
                 </div>
               </div>
               <div className="modal-footer">
-                <button
-                  className="btn btn-primary"
-                  onClick={() => setShowPermissions(false)}
-                >
+                <button className="btn btn-primary" onClick={() => setShowPermissions(false)}>
                   Apply
                 </button>
               </div>

@@ -9,14 +9,14 @@ import {
   intersectionNode,
   evaluateCurveNode,
   evaluateSurfaceNode,
-  collisionDetectionNode
+  collisionDetectionNode,
 } from './analysis';
 
 describe('Analysis Nodes', () => {
   const mockContext = {
     worker: {
-      invoke: vi.fn()
-    }
+      invoke: vi.fn(),
+    },
   };
 
   beforeEach(() => {
@@ -27,14 +27,14 @@ describe('Analysis Nodes', () => {
     it('should measure distance between geometries', async () => {
       const inputs = {
         geometryA: { type: 'point', x: 0, y: 0, z: 0 },
-        geometryB: { type: 'point', x: 3, y: 4, z: 0 }
+        geometryB: { type: 'point', x: 3, y: 4, z: 0 },
       };
       const params = { signed: false };
 
       mockContext.worker.invoke.mockResolvedValue({
         distance: 5.0,
         closestPointA: { x: 0, y: 0, z: 0 },
-        closestPointB: { x: 3, y: 4, z: 0 }
+        closestPointB: { x: 3, y: 4, z: 0 },
       });
 
       const result = await distanceNode.execute(inputs, params, mockContext);
@@ -42,26 +42,26 @@ describe('Analysis Nodes', () => {
       expect(mockContext.worker.invoke).toHaveBeenCalledWith('MEASURE_DISTANCE', {
         geometryA: inputs.geometryA,
         geometryB: inputs.geometryB,
-        signed: false
+        signed: false,
       });
       expect(result).toEqual({
         distance: 5.0,
         pointA: { x: 0, y: 0, z: 0 },
-        pointB: { x: 3, y: 4, z: 0 }
+        pointB: { x: 3, y: 4, z: 0 },
       });
     });
 
     it('should handle signed distance', async () => {
       const inputs = {
         geometryA: { type: 'plane', origin: { x: 0, y: 0, z: 0 } },
-        geometryB: { type: 'point', x: 0, y: 0, z: 5 }
+        geometryB: { type: 'point', x: 0, y: 0, z: 5 },
       };
       const params = { signed: true };
 
       mockContext.worker.invoke.mockResolvedValue({
         distance: -5.0,
         closestPointA: { x: 0, y: 0, z: 0 },
-        closestPointB: { x: 0, y: 0, z: 5 }
+        closestPointB: { x: 0, y: 0, z: 5 },
       });
 
       const result = await distanceNode.execute(inputs, params, mockContext);
@@ -69,7 +69,7 @@ describe('Analysis Nodes', () => {
       expect(mockContext.worker.invoke).toHaveBeenCalledWith('MEASURE_DISTANCE', {
         geometryA: inputs.geometryA,
         geometryB: inputs.geometryB,
-        signed: true
+        signed: true,
       });
       expect(result.distance).toBe(-5.0);
     });
@@ -77,7 +77,7 @@ describe('Analysis Nodes', () => {
     it('should handle null geometries gracefully', async () => {
       const inputs = {
         geometryA: null,
-        geometryB: { type: 'point', x: 1, y: 2, z: 3 }
+        geometryB: { type: 'point', x: 1, y: 2, z: 3 },
       };
       const params = { signed: false };
 
@@ -91,7 +91,7 @@ describe('Analysis Nodes', () => {
     it('should find closest point on geometry', async () => {
       const inputs = {
         point: { x: 5, y: 5, z: 5 },
-        geometry: { type: 'surface', id: 'surf1' }
+        geometry: { type: 'surface', id: 'surf1' },
       };
       const params = {};
 
@@ -99,7 +99,7 @@ describe('Analysis Nodes', () => {
         closestPoint: { x: 5, y: 5, z: 0 },
         distance: 5.0,
         parameter: 0.5,
-        normal: { x: 0, y: 0, z: 1 }
+        normal: { x: 0, y: 0, z: 1 },
       };
 
       mockContext.worker.invoke.mockResolvedValue(mockResult);
@@ -108,20 +108,20 @@ describe('Analysis Nodes', () => {
 
       expect(mockContext.worker.invoke).toHaveBeenCalledWith('CLOSEST_POINT', {
         point: inputs.point,
-        geometry: inputs.geometry
+        geometry: inputs.geometry,
       });
       expect(result).toEqual({
         closest: { x: 5, y: 5, z: 0 },
         distance: 5.0,
         parameter: 0.5,
-        normal: { x: 0, y: 0, z: 1 }
+        normal: { x: 0, y: 0, z: 1 },
       });
     });
 
     it('should handle point on geometry', async () => {
       const inputs = {
         point: { x: 0, y: 0, z: 0 },
-        geometry: { type: 'surface', id: 'surf1' }
+        geometry: { type: 'surface', id: 'surf1' },
       };
       const params = {};
 
@@ -129,7 +129,7 @@ describe('Analysis Nodes', () => {
         closestPoint: { x: 0, y: 0, z: 0 },
         distance: 0.0,
         parameter: 0.0,
-        normal: { x: 0, y: 0, z: 1 }
+        normal: { x: 0, y: 0, z: 1 },
       };
 
       mockContext.worker.invoke.mockResolvedValue(mockResult);
@@ -143,30 +143,30 @@ describe('Analysis Nodes', () => {
   describe('areaNode', () => {
     it('should calculate surface area', async () => {
       const inputs = {
-        geometry: { type: 'surface', id: 'surf1' }
+        geometry: { type: 'surface', id: 'surf1' },
       };
       const params = { worldSpace: true };
 
       mockContext.worker.invoke.mockResolvedValue({
         area: 100.5,
-        centroid: { x: 5, y: 5, z: 0 }
+        centroid: { x: 5, y: 5, z: 0 },
       });
 
       const result = await areaNode.execute(inputs, params, mockContext);
 
       expect(mockContext.worker.invoke).toHaveBeenCalledWith('CALCULATE_AREA', {
         geometry: inputs.geometry,
-        worldSpace: true
+        worldSpace: true,
       });
       expect(result).toEqual({
         area: 100.5,
-        centroid: { x: 5, y: 5, z: 0 }
+        centroid: { x: 5, y: 5, z: 0 },
       });
     });
 
     it('should handle invalid geometry', async () => {
       const inputs = {
-        geometry: null
+        geometry: null,
       };
       const params = { worldSpace: true };
 
@@ -181,31 +181,31 @@ describe('Analysis Nodes', () => {
   describe('volumeNode', () => {
     it('should calculate solid volume', async () => {
       const inputs = {
-        solid: { type: 'solid', id: 'solid1' }
+        solid: { type: 'solid', id: 'solid1' },
       };
       const params = {};
 
       mockContext.worker.invoke.mockResolvedValue({
         volume: 1000.0,
         centroid: { x: 0, y: 0, z: 0 },
-        surfaceArea: 600.0
+        surfaceArea: 600.0,
       });
 
       const result = await volumeNode.execute(inputs, params, mockContext);
 
       expect(mockContext.worker.invoke).toHaveBeenCalledWith('CALCULATE_VOLUME', {
-        solid: inputs.solid
+        solid: inputs.solid,
       });
       expect(result).toEqual({
         volume: 1000.0,
         centroid: { x: 0, y: 0, z: 0 },
-        surfaceArea: 600.0
+        surfaceArea: 600.0,
       });
     });
 
     it('should handle open surfaces', async () => {
       const inputs = {
-        solid: { type: 'surface', id: 'surf1', closed: false }
+        solid: { type: 'surface', id: 'surf1', closed: false },
       };
       const params = {};
 
@@ -218,7 +218,7 @@ describe('Analysis Nodes', () => {
   describe('massPropertiesNode', () => {
     it('should calculate mass properties with default density', async () => {
       const inputs = {
-        geometry: { type: 'solid', id: 'solid1' }
+        geometry: { type: 'solid', id: 'solid1' },
       };
       const params = { density: 1.0 };
 
@@ -230,8 +230,8 @@ describe('Analysis Nodes', () => {
         principalAxes: {
           axis1: { x: 1, y: 0, z: 0 },
           axis2: { x: 0, y: 1, z: 0 },
-          axis3: { x: 0, y: 0, z: 1 }
-        }
+          axis3: { x: 0, y: 0, z: 1 },
+        },
       };
 
       mockContext.worker.invoke.mockResolvedValue(mockProperties);
@@ -240,14 +240,14 @@ describe('Analysis Nodes', () => {
 
       expect(mockContext.worker.invoke).toHaveBeenCalledWith('MASS_PROPERTIES', {
         geometry: inputs.geometry,
-        density: 1.0
+        density: 1.0,
       });
       expect(result).toEqual(mockProperties);
     });
 
     it('should handle custom density', async () => {
       const inputs = {
-        geometry: { type: 'solid', id: 'solid2' }
+        geometry: { type: 'solid', id: 'solid2' },
       };
       const params = { density: 7.85 }; // Steel density
 
@@ -259,8 +259,8 @@ describe('Analysis Nodes', () => {
         principalAxes: {
           axis1: { x: 1, y: 0, z: 0 },
           axis2: { x: 0, y: 1, z: 0 },
-          axis3: { x: 0, y: 0, z: 1 }
-        }
+          axis3: { x: 0, y: 0, z: 1 },
+        },
       };
 
       mockContext.worker.invoke.mockResolvedValue(mockProperties);
@@ -274,18 +274,18 @@ describe('Analysis Nodes', () => {
   describe('boundingBoxNode', () => {
     it('should calculate bounding box', async () => {
       const inputs = {
-        geometry: { type: 'mesh', id: 'mesh1' }
+        geometry: { type: 'mesh', id: 'mesh1' },
       };
       const params = { alignment: 'world', plane: null };
 
       const mockBox = {
         box: {
           min: { x: -10, y: -10, z: -10 },
-          max: { x: 10, y: 10, z: 10 }
+          max: { x: 10, y: 10, z: 10 },
         },
         center: { x: 0, y: 0, z: 0 },
         diagonal: 34.64,
-        dimensions: { x: 20, y: 20, z: 20 }
+        dimensions: { x: 20, y: 20, z: 20 },
       };
 
       mockContext.worker.invoke.mockResolvedValue(mockBox);
@@ -295,28 +295,28 @@ describe('Analysis Nodes', () => {
       expect(mockContext.worker.invoke).toHaveBeenCalledWith('BOUNDING_BOX', {
         geometry: inputs.geometry,
         alignment: 'world',
-        plane: null
+        plane: null,
       });
       expect(result).toEqual(mockBox);
     });
 
     it('should handle oriented bounding box', async () => {
       const inputs = {
-        geometry: { type: 'mesh', id: 'mesh1' }
+        geometry: { type: 'mesh', id: 'mesh1' },
       };
       const params = {
         alignment: 'oriented',
-        plane: { origin: { x: 0, y: 0, z: 0 }, normal: { x: 0, y: 0, z: 1 } }
+        plane: { origin: { x: 0, y: 0, z: 0 }, normal: { x: 0, y: 0, z: 1 } },
       };
 
       const mockBox = {
         box: {
           min: { x: -8, y: -8, z: -12 },
-          max: { x: 8, y: 8, z: 12 }
+          max: { x: 8, y: 8, z: 12 },
         },
         center: { x: 0, y: 0, z: 0 },
         diagonal: 28.0,
-        dimensions: { x: 16, y: 16, z: 24 }
+        dimensions: { x: 16, y: 16, z: 24 },
       };
 
       mockContext.worker.invoke.mockResolvedValue(mockBox);
@@ -326,7 +326,7 @@ describe('Analysis Nodes', () => {
       expect(mockContext.worker.invoke).toHaveBeenCalledWith('BOUNDING_BOX', {
         geometry: inputs.geometry,
         alignment: 'oriented',
-        plane: params.plane
+        plane: params.plane,
       });
     });
   });
@@ -335,15 +335,13 @@ describe('Analysis Nodes', () => {
     it('should find geometry intersections', async () => {
       const inputs = {
         geometryA: { type: 'line', id: 'line1' },
-        geometryB: { type: 'surface', id: 'surf1' }
+        geometryB: { type: 'surface', id: 'surf1' },
       };
       const params = { tolerance: 0.001 };
 
       const mockIntersections = {
         type: 'points',
-        points: [
-          { point: { x: 5, y: 5, z: 0 }, paramA: 0.5, paramB: { u: 0.5, v: 0.5 } }
-        ]
+        points: [{ point: { x: 5, y: 5, z: 0 }, paramA: 0.5, paramB: { u: 0.5, v: 0.5 } }],
       };
 
       mockContext.worker.invoke.mockResolvedValue(mockIntersections);
@@ -353,7 +351,7 @@ describe('Analysis Nodes', () => {
       expect(mockContext.worker.invoke).toHaveBeenCalledWith('INTERSECTION', {
         geometryA: inputs.geometryA,
         geometryB: inputs.geometryB,
-        tolerance: 0.001
+        tolerance: 0.001,
       });
       expect(result).toEqual({ intersection: mockIntersections });
     });
@@ -361,7 +359,7 @@ describe('Analysis Nodes', () => {
     it('should handle no intersections', async () => {
       const inputs = {
         geometryA: { type: 'line', id: 'line1' },
-        geometryB: { type: 'line', id: 'line2' }
+        geometryB: { type: 'line', id: 'line2' },
       };
       const params = { tolerance: 0.001 };
 
@@ -375,13 +373,13 @@ describe('Analysis Nodes', () => {
     it('should handle curve intersections', async () => {
       const inputs = {
         geometryA: { type: 'surface', id: 'surf1' },
-        geometryB: { type: 'surface', id: 'surf2' }
+        geometryB: { type: 'surface', id: 'surf2' },
       };
       const params = { tolerance: 0.001 };
 
       const mockIntersections = {
         type: 'curves',
-        curves: [{ type: 'line', start: { x: 0, y: 0, z: 0 }, end: { x: 10, y: 10, z: 0 } }]
+        curves: [{ type: 'line', start: { x: 0, y: 0, z: 0 }, end: { x: 10, y: 10, z: 0 } }],
       };
 
       mockContext.worker.invoke.mockResolvedValue(mockIntersections);
@@ -396,7 +394,7 @@ describe('Analysis Nodes', () => {
     it('should evaluate curve at parameter', async () => {
       const inputs = {
         curve: { type: 'nurbs', id: 'curve1' },
-        parameter: 0.5
+        parameter: 0.5,
       };
       const params = {};
 
@@ -405,7 +403,7 @@ describe('Analysis Nodes', () => {
         tangent: { x: 1, y: 0, z: 0 },
         normal: { x: 0, y: 1, z: 0 },
         binormal: { x: 0, y: 0, z: 1 },
-        curvature: 0.1
+        curvature: 0.1,
       };
 
       mockContext.worker.invoke.mockResolvedValue(mockResult);
@@ -414,7 +412,7 @@ describe('Analysis Nodes', () => {
 
       expect(mockContext.worker.invoke).toHaveBeenCalledWith('EVALUATE_CURVE', {
         curve: inputs.curve,
-        parameter: 0.5
+        parameter: 0.5,
       });
       expect(result).toEqual(mockResult);
     });
@@ -422,7 +420,7 @@ describe('Analysis Nodes', () => {
     it('should handle parameter out of range', async () => {
       const inputs = {
         curve: { type: 'nurbs', id: 'curve1' },
-        parameter: 1.5
+        parameter: 1.5,
       };
       const params = {};
 
@@ -432,7 +430,7 @@ describe('Analysis Nodes', () => {
         tangent: { x: 1, y: 0, z: 0 },
         normal: { x: 0, y: 1, z: 0 },
         binormal: { x: 0, y: 0, z: 1 },
-        curvature: 0.0
+        curvature: 0.0,
       };
 
       mockContext.worker.invoke.mockResolvedValue(mockResult);
@@ -448,7 +446,7 @@ describe('Analysis Nodes', () => {
       const inputs = {
         surface: { type: 'nurbs', id: 'surf1' },
         u: 0.5,
-        v: 0.5
+        v: 0.5,
       };
       const params = {};
 
@@ -458,7 +456,7 @@ describe('Analysis Nodes', () => {
         uTangent: { x: 1, y: 0, z: 0 },
         vTangent: { x: 0, y: 1, z: 0 },
         gaussianCurvature: 0.0,
-        meanCurvature: 0.0
+        meanCurvature: 0.0,
       };
 
       mockContext.worker.invoke.mockResolvedValue(mockResult);
@@ -468,7 +466,7 @@ describe('Analysis Nodes', () => {
       expect(mockContext.worker.invoke).toHaveBeenCalledWith('EVALUATE_SURFACE', {
         surface: inputs.surface,
         u: 0.5,
-        v: 0.5
+        v: 0.5,
       });
       expect(result).toEqual(mockResult);
     });
@@ -477,7 +475,7 @@ describe('Analysis Nodes', () => {
       const inputs = {
         surface: { type: 'nurbs', id: 'surf1' },
         u: 0.0,
-        v: 1.0
+        v: 1.0,
       };
       const params = {};
 
@@ -487,7 +485,7 @@ describe('Analysis Nodes', () => {
         uTangent: { x: 1, y: 0, z: 0 },
         vTangent: { x: 0, y: 1, z: 0 },
         gaussianCurvature: 0.0,
-        meanCurvature: 0.0
+        meanCurvature: 0.0,
       };
 
       mockContext.worker.invoke.mockResolvedValue(mockResult);
@@ -502,20 +500,18 @@ describe('Analysis Nodes', () => {
     it('should detect collision between geometries', async () => {
       const inputs = {
         geometryA: { type: 'solid', id: 'solid1' },
-        geometryB: { type: 'solid', id: 'solid2' }
+        geometryB: { type: 'solid', id: 'solid2' },
       };
       const params = {
         tolerance: 0.001,
-        includeContainment: true
+        includeContainment: true,
       };
 
       const mockResult = {
         collides: true,
         penetrationDepth: 2.5,
-        contactPoints: [
-          { point: { x: 5, y: 5, z: 0 }, normal: { x: 1, y: 0, z: 0 } }
-        ],
-        containment: 'partial'
+        contactPoints: [{ point: { x: 5, y: 5, z: 0 }, normal: { x: 1, y: 0, z: 0 } }],
+        containment: 'partial',
       };
 
       mockContext.worker.invoke.mockResolvedValue(mockResult);
@@ -526,7 +522,7 @@ describe('Analysis Nodes', () => {
         geometryA: inputs.geometryA,
         geometryB: inputs.geometryB,
         tolerance: 0.001,
-        includeContainment: true
+        includeContainment: true,
       });
       expect(result).toEqual(mockResult);
     });
@@ -534,18 +530,18 @@ describe('Analysis Nodes', () => {
     it('should handle no collision', async () => {
       const inputs = {
         geometryA: { type: 'solid', id: 'solid1' },
-        geometryB: { type: 'solid', id: 'solid2' }
+        geometryB: { type: 'solid', id: 'solid2' },
       };
       const params = {
         tolerance: 0.001,
-        includeContainment: false
+        includeContainment: false,
       };
 
       const mockResult = {
         collides: false,
         penetrationDepth: 0,
         contactPoints: [],
-        containment: 'none'
+        containment: 'none',
       };
 
       mockContext.worker.invoke.mockResolvedValue(mockResult);
@@ -559,18 +555,18 @@ describe('Analysis Nodes', () => {
     it('should detect full containment', async () => {
       const inputs = {
         geometryA: { type: 'solid', id: 'small' },
-        geometryB: { type: 'solid', id: 'large' }
+        geometryB: { type: 'solid', id: 'large' },
       };
       const params = {
         tolerance: 0.001,
-        includeContainment: true
+        includeContainment: true,
       };
 
       const mockResult = {
         collides: true,
         penetrationDepth: 10.0,
         contactPoints: [],
-        containment: 'AinsideB'
+        containment: 'AinsideB',
       };
 
       mockContext.worker.invoke.mockResolvedValue(mockResult);
@@ -593,19 +589,21 @@ describe('Analysis Nodes', () => {
 
     it('should handle invalid geometry types', async () => {
       const inputs = {
-        geometry: { type: 'invalid' }
+        geometry: { type: 'invalid' },
       };
       const params = { alignment: 'world', plane: null };
 
       mockContext.worker.invoke.mockRejectedValue(new Error('Invalid geometry type'));
 
-      await expect(boundingBoxNode.execute(inputs, params, mockContext)).rejects.toThrow('Invalid geometry type');
+      await expect(boundingBoxNode.execute(inputs, params, mockContext)).rejects.toThrow(
+        'Invalid geometry type'
+      );
     });
 
     it('should handle extreme tolerance values', async () => {
       const inputs = {
         geometryA: { type: 'line', id: 'line1' },
-        geometryB: { type: 'line', id: 'line2' }
+        geometryB: { type: 'line', id: 'line2' },
       };
       const params = { tolerance: 1e-10 };
 
@@ -616,7 +614,7 @@ describe('Analysis Nodes', () => {
       expect(mockContext.worker.invoke).toHaveBeenCalledWith('INTERSECTION', {
         geometryA: inputs.geometryA,
         geometryB: inputs.geometryB,
-        tolerance: 1e-10
+        tolerance: 1e-10,
       });
       expect(result.intersection.type).toBe('none');
     });

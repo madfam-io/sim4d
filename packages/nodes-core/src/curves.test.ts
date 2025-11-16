@@ -221,7 +221,9 @@ describe('Curve Nodes', () => {
       const params = { count: 10, byLength: false };
       const expectedResult = {
         points: Array(10).fill({ x: 0, y: 0, z: 0 }),
-        params: Array(10).fill(0).map((_, i) => i / 9),
+        params: Array(10)
+          .fill(0)
+          .map((_, i) => i / 9),
         tangents: Array(10).fill({ x: 1, y: 0, z: 0 }),
       };
 

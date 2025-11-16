@@ -18,7 +18,11 @@ interface STEPExportOutputs {
   exportLog: unknown;
 }
 
-export const InteroperabilityExportSTEPExportNode: NodeDefinition<STEPExportInputs, STEPExportOutputs, STEPExportParams> = {
+export const InteroperabilityExportSTEPExportNode: NodeDefinition<
+  STEPExportInputs,
+  STEPExportOutputs,
+  STEPExportParams
+> = {
   id: 'Interoperability::STEPExport',
   type: 'Interoperability::STEPExport',
   category: 'Interoperability',
@@ -28,54 +32,54 @@ export const InteroperabilityExportSTEPExportNode: NodeDefinition<STEPExportInpu
     shapes: {
       type: 'Shape[]',
       label: 'Shapes',
-      required: true
+      required: true,
     },
     filePath: {
       type: 'string',
       label: 'File Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     success: {
       type: 'boolean',
-      label: 'Success'
+      label: 'Success',
     },
     fileSize: {
       type: 'number',
-      label: 'File Size'
+      label: 'File Size',
     },
     exportLog: {
       type: 'string[]',
-      label: 'Export Log'
-    }
+      label: 'Export Log',
+    },
   },
   params: {
     version: {
       type: 'enum',
       label: 'Version',
-      default: "AP214",
-      options: ["AP203","AP214","AP242"]
+      default: 'AP214',
+      options: ['AP203', 'AP214', 'AP242'],
     },
     units: {
       type: 'enum',
       label: 'Units',
-      default: "mm",
-      options: ["mm","cm","m","inch"]
+      default: 'mm',
+      options: ['mm', 'cm', 'm', 'inch'],
     },
     precision: {
       type: 'number',
       label: 'Precision',
       default: 0.01,
       min: 0.001,
-      max: 1
+      max: 1,
     },
     writeMode: {
       type: 'enum',
       label: 'Write Mode',
-      default: "manifold",
-      options: ["manifold","wireframe","shell"]
-    }
+      default: 'manifold',
+      options: ['manifold', 'wireframe', 'shell'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -86,14 +90,14 @@ export const InteroperabilityExportSTEPExportNode: NodeDefinition<STEPExportInpu
         version: params.version,
         units: params.units,
         precision: params.precision,
-        writeMode: params.writeMode
-      }
+        writeMode: params.writeMode,
+      },
     });
-    
+
     return {
       success: results.success,
       fileSize: results.fileSize,
-      exportLog: results.exportLog
+      exportLog: results.exportLog,
     };
   },
 };

@@ -1,4 +1,3 @@
-
 import { describe, it, expect, vi } from 'vitest';
 import { ProjectCurveNode } from './project-curve.node';
 import { createTestContext } from './../../test-utils';
@@ -11,11 +10,11 @@ describe('ProjectCurveNode', () => {
 
     const inputs = {
       curve: { id: 'curve-1' },
-      surface: { id: 'surface-1' }
+      surface: { id: 'surface-1' },
     } as any;
     const params = {
       projectionDirection: [0, 0, -1] as [number, number, number],
-      projectBoth: false
+      projectBoth: false,
     } as any;
 
     const result = await ProjectCurveNode.evaluate(context as any, inputs, params);
@@ -26,12 +25,10 @@ describe('ProjectCurveNode', () => {
         curve: inputs.curve,
         surface: inputs.surface,
         projectionDirection: [0, 0, -1],
-        projectBoth: false
-      }
+        projectBoth: false,
+      },
     });
 
     expect(result).toEqual({ projectedCurve: { id: 'projected-curve-1' } });
   });
-
-  
 });

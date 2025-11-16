@@ -14,7 +14,11 @@ interface PyramidOutputs {
   solid: unknown;
 }
 
-export const SolidParametricPyramidNode: NodeDefinition<PyramidInputs, PyramidOutputs, PyramidParams> = {
+export const SolidParametricPyramidNode: NodeDefinition<
+  PyramidInputs,
+  PyramidOutputs,
+  PyramidParams
+> = {
   id: 'Solid::Pyramid',
   type: 'Solid::Pyramid',
   category: 'Solid',
@@ -24,8 +28,8 @@ export const SolidParametricPyramidNode: NodeDefinition<PyramidInputs, PyramidOu
   outputs: {
     solid: {
       type: 'Solid',
-      label: 'Solid'
-    }
+      label: 'Solid',
+    },
   },
   params: {
     baseWidth: {
@@ -33,36 +37,36 @@ export const SolidParametricPyramidNode: NodeDefinition<PyramidInputs, PyramidOu
       label: 'Base Width',
       default: 100,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     baseDepth: {
       type: 'number',
       label: 'Base Depth',
       default: 100,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     height: {
       type: 'number',
       label: 'Height',
       default: 100,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     topWidth: {
       type: 'number',
       label: 'Top Width',
       default: 0,
       min: 0,
-      max: 10000
+      max: 10000,
     },
     topDepth: {
       type: 'number',
       label: 'Top Depth',
       default: 0,
       min: 0,
-      max: 10000
-    }
+      max: 10000,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -72,12 +76,12 @@ export const SolidParametricPyramidNode: NodeDefinition<PyramidInputs, PyramidOu
         baseDepth: params.baseDepth,
         height: params.height,
         topWidth: params.topWidth,
-        topDepth: params.topDepth
-      }
+        topDepth: params.topDepth,
+      },
     });
-    
+
     return {
-      solid: result
+      solid: result,
     };
   },
 };

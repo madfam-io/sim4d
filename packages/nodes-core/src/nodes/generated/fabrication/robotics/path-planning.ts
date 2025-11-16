@@ -15,7 +15,11 @@ interface PathPlanningOutputs {
   jointTrajectory: unknown;
 }
 
-export const FabricationRoboticsPathPlanningNode: NodeDefinition<PathPlanningInputs, PathPlanningOutputs, PathPlanningParams> = {
+export const FabricationRoboticsPathPlanningNode: NodeDefinition<
+  PathPlanningInputs,
+  PathPlanningOutputs,
+  PathPlanningParams
+> = {
   id: 'Fabrication::PathPlanning',
   type: 'Fabrication::PathPlanning',
   category: 'Fabrication',
@@ -25,36 +29,36 @@ export const FabricationRoboticsPathPlanningNode: NodeDefinition<PathPlanningInp
     waypoints: {
       type: 'Transform[]',
       label: 'Waypoints',
-      required: true
+      required: true,
     },
     obstacles: {
       type: 'Shape[]',
       label: 'Obstacles',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     trajectory: {
       type: 'Transform[]',
-      label: 'Trajectory'
+      label: 'Trajectory',
     },
     jointTrajectory: {
       type: 'Data',
-      label: 'Joint Trajectory'
-    }
+      label: 'Joint Trajectory',
+    },
   },
   params: {
     algorithm: {
       type: 'enum',
       label: 'Algorithm',
-      default: "rrt",
-      options: ["rrt","prm","a-star","potential-field"]
+      default: 'rrt',
+      options: ['rrt', 'prm', 'a-star', 'potential-field'],
     },
     smoothing: {
       type: 'boolean',
       label: 'Smoothing',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -63,13 +67,13 @@ export const FabricationRoboticsPathPlanningNode: NodeDefinition<PathPlanningInp
         waypoints: inputs.waypoints,
         obstacles: inputs.obstacles,
         algorithm: params.algorithm,
-        smoothing: params.smoothing
-      }
+        smoothing: params.smoothing,
+      },
     });
-    
+
     return {
       trajectory: results.trajectory,
-      jointTrajectory: results.jointTrajectory
+      jointTrajectory: results.jointTrajectory,
     };
   },
 };

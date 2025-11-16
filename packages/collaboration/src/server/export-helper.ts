@@ -1,6 +1,6 @@
 /**
  * Export Helper
- * 
+ *
  * Server-side geometry export functionality
  * Reuses CLI export logic for STEP/STL generation
  */
@@ -20,13 +20,16 @@ export interface ExportResult {
  */
 function collectShapeHandles(graph: GraphInstance): any[] {
   const handles: any[] = [];
-  
+
   for (const node of graph.nodes) {
     if (!node.outputs) continue;
-    
+
     for (const [outputKey, outputValue] of Object.entries(node.outputs)) {
       if (outputValue && typeof outputValue === 'object') {
-        if ('id' in outputValue || (typeof outputValue === 'string' && /^shape[-_]/i.test(outputValue))) {
+        if (
+          'id' in outputValue ||
+          (typeof outputValue === 'string' && /^shape[-_]/i.test(outputValue))
+        ) {
           handles.push({
             nodeId: node.id,
             outputKey,
@@ -36,7 +39,7 @@ function collectShapeHandles(graph: GraphInstance): any[] {
       }
     }
   }
-  
+
   return handles;
 }
 
@@ -47,7 +50,6 @@ export async function exportSessionGeometry(
   graph: GraphInstance,
   format: 'step' | 'stl'
 ): Promise<ExportResult> {
-  
   // Initialize geometry API
   const geometryAPI = await GeometryAPIFactory.getAPI({
     enableRetry: true,
@@ -57,7 +59,7 @@ export async function exportSessionGeometry(
   // Health check
   const healthResponse = await geometryAPI.invoke('HEALTH_CHECK', {});
   const healthPayload = unwrapOperationResult<any>(healthResponse);
-  
+
   if (!healthPayload.success || !healthPayload.result?.healthy) {
     throw new Error('Geometry engine health check failed');
   }
@@ -65,7 +67,7 @@ export async function exportSessionGeometry(
   // Evaluate graph
   const graphManager = new GraphManager(graph);
   const dagEngine = new DAGEngine({ worker: geometryAPI });
-  
+
   const dirtyNodes = graphManager.getDirtyNodes();
   await dagEngine.evaluate(graph, dirtyNodes);
 
@@ -82,21 +84,16 @@ export async function exportSessionGeometry(
 
   switch (format) {
     case 'step':
-      content = await invokeOperation<string>(
-        geometryAPI,
-        'EXPORT_STEP',
-        { shape: shape.handle }
-      );
+      content = await invokeOperation<string>(geometryAPI, 'EXPORT_STEP', { shape: shape.handle });
       break;
-      
+
     case 'stl':
-      content = await invokeOperation<string>(
-        geometryAPI,
-        'EXPORT_STL',
-        { shape: shape.handle, binary: false }
-      );
+      content = await invokeOperation<string>(geometryAPI, 'EXPORT_STL', {
+        shape: shape.handle,
+        binary: false,
+      });
       break;
-      
+
     default:
       throw new Error(`Unsupported format: ${format}`);
   }
@@ -113,7 +110,11 @@ export async function exportSessionGeometry(
 /**
  * Unwrap operation result from geometry API
  */
-function unwrapOperationResult<T>(value: any): { success: boolean; result: T | undefined; error?: any } {
+function unwrapOperationResult<T>(value: any): {
+  success: boolean;
+  result: T | undefined;
+  error?: any;
+} {
   if (value && typeof value === 'object' && 'success' in value) {
     return {
       success: Boolean(value.success),
@@ -136,11 +137,12 @@ async function invokeOperation<T>(geometryAPI: any, operation: string, params: a
   const { success, result, error } = unwrapOperationResult<T>(response);
 
   if (!success) {
-    const reason = error instanceof Error 
-      ? error.message 
-      : typeof error === 'string' 
-        ? error 
-        : `Operation ${operation} failed`;
+    const reason =
+      error instanceof Error
+        ? error.message
+        : typeof error === 'string'
+          ? error
+          : `Operation ${operation} failed`;
     throw new Error(reason);
   }
 

@@ -16,7 +16,11 @@ interface SurfaceIsoCurvesOutputs {
   allCurves: unknown;
 }
 
-export const AnalysisSurfacesSurfaceIsoCurvesNode: NodeDefinition<SurfaceIsoCurvesInputs, SurfaceIsoCurvesOutputs, SurfaceIsoCurvesParams> = {
+export const AnalysisSurfacesSurfaceIsoCurvesNode: NodeDefinition<
+  SurfaceIsoCurvesInputs,
+  SurfaceIsoCurvesOutputs,
+  SurfaceIsoCurvesParams
+> = {
   id: 'Analysis::SurfaceIsoCurves',
   type: 'Analysis::SurfaceIsoCurves',
   category: 'Analysis',
@@ -26,22 +30,22 @@ export const AnalysisSurfacesSurfaceIsoCurvesNode: NodeDefinition<SurfaceIsoCurv
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     uCurves: {
       type: 'Wire[]',
-      label: 'U Curves'
+      label: 'U Curves',
     },
     vCurves: {
       type: 'Wire[]',
-      label: 'V Curves'
+      label: 'V Curves',
     },
     allCurves: {
       type: 'Wire[]',
-      label: 'All Curves'
-    }
+      label: 'All Curves',
+    },
   },
   params: {
     uCount: {
@@ -49,21 +53,21 @@ export const AnalysisSurfacesSurfaceIsoCurvesNode: NodeDefinition<SurfaceIsoCurv
       label: 'U Count',
       default: 10,
       min: 2,
-      max: 50
+      max: 50,
     },
     vCount: {
       type: 'number',
       label: 'V Count',
       default: 10,
       min: 2,
-      max: 50
+      max: 50,
     },
     direction: {
       type: 'enum',
       label: 'Direction',
-      default: "both",
-      options: ["both","u-only","v-only"]
-    }
+      default: 'both',
+      options: ['both', 'u-only', 'v-only'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -72,14 +76,14 @@ export const AnalysisSurfacesSurfaceIsoCurvesNode: NodeDefinition<SurfaceIsoCurv
         surface: inputs.surface,
         uCount: params.uCount,
         vCount: params.vCount,
-        direction: params.direction
-      }
+        direction: params.direction,
+      },
     });
-    
+
     return {
       uCurves: results.uCurves,
       vCurves: results.vCurves,
-      allCurves: results.allCurves
+      allCurves: results.allCurves,
     };
   },
 };

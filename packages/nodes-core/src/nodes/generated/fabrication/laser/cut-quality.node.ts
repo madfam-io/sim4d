@@ -14,7 +14,11 @@ interface CutQualityOutputs {
   heatAffectedZone: number;
 }
 
-export const FabricationLaserCutQualityNode: NodeDefinition<CutQualityInputs, CutQualityOutputs, CutQualityParams> = {
+export const FabricationLaserCutQualityNode: NodeDefinition<
+  CutQualityInputs,
+  CutQualityOutputs,
+  CutQualityParams
+> = {
   id: 'Fabrication::CutQuality',
   category: 'Fabrication',
   label: 'CutQuality',
@@ -23,18 +27,18 @@ export const FabricationLaserCutQualityNode: NodeDefinition<CutQualityInputs, Cu
     material: {
       type: 'Data',
       label: 'Material',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     edgeQuality: {
       type: 'Data',
-      label: 'Edge Quality'
+      label: 'Edge Quality',
     },
     heatAffectedZone: {
       type: 'Number',
-      label: 'Heat Affected Zone'
-    }
+      label: 'Heat Affected Zone',
+    },
   },
   params: {
     speed: {
@@ -42,15 +46,15 @@ export const FabricationLaserCutQualityNode: NodeDefinition<CutQualityInputs, Cu
       label: 'Speed',
       default: 20,
       min: 1,
-      max: 100
+      max: 100,
     },
     power: {
       type: 'number',
       label: 'Power',
       default: 80,
       min: 10,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -58,13 +62,13 @@ export const FabricationLaserCutQualityNode: NodeDefinition<CutQualityInputs, Cu
       params: {
         material: inputs.material,
         speed: params.speed,
-        power: params.power
-      }
+        power: params.power,
+      },
     });
-    
+
     return {
       edgeQuality: results.edgeQuality,
-      heatAffectedZone: results.heatAffectedZone
+      heatAffectedZone: results.heatAffectedZone,
     };
   },
 };

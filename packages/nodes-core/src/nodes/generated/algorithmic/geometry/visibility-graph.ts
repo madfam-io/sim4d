@@ -17,7 +17,11 @@ interface VisibilityGraphOutputs {
   edges: unknown;
 }
 
-export const AlgorithmicGeometryVisibilityGraphNode: NodeDefinition<VisibilityGraphInputs, VisibilityGraphOutputs, VisibilityGraphParams> = {
+export const AlgorithmicGeometryVisibilityGraphNode: NodeDefinition<
+  VisibilityGraphInputs,
+  VisibilityGraphOutputs,
+  VisibilityGraphParams
+> = {
   id: 'Algorithmic::VisibilityGraph',
   type: 'Algorithmic::VisibilityGraph',
   category: 'Algorithmic',
@@ -27,32 +31,32 @@ export const AlgorithmicGeometryVisibilityGraphNode: NodeDefinition<VisibilityGr
     obstacles: {
       type: 'Shape[]',
       label: 'Obstacles',
-      required: true
+      required: true,
     },
     start: {
       type: 'Point',
       label: 'Start',
-      required: true
+      required: true,
     },
     goal: {
       type: 'Point',
       label: 'Goal',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     graph: {
       type: 'Wire[]',
-      label: 'Graph'
+      label: 'Graph',
     },
     vertices: {
       type: 'Point[]',
-      label: 'Vertices'
+      label: 'Vertices',
     },
     edges: {
       type: 'Properties[]',
-      label: 'Edges'
-    }
+      label: 'Edges',
+    },
   },
   params: {
     epsilon: {
@@ -60,13 +64,13 @@ export const AlgorithmicGeometryVisibilityGraphNode: NodeDefinition<VisibilityGr
       label: 'Epsilon',
       default: 0.01,
       min: 0.001,
-      max: 1
+      max: 1,
     },
     includeInterior: {
       type: 'boolean',
       label: 'Include Interior',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -76,14 +80,14 @@ export const AlgorithmicGeometryVisibilityGraphNode: NodeDefinition<VisibilityGr
         start: inputs.start,
         goal: inputs.goal,
         epsilon: params.epsilon,
-        includeInterior: params.includeInterior
-      }
+        includeInterior: params.includeInterior,
+      },
     });
-    
+
     return {
       graph: results.graph,
       vertices: results.vertices,
-      edges: results.edges
+      edges: results.edges,
     };
   },
 };

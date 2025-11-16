@@ -23,8 +23,8 @@ export const SketchBasicCircleNode: NodeDefinition<CircleInputs, CircleOutputs, 
   outputs: {
     shape: {
       type: 'Shape',
-      label: 'Shape'
-    }
+      label: 'Shape',
+    },
   },
   params: {
     centerX: {
@@ -32,34 +32,34 @@ export const SketchBasicCircleNode: NodeDefinition<CircleInputs, CircleOutputs, 
       label: 'Center X',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     centerY: {
       type: 'number',
       label: 'Center Y',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     centerZ: {
       type: 'number',
       label: 'Center Z',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     radius: {
       type: 'number',
       label: 'Radius',
       default: 50,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     filled: {
       type: 'boolean',
       label: 'Filled',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -69,12 +69,12 @@ export const SketchBasicCircleNode: NodeDefinition<CircleInputs, CircleOutputs, 
         centerY: params.centerY,
         centerZ: params.centerZ,
         radius: params.radius,
-        filled: params.filled
-      }
+        filled: params.filled,
+      },
     });
-    
+
     return {
-      shape: result
+      shape: result,
     };
   },
 };

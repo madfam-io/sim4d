@@ -13,7 +13,11 @@ interface IsoparametricCurveOutputs {
   isoCurve: unknown;
 }
 
-export const SurfaceCurveOpsIsoparametricCurveNode: NodeDefinition<IsoparametricCurveInputs, IsoparametricCurveOutputs, IsoparametricCurveParams> = {
+export const SurfaceCurveOpsIsoparametricCurveNode: NodeDefinition<
+  IsoparametricCurveInputs,
+  IsoparametricCurveOutputs,
+  IsoparametricCurveParams
+> = {
   id: 'Surface::IsoparametricCurve',
   type: 'Surface::IsoparametricCurve',
   category: 'Surface',
@@ -23,29 +27,29 @@ export const SurfaceCurveOpsIsoparametricCurveNode: NodeDefinition<Isoparametric
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     isoCurve: {
       type: 'Wire',
-      label: 'Iso Curve'
-    }
+      label: 'Iso Curve',
+    },
   },
   params: {
     direction: {
       type: 'enum',
       label: 'Direction',
-      default: "U",
-      options: ["U","V"]
+      default: 'U',
+      options: ['U', 'V'],
     },
     parameter: {
       type: 'number',
       label: 'Parameter',
       default: 0.5,
       min: 0,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const SurfaceCurveOpsIsoparametricCurveNode: NodeDefinition<Isoparametric
       params: {
         surface: inputs.surface,
         direction: params.direction,
-        parameter: params.parameter
-      }
+        parameter: params.parameter,
+      },
     });
-    
+
     return {
-      isoCurve: result
+      isoCurve: result,
     };
   },
 };

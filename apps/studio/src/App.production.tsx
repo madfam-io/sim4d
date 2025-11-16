@@ -92,27 +92,27 @@ function AppContent() {
           data: {
             source: params.source,
             target: params.target,
-          }
+          },
         });
 
         const [sourcePort] = params.sourceHandle.split(':');
         const [targetPort] = params.targetHandle.split(':');
 
-        addGraphEdge(
-          params.source,
-          sourcePort,
-          params.target,
-          targetPort
-        );
+        addGraphEdge(params.source, sourcePort, params.target, targetPort);
 
-        setEdges((eds) => addEdge({
-          ...params,
-          markerEnd: {
-            type: MarkerType.ArrowClosed,
-            width: 20,
-            height: 20,
-          },
-        }, eds));
+        setEdges((eds) =>
+          addEdge(
+            {
+              ...params,
+              markerEnd: {
+                type: MarkerType.ArrowClosed,
+                width: 20,
+                height: 20,
+              },
+            },
+            eds
+          )
+        );
       }
     },
     [addGraphEdge, setEdges, recordUserInteraction]
@@ -120,7 +120,7 @@ function AppContent() {
 
   const onNodesDelete = useCallback(
     (nodesToDelete: RFNode[]) => {
-      nodesToDelete.forEach(node => {
+      nodesToDelete.forEach((node) => {
         recordUserInteraction({ type: 'node_deleted', data: { nodeId: node.id } });
         removeNode(node.id);
       });
@@ -130,7 +130,7 @@ function AppContent() {
 
   const onEdgesDelete = useCallback(
     (edgesToDelete: RFEdge[]) => {
-      edgesToDelete.forEach(edge => {
+      edgesToDelete.forEach((edge) => {
         recordUserInteraction({ type: 'edge_deleted', data: { edgeId: edge.id } });
         removeEdge(edge.id);
       });
@@ -146,13 +146,10 @@ function AppContent() {
     [selectNode, recordUserInteraction]
   );
 
-  const onNodeDoubleClick = useCallback(
-    (_: React.MouseEvent, node: RFNode) => {
-      setEditingNodeId(node.id);
-      setShowParameterDialog(true);
-    },
-    []
-  );
+  const onNodeDoubleClick = useCallback((_: React.MouseEvent, node: RFNode) => {
+    setEditingNodeId(node.id);
+    setShowParameterDialog(true);
+  }, []);
 
   const handleAddNode = useCallback(
     (type: string, position?: { x: number; y: number }) => {
@@ -169,13 +166,13 @@ function AppContent() {
   }, [evaluateGraph, recordUserInteraction]);
 
   const shortcuts = {
-    'Delete': () => {
-      selectedNodes.forEach(nodeId => removeNode(nodeId));
+    Delete: () => {
+      selectedNodes.forEach((nodeId) => removeNode(nodeId));
     },
-    'Escape': () => {
+    Escape: () => {
       selectNode(null);
     },
-    'e': handleEvaluate,
+    e: handleEvaluate,
   };
 
   useKeyboardShortcuts();
@@ -193,12 +190,18 @@ function AppContent() {
         <p>{initializationError}</p>
         <details>
           <summary>Technical Details</summary>
-          <pre>{JSON.stringify({
-            environment: process.env['NODE_ENV'],
-            wasmSupport: typeof WebAssembly !== 'undefined',
-            sharedArrayBuffer: typeof SharedArrayBuffer !== 'undefined',
-            timestamp: new Date().toISOString()
-          }, null, 2)}</pre>
+          <pre>
+            {JSON.stringify(
+              {
+                environment: process.env['NODE_ENV'],
+                wasmSupport: typeof WebAssembly !== 'undefined',
+                sharedArrayBuffer: typeof SharedArrayBuffer !== 'undefined',
+                timestamp: new Date().toISOString(),
+              },
+              null,
+              2
+            )}
+          </pre>
         </details>
       </div>
     );
@@ -215,61 +218,64 @@ function AppContent() {
   }
 
   return (
-    <WorkbenchLayoutManager>{{
-      toolbar: <Toolbar />,
-      nodePanel: <NodePanel />,
-      inspector: <Inspector selectedNode={null} onParamChange={() => {}} />,
-      console: <Console />,
-      viewport3d: <Viewport />,
-      nodeEditor:
-        <div style={{ width: '100%', height: '100%' }}>
-          <ReactFlow
-            nodes={nodes}
-            edges={edges}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            onConnect={onConnect}
-            onNodesDelete={onNodesDelete}
-            onEdgesDelete={onEdgesDelete}
-            onNodeClick={onNodeClick}
-            onNodeDoubleClick={onNodeDoubleClick}
-            nodeTypes={nodeTypes}
-            fitView
-          >
-            <Background variant={'dots' as any} gap={12} size={1} />
-            <Controls />
-            <MiniMap />
-            <Panel position="top-right">
-              <button
-                onClick={() => setShowMonitoringDashboard(!showMonitoringDashboard)}
-                className="monitoring-toggle"
-                title="Toggle Monitoring Dashboard"
-              >
-                <Icon name="monitor" size={20} />
-              </button>
-            </Panel>
-          </ReactFlow>
+    <WorkbenchLayoutManager>
+      {{
+        toolbar: <Toolbar />,
+        nodePanel: <NodePanel />,
+        inspector: <Inspector selectedNode={null} onParamChange={() => {}} />,
+        console: <Console />,
+        viewport3d: <Viewport />,
+        nodeEditor: (
+          <div style={{ width: '100%', height: '100%' }}>
+            <ReactFlow
+              nodes={nodes}
+              edges={edges}
+              onNodesChange={onNodesChange}
+              onEdgesChange={onEdgesChange}
+              onConnect={onConnect}
+              onNodesDelete={onNodesDelete}
+              onEdgesDelete={onEdgesDelete}
+              onNodeClick={onNodeClick}
+              onNodeDoubleClick={onNodeDoubleClick}
+              nodeTypes={nodeTypes}
+              fitView
+            >
+              <Background variant={'dots' as any} gap={12} size={1} />
+              <Controls />
+              <MiniMap />
+              <Panel position="top-right">
+                <button
+                  onClick={() => setShowMonitoringDashboard(!showMonitoringDashboard)}
+                  className="monitoring-toggle"
+                  title="Toggle Monitoring Dashboard"
+                >
+                  <Icon name="monitor" size={20} />
+                </button>
+              </Panel>
+            </ReactFlow>
 
-          {showMonitoringDashboard && (
-            <div className="monitoring-overlay">
-              <MonitoringDashboard
-                isVisible={showMonitoringDashboard}
-                onClose={() => setShowMonitoringDashboard(false)}
-              />
-            </div>
-          )}
+            {showMonitoringDashboard && (
+              <div className="monitoring-overlay">
+                <MonitoringDashboard
+                  isVisible={showMonitoringDashboard}
+                  onClose={() => setShowMonitoringDashboard(false)}
+                />
+              </div>
+            )}
 
-          {alerts.length > 0 && (
-            <div className="health-alerts">
-              {alerts.map((alert, idx) => (
-                <div key={idx} className={`alert alert-${alert.severity}`}>
-                  {alert.message}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-    }}</WorkbenchLayoutManager>
+            {alerts.length > 0 && (
+              <div className="health-alerts">
+                {alerts.map((alert, idx) => (
+                  <div key={idx} className={`alert alert-${alert.severity}`}>
+                    {alert.message}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ),
+      }}
+    </WorkbenchLayoutManager>
   );
 }
 

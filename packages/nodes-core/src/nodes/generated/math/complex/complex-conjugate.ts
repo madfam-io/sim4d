@@ -10,7 +10,11 @@ interface ComplexConjugateOutputs {
   conjugate: unknown;
 }
 
-export const MathComplexComplexConjugateNode: NodeDefinition<ComplexConjugateInputs, ComplexConjugateOutputs, ComplexConjugateParams> = {
+export const MathComplexComplexConjugateNode: NodeDefinition<
+  ComplexConjugateInputs,
+  ComplexConjugateOutputs,
+  ComplexConjugateParams
+> = {
   id: 'Math::ComplexConjugate',
   type: 'Math::ComplexConjugate',
   category: 'Math',
@@ -20,26 +24,26 @@ export const MathComplexComplexConjugateNode: NodeDefinition<ComplexConjugateInp
     complex: {
       type: 'Complex',
       label: 'Complex',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     conjugate: {
       type: 'Complex',
-      label: 'Conjugate'
-    }
+      label: 'Conjugate',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathComplexConjugate',
       params: {
-        complex: inputs.complex
-      }
+        complex: inputs.complex,
+      },
     });
-    
+
     return {
-      conjugate: result
+      conjugate: result,
     };
   },
 };

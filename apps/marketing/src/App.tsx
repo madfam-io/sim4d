@@ -37,25 +37,25 @@ export default function App() {
         />
 
         <Navigation />
-        
+
         <main className="relative">
           <Hero onDemoClick={() => setIsDemoVisible(true)} />
-          
+
           <Features />
-          
+
           <section id="demo" className="relative py-32">
             <LiveDemo isVisible={isDemoVisible} />
           </section>
-          
+
           <Comparison />
-          
+
           <UseCases />
-          
+
           <Community />
         </main>
 
         <Footer />
-        
+
         <FloatingCTA />
       </div>
     </ThemeProvider>

@@ -1,7 +1,13 @@
 import type { NodeDefinition, ShapeHandle, AssemblyHandle } from '@brepflow/types';
 
 export const CoincidentConstraintNode: NodeDefinition<
-  { assembly: AssemblyHandle; part1: ShapeHandle; part2: ShapeHandle; element1?: ShapeHandle; element2?: ShapeHandle },
+  {
+    assembly: AssemblyHandle;
+    part1: ShapeHandle;
+    part2: ShapeHandle;
+    element1?: ShapeHandle;
+    element2?: ShapeHandle;
+  },
   { assembly: AssemblyHandle },
   { tolerance: number }
 > = {
@@ -42,7 +48,13 @@ export const CoincidentConstraintNode: NodeDefinition<
 };
 
 export const ConcentricConstraintNode: NodeDefinition<
-  { assembly: AssemblyHandle; part1: ShapeHandle; part2: ShapeHandle; axis1: ShapeHandle; axis2: ShapeHandle },
+  {
+    assembly: AssemblyHandle;
+    part1: ShapeHandle;
+    part2: ShapeHandle;
+    axis1: ShapeHandle;
+    axis2: ShapeHandle;
+  },
   { assembly: AssemblyHandle },
   { tolerance: number }
 > = {
@@ -83,7 +95,13 @@ export const ConcentricConstraintNode: NodeDefinition<
 };
 
 export const ParallelConstraintNode: NodeDefinition<
-  { assembly: AssemblyHandle; part1: ShapeHandle; part2: ShapeHandle; face1: ShapeHandle; face2: ShapeHandle },
+  {
+    assembly: AssemblyHandle;
+    part1: ShapeHandle;
+    part2: ShapeHandle;
+    face1: ShapeHandle;
+    face2: ShapeHandle;
+  },
   { assembly: AssemblyHandle },
   { tolerance: number }
 > = {
@@ -124,7 +142,13 @@ export const ParallelConstraintNode: NodeDefinition<
 };
 
 export const PerpendicularConstraintNode: NodeDefinition<
-  { assembly: AssemblyHandle; part1: ShapeHandle; part2: ShapeHandle; face1: ShapeHandle; face2: ShapeHandle },
+  {
+    assembly: AssemblyHandle;
+    part1: ShapeHandle;
+    part2: ShapeHandle;
+    face1: ShapeHandle;
+    face2: ShapeHandle;
+  },
   { assembly: AssemblyHandle },
   { tolerance: number }
 > = {
@@ -165,7 +189,13 @@ export const PerpendicularConstraintNode: NodeDefinition<
 };
 
 export const DistanceConstraintNode: NodeDefinition<
-  { assembly: AssemblyHandle; part1: ShapeHandle; part2: ShapeHandle; face1: ShapeHandle; face2: ShapeHandle },
+  {
+    assembly: AssemblyHandle;
+    part1: ShapeHandle;
+    part2: ShapeHandle;
+    face1: ShapeHandle;
+    face2: ShapeHandle;
+  },
   { assembly: AssemblyHandle },
   { distance: number; tolerance: number }
 > = {
@@ -213,7 +243,13 @@ export const DistanceConstraintNode: NodeDefinition<
 };
 
 export const AngleConstraintNode: NodeDefinition<
-  { assembly: AssemblyHandle; part1: ShapeHandle; part2: ShapeHandle; face1: ShapeHandle; face2: ShapeHandle },
+  {
+    assembly: AssemblyHandle;
+    part1: ShapeHandle;
+    part2: ShapeHandle;
+    face1: ShapeHandle;
+    face2: ShapeHandle;
+  },
   { assembly: AssemblyHandle },
   { angle: number; tolerance: number }
 > = {
@@ -262,7 +298,13 @@ export const AngleConstraintNode: NodeDefinition<
 };
 
 export const TangentConstraintNode: NodeDefinition<
-  { assembly: AssemblyHandle; part1: ShapeHandle; part2: ShapeHandle; surface1: ShapeHandle; surface2: ShapeHandle },
+  {
+    assembly: AssemblyHandle;
+    part1: ShapeHandle;
+    part2: ShapeHandle;
+    surface1: ShapeHandle;
+    surface2: ShapeHandle;
+  },
   { assembly: AssemblyHandle },
   { tolerance: number }
 > = {

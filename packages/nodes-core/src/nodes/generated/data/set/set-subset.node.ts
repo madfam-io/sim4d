@@ -11,7 +11,11 @@ interface SetSubsetOutputs {
   isSubset: unknown;
 }
 
-export const DataSetSetSubsetNode: NodeDefinition<SetSubsetInputs, SetSubsetOutputs, SetSubsetParams> = {
+export const DataSetSetSubsetNode: NodeDefinition<
+  SetSubsetInputs,
+  SetSubsetOutputs,
+  SetSubsetParams
+> = {
   id: 'Data::SetSubset',
   category: 'Data',
   label: 'SetSubset',
@@ -20,19 +24,19 @@ export const DataSetSetSubsetNode: NodeDefinition<SetSubsetInputs, SetSubsetOutp
     setA: {
       type: 'Data[]',
       label: 'Set A',
-      required: true
+      required: true,
     },
     setB: {
       type: 'Data[]',
       label: 'Set B',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     isSubset: {
       type: 'boolean',
-      label: 'Is Subset'
-    }
+      label: 'Is Subset',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -40,12 +44,12 @@ export const DataSetSetSubsetNode: NodeDefinition<SetSubsetInputs, SetSubsetOutp
       type: 'setSubset',
       params: {
         setA: inputs.setA,
-        setB: inputs.setB
-      }
+        setB: inputs.setB,
+      },
     });
-    
+
     return {
-      isSubset: result
+      isSubset: result,
     };
   },
 };

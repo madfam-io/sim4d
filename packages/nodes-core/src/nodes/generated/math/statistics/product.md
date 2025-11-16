@@ -1,4 +1,3 @@
-
 # Product Node
 
 **Category:** Math / Statistics
@@ -11,19 +10,13 @@ This node has no parameters.
 
 ## Inputs
 
-
 ### Values
+
 - **Type:** number[]
 - **Required:** Yes
 
-
-
 ## Outputs
 
-
 ### Product
+
 - **Type:** number
-
-
-
-

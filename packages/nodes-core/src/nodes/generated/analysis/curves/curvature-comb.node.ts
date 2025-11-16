@@ -18,7 +18,11 @@ interface CurvatureCombOutputs {
   curvatureValues: unknown;
 }
 
-export const AnalysisCurvesCurvatureCombNode: NodeDefinition<CurvatureCombInputs, CurvatureCombOutputs, CurvatureCombParams> = {
+export const AnalysisCurvesCurvatureCombNode: NodeDefinition<
+  CurvatureCombInputs,
+  CurvatureCombOutputs,
+  CurvatureCombParams
+> = {
   id: 'Analysis::CurvatureComb',
   category: 'Analysis',
   label: 'CurvatureComb',
@@ -27,26 +31,26 @@ export const AnalysisCurvesCurvatureCombNode: NodeDefinition<CurvatureCombInputs
     curve: {
       type: 'Wire',
       label: 'Curve',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     comb: {
       type: 'Shape',
-      label: 'Comb'
+      label: 'Comb',
     },
     maxCurvature: {
       type: 'number',
-      label: 'Max Curvature'
+      label: 'Max Curvature',
     },
     minCurvature: {
       type: 'number',
-      label: 'Min Curvature'
+      label: 'Min Curvature',
     },
     curvatureValues: {
       type: 'number[]',
-      label: 'Curvature Values'
-    }
+      label: 'Curvature Values',
+    },
   },
   params: {
     scale: {
@@ -54,25 +58,25 @@ export const AnalysisCurvesCurvatureCombNode: NodeDefinition<CurvatureCombInputs
       label: 'Scale',
       default: 1,
       min: 0.1,
-      max: 10
+      max: 10,
     },
     density: {
       type: 'number',
       label: 'Density',
       default: 50,
       min: 10,
-      max: 200
+      max: 200,
     },
     showNormals: {
       type: 'boolean',
       label: 'Show Normals',
-      default: true
+      default: true,
     },
     colorCode: {
       type: 'boolean',
       label: 'Color Code',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -82,15 +86,15 @@ export const AnalysisCurvesCurvatureCombNode: NodeDefinition<CurvatureCombInputs
         scale: params.scale,
         density: params.density,
         showNormals: params.showNormals,
-        colorCode: params.colorCode
-      }
+        colorCode: params.colorCode,
+      },
     });
-    
+
     return {
       comb: results.comb,
       maxCurvature: results.maxCurvature,
       minCurvature: results.minCurvature,
-      curvatureValues: results.curvatureValues
+      curvatureValues: results.curvatureValues,
     };
   },
 };

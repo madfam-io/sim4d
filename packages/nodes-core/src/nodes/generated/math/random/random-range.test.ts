@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { MathRandomRandomRangeNode } from './random-range.node';
 import { createTestContext } from '../test-utils';
@@ -8,10 +7,10 @@ describe('MathRandomRandomRangeNode', () => {
     const context = createTestContext();
     const inputs = {
       min: undefined,
-      max: undefined
+      max: undefined,
     } as any;
     const params = {
-      seed: -1
+      seed: -1,
     } as any;
 
     const result = await MathRandomRandomRangeNode.evaluate(context, inputs, params);

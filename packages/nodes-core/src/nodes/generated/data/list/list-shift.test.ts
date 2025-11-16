@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { DataListListShiftNode } from './list-shift.node';
 import { createTestContext } from '../test-utils';
@@ -8,10 +7,10 @@ describe('DataListListShiftNode', () => {
     const context = createTestContext();
     const inputs = {
       list: undefined,
-      offset: undefined
+      offset: undefined,
     } as any;
     const params = {
-      wrap: true
+      wrap: true,
     } as any;
 
     const result = await DataListListShiftNode.evaluate(context, inputs, params);

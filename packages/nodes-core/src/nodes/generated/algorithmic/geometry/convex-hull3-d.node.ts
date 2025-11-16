@@ -16,7 +16,11 @@ interface ConvexHull3DOutputs {
   volume: unknown;
 }
 
-export const AlgorithmicGeometryConvexHull3DNode: NodeDefinition<ConvexHull3DInputs, ConvexHull3DOutputs, ConvexHull3DParams> = {
+export const AlgorithmicGeometryConvexHull3DNode: NodeDefinition<
+  ConvexHull3DInputs,
+  ConvexHull3DOutputs,
+  ConvexHull3DParams
+> = {
   id: 'Algorithmic::ConvexHull3D',
   category: 'Algorithmic',
   label: 'ConvexHull3D',
@@ -25,26 +29,26 @@ export const AlgorithmicGeometryConvexHull3DNode: NodeDefinition<ConvexHull3DInp
     points: {
       type: 'Point[]',
       label: 'Points',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     hull: {
       type: 'Shape',
-      label: 'Hull'
+      label: 'Hull',
     },
     vertices: {
       type: 'Point[]',
-      label: 'Vertices'
+      label: 'Vertices',
     },
     faces: {
       type: 'Face[]',
-      label: 'Faces'
+      label: 'Faces',
     },
     volume: {
       type: 'number',
-      label: 'Volume'
-    }
+      label: 'Volume',
+    },
   },
   params: {
     tolerance: {
@@ -52,13 +56,13 @@ export const AlgorithmicGeometryConvexHull3DNode: NodeDefinition<ConvexHull3DInp
       label: 'Tolerance',
       default: 0.01,
       min: 0.001,
-      max: 1
+      max: 1,
     },
     includeInterior: {
       type: 'boolean',
       label: 'Include Interior',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -66,15 +70,15 @@ export const AlgorithmicGeometryConvexHull3DNode: NodeDefinition<ConvexHull3DInp
       params: {
         points: inputs.points,
         tolerance: params.tolerance,
-        includeInterior: params.includeInterior
-      }
+        includeInterior: params.includeInterior,
+      },
     });
-    
+
     return {
       hull: results.hull,
       vertices: results.vertices,
       faces: results.faces,
-      volume: results.volume
+      volume: results.volume,
     };
   },
 };

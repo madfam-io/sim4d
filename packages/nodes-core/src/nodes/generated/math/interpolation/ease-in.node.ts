@@ -12,7 +12,11 @@ interface EaseInOutputs {
   result: unknown;
 }
 
-export const MathInterpolationEaseInNode: NodeDefinition<EaseInInputs, EaseInOutputs, EaseInParams> = {
+export const MathInterpolationEaseInNode: NodeDefinition<
+  EaseInInputs,
+  EaseInOutputs,
+  EaseInParams
+> = {
   id: 'Math::EaseIn',
   category: 'Math',
   label: 'EaseIn',
@@ -21,14 +25,14 @@ export const MathInterpolationEaseInNode: NodeDefinition<EaseInInputs, EaseInOut
     t: {
       type: 'number',
       label: 'T',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'number',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {
     power: {
@@ -36,20 +40,20 @@ export const MathInterpolationEaseInNode: NodeDefinition<EaseInInputs, EaseInOut
       label: 'Power',
       default: 2,
       min: 1,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathEaseIn',
       params: {
         t: inputs.t,
-        power: params.power
-      }
+        power: params.power,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

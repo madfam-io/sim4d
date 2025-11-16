@@ -17,7 +17,11 @@ interface InletOutletOutputs {
   boundaryData: unknown;
 }
 
-export const SimulationCFDInletOutletNode: NodeDefinition<InletOutletInputs, InletOutletOutputs, InletOutletParams> = {
+export const SimulationCFDInletOutletNode: NodeDefinition<
+  InletOutletInputs,
+  InletOutletOutputs,
+  InletOutletParams
+> = {
   id: 'Simulation::InletOutlet',
   type: 'Simulation::InletOutlet',
   category: 'Simulation',
@@ -27,52 +31,58 @@ export const SimulationCFDInletOutletNode: NodeDefinition<InletOutletInputs, Inl
     mesh: {
       type: 'Mesh',
       label: 'Mesh',
-      required: true
+      required: true,
     },
     boundaryFaces: {
       type: 'Face[]',
       label: 'Boundary Faces',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     boundaryMesh: {
       type: 'Mesh',
-      label: 'Boundary Mesh'
+      label: 'Boundary Mesh',
     },
     boundaryData: {
       type: 'Data',
-      label: 'Boundary Data'
-    }
+      label: 'Boundary Data',
+    },
   },
   params: {
     boundaryType: {
       type: 'enum',
       label: 'Boundary Type',
-      default: "velocity-inlet",
-      options: ["velocity-inlet","pressure-inlet","mass-flow-inlet","pressure-outlet","outflow"]
+      default: 'velocity-inlet',
+      options: [
+        'velocity-inlet',
+        'pressure-inlet',
+        'mass-flow-inlet',
+        'pressure-outlet',
+        'outflow',
+      ],
     },
     velocity: {
       type: 'number',
       label: 'Velocity',
       default: 1,
       min: 0,
-      max: 1000
+      max: 1000,
     },
     pressure: {
       type: 'number',
       label: 'Pressure',
       default: 101325,
       min: 0,
-      max: 10000000
+      max: 10000000,
     },
     temperature: {
       type: 'number',
       label: 'Temperature',
       default: 293,
       min: 0,
-      max: 1000
-    }
+      max: 1000,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -83,13 +93,13 @@ export const SimulationCFDInletOutletNode: NodeDefinition<InletOutletInputs, Inl
         boundaryType: params.boundaryType,
         velocity: params.velocity,
         pressure: params.pressure,
-        temperature: params.temperature
-      }
+        temperature: params.temperature,
+      },
     });
-    
+
     return {
       boundaryMesh: results.boundaryMesh,
-      boundaryData: results.boundaryData
+      boundaryData: results.boundaryData,
     };
   },
 };

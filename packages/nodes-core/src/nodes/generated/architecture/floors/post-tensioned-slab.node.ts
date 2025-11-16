@@ -15,7 +15,11 @@ interface PostTensionedSlabOutputs {
   tendons: unknown;
 }
 
-export const ArchitectureFloorsPostTensionedSlabNode: NodeDefinition<PostTensionedSlabInputs, PostTensionedSlabOutputs, PostTensionedSlabParams> = {
+export const ArchitectureFloorsPostTensionedSlabNode: NodeDefinition<
+  PostTensionedSlabInputs,
+  PostTensionedSlabOutputs,
+  PostTensionedSlabParams
+> = {
   id: 'Architecture::PostTensionedSlab',
   category: 'Architecture',
   label: 'PostTensionedSlab',
@@ -24,23 +28,23 @@ export const ArchitectureFloorsPostTensionedSlabNode: NodeDefinition<PostTension
     slabOutline: {
       type: 'Wire',
       label: 'Slab Outline',
-      required: true
+      required: true,
     },
     columnPoints: {
       type: 'Point[]',
       label: 'Column Points',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     ptSlab: {
       type: 'Shape',
-      label: 'Pt Slab'
+      label: 'Pt Slab',
     },
     tendons: {
       type: 'Wire[]',
-      label: 'Tendons'
-    }
+      label: 'Tendons',
+    },
   },
   params: {
     slabThickness: {
@@ -48,15 +52,15 @@ export const ArchitectureFloorsPostTensionedSlabNode: NodeDefinition<PostTension
       label: 'Slab Thickness',
       default: 200,
       min: 150,
-      max: 400
+      max: 400,
     },
     tendonSpacing: {
       type: 'number',
       label: 'Tendon Spacing',
       default: 1200,
       min: 900,
-      max: 1800
-    }
+      max: 1800,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -65,13 +69,13 @@ export const ArchitectureFloorsPostTensionedSlabNode: NodeDefinition<PostTension
         slabOutline: inputs.slabOutline,
         columnPoints: inputs.columnPoints,
         slabThickness: params.slabThickness,
-        tendonSpacing: params.tendonSpacing
-      }
+        tendonSpacing: params.tendonSpacing,
+      },
     });
-    
+
     return {
       ptSlab: results.ptSlab,
-      tendons: results.tendons
+      tendons: results.tendons,
     };
   },
 };

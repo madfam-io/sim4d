@@ -15,7 +15,11 @@ interface SurfaceParametrizationOutputs {
   parameterGrid: unknown;
 }
 
-export const AnalysisSurfacesSurfaceParametrizationNode: NodeDefinition<SurfaceParametrizationInputs, SurfaceParametrizationOutputs, SurfaceParametrizationParams> = {
+export const AnalysisSurfacesSurfaceParametrizationNode: NodeDefinition<
+  SurfaceParametrizationInputs,
+  SurfaceParametrizationOutputs,
+  SurfaceParametrizationParams
+> = {
   id: 'Analysis::SurfaceParametrization',
   type: 'Analysis::SurfaceParametrization',
   category: 'Analysis',
@@ -25,36 +29,36 @@ export const AnalysisSurfacesSurfaceParametrizationNode: NodeDefinition<SurfaceP
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     uRange: {
       type: 'number[]',
-      label: 'U Range'
+      label: 'U Range',
     },
     vRange: {
       type: 'number[]',
-      label: 'V Range'
+      label: 'V Range',
     },
     parameterGrid: {
       type: 'Wire[]',
-      label: 'Parameter Grid'
-    }
+      label: 'Parameter Grid',
+    },
   },
   params: {
     showGrid: {
       type: 'boolean',
       label: 'Show Grid',
-      default: true
+      default: true,
     },
     gridDensity: {
       type: 'number',
       label: 'Grid Density',
       default: 20,
       min: 5,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -62,14 +66,14 @@ export const AnalysisSurfacesSurfaceParametrizationNode: NodeDefinition<SurfaceP
       params: {
         surface: inputs.surface,
         showGrid: params.showGrid,
-        gridDensity: params.gridDensity
-      }
+        gridDensity: params.gridDensity,
+      },
     });
-    
+
     return {
       uRange: results.uRange,
       vRange: results.vRange,
-      parameterGrid: results.parameterGrid
+      parameterGrid: results.parameterGrid,
     };
   },
 };

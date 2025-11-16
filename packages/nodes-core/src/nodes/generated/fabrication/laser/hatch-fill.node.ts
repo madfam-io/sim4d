@@ -14,7 +14,11 @@ interface HatchFillOutputs {
   hatchLines: unknown;
 }
 
-export const FabricationLaserHatchFillNode: NodeDefinition<HatchFillInputs, HatchFillOutputs, HatchFillParams> = {
+export const FabricationLaserHatchFillNode: NodeDefinition<
+  HatchFillInputs,
+  HatchFillOutputs,
+  HatchFillParams
+> = {
   id: 'Fabrication::HatchFill',
   category: 'Fabrication',
   label: 'HatchFill',
@@ -23,14 +27,14 @@ export const FabricationLaserHatchFillNode: NodeDefinition<HatchFillInputs, Hatc
     region: {
       type: 'Face',
       label: 'Region',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     hatchLines: {
       type: 'Wire[]',
-      label: 'Hatch Lines'
-    }
+      label: 'Hatch Lines',
+    },
   },
   params: {
     angle: {
@@ -38,20 +42,20 @@ export const FabricationLaserHatchFillNode: NodeDefinition<HatchFillInputs, Hatc
       label: 'Angle',
       default: 45,
       min: 0,
-      max: 180
+      max: 180,
     },
     spacing: {
       type: 'number',
       label: 'Spacing',
       default: 1,
       min: 0.1,
-      max: 10
+      max: 10,
     },
     crosshatch: {
       type: 'boolean',
       label: 'Crosshatch',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -60,12 +64,12 @@ export const FabricationLaserHatchFillNode: NodeDefinition<HatchFillInputs, Hatc
         region: inputs.region,
         angle: params.angle,
         spacing: params.spacing,
-        crosshatch: params.crosshatch
-      }
+        crosshatch: params.crosshatch,
+      },
     });
-    
+
     return {
-      hatchLines: result
+      hatchLines: result,
     };
   },
 };

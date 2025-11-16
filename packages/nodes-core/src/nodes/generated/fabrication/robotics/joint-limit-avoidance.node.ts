@@ -12,7 +12,11 @@ interface JointLimitAvoidanceOutputs {
   safeTrajectory: unknown;
 }
 
-export const FabricationRoboticsJointLimitAvoidanceNode: NodeDefinition<JointLimitAvoidanceInputs, JointLimitAvoidanceOutputs, JointLimitAvoidanceParams> = {
+export const FabricationRoboticsJointLimitAvoidanceNode: NodeDefinition<
+  JointLimitAvoidanceInputs,
+  JointLimitAvoidanceOutputs,
+  JointLimitAvoidanceParams
+> = {
   id: 'Fabrication::JointLimitAvoidance',
   category: 'Fabrication',
   label: 'JointLimitAvoidance',
@@ -21,14 +25,14 @@ export const FabricationRoboticsJointLimitAvoidanceNode: NodeDefinition<JointLim
     jointTrajectory: {
       type: 'Data',
       label: 'Joint Trajectory',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     safeTrajectory: {
       type: 'Data',
-      label: 'Safe Trajectory'
-    }
+      label: 'Safe Trajectory',
+    },
   },
   params: {
     margin: {
@@ -36,20 +40,20 @@ export const FabricationRoboticsJointLimitAvoidanceNode: NodeDefinition<JointLim
       label: 'Margin',
       default: 5,
       min: 0,
-      max: 30
-    }
+      max: 30,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'jointLimitAvoidance',
       params: {
         jointTrajectory: inputs.jointTrajectory,
-        margin: params.margin
-      }
+        margin: params.margin,
+      },
     });
-    
+
     return {
-      safeTrajectory: result
+      safeTrajectory: result,
     };
   },
 };

@@ -15,7 +15,11 @@ interface SlidingDoorOutputs {
   track: unknown;
 }
 
-export const ArchitectureDoorsSlidingDoorNode: NodeDefinition<SlidingDoorInputs, SlidingDoorOutputs, SlidingDoorParams> = {
+export const ArchitectureDoorsSlidingDoorNode: NodeDefinition<
+  SlidingDoorInputs,
+  SlidingDoorOutputs,
+  SlidingDoorParams
+> = {
   id: 'Architecture::SlidingDoor',
   type: 'Architecture::SlidingDoor',
   category: 'Architecture',
@@ -25,18 +29,18 @@ export const ArchitectureDoorsSlidingDoorNode: NodeDefinition<SlidingDoorInputs,
     opening: {
       type: 'Wire',
       label: 'Opening',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     panels: {
       type: 'Shape[]',
-      label: 'Panels'
+      label: 'Panels',
     },
     track: {
       type: 'Shape',
-      label: 'Track'
-    }
+      label: 'Track',
+    },
   },
   params: {
     panelCount: {
@@ -45,22 +49,22 @@ export const ArchitectureDoorsSlidingDoorNode: NodeDefinition<SlidingDoorInputs,
       default: 2,
       min: 1,
       max: 4,
-      step: 1
+      step: 1,
     },
     panelWidth: {
       type: 'number',
       label: 'Panel Width',
       default: 900,
       min: 600,
-      max: 1500
+      max: 1500,
     },
     openingPercent: {
       type: 'number',
       label: 'Opening Percent',
       default: 0,
       min: 0,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -69,13 +73,13 @@ export const ArchitectureDoorsSlidingDoorNode: NodeDefinition<SlidingDoorInputs,
         opening: inputs.opening,
         panelCount: params.panelCount,
         panelWidth: params.panelWidth,
-        openingPercent: params.openingPercent
-      }
+        openingPercent: params.openingPercent,
+      },
     });
-    
+
     return {
       panels: results.panels,
-      track: results.track
+      track: results.track,
     };
   },
 };

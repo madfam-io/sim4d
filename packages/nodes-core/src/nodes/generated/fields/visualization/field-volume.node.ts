@@ -15,7 +15,11 @@ interface FieldVolumeOutputs {
   volume: unknown;
 }
 
-export const FieldsVisualizationFieldVolumeNode: NodeDefinition<FieldVolumeInputs, FieldVolumeOutputs, FieldVolumeParams> = {
+export const FieldsVisualizationFieldVolumeNode: NodeDefinition<
+  FieldVolumeInputs,
+  FieldVolumeOutputs,
+  FieldVolumeParams
+> = {
   id: 'Fields::FieldVolume',
   category: 'Fields',
   label: 'FieldVolume',
@@ -24,19 +28,19 @@ export const FieldsVisualizationFieldVolumeNode: NodeDefinition<FieldVolumeInput
     field: {
       type: 'Field',
       label: 'Field',
-      optional: true
+      optional: true,
     },
     bounds: {
       type: 'Box',
       label: 'Bounds',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     volume: {
       type: 'Mesh',
-      label: 'Volume'
-    }
+      label: 'Volume',
+    },
   },
   params: {
     voxelSize: {
@@ -44,22 +48,22 @@ export const FieldsVisualizationFieldVolumeNode: NodeDefinition<FieldVolumeInput
       label: 'Voxel Size',
       default: 1,
       min: 0.1,
-      max: 10
+      max: 10,
     },
     threshold: {
       type: 'number',
       label: 'Threshold',
       default: 0.5,
       min: 0,
-      max: 1
+      max: 1,
     },
     opacity: {
       type: 'number',
       label: 'Opacity',
       default: 0.8,
       min: 0,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -69,12 +73,12 @@ export const FieldsVisualizationFieldVolumeNode: NodeDefinition<FieldVolumeInput
         bounds: inputs.bounds,
         voxelSize: params.voxelSize,
         threshold: params.threshold,
-        opacity: params.opacity
-      }
+        opacity: params.opacity,
+      },
     });
-    
+
     return {
-      volume: result
+      volume: result,
     };
   },
 };

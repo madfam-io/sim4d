@@ -1,4 +1,3 @@
-
 # TreePrune Node
 
 **Category:** Data / Tree
@@ -11,19 +10,13 @@ This node has no parameters.
 
 ## Inputs
 
-
 ### Tree
+
 - **Type:** DataTree
 - **Required:** Yes
 
-
-
 ## Outputs
 
-
 ### Pruned
+
 - **Type:** DataTree
-
-
-
-

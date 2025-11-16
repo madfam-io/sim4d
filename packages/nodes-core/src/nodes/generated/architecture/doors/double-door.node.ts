@@ -15,7 +15,11 @@ interface DoubleDoorOutputs {
   frame: unknown;
 }
 
-export const ArchitectureDoorsDoubleDoorNode: NodeDefinition<DoubleDoorInputs, DoubleDoorOutputs, DoubleDoorParams> = {
+export const ArchitectureDoorsDoubleDoorNode: NodeDefinition<
+  DoubleDoorInputs,
+  DoubleDoorOutputs,
+  DoubleDoorParams
+> = {
   id: 'Architecture::DoubleDoor',
   category: 'Architecture',
   label: 'DoubleDoor',
@@ -24,18 +28,18 @@ export const ArchitectureDoorsDoubleDoorNode: NodeDefinition<DoubleDoorInputs, D
     position: {
       type: 'Point',
       label: 'Position',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     doors: {
       type: 'Shape[]',
-      label: 'Doors'
+      label: 'Doors',
     },
     frame: {
       type: 'Shape',
-      label: 'Frame'
-    }
+      label: 'Frame',
+    },
   },
   params: {
     totalWidth: {
@@ -43,21 +47,21 @@ export const ArchitectureDoorsDoubleDoorNode: NodeDefinition<DoubleDoorInputs, D
       label: 'Total Width',
       default: 1800,
       min: 1200,
-      max: 2400
+      max: 2400,
     },
     height: {
       type: 'number',
       label: 'Height',
       default: 2100,
       min: 1800,
-      max: 2400
+      max: 2400,
     },
     activeLeaf: {
       type: 'enum',
       label: 'Active Leaf',
-      default: "both",
-      options: ["left","right","both"]
-    }
+      default: 'both',
+      options: ['left', 'right', 'both'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -66,13 +70,13 @@ export const ArchitectureDoorsDoubleDoorNode: NodeDefinition<DoubleDoorInputs, D
         position: inputs.position,
         totalWidth: params.totalWidth,
         height: params.height,
-        activeLeaf: params.activeLeaf
-      }
+        activeLeaf: params.activeLeaf,
+      },
     });
-    
+
     return {
       doors: results.doors,
-      frame: results.frame
+      frame: results.frame,
     };
   },
 };

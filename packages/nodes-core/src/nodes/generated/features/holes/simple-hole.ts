@@ -15,7 +15,11 @@ interface SimpleHoleOutputs {
   shape: unknown;
 }
 
-export const FeaturesHolesSimpleHoleNode: NodeDefinition<SimpleHoleInputs, SimpleHoleOutputs, SimpleHoleParams> = {
+export const FeaturesHolesSimpleHoleNode: NodeDefinition<
+  SimpleHoleInputs,
+  SimpleHoleOutputs,
+  SimpleHoleParams
+> = {
   id: 'Features::SimpleHole',
   type: 'Features::SimpleHole',
   category: 'Features',
@@ -25,24 +29,24 @@ export const FeaturesHolesSimpleHoleNode: NodeDefinition<SimpleHoleInputs, Simpl
     solid: {
       type: 'Shape',
       label: 'Solid',
-      required: true
+      required: true,
     },
     position: {
       type: 'Point',
       label: 'Position',
-      required: true
+      required: true,
     },
     direction: {
       type: 'Vector',
       label: 'Direction',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     shape: {
       type: 'Shape',
-      label: 'Shape'
-    }
+      label: 'Shape',
+    },
   },
   params: {
     diameter: {
@@ -51,14 +55,14 @@ export const FeaturesHolesSimpleHoleNode: NodeDefinition<SimpleHoleInputs, Simpl
       default: 10,
       min: 0.1,
       max: 1000,
-      step: 0.1
+      step: 0.1,
     },
     depth: {
       type: 'number',
       label: 'Depth',
       default: -1,
-      min: -1
-    }
+      min: -1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -68,12 +72,12 @@ export const FeaturesHolesSimpleHoleNode: NodeDefinition<SimpleHoleInputs, Simpl
         position: inputs.position,
         direction: inputs.direction,
         diameter: params.diameter,
-        depth: params.depth
-      }
+        depth: params.depth,
+      },
     });
-    
+
     return {
-      shape: result
+      shape: result,
     };
   },
 };

@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { SimulationCFDExportCFDNode } from './export-cfd.node';
 import { createTestContext } from '../test-utils';
@@ -8,11 +7,11 @@ describe('SimulationCFDExportCFDNode', () => {
     const context = createTestContext();
     const inputs = {
       cfdModel: undefined,
-      setupData: undefined
+      setupData: undefined,
     } as any;
     const params = {
-      format: "openfoam",
-      meshFormat: "polyhedral"
+      format: 'openfoam',
+      meshFormat: 'polyhedral',
     } as any;
 
     const result = await SimulationCFDExportCFDNode.evaluate(context, inputs, params);

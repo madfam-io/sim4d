@@ -14,7 +14,11 @@ interface ToolWearOutputs {
   toolLife: number;
 }
 
-export const FabricationCNCToolWearNode: NodeDefinition<ToolWearInputs, ToolWearOutputs, ToolWearParams> = {
+export const FabricationCNCToolWearNode: NodeDefinition<
+  ToolWearInputs,
+  ToolWearOutputs,
+  ToolWearParams
+> = {
   id: 'Fabrication::ToolWear',
   type: 'Fabrication::ToolWear',
   category: 'Fabrication',
@@ -24,33 +28,33 @@ export const FabricationCNCToolWearNode: NodeDefinition<ToolWearInputs, ToolWear
     toolpath: {
       type: 'Wire[]',
       label: 'Toolpath',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     wearRate: {
       type: 'Number',
-      label: 'Wear Rate'
+      label: 'Wear Rate',
     },
     toolLife: {
       type: 'Number',
-      label: 'Tool Life'
-    }
+      label: 'Tool Life',
+    },
   },
   params: {
     material: {
       type: 'enum',
       label: 'Material',
-      default: "steel",
-      options: ["aluminum","steel","titanium","inconel"]
+      default: 'steel',
+      options: ['aluminum', 'steel', 'titanium', 'inconel'],
     },
     cuttingTime: {
       type: 'number',
       label: 'Cutting Time',
       default: 60,
       min: 1,
-      max: 1000
-    }
+      max: 1000,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -58,13 +62,13 @@ export const FabricationCNCToolWearNode: NodeDefinition<ToolWearInputs, ToolWear
       params: {
         toolpath: inputs.toolpath,
         material: params.material,
-        cuttingTime: params.cuttingTime
-      }
+        cuttingTime: params.cuttingTime,
+      },
     });
-    
+
     return {
       wearRate: results.wearRate,
-      toolLife: results.toolLife
+      toolLife: results.toolLife,
     };
   },
 };

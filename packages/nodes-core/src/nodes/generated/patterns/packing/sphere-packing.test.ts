@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { PatternsPackingSpherePackingNode } from './sphere-packing.node';
 import { createTestContext } from '../test-utils';
@@ -8,10 +7,10 @@ describe('PatternsPackingSpherePackingNode', () => {
     const context = createTestContext();
     const inputs = {
       container: undefined,
-      radius: undefined
+      radius: undefined,
     } as any;
     const params = {
-      packingType: "hexagonal"
+      packingType: 'hexagonal',
     } as any;
 
     const result = await PatternsPackingSpherePackingNode.evaluate(context, inputs, params);

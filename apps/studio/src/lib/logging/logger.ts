@@ -8,7 +8,7 @@ export enum LogLevel {
   DEBUG = 0,
   INFO = 1,
   WARN = 2,
-  ERROR = 3
+  ERROR = 3,
 }
 
 export interface LogEntry {
@@ -38,10 +38,7 @@ export class Logger {
     }
   }
 
-  public static getInstance(
-    config?: MonitoringConfig['logging'],
-    sessionId?: string
-  ): Logger {
+  public static getInstance(config?: MonitoringConfig['logging'], sessionId?: string): Logger {
     if (!Logger.instance) {
       if (!config || !sessionId) {
         throw new Error('Logger must be initialized with config and sessionId on first use');
@@ -95,7 +92,7 @@ export class Logger {
       data: this.sanitizeData(data),
       timestamp: Date.now(),
       sessionId: this.sessionId,
-      context
+      context,
     };
 
     // Console logging
@@ -124,7 +121,7 @@ export class Logger {
         message: entry.message,
         sessionId: entry.sessionId,
         ...(entry.data && { data: entry.data }),
-        ...(entry.context && { context: entry.context })
+        ...(entry.context && { context: entry.context }),
       };
 
       switch (entry.level) {
@@ -215,7 +212,6 @@ export class Logger {
         })
       });
       */
-
     } catch (error) {
       // If remote logging fails, log to console
       if (this.config.console) {
@@ -224,7 +220,9 @@ export class Logger {
 
       // Re-add failed logs to buffer (up to a limit)
       if (this.logBuffer.length < this.MAX_BUFFER_SIZE) {
-        this.logBuffer.unshift(...logsToFlush.slice(0, this.MAX_BUFFER_SIZE - this.logBuffer.length));
+        this.logBuffer.unshift(
+          ...logsToFlush.slice(0, this.MAX_BUFFER_SIZE - this.logBuffer.length)
+        );
       }
     }
   }
@@ -274,7 +272,7 @@ export class Logger {
     }
 
     if (Array.isArray(data)) {
-      return data.map(item => this.sanitizeData(item));
+      return data.map((item) => this.sanitizeData(item));
     }
 
     if (typeof data === 'object') {
@@ -282,7 +280,7 @@ export class Logger {
       const sensitiveKeys = ['password', 'token', 'secret', 'key', 'authorization'];
 
       for (const [key, value] of Object.entries(data)) {
-        if (sensitiveKeys.some(sensitive => key.toLowerCase().includes(sensitive))) {
+        if (sensitiveKeys.some((sensitive) => key.toLowerCase().includes(sensitive))) {
           sanitized[key] = '[REDACTED]';
         } else if (typeof value === 'object') {
           sanitized[key] = this.sanitizeData(value);
@@ -302,11 +300,16 @@ export class Logger {
    */
   private getLogLevelFromConfig(): LogLevel {
     switch (this.config.level) {
-      case 'debug': return LogLevel.DEBUG;
-      case 'info': return LogLevel.INFO;
-      case 'warn': return LogLevel.WARN;
-      case 'error': return LogLevel.ERROR;
-      default: return LogLevel.INFO;
+      case 'debug':
+        return LogLevel.DEBUG;
+      case 'info':
+        return LogLevel.INFO;
+      case 'warn':
+        return LogLevel.WARN;
+      case 'error':
+        return LogLevel.ERROR;
+      default:
+        return LogLevel.INFO;
     }
   }
 }
@@ -360,7 +363,7 @@ export class TimingLogger {
     const finalContext = {
       ...this.context,
       ...additionalContext,
-      duration_ms: duration
+      duration_ms: duration,
     };
 
     this.logger.info(`Completed operation: ${this.operation}`, null, finalContext);
@@ -373,7 +376,7 @@ export class TimingLogger {
       ...additionalContext,
       duration_ms: duration,
       error: error.message,
-      stack: error.stack
+      stack: error.stack,
     };
 
     this.logger.error(`Failed operation: ${this.operation}`, null, finalContext);

@@ -13,7 +13,11 @@ interface DiffusionLimitedAggregationOutputs {
   aggregate: Array<[number, number, number]>;
 }
 
-export const PatternsAlgorithmicDiffusionLimitedAggregationNode: NodeDefinition<DiffusionLimitedAggregationInputs, DiffusionLimitedAggregationOutputs, DiffusionLimitedAggregationParams> = {
+export const PatternsAlgorithmicDiffusionLimitedAggregationNode: NodeDefinition<
+  DiffusionLimitedAggregationInputs,
+  DiffusionLimitedAggregationOutputs,
+  DiffusionLimitedAggregationParams
+> = {
   id: 'Patterns::DiffusionLimitedAggregation',
   type: 'Patterns::DiffusionLimitedAggregation',
   category: 'Patterns',
@@ -23,14 +27,14 @@ export const PatternsAlgorithmicDiffusionLimitedAggregationNode: NodeDefinition<
     seed: {
       type: 'Point',
       label: 'Seed',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     aggregate: {
       type: 'Point[]',
-      label: 'Aggregate'
-    }
+      label: 'Aggregate',
+    },
   },
   params: {
     particles: {
@@ -39,15 +43,15 @@ export const PatternsAlgorithmicDiffusionLimitedAggregationNode: NodeDefinition<
       default: 1000,
       min: 100,
       max: 10000,
-      step: 100
+      step: 100,
     },
     stickiness: {
       type: 'number',
       label: 'Stickiness',
       default: 1,
       min: 0.1,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -55,12 +59,12 @@ export const PatternsAlgorithmicDiffusionLimitedAggregationNode: NodeDefinition<
       params: {
         seed: inputs.seed,
         particles: params.particles,
-        stickiness: params.stickiness
-      }
+        stickiness: params.stickiness,
+      },
     });
-    
+
     return {
-      aggregate: result
+      aggregate: result,
     };
   },
 };

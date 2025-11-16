@@ -17,7 +17,11 @@ interface ApplyLoadsOutputs {
   loadData: unknown;
 }
 
-export const SimulationFEAApplyLoadsNode: NodeDefinition<ApplyLoadsInputs, ApplyLoadsOutputs, ApplyLoadsParams> = {
+export const SimulationFEAApplyLoadsNode: NodeDefinition<
+  ApplyLoadsInputs,
+  ApplyLoadsOutputs,
+  ApplyLoadsParams
+> = {
   id: 'Simulation::ApplyLoads',
   type: 'Simulation::ApplyLoads',
   category: 'Simulation',
@@ -27,49 +31,49 @@ export const SimulationFEAApplyLoadsNode: NodeDefinition<ApplyLoadsInputs, Apply
     mesh: {
       type: 'Mesh',
       label: 'Mesh',
-      required: true
+      required: true,
     },
     applicationFaces: {
       type: 'Face[]',
       label: 'Application Faces',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     loadedMesh: {
       type: 'Mesh',
-      label: 'Loaded Mesh'
+      label: 'Loaded Mesh',
     },
     loadData: {
       type: 'Data',
-      label: 'Load Data'
-    }
+      label: 'Load Data',
+    },
   },
   params: {
     loadType: {
       type: 'enum',
       label: 'Load Type',
-      default: "force",
-      options: ["force","pressure","torque","gravity","thermal"]
+      default: 'force',
+      options: ['force', 'pressure', 'torque', 'gravity', 'thermal'],
     },
     magnitude: {
       type: 'number',
       label: 'Magnitude',
       default: 1000,
       min: 0,
-      max: 1000000
+      max: 1000000,
     },
     direction: {
       type: 'vec3',
       label: 'Direction',
-      default: [0,0,-1]
+      default: [0, 0, -1],
     },
     units: {
       type: 'enum',
       label: 'Units',
-      default: "N",
-      options: ["N","kN","lbf","Pa","MPa"]
-    }
+      default: 'N',
+      options: ['N', 'kN', 'lbf', 'Pa', 'MPa'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -80,13 +84,13 @@ export const SimulationFEAApplyLoadsNode: NodeDefinition<ApplyLoadsInputs, Apply
         loadType: params.loadType,
         magnitude: params.magnitude,
         direction: params.direction,
-        units: params.units
-      }
+        units: params.units,
+      },
     });
-    
+
     return {
       loadedMesh: results.loadedMesh,
-      loadData: results.loadData
+      loadData: results.loadData,
     };
   },
 };

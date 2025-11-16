@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { MathInterpolationSpringInterpNode } from './spring-interp.node';
 import { createTestContext } from '../test-utils';
@@ -10,11 +9,11 @@ describe('MathInterpolationSpringInterpNode', () => {
       current: undefined,
       target: undefined,
       velocity: undefined,
-      deltaTime: undefined
+      deltaTime: undefined,
     } as any;
     const params = {
       stiffness: 100,
-      damping: 10
+      damping: 10,
     } as any;
 
     const result = await MathInterpolationSpringInterpNode.evaluate(context, inputs, params);

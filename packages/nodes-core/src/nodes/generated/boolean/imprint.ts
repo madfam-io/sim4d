@@ -23,19 +23,19 @@ export const BooleanImprintNode: NodeDefinition<ImprintInputs, ImprintOutputs, I
     base: {
       type: 'Shape',
       label: 'Base',
-      required: true
+      required: true,
     },
     imprint: {
       type: 'Shape',
       label: 'Imprint',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'Shape',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {
     depth: {
@@ -43,8 +43,8 @@ export const BooleanImprintNode: NodeDefinition<ImprintInputs, ImprintOutputs, I
       label: 'Depth',
       default: 1,
       min: 0.01,
-      max: 1000
-    }
+      max: 1000,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -52,12 +52,12 @@ export const BooleanImprintNode: NodeDefinition<ImprintInputs, ImprintOutputs, I
       params: {
         base: inputs.base,
         imprint: inputs.imprint,
-        depth: params.depth
-      }
+        depth: params.depth,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

@@ -12,7 +12,11 @@ interface MultiRobotCoordinationOutputs {
   synchronizedPaths: unknown;
 }
 
-export const FabricationRoboticsMultiRobotCoordinationNode: NodeDefinition<MultiRobotCoordinationInputs, MultiRobotCoordinationOutputs, MultiRobotCoordinationParams> = {
+export const FabricationRoboticsMultiRobotCoordinationNode: NodeDefinition<
+  MultiRobotCoordinationInputs,
+  MultiRobotCoordinationOutputs,
+  MultiRobotCoordinationParams
+> = {
   id: 'Fabrication::MultiRobotCoordination',
   category: 'Fabrication',
   label: 'MultiRobotCoordination',
@@ -21,34 +25,34 @@ export const FabricationRoboticsMultiRobotCoordinationNode: NodeDefinition<Multi
     robotPaths: {
       type: 'Transform[][]',
       label: 'Robot Paths',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     synchronizedPaths: {
       type: 'Transform[][]',
-      label: 'Synchronized Paths'
-    }
+      label: 'Synchronized Paths',
+    },
   },
   params: {
     syncMethod: {
       type: 'enum',
       label: 'Sync Method',
-      default: "position",
-      options: ["time","position","event"]
-    }
+      default: 'position',
+      options: ['time', 'position', 'event'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'multiRobotCoordination',
       params: {
         robotPaths: inputs.robotPaths,
-        syncMethod: params.syncMethod
-      }
+        syncMethod: params.syncMethod,
+      },
     });
-    
+
     return {
-      synchronizedPaths: result
+      synchronizedPaths: result,
     };
   },
 };

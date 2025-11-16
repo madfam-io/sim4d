@@ -16,7 +16,11 @@ interface GeneticAlgorithmOutputs {
   population: unknown;
 }
 
-export const PatternsProceduralGeneticAlgorithmNode: NodeDefinition<GeneticAlgorithmInputs, GeneticAlgorithmOutputs, GeneticAlgorithmParams> = {
+export const PatternsProceduralGeneticAlgorithmNode: NodeDefinition<
+  GeneticAlgorithmInputs,
+  GeneticAlgorithmOutputs,
+  GeneticAlgorithmParams
+> = {
   id: 'Patterns::GeneticAlgorithm',
   category: 'Patterns',
   label: 'GeneticAlgorithm',
@@ -25,23 +29,23 @@ export const PatternsProceduralGeneticAlgorithmNode: NodeDefinition<GeneticAlgor
     fitness: {
       type: 'Data',
       label: 'Fitness',
-      required: true
+      required: true,
     },
     constraints: {
       type: 'Data',
       label: 'Constraints',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     best: {
       type: 'Shape',
-      label: 'Best'
+      label: 'Best',
     },
     population: {
       type: 'Shape[]',
-      label: 'Population'
-    }
+      label: 'Population',
+    },
   },
   params: {
     population: {
@@ -50,7 +54,7 @@ export const PatternsProceduralGeneticAlgorithmNode: NodeDefinition<GeneticAlgor
       default: 50,
       min: 10,
       max: 200,
-      step: 5
+      step: 5,
     },
     generations: {
       type: 'number',
@@ -58,15 +62,15 @@ export const PatternsProceduralGeneticAlgorithmNode: NodeDefinition<GeneticAlgor
       default: 100,
       min: 10,
       max: 1000,
-      step: 10
+      step: 10,
     },
     mutationRate: {
       type: 'number',
       label: 'Mutation Rate',
       default: 0.1,
       min: 0,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -76,13 +80,13 @@ export const PatternsProceduralGeneticAlgorithmNode: NodeDefinition<GeneticAlgor
         constraints: inputs.constraints,
         population: params.population,
         generations: params.generations,
-        mutationRate: params.mutationRate
-      }
+        mutationRate: params.mutationRate,
+      },
     });
-    
+
     return {
       best: results.best,
-      population: results.population
+      population: results.population,
     };
   },
 };

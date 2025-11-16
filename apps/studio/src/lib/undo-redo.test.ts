@@ -6,7 +6,7 @@ import {
   RemoveNodeCommand,
   UpdateNodeCommand,
   AddEdgeCommand,
-  RemoveEdgeCommand
+  RemoveEdgeCommand,
 } from './undo-redo';
 import type { NodeInstance, Edge } from '@brepflow/types';
 
@@ -31,7 +31,7 @@ describe('UndoRedoManager', () => {
       const command: Command = {
         execute: executeMock,
         undo: undoMock,
-        description: 'Test command'
+        description: 'Test command',
       };
 
       manager.execute(command);
@@ -49,7 +49,7 @@ describe('UndoRedoManager', () => {
       const command: Command = {
         execute: executeMock,
         undo: undoMock,
-        description: 'Test command'
+        description: 'Test command',
       };
 
       manager.execute(command);
@@ -67,7 +67,7 @@ describe('UndoRedoManager', () => {
       const command: Command = {
         execute: executeMock,
         undo: undoMock,
-        description: 'Test command'
+        description: 'Test command',
       };
 
       manager.execute(command);
@@ -83,7 +83,7 @@ describe('UndoRedoManager', () => {
       const command: Command = {
         execute: vi.fn(),
         undo: vi.fn(),
-        description: 'Test command'
+        description: 'Test command',
       };
 
       manager.execute(command);
@@ -100,10 +100,10 @@ describe('UndoRedoManager', () => {
       const commands: Command[] = [
         { execute: vi.fn(), undo: vi.fn(), description: 'Command 1' },
         { execute: vi.fn(), undo: vi.fn(), description: 'Command 2' },
-        { execute: vi.fn(), undo: vi.fn(), description: 'Command 3' }
+        { execute: vi.fn(), undo: vi.fn(), description: 'Command 3' },
       ];
 
-      commands.forEach(cmd => manager.execute(cmd));
+      commands.forEach((cmd) => manager.execute(cmd));
 
       expect(manager.getHistory()).toHaveLength(3);
 
@@ -136,19 +136,19 @@ describe('UndoRedoManager', () => {
       const command1: Command = {
         execute: vi.fn(),
         undo: vi.fn(),
-        description: 'Command 1'
+        description: 'Command 1',
       };
 
       const command2: Command = {
         execute: vi.fn(),
         undo: vi.fn(),
-        description: 'Command 2'
+        description: 'Command 2',
       };
 
       const command3: Command = {
         execute: vi.fn(),
         undo: vi.fn(),
-        description: 'Command 3'
+        description: 'Command 3',
       };
 
       manager.execute(command1);
@@ -171,7 +171,7 @@ describe('UndoRedoManager', () => {
         manager.execute({
           execute: vi.fn(),
           undo: vi.fn(),
-          description: `Command ${i}`
+          description: `Command ${i}`,
         });
       }
 
@@ -200,7 +200,7 @@ describe('UndoRedoManager', () => {
         position: { x: 100, y: 100 },
         params: { width: 100, height: 100, depth: 100 },
         inputs: {},
-        dirty: false
+        dirty: false,
       };
 
       const addFn = vi.fn().mockReturnValue(node);
@@ -221,7 +221,7 @@ describe('UndoRedoManager', () => {
         position: { x: 0, y: 0 },
         params: { radius: 50, height: 100 },
         inputs: {},
-        dirty: false
+        dirty: false,
       };
 
       const addFn = vi.fn().mockReturnValue(node);
@@ -244,7 +244,7 @@ describe('UndoRedoManager', () => {
         position: { x: 50, y: 50 },
         params: { radius: 25 },
         inputs: {},
-        dirty: false
+        dirty: false,
       };
 
       const addFn = vi.fn();
@@ -265,7 +265,7 @@ describe('UndoRedoManager', () => {
         position: { x: 200, y: 200 },
         params: {},
         inputs: {},
-        dirty: false
+        dirty: false,
       };
 
       const addFn = vi.fn();
@@ -319,7 +319,7 @@ describe('UndoRedoManager', () => {
         source: 'node-1',
         sourceHandle: 'output',
         target: 'node-2',
-        targetHandle: 'input'
+        targetHandle: 'input',
       };
 
       const addFn = vi.fn().mockReturnValue(edge);
@@ -339,7 +339,7 @@ describe('UndoRedoManager', () => {
         source: 'node-1',
         sourceHandle: 'output',
         target: 'node-2',
-        targetHandle: 'input'
+        targetHandle: 'input',
       };
 
       const addFn = vi.fn().mockReturnValue(edge);
@@ -361,7 +361,7 @@ describe('UndoRedoManager', () => {
         source: 'node-3',
         sourceHandle: 'output',
         target: 'node-4',
-        targetHandle: 'input'
+        targetHandle: 'input',
       };
 
       const addFn = vi.fn();
@@ -381,7 +381,7 @@ describe('UndoRedoManager', () => {
         source: 'node-3',
         sourceHandle: 'output',
         target: 'node-4',
-        targetHandle: 'input'
+        targetHandle: 'input',
       };
 
       const addFn = vi.fn();
@@ -408,7 +408,7 @@ describe('UndoRedoManager', () => {
       });
 
       const removeNode = vi.fn((id: string) => {
-        const index = nodes.findIndex(n => n.id === id);
+        const index = nodes.findIndex((n) => n.id === id);
         if (index >= 0) nodes.splice(index, 1);
       });
 
@@ -418,7 +418,7 @@ describe('UndoRedoManager', () => {
       });
 
       const removeEdge = vi.fn((id: string) => {
-        const index = edges.findIndex(e => e.id === id);
+        const index = edges.findIndex((e) => e.id === id);
         if (index >= 0) edges.splice(index, 1);
       });
 
@@ -429,7 +429,7 @@ describe('UndoRedoManager', () => {
         position: { x: 0, y: 0 },
         params: {},
         inputs: {},
-        dirty: false
+        dirty: false,
       };
 
       const node2: NodeInstance = {
@@ -438,7 +438,7 @@ describe('UndoRedoManager', () => {
         position: { x: 100, y: 0 },
         params: {},
         inputs: {},
-        dirty: false
+        dirty: false,
       };
 
       // Create edge
@@ -447,7 +447,7 @@ describe('UndoRedoManager', () => {
         source: 'node-1',
         sourceHandle: 'output',
         target: 'node-2',
-        targetHandle: 'input'
+        targetHandle: 'input',
       };
 
       // Execute commands

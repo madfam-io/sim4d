@@ -8,7 +8,7 @@ import {
   NumberInput,
   CoordinateInput,
   Enhanced3DViewport,
-  Vec3Input
+  Vec3Input,
 } from '../ui';
 import { usePerformanceMonitor, getPerformanceMonitor } from '../../utils/performance-monitor';
 import './ComponentShowcase.css';
@@ -40,7 +40,7 @@ export const ComponentShowcase: React.FC = () => {
   const handleButtonClick = async () => {
     setButtonLoading(true);
     // Simulate async operation
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     setButtonLoading(false);
   };
 
@@ -58,7 +58,7 @@ export const ComponentShowcase: React.FC = () => {
       <div className="showcase-header">
         <h1 className="showcase-title">BrepFlow UI Component Showcase</h1>
         <div className="showcase-nav">
-          {demoSections.map(section => (
+          {demoSections.map((section) => (
             <Button
               key={section.id}
               variant={activeDemo === section.id ? 'primary' : 'secondary'}
@@ -76,7 +76,8 @@ export const ComponentShowcase: React.FC = () => {
       {performanceMetrics && (
         <div className="performance-banner">
           <span className="perf-item">
-            FPS: <strong className={performanceMetrics.fps < 30 ? 'perf-bad' : 'perf-good'}>
+            FPS:{' '}
+            <strong className={performanceMetrics.fps < 30 ? 'perf-bad' : 'perf-good'}>
               {performanceMetrics.fps}
             </strong>
           </span>
@@ -87,7 +88,8 @@ export const ComponentShowcase: React.FC = () => {
             Memory: <strong>{(performanceMetrics.memory.percentage * 100).toFixed(1)}%</strong>
           </span>
           <span className="perf-item">
-            Components: <strong>
+            Components:{' '}
+            <strong>
               {performanceMetrics.componentMetrics.panelCount} panels,
               {performanceMetrics.componentMetrics.inputCount} inputs
             </strong>
@@ -99,22 +101,39 @@ export const ComponentShowcase: React.FC = () => {
       <div className="showcase-content">
         {/* Button Showcase */}
         {activeDemo === 'buttons' && (
-          <Panel title="Button Components" subtitle="Professional button system with variants and states">
+          <Panel
+            title="Button Components"
+            subtitle="Professional button system with variants and states"
+          >
             <PanelSection title="Button Variants">
               <div className="demo-grid">
-                <Button variant="primary" icon="save">Primary Action</Button>
-                <Button variant="secondary" icon="folder">Secondary</Button>
+                <Button variant="primary" icon="save">
+                  Primary Action
+                </Button>
+                <Button variant="secondary" icon="folder">
+                  Secondary
+                </Button>
                 <Button variant="tertiary">Tertiary</Button>
-                <Button variant="ghost" icon="settings">Ghost</Button>
-                <Button variant="danger" icon="trash-2">Danger</Button>
+                <Button variant="ghost" icon="settings">
+                  Ghost
+                </Button>
+                <Button variant="danger" icon="trash-2">
+                  Danger
+                </Button>
               </div>
             </PanelSection>
 
             <PanelSection title="Button Sizes">
               <div className="demo-grid">
-                <Button size="sm" icon="download">Small</Button>
-                <Button size="md" icon="download">Medium</Button>
-                <Button size="lg" icon="download">Large</Button>
+                <Button size="sm" icon="download">
+                  Small
+                </Button>
+                <Button size="md" icon="download">
+                  Medium
+                </Button>
+                <Button size="lg" icon="download">
+                  Large
+                </Button>
               </div>
             </PanelSection>
 
@@ -162,7 +181,9 @@ export const ComponentShowcase: React.FC = () => {
                 onChange={(e) => setEmailValue(e.target.value)}
                 leftIcon="mail"
                 required
-                errorText={showError && !emailValue.includes('@') ? 'Invalid email format' : undefined}
+                errorText={
+                  showError && !emailValue.includes('@') ? 'Invalid email format' : undefined
+                }
               />
             </PanelSection>
 
@@ -195,7 +216,9 @@ export const ComponentShowcase: React.FC = () => {
             <PanelSection title="Coordinate Input">
               <CoordinateInput
                 value={coordinateValue}
-                onChange={(value) => setCoordinateValue({ x: value.x ?? 0, y: value.y ?? 0, z: value.z ?? 0 })}
+                onChange={(value) =>
+                  setCoordinateValue({ x: value.x ?? 0, y: value.y ?? 0, z: value.z ?? 0 })
+                }
                 unit="mm"
                 precision={2}
               />
@@ -286,7 +309,7 @@ export const ComponentShowcase: React.FC = () => {
               >
                 <PanelSection title="Geometry" collapsible>
                   <div className="node-grid">
-                    {['Box', 'Cylinder', 'Sphere', 'Torus'].map(node => (
+                    {['Box', 'Cylinder', 'Sphere', 'Torus'].map((node) => (
                       <Button key={node} variant="secondary" size="sm" fullWidth>
                         {node}
                       </Button>
@@ -295,7 +318,7 @@ export const ComponentShowcase: React.FC = () => {
                 </PanelSection>
                 <PanelSection title="Operations" collapsible defaultCollapsed>
                   <div className="node-grid">
-                    {['Union', 'Subtract', 'Intersect'].map(node => (
+                    {['Union', 'Subtract', 'Intersect'].map((node) => (
                       <Button key={node} variant="secondary" size="sm" fullWidth>
                         {node}
                       </Button>
@@ -338,24 +361,11 @@ export const ComponentShowcase: React.FC = () => {
                 className="integration-inspector"
               >
                 <PanelSection title="Transform">
-                  <CoordinateInput
-                    value={{ x: 0, y: 0, z: 0 }}
-                    unit="mm"
-                    size="sm"
-                  />
+                  <CoordinateInput value={{ x: 0, y: 0, z: 0 }} unit="mm" size="sm" />
                 </PanelSection>
                 <PanelSection title="Material">
-                  <Input
-                    label="Name"
-                    value="Aluminum"
-                    size="sm"
-                  />
-                  <Input
-                    label="Density"
-                    value="2.7"
-                    unit="g/cm³"
-                    size="sm"
-                  />
+                  <Input label="Name" value="Aluminum" size="sm" />
+                  <Input label="Density" value="2.7" unit="g/cm³" size="sm" />
                 </PanelSection>
                 <PanelSection title="Actions">
                   <div style={{ display: 'flex', gap: '8px' }}>

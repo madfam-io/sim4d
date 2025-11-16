@@ -14,7 +14,11 @@ interface IntersectCurvesOutputs {
   intersectionPoints: Array<[number, number, number]>;
 }
 
-export const SurfaceCurveOpsIntersectCurvesNode: NodeDefinition<IntersectCurvesInputs, IntersectCurvesOutputs, IntersectCurvesParams> = {
+export const SurfaceCurveOpsIntersectCurvesNode: NodeDefinition<
+  IntersectCurvesInputs,
+  IntersectCurvesOutputs,
+  IntersectCurvesParams
+> = {
   id: 'Surface::IntersectCurves',
   type: 'Surface::IntersectCurves',
   category: 'Surface',
@@ -24,19 +28,19 @@ export const SurfaceCurveOpsIntersectCurvesNode: NodeDefinition<IntersectCurvesI
     curve1: {
       type: 'Wire',
       label: 'Curve1',
-      required: true
+      required: true,
     },
     curve2: {
       type: 'Wire',
       label: 'Curve2',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     intersectionPoints: {
       type: 'Point[]',
-      label: 'Intersection Points'
-    }
+      label: 'Intersection Points',
+    },
   },
   params: {
     tolerance: {
@@ -44,13 +48,13 @@ export const SurfaceCurveOpsIntersectCurvesNode: NodeDefinition<IntersectCurvesI
       label: 'Tolerance',
       default: 0.01,
       min: 0.0001,
-      max: 1
+      max: 1,
     },
     extend: {
       type: 'boolean',
       label: 'Extend',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -59,12 +63,12 @@ export const SurfaceCurveOpsIntersectCurvesNode: NodeDefinition<IntersectCurvesI
         curve1: inputs.curve1,
         curve2: inputs.curve2,
         tolerance: params.tolerance,
-        extend: params.extend
-      }
+        extend: params.extend,
+      },
     });
-    
+
     return {
-      intersectionPoints: result
+      intersectionPoints: result,
     };
   },
 };

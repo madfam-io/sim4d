@@ -12,7 +12,11 @@ interface StringSplitOutputs {
   parts: unknown;
 }
 
-export const DataStringStringSplitNode: NodeDefinition<StringSplitInputs, StringSplitOutputs, StringSplitParams> = {
+export const DataStringStringSplitNode: NodeDefinition<
+  StringSplitInputs,
+  StringSplitOutputs,
+  StringSplitParams
+> = {
   id: 'Data::StringSplit',
   category: 'Data',
   label: 'StringSplit',
@@ -21,33 +25,33 @@ export const DataStringStringSplitNode: NodeDefinition<StringSplitInputs, String
     string: {
       type: 'string',
       label: 'String',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     parts: {
       type: 'string[]',
-      label: 'Parts'
-    }
+      label: 'Parts',
+    },
   },
   params: {
     delimiter: {
       type: 'string',
       label: 'Delimiter',
-      default: ","
-    }
+      default: ',',
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'stringSplit',
       params: {
         string: inputs.string,
-        delimiter: params.delimiter
-      }
+        delimiter: params.delimiter,
+      },
     });
-    
+
     return {
-      parts: result
+      parts: result,
     };
   },
 };

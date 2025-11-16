@@ -3,6 +3,7 @@
 ## Implementation Complete
 
 ### Files Created
+
 1. **packages/collaboration/src/server/csrf-routes.ts** (95 lines)
    - HTTP endpoints for CSRF token generation
    - GET `/api/collaboration/csrf-token?sessionId=<id>` - Generate token
@@ -10,6 +11,7 @@
    - Returns token with 1-hour expiration info
 
 ### Files Modified
+
 1. **packages/collaboration/src/server/standalone-server.ts**
    - Added import for `registerCSRFRoutes`
    - Registered CSRF routes at `/api/collaboration`
@@ -19,7 +21,9 @@
    - Exported `registerCSRFRoutes` for external use
 
 ### Backend CSRF Protection (Already Complete)
+
 From `packages/collaboration/src/server/collaboration-server.ts`:
+
 - ✅ HMAC-SHA256 token generation with session-specific salt
 - ✅ 1-hour token expiration
 - ✅ Timing-safe token validation (constant-time comparison)
@@ -29,9 +33,11 @@ From `packages/collaboration/src/server/collaboration-server.ts`:
 ## Frontend Integration Required
 
 ### 1. Update Collaboration Client
+
 **File**: `packages/collaboration/src/client/collaboration-client.ts`
 
 **Required Changes**:
+
 ```typescript
 // Add CSRF token fetching
 private async fetchCSRFToken(sessionId: string): Promise<string> {
@@ -39,11 +45,11 @@ private async fetchCSRFToken(sessionId: string): Promise<string> {
     `${API_BASE_URL}/api/collaboration/csrf-token?sessionId=${sessionId}`
   );
   const data = await response.json();
-  
+
   if (!data.success) {
     throw new Error(`Failed to fetch CSRF token: ${data.error}`);
   }
-  
+
   return data.token;
 }
 
@@ -51,7 +57,7 @@ private async fetchCSRFToken(sessionId: string): Promise<string> {
 async connect(sessionId: string, user: User): Promise<void> {
   // Fetch CSRF token before WebSocket connection
   const csrfToken = await this.fetchCSRFToken(sessionId);
-  
+
   // Pass token in connection auth
   this.socket = io(WEBSOCKET_URL, {
     auth: {
@@ -61,25 +67,27 @@ async connect(sessionId: string, user: User): Promise<void> {
       userName: user.name,
     },
   });
-  
+
   this.setupEventHandlers();
 }
 ```
 
 ### 2. Add Token Refresh Logic
+
 **Handle 1-hour expiration**:
+
 ```typescript
 private tokenExpiresAt: number = 0;
 
 async connect(sessionId: string, user: User): Promise<void> {
   const csrfToken = await this.fetchCSRFToken(sessionId);
-  
+
   // Track expiration (1 hour from now)
   this.tokenExpiresAt = Date.now() + 3600 * 1000;
-  
+
   // Setup refresh timer (refresh 5 minutes before expiration)
   setTimeout(() => this.refreshCSRFToken(sessionId), 3300 * 1000);
-  
+
   // ... rest of connection logic
 }
 
@@ -93,7 +101,7 @@ private async refreshCSRFToken(sessionId: string): Promise<void> {
         body: JSON.stringify({ sessionId }),
       }
     );
-    
+
     const data = await response.json();
     if (data.success) {
       // Reconnect with new token
@@ -107,7 +115,9 @@ private async refreshCSRFToken(sessionId: string): Promise<void> {
 ```
 
 ### 3. Error Handling
+
 **Handle CSRF validation failures**:
+
 ```typescript
 setupEventHandlers() {
   this.socket?.on('connect_error', (error) => {
@@ -120,7 +130,7 @@ setupEventHandlers() {
 
 private async handleCSRFError(): Promise<void> {
   console.warn('CSRF token validation failed, refreshing...');
-  
+
   if (this.currentSessionId && this.currentUser) {
     await this.refreshCSRFToken(this.currentSessionId);
   }
@@ -130,10 +140,13 @@ private async handleCSRFError(): Promise<void> {
 ## API Endpoints Available
 
 ### GET /api/collaboration/csrf-token
+
 **Query Parameters**:
+
 - `sessionId` (required): Session ID to generate token for
 
 **Response**:
+
 ```json
 {
   "success": true,
@@ -144,7 +157,9 @@ private async handleCSRFError(): Promise<void> {
 ```
 
 ### POST /api/collaboration/csrf-token/refresh
+
 **Request Body**:
+
 ```json
 {
   "sessionId": "session-uuid"
@@ -152,6 +167,7 @@ private async handleCSRFError(): Promise<void> {
 ```
 
 **Response**:
+
 ```json
 {
   "success": true,
@@ -164,17 +180,20 @@ private async handleCSRFError(): Promise<void> {
 ## Testing Plan
 
 ### 1. Unit Tests
+
 - Test CSRF token generation endpoint
 - Test token refresh endpoint
 - Test error handling (missing sessionId, invalid token)
 
 ### 2. Integration Tests
+
 - Test WebSocket connection with valid CSRF token
 - Test connection rejection with invalid token
 - Test token expiration and refresh flow
 - Test rate limiting (10 connections/IP/hour)
 
 ### 3. E2E Tests
+
 - Create session → fetch CSRF token → establish WebSocket connection
 - Test multi-user scenario with CSRF protection
 - Test token refresh before expiration
@@ -183,6 +202,7 @@ private async handleCSRFError(): Promise<void> {
 ## Security Properties
 
 ### ✅ Implemented
+
 1. **HMAC-based tokens**: Cryptographically secure, session-specific
 2. **Time-limited**: 1-hour expiration reduces attack window
 3. **Timing-safe validation**: Prevents timing attacks
@@ -191,6 +211,7 @@ private async handleCSRFError(): Promise<void> {
 6. **Stateless tokens**: No server-side session storage required
 
 ### Production Considerations
+
 1. **CSRF_TOKEN_SECRET**: Use strong secret from environment variable
 2. **CORS_ORIGIN**: Configure production origins explicitly
 3. **HTTPS**: Enforce HTTPS in production (tokens in transit)
@@ -200,17 +221,20 @@ private async handleCSRFError(): Promise<void> {
 ## Remaining Work
 
 ### Frontend Implementation
+
 - [ ] Update `CollaborationClient.connect()` to fetch CSRF token
 - [ ] Implement token refresh logic
 - [ ] Add error handling for CSRF failures
 - [ ] Update Studio UI to handle CSRF errors gracefully
 
 ### Testing
+
 - [ ] Write unit tests for CSRF endpoints
 - [ ] Integration tests for WebSocket + CSRF
 - [ ] E2E tests for complete flow
 
 ### Documentation
+
 - [ ] Update API documentation with CSRF endpoints
 - [ ] Document CSRF token lifecycle
 - [ ] Add security best practices guide

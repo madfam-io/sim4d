@@ -17,7 +17,11 @@ interface ShortestPathOutputs {
   nodes: Array<[number, number, number]>;
 }
 
-export const AlgorithmicGeometryShortestPathNode: NodeDefinition<ShortestPathInputs, ShortestPathOutputs, ShortestPathParams> = {
+export const AlgorithmicGeometryShortestPathNode: NodeDefinition<
+  ShortestPathInputs,
+  ShortestPathOutputs,
+  ShortestPathParams
+> = {
   id: 'Algorithmic::ShortestPath',
   category: 'Algorithmic',
   label: 'ShortestPath',
@@ -26,46 +30,46 @@ export const AlgorithmicGeometryShortestPathNode: NodeDefinition<ShortestPathInp
     graph: {
       type: 'Properties',
       label: 'Graph',
-      required: true
+      required: true,
     },
     start: {
       type: 'Point',
       label: 'Start',
-      required: true
+      required: true,
     },
     end: {
       type: 'Point',
       label: 'End',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     path: {
       type: 'Wire',
-      label: 'Path'
+      label: 'Path',
     },
     distance: {
       type: 'number',
-      label: 'Distance'
+      label: 'Distance',
     },
     nodes: {
       type: 'Point[]',
-      label: 'Nodes'
-    }
+      label: 'Nodes',
+    },
   },
   params: {
     algorithm: {
       type: 'enum',
       label: 'Algorithm',
-      default: "dijkstra",
-      options: ["dijkstra","astar"]
+      default: 'dijkstra',
+      options: ['dijkstra', 'astar'],
     },
     heuristic: {
       type: 'enum',
       label: 'Heuristic',
-      default: "euclidean",
-      options: ["euclidean","manhattan"]
-    }
+      default: 'euclidean',
+      options: ['euclidean', 'manhattan'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -75,14 +79,14 @@ export const AlgorithmicGeometryShortestPathNode: NodeDefinition<ShortestPathInp
         start: inputs.start,
         end: inputs.end,
         algorithm: params.algorithm,
-        heuristic: params.heuristic
-      }
+        heuristic: params.heuristic,
+      },
     });
-    
+
     return {
       path: results.path,
       distance: results.distance,
-      nodes: results.nodes
+      nodes: results.nodes,
     };
   },
 };

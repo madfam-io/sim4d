@@ -1,6 +1,7 @@
 # WebAssembly Module Build Report
 
 ## Build Information
+
 - **Date**: September 13, 2025
 - **Build Type**: Release with Optimizations
 - **Platform**: macOS (Darwin)
@@ -9,12 +10,14 @@
 ## Build Configuration
 
 ### Compiler Settings
+
 - **C++ Standard**: C++11
 - **Optimization Level**: -O3 (Maximum)
 - **Build System**: CMake 4.1.1
 - **Toolchain**: Emscripten WASM
 
 ### Emscripten Flags
+
 ```cmake
 -s WASM=1                    # WebAssembly output
 -s USE_PTHREADS=1           # Thread support
@@ -29,10 +32,12 @@
 ## OCCT Libraries Linked (47 total)
 
 ### Core Libraries
+
 - TKernel - Core OCCT functionality
 - TKMath - Mathematical operations
 
 ### Geometry Libraries
+
 - TKG2d - 2D geometry
 - TKG3d - 3D geometry
 - TKGeomBase - Geometry base classes
@@ -40,23 +45,28 @@
 - TKGeomAlgo - Geometry algorithms
 
 ### Topology Libraries
+
 - TKTopAlgo - Topology algorithms
 - TKPrim - Primitive shapes
 
 ### Boolean Operations
+
 - TKBO - Boolean operations core
 - TKBool - Boolean operations API
 
 ### Feature Operations
+
 - TKFillet - Fillet operations
 - TKOffset - Offset operations
 - TKFeat - Feature operations
 
 ### Mesh Generation
+
 - TKMesh - Mesh algorithms
 - TKXMesh - Extended mesh support
 
 ### Data Exchange
+
 - TKDE - Data exchange base
 - TKXSBase - Data exchange support
 - TKDESTEP - STEP format support
@@ -64,39 +74,45 @@
 
 ## Output Artifacts
 
-| File | Size | Description |
-|------|------|-------------|
-| **occt.js** | 212 KB | JavaScript loader module |
-| **occt.wasm** | 13 MB | WebAssembly binary |
-| **Total** | 13.2 MB | Complete module |
+| File          | Size    | Description              |
+| ------------- | ------- | ------------------------ |
+| **occt.js**   | 212 KB  | JavaScript loader module |
+| **occt.wasm** | 13 MB   | WebAssembly binary       |
+| **Total**     | 13.2 MB | Complete module          |
 
 ## API Functions Exported
 
 ### Shape Creation
+
 - `makeBox(dx, dy, dz)` - Create box primitive with dimensions
 - `makeSphere(radius)` - Create sphere primitive
 - `makeCylinder(radius, height)` - Create cylinder primitive
 
 ### Boolean Operations
+
 - `booleanUnion(shape1Id, shape2Id)` - Unite two shapes
 - `booleanSubtract(shape1Id, shape2Id)` - Subtract shape2 from shape1
 - `booleanIntersect(shape1Id, shape2Id)` - Intersect two shapes
 
 ### Tessellation
+
 - `tessellate(shapeId, precision, angle)` - Generate triangulated mesh for WebGL
   - Returns positions, normals, indices, edges arrays
 
 ### Feature Operations
+
 - `makeFillet(shapeId, radius)` - Apply fillet to all edges
 - `makeChamfer(shapeId, distance)` - Apply chamfer to all edges
 
 ### Memory Management
+
 - `deleteShape(shapeId)` - Remove shape from memory
 - `getShapeCount()` - Get number of shapes in memory
 
 ## Data Structures
 
 ### ShapeHandle
+
 ```cpp
 struct ShapeHandle {
     string id;           // Unique shape identifier
@@ -108,6 +124,7 @@ struct ShapeHandle {
 ```
 
 ### MeshData
+
 ```cpp
 struct MeshData {
     vector<float> positions;  // Vertex positions (x,y,z)
@@ -120,11 +137,13 @@ struct MeshData {
 ## Performance Characteristics
 
 ### Memory Usage
+
 - Initial load: ~20 MB
 - Runtime growth: Dynamic (ALLOW_MEMORY_GROWTH enabled)
 - Maximum limit: 2 GB
 
 ### Optimization Features
+
 - Link-time optimization (LTO) enabled
 - Dead code elimination active
 - Inline functions optimization
@@ -133,16 +152,19 @@ struct MeshData {
 ## Build Validation
 
 ✅ **Successful Compilation**
+
 - All 47 OCCT libraries linked successfully
 - No undefined symbols
 - Clean build with only standard warnings
 
 ✅ **Module Structure**
+
 - ES6 module format for modern JavaScript
 - Modularized loading pattern
 - Thread support enabled
 
 ✅ **API Completeness**
+
 - All planned functions exported
 - Proper C++ to JavaScript bindings
 - Memory management implemented
@@ -172,11 +194,13 @@ OCCTModule.deleteShape(result.id);
 ## Deployment Notes
 
 ### Browser Requirements
+
 - WebAssembly support required
 - SharedArrayBuffer for threading (optional)
 - Minimum 64MB available memory
 
 ### Integration Steps
+
 1. Include occt.js in your project
 2. Ensure occt.wasm is accessible
 3. Initialize module asynchronously

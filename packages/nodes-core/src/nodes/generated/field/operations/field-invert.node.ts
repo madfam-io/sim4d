@@ -10,7 +10,11 @@ interface FieldInvertOutputs {
   inverted: unknown;
 }
 
-export const FieldOperationsFieldInvertNode: NodeDefinition<FieldInvertInputs, FieldInvertOutputs, FieldInvertParams> = {
+export const FieldOperationsFieldInvertNode: NodeDefinition<
+  FieldInvertInputs,
+  FieldInvertOutputs,
+  FieldInvertParams
+> = {
   id: 'Field::FieldInvert',
   category: 'Field',
   label: 'FieldInvert',
@@ -19,26 +23,26 @@ export const FieldOperationsFieldInvertNode: NodeDefinition<FieldInvertInputs, F
     field: {
       type: 'ScalarField',
       label: 'Field',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     inverted: {
       type: 'ScalarField',
-      label: 'Inverted'
-    }
+      label: 'Inverted',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'fieldInvert',
       params: {
-        field: inputs.field
-      }
+        field: inputs.field,
+      },
     });
-    
+
     return {
-      inverted: result
+      inverted: result,
     };
   },
 };

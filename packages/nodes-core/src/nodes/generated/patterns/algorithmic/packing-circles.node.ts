@@ -14,7 +14,11 @@ interface PackingCirclesOutputs {
   centers: Array<[number, number, number]>;
 }
 
-export const PatternsAlgorithmicPackingCirclesNode: NodeDefinition<PackingCirclesInputs, PackingCirclesOutputs, PackingCirclesParams> = {
+export const PatternsAlgorithmicPackingCirclesNode: NodeDefinition<
+  PackingCirclesInputs,
+  PackingCirclesOutputs,
+  PackingCirclesParams
+> = {
   id: 'Patterns::PackingCircles',
   category: 'Patterns',
   label: 'PackingCircles',
@@ -23,31 +27,31 @@ export const PatternsAlgorithmicPackingCirclesNode: NodeDefinition<PackingCircle
     boundary: {
       type: 'Wire',
       label: 'Boundary',
-      required: true
+      required: true,
     },
     radii: {
       type: 'number[]',
       label: 'Radii',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     circles: {
       type: 'Wire[]',
-      label: 'Circles'
+      label: 'Circles',
     },
     centers: {
       type: 'Point[]',
-      label: 'Centers'
-    }
+      label: 'Centers',
+    },
   },
   params: {
     algorithm: {
       type: 'enum',
       label: 'Algorithm',
-      default: "power-diagram",
-      options: ["power-diagram","front-chain","apollonian"]
-    }
+      default: 'power-diagram',
+      options: ['power-diagram', 'front-chain', 'apollonian'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -55,13 +59,13 @@ export const PatternsAlgorithmicPackingCirclesNode: NodeDefinition<PackingCircle
       params: {
         boundary: inputs.boundary,
         radii: inputs.radii,
-        algorithm: params.algorithm
-      }
+        algorithm: params.algorithm,
+      },
     });
-    
+
     return {
       circles: results.circles,
-      centers: results.centers
+      centers: results.centers,
     };
   },
 };

@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { FieldDeformFieldColorNode } from './field-color.node';
 import { createTestContext } from '../test-utils';
@@ -8,10 +7,10 @@ describe('FieldDeformFieldColorNode', () => {
     const context = createTestContext();
     const inputs = {
       mesh: undefined,
-      field: undefined
+      field: undefined,
     } as any;
     const params = {
-      gradient: "rainbow"
+      gradient: 'rainbow',
     } as any;
 
     const result = await FieldDeformFieldColorNode.evaluate(context, inputs, params);

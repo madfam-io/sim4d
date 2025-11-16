@@ -16,7 +16,11 @@ interface InternalGearOutputs {
   innerProfile: unknown;
 }
 
-export const MechanicalEngineeringGearsInternalGearNode: NodeDefinition<InternalGearInputs, InternalGearOutputs, InternalGearParams> = {
+export const MechanicalEngineeringGearsInternalGearNode: NodeDefinition<
+  InternalGearInputs,
+  InternalGearOutputs,
+  InternalGearParams
+> = {
   id: 'MechanicalEngineering::InternalGear',
   type: 'MechanicalEngineering::InternalGear',
   category: 'MechanicalEngineering',
@@ -26,18 +30,18 @@ export const MechanicalEngineeringGearsInternalGearNode: NodeDefinition<Internal
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     gear: {
       type: 'Shape',
-      label: 'Gear'
+      label: 'Gear',
     },
     innerProfile: {
       type: 'Wire',
-      label: 'Inner Profile'
-    }
+      label: 'Inner Profile',
+    },
   },
   params: {
     module: {
@@ -45,29 +49,29 @@ export const MechanicalEngineeringGearsInternalGearNode: NodeDefinition<Internal
       label: 'Module',
       default: 2,
       min: 0.5,
-      max: 10
+      max: 10,
     },
     teeth: {
       type: 'number',
       label: 'Teeth',
       default: 60,
       min: 30,
-      max: 200
+      max: 200,
     },
     rimThickness: {
       type: 'number',
       label: 'Rim Thickness',
       default: 10,
       min: 5,
-      max: 30
+      max: 30,
     },
     width: {
       type: 'number',
       label: 'Width',
       default: 20,
       min: 5,
-      max: 50
-    }
+      max: 50,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -77,13 +81,13 @@ export const MechanicalEngineeringGearsInternalGearNode: NodeDefinition<Internal
         module: params.module,
         teeth: params.teeth,
         rimThickness: params.rimThickness,
-        width: params.width
-      }
+        width: params.width,
+      },
     });
-    
+
     return {
       gear: results.gear,
-      innerProfile: results.innerProfile
+      innerProfile: results.innerProfile,
     };
   },
 };

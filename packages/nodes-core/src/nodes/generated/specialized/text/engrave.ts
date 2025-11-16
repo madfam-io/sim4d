@@ -15,7 +15,11 @@ interface EngraveOutputs {
   engraved: unknown;
 }
 
-export const SpecializedTextEngraveNode: NodeDefinition<EngraveInputs, EngraveOutputs, EngraveParams> = {
+export const SpecializedTextEngraveNode: NodeDefinition<
+  EngraveInputs,
+  EngraveOutputs,
+  EngraveParams
+> = {
   id: 'Specialized::Engrave',
   type: 'Specialized::Engrave',
   category: 'Specialized',
@@ -25,19 +29,19 @@ export const SpecializedTextEngraveNode: NodeDefinition<EngraveInputs, EngraveOu
     targetFace: {
       type: 'Face',
       label: 'Target Face',
-      required: true
+      required: true,
     },
     pattern: {
       type: 'Wire',
       label: 'Pattern',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     engraved: {
       type: 'Shape',
-      label: 'Engraved'
-    }
+      label: 'Engraved',
+    },
   },
   params: {
     depth: {
@@ -45,20 +49,20 @@ export const SpecializedTextEngraveNode: NodeDefinition<EngraveInputs, EngraveOu
       label: 'Depth',
       default: 1,
       min: 0.01,
-      max: 100
+      max: 100,
     },
     angle: {
       type: 'number',
       label: 'Angle',
       default: 45,
       min: 0,
-      max: 90
+      max: 90,
     },
     roundCorners: {
       type: 'boolean',
       label: 'Round Corners',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -68,12 +72,12 @@ export const SpecializedTextEngraveNode: NodeDefinition<EngraveInputs, EngraveOu
         pattern: inputs.pattern,
         depth: params.depth,
         angle: params.angle,
-        roundCorners: params.roundCorners
-      }
+        roundCorners: params.roundCorners,
+      },
     });
-    
+
     return {
-      engraved: result
+      engraved: result,
     };
   },
 };

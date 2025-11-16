@@ -15,7 +15,11 @@ interface SimplexNoiseOutputs {
   noise: unknown;
 }
 
-export const MathRandomSimplexNoiseNode: NodeDefinition<SimplexNoiseInputs, SimplexNoiseOutputs, SimplexNoiseParams> = {
+export const MathRandomSimplexNoiseNode: NodeDefinition<
+  SimplexNoiseInputs,
+  SimplexNoiseOutputs,
+  SimplexNoiseParams
+> = {
   id: 'Math::SimplexNoise',
   category: 'Math',
   label: 'SimplexNoise',
@@ -24,39 +28,39 @@ export const MathRandomSimplexNoiseNode: NodeDefinition<SimplexNoiseInputs, Simp
     x: {
       type: 'number',
       label: 'X',
-      required: true
+      required: true,
     },
     y: {
       type: 'number',
       label: 'Y',
-      optional: true
+      optional: true,
     },
     z: {
       type: 'number',
       label: 'Z',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     noise: {
       type: 'number',
-      label: 'Noise'
-    }
+      label: 'Noise',
+    },
   },
   params: {
     scale: {
       type: 'number',
       label: 'Scale',
       default: 1,
-      min: 0.01
+      min: 0.01,
     },
     seed: {
       type: 'number',
       label: 'Seed',
       default: -1,
       min: -1,
-      max: 999999
-    }
+      max: 999999,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -66,12 +70,12 @@ export const MathRandomSimplexNoiseNode: NodeDefinition<SimplexNoiseInputs, Simp
         y: inputs.y,
         z: inputs.z,
         scale: params.scale,
-        seed: params.seed
-      }
+        seed: params.seed,
+      },
     });
-    
+
     return {
-      noise: result
+      noise: result,
     };
   },
 };

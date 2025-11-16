@@ -13,7 +13,11 @@ interface CurbRampOutputs {
   curbRamp: unknown;
 }
 
-export const ArchitectureRampsCurbRampNode: NodeDefinition<CurbRampInputs, CurbRampOutputs, CurbRampParams> = {
+export const ArchitectureRampsCurbRampNode: NodeDefinition<
+  CurbRampInputs,
+  CurbRampOutputs,
+  CurbRampParams
+> = {
   id: 'Architecture::CurbRamp',
   type: 'Architecture::CurbRamp',
   category: 'Architecture',
@@ -23,29 +27,29 @@ export const ArchitectureRampsCurbRampNode: NodeDefinition<CurbRampInputs, CurbR
     curbLine: {
       type: 'Wire',
       label: 'Curb Line',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     curbRamp: {
       type: 'Shape',
-      label: 'Curb Ramp'
-    }
+      label: 'Curb Ramp',
+    },
   },
   params: {
     type: {
       type: 'enum',
       label: 'Type',
-      default: "perpendicular",
-      options: ["perpendicular","parallel","combination"]
+      default: 'perpendicular',
+      options: ['perpendicular', 'parallel', 'combination'],
     },
     flareSlope: {
       type: 'number',
       label: 'Flare Slope',
       default: 0.1,
       min: 0.083,
-      max: 0.125
-    }
+      max: 0.125,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const ArchitectureRampsCurbRampNode: NodeDefinition<CurbRampInputs, CurbR
       params: {
         curbLine: inputs.curbLine,
         type: params.type,
-        flareSlope: params.flareSlope
-      }
+        flareSlope: params.flareSlope,
+      },
     });
-    
+
     return {
-      curbRamp: result
+      curbRamp: result,
     };
   },
 };

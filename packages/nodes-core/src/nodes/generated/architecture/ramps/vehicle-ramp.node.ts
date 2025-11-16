@@ -14,7 +14,11 @@ interface VehicleRampOutputs {
   vehicleRamp: unknown;
 }
 
-export const ArchitectureRampsVehicleRampNode: NodeDefinition<VehicleRampInputs, VehicleRampOutputs, VehicleRampParams> = {
+export const ArchitectureRampsVehicleRampNode: NodeDefinition<
+  VehicleRampInputs,
+  VehicleRampOutputs,
+  VehicleRampParams
+> = {
   id: 'Architecture::VehicleRamp',
   category: 'Architecture',
   label: 'VehicleRamp',
@@ -23,14 +27,14 @@ export const ArchitectureRampsVehicleRampNode: NodeDefinition<VehicleRampInputs,
     rampPath: {
       type: 'Wire',
       label: 'Ramp Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     vehicleRamp: {
       type: 'Shape',
-      label: 'Vehicle Ramp'
-    }
+      label: 'Vehicle Ramp',
+    },
   },
   params: {
     gradient: {
@@ -38,22 +42,22 @@ export const ArchitectureRampsVehicleRampNode: NodeDefinition<VehicleRampInputs,
       label: 'Gradient',
       default: 0.15,
       min: 0.1,
-      max: 0.2
+      max: 0.2,
     },
     width: {
       type: 'number',
       label: 'Width',
       default: 6000,
       min: 5000,
-      max: 8000
+      max: 8000,
     },
     transitionLength: {
       type: 'number',
       label: 'Transition Length',
       default: 3000,
       min: 2000,
-      max: 4000
-    }
+      max: 4000,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -62,12 +66,12 @@ export const ArchitectureRampsVehicleRampNode: NodeDefinition<VehicleRampInputs,
         rampPath: inputs.rampPath,
         gradient: params.gradient,
         width: params.width,
-        transitionLength: params.transitionLength
-      }
+        transitionLength: params.transitionLength,
+      },
     });
-    
+
     return {
-      vehicleRamp: result
+      vehicleRamp: result,
     };
   },
 };

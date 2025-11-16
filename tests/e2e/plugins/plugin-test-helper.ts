@@ -31,7 +31,7 @@ export enum PluginPermission {
   WORKER_SPAWN = 'worker:spawn',
   UI_MODAL = 'ui:modal',
   UI_NOTIFICATION = 'ui:notification',
-  UI_PANEL = 'ui:panel'
+  UI_PANEL = 'ui:panel',
 }
 
 export interface PluginSandboxConfig {
@@ -84,12 +84,12 @@ export class PluginTestHelper {
    */
   async waitForMarketplaceReady(): Promise<void> {
     await this.page.waitForSelector('[data-testid="plugin-marketplace"], .plugin-marketplace', {
-      timeout: 15000
+      timeout: 15000,
     });
 
     // Wait for marketplace to load plugins
     await this.page.waitForSelector('[data-testid="marketplace-ready"], .marketplace-loaded', {
-      timeout: 10000
+      timeout: 10000,
     });
 
     await this.page.waitForTimeout(1000);
@@ -102,7 +102,9 @@ export class PluginTestHelper {
     await this.waitForMarketplaceReady();
 
     if (searchQuery) {
-      const searchInput = this.page.locator('[data-testid="marketplace-search"], input[placeholder*="Search plugins"]');
+      const searchInput = this.page.locator(
+        '[data-testid="marketplace-search"], input[placeholder*="Search plugins"]'
+      );
       await searchInput.fill(searchQuery);
       await this.page.keyboard.press('Enter');
       await this.page.waitForTimeout(1000);
@@ -123,18 +125,23 @@ export class PluginTestHelper {
   /**
    * Install plugin from marketplace
    */
-  async installPlugin(pluginId: string, options: {
-    permissions?: PluginPermission[],
-    source?: 'marketplace' | 'local' | 'url',
-    allowUnsigned?: boolean
-  } = {}): Promise<PluginTestContext> {
+  async installPlugin(
+    pluginId: string,
+    options: {
+      permissions?: PluginPermission[];
+      source?: 'marketplace' | 'local' | 'url';
+      allowUnsigned?: boolean;
+    } = {}
+  ): Promise<PluginTestContext> {
     // Navigate to plugin details if in marketplace
     if (options.source !== 'local') {
       await this.navigateToPluginDetails(pluginId);
     }
 
     // Click install button
-    const installButton = this.page.locator(`[data-testid="install-plugin-${pluginId}"], button:has-text("Install")`);
+    const installButton = this.page.locator(
+      `[data-testid="install-plugin-${pluginId}"], button:has-text("Install")`
+    );
     await expect(installButton).toBeVisible();
     await installButton.click();
 
@@ -152,7 +159,7 @@ export class PluginTestHelper {
       pluginId,
       manifest,
       permissions: options.permissions || [],
-      sandbox: await this.getPluginSandboxConfig(pluginId)
+      sandbox: await this.getPluginSandboxConfig(pluginId),
     };
 
     this.pluginRegistry.set(pluginId, context);
@@ -167,12 +174,16 @@ export class PluginTestHelper {
     await this.navigateToInstalledPlugins();
 
     // Find plugin and click uninstall
-    const uninstallButton = this.page.locator(`[data-testid="uninstall-${pluginId}"], [data-plugin-id="${pluginId}"] button:has-text("Uninstall")`);
+    const uninstallButton = this.page.locator(
+      `[data-testid="uninstall-${pluginId}"], [data-plugin-id="${pluginId}"] button:has-text("Uninstall")`
+    );
     await expect(uninstallButton).toBeVisible();
     await uninstallButton.click();
 
     // Confirm uninstallation if dialog appears
-    const confirmButton = this.page.locator('[data-testid="confirm-uninstall"], button:has-text("Confirm")');
+    const confirmButton = this.page.locator(
+      '[data-testid="confirm-uninstall"], button:has-text("Confirm")'
+    );
     if (await confirmButton.isVisible({ timeout: 2000 })) {
       await confirmButton.click();
     }
@@ -189,15 +200,17 @@ export class PluginTestHelper {
   async togglePlugin(pluginId: string, enabled: boolean): Promise<void> {
     await this.navigateToInstalledPlugins();
 
-    const toggleButton = this.page.locator(`[data-testid="toggle-${pluginId}"], [data-plugin-id="${pluginId}"] [data-testid="plugin-toggle"]`);
+    const toggleButton = this.page.locator(
+      `[data-testid="toggle-${pluginId}"], [data-plugin-id="${pluginId}"] [data-testid="plugin-toggle"]`
+    );
 
-    const currentState = await toggleButton.getAttribute('data-enabled') === 'true';
+    const currentState = (await toggleButton.getAttribute('data-enabled')) === 'true';
     if (currentState !== enabled) {
       await toggleButton.click();
 
       // Wait for toggle to complete
       await this.page.waitForSelector(`[data-plugin-id="${pluginId}"][data-enabled="${enabled}"]`, {
-        timeout: 5000
+        timeout: 5000,
       });
     }
   }
@@ -222,14 +235,17 @@ export class PluginTestHelper {
       memoryIsolated: false,
       networkRestricted: false,
       storageIsolated: false,
-      workerIsolated: false
+      workerIsolated: false,
     };
 
     // Test memory isolation
     results.memoryIsolated = await this.testMemoryIsolation(pluginId);
 
     // Test network restrictions
-    results.networkRestricted = await this.testNetworkRestrictions(pluginId, context.sandbox.networkAllowlist);
+    results.networkRestricted = await this.testNetworkRestrictions(
+      pluginId,
+      context.sandbox.networkAllowlist
+    );
 
     // Test storage isolation
     results.storageIsolated = await this.testStorageIsolation(pluginId);
@@ -243,7 +259,10 @@ export class PluginTestHelper {
   /**
    * Test permission enforcement
    */
-  async validatePermissionEnforcement(pluginId: string, deniedPermissions: PluginPermission[]): Promise<boolean> {
+  async validatePermissionEnforcement(
+    pluginId: string,
+    deniedPermissions: PluginPermission[]
+  ): Promise<boolean> {
     const testResults: boolean[] = [];
 
     for (const permission of deniedPermissions) {
@@ -256,7 +275,7 @@ export class PluginTestHelper {
       }
     }
 
-    return testResults.every(result => result === true);
+    return testResults.every((result) => result === true);
   }
 
   /**
@@ -293,7 +312,9 @@ export class PluginTestHelper {
     const totalPlugins = await this.page.locator('[data-testid="plugin-card"]').count();
 
     // Get categories
-    const categoryElements = await this.page.locator('[data-testid="plugin-category"], .plugin-category').all();
+    const categoryElements = await this.page
+      .locator('[data-testid="plugin-category"], .plugin-category')
+      .all();
     const categories: string[] = [];
     for (const element of categoryElements) {
       const text = await element.textContent();
@@ -352,7 +373,7 @@ export class PluginTestHelper {
     const session: CollaborationSession = {
       sessionId: `collab_${Date.now()}`,
       users: sessionConfig.users,
-      pluginStates: new Map()
+      pluginStates: new Map(),
     };
 
     // Initialize collaboration session
@@ -380,7 +401,10 @@ export class PluginTestHelper {
   /**
    * Test plugin state synchronization across users
    */
-  async validatePluginStateSynchronization(sessionId: string, pluginId: string): Promise<{
+  async validatePluginStateSynchronization(
+    sessionId: string,
+    pluginId: string
+  ): Promise<{
     synchronized: boolean;
     conflicts: any[];
     latencyMs: number;
@@ -415,7 +439,7 @@ export class PluginTestHelper {
     return {
       synchronized,
       conflicts: [], // TODO: Implement conflict detection
-      latencyMs
+      latencyMs,
     };
   }
 
@@ -434,14 +458,17 @@ export class PluginTestHelper {
     const startTime = Date.now();
 
     try {
-      const result = await this.page.evaluate(async (data) => {
-        const { pluginId, functionName, args } = data;
-        const pluginManager = (window as any).brepflow?.pluginManager;
+      const result = await this.page.evaluate(
+        async (data) => {
+          const { pluginId, functionName, args } = data;
+          const pluginManager = (window as any).brepflow?.pluginManager;
 
-        if (!pluginManager) throw new Error('Plugin manager not available');
+          if (!pluginManager) throw new Error('Plugin manager not available');
 
-        return await pluginManager.executePlugin(pluginId, functionName, args);
-      }, { pluginId, functionName, args });
+          return await pluginManager.executePlugin(pluginId, functionName, args);
+        },
+        { pluginId, functionName, args }
+      );
 
       const executionTime = Date.now() - startTime;
 
@@ -449,7 +476,7 @@ export class PluginTestHelper {
         success: true,
         result,
         executionTime,
-        memoryUsed: await this.getPluginMemoryUsage(pluginId)
+        memoryUsed: await this.getPluginMemoryUsage(pluginId),
       };
     } catch (error) {
       const executionTime = Date.now() - startTime;
@@ -458,7 +485,7 @@ export class PluginTestHelper {
         success: false,
         error: error.message,
         executionTime,
-        memoryUsed: 0
+        memoryUsed: 0,
       };
     }
   }
@@ -474,7 +501,7 @@ export class PluginTestHelper {
     const results = {
       memoryLeaks: false,
       timeoutHandling: false,
-      resourceCleanup: false
+      resourceCleanup: false,
     };
 
     // Test memory leaks
@@ -511,7 +538,10 @@ export class PluginTestHelper {
   /**
    * Test plugin node integration with node editor
    */
-  async testPluginNodeIntegration(pluginId: string, nodeType: string): Promise<{
+  async testPluginNodeIntegration(
+    pluginId: string,
+    nodeType: string
+  ): Promise<{
     nodeCreated: boolean;
     parametersWorking: boolean;
     connectionSuccessful: boolean;
@@ -521,7 +551,7 @@ export class PluginTestHelper {
       nodeCreated: false,
       parametersWorking: false,
       connectionSuccessful: false,
-      evaluationSuccessful: false
+      evaluationSuccessful: false,
     };
 
     try {
@@ -538,20 +568,23 @@ export class PluginTestHelper {
         results.parametersWorking = true;
 
         // Create another node to test connections
-        const box = await this.nodeHelper.createBoxNode({ width: 50, height: 50, depth: 50 }, { x: 200, y: 300 });
+        const box = await this.nodeHelper.createBoxNode(
+          { width: 50, height: 50, depth: 50 },
+          { x: 200, y: 300 }
+        );
 
         // Test connection
         await this.nodeHelper.connectNodes({
           sourceId: box,
           sourceOutput: 'output',
           targetId: nodeId,
-          targetInput: 'input'
+          targetInput: 'input',
         });
         results.connectionSuccessful = true;
 
         // Test evaluation
         await this.nodeHelper.evaluateGraph();
-        results.evaluationSuccessful = !await this.nodeHelper.nodeHasError(nodeId);
+        results.evaluationSuccessful = !(await this.nodeHelper.nodeHasError(nodeId));
       }
     } catch (error) {
       console.error('Plugin node integration test failed:', error);
@@ -571,20 +604,32 @@ export class PluginTestHelper {
     const results = {
       overlayRendered: false,
       interactionWorking: false,
-      performanceAcceptable: false
+      performanceAcceptable: false,
     };
 
     try {
       await this.viewportHelper.waitForViewportReady();
 
       // Test overlay rendering
-      await this.executePluginFunction(pluginId, 'addViewportOverlay', [{ type: 'line', data: [[0,0,0], [100,100,100]] }]);
+      await this.executePluginFunction(pluginId, 'addViewportOverlay', [
+        {
+          type: 'line',
+          data: [
+            [0, 0, 0],
+            [100, 100, 100],
+          ],
+        },
+      ]);
       await this.page.waitForTimeout(1000);
       results.overlayRendered = await this.hasViewportOverlay(pluginId);
 
       // Test interaction
       await this.viewportHelper.clickGeometry();
-      const interactionResult = await this.executePluginFunction(pluginId, 'getLastInteraction', []);
+      const interactionResult = await this.executePluginFunction(
+        pluginId,
+        'getLastInteraction',
+        []
+      );
       results.interactionWorking = interactionResult.success;
 
       // Test performance
@@ -594,7 +639,6 @@ export class PluginTestHelper {
       }
       const performanceTime = Date.now() - performanceStart;
       results.performanceAcceptable = performanceTime < 2000; // 2 second threshold
-
     } catch (error) {
       console.error('Plugin viewport integration test failed:', error);
     }
@@ -605,18 +649,21 @@ export class PluginTestHelper {
   // === PRIVATE HELPER METHODS ===
 
   private async extractPluginManifestFromCard(card: Locator): Promise<PluginManifest> {
-    const id = await card.getAttribute('data-plugin-id') || '';
-    const name = await card.locator('[data-testid="plugin-name"]').textContent() || '';
-    const version = await card.locator('[data-testid="plugin-version"]').textContent() || '1.0.0';
-    const author = await card.locator('[data-testid="plugin-author"]').textContent() || '';
-    const description = await card.locator('[data-testid="plugin-description"]').textContent() || '';
+    const id = (await card.getAttribute('data-plugin-id')) || '';
+    const name = (await card.locator('[data-testid="plugin-name"]').textContent()) || '';
+    const version = (await card.locator('[data-testid="plugin-version"]').textContent()) || '1.0.0';
+    const author = (await card.locator('[data-testid="plugin-author"]').textContent()) || '';
+    const description =
+      (await card.locator('[data-testid="plugin-description"]').textContent()) || '';
 
     return { id, name, version, author, description };
   }
 
   private async navigateToPluginDetails(pluginId: string): Promise<void> {
     await this.page.click(`[data-plugin-id="${pluginId}"]`);
-    await this.page.waitForSelector(`[data-testid="plugin-details-${pluginId}"]`, { timeout: 5000 });
+    await this.page.waitForSelector(`[data-testid="plugin-details-${pluginId}"]`, {
+      timeout: 5000,
+    });
   }
 
   private async handlePermissionDialog(permissions: PluginPermission[]): Promise<void> {
@@ -636,11 +683,16 @@ export class PluginTestHelper {
   }
 
   private async waitForPluginInstallation(pluginId: string): Promise<void> {
-    await this.page.waitForSelector(`[data-testid="plugin-installed-${pluginId}"]`, { timeout: 30000 });
+    await this.page.waitForSelector(`[data-testid="plugin-installed-${pluginId}"]`, {
+      timeout: 30000,
+    });
   }
 
   private async waitForPluginUninstallation(pluginId: string): Promise<void> {
-    await this.page.waitForSelector(`[data-testid="plugin-installed-${pluginId}"]`, { state: 'hidden', timeout: 15000 });
+    await this.page.waitForSelector(`[data-testid="plugin-installed-${pluginId}"]`, {
+      state: 'hidden',
+      timeout: 15000,
+    });
   }
 
   private async navigateToInstalledPlugins(): Promise<void> {
@@ -658,13 +710,15 @@ export class PluginTestHelper {
   private async getPluginSandboxConfig(pluginId: string): Promise<PluginSandboxConfig> {
     return await this.page.evaluate((id) => {
       const pluginManager = (window as any).brepflow?.pluginManager;
-      return pluginManager?.getPluginSandbox(id) || {
-        memoryLimit: 64 * 1024 * 1024,
-        timeoutMs: 30000,
-        networkAllowlist: [],
-        storageQuota: 10 * 1024 * 1024,
-        isolated: true
-      };
+      return (
+        pluginManager?.getPluginSandbox(id) || {
+          memoryLimit: 64 * 1024 * 1024,
+          timeoutMs: 30000,
+          networkAllowlist: [],
+          storageQuota: 10 * 1024 * 1024,
+          isolated: true,
+        }
+      );
     }, pluginId);
   }
 
@@ -704,7 +758,10 @@ export class PluginTestHelper {
     }
   }
 
-  private async testPermissionAccess(pluginId: string, permission: PluginPermission): Promise<boolean> {
+  private async testPermissionAccess(
+    pluginId: string,
+    permission: PluginPermission
+  ): Promise<boolean> {
     const result = await this.executePluginFunction(pluginId, 'testPermission', [permission]);
     return result.success && result.result.hasAccess === true;
   }
@@ -733,11 +790,14 @@ export class PluginTestHelper {
   }
 
   private async setPluginState(pluginId: string, state: any): Promise<void> {
-    await this.page.evaluate((data) => {
-      const { pluginId, state } = data;
-      const pluginManager = (window as any).brepflow?.pluginManager;
-      pluginManager?.setPluginState(pluginId, state);
-    }, { pluginId, state });
+    await this.page.evaluate(
+      (data) => {
+        const { pluginId, state } = data;
+        const pluginManager = (window as any).brepflow?.pluginManager;
+        pluginManager?.setPluginState(pluginId, state);
+      },
+      { pluginId, state }
+    );
   }
 
   private async getPluginMemoryUsage(pluginId: string): Promise<number> {
@@ -760,7 +820,7 @@ export class PluginTestHelper {
       if (listeners && listeners.length > 0) resources.push('Event listeners');
 
       // Check for remaining storage
-      const storageKeys = Object.keys(localStorage).filter(key => key.includes(id));
+      const storageKeys = Object.keys(localStorage).filter((key) => key.includes(id));
       if (storageKeys.length > 0) resources.push('Local storage');
 
       return resources;
@@ -787,7 +847,7 @@ class MockPluginMarketplace {
       author: 'Test Author',
       description: 'A test plugin for geometry operations',
       nodes: ['TestGeometry::Box', 'TestGeometry::Cylinder'],
-      permissions: [PluginPermission.READ_GRAPH, PluginPermission.WRITE_GRAPH]
+      permissions: [PluginPermission.READ_GRAPH, PluginPermission.WRITE_GRAPH],
     },
     {
       id: 'test-collaboration-plugin',
@@ -796,8 +856,8 @@ class MockPluginMarketplace {
       author: 'Collaboration Team',
       description: 'A test plugin for collaboration features',
       commands: ['shareNode', 'syncState'],
-      permissions: [PluginPermission.NETWORK_FETCH, PluginPermission.UI_NOTIFICATION]
-    }
+      permissions: [PluginPermission.NETWORK_FETCH, PluginPermission.UI_NOTIFICATION],
+    },
   ];
 
   getPlugins(): PluginManifest[] {
@@ -805,13 +865,14 @@ class MockPluginMarketplace {
   }
 
   searchPlugins(query: string): PluginManifest[] {
-    return this.plugins.filter(plugin =>
-      plugin.name.toLowerCase().includes(query.toLowerCase()) ||
-      plugin.description.toLowerCase().includes(query.toLowerCase())
+    return this.plugins.filter(
+      (plugin) =>
+        plugin.name.toLowerCase().includes(query.toLowerCase()) ||
+        plugin.description.toLowerCase().includes(query.toLowerCase())
     );
   }
 
   getPlugin(id: string): PluginManifest | null {
-    return this.plugins.find(plugin => plugin.id === id) || null;
+    return this.plugins.find((plugin) => plugin.id === id) || null;
   }
 }

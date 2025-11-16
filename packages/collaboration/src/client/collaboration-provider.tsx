@@ -1,12 +1,8 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  useCallback,
-  useRef,
-} from 'react';
-import { CSRFCollaborationClient, type CSRFCollaborationEventHandler } from './collaboration-client-csrf';
+import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
+import {
+  CSRFCollaborationClient,
+  type CSRFCollaborationEventHandler,
+} from './collaboration-client-csrf';
 import type {
   CollaborationOptions,
   Document,
@@ -19,12 +15,7 @@ import type {
   Viewport,
   Conflict,
 } from '../types';
-import {
-  createNodeId,
-  createEdgeId,
-  type NodeId,
-  type EdgeId,
-} from '@brepflow/types';
+import { createNodeId, createEdgeId, type NodeId, type EdgeId } from '@brepflow/types';
 
 export interface CollaborationContextValue {
   client: CSRFCollaborationClient | null;
@@ -40,9 +31,7 @@ export interface CollaborationContextValue {
   requestSync: () => void;
 }
 
-const CollaborationContext = createContext<CollaborationContextValue | null>(
-  null
-);
+const CollaborationContext = createContext<CollaborationContextValue | null>(null);
 
 export interface CollaborationProviderProps {
   options: CollaborationOptions;
@@ -61,11 +50,7 @@ const normaliseNodeId = (value: NodeId | string): NodeId =>
 const normaliseEdgeId = (value: EdgeId | string): EdgeId =>
   typeof value === 'string' ? createEdgeId(value) : value;
 
-function normaliseOperation(
-  input: OperationInput,
-  userId: string,
-  documentId: string
-): Operation {
+function normaliseOperation(input: OperationInput, userId: string, documentId: string): Operation {
   const base = {
     id: generateOperationId(),
     userId,
@@ -201,11 +186,7 @@ export function CollaborationProvider({
     (input: OperationInput) => {
       if (!clientRef.current) return;
 
-      const operation = normaliseOperation(
-        input,
-        options.user.id,
-        options.documentId
-      );
+      const operation = normaliseOperation(input, options.user.id, options.documentId);
 
       clientRef.current.submitOperation(operation);
     },
@@ -276,19 +257,13 @@ export function CollaborationProvider({
     requestSync,
   };
 
-  return (
-    <CollaborationContext.Provider value={value}>
-      {children}
-    </CollaborationContext.Provider>
-  );
+  return <CollaborationContext.Provider value={value}>{children}</CollaborationContext.Provider>;
 }
 
 export function useCollaboration() {
   const context = useContext(CollaborationContext);
   if (!context) {
-    throw new Error(
-      'useCollaboration must be used within CollaborationProvider'
-    );
+    throw new Error('useCollaboration must be used within CollaborationProvider');
   }
   return context;
 }
@@ -297,7 +272,8 @@ export function useCollaboration() {
  * Hook to access awareness state (presence, cursors, etc.)
  */
 export function useAwareness() {
-  const { presence, currentUser, updateCursor, updateSelection, updateViewport } = useCollaboration();
+  const { presence, currentUser, updateCursor, updateSelection, updateViewport } =
+    useCollaboration();
   return {
     presence,
     currentUser,

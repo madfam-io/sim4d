@@ -15,7 +15,11 @@ interface StainedGlassWindowOutputs {
   leadCame: unknown;
 }
 
-export const ArchitectureWindowsStainedGlassWindowNode: NodeDefinition<StainedGlassWindowInputs, StainedGlassWindowOutputs, StainedGlassWindowParams> = {
+export const ArchitectureWindowsStainedGlassWindowNode: NodeDefinition<
+  StainedGlassWindowInputs,
+  StainedGlassWindowOutputs,
+  StainedGlassWindowParams
+> = {
   id: 'Architecture::StainedGlassWindow',
   category: 'Architecture',
   label: 'StainedGlassWindow',
@@ -24,38 +28,38 @@ export const ArchitectureWindowsStainedGlassWindowNode: NodeDefinition<StainedGl
     opening: {
       type: 'Wire',
       label: 'Opening',
-      required: true
+      required: true,
     },
     pattern: {
       type: 'Wire[]',
       label: 'Pattern',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     stainedGlass: {
       type: 'Shape',
-      label: 'Stained Glass'
+      label: 'Stained Glass',
     },
     leadCame: {
       type: 'Wire[]',
-      label: 'Lead Came'
-    }
+      label: 'Lead Came',
+    },
   },
   params: {
     pattern: {
       type: 'enum',
       label: 'Pattern',
-      default: "geometric",
-      options: ["geometric","floral","abstract","pictorial"]
+      default: 'geometric',
+      options: ['geometric', 'floral', 'abstract', 'pictorial'],
     },
     leadWidth: {
       type: 'number',
       label: 'Lead Width',
       default: 6,
       min: 4,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -64,13 +68,13 @@ export const ArchitectureWindowsStainedGlassWindowNode: NodeDefinition<StainedGl
         opening: inputs.opening,
         pattern: inputs.pattern,
         pattern: params.pattern,
-        leadWidth: params.leadWidth
-      }
+        leadWidth: params.leadWidth,
+      },
     });
-    
+
     return {
       stainedGlass: results.stainedGlass,
-      leadCame: results.leadCame
+      leadCame: results.leadCame,
     };
   },
 };

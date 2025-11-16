@@ -15,7 +15,11 @@ interface RevoluteOutputs {
   joint: unknown;
 }
 
-export const AssemblyJointsRevoluteNode: NodeDefinition<RevoluteInputs, RevoluteOutputs, RevoluteParams> = {
+export const AssemblyJointsRevoluteNode: NodeDefinition<
+  RevoluteInputs,
+  RevoluteOutputs,
+  RevoluteParams
+> = {
   id: 'Assembly::Revolute',
   type: 'Assembly::Revolute',
   category: 'Assembly',
@@ -25,24 +29,24 @@ export const AssemblyJointsRevoluteNode: NodeDefinition<RevoluteInputs, Revolute
     part1: {
       type: 'Shape',
       label: 'Part1',
-      required: true
+      required: true,
     },
     part2: {
       type: 'Shape',
       label: 'Part2',
-      required: true
+      required: true,
     },
     axis: {
       type: 'Axis',
       label: 'Axis',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     joint: {
       type: 'Joint',
-      label: 'Joint'
-    }
+      label: 'Joint',
+    },
   },
   params: {
     minAngle: {
@@ -50,15 +54,15 @@ export const AssemblyJointsRevoluteNode: NodeDefinition<RevoluteInputs, Revolute
       label: 'Min Angle',
       default: -180,
       min: -360,
-      max: 360
+      max: 360,
     },
     maxAngle: {
       type: 'number',
       label: 'Max Angle',
       default: 180,
       min: -360,
-      max: 360
-    }
+      max: 360,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -68,12 +72,12 @@ export const AssemblyJointsRevoluteNode: NodeDefinition<RevoluteInputs, Revolute
         part2: inputs.part2,
         axis: inputs.axis,
         minAngle: params.minAngle,
-        maxAngle: params.maxAngle
-      }
+        maxAngle: params.maxAngle,
+      },
     });
-    
+
     return {
-      joint: result
+      joint: result,
     };
   },
 };

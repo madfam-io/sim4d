@@ -14,7 +14,11 @@ interface TuringPatternOutputs {
   pattern: unknown;
 }
 
-export const PatternsProceduralTuringPatternNode: NodeDefinition<TuringPatternInputs, TuringPatternOutputs, TuringPatternParams> = {
+export const PatternsProceduralTuringPatternNode: NodeDefinition<
+  TuringPatternInputs,
+  TuringPatternOutputs,
+  TuringPatternParams
+> = {
   id: 'Patterns::TuringPattern',
   type: 'Patterns::TuringPattern',
   category: 'Patterns',
@@ -24,21 +28,21 @@ export const PatternsProceduralTuringPatternNode: NodeDefinition<TuringPatternIn
     domain: {
       type: 'Face',
       label: 'Domain',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     pattern: {
       type: 'Mesh',
-      label: 'Pattern'
-    }
+      label: 'Pattern',
+    },
   },
   params: {
     model: {
       type: 'enum',
       label: 'Model',
-      default: "gray-scott",
-      options: ["gray-scott","gierer-meinhardt","brusselator"]
+      default: 'gray-scott',
+      options: ['gray-scott', 'gierer-meinhardt', 'brusselator'],
     },
     iterations: {
       type: 'number',
@@ -46,7 +50,7 @@ export const PatternsProceduralTuringPatternNode: NodeDefinition<TuringPatternIn
       default: 1000,
       min: 100,
       max: 10000,
-      step: 100
+      step: 100,
     },
     resolution: {
       type: 'number',
@@ -54,8 +58,8 @@ export const PatternsProceduralTuringPatternNode: NodeDefinition<TuringPatternIn
       default: 100,
       min: 50,
       max: 500,
-      step: 10
-    }
+      step: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -64,12 +68,12 @@ export const PatternsProceduralTuringPatternNode: NodeDefinition<TuringPatternIn
         domain: inputs.domain,
         model: params.model,
         iterations: params.iterations,
-        resolution: params.resolution
-      }
+        resolution: params.resolution,
+      },
     });
-    
+
     return {
-      pattern: result
+      pattern: result,
     };
   },
 };

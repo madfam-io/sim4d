@@ -11,7 +11,11 @@ interface SetSymmetricDifferenceOutputs {
   difference: unknown;
 }
 
-export const DataSetSetSymmetricDifferenceNode: NodeDefinition<SetSymmetricDifferenceInputs, SetSymmetricDifferenceOutputs, SetSymmetricDifferenceParams> = {
+export const DataSetSetSymmetricDifferenceNode: NodeDefinition<
+  SetSymmetricDifferenceInputs,
+  SetSymmetricDifferenceOutputs,
+  SetSymmetricDifferenceParams
+> = {
   id: 'Data::SetSymmetricDifference',
   type: 'Data::SetSymmetricDifference',
   category: 'Data',
@@ -21,19 +25,19 @@ export const DataSetSetSymmetricDifferenceNode: NodeDefinition<SetSymmetricDiffe
     setA: {
       type: 'Data[]',
       label: 'Set A',
-      required: true
+      required: true,
     },
     setB: {
       type: 'Data[]',
       label: 'Set B',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     difference: {
       type: 'Data[]',
-      label: 'Difference'
-    }
+      label: 'Difference',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -41,12 +45,12 @@ export const DataSetSetSymmetricDifferenceNode: NodeDefinition<SetSymmetricDiffe
       type: 'setSymmetricDifference',
       params: {
         setA: inputs.setA,
-        setB: inputs.setB
-      }
+        setB: inputs.setB,
+      },
     });
-    
+
     return {
-      difference: result
+      difference: result,
     };
   },
 };

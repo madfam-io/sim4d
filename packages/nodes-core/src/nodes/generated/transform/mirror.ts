@@ -28,14 +28,14 @@ export const TransformMirrorNode: NodeDefinition<MirrorInputs, MirrorOutputs, Mi
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     mirrored: {
       type: 'Shape',
-      label: 'Mirrored'
-    }
+      label: 'Mirrored',
+    },
   },
   params: {
     planeOriginX: {
@@ -43,48 +43,48 @@ export const TransformMirrorNode: NodeDefinition<MirrorInputs, MirrorOutputs, Mi
       label: 'Plane Origin X',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     planeOriginY: {
       type: 'number',
       label: 'Plane Origin Y',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     planeOriginZ: {
       type: 'number',
       label: 'Plane Origin Z',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     planeNormalX: {
       type: 'number',
       label: 'Plane Normal X',
       default: 1,
       min: -1,
-      max: 1
+      max: 1,
     },
     planeNormalY: {
       type: 'number',
       label: 'Plane Normal Y',
       default: 0,
       min: -1,
-      max: 1
+      max: 1,
     },
     planeNormalZ: {
       type: 'number',
       label: 'Plane Normal Z',
       default: 0,
       min: -1,
-      max: 1
+      max: 1,
     },
     copy: {
       type: 'boolean',
       label: 'Copy',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -97,12 +97,12 @@ export const TransformMirrorNode: NodeDefinition<MirrorInputs, MirrorOutputs, Mi
         planeNormalX: params.planeNormalX,
         planeNormalY: params.planeNormalY,
         planeNormalZ: params.planeNormalZ,
-        copy: params.copy
-      }
+        copy: params.copy,
+      },
     });
-    
+
     return {
-      mirrored: result
+      mirrored: result,
     };
   },
 };

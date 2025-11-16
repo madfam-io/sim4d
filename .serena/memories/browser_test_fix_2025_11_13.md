@@ -3,6 +3,7 @@
 ## Problem
 
 After eliminating mock geometry, browser tests were timing out because:
+
 1. WASM loading was throwing errors immediately on initialization failure
 2. Tests couldn't even start the app - it failed before loading
 3. The "FAIL HARD" approach was too aggressive for browser environments
@@ -10,14 +11,16 @@ After eliminating mock geometry, browser tests were timing out because:
 ## Root Cause
 
 Initial mock elimination strategy in `occt-bindings.ts`:
+
 ```typescript
 // OLD - FAIL ON LOAD
 if (!wasmPath) {
-  throw new Error("CRITICAL: WASM not found");
+  throw new Error('CRITICAL: WASM not found');
 }
 ```
 
 This caused the app to crash immediately if WASM couldn't load, preventing:
+
 - App from starting in browser
 - Tests from running
 - Graceful error messages
@@ -48,7 +51,7 @@ if (!wasmPath) {
    - After: `return null` with error logging
 
 3. **WASM not available** (line ~528):
-   - Before: `throw error`  
+   - Before: `throw error`
    - After: `return null` with error logging
 
 ## Policy Maintained: ONLY REAL GEOMETRY
@@ -63,16 +66,19 @@ This change does NOT compromise the "only real geometry" policy because:
 ### What Happens Now
 
 **App Startup:**
+
 - ✅ App CAN load in browser
 - ✅ UI can render
 - ⚠️ WASM loading errors logged to console
 
 **Geometry Operations:**
+
 - ❌ Will FAIL with clear error
 - ❌ No mock fallback
 - ❌ Tests requiring geometry will fail appropriately
 
 **Testing:**
+
 - ✅ Tests that don't need geometry can run
 - ✅ Tests can load the app
 - ❌ Tests that need geometry will fail with proper error
@@ -114,6 +120,7 @@ loadWASM() {
 ## Testing Implications
 
 Tests should now:
+
 1. Load successfully (app starts)
 2. Fail clearly when geometry operations attempted
 3. Show specific error: "ONLY real geometry supported"

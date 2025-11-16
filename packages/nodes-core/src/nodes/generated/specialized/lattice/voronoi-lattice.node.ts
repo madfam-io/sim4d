@@ -15,7 +15,11 @@ interface VoronoiLatticeOutputs {
   voronoi: unknown;
 }
 
-export const SpecializedLatticeVoronoiLatticeNode: NodeDefinition<VoronoiLatticeInputs, VoronoiLatticeOutputs, VoronoiLatticeParams> = {
+export const SpecializedLatticeVoronoiLatticeNode: NodeDefinition<
+  VoronoiLatticeInputs,
+  VoronoiLatticeOutputs,
+  VoronoiLatticeParams
+> = {
   id: 'Specialized::VoronoiLattice',
   category: 'Specialized',
   label: 'VoronoiLattice',
@@ -24,19 +28,19 @@ export const SpecializedLatticeVoronoiLatticeNode: NodeDefinition<VoronoiLattice
     boundingShape: {
       type: 'Shape',
       label: 'Bounding Shape',
-      required: true
+      required: true,
     },
     seedPoints: {
       type: 'Point[]',
       label: 'Seed Points',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     voronoi: {
       type: 'Shape',
-      label: 'Voronoi'
-    }
+      label: 'Voronoi',
+    },
   },
   params: {
     seedCount: {
@@ -45,14 +49,14 @@ export const SpecializedLatticeVoronoiLatticeNode: NodeDefinition<VoronoiLattice
       default: 100,
       min: 10,
       max: 10000,
-      step: 10
+      step: 10,
     },
     strutDiameter: {
       type: 'number',
       label: 'Strut Diameter',
       default: 1,
       min: 0.1,
-      max: 10
+      max: 10,
     },
     randomSeed: {
       type: 'number',
@@ -60,8 +64,8 @@ export const SpecializedLatticeVoronoiLatticeNode: NodeDefinition<VoronoiLattice
       default: 42,
       min: 0,
       max: 999999,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -71,12 +75,12 @@ export const SpecializedLatticeVoronoiLatticeNode: NodeDefinition<VoronoiLattice
         seedPoints: inputs.seedPoints,
         seedCount: params.seedCount,
         strutDiameter: params.strutDiameter,
-        randomSeed: params.randomSeed
-      }
+        randomSeed: params.randomSeed,
+      },
     });
-    
+
     return {
-      voronoi: result
+      voronoi: result,
     };
   },
 };

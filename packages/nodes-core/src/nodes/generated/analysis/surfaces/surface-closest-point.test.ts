@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { AnalysisSurfacesSurfaceClosestPointNode } from './surface-closest-point.node';
 import { createTestContext } from '../test-utils';
@@ -8,11 +7,11 @@ describe('AnalysisSurfacesSurfaceClosestPointNode', () => {
     const context = createTestContext();
     const inputs = {
       surface: undefined,
-      point: undefined
+      point: undefined,
     } as any;
     const params = {
       tolerance: 0.01,
-      showConnection: true
+      showConnection: true,
     } as any;
 
     const result = await AnalysisSurfacesSurfaceClosestPointNode.evaluate(context, inputs, params);

@@ -23,6 +23,7 @@ We are committed to making participation in this project a harassment-free exper
 ### Our Standards
 
 **Positive behavior includes:**
+
 - Using welcoming and inclusive language
 - Respecting differing viewpoints and experiences
 - Gracefully accepting constructive criticism
@@ -30,6 +31,7 @@ We are committed to making participation in this project a harassment-free exper
 - Showing empathy towards other community members
 
 **Unacceptable behavior includes:**
+
 - Harassment of any kind
 - Discriminatory language or actions
 - Personal attacks or trolling
@@ -41,6 +43,7 @@ We are committed to making participation in this project a harassment-free exper
 ### Prerequisites
 
 Before contributing, ensure you have:
+
 - Node.js 20.11.x
 - pnpm 8.6.x
 - Git configured with your GitHub account
@@ -64,6 +67,7 @@ pnpm run dev
 ### First-Time Contributors
 
 Good first issues are labeled with `good-first-issue`. These typically include:
+
 - Documentation improvements
 - Small bug fixes
 - UI/UX enhancements
@@ -108,6 +112,7 @@ Follow the [Conventional Commits](https://www.conventionalcommits.org/) specific
 ```
 
 **Types:**
+
 - `feat`: New features
 - `fix`: Bug fixes
 - `docs`: Documentation changes
@@ -118,6 +123,7 @@ Follow the [Conventional Commits](https://www.conventionalcommits.org/) specific
 - `chore`: Build process or auxiliary tool changes
 
 **Examples:**
+
 ```bash
 feat(nodes): add boolean intersection node
 fix(dag): resolve circular dependency detection
@@ -141,6 +147,7 @@ perf(worker): optimize tessellation algorithm
 ### TypeScript Guidelines
 
 #### Type Safety
+
 ```typescript
 // ✅ Good - Explicit types
 interface NodeParams {
@@ -150,24 +157,26 @@ interface NodeParams {
 }
 
 // ❌ Avoid - any types
-function processNode(params: any): any { }
+function processNode(params: any): any {}
 
 // ✅ Good - Generic constraints
-function createNode<T extends NodeInstance>(definition: NodeDefinition<T>): T
+function createNode<T extends NodeInstance>(definition: NodeDefinition<T>): T;
 ```
 
 #### Naming Conventions
+
 ```typescript
 // ✅ Good - Descriptive names
 const geometryWorkerClient = new WorkerClient();
-function calculateBoundingBox(shape: ShapeHandle): BoundingBox { }
+function calculateBoundingBox(shape: ShapeHandle): BoundingBox {}
 
 // ❌ Avoid - Abbreviated names
 const gwc = new WorkerClient();
-function calcBB(s: ShapeHandle): BoundingBox { }
+function calcBB(s: ShapeHandle): BoundingBox {}
 ```
 
 #### Error Handling
+
 ```typescript
 // ✅ Good - Proper error types
 try {
@@ -193,6 +202,7 @@ try {
 ### React Guidelines
 
 #### Component Structure
+
 ```typescript
 // ✅ Good - Functional components with hooks
 interface NodePanelProps {
@@ -214,6 +224,7 @@ export function NodePanel({ onNodeDrag, categories }: NodePanelProps) {
 ```
 
 #### State Management
+
 ```typescript
 // ✅ Good - Zustand store patterns
 interface GraphStore {
@@ -228,11 +239,12 @@ const useGraphStore = create<GraphStore>()(
   immer((set) => ({
     graph: createEmptyGraph(),
     selectedNodes: new Set(),
-    addNode: (node) => set((state) => {
-      const newNode = { ...node, id: generateId() };
-      state.graph.nodes.push(newNode);
-      return newNode;
-    }),
+    addNode: (node) =>
+      set((state) => {
+        const newNode = { ...node, id: generateId() };
+        state.graph.nodes.push(newNode);
+        return newNode;
+      }),
   }))
 );
 ```
@@ -240,6 +252,7 @@ const useGraphStore = create<GraphStore>()(
 ### Performance Guidelines
 
 #### Avoid Unnecessary Re-renders
+
 ```typescript
 // ✅ Good - Memoized components
 const NodeComponent = memo(({ node, onUpdate }: NodeComponentProps) => {
@@ -253,6 +266,7 @@ const selectedNode = useGraphStore(
 ```
 
 #### Efficient Data Structures
+
 ```typescript
 // ✅ Good - Maps for O(1) lookups
 const nodeMap = new Map<NodeId, NodeInstance>();
@@ -261,7 +275,7 @@ const nodeMap = new Map<NodeId, NodeInstance>();
 const dirtyNodes = new Set<NodeId>();
 
 // ❌ Avoid - Arrays for frequent lookups
-const nodeArray = nodes.find(n => n.id === nodeId); // O(n) lookup
+const nodeArray = nodes.find((n) => n.id === nodeId); // O(n) lookup
 ```
 
 ## Testing Guidelines
@@ -269,6 +283,7 @@ const nodeArray = nodes.find(n => n.id === nodeId); // O(n) lookup
 ### Unit Tests
 
 Write comprehensive unit tests for:
+
 - Node evaluation functions
 - Graph operations
 - Utility functions
@@ -309,6 +324,7 @@ describe('DAGEngine', () => {
 ### Integration Tests
 
 Test complete workflows:
+
 - Graph serialization/deserialization
 - Worker communication
 - UI interactions
@@ -316,6 +332,7 @@ Test complete workflows:
 ### Test Coverage
 
 Maintain >80% test coverage for:
+
 - Core engine logic
 - Node implementations
 - Utility functions
@@ -333,7 +350,8 @@ open coverage/index.html
 ### Code Documentation
 
 #### JSDoc Comments
-```typescript
+
+````typescript
 /**
  * Evaluates a node in the graph and caches the result.
  *
@@ -353,17 +371,15 @@ open coverage/index.html
  * });
  * ```
  */
-async function evaluateNode(
-  node: NodeInstance,
-  context: EvalContext
-): Promise<NodeOutputs> {
+async function evaluateNode(node: NodeInstance, context: EvalContext): Promise<NodeOutputs> {
   // Implementation
 }
-```
+````
 
 #### README Updates
 
 When adding features, update:
+
 - Feature list in main README
 - API documentation
 - Usage examples
@@ -379,12 +395,15 @@ Document significant architectural decisions in `docs/adr/`:
 ## Status: Accepted
 
 ## Context
+
 Need centralized state management for complex graph operations...
 
 ## Decision
+
 Use Zustand for its simplicity and TypeScript support...
 
 ## Consequences
+
 - Reduced boilerplate compared to Redux
 - Better TypeScript integration
 - Potential performance benefits
@@ -395,6 +414,7 @@ Use Zustand for its simplicity and TypeScript support...
 ### Before Submitting
 
 1. **Run Quality Checks**:
+
 ```bash
 # Type checking
 pnpm typecheck
@@ -410,11 +430,13 @@ pnpm build
 ```
 
 2. **Update Documentation**:
+
 - Update CHANGELOG.md
 - Add/update JSDoc comments
 - Update API documentation if needed
 
 3. **Self-Review**:
+
 - Review your own changes first
 - Ensure code follows standards
 - Verify tests pass
@@ -424,20 +446,24 @@ pnpm build
 
 ```markdown
 ## Description
+
 Brief description of changes and motivation.
 
 ## Type of Change
+
 - [ ] Bug fix (non-breaking change that fixes an issue)
 - [ ] New feature (non-breaking change that adds functionality)
 - [ ] Breaking change (fix or feature that causes existing functionality to not work as expected)
 - [ ] Documentation update
 
 ## Testing
+
 - [ ] Unit tests added/updated
 - [ ] Integration tests added/updated
 - [ ] Manual testing completed
 
 ## Checklist
+
 - [ ] Code follows project standards
 - [ ] Self-review completed
 - [ ] Documentation updated
@@ -468,6 +494,7 @@ Clear description of the issue.
 
 **To Reproduce**
 Steps to reproduce the behavior:
+
 1. Create a box node
 2. Set parameters to {...}
 3. Evaluate graph
@@ -480,6 +507,7 @@ What you expected to happen.
 If applicable, add screenshots.
 
 **Environment:**
+
 - OS: [e.g. macOS 13.0]
 - Browser: [e.g. Chrome 118]
 - Node.js: [e.g. 20.5.0]
@@ -510,6 +538,7 @@ Mockups, examples, etc.
 ### Security Issues
 
 **Do not** create public issues for security vulnerabilities. Instead:
+
 - Email security@brepflow.com
 - Include detailed description
 - Include reproduction steps
@@ -520,6 +549,7 @@ Mockups, examples, etc.
 ### Adding New Node Types
 
 1. **Define Node Schema**:
+
 ```typescript
 // packages/nodes-core/src/sketch/rectangle.ts
 export const RectangleNode: NodeDefinition = {
@@ -546,6 +576,7 @@ export const RectangleNode: NodeDefinition = {
 ```
 
 2. **Register Node**:
+
 ```typescript
 // packages/nodes-core/src/index.ts
 import { RectangleNode } from './sketch/rectangle';
@@ -554,10 +585,11 @@ NodeRegistry.register(RectangleNode);
 ```
 
 3. **Add to UI**:
+
 ```typescript
 // apps/studio/src/components/NodePanel.tsx
 const nodeCategories = {
-  'Sketch': [
+  Sketch: [
     'Sketch::Line',
     'Sketch::Circle',
     'Sketch::Rectangle', // Add here
@@ -566,6 +598,7 @@ const nodeCategories = {
 ```
 
 4. **Write Tests**:
+
 ```typescript
 // packages/nodes-core/src/__tests__/sketch/rectangle.test.ts
 describe('RectangleNode', () => {
@@ -578,6 +611,7 @@ describe('RectangleNode', () => {
 ### Adding Worker Operations
 
 1. **Define Message Types**:
+
 ```typescript
 // packages/engine-occt/src/worker-types.ts
 export interface CreateRectangleRequest extends BaseRequest {
@@ -591,6 +625,7 @@ export interface CreateRectangleRequest extends BaseRequest {
 ```
 
 2. **Implement Worker Handler**:
+
 ```typescript
 // packages/engine-occt/src/worker.ts
 async function handleCreateRectangle(params: CreateRectangleParams): Promise<ShapeHandle> {
@@ -599,6 +634,7 @@ async function handleCreateRectangle(params: CreateRectangleParams): Promise<Sha
 ```
 
 3. **Add Mock Implementation**:
+
 ```typescript
 // packages/engine-occt/src/mock-geometry.ts
 createRectangle(width: number, height: number, center: Vec3): ShapeHandle {
@@ -613,17 +649,20 @@ createRectangle(width: number, height: number, center: Vec3): ShapeHandle {
 ### Performance Considerations
 
 #### Memory Management
+
 - Dispose geometry handles when no longer needed
 - Implement proper cleanup in worker operations
 - Monitor memory usage in large graphs
 
 #### Computation Optimization
+
 - Cache expensive computations
 - Use incremental evaluation
 - Implement proper dirty flagging
 - Consider parallel evaluation where possible
 
 #### UI Responsiveness
+
 - Use React.memo for expensive components
 - Implement virtualization for large node lists
 - Debounce parameter updates
@@ -634,6 +673,7 @@ createRectangle(width: number, height: number, center: Vec3): ShapeHandle {
 ### Versioning
 
 We follow [Semantic Versioning](https://semver.org/):
+
 - **MAJOR**: Breaking changes
 - **MINOR**: New features (backward compatible)
 - **PATCH**: Bug fixes (backward compatible)

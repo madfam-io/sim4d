@@ -18,7 +18,11 @@ interface ShadowAnalysisOutputs {
   illuminatedAreas: unknown;
 }
 
-export const AnalysisProximityShadowAnalysisNode: NodeDefinition<ShadowAnalysisInputs, ShadowAnalysisOutputs, ShadowAnalysisParams> = {
+export const AnalysisProximityShadowAnalysisNode: NodeDefinition<
+  ShadowAnalysisInputs,
+  ShadowAnalysisOutputs,
+  ShadowAnalysisParams
+> = {
   id: 'Analysis::ShadowAnalysis',
   category: 'Analysis',
   label: 'ShadowAnalysis',
@@ -27,52 +31,52 @@ export const AnalysisProximityShadowAnalysisNode: NodeDefinition<ShadowAnalysisI
     lightSource: {
       type: 'Point',
       label: 'Light Source',
-      required: true
+      required: true,
     },
     lightDirection: {
       type: 'Vector',
       label: 'Light Direction',
-      optional: true
+      optional: true,
     },
     objects: {
       type: 'Shape[]',
       label: 'Objects',
-      required: true
+      required: true,
     },
     groundPlane: {
       type: 'Face',
       label: 'Ground Plane',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shadowRegions: {
       type: 'Face[]',
-      label: 'Shadow Regions'
+      label: 'Shadow Regions',
     },
     lightRays: {
       type: 'Wire[]',
-      label: 'Light Rays'
+      label: 'Light Rays',
     },
     illuminatedAreas: {
       type: 'Face[]',
-      label: 'Illuminated Areas'
-    }
+      label: 'Illuminated Areas',
+    },
   },
   params: {
     lightType: {
       type: 'enum',
       label: 'Light Type',
-      default: "directional",
-      options: ["directional","point","spot"]
+      default: 'directional',
+      options: ['directional', 'point', 'spot'],
     },
     intensity: {
       type: 'number',
       label: 'Intensity',
       default: 1,
       min: 0.1,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -83,14 +87,14 @@ export const AnalysisProximityShadowAnalysisNode: NodeDefinition<ShadowAnalysisI
         objects: inputs.objects,
         groundPlane: inputs.groundPlane,
         lightType: params.lightType,
-        intensity: params.intensity
-      }
+        intensity: params.intensity,
+      },
     });
-    
+
     return {
       shadowRegions: results.shadowRegions,
       lightRays: results.lightRays,
-      illuminatedAreas: results.illuminatedAreas
+      illuminatedAreas: results.illuminatedAreas,
     };
   },
 };

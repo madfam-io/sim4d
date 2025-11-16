@@ -11,7 +11,11 @@ interface FieldMultiplyOutputs {
   field: unknown;
 }
 
-export const FieldOperationsFieldMultiplyNode: NodeDefinition<FieldMultiplyInputs, FieldMultiplyOutputs, FieldMultiplyParams> = {
+export const FieldOperationsFieldMultiplyNode: NodeDefinition<
+  FieldMultiplyInputs,
+  FieldMultiplyOutputs,
+  FieldMultiplyParams
+> = {
   id: 'Field::FieldMultiply',
   category: 'Field',
   label: 'FieldMultiply',
@@ -20,19 +24,19 @@ export const FieldOperationsFieldMultiplyNode: NodeDefinition<FieldMultiplyInput
     fieldA: {
       type: 'ScalarField',
       label: 'Field A',
-      required: true
+      required: true,
     },
     fieldB: {
       type: 'ScalarField',
       label: 'Field B',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     field: {
       type: 'ScalarField',
-      label: 'Field'
-    }
+      label: 'Field',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -40,12 +44,12 @@ export const FieldOperationsFieldMultiplyNode: NodeDefinition<FieldMultiplyInput
       type: 'fieldMultiply',
       params: {
         fieldA: inputs.fieldA,
-        fieldB: inputs.fieldB
-      }
+        fieldB: inputs.fieldB,
+      },
     });
-    
+
     return {
-      field: result
+      field: result,
     };
   },
 };

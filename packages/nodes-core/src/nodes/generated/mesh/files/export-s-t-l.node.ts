@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -20,51 +19,39 @@ export const ExportSTLNode: NodeDefinition<ExportSTLInputs, ExportSTLOutputs, Ex
   metadata: {
     label: 'ExportSTL',
     description: 'Export mesh to STL',
-    
-    
   },
 
   params: {
-        format: {
-      "default": "binary",
-      "options": [
-        "ascii",
-        "binary"
-      ]
+    format: {
+      default: 'binary',
+      options: ['ascii', 'binary'],
     },
     units: {
-      "default": "mm",
-      "options": [
-        "mm",
-        "cm",
-        "m",
-        "inch",
-        "foot"
-      ]
-    }
+      default: 'mm',
+      options: ['mm', 'cm', 'm', 'inch', 'foot'],
+    },
   },
 
   inputs: {
-        mesh: 'Mesh'
+    mesh: 'Mesh',
   },
 
   outputs: {
-        stlData: 'Data'
+    stlData: 'Data',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'exportSTL',
       params: {
         mesh: inputs.mesh,
         format: params.format,
-        units: params.units
-      }
+        units: params.units,
+      },
     });
 
     return {
-      stlData: result
+      stlData: result,
     };
-  }
+  },
 };

@@ -17,7 +17,11 @@ interface CircularPatternOutputs {
   compound: unknown;
 }
 
-export const TransformPatternsCircularPatternNode: NodeDefinition<CircularPatternInputs, CircularPatternOutputs, CircularPatternParams> = {
+export const TransformPatternsCircularPatternNode: NodeDefinition<
+  CircularPatternInputs,
+  CircularPatternOutputs,
+  CircularPatternParams
+> = {
   id: 'Transform::CircularPattern',
   category: 'Transform',
   label: 'CircularPattern',
@@ -26,18 +30,18 @@ export const TransformPatternsCircularPatternNode: NodeDefinition<CircularPatter
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shapes: {
       type: 'Shape[]',
-      label: 'Shapes'
+      label: 'Shapes',
     },
     compound: {
       type: 'Shape',
-      label: 'Compound'
-    }
+      label: 'Compound',
+    },
   },
   params: {
     count: {
@@ -46,30 +50,30 @@ export const TransformPatternsCircularPatternNode: NodeDefinition<CircularPatter
       default: 6,
       min: 2,
       max: 1000,
-      step: 1
+      step: 1,
     },
     angle: {
       type: 'number',
       label: 'Angle',
       default: 360,
       min: 0,
-      max: 360
+      max: 360,
     },
     center: {
       type: 'vec3',
       label: 'Center',
-      default: [0,0,0]
+      default: [0, 0, 0],
     },
     axis: {
       type: 'vec3',
       label: 'Axis',
-      default: [0,0,1]
+      default: [0, 0, 1],
     },
     rotateInstances: {
       type: 'boolean',
       label: 'Rotate Instances',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -80,13 +84,13 @@ export const TransformPatternsCircularPatternNode: NodeDefinition<CircularPatter
         angle: params.angle,
         center: params.center,
         axis: params.axis,
-        rotateInstances: params.rotateInstances
-      }
+        rotateInstances: params.rotateInstances,
+      },
     });
-    
+
     return {
       shapes: results.shapes,
-      compound: results.compound
+      compound: results.compound,
     };
   },
 };

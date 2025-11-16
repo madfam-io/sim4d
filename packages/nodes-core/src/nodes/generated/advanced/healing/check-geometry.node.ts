@@ -13,7 +13,11 @@ interface CheckGeometryOutputs {
   errors: unknown;
 }
 
-export const AdvancedHealingCheckGeometryNode: NodeDefinition<CheckGeometryInputs, CheckGeometryOutputs, CheckGeometryParams> = {
+export const AdvancedHealingCheckGeometryNode: NodeDefinition<
+  CheckGeometryInputs,
+  CheckGeometryOutputs,
+  CheckGeometryParams
+> = {
   id: 'Advanced::CheckGeometry',
   category: 'Advanced',
   label: 'CheckGeometry',
@@ -22,39 +26,39 @@ export const AdvancedHealingCheckGeometryNode: NodeDefinition<CheckGeometryInput
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     isValid: {
       type: 'boolean',
-      label: 'Is Valid'
+      label: 'Is Valid',
     },
     errors: {
       type: 'Data',
-      label: 'Errors'
-    }
+      label: 'Errors',
+    },
   },
   params: {
     checkLevel: {
       type: 'enum',
       label: 'Check Level',
-      default: "standard",
-      options: ["basic","standard","advanced"]
-    }
+      default: 'standard',
+      options: ['basic', 'standard', 'advanced'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
       type: 'checkGeometry',
       params: {
         shape: inputs.shape,
-        checkLevel: params.checkLevel
-      }
+        checkLevel: params.checkLevel,
+      },
     });
-    
+
     return {
       isValid: results.isValid,
-      errors: results.errors
+      errors: results.errors,
     };
   },
 };

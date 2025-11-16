@@ -24,19 +24,19 @@ export const SketchCurvesSplineNode: NodeDefinition<SplineInputs, SplineOutputs,
     points: {
       type: 'Point[]',
       label: 'Points',
-      required: true
+      required: true,
     },
     tangents: {
       type: 'Vector[]',
       label: 'Tangents',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     curve: {
       type: 'Wire',
-      label: 'Curve'
-    }
+      label: 'Curve',
+    },
   },
   params: {
     degree: {
@@ -44,18 +44,18 @@ export const SketchCurvesSplineNode: NodeDefinition<SplineInputs, SplineOutputs,
       label: 'Degree',
       default: 3,
       min: 1,
-      max: 10
+      max: 10,
     },
     closed: {
       type: 'boolean',
       label: 'Closed',
-      default: false
+      default: false,
     },
     smooth: {
       type: 'boolean',
       label: 'Smooth',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -65,12 +65,12 @@ export const SketchCurvesSplineNode: NodeDefinition<SplineInputs, SplineOutputs,
         tangents: inputs.tangents,
         degree: params.degree,
         closed: params.closed,
-        smooth: params.smooth
-      }
+        smooth: params.smooth,
+      },
     });
-    
+
     return {
-      curve: result
+      curve: result,
     };
   },
 };

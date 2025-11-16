@@ -14,7 +14,11 @@ interface PlaneIntersectionOutputs {
   sectionProfiles: unknown;
 }
 
-export const AnalysisIntersectionPlaneIntersectionNode: NodeDefinition<PlaneIntersectionInputs, PlaneIntersectionOutputs, PlaneIntersectionParams> = {
+export const AnalysisIntersectionPlaneIntersectionNode: NodeDefinition<
+  PlaneIntersectionInputs,
+  PlaneIntersectionOutputs,
+  PlaneIntersectionParams
+> = {
   id: 'Analysis::PlaneIntersection',
   category: 'Analysis',
   label: 'PlaneIntersection',
@@ -23,23 +27,23 @@ export const AnalysisIntersectionPlaneIntersectionNode: NodeDefinition<PlaneInte
     geometry: {
       type: 'Shape',
       label: 'Geometry',
-      required: true
+      required: true,
     },
     plane: {
       type: 'Face',
       label: 'Plane',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     intersectionCurves: {
       type: 'Wire[]',
-      label: 'Intersection Curves'
+      label: 'Intersection Curves',
     },
     sectionProfiles: {
       type: 'Wire[]',
-      label: 'Section Profiles'
-    }
+      label: 'Section Profiles',
+    },
   },
   params: {
     tolerance: {
@@ -47,8 +51,8 @@ export const AnalysisIntersectionPlaneIntersectionNode: NodeDefinition<PlaneInte
       label: 'Tolerance',
       default: 0.01,
       min: 0.001,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -56,13 +60,13 @@ export const AnalysisIntersectionPlaneIntersectionNode: NodeDefinition<PlaneInte
       params: {
         geometry: inputs.geometry,
         plane: inputs.plane,
-        tolerance: params.tolerance
-      }
+        tolerance: params.tolerance,
+      },
     });
-    
+
     return {
       intersectionCurves: results.intersectionCurves,
-      sectionProfiles: results.sectionProfiles
+      sectionProfiles: results.sectionProfiles,
     };
   },
 };

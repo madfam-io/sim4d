@@ -11,7 +11,11 @@ interface HorizontalOutputs {
   constraint: unknown;
 }
 
-export const AssemblyConstraintsHorizontalNode: NodeDefinition<HorizontalInputs, HorizontalOutputs, HorizontalParams> = {
+export const AssemblyConstraintsHorizontalNode: NodeDefinition<
+  HorizontalInputs,
+  HorizontalOutputs,
+  HorizontalParams
+> = {
   id: 'Assembly::Horizontal',
   category: 'Assembly',
   label: 'Horizontal',
@@ -20,31 +24,31 @@ export const AssemblyConstraintsHorizontalNode: NodeDefinition<HorizontalInputs,
     entity: {
       type: 'Shape',
       label: 'Entity',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     constrained: {
       type: 'Shape',
-      label: 'Constrained'
+      label: 'Constrained',
     },
     constraint: {
       type: 'Constraint',
-      label: 'Constraint'
-    }
+      label: 'Constraint',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
       type: 'constraintHorizontal',
       params: {
-        entity: inputs.entity
-      }
+        entity: inputs.entity,
+      },
     });
-    
+
     return {
       constrained: results.constrained,
-      constraint: results.constraint
+      constraint: results.constraint,
     };
   },
 };

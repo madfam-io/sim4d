@@ -5,7 +5,7 @@ import path from 'path';
 // Production-only Vite configuration
 export default defineConfig({
   plugins: [react()],
-  
+
   // Use production App file
   resolve: {
     alias: {
@@ -13,7 +13,10 @@ export default defineConfig({
       // Force production implementations
       './App': path.resolve(__dirname, 'src/App.production.tsx'),
       './store/graph-store': path.resolve(__dirname, 'src/store/production-graph-store.ts'),
-      '@brepflow/engine-occt/worker': path.resolve(__dirname, '../../packages/engine-occt/src/production-worker.ts'),
+      '@brepflow/engine-occt/worker': path.resolve(
+        __dirname,
+        '../../packages/engine-occt/src/production-worker.ts'
+      ),
     },
   },
 
@@ -63,7 +66,7 @@ export default defineConfig({
         "object-src 'none'",
         "base-uri 'self'",
         "form-action 'self'",
-        "upgrade-insecure-requests",
+        'upgrade-insecure-requests',
       ].join('; '),
     },
   },

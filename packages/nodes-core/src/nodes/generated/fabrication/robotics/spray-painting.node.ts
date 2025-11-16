@@ -14,7 +14,11 @@ interface SprayPaintingOutputs {
   sprayPath: unknown;
 }
 
-export const FabricationRoboticsSprayPaintingNode: NodeDefinition<SprayPaintingInputs, SprayPaintingOutputs, SprayPaintingParams> = {
+export const FabricationRoboticsSprayPaintingNode: NodeDefinition<
+  SprayPaintingInputs,
+  SprayPaintingOutputs,
+  SprayPaintingParams
+> = {
   id: 'Fabrication::SprayPainting',
   category: 'Fabrication',
   label: 'SprayPainting',
@@ -23,14 +27,14 @@ export const FabricationRoboticsSprayPaintingNode: NodeDefinition<SprayPaintingI
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     sprayPath: {
       type: 'Transform[]',
-      label: 'Spray Path'
-    }
+      label: 'Spray Path',
+    },
   },
   params: {
     sprayWidth: {
@@ -38,22 +42,22 @@ export const FabricationRoboticsSprayPaintingNode: NodeDefinition<SprayPaintingI
       label: 'Spray Width',
       default: 100,
       min: 10,
-      max: 500
+      max: 500,
     },
     overlap: {
       type: 'number',
       label: 'Overlap',
       default: 0.5,
       min: 0,
-      max: 0.9
+      max: 0.9,
     },
     standoffDistance: {
       type: 'number',
       label: 'Standoff Distance',
       default: 200,
       min: 50,
-      max: 500
-    }
+      max: 500,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -62,12 +66,12 @@ export const FabricationRoboticsSprayPaintingNode: NodeDefinition<SprayPaintingI
         surface: inputs.surface,
         sprayWidth: params.sprayWidth,
         overlap: params.overlap,
-        standoffDistance: params.standoffDistance
-      }
+        standoffDistance: params.standoffDistance,
+      },
     });
-    
+
     return {
-      sprayPath: result
+      sprayPath: result,
     };
   },
 };

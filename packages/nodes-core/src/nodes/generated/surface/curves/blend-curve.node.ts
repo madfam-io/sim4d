@@ -17,7 +17,11 @@ interface BlendCurveOutputs {
   blendCurve: unknown;
 }
 
-export const SurfaceCurvesBlendCurveNode: NodeDefinition<BlendCurveInputs, BlendCurveOutputs, BlendCurveParams> = {
+export const SurfaceCurvesBlendCurveNode: NodeDefinition<
+  BlendCurveInputs,
+  BlendCurveOutputs,
+  BlendCurveParams
+> = {
   id: 'Surface::BlendCurve',
   category: 'Surface',
   label: 'BlendCurve',
@@ -26,50 +30,50 @@ export const SurfaceCurvesBlendCurveNode: NodeDefinition<BlendCurveInputs, Blend
     curve1: {
       type: 'Wire',
       label: 'Curve1',
-      required: true
+      required: true,
     },
     curve2: {
       type: 'Wire',
       label: 'Curve2',
-      required: true
+      required: true,
     },
     point1: {
       type: 'Point',
       label: 'Point1',
-      optional: true
+      optional: true,
     },
     point2: {
       type: 'Point',
       label: 'Point2',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     blendCurve: {
       type: 'Wire',
-      label: 'Blend Curve'
-    }
+      label: 'Blend Curve',
+    },
   },
   params: {
     continuityStart: {
       type: 'enum',
       label: 'Continuity Start',
-      default: "G1",
-      options: ["G0","G1","G2","G3"]
+      default: 'G1',
+      options: ['G0', 'G1', 'G2', 'G3'],
     },
     continuityEnd: {
       type: 'enum',
       label: 'Continuity End',
-      default: "G1",
-      options: ["G0","G1","G2","G3"]
+      default: 'G1',
+      options: ['G0', 'G1', 'G2', 'G3'],
     },
     bulge: {
       type: 'number',
       label: 'Bulge',
       default: 1,
       min: 0.1,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -81,12 +85,12 @@ export const SurfaceCurvesBlendCurveNode: NodeDefinition<BlendCurveInputs, Blend
         point2: inputs.point2,
         continuityStart: params.continuityStart,
         continuityEnd: params.continuityEnd,
-        bulge: params.bulge
-      }
+        bulge: params.bulge,
+      },
     });
-    
+
     return {
-      blendCurve: result
+      blendCurve: result,
     };
   },
 };

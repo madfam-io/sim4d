@@ -23,26 +23,26 @@ export const DataConvertToCSVNode: NodeDefinition<ToCSVInputs, ToCSVOutputs, ToC
     data: {
       type: 'Data[][]',
       label: 'Data',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     csv: {
       type: 'string',
-      label: 'Csv'
-    }
+      label: 'Csv',
+    },
   },
   params: {
     delimiter: {
       type: 'string',
       label: 'Delimiter',
-      default: ","
+      default: ',',
     },
     headers: {
       type: 'boolean',
       label: 'Headers',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -50,12 +50,12 @@ export const DataConvertToCSVNode: NodeDefinition<ToCSVInputs, ToCSVOutputs, ToC
       params: {
         data: inputs.data,
         delimiter: params.delimiter,
-        headers: params.headers
-      }
+        headers: params.headers,
+      },
     });
-    
+
     return {
-      csv: result
+      csv: result,
     };
   },
 };

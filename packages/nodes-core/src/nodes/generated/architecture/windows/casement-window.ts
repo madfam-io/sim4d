@@ -17,7 +17,11 @@ interface CasementWindowOutputs {
   glass: unknown;
 }
 
-export const ArchitectureWindowsCasementWindowNode: NodeDefinition<CasementWindowInputs, CasementWindowOutputs, CasementWindowParams> = {
+export const ArchitectureWindowsCasementWindowNode: NodeDefinition<
+  CasementWindowInputs,
+  CasementWindowOutputs,
+  CasementWindowParams
+> = {
   id: 'Architecture::CasementWindow',
   type: 'Architecture::CasementWindow',
   category: 'Architecture',
@@ -27,22 +31,22 @@ export const ArchitectureWindowsCasementWindowNode: NodeDefinition<CasementWindo
     position: {
       type: 'Point',
       label: 'Position',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     window: {
       type: 'Shape',
-      label: 'Window'
+      label: 'Window',
     },
     frame: {
       type: 'Shape',
-      label: 'Frame'
+      label: 'Frame',
     },
     glass: {
       type: 'Face',
-      label: 'Glass'
-    }
+      label: 'Glass',
+    },
   },
   params: {
     width: {
@@ -50,28 +54,28 @@ export const ArchitectureWindowsCasementWindowNode: NodeDefinition<CasementWindo
       label: 'Width',
       default: 600,
       min: 400,
-      max: 1200
+      max: 1200,
     },
     height: {
       type: 'number',
       label: 'Height',
       default: 1200,
       min: 600,
-      max: 2000
+      max: 2000,
     },
     hinge: {
       type: 'enum',
       label: 'Hinge',
-      default: "left",
-      options: ["left","right","top"]
+      default: 'left',
+      options: ['left', 'right', 'top'],
     },
     opening: {
       type: 'number',
       label: 'Opening',
       default: 0,
       min: 0,
-      max: 90
-    }
+      max: 90,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -81,14 +85,14 @@ export const ArchitectureWindowsCasementWindowNode: NodeDefinition<CasementWindo
         width: params.width,
         height: params.height,
         hinge: params.hinge,
-        opening: params.opening
-      }
+        opening: params.opening,
+      },
     });
-    
+
     return {
       window: results.window,
       frame: results.frame,
-      glass: results.glass
+      glass: results.glass,
     };
   },
 };

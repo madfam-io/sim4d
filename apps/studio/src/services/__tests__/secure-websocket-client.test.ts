@@ -50,9 +50,7 @@ describe('SecureWebSocketClient - CSRF Authentication Logic', () => {
     });
 
     it('should handle CSRF token fetch errors', async () => {
-      (collaborationAPI.getCSRFToken as any).mockRejectedValue(
-        new Error('Token fetch failed')
-      );
+      (collaborationAPI.getCSRFToken as any).mockRejectedValue(new Error('Token fetch failed'));
 
       await expect(collaborationAPI.getCSRFToken()).rejects.toThrow('Token fetch failed');
     });
@@ -92,9 +90,7 @@ describe('SecureWebSocketClient - CSRF Authentication Logic', () => {
     });
 
     it('should handle server unavailable scenarios', async () => {
-      (collaborationAPI.getCSRFToken as any).mockRejectedValue(
-        new Error('Server unavailable')
-      );
+      (collaborationAPI.getCSRFToken as any).mockRejectedValue(new Error('Server unavailable'));
 
       await expect(collaborationAPI.getCSRFToken()).rejects.toThrow('Server unavailable');
     });

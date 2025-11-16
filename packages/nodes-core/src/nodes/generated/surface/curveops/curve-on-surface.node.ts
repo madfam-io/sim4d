@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 type Params = {};
@@ -10,7 +9,11 @@ interface Outputs {
   curve: Wire;
 }
 
-export const CurveOnSurfaceNode: NodeDefinition<CurveOnSurfaceInputs, CurveOnSurfaceOutputs, CurveOnSurfaceParams> = {
+export const CurveOnSurfaceNode: NodeDefinition<
+  CurveOnSurfaceInputs,
+  CurveOnSurfaceOutputs,
+  CurveOnSurfaceParams
+> = {
   type: 'Surface::CurveOnSurface',
   category: 'Surface',
   subcategory: 'CurveOps',
@@ -18,36 +21,30 @@ export const CurveOnSurfaceNode: NodeDefinition<CurveOnSurfaceInputs, CurveOnSur
   metadata: {
     label: 'CurveOnSurface',
     description: 'Create curve on surface',
-    
-    
   },
 
-  params: {
-    
-  },
+  params: {},
 
   inputs: {
-        surface: 'Face',
-    uvPoints: 'Point2D[]'
+    surface: 'Face',
+    uvPoints: 'Point2D[]',
   },
 
   outputs: {
-        curve: 'Wire'
+    curve: 'Wire',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'curveOnSurface',
       params: {
         surface: inputs.surface,
-        uvPoints: inputs.uvPoints
-        
-      }
+        uvPoints: inputs.uvPoints,
+      },
     });
 
     return {
-      curve: result
+      curve: result,
     };
-  }
+  },
 };

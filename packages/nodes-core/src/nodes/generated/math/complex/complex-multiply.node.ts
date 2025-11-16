@@ -11,7 +11,11 @@ interface ComplexMultiplyOutputs {
   result: unknown;
 }
 
-export const MathComplexComplexMultiplyNode: NodeDefinition<ComplexMultiplyInputs, ComplexMultiplyOutputs, ComplexMultiplyParams> = {
+export const MathComplexComplexMultiplyNode: NodeDefinition<
+  ComplexMultiplyInputs,
+  ComplexMultiplyOutputs,
+  ComplexMultiplyParams
+> = {
   id: 'Math::ComplexMultiply',
   category: 'Math',
   label: 'ComplexMultiply',
@@ -20,19 +24,19 @@ export const MathComplexComplexMultiplyNode: NodeDefinition<ComplexMultiplyInput
     a: {
       type: 'Complex',
       label: 'A',
-      required: true
+      required: true,
     },
     b: {
       type: 'Complex',
       label: 'B',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'Complex',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -40,12 +44,12 @@ export const MathComplexComplexMultiplyNode: NodeDefinition<ComplexMultiplyInput
       type: 'mathComplexMultiply',
       params: {
         a: inputs.a,
-        b: inputs.b
-      }
+        b: inputs.b,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

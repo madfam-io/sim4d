@@ -10,7 +10,11 @@ interface MatrixInverseOutputs {
   inverse: unknown;
 }
 
-export const MathMatrixMatrixInverseNode: NodeDefinition<MatrixInverseInputs, MatrixInverseOutputs, MatrixInverseParams> = {
+export const MathMatrixMatrixInverseNode: NodeDefinition<
+  MatrixInverseInputs,
+  MatrixInverseOutputs,
+  MatrixInverseParams
+> = {
   id: 'Math::MatrixInverse',
   type: 'Math::MatrixInverse',
   category: 'Math',
@@ -20,26 +24,26 @@ export const MathMatrixMatrixInverseNode: NodeDefinition<MatrixInverseInputs, Ma
     matrix: {
       type: 'Matrix',
       label: 'Matrix',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     inverse: {
       type: 'Matrix',
-      label: 'Inverse'
-    }
+      label: 'Inverse',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathMatrixInverse',
       params: {
-        matrix: inputs.matrix
-      }
+        matrix: inputs.matrix,
+      },
     });
-    
+
     return {
-      inverse: result
+      inverse: result,
     };
   },
 };

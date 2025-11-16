@@ -7,7 +7,15 @@
 
 export type ViewportLayoutType = 'single' | 'quad' | 'horizontal' | 'vertical' | 'custom';
 
-export type ViewportViewType = 'perspective' | 'front' | 'back' | 'left' | 'right' | 'top' | 'bottom' | 'iso';
+export type ViewportViewType =
+  | 'perspective'
+  | 'front'
+  | 'back'
+  | 'left'
+  | 'right'
+  | 'top'
+  | 'bottom'
+  | 'iso';
 
 export type ViewportRenderMode = 'wireframe' | 'shaded' | 'textured' | 'xray' | 'realistic';
 
@@ -43,7 +51,13 @@ export interface ViewportLayoutConfig {
   customLayout?: {
     rows: number;
     cols: number;
-    spans?: Array<{ viewportId: string; row: number; col: number; rowSpan?: number; colSpan?: number }>;
+    spans?: Array<{
+      viewportId: string;
+      row: number;
+      col: number;
+      rowSpan?: number;
+      colSpan?: number;
+    }>;
   };
 }
 
@@ -114,80 +128,83 @@ export const STANDARD_VIEWPORT_CONFIGS: Record<ViewportViewType, Partial<Viewpor
     target: [0, 0, 0],
     up: [0, 0, 1],
     fov: 45,
-    isOrthographic: false
+    isOrthographic: false,
   },
   front: {
     position: [0, -10, 0],
     target: [0, 0, 0],
     up: [0, 0, 1],
     fov: 45,
-    isOrthographic: true
+    isOrthographic: true,
   },
   back: {
     position: [0, 10, 0],
     target: [0, 0, 0],
     up: [0, 0, 1],
     fov: 45,
-    isOrthographic: true
+    isOrthographic: true,
   },
   left: {
     position: [-10, 0, 0],
     target: [0, 0, 0],
     up: [0, 0, 1],
     fov: 45,
-    isOrthographic: true
+    isOrthographic: true,
   },
   right: {
     position: [10, 0, 0],
     target: [0, 0, 0],
     up: [0, 0, 1],
     fov: 45,
-    isOrthographic: true
+    isOrthographic: true,
   },
   top: {
     position: [0, 0, 10],
     target: [0, 0, 0],
     up: [0, 1, 0],
     fov: 45,
-    isOrthographic: true
+    isOrthographic: true,
   },
   bottom: {
     position: [0, 0, -10],
     target: [0, 0, 0],
     up: [0, 1, 0],
     fov: 45,
-    isOrthographic: true
+    isOrthographic: true,
   },
   iso: {
     position: [10, -10, 10],
     target: [0, 0, 0],
     up: [0, 0, 1],
     fov: 45,
-    isOrthographic: false
-  }
+    isOrthographic: false,
+  },
 };
 
 // Default layout configurations
-export const DEFAULT_LAYOUTS: Record<ViewportLayoutType, Omit<ViewportLayoutConfig, 'viewports'>> = {
+export const DEFAULT_LAYOUTS: Record<
+  ViewportLayoutType,
+  Omit<ViewportLayoutConfig, 'viewports'>
+> = {
   single: {
     type: 'single',
     activeViewportId: 'main',
-    syncedCameras: false
+    syncedCameras: false,
   },
   quad: {
     type: 'quad',
     activeViewportId: 'perspective',
-    syncedCameras: false
+    syncedCameras: false,
   },
   horizontal: {
     type: 'horizontal',
     activeViewportId: 'main',
-    syncedCameras: false
+    syncedCameras: false,
   },
   vertical: {
     type: 'vertical',
     activeViewportId: 'main',
-    syncedCameras: false
+    syncedCameras: false,
   },
   custom: {
     type: 'custom',
@@ -195,9 +212,9 @@ export const DEFAULT_LAYOUTS: Record<ViewportLayoutType, Omit<ViewportLayoutConf
     syncedCameras: false,
     customLayout: {
       rows: 2,
-      cols: 2
-    }
-  }
+      cols: 2,
+    },
+  },
 };
 
 // Default viewport instances for different layouts
@@ -210,19 +227,21 @@ export const createDefaultViewports = (layoutType: ViewportLayoutType): Viewport
     showAxes: true,
     backgroundColor: '#1a1a2e',
     quality: 'medium' as const,
-    renderMode: 'shaded' as ViewportRenderMode
+    renderMode: 'shaded' as ViewportRenderMode,
   };
 
   switch (layoutType) {
     case 'single':
-      return [{
-        ...baseViewport,
-        id: 'main',
-        name: 'Main View',
-        viewType: 'perspective',
-        active: true,
-        camera: { ...STANDARD_VIEWPORT_CONFIGS.perspective, zoom: 1 } as ViewportCameraState
-      }];
+      return [
+        {
+          ...baseViewport,
+          id: 'main',
+          name: 'Main View',
+          viewType: 'perspective',
+          active: true,
+          camera: { ...STANDARD_VIEWPORT_CONFIGS.perspective, zoom: 1 } as ViewportCameraState,
+        },
+      ];
 
     case 'quad':
       return [
@@ -232,29 +251,29 @@ export const createDefaultViewports = (layoutType: ViewportLayoutType): Viewport
           name: 'Perspective',
           viewType: 'perspective',
           active: true,
-          camera: { ...STANDARD_VIEWPORT_CONFIGS.perspective, zoom: 1 } as ViewportCameraState
+          camera: { ...STANDARD_VIEWPORT_CONFIGS.perspective, zoom: 1 } as ViewportCameraState,
         },
         {
           ...baseViewport,
           id: 'front',
           name: 'Front',
           viewType: 'front',
-          camera: { ...STANDARD_VIEWPORT_CONFIGS.front, zoom: 1 } as ViewportCameraState
+          camera: { ...STANDARD_VIEWPORT_CONFIGS.front, zoom: 1 } as ViewportCameraState,
         },
         {
           ...baseViewport,
           id: 'top',
           name: 'Top',
           viewType: 'top',
-          camera: { ...STANDARD_VIEWPORT_CONFIGS.top, zoom: 1 } as ViewportCameraState
+          camera: { ...STANDARD_VIEWPORT_CONFIGS.top, zoom: 1 } as ViewportCameraState,
         },
         {
           ...baseViewport,
           id: 'right',
           name: 'Right',
           viewType: 'right',
-          camera: { ...STANDARD_VIEWPORT_CONFIGS.right, zoom: 1 } as ViewportCameraState
-        }
+          camera: { ...STANDARD_VIEWPORT_CONFIGS.right, zoom: 1 } as ViewportCameraState,
+        },
       ];
 
     case 'horizontal':
@@ -265,15 +284,15 @@ export const createDefaultViewports = (layoutType: ViewportLayoutType): Viewport
           name: 'Left View',
           viewType: 'perspective',
           active: true,
-          camera: { ...STANDARD_VIEWPORT_CONFIGS.perspective, zoom: 1 } as ViewportCameraState
+          camera: { ...STANDARD_VIEWPORT_CONFIGS.perspective, zoom: 1 } as ViewportCameraState,
         },
         {
           ...baseViewport,
           id: 'right',
           name: 'Right View',
           viewType: 'front',
-          camera: { ...STANDARD_VIEWPORT_CONFIGS.front, zoom: 1 } as ViewportCameraState
-        }
+          camera: { ...STANDARD_VIEWPORT_CONFIGS.front, zoom: 1 } as ViewportCameraState,
+        },
       ];
 
     case 'vertical':
@@ -284,15 +303,15 @@ export const createDefaultViewports = (layoutType: ViewportLayoutType): Viewport
           name: 'Top View',
           viewType: 'perspective',
           active: true,
-          camera: { ...STANDARD_VIEWPORT_CONFIGS.perspective, zoom: 1 } as ViewportCameraState
+          camera: { ...STANDARD_VIEWPORT_CONFIGS.perspective, zoom: 1 } as ViewportCameraState,
         },
         {
           ...baseViewport,
           id: 'bottom',
           name: 'Bottom View',
           viewType: 'top',
-          camera: { ...STANDARD_VIEWPORT_CONFIGS.top, zoom: 1 } as ViewportCameraState
-        }
+          camera: { ...STANDARD_VIEWPORT_CONFIGS.top, zoom: 1 } as ViewportCameraState,
+        },
       ];
 
     default:

@@ -11,7 +11,11 @@ interface SampleFieldOutputs {
   values: unknown;
 }
 
-export const FieldSampleSampleFieldNode: NodeDefinition<SampleFieldInputs, SampleFieldOutputs, SampleFieldParams> = {
+export const FieldSampleSampleFieldNode: NodeDefinition<
+  SampleFieldInputs,
+  SampleFieldOutputs,
+  SampleFieldParams
+> = {
   id: 'Field::SampleField',
   type: 'Field::SampleField',
   category: 'Field',
@@ -21,19 +25,19 @@ export const FieldSampleSampleFieldNode: NodeDefinition<SampleFieldInputs, Sampl
     field: {
       type: 'ScalarField',
       label: 'Field',
-      required: true
+      required: true,
     },
     points: {
       type: 'Point[]',
       label: 'Points',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     values: {
       type: 'number[]',
-      label: 'Values'
-    }
+      label: 'Values',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -41,12 +45,12 @@ export const FieldSampleSampleFieldNode: NodeDefinition<SampleFieldInputs, Sampl
       type: 'fieldSample',
       params: {
         field: inputs.field,
-        points: inputs.points
-      }
+        points: inputs.points,
+      },
     });
-    
+
     return {
-      values: result
+      values: result,
     };
   },
 };

@@ -1,14 +1,6 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import {
-  Wrench,
-  Zap,
-  Layers,
-  Target,
-  Users,
-  Rocket,
-  ArrowRight
-} from 'lucide-react';
+import { Wrench, Zap, Layers, Target, Users, Rocket, ArrowRight } from 'lucide-react';
 import { GlowButton } from './ui/GlowButton';
 
 const useCases = [
@@ -16,7 +8,8 @@ const useCases = [
     id: 'prototyping',
     icon: Zap,
     title: 'Rapid Prototyping',
-    description: 'From concept to 3D-printable model in minutes, not hours. Perfect for iterative design and quick validation.',
+    description:
+      'From concept to 3D-printable model in minutes, not hours. Perfect for iterative design and quick validation.',
     benefits: ['Instant parameter changes', 'Real-time visualization', '3D printing ready'],
     industries: ['Product Design', 'Consumer Electronics', 'Automotive'],
     gradient: 'from-yellow-500 to-orange-500',
@@ -25,7 +18,8 @@ const useCases = [
     id: 'manufacturing',
     icon: Wrench,
     title: 'Manufacturing Design',
-    description: 'Create precise parts with manufacturing constraints built-in. Export directly to CAM systems.',
+    description:
+      'Create precise parts with manufacturing constraints built-in. Export directly to CAM systems.',
     benefits: ['STEP/IGES export', 'Tolerance analysis', 'DFM validation'],
     industries: ['Aerospace', 'Medical Devices', 'Industrial Equipment'],
     gradient: 'from-blue-500 to-cyan-500',
@@ -34,7 +28,8 @@ const useCases = [
     id: 'education',
     icon: Users,
     title: 'Educational Projects',
-    description: 'Teach parametric design principles with visual, interactive tools. No software installation required.',
+    description:
+      'Teach parametric design principles with visual, interactive tools. No software installation required.',
     benefits: ['Browser-based access', 'Collaborative learning', 'Progressive complexity'],
     industries: ['Universities', 'Technical Schools', 'Online Courses'],
     gradient: 'from-green-500 to-emerald-500',
@@ -43,7 +38,8 @@ const useCases = [
     id: 'research',
     icon: Target,
     title: 'Research & Development',
-    description: 'Explore design spaces with algorithmic modeling. Perfect for optimization and generative design.',
+    description:
+      'Explore design spaces with algorithmic modeling. Perfect for optimization and generative design.',
     benefits: ['Parametric exploration', 'Data-driven design', 'Algorithm integration'],
     industries: ['Research Labs', 'Startups', 'Innovation Teams'],
     gradient: 'from-purple-500 to-pink-500',
@@ -52,7 +48,8 @@ const useCases = [
     id: 'architecture',
     icon: Layers,
     title: 'Architectural Modeling',
-    description: 'Create complex architectural forms with parametric control. Ideal for facade design and structural optimization.',
+    description:
+      'Create complex architectural forms with parametric control. Ideal for facade design and structural optimization.',
     benefits: ['Complex geometries', 'Environmental analysis', 'Collaborative workflows'],
     industries: ['Architecture Firms', 'Construction', 'Urban Planning'],
     gradient: 'from-indigo-500 to-blue-500',
@@ -61,7 +58,8 @@ const useCases = [
     id: 'startup',
     icon: Rocket,
     title: 'Startup Innovation',
-    description: 'Launch your hardware startup without expensive CAD licenses. Scale from prototype to production.',
+    description:
+      'Launch your hardware startup without expensive CAD licenses. Scale from prototype to production.',
     benefits: ['Zero licensing costs', 'Cloud collaboration', 'Rapid iteration'],
     industries: ['Hardware Startups', 'Crowdfunding', 'Small Teams'],
     gradient: 'from-red-500 to-pink-500',
@@ -110,12 +108,16 @@ export function UseCases() {
             >
               <div className="relative p-6 bg-gradient-to-br from-gray-900/50 to-gray-800/50 rounded-xl border border-gray-700/50 hover:border-gray-600/50 transition-all duration-300 h-full">
                 {/* Background gradient */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${useCase.gradient} opacity-5 group-hover:opacity-10 transition-opacity duration-300 rounded-xl`} />
+                <div
+                  className={`absolute inset-0 bg-gradient-to-br ${useCase.gradient} opacity-5 group-hover:opacity-10 transition-opacity duration-300 rounded-xl`}
+                />
 
                 {/* Content */}
                 <div className="relative">
                   {/* Icon */}
-                  <div className={`inline-flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-br ${useCase.gradient} mb-4`}>
+                  <div
+                    className={`inline-flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-br ${useCase.gradient} mb-4`}
+                  >
                     <useCase.icon className="w-6 h-6 text-white" />
                   </div>
 
@@ -167,26 +169,16 @@ export function UseCases() {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="text-center"
         >
-          <h3 className="text-2xl font-bold text-white mb-4">
-            Ready to Transform Your Workflow?
-          </h3>
+          <h3 className="text-2xl font-bold text-white mb-4">Ready to Transform Your Workflow?</h3>
           <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
             Join teams worldwide who are already using BrepFlow to accelerate their design process.
             Start building with parametric CAD in your browser today.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <GlowButton
-              href="http://localhost:5173"
-              variant="primary"
-              size="large"
-            >
+            <GlowButton href="http://localhost:5173" variant="primary" size="large">
               Try BrepFlow Studio
             </GlowButton>
-            <GlowButton
-              href="#demo"
-              variant="secondary"
-              size="large"
-            >
+            <GlowButton href="#demo" variant="secondary" size="large">
               Watch Demo
             </GlowButton>
           </div>

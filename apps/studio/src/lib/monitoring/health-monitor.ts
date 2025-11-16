@@ -47,10 +47,7 @@ export class HealthMonitor {
   private readonly MONITORING_INTERVAL = 30000; // 30 seconds
   private onAlert?: (alert: HealthAlert) => void;
 
-  private constructor(
-    thresholds: HealthThresholds,
-    onAlert?: (alert: HealthAlert) => void
-  ) {
+  private constructor(thresholds: HealthThresholds, onAlert?: (alert: HealthAlert) => void) {
     this.thresholds = thresholds;
     this.onAlert = onAlert;
     this.metricsCollector = MetricsCollector.getInstance();
@@ -113,9 +110,8 @@ export class HealthMonitor {
         memoryUsage: health.memoryUsage,
         errorRate: health.errorRate,
         responseTime: health.averageResponseTime,
-        activeAlerts: this.getActiveAlerts().length
+        activeAlerts: this.getActiveAlerts().length,
       });
-
     } catch (error) {
       this.logger.error('Health check failed', { error });
     }
@@ -132,13 +128,13 @@ export class HealthMonitor {
       this.createAlert(alertId, {
         type: 'memory',
         severity: 'critical',
-        message: `Critical memory usage: ${memoryMB.toFixed(1)}MB (>${this.thresholds.memory.critical}MB)`
+        message: `Critical memory usage: ${memoryMB.toFixed(1)}MB (>${this.thresholds.memory.critical}MB)`,
       });
     } else if (memoryMB > this.thresholds.memory.warning) {
       this.createAlert(alertId, {
         type: 'memory',
         severity: 'warning',
-        message: `High memory usage: ${memoryMB.toFixed(1)}MB (>${this.thresholds.memory.warning}MB)`
+        message: `High memory usage: ${memoryMB.toFixed(1)}MB (>${this.thresholds.memory.warning}MB)`,
       });
     } else {
       this.resolveAlert(alertId);
@@ -156,13 +152,13 @@ export class HealthMonitor {
       this.createAlert(alertId, {
         type: 'error_rate',
         severity: 'critical',
-        message: `Critical error rate: ${errorRate.toFixed(1)}% (>${this.thresholds.errorRate.critical}%)`
+        message: `Critical error rate: ${errorRate.toFixed(1)}% (>${this.thresholds.errorRate.critical}%)`,
       });
     } else if (errorRate > this.thresholds.errorRate.warning) {
       this.createAlert(alertId, {
         type: 'error_rate',
         severity: 'warning',
-        message: `High error rate: ${errorRate.toFixed(1)}% (>${this.thresholds.errorRate.warning}%)`
+        message: `High error rate: ${errorRate.toFixed(1)}% (>${this.thresholds.errorRate.warning}%)`,
       });
     } else {
       this.resolveAlert(alertId);
@@ -180,13 +176,13 @@ export class HealthMonitor {
       this.createAlert(alertId, {
         type: 'performance',
         severity: 'critical',
-        message: `Critical response time: ${responseTime.toFixed(0)}ms (>${this.thresholds.responseTime.critical}ms)`
+        message: `Critical response time: ${responseTime.toFixed(0)}ms (>${this.thresholds.responseTime.critical}ms)`,
       });
     } else if (responseTime > this.thresholds.responseTime.warning) {
       this.createAlert(alertId, {
         type: 'performance',
         severity: 'warning',
-        message: `Slow response time: ${responseTime.toFixed(0)}ms (>${this.thresholds.responseTime.warning}ms)`
+        message: `Slow response time: ${responseTime.toFixed(0)}ms (>${this.thresholds.responseTime.warning}ms)`,
       });
     } else {
       this.resolveAlert(alertId);
@@ -206,13 +202,13 @@ export class HealthMonitor {
       this.createAlert(alertId, {
         type: 'wasm',
         severity: 'critical',
-        message: `Critical WASM memory usage: ${wasmMemoryMB.toFixed(1)}MB (>${this.thresholds.wasmMemory.critical}MB)`
+        message: `Critical WASM memory usage: ${wasmMemoryMB.toFixed(1)}MB (>${this.thresholds.wasmMemory.critical}MB)`,
       });
     } else if (wasmMemoryMB > this.thresholds.wasmMemory.warning) {
       this.createAlert(alertId, {
         type: 'wasm',
         severity: 'warning',
-        message: `High WASM memory usage: ${wasmMemoryMB.toFixed(1)}MB (>${this.thresholds.wasmMemory.warning}MB)`
+        message: `High WASM memory usage: ${wasmMemoryMB.toFixed(1)}MB (>${this.thresholds.wasmMemory.warning}MB)`,
       });
     } else {
       this.resolveAlert(alertId);
@@ -228,7 +224,7 @@ export class HealthMonitor {
       this.createAlert('wasm_unavailable', {
         type: 'wasm',
         severity: 'warning',
-        message: 'SharedArrayBuffer unavailable - WASM performance limited'
+        message: 'SharedArrayBuffer unavailable - WASM performance limited',
       });
     } else {
       this.resolveAlert('wasm_unavailable');
@@ -239,7 +235,7 @@ export class HealthMonitor {
       this.createAlert('network_offline', {
         type: 'network',
         severity: 'critical',
-        message: 'Network connection lost'
+        message: 'Network connection lost',
       });
     } else {
       this.resolveAlert('network_offline');
@@ -260,7 +256,7 @@ export class HealthMonitor {
     const alert: HealthAlert = {
       id,
       ...alertData,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
 
     this.alerts.set(id, alert);
@@ -274,7 +270,7 @@ export class HealthMonitor {
     // Update metrics
     this.metricsCollector.incrementCounter('health_alerts_total', {
       type: alert.type,
-      severity: alert.severity
+      severity: alert.severity,
     });
   }
 
@@ -291,7 +287,7 @@ export class HealthMonitor {
 
       this.metricsCollector.incrementCounter('health_alerts_resolved_total', {
         type: alert.type,
-        severity: alert.severity
+        severity: alert.severity,
       });
     }
   }
@@ -300,7 +296,7 @@ export class HealthMonitor {
    * Get all active alerts
    */
   public getActiveAlerts(): HealthAlert[] {
-    return Array.from(this.alerts.values()).filter(alert => !alert.resolved);
+    return Array.from(this.alerts.values()).filter((alert) => !alert.resolved);
   }
 
   /**
@@ -314,14 +310,14 @@ export class HealthMonitor {
    * Get alerts by type
    */
   public getAlertsByType(type: HealthAlert['type']): HealthAlert[] {
-    return Array.from(this.alerts.values()).filter(alert => alert.type === type);
+    return Array.from(this.alerts.values()).filter((alert) => alert.type === type);
   }
 
   /**
    * Get alerts by severity
    */
   public getAlertsBySeverity(severity: HealthAlert['severity']): HealthAlert[] {
-    return Array.from(this.alerts.values()).filter(alert => alert.severity === severity);
+    return Array.from(this.alerts.values()).filter((alert) => alert.severity === severity);
   }
 
   /**
@@ -337,7 +333,7 @@ export class HealthMonitor {
       }
     }
 
-    toDelete.forEach(id => this.alerts.delete(id));
+    toDelete.forEach((id) => this.alerts.delete(id));
   }
 
   /**
@@ -361,7 +357,7 @@ export class HealthMonitor {
   public updateThresholds(newThresholds: Partial<HealthThresholds>): void {
     this.thresholds = {
       ...this.thresholds,
-      ...newThresholds
+      ...newThresholds,
     };
 
     this.logger.info('Health thresholds updated', { thresholds: this.thresholds });
@@ -380,7 +376,7 @@ export class HealthMonitor {
       currentHealth: this.getCurrentHealth(),
       activeAlerts: this.getActiveAlerts(),
       thresholds: this.thresholds,
-      lastCheckTime: Date.now()
+      lastCheckTime: Date.now(),
     };
   }
 }

@@ -10,7 +10,11 @@ interface ToBase64Outputs {
   base64: unknown;
 }
 
-export const DataConvertToBase64Node: NodeDefinition<ToBase64Inputs, ToBase64Outputs, ToBase64Params> = {
+export const DataConvertToBase64Node: NodeDefinition<
+  ToBase64Inputs,
+  ToBase64Outputs,
+  ToBase64Params
+> = {
   id: 'Data::ToBase64',
   category: 'Data',
   label: 'ToBase64',
@@ -19,26 +23,26 @@ export const DataConvertToBase64Node: NodeDefinition<ToBase64Inputs, ToBase64Out
     data: {
       type: 'Data',
       label: 'Data',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     base64: {
       type: 'string',
-      label: 'Base64'
-    }
+      label: 'Base64',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'convertToBase64',
       params: {
-        data: inputs.data
-      }
+        data: inputs.data,
+      },
     });
-    
+
     return {
-      base64: result
+      base64: result,
     };
   },
 };

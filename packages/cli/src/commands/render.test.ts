@@ -49,7 +49,9 @@ afterEach(async () => {
 describe('collectShapeHandles', () => {
   it('collects unique shape handles from graph outputs', () => {
     const handles = collectShapeHandles(baseGraph);
-    const ids = handles.map(handle => (typeof handle.handle === 'string' ? handle.handle : handle.handle.id));
+    const ids = handles.map((handle) =>
+      typeof handle.handle === 'string' ? handle.handle : handle.handle.id
+    );
 
     expect(ids).toEqual(['shape-1', 'shape-2', 'shape-3']);
     expect(new Set(ids).size).toBe(3);
@@ -60,12 +62,22 @@ describe('exportFormat', () => {
   it('writes STEP files for each detected shape', async () => {
     const tempDir = await createTempDir();
     const geometryAPI = {
-      invoke: vi.fn(async (operation: string, { shape }: { shape: any }) => `${operation}:${typeof shape === 'string' ? shape : shape.id}`),
+      invoke: vi.fn(
+        async (operation: string, { shape }: { shape: any }) =>
+          `${operation}:${typeof shape === 'string' ? shape : shape.id}`
+      ),
     };
 
     const shapes = collectShapeHandles(baseGraph);
     try {
-      const results = await exportFormat(baseGraph, 'step', tempDir, { hash: true }, geometryAPI, shapes);
+      const results = await exportFormat(
+        baseGraph,
+        'step',
+        tempDir,
+        { hash: true },
+        geometryAPI,
+        shapes
+      );
 
       expect(results).toHaveLength(shapes.length);
       for (const record of results) {

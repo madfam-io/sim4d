@@ -15,7 +15,11 @@ interface CollisionDetectionOutputs {
   collisionRegions: unknown;
 }
 
-export const AnalysisProximityCollisionDetectionNode: NodeDefinition<CollisionDetectionInputs, CollisionDetectionOutputs, CollisionDetectionParams> = {
+export const AnalysisProximityCollisionDetectionNode: NodeDefinition<
+  CollisionDetectionInputs,
+  CollisionDetectionOutputs,
+  CollisionDetectionParams
+> = {
   id: 'Analysis::CollisionDetection',
   type: 'Analysis::CollisionDetection',
   category: 'Analysis',
@@ -25,22 +29,22 @@ export const AnalysisProximityCollisionDetectionNode: NodeDefinition<CollisionDe
     objects: {
       type: 'Shape[]',
       label: 'Objects',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     hasCollisions: {
       type: 'boolean',
-      label: 'Has Collisions'
+      label: 'Has Collisions',
     },
     collidingPairs: {
       type: 'Shape[][]',
-      label: 'Colliding Pairs'
+      label: 'Colliding Pairs',
     },
     collisionRegions: {
       type: 'Shape[]',
-      label: 'Collision Regions'
-    }
+      label: 'Collision Regions',
+    },
   },
   params: {
     tolerance: {
@@ -48,13 +52,13 @@ export const AnalysisProximityCollisionDetectionNode: NodeDefinition<CollisionDe
       label: 'Tolerance',
       default: 0.01,
       min: 0.001,
-      max: 1
+      max: 1,
     },
     showCollisions: {
       type: 'boolean',
       label: 'Show Collisions',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -62,14 +66,14 @@ export const AnalysisProximityCollisionDetectionNode: NodeDefinition<CollisionDe
       params: {
         objects: inputs.objects,
         tolerance: params.tolerance,
-        showCollisions: params.showCollisions
-      }
+        showCollisions: params.showCollisions,
+      },
     });
-    
+
     return {
       hasCollisions: results.hasCollisions,
       collidingPairs: results.collidingPairs,
-      collisionRegions: results.collisionRegions
+      collisionRegions: results.collisionRegions,
     };
   },
 };

@@ -13,7 +13,11 @@ interface PerimeterGeneratorOutputs {
   perimeters: unknown;
 }
 
-export const Fabrication3DPrintingPerimeterGeneratorNode: NodeDefinition<PerimeterGeneratorInputs, PerimeterGeneratorOutputs, PerimeterGeneratorParams> = {
+export const Fabrication3DPrintingPerimeterGeneratorNode: NodeDefinition<
+  PerimeterGeneratorInputs,
+  PerimeterGeneratorOutputs,
+  PerimeterGeneratorParams
+> = {
   id: 'Fabrication::PerimeterGenerator',
   type: 'Fabrication::PerimeterGenerator',
   category: 'Fabrication',
@@ -23,14 +27,14 @@ export const Fabrication3DPrintingPerimeterGeneratorNode: NodeDefinition<Perimet
     slice: {
       type: 'Wire',
       label: 'Slice',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     perimeters: {
       type: 'Wire[]',
-      label: 'Perimeters'
-    }
+      label: 'Perimeters',
+    },
   },
   params: {
     perimeters: {
@@ -39,15 +43,15 @@ export const Fabrication3DPrintingPerimeterGeneratorNode: NodeDefinition<Perimet
       default: 3,
       min: 1,
       max: 10,
-      step: 1
+      step: 1,
     },
     extrusionWidth: {
       type: 'number',
       label: 'Extrusion Width',
       default: 0.4,
       min: 0.1,
-      max: 2
-    }
+      max: 2,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -55,12 +59,12 @@ export const Fabrication3DPrintingPerimeterGeneratorNode: NodeDefinition<Perimet
       params: {
         slice: inputs.slice,
         perimeters: params.perimeters,
-        extrusionWidth: params.extrusionWidth
-      }
+        extrusionWidth: params.extrusionWidth,
+      },
     });
-    
+
     return {
-      perimeters: result
+      perimeters: result,
     };
   },
 };

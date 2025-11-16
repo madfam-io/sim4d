@@ -7,6 +7,7 @@ Interactive web-based parametric CAD application with node-based visual programm
 ## Overview
 
 BrepFlow Studio is the main user interface for BrepFlow, providing:
+
 - **Node Editor**: Visual programming canvas with drag-and-drop interface
 - **3D Viewport**: Real-time geometry visualization with Three.js
 - **Inspector Panel**: Parameter editing and node configuration
@@ -17,6 +18,7 @@ BrepFlow Studio is the main user interface for BrepFlow, providing:
 ## Features
 
 ### Node Editor
+
 - **Visual Canvas**: React Flow-based node editor
 - **Node Palette**: Searchable library of CAD operations
 - **Drag & Drop**: Intuitive node placement and connection
@@ -26,6 +28,7 @@ BrepFlow Studio is the main user interface for BrepFlow, providing:
 - **Groups**: Organize nodes with collapsible groups
 
 ### 3D Viewport
+
 - **Real-time Rendering**: Immediate visual feedback
 - **Camera Controls**: Orbit, pan, zoom navigation
 - **Selection Sync**: Visual selection matches node selection
@@ -35,6 +38,7 @@ BrepFlow Studio is the main user interface for BrepFlow, providing:
 - **Measurement Tools**: Distance and angle measurement
 
 ### Parameter Editing
+
 - **Inspector Panel**: Context-sensitive parameter editor
 - **Type-specific Controls**: Sliders, inputs, dropdowns
 - **Units Support**: mm, cm, m, in, ft
@@ -43,6 +47,7 @@ BrepFlow Studio is the main user interface for BrepFlow, providing:
 - **Presets**: Save and load parameter sets
 
 ### File Operations
+
 - **Save/Load**: Local .bflow.json file handling
 - **Import**: STEP, IGES file import
 - **Export**: STEP, STL, OBJ export
@@ -102,23 +107,24 @@ open http://localhost:5173
 
 ### Keyboard Shortcuts
 
-| Action | Shortcut |
-|--------|----------|
-| New Graph | `Ctrl+N` |
-| Open File | `Ctrl+O` |
-| Save File | `Ctrl+S` |
-| Undo | `Ctrl+Z` |
-| Redo | `Ctrl+Y` / `Ctrl+Shift+Z` |
-| Copy | `Ctrl+C` |
-| Paste | `Ctrl+V` |
-| Delete | `Del` |
-| Select All | `Ctrl+A` |
-| Zoom Fit | `F` |
-| Reset Camera | `Home` |
+| Action       | Shortcut                  |
+| ------------ | ------------------------- |
+| New Graph    | `Ctrl+N`                  |
+| Open File    | `Ctrl+O`                  |
+| Save File    | `Ctrl+S`                  |
+| Undo         | `Ctrl+Z`                  |
+| Redo         | `Ctrl+Y` / `Ctrl+Shift+Z` |
+| Copy         | `Ctrl+C`                  |
+| Paste        | `Ctrl+V`                  |
+| Delete       | `Del`                     |
+| Select All   | `Ctrl+A`                  |
+| Zoom Fit     | `F`                       |
+| Reset Camera | `Home`                    |
 
 ### Node Palette
 
 Organized by category:
+
 - **Sketch**: 2D primitives (Line, Circle, Arc, Rectangle)
 - **Solid**: 3D primitives (Box, Cylinder, Sphere, Cone)
 - **Boolean**: Operations (Union, Subtract, Intersect)
@@ -129,6 +135,7 @@ Organized by category:
 ### Inspector Panel
 
 Context-sensitive parameter editing:
+
 - **Numeric**: Sliders and input fields with units
 - **Boolean**: Checkboxes for on/off options
 - **Select**: Dropdowns for predefined choices
@@ -188,12 +195,12 @@ const useUIStore = create<UIState>((set) => ({
   panels: {
     inspector: true,
     console: true,
-    palette: true
+    palette: true,
   },
 
   viewport: {
     camera: defaultCamera,
-    controls: defaultControls
+    controls: defaultControls,
   },
 
   // ... UI state
@@ -237,11 +244,11 @@ const CustomBoxNode: NodeDefinition = {
     width: NumberParam({ default: 100, min: 1 }),
     height: NumberParam({ default: 50, min: 1 }),
     depth: NumberParam({ default: 25, min: 1 }),
-    cornerRadius: NumberParam({ default: 5, min: 0 })
+    cornerRadius: NumberParam({ default: 5, min: 0 }),
   },
 
   outputs: {
-    shape: 'Shape'
+    shape: 'Shape',
   },
 
   evaluate: async (ctx, inputs, params) => {
@@ -249,20 +256,20 @@ const CustomBoxNode: NodeDefinition = {
     const box = await ctx.worker.invoke('MAKE_BOX', {
       width: params.width,
       height: params.height,
-      depth: params.depth
+      depth: params.depth,
     });
 
     // Add fillets if radius > 0
     if (params.cornerRadius > 0) {
       const filleted = await ctx.worker.invoke('MAKE_FILLET', {
         shape: box,
-        radius: params.cornerRadius
+        radius: params.cornerRadius,
       });
       return { shape: filleted };
     }
 
     return { shape: box };
-  }
+  },
 };
 
 // Register custom node
@@ -311,15 +318,14 @@ Use expressions for dynamic parameters:
 // Parameter expressions
 const nodeParams = {
   width: 100,
-  height: "width * 0.6",  // Expression
-  depth: "width / 4",     // Expression
-  radius: "min(width, height) * 0.1"
+  height: 'width * 0.6', // Expression
+  depth: 'width / 4', // Expression
+  radius: 'min(width, height) * 0.1',
 };
 
 // Expression evaluation
 const evaluateExpression = (expr: string, context: Record<string, number>) => {
-  return new Function(...Object.keys(context), `return ${expr}`)
-    (...Object.values(context));
+  return new Function(...Object.keys(context), `return ${expr}`)(...Object.values(context));
 };
 ```
 
@@ -335,7 +341,7 @@ const darkTheme: Theme = {
     surface: '#2d2d2d',
     primary: '#007acc',
     text: '#ffffff',
-    border: '#404040'
+    border: '#404040',
   },
 
   spacing: {
@@ -343,7 +349,7 @@ const darkTheme: Theme = {
     sm: 8,
     md: 16,
     lg: 24,
-    xl: 32
+    xl: 32,
   },
 
   typography: {
@@ -351,9 +357,9 @@ const darkTheme: Theme = {
     sizes: {
       small: 12,
       medium: 14,
-      large: 16
-    }
-  }
+      large: 16,
+    },
+  },
 };
 
 // Apply theme
@@ -411,7 +417,7 @@ const disposeGeometry = (shape: ShapeHandle) => {
 // LRU cache for shapes
 const shapeCache = new LRUCache<string, ShapeHandle>({
   max: 100,
-  dispose: disposeGeometry
+  dispose: disposeGeometry,
 });
 ```
 
@@ -508,7 +514,7 @@ const config = {
   wsUrl: import.meta.env.VITE_WS_URL || 'ws://localhost:3001',
   wasmPath: import.meta.env.VITE_WASM_PATH || '/wasm',
   telemetry: import.meta.env.VITE_TELEMETRY === 'true',
-  debug: import.meta.env.DEV
+  debug: import.meta.env.DEV,
 };
 ```
 
@@ -550,7 +556,7 @@ const checkSupport = () => {
     wasm: typeof WebAssembly !== 'undefined',
     sharedArrayBuffer: typeof SharedArrayBuffer !== 'undefined',
     webgl2: !!document.createElement('canvas').getContext('webgl2'),
-    fileSystem: 'showOpenFilePicker' in window
+    fileSystem: 'showOpenFilePicker' in window,
   };
 
   if (!support.wasm) {
@@ -570,21 +576,25 @@ const checkSupport = () => {
 ### Common Issues
 
 **Graph not evaluating:**
+
 - Check console for errors
 - Verify all node connections
 - Check parameter values
 
 **3D viewport not rendering:**
+
 - Check WebGL support
 - Verify WASM module loaded
 - Check browser console for errors
 
 **Performance issues:**
+
 - Reduce mesh quality
 - Close unused nodes
 - Clear cache
 
 **File export failing:**
+
 - Check export format support
 - Verify graph is valid
 - Check available disk space
@@ -596,12 +606,14 @@ const checkSupport = () => {
 const debug = {
   // Graph inspection
   inspectGraph: (graph: Graph) => {
-    console.table(graph.nodes.map(n => ({
-      id: n.id,
-      type: n.type,
-      dirty: n.dirty,
-      outputs: Object.keys(n.outputs || {})
-    })));
+    console.table(
+      graph.nodes.map((n) => ({
+        id: n.id,
+        type: n.type,
+        dirty: n.dirty,
+        outputs: Object.keys(n.outputs || {}),
+      }))
+    );
   },
 
   // Performance monitoring
@@ -617,7 +629,7 @@ const debug = {
     if ('memory' in performance) {
       console.log('Memory usage:', (performance as any).memory);
     }
-  }
+  },
 };
 ```
 

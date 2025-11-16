@@ -16,7 +16,7 @@ export interface Point2D {
 export interface Line2D {
   id: string;
   start: string; // Point ID
-  end: string;   // Point ID
+  end: string; // Point ID
 }
 
 export interface Circle2D {
@@ -34,7 +34,7 @@ export interface BaseConstraint {
   id: string;
   type: ConstraintType;
   elements: string[]; // IDs of geometry elements
-  priority: number;   // Solver priority (higher = more important)
+  priority: number; // Solver priority (higher = more important)
   enabled: boolean;
 }
 
@@ -49,7 +49,7 @@ export enum ConstraintType {
   HORIZONTAL = 'horizontal',
   VERTICAL = 'vertical',
   ANGLE = 'angle',
-  RADIUS = 'radius'
+  RADIUS = 'radius',
 }
 
 /**
@@ -122,7 +122,7 @@ export interface RadiusConstraint extends BaseConstraint {
 /**
  * Union type for all constraints
  */
-export type Constraint = 
+export type Constraint =
   | DistanceConstraint
   | CoincidentConstraint
   | ParallelConstraint

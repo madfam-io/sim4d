@@ -11,30 +11,30 @@ import type { PanelId, PanelConfig } from '../apps/studio/src/types/layout';
 // =============================================================================
 
 export type ViewportType =
-  | 'perspective'   // Free 3D navigation
-  | 'front'         // Front view (-Z axis)
-  | 'back'          // Back view (+Z axis)
-  | 'top'           // Top view (-Y axis)
-  | 'bottom'        // Bottom view (+Y axis)
-  | 'right'         // Right view (+X axis)
-  | 'left'          // Left view (-X axis)
-  | 'custom';       // User-defined view
+  | 'perspective' // Free 3D navigation
+  | 'front' // Front view (-Z axis)
+  | 'back' // Back view (+Z axis)
+  | 'top' // Top view (-Y axis)
+  | 'bottom' // Bottom view (+Y axis)
+  | 'right' // Right view (+X axis)
+  | 'left' // Left view (-X axis)
+  | 'custom'; // User-defined view
 
 export type ViewportLayout =
-  | 'single'        // Single viewport (current behavior)
-  | 'quad'          // 2x2 grid: ISO, Front, Top, Right
-  | 'horizontal'    // 1x2: Main + side view
-  | 'vertical'      // 2x1: Main + top view
-  | 'triple'        // 3-viewport: Main + 2 ortho
-  | 'custom';       // User-defined layout
+  | 'single' // Single viewport (current behavior)
+  | 'quad' // 2x2 grid: ISO, Front, Top, Right
+  | 'horizontal' // 1x2: Main + side view
+  | 'vertical' // 2x1: Main + top view
+  | 'triple' // 3-viewport: Main + 2 ortho
+  | 'custom'; // User-defined layout
 
 export type SyncMode =
-  | 'none'          // No synchronization
-  | 'rotation'      // Sync camera rotation only
-  | 'pan'           // Sync camera target/pan only
-  | 'zoom'          // Sync camera zoom/distance only
-  | 'full'          // Full camera synchronization
-  | 'selection';    // Sync selection highlighting only
+  | 'none' // No synchronization
+  | 'rotation' // Sync camera rotation only
+  | 'pan' // Sync camera target/pan only
+  | 'zoom' // Sync camera zoom/distance only
+  | 'full' // Full camera synchronization
+  | 'selection'; // Sync selection highlighting only
 
 export type RenderQuality = 'low' | 'medium' | 'high' | 'ultra';
 export type PerformanceMode = 'quality' | 'balanced' | 'performance';
@@ -654,11 +654,12 @@ export type ViewportEventMap = {
   'performance:update': { stats: ViewportStats };
   'selection:change': { event: ViewportSelectionEvent };
   'measurement:add': { event: ViewportMeasurementEvent };
-  'interaction': { event: ViewportInteractionEvent };
+  interaction: { event: ViewportInteractionEvent };
 };
 
-export type ViewportEventHandler<T extends keyof ViewportEventMap> =
-  (data: ViewportEventMap[T]) => void;
+export type ViewportEventHandler<T extends keyof ViewportEventMap> = (
+  data: ViewportEventMap[T]
+) => void;
 
 // Default configurations
 export const DEFAULT_VIEWPORT_CONFIG: Omit<ViewportConfig, 'id' | 'type' | 'position'> = {
@@ -671,7 +672,7 @@ export const DEFAULT_VIEWPORT_CONFIG: Omit<ViewportConfig, 'id' | 'type' | 'posi
     zoom: 1,
     fov: 75,
     near: 0.1,
-    far: 10000
+    far: 10000,
   },
   renderSettings: {
     quality: 'high',
@@ -683,12 +684,12 @@ export const DEFAULT_VIEWPORT_CONFIG: Omit<ViewportConfig, 'id' | 'type' | 'posi
     edges: false,
     backgroundColor: '#1e1e1e',
     antialias: true,
-    lodBias: 1.0
+    lodBias: 1.0,
   },
   active: false,
   visible: true,
   resizable: true,
-  closable: true
+  closable: true,
 };
 
 export const DEFAULT_PERFORMANCE_CONFIG: ViewportPerformanceConfig = {
@@ -702,8 +703,8 @@ export const DEFAULT_PERFORMANCE_CONFIG: ViewportPerformanceConfig = {
     low: 256,
     medium: 512,
     high: 1024,
-    ultra: 2048
+    ultra: 2048,
   },
   shadowMapSize: 1024,
-  enableStats: true
+  enableStats: true,
 };

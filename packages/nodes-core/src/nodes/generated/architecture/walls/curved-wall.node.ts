@@ -14,7 +14,11 @@ interface CurvedWallOutputs {
   wall: unknown;
 }
 
-export const ArchitectureWallsCurvedWallNode: NodeDefinition<CurvedWallInputs, CurvedWallOutputs, CurvedWallParams> = {
+export const ArchitectureWallsCurvedWallNode: NodeDefinition<
+  CurvedWallInputs,
+  CurvedWallOutputs,
+  CurvedWallParams
+> = {
   id: 'Architecture::CurvedWall',
   category: 'Architecture',
   label: 'CurvedWall',
@@ -23,14 +27,14 @@ export const ArchitectureWallsCurvedWallNode: NodeDefinition<CurvedWallInputs, C
     curve: {
       type: 'Wire',
       label: 'Curve',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     wall: {
       type: 'Shape',
-      label: 'Wall'
-    }
+      label: 'Wall',
+    },
   },
   params: {
     height: {
@@ -38,14 +42,14 @@ export const ArchitectureWallsCurvedWallNode: NodeDefinition<CurvedWallInputs, C
       label: 'Height',
       default: 3000,
       min: 100,
-      max: 10000
+      max: 10000,
     },
     thickness: {
       type: 'number',
       label: 'Thickness',
       default: 200,
       min: 50,
-      max: 500
+      max: 500,
     },
     segments: {
       type: 'number',
@@ -53,8 +57,8 @@ export const ArchitectureWallsCurvedWallNode: NodeDefinition<CurvedWallInputs, C
       default: 10,
       min: 3,
       max: 50,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -63,12 +67,12 @@ export const ArchitectureWallsCurvedWallNode: NodeDefinition<CurvedWallInputs, C
         curve: inputs.curve,
         height: params.height,
         thickness: params.thickness,
-        segments: params.segments
-      }
+        segments: params.segments,
+      },
     });
-    
+
     return {
-      wall: result
+      wall: result,
     };
   },
 };

@@ -18,7 +18,11 @@ interface KMeansClusteringOutputs {
   inertia: unknown;
 }
 
-export const AlgorithmicMachineLearningKMeansClusteringNode: NodeDefinition<KMeansClusteringInputs, KMeansClusteringOutputs, KMeansClusteringParams> = {
+export const AlgorithmicMachineLearningKMeansClusteringNode: NodeDefinition<
+  KMeansClusteringInputs,
+  KMeansClusteringOutputs,
+  KMeansClusteringParams
+> = {
   id: 'Algorithmic::KMeansClustering',
   type: 'Algorithmic::KMeansClustering',
   category: 'Algorithmic',
@@ -28,26 +32,26 @@ export const AlgorithmicMachineLearningKMeansClusteringNode: NodeDefinition<KMea
     data: {
       type: 'Point[]',
       label: 'Data',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     centroids: {
       type: 'Point[]',
-      label: 'Centroids'
+      label: 'Centroids',
     },
     labels: {
       type: 'number[]',
-      label: 'Labels'
+      label: 'Labels',
     },
     clusters: {
       type: 'Point[][]',
-      label: 'Clusters'
+      label: 'Clusters',
     },
     inertia: {
       type: 'number',
-      label: 'Inertia'
-    }
+      label: 'Inertia',
+    },
   },
   params: {
     clusters: {
@@ -55,29 +59,29 @@ export const AlgorithmicMachineLearningKMeansClusteringNode: NodeDefinition<KMea
       label: 'Clusters',
       default: 3,
       min: 2,
-      max: 20
+      max: 20,
     },
     maxIterations: {
       type: 'number',
       label: 'Max Iterations',
       default: 100,
       min: 10,
-      max: 1000
+      max: 1000,
     },
     tolerance: {
       type: 'number',
       label: 'Tolerance',
       default: 0.001,
       min: 0.000001,
-      max: 0.1
+      max: 0.1,
     },
     randomSeed: {
       type: 'number',
       label: 'Random Seed',
       default: 42,
       min: 0,
-      max: 1000
-    }
+      max: 1000,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -87,15 +91,15 @@ export const AlgorithmicMachineLearningKMeansClusteringNode: NodeDefinition<KMea
         clusters: params.clusters,
         maxIterations: params.maxIterations,
         tolerance: params.tolerance,
-        randomSeed: params.randomSeed
-      }
+        randomSeed: params.randomSeed,
+      },
     });
-    
+
     return {
       centroids: results.centroids,
       labels: results.labels,
       clusters: results.clusters,
-      inertia: results.inertia
+      inertia: results.inertia,
     };
   },
 };

@@ -11,7 +11,11 @@ interface FromJSONOutputs {
   isValid: unknown;
 }
 
-export const DataConvertFromJSONNode: NodeDefinition<FromJSONInputs, FromJSONOutputs, FromJSONParams> = {
+export const DataConvertFromJSONNode: NodeDefinition<
+  FromJSONInputs,
+  FromJSONOutputs,
+  FromJSONParams
+> = {
   id: 'Data::FromJSON',
   category: 'Data',
   label: 'FromJSON',
@@ -20,31 +24,31 @@ export const DataConvertFromJSONNode: NodeDefinition<FromJSONInputs, FromJSONOut
     json: {
       type: 'string',
       label: 'Json',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     data: {
       type: 'Data',
-      label: 'Data'
+      label: 'Data',
     },
     isValid: {
       type: 'boolean',
-      label: 'Is Valid'
-    }
+      label: 'Is Valid',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
       type: 'convertFromJSON',
       params: {
-        json: inputs.json
-      }
+        json: inputs.json,
+      },
     });
-    
+
     return {
       data: results.data,
-      isValid: results.isValid
+      isValid: results.isValid,
     };
   },
 };

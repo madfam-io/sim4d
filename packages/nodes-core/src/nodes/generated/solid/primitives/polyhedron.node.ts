@@ -11,7 +11,11 @@ interface PolyhedronOutputs {
   solid: unknown;
 }
 
-export const SolidPrimitivesPolyhedronNode: NodeDefinition<PolyhedronInputs, PolyhedronOutputs, PolyhedronParams> = {
+export const SolidPrimitivesPolyhedronNode: NodeDefinition<
+  PolyhedronInputs,
+  PolyhedronOutputs,
+  PolyhedronParams
+> = {
   id: 'Solid::Polyhedron',
   category: 'Solid',
   label: 'Polyhedron',
@@ -20,35 +24,35 @@ export const SolidPrimitivesPolyhedronNode: NodeDefinition<PolyhedronInputs, Pol
   outputs: {
     solid: {
       type: 'Solid',
-      label: 'Solid'
-    }
+      label: 'Solid',
+    },
   },
   params: {
     type: {
       type: 'enum',
       label: 'Type',
-      default: "octahedron",
-      options: ["tetrahedron","octahedron","dodecahedron","icosahedron"]
+      default: 'octahedron',
+      options: ['tetrahedron', 'octahedron', 'dodecahedron', 'icosahedron'],
     },
     size: {
       type: 'number',
       label: 'Size',
       default: 50,
       min: 0.1,
-      max: 10000
-    }
+      max: 10000,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'makePolyhedron',
       params: {
         type: params.type,
-        size: params.size
-      }
+        size: params.size,
+      },
     });
-    
+
     return {
-      solid: result
+      solid: result,
     };
   },
 };

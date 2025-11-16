@@ -16,7 +16,11 @@ interface ExcelReaderOutputs {
   dimensions: unknown;
 }
 
-export const InteroperabilityDataExcelReaderNode: NodeDefinition<ExcelReaderInputs, ExcelReaderOutputs, ExcelReaderParams> = {
+export const InteroperabilityDataExcelReaderNode: NodeDefinition<
+  ExcelReaderInputs,
+  ExcelReaderOutputs,
+  ExcelReaderParams
+> = {
   id: 'Interoperability::ExcelReader',
   type: 'Interoperability::ExcelReader',
   category: 'Interoperability',
@@ -26,39 +30,39 @@ export const InteroperabilityDataExcelReaderNode: NodeDefinition<ExcelReaderInpu
     filePath: {
       type: 'string',
       label: 'File Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     data: {
       type: 'Properties[]',
-      label: 'Data'
+      label: 'Data',
     },
     sheetNames: {
       type: 'string[]',
-      label: 'Sheet Names'
+      label: 'Sheet Names',
     },
     dimensions: {
       type: 'number[]',
-      label: 'Dimensions'
-    }
+      label: 'Dimensions',
+    },
   },
   params: {
     sheetName: {
       type: 'string',
       label: 'Sheet Name',
-      default: ""
+      default: '',
     },
     hasHeader: {
       type: 'boolean',
       label: 'Has Header',
-      default: true
+      default: true,
     },
     range: {
       type: 'string',
       label: 'Range',
-      default: ""
-    }
+      default: '',
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -67,14 +71,14 @@ export const InteroperabilityDataExcelReaderNode: NodeDefinition<ExcelReaderInpu
         filePath: inputs.filePath,
         sheetName: params.sheetName,
         hasHeader: params.hasHeader,
-        range: params.range
-      }
+        range: params.range,
+      },
     });
-    
+
     return {
       data: results.data,
       sheetNames: results.sheetNames,
-      dimensions: results.dimensions
+      dimensions: results.dimensions,
     };
   },
 };

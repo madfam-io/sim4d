@@ -1,6 +1,7 @@
 # BrepFlow Suggested Commands
 
 ## Essential Development Commands
+
 ```bash
 # Setup (one-time)
 pnpm i                              # Install all dependencies
@@ -36,6 +37,7 @@ pnpm run clean                      # Clean all build artifacts
 ```
 
 ## Package-Specific Commands
+
 ```bash
 # Work with specific packages
 pnpm --filter @brepflow/studio run dev
@@ -44,6 +46,7 @@ pnpm --filter @brepflow/cli run test
 ```
 
 ## macOS-Specific Commands
+
 ```bash
 # Standard Unix tools work on macOS
 ls, cd, grep, find, git            # Standard commands

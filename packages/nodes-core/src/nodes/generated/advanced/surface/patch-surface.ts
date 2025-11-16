@@ -14,7 +14,11 @@ interface PatchSurfaceOutputs {
   patch: unknown;
 }
 
-export const AdvancedSurfacePatchSurfaceNode: NodeDefinition<PatchSurfaceInputs, PatchSurfaceOutputs, PatchSurfaceParams> = {
+export const AdvancedSurfacePatchSurfaceNode: NodeDefinition<
+  PatchSurfaceInputs,
+  PatchSurfaceOutputs,
+  PatchSurfaceParams
+> = {
   id: 'Advanced::PatchSurface',
   type: 'Advanced::PatchSurface',
   category: 'Advanced',
@@ -24,33 +28,33 @@ export const AdvancedSurfacePatchSurfaceNode: NodeDefinition<PatchSurfaceInputs,
     boundaryEdges: {
       type: 'Edge[]',
       label: 'Boundary Edges',
-      required: true
+      required: true,
     },
     guideWires: {
       type: 'Wire[]',
       label: 'Guide Wires',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     patch: {
       type: 'Face',
-      label: 'Patch'
-    }
+      label: 'Patch',
+    },
   },
   params: {
     continuity: {
       type: 'enum',
       label: 'Continuity',
-      default: "G1",
-      options: ["G0","G1","G2"]
+      default: 'G1',
+      options: ['G0', 'G1', 'G2'],
     },
     constraintType: {
       type: 'enum',
       label: 'Constraint Type',
-      default: "tangent",
-      options: ["none","tangent","curvature"]
-    }
+      default: 'tangent',
+      options: ['none', 'tangent', 'curvature'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -59,12 +63,12 @@ export const AdvancedSurfacePatchSurfaceNode: NodeDefinition<PatchSurfaceInputs,
         boundaryEdges: inputs.boundaryEdges,
         guideWires: inputs.guideWires,
         continuity: params.continuity,
-        constraintType: params.constraintType
-      }
+        constraintType: params.constraintType,
+      },
     });
-    
+
     return {
-      patch: result
+      patch: result,
     };
   },
 };

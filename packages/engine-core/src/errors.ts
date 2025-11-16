@@ -46,15 +46,17 @@ export class GeometryEvaluationError extends Error {
       return error;
     }
 
-    const message = error instanceof Error
-      ? error.message
-      : typeof error === 'string'
-        ? error
-        : 'Unknown geometry evaluation failure';
+    const message =
+      error instanceof Error
+        ? error.message
+        : typeof error === 'string'
+          ? error
+          : 'Unknown geometry evaluation failure';
 
-    const code = error && typeof error === 'object' && 'code' in error
-      ? String((error as { code?: unknown }).code)
-      : undefined;
+    const code =
+      error && typeof error === 'object' && 'code' in error
+        ? String((error as { code?: unknown }).code)
+        : undefined;
 
     return new GeometryEvaluationError(message, {
       ...context,
@@ -78,4 +80,3 @@ export class GeometryEvaluationError extends Error {
     };
   }
 }
-

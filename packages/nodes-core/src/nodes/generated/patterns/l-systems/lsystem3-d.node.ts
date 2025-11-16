@@ -15,7 +15,11 @@ interface LSystem3DOutputs {
   branches: unknown;
 }
 
-export const PatternsLSystemsLSystem3DNode: NodeDefinition<LSystem3DInputs, LSystem3DOutputs, LSystem3DParams> = {
+export const PatternsLSystemsLSystem3DNode: NodeDefinition<
+  LSystem3DInputs,
+  LSystem3DOutputs,
+  LSystem3DParams
+> = {
   id: 'Patterns::LSystem3D',
   category: 'Patterns',
   label: 'LSystem3D',
@@ -24,32 +28,32 @@ export const PatternsLSystemsLSystem3DNode: NodeDefinition<LSystem3DInputs, LSys
     startPoint: {
       type: 'Point',
       label: 'Start Point',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     branches: {
       type: 'Wire[]',
-      label: 'Branches'
-    }
+      label: 'Branches',
+    },
   },
   params: {
     axiom: {
       type: 'string',
       label: 'Axiom',
-      default: "F"
+      default: 'F',
     },
     rules: {
       type: 'string',
       label: 'Rules',
-      default: "F=F[+F]F[-F]F"
+      default: 'F=F[+F]F[-F]F',
     },
     angle: {
       type: 'number',
       label: 'Angle',
       default: 25,
       min: 0,
-      max: 360
+      max: 360,
     },
     iterations: {
       type: 'number',
@@ -57,8 +61,8 @@ export const PatternsLSystemsLSystem3DNode: NodeDefinition<LSystem3DInputs, LSys
       default: 4,
       min: 1,
       max: 8,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -68,12 +72,12 @@ export const PatternsLSystemsLSystem3DNode: NodeDefinition<LSystem3DInputs, LSys
         axiom: params.axiom,
         rules: params.rules,
         angle: params.angle,
-        iterations: params.iterations
-      }
+        iterations: params.iterations,
+      },
     });
-    
+
     return {
-      branches: result
+      branches: result,
     };
   },
 };

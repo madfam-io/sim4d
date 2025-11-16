@@ -12,7 +12,11 @@ interface GordonSurfaceOutputs {
   surface: unknown;
 }
 
-export const SurfaceNURBSGordonSurfaceNode: NodeDefinition<GordonSurfaceInputs, GordonSurfaceOutputs, GordonSurfaceParams> = {
+export const SurfaceNURBSGordonSurfaceNode: NodeDefinition<
+  GordonSurfaceInputs,
+  GordonSurfaceOutputs,
+  GordonSurfaceParams
+> = {
   id: 'Surface::GordonSurface',
   category: 'Surface',
   label: 'GordonSurface',
@@ -21,24 +25,24 @@ export const SurfaceNURBSGordonSurfaceNode: NodeDefinition<GordonSurfaceInputs, 
     uCurves: {
       type: 'Wire[]',
       label: 'U Curves',
-      required: true
+      required: true,
     },
     vCurves: {
       type: 'Wire[]',
       label: 'V Curves',
-      required: true
+      required: true,
     },
     points: {
       type: 'Point[][]',
       label: 'Points',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     surface: {
       type: 'Face',
-      label: 'Surface'
-    }
+      label: 'Surface',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -47,12 +51,12 @@ export const SurfaceNURBSGordonSurfaceNode: NodeDefinition<GordonSurfaceInputs, 
       params: {
         uCurves: inputs.uCurves,
         vCurves: inputs.vCurves,
-        points: inputs.points
-      }
+        points: inputs.points,
+      },
     });
-    
+
     return {
-      surface: result
+      surface: result,
     };
   },
 };

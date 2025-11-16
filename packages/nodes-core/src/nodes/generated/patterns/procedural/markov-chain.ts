@@ -15,7 +15,11 @@ interface MarkovChainOutputs {
   pattern: unknown;
 }
 
-export const PatternsProceduralMarkovChainNode: NodeDefinition<MarkovChainInputs, MarkovChainOutputs, MarkovChainParams> = {
+export const PatternsProceduralMarkovChainNode: NodeDefinition<
+  MarkovChainInputs,
+  MarkovChainOutputs,
+  MarkovChainParams
+> = {
   id: 'Patterns::MarkovChain',
   type: 'Patterns::MarkovChain',
   category: 'Patterns',
@@ -25,18 +29,18 @@ export const PatternsProceduralMarkovChainNode: NodeDefinition<MarkovChainInputs
     transitionMatrix: {
       type: 'Data',
       label: 'Transition Matrix',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     sequence: {
       type: 'Number[]',
-      label: 'Sequence'
+      label: 'Sequence',
     },
     pattern: {
       type: 'Wire',
-      label: 'Pattern'
-    }
+      label: 'Pattern',
+    },
   },
   params: {
     states: {
@@ -45,7 +49,7 @@ export const PatternsProceduralMarkovChainNode: NodeDefinition<MarkovChainInputs
       default: 5,
       min: 2,
       max: 10,
-      step: 1
+      step: 1,
     },
     steps: {
       type: 'number',
@@ -53,15 +57,15 @@ export const PatternsProceduralMarkovChainNode: NodeDefinition<MarkovChainInputs
       default: 100,
       min: 10,
       max: 1000,
-      step: 10
+      step: 10,
     },
     seed: {
       type: 'number',
       label: 'Seed',
       default: 0,
       min: 0,
-      max: 999999
-    }
+      max: 999999,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -70,13 +74,13 @@ export const PatternsProceduralMarkovChainNode: NodeDefinition<MarkovChainInputs
         transitionMatrix: inputs.transitionMatrix,
         states: params.states,
         steps: params.steps,
-        seed: params.seed
-      }
+        seed: params.seed,
+      },
     });
-    
+
     return {
       sequence: results.sequence,
-      pattern: results.pattern
+      pattern: results.pattern,
     };
   },
 };

@@ -14,7 +14,11 @@ interface DecimateMeshOutputs {
   decimated: unknown;
 }
 
-export const MeshRepairDecimateMeshNode: NodeDefinition<DecimateMeshInputs, DecimateMeshOutputs, DecimateMeshParams> = {
+export const MeshRepairDecimateMeshNode: NodeDefinition<
+  DecimateMeshInputs,
+  DecimateMeshOutputs,
+  DecimateMeshParams
+> = {
   id: 'Mesh::DecimateMesh',
   type: 'Mesh::DecimateMesh',
   category: 'Mesh',
@@ -24,14 +28,14 @@ export const MeshRepairDecimateMeshNode: NodeDefinition<DecimateMeshInputs, Deci
     mesh: {
       type: 'Mesh',
       label: 'Mesh',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     decimated: {
       type: 'Mesh',
-      label: 'Decimated'
-    }
+      label: 'Decimated',
+    },
   },
   params: {
     targetTriangles: {
@@ -40,20 +44,20 @@ export const MeshRepairDecimateMeshNode: NodeDefinition<DecimateMeshInputs, Deci
       default: 1000,
       min: 10,
       max: 1000000,
-      step: 100
+      step: 100,
     },
     preserveFeatures: {
       type: 'boolean',
       label: 'Preserve Features',
-      default: true
+      default: true,
     },
     featureAngle: {
       type: 'number',
       label: 'Feature Angle',
       default: 30,
       min: 0,
-      max: 180
-    }
+      max: 180,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -62,12 +66,12 @@ export const MeshRepairDecimateMeshNode: NodeDefinition<DecimateMeshInputs, Deci
         mesh: inputs.mesh,
         targetTriangles: params.targetTriangles,
         preserveFeatures: params.preserveFeatures,
-        featureAngle: params.featureAngle
-      }
+        featureAngle: params.featureAngle,
+      },
     });
-    
+
     return {
-      decimated: result
+      decimated: result,
     };
   },
 };

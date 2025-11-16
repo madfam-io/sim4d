@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { PulleySystemNode } from './pulleysystem.node';
 import { createTestContext } from './../../test-utils';
@@ -8,13 +7,13 @@ describe('PulleySystemNode', () => {
     const context = createTestContext();
     const inputs = {
       driveCenter: null,
-      drivenCenter: null
+      drivenCenter: null,
     };
     const params = {
       driveDiameter: 100,
       drivenDiameter: 200,
       beltWidth: 20,
-      centerDistance: 300
+      centerDistance: 300,
     };
 
     const result = await PulleySystemNode.evaluate(context, inputs, params);
@@ -24,6 +23,4 @@ describe('PulleySystemNode', () => {
     expect(result.pulleys).toBeDefined();
     expect(result.belt).toBeDefined();
   });
-
-  
 });

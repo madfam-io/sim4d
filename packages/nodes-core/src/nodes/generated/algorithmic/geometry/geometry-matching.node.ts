@@ -18,7 +18,11 @@ interface GeometryMatchingOutputs {
   correspondences: unknown;
 }
 
-export const AlgorithmicGeometryGeometryMatchingNode: NodeDefinition<GeometryMatchingInputs, GeometryMatchingOutputs, GeometryMatchingParams> = {
+export const AlgorithmicGeometryGeometryMatchingNode: NodeDefinition<
+  GeometryMatchingInputs,
+  GeometryMatchingOutputs,
+  GeometryMatchingParams
+> = {
   id: 'Algorithmic::GeometryMatching',
   category: 'Algorithmic',
   label: 'GeometryMatching',
@@ -27,53 +31,53 @@ export const AlgorithmicGeometryGeometryMatchingNode: NodeDefinition<GeometryMat
     source: {
       type: 'Shape',
       label: 'Source',
-      required: true
+      required: true,
     },
     target: {
       type: 'Shape',
       label: 'Target',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     transform: {
       type: 'Properties',
-      label: 'Transform'
+      label: 'Transform',
     },
     aligned: {
       type: 'Shape',
-      label: 'Aligned'
+      label: 'Aligned',
     },
     error: {
       type: 'number',
-      label: 'Error'
+      label: 'Error',
     },
     correspondences: {
       type: 'Properties[]',
-      label: 'Correspondences'
-    }
+      label: 'Correspondences',
+    },
   },
   params: {
     algorithm: {
       type: 'enum',
       label: 'Algorithm',
-      default: "icp",
-      options: ["icp","feature","global"]
+      default: 'icp',
+      options: ['icp', 'feature', 'global'],
     },
     tolerance: {
       type: 'number',
       label: 'Tolerance',
       default: 0.01,
       min: 0.001,
-      max: 1
+      max: 1,
     },
     iterations: {
       type: 'number',
       label: 'Iterations',
       default: 50,
       min: 10,
-      max: 500
-    }
+      max: 500,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -83,15 +87,15 @@ export const AlgorithmicGeometryGeometryMatchingNode: NodeDefinition<GeometryMat
         target: inputs.target,
         algorithm: params.algorithm,
         tolerance: params.tolerance,
-        iterations: params.iterations
-      }
+        iterations: params.iterations,
+      },
     });
-    
+
     return {
       transform: results.transform,
       aligned: results.aligned,
       error: results.error,
-      correspondences: results.correspondences
+      correspondences: results.correspondences,
     };
   },
 };

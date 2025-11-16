@@ -13,7 +13,11 @@ interface RandomRangeOutputs {
   value: unknown;
 }
 
-export const MathRandomRandomRangeNode: NodeDefinition<RandomRangeInputs, RandomRangeOutputs, RandomRangeParams> = {
+export const MathRandomRandomRangeNode: NodeDefinition<
+  RandomRangeInputs,
+  RandomRangeOutputs,
+  RandomRangeParams
+> = {
   id: 'Math::RandomRange',
   category: 'Math',
   label: 'RandomRange',
@@ -22,19 +26,19 @@ export const MathRandomRandomRangeNode: NodeDefinition<RandomRangeInputs, Random
     min: {
       type: 'number',
       label: 'Min',
-      required: true
+      required: true,
     },
     max: {
       type: 'number',
       label: 'Max',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     value: {
       type: 'number',
-      label: 'Value'
-    }
+      label: 'Value',
+    },
   },
   params: {
     seed: {
@@ -42,8 +46,8 @@ export const MathRandomRandomRangeNode: NodeDefinition<RandomRangeInputs, Random
       label: 'Seed',
       default: -1,
       min: -1,
-      max: 999999
-    }
+      max: 999999,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -51,12 +55,12 @@ export const MathRandomRandomRangeNode: NodeDefinition<RandomRangeInputs, Random
       params: {
         min: inputs.min,
         max: inputs.max,
-        seed: params.seed
-      }
+        seed: params.seed,
+      },
     });
-    
+
     return {
-      value: result
+      value: result,
     };
   },
 };

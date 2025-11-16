@@ -14,7 +14,11 @@ interface FractalGeometryOutputs {
   fractal: unknown;
 }
 
-export const SpecializedOrganicFractalGeometryNode: NodeDefinition<FractalGeometryInputs, FractalGeometryOutputs, FractalGeometryParams> = {
+export const SpecializedOrganicFractalGeometryNode: NodeDefinition<
+  FractalGeometryInputs,
+  FractalGeometryOutputs,
+  FractalGeometryParams
+> = {
   id: 'Specialized::FractalGeometry',
   type: 'Specialized::FractalGeometry',
   category: 'Specialized',
@@ -24,21 +28,21 @@ export const SpecializedOrganicFractalGeometryNode: NodeDefinition<FractalGeomet
     seed: {
       type: 'Shape',
       label: 'Seed',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     fractal: {
       type: 'Shape',
-      label: 'Fractal'
-    }
+      label: 'Fractal',
+    },
   },
   params: {
     type: {
       type: 'enum',
       label: 'Type',
-      default: "koch",
-      options: ["koch","sierpinski","menger","julia"]
+      default: 'koch',
+      options: ['koch', 'sierpinski', 'menger', 'julia'],
     },
     iterations: {
       type: 'number',
@@ -46,15 +50,15 @@ export const SpecializedOrganicFractalGeometryNode: NodeDefinition<FractalGeomet
       default: 3,
       min: 1,
       max: 7,
-      step: 1
+      step: 1,
     },
     scale: {
       type: 'number',
       label: 'Scale',
       default: 100,
       min: 1,
-      max: 1000
-    }
+      max: 1000,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -63,12 +67,12 @@ export const SpecializedOrganicFractalGeometryNode: NodeDefinition<FractalGeomet
         seed: inputs.seed,
         type: params.type,
         iterations: params.iterations,
-        scale: params.scale
-      }
+        scale: params.scale,
+      },
     });
-    
+
     return {
-      fractal: result
+      fractal: result,
     };
   },
 };

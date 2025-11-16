@@ -12,7 +12,11 @@ interface ListShuffleOutputs {
   shuffled: unknown;
 }
 
-export const DataListListShuffleNode: NodeDefinition<ListShuffleInputs, ListShuffleOutputs, ListShuffleParams> = {
+export const DataListListShuffleNode: NodeDefinition<
+  ListShuffleInputs,
+  ListShuffleOutputs,
+  ListShuffleParams
+> = {
   id: 'Data::ListShuffle',
   category: 'Data',
   label: 'ListShuffle',
@@ -21,33 +25,33 @@ export const DataListListShuffleNode: NodeDefinition<ListShuffleInputs, ListShuf
     list: {
       type: 'Data[]',
       label: 'List',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shuffled: {
       type: 'Data[]',
-      label: 'Shuffled'
-    }
+      label: 'Shuffled',
+    },
   },
   params: {
     seed: {
       type: 'number',
       label: 'Seed',
-      default: -1
-    }
+      default: -1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'listShuffle',
       params: {
         list: inputs.list,
-        seed: params.seed
-      }
+        seed: params.seed,
+      },
     });
-    
+
     return {
-      shuffled: result
+      shuffled: result,
     };
   },
 };

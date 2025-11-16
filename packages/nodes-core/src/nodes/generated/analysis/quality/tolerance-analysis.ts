@@ -16,7 +16,11 @@ interface ToleranceAnalysisOutputs {
   deviationMap: unknown;
 }
 
-export const AnalysisQualityToleranceAnalysisNode: NodeDefinition<ToleranceAnalysisInputs, ToleranceAnalysisOutputs, ToleranceAnalysisParams> = {
+export const AnalysisQualityToleranceAnalysisNode: NodeDefinition<
+  ToleranceAnalysisInputs,
+  ToleranceAnalysisOutputs,
+  ToleranceAnalysisParams
+> = {
   id: 'Analysis::ToleranceAnalysis',
   type: 'Analysis::ToleranceAnalysis',
   category: 'Analysis',
@@ -26,27 +30,27 @@ export const AnalysisQualityToleranceAnalysisNode: NodeDefinition<ToleranceAnaly
     measured: {
       type: 'Shape',
       label: 'Measured',
-      required: true
+      required: true,
     },
     nominal: {
       type: 'Shape',
       label: 'Nominal',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     withinTolerance: {
       type: 'boolean',
-      label: 'Within Tolerance'
+      label: 'Within Tolerance',
     },
     maxDeviation: {
       type: 'number',
-      label: 'Max Deviation'
+      label: 'Max Deviation',
     },
     deviationMap: {
       type: 'Shape',
-      label: 'Deviation Map'
-    }
+      label: 'Deviation Map',
+    },
   },
   params: {
     nominalTolerance: {
@@ -54,13 +58,13 @@ export const AnalysisQualityToleranceAnalysisNode: NodeDefinition<ToleranceAnaly
       label: 'Nominal Tolerance',
       default: 0.1,
       min: 0.001,
-      max: 10
+      max: 10,
     },
     showDeviations: {
       type: 'boolean',
       label: 'Show Deviations',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -69,14 +73,14 @@ export const AnalysisQualityToleranceAnalysisNode: NodeDefinition<ToleranceAnaly
         measured: inputs.measured,
         nominal: inputs.nominal,
         nominalTolerance: params.nominalTolerance,
-        showDeviations: params.showDeviations
-      }
+        showDeviations: params.showDeviations,
+      },
     });
-    
+
     return {
       withinTolerance: results.withinTolerance,
       maxDeviation: results.maxDeviation,
-      deviationMap: results.deviationMap
+      deviationMap: results.deviationMap,
     };
   },
 };

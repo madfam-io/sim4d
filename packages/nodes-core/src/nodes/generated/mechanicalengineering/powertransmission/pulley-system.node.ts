@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -17,7 +16,11 @@ interface Outputs {
   belt: Shape;
 }
 
-export const PulleySystemNode: NodeDefinition<PulleySystemInputs, PulleySystemOutputs, PulleySystemParams> = {
+export const PulleySystemNode: NodeDefinition<
+  PulleySystemInputs,
+  PulleySystemOutputs,
+  PulleySystemParams
+> = {
   type: 'MechanicalEngineering::PulleySystem',
   category: 'MechanicalEngineering',
   subcategory: 'PowerTransmission',
@@ -25,46 +28,43 @@ export const PulleySystemNode: NodeDefinition<PulleySystemInputs, PulleySystemOu
   metadata: {
     label: 'PulleySystem',
     description: 'Create pulley system',
-    
-    
   },
 
   params: {
-        driveDiameter: {
-      "default": 100,
-      "min": 20,
-      "max": 500
+    driveDiameter: {
+      default: 100,
+      min: 20,
+      max: 500,
     },
     drivenDiameter: {
-      "default": 200,
-      "min": 20,
-      "max": 500
+      default: 200,
+      min: 20,
+      max: 500,
     },
     beltWidth: {
-      "default": 20,
-      "min": 5,
-      "max": 100
+      default: 20,
+      min: 5,
+      max: 100,
     },
     centerDistance: {
-      "default": 300,
-      "min": 100,
-      "max": 1000
-    }
+      default: 300,
+      min: 100,
+      max: 1000,
+    },
   },
 
   inputs: {
-        driveCenter: 'Point',
-    drivenCenter: 'Point'
+    driveCenter: 'Point',
+    drivenCenter: 'Point',
   },
 
   outputs: {
-        system: 'Shape',
+    system: 'Shape',
     pulleys: 'Shape[]',
-    belt: 'Shape'
+    belt: 'Shape',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'pulleySystem',
       params: {
@@ -73,14 +73,14 @@ export const PulleySystemNode: NodeDefinition<PulleySystemInputs, PulleySystemOu
         driveDiameter: params.driveDiameter,
         drivenDiameter: params.drivenDiameter,
         beltWidth: params.beltWidth,
-        centerDistance: params.centerDistance
-      }
+        centerDistance: params.centerDistance,
+      },
     });
 
     return {
       system: result,
       pulleys: result,
-      belt: result
+      belt: result,
     };
-  }
+  },
 };

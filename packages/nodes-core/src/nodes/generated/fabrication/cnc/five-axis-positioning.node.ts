@@ -14,7 +14,11 @@ interface FiveAxisPositioningOutputs {
   toolOrientations: unknown;
 }
 
-export const FabricationCNCFiveAxisPositioningNode: NodeDefinition<FiveAxisPositioningInputs, FiveAxisPositioningOutputs, FiveAxisPositioningParams> = {
+export const FabricationCNCFiveAxisPositioningNode: NodeDefinition<
+  FiveAxisPositioningInputs,
+  FiveAxisPositioningOutputs,
+  FiveAxisPositioningParams
+> = {
   id: 'Fabrication::FiveAxisPositioning',
   category: 'Fabrication',
   label: 'FiveAxisPositioning',
@@ -23,19 +27,19 @@ export const FabricationCNCFiveAxisPositioningNode: NodeDefinition<FiveAxisPosit
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
+      required: true,
     },
     toolAxis: {
       type: 'Vector',
       label: 'Tool Axis',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     toolOrientations: {
       type: 'Transform[]',
-      label: 'Tool Orientations'
-    }
+      label: 'Tool Orientations',
+    },
   },
   params: {
     leadAngle: {
@@ -43,15 +47,15 @@ export const FabricationCNCFiveAxisPositioningNode: NodeDefinition<FiveAxisPosit
       label: 'Lead Angle',
       default: 10,
       min: 0,
-      max: 45
+      max: 45,
     },
     tiltAngle: {
       type: 'number',
       label: 'Tilt Angle',
       default: 0,
       min: -90,
-      max: 90
-    }
+      max: 90,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -60,12 +64,12 @@ export const FabricationCNCFiveAxisPositioningNode: NodeDefinition<FiveAxisPosit
         surface: inputs.surface,
         toolAxis: inputs.toolAxis,
         leadAngle: params.leadAngle,
-        tiltAngle: params.tiltAngle
-      }
+        tiltAngle: params.tiltAngle,
+      },
     });
-    
+
     return {
-      toolOrientations: result
+      toolOrientations: result,
     };
   },
 };

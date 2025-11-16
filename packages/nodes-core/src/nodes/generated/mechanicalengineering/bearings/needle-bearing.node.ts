@@ -16,7 +16,11 @@ interface NeedleBearingOutputs {
   needles: unknown;
 }
 
-export const MechanicalEngineeringBearingsNeedleBearingNode: NodeDefinition<NeedleBearingInputs, NeedleBearingOutputs, NeedleBearingParams> = {
+export const MechanicalEngineeringBearingsNeedleBearingNode: NodeDefinition<
+  NeedleBearingInputs,
+  NeedleBearingOutputs,
+  NeedleBearingParams
+> = {
   id: 'MechanicalEngineering::NeedleBearing',
   category: 'MechanicalEngineering',
   label: 'NeedleBearing',
@@ -25,18 +29,18 @@ export const MechanicalEngineeringBearingsNeedleBearingNode: NodeDefinition<Need
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     bearing: {
       type: 'Shape',
-      label: 'Bearing'
+      label: 'Bearing',
     },
     needles: {
       type: 'Shape[]',
-      label: 'Needles'
-    }
+      label: 'Needles',
+    },
   },
   params: {
     innerDiameter: {
@@ -44,29 +48,29 @@ export const MechanicalEngineeringBearingsNeedleBearingNode: NodeDefinition<Need
       label: 'Inner Diameter',
       default: 15,
       min: 5,
-      max: 100
+      max: 100,
     },
     outerDiameter: {
       type: 'number',
       label: 'Outer Diameter',
       default: 21,
       min: 10,
-      max: 150
+      max: 150,
     },
     width: {
       type: 'number',
       label: 'Width',
       default: 12,
       min: 5,
-      max: 50
+      max: 50,
     },
     needleCount: {
       type: 'number',
       label: 'Needle Count',
       default: 20,
       min: 10,
-      max: 50
-    }
+      max: 50,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -76,13 +80,13 @@ export const MechanicalEngineeringBearingsNeedleBearingNode: NodeDefinition<Need
         innerDiameter: params.innerDiameter,
         outerDiameter: params.outerDiameter,
         width: params.width,
-        needleCount: params.needleCount
-      }
+        needleCount: params.needleCount,
+      },
     });
-    
+
     return {
       bearing: results.bearing,
-      needles: results.needles
+      needles: results.needles,
     };
   },
 };

@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { AlgorithmicGeometryGeometryMatchingNode } from './geometry-matching.node';
 import { createTestContext } from '../test-utils';
@@ -8,12 +7,12 @@ describe('AlgorithmicGeometryGeometryMatchingNode', () => {
     const context = createTestContext();
     const inputs = {
       source: undefined,
-      target: undefined
+      target: undefined,
     } as any;
     const params = {
-      algorithm: "icp",
+      algorithm: 'icp',
       tolerance: 0.01,
-      iterations: 50
+      iterations: 50,
     } as any;
 
     const result = await AlgorithmicGeometryGeometryMatchingNode.evaluate(context, inputs, params);

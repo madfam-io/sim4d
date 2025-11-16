@@ -15,7 +15,11 @@ interface StraightWallOutputs {
   centerline: unknown;
 }
 
-export const ArchitectureWallsStraightWallNode: NodeDefinition<StraightWallInputs, StraightWallOutputs, StraightWallParams> = {
+export const ArchitectureWallsStraightWallNode: NodeDefinition<
+  StraightWallInputs,
+  StraightWallOutputs,
+  StraightWallParams
+> = {
   id: 'Architecture::StraightWall',
   category: 'Architecture',
   label: 'StraightWall',
@@ -24,18 +28,18 @@ export const ArchitectureWallsStraightWallNode: NodeDefinition<StraightWallInput
     centerline: {
       type: 'Wire',
       label: 'Centerline',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     wall: {
       type: 'Shape',
-      label: 'Wall'
+      label: 'Wall',
     },
     centerline: {
       type: 'Wire',
-      label: 'Centerline'
-    }
+      label: 'Centerline',
+    },
   },
   params: {
     height: {
@@ -43,21 +47,21 @@ export const ArchitectureWallsStraightWallNode: NodeDefinition<StraightWallInput
       label: 'Height',
       default: 3000,
       min: 100,
-      max: 10000
+      max: 10000,
     },
     thickness: {
       type: 'number',
       label: 'Thickness',
       default: 200,
       min: 50,
-      max: 500
+      max: 500,
     },
     justification: {
       type: 'enum',
       label: 'Justification',
-      default: "center",
-      options: ["center","left","right"]
-    }
+      default: 'center',
+      options: ['center', 'left', 'right'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -66,13 +70,13 @@ export const ArchitectureWallsStraightWallNode: NodeDefinition<StraightWallInput
         centerline: inputs.centerline,
         height: params.height,
         thickness: params.thickness,
-        justification: params.justification
-      }
+        justification: params.justification,
+      },
     });
-    
+
     return {
       wall: results.wall,
-      centerline: results.centerline
+      centerline: results.centerline,
     };
   },
 };

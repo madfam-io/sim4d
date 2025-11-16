@@ -27,52 +27,53 @@ export function Viewport() {
 
   // Measurement handlers
   const handleMeasurementCreate = useCallback((measurement: Measurement) => {
-    setMeasurements(prev => [...prev, measurement]);
+    setMeasurements((prev) => [...prev, measurement]);
   }, []);
 
   const handleMeasurementUpdate = useCallback((measurement: Measurement) => {
-    setMeasurements(prev =>
-      prev.map(m => m.id === measurement.id ? measurement : m)
-    );
+    setMeasurements((prev) => prev.map((m) => (m.id === measurement.id ? measurement : m)));
   }, []);
 
   const handleMeasurementDelete = useCallback((measurementId: string) => {
-    setMeasurements(prev => prev.filter(m => m.id !== measurementId));
+    setMeasurements((prev) => prev.filter((m) => m.id !== measurementId));
   }, []);
 
   // Create Three.js mesh from tessellated geometry
-  const createMeshFromTessellation = useCallback((meshData: MeshData, nodeId: string): THREE.Mesh => {
-    const geometry = new THREE.BufferGeometry();
+  const createMeshFromTessellation = useCallback(
+    (meshData: MeshData, nodeId: string): THREE.Mesh => {
+      const geometry = new THREE.BufferGeometry();
 
-    // Set vertex positions
-    geometry.setAttribute('position', new THREE.BufferAttribute(meshData.positions, 3));
+      // Set vertex positions
+      geometry.setAttribute('position', new THREE.BufferAttribute(meshData.positions, 3));
 
-    // Set normals if available
-    if (meshData.normals) {
-      geometry.setAttribute('normal', new THREE.BufferAttribute(meshData.normals, 3));
-    } else {
-      geometry.computeVertexNormals();
-    }
+      // Set normals if available
+      if (meshData.normals) {
+        geometry.setAttribute('normal', new THREE.BufferAttribute(meshData.normals, 3));
+      } else {
+        geometry.computeVertexNormals();
+      }
 
-    // Set indices for faces
-    if (meshData.indices) {
-      geometry.setIndex(new THREE.BufferAttribute(meshData.indices, 1));
-    }
+      // Set indices for faces
+      if (meshData.indices) {
+        geometry.setIndex(new THREE.BufferAttribute(meshData.indices, 1));
+      }
 
-    // Create material with node-specific color
-    const hue = Math.abs(nodeId.split('').reduce((a, b) => a + b.charCodeAt(0), 0)) % 360;
-    const material = new THREE.MeshPhongMaterial({
-      color: new THREE.Color().setHSL(hue / 360, 0.7, 0.6),
-      opacity: 0.8,
-      transparent: true,
-      side: THREE.DoubleSide,
-    });
+      // Create material with node-specific color
+      const hue = Math.abs(nodeId.split('').reduce((a, b) => a + b.charCodeAt(0), 0)) % 360;
+      const material = new THREE.MeshPhongMaterial({
+        color: new THREE.Color().setHSL(hue / 360, 0.7, 0.6),
+        opacity: 0.8,
+        transparent: true,
+        side: THREE.DoubleSide,
+      });
 
-    const mesh = new THREE.Mesh(geometry, material);
-    mesh.userData = { nodeId, type: 'geometry' };
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.userData = { nodeId, type: 'geometry' };
 
-    return mesh;
-  }, []);
+      return mesh;
+    },
+    []
+  );
 
   // Create simple geometry based on node type (mock implementation)
   const createSimpleGeometry = useCallback((node: any): THREE.Mesh | null => {
@@ -113,7 +114,8 @@ export function Viewport() {
     if (!geometry) return null;
 
     // Create material with node-specific color
-    const hue = Math.abs(node.id.split('').reduce((a: number, b: string) => a + b.charCodeAt(0), 0)) % 360;
+    const hue =
+      Math.abs(node.id.split('').reduce((a: number, b: string) => a + b.charCodeAt(0), 0)) % 360;
     const material = new THREE.MeshPhongMaterial({
       color: new THREE.Color().setHSL(hue / 360, 0.7, 0.6),
       opacity: 0.9,
@@ -141,15 +143,15 @@ export function Viewport() {
     geometryGroupRef.current.clear();
 
     // Process all nodes with shape outputs
-    const geometryNodes = graph.nodes.filter(node => {
+    const geometryNodes = graph.nodes.filter((node) => {
       // Check if node has a shape output with a value
       return node.outputs?.shape?.value || node.outputs?.geometry?.value;
     });
 
     // If no real geometry yet, fall back to simple visualization for testing
     if (geometryNodes.length === 0) {
-      const displayNodes = graph.nodes.filter(node =>
-        node.type.startsWith('Solid::') || node.type.startsWith('Boolean::')
+      const displayNodes = graph.nodes.filter(
+        (node) => node.type.startsWith('Solid::') || node.type.startsWith('Boolean::')
       );
 
       for (const node of displayNodes) {
@@ -162,19 +164,19 @@ export function Viewport() {
       // Use real tessellation for nodes with shape outputs
       for (const node of geometryNodes) {
         try {
-          const shapeHandle = (node.outputs?.shape?.value || node.outputs?.geometry?.value) as ShapeHandle;
+          const shapeHandle = (node.outputs?.shape?.value ||
+            node.outputs?.geometry?.value) as ShapeHandle;
           if (!shapeHandle || !shapeHandle.id || !dagEngine) continue;
 
           // Tessellate the shape with better quality using WASM invoke interface
           const meshData = await dagEngine.geometryAPI.invoke('TESSELLATE', {
             shape: shapeHandle,
-            deflection: 0.01
+            deflection: 0.01,
           });
 
           // Create Three.js mesh
           const mesh = createMeshFromTessellation(meshData, node.id);
           geometryGroupRef.current.add(mesh);
-
         } catch (error) {
           console.warn(`Failed to tessellate geometry for node ${node.id}:`, error);
           // Fall back to simple geometry on error
@@ -196,11 +198,7 @@ export function Viewport() {
       const camera = sceneRef.current?.userData?.camera;
       if (camera) {
         const maxDim = Math.max(size.x, size.y, size.z);
-        camera.position.set(
-          center.x + maxDim,
-          center.y + maxDim,
-          center.z + maxDim
-        );
+        camera.position.set(center.x + maxDim, center.y + maxDim, center.z + maxDim);
         camera.lookAt(center);
       }
     }
@@ -229,12 +227,7 @@ export function Viewport() {
       sceneRef.current = scene;
 
       // Camera setup with validated dimensions
-      const camera = new THREE.PerspectiveCamera(
-        75,
-        containerWidth / containerHeight,
-        0.1,
-        10000
-      );
+      const camera = new THREE.PerspectiveCamera(75, containerWidth / containerHeight, 0.1, 10000);
       camera.position.set(100, 100, 100);
       camera.lookAt(0, 0, 0);
       cameraRef.current = camera;
@@ -365,9 +358,9 @@ export function Viewport() {
             <Icon name="section" size={14} />
           </button>
         </div>
-        
+
         <div className="toolbar-separator" />
-        
+
         <div className="toolbar-group navigation-controls">
           <button className="toolbar-btn compact" title="Fit View (F)">
             <Icon name="fit-view" size={14} />
@@ -379,9 +372,9 @@ export function Viewport() {
             <Icon name="hide" size={14} />
           </button>
         </div>
-        
+
         <div className="toolbar-separator" />
-        
+
         <div className="toolbar-group tools-controls">
           <button
             className={`toolbar-btn compact ${showMeasurementTools ? 'active' : ''}`}
@@ -391,9 +384,9 @@ export function Viewport() {
             <Icon name="settings" size={14} />
           </button>
         </div>
-        
+
         <div className="toolbar-spacer" />
-        
+
         {/* Compact Status Indicators */}
         <div className="viewport-status">
           <div className="status-indicator">
@@ -425,13 +418,27 @@ export function Viewport() {
 
       {/* Navigation Cube - Top Right */}
       <div className="navigation-cube">
-        <div className="cube-face front" title="Front View (1)">F</div>
-        <div className="cube-face back" title="Back View (Ctrl+1)">B</div>
-        <div className="cube-face top" title="Top View (7)">T</div>
-        <div className="cube-face bottom" title="Bottom View (Ctrl+7)">⊥</div>
-        <div className="cube-face left" title="Left View (3)">L</div>
-        <div className="cube-face right" title="Right View (Ctrl+3)">R</div>
-        <div className="cube-center" title="Isometric View (0)">ISO</div>
+        <div className="cube-face front" title="Front View (1)">
+          F
+        </div>
+        <div className="cube-face back" title="Back View (Ctrl+1)">
+          B
+        </div>
+        <div className="cube-face top" title="Top View (7)">
+          T
+        </div>
+        <div className="cube-face bottom" title="Bottom View (Ctrl+7)">
+          ⊥
+        </div>
+        <div className="cube-face left" title="Left View (3)">
+          L
+        </div>
+        <div className="cube-face right" title="Right View (Ctrl+3)">
+          R
+        </div>
+        <div className="cube-center" title="Isometric View (0)">
+          ISO
+        </div>
       </div>
 
       {/* Compact Grid/Scale Indicator */}
@@ -451,7 +458,7 @@ export function Viewport() {
         <div className="measurement-panel compact">
           <div className="panel-header compact">
             <h4 className="panel-title">Measure</h4>
-            <button 
+            <button
               className="close-btn"
               onClick={() => setShowMeasurementTools(false)}
               title="Close"
@@ -473,7 +480,7 @@ export function Viewport() {
               <span>Radius</span>
             </button>
           </div>
-          
+
           {/* Active Measurements List */}
           {measurements.length > 0 && (
             <div className="measurements-list">
@@ -484,7 +491,7 @@ export function Viewport() {
                   <span className="measurement-value">
                     {measurement.value.toFixed(2)} {measurement.unit}
                   </span>
-                  <button 
+                  <button
                     className="delete-btn"
                     onClick={() => handleMeasurementDelete(measurement.id)}
                     title="Delete measurement"
@@ -494,9 +501,7 @@ export function Viewport() {
                 </div>
               ))}
               {measurements.length > 3 && (
-                <div className="more-measurements">
-                  +{measurements.length - 3} more
-                </div>
+                <div className="more-measurements">+{measurements.length - 3} more</div>
               )}
             </div>
           )}

@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { AdvancedShellVariableShellNode } from './variable-shell.node';
 import { createTestContext } from '../test-utils';
@@ -9,11 +8,9 @@ describe('AdvancedShellVariableShellNode', () => {
     const inputs = {
       solid: undefined,
       facesToRemove: undefined,
-      thicknessMap: undefined
+      thicknessMap: undefined,
     } as any;
-    const params = {
-
-    } as any;
+    const params = {} as any;
 
     const result = await AdvancedShellVariableShellNode.evaluate(context, inputs, params);
     expect(result).toBeDefined();

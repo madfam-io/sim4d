@@ -13,7 +13,11 @@ interface ConfigurationOutputs {
   configuration: unknown;
 }
 
-export const AssemblyPatternsConfigurationNode: NodeDefinition<ConfigurationInputs, ConfigurationOutputs, ConfigurationParams> = {
+export const AssemblyPatternsConfigurationNode: NodeDefinition<
+  ConfigurationInputs,
+  ConfigurationOutputs,
+  ConfigurationParams
+> = {
   id: 'Assembly::Configuration',
   type: 'Assembly::Configuration',
   category: 'Assembly',
@@ -23,26 +27,26 @@ export const AssemblyPatternsConfigurationNode: NodeDefinition<ConfigurationInpu
     assembly: {
       type: 'Assembly',
       label: 'Assembly',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     configuration: {
       type: 'Configuration',
-      label: 'Configuration'
-    }
+      label: 'Configuration',
+    },
   },
   params: {
     name: {
       type: 'string',
       label: 'Name',
-      default: "Default"
+      default: 'Default',
     },
     suppressedComponents: {
       type: 'string',
       label: 'Suppressed Components',
-      default: ""
-    }
+      default: '',
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -50,12 +54,12 @@ export const AssemblyPatternsConfigurationNode: NodeDefinition<ConfigurationInpu
       params: {
         assembly: inputs.assembly,
         name: params.name,
-        suppressedComponents: params.suppressedComponents
-      }
+        suppressedComponents: params.suppressedComponents,
+      },
     });
-    
+
     return {
-      configuration: result
+      configuration: result,
     };
   },
 };

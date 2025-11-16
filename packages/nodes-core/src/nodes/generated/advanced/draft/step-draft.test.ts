@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { AdvancedDraftStepDraftNode } from './step-draft.node';
 import { createTestContext } from '../test-utils';
@@ -8,10 +7,10 @@ describe('AdvancedDraftStepDraftNode', () => {
     const context = createTestContext();
     const inputs = {
       solid: undefined,
-      draftData: undefined
+      draftData: undefined,
     } as any;
     const params = {
-      steps: 2
+      steps: 2,
     } as any;
 
     const result = await AdvancedDraftStepDraftNode.evaluate(context, inputs, params);

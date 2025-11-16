@@ -70,7 +70,7 @@ export class OCCTTestRunner {
       await this.runFeatureTests(),
       await this.runTransformTests(),
       await this.runTessellationTests(),
-      await this.runPerformanceTests()
+      await this.runPerformanceTests(),
     ];
 
     // Print summary
@@ -87,39 +87,47 @@ export class OCCTTestRunner {
     const suiteStart = performance.now();
 
     // Box test
-    tests.push(await this.runTest('Create Box', async () => {
-      const box = this.occtModule.makeBox(100, 50, 25);
-      this.validateShape(box, 'solid');
-      this.occtModule.deleteShape(box.id);
-      return { volume: box.volume, dimensions: [100, 50, 25] };
-    }));
+    tests.push(
+      await this.runTest('Create Box', async () => {
+        const box = this.occtModule.makeBox(100, 50, 25);
+        this.validateShape(box, 'solid');
+        this.occtModule.deleteShape(box.id);
+        return { volume: box.volume, dimensions: [100, 50, 25] };
+      })
+    );
 
     // Sphere test
-    tests.push(await this.runTest('Create Sphere', async () => {
-      const sphere = this.occtModule.makeSphere(30);
-      this.validateShape(sphere, 'solid');
-      const expectedVolume = (4/3) * Math.PI * Math.pow(30, 3);
-      const volumeError = Math.abs(sphere.volume - expectedVolume) / expectedVolume;
-      this.occtModule.deleteShape(sphere.id);
-      return { volume: sphere.volume, expectedVolume, volumeError };
-    }));
+    tests.push(
+      await this.runTest('Create Sphere', async () => {
+        const sphere = this.occtModule.makeSphere(30);
+        this.validateShape(sphere, 'solid');
+        const expectedVolume = (4 / 3) * Math.PI * Math.pow(30, 3);
+        const volumeError = Math.abs(sphere.volume - expectedVolume) / expectedVolume;
+        this.occtModule.deleteShape(sphere.id);
+        return { volume: sphere.volume, expectedVolume, volumeError };
+      })
+    );
 
     // Cylinder test
-    tests.push(await this.runTest('Create Cylinder', async () => {
-      const cylinder = this.occtModule.makeCylinder(20, 60);
-      this.validateShape(cylinder, 'solid');
-      const expectedVolume = Math.PI * Math.pow(20, 2) * 60;
-      this.occtModule.deleteShape(cylinder.id);
-      return { volume: cylinder.volume, expectedVolume };
-    }));
+    tests.push(
+      await this.runTest('Create Cylinder', async () => {
+        const cylinder = this.occtModule.makeCylinder(20, 60);
+        this.validateShape(cylinder, 'solid');
+        const expectedVolume = Math.PI * Math.pow(20, 2) * 60;
+        this.occtModule.deleteShape(cylinder.id);
+        return { volume: cylinder.volume, expectedVolume };
+      })
+    );
 
     // Torus test
-    tests.push(await this.runTest('Create Torus', async () => {
-      const torus = this.occtModule.makeTorus(40, 8);
-      this.validateShape(torus, 'solid');
-      this.occtModule.deleteShape(torus.id);
-      return { volume: torus.volume };
-    }));
+    tests.push(
+      await this.runTest('Create Torus', async () => {
+        const torus = this.occtModule.makeTorus(40, 8);
+        this.validateShape(torus, 'solid');
+        this.occtModule.deleteShape(torus.id);
+        return { volume: torus.volume };
+      })
+    );
 
     const suiteDuration = performance.now() - suiteStart;
 
@@ -128,10 +136,10 @@ export class OCCTTestRunner {
       tests,
       summary: {
         total: tests.length,
-        passed: tests.filter(t => t.passed).length,
-        failed: tests.filter(t => !t.passed).length,
-        duration: suiteDuration
-      }
+        passed: tests.filter((t) => t.passed).length,
+        failed: tests.filter((t) => !t.passed).length,
+        duration: suiteDuration,
+      },
     };
   }
 
@@ -148,30 +156,35 @@ export class OCCTTestRunner {
 
     try {
       // Union test
-      tests.push(await this.runTest('Boolean Union', async () => {
-        const union = this.occtModule.booleanUnion(box1.id, box2.id);
-        this.validateShape(union, 'solid');
-        const totalVolume = box1.volume + box2.volume;
-        this.occtModule.deleteShape(union.id);
-        return { volume: union.volume, totalVolume };
-      }));
+      tests.push(
+        await this.runTest('Boolean Union', async () => {
+          const union = this.occtModule.booleanUnion(box1.id, box2.id);
+          this.validateShape(union, 'solid');
+          const totalVolume = box1.volume + box2.volume;
+          this.occtModule.deleteShape(union.id);
+          return { volume: union.volume, totalVolume };
+        })
+      );
 
       // Subtraction test
-      tests.push(await this.runTest('Boolean Subtract', async () => {
-        const difference = this.occtModule.booleanSubtract(box1.id, box2.id);
-        this.validateShape(difference, 'solid');
-        this.occtModule.deleteShape(difference.id);
-        return { volume: difference.volume, originalVolume: box1.volume };
-      }));
+      tests.push(
+        await this.runTest('Boolean Subtract', async () => {
+          const difference = this.occtModule.booleanSubtract(box1.id, box2.id);
+          this.validateShape(difference, 'solid');
+          this.occtModule.deleteShape(difference.id);
+          return { volume: difference.volume, originalVolume: box1.volume };
+        })
+      );
 
       // Intersection test
-      tests.push(await this.runTest('Boolean Intersect', async () => {
-        const intersection = this.occtModule.booleanIntersect(box1.id, box2.id);
-        this.validateShape(intersection, 'solid');
-        this.occtModule.deleteShape(intersection.id);
-        return { volume: intersection.volume };
-      }));
-
+      tests.push(
+        await this.runTest('Boolean Intersect', async () => {
+          const intersection = this.occtModule.booleanIntersect(box1.id, box2.id);
+          this.validateShape(intersection, 'solid');
+          this.occtModule.deleteShape(intersection.id);
+          return { volume: intersection.volume };
+        })
+      );
     } finally {
       // Cleanup
       this.occtModule.deleteShape(box1.id);
@@ -185,10 +198,10 @@ export class OCCTTestRunner {
       tests,
       summary: {
         total: tests.length,
-        passed: tests.filter(t => t.passed).length,
-        failed: tests.filter(t => !t.passed).length,
-        duration: suiteDuration
-      }
+        passed: tests.filter((t) => t.passed).length,
+        failed: tests.filter((t) => !t.passed).length,
+        duration: suiteDuration,
+      },
     };
   }
 
@@ -203,29 +216,34 @@ export class OCCTTestRunner {
 
     try {
       // Fillet test
-      tests.push(await this.runTest('Create Fillet', async () => {
-        const filleted = this.occtModule.makeFillet(baseShape.id, 3);
-        this.validateShape(filleted, 'solid');
-        this.occtModule.deleteShape(filleted.id);
-        return { volume: filleted.volume, originalVolume: baseShape.volume };
-      }));
+      tests.push(
+        await this.runTest('Create Fillet', async () => {
+          const filleted = this.occtModule.makeFillet(baseShape.id, 3);
+          this.validateShape(filleted, 'solid');
+          this.occtModule.deleteShape(filleted.id);
+          return { volume: filleted.volume, originalVolume: baseShape.volume };
+        })
+      );
 
       // Chamfer test
-      tests.push(await this.runTest('Create Chamfer', async () => {
-        const chamfered = this.occtModule.makeChamfer(baseShape.id, 3);
-        this.validateShape(chamfered, 'solid');
-        this.occtModule.deleteShape(chamfered.id);
-        return { volume: chamfered.volume, originalVolume: baseShape.volume };
-      }));
+      tests.push(
+        await this.runTest('Create Chamfer', async () => {
+          const chamfered = this.occtModule.makeChamfer(baseShape.id, 3);
+          this.validateShape(chamfered, 'solid');
+          this.occtModule.deleteShape(chamfered.id);
+          return { volume: chamfered.volume, originalVolume: baseShape.volume };
+        })
+      );
 
       // Shell test
-      tests.push(await this.runTest('Create Shell', async () => {
-        const shelled = this.occtModule.makeShell(baseShape.id, 2);
-        this.validateShape(shelled, 'solid');
-        this.occtModule.deleteShape(shelled.id);
-        return { volume: shelled.volume, originalVolume: baseShape.volume };
-      }));
-
+      tests.push(
+        await this.runTest('Create Shell', async () => {
+          const shelled = this.occtModule.makeShell(baseShape.id, 2);
+          this.validateShape(shelled, 'solid');
+          this.occtModule.deleteShape(shelled.id);
+          return { volume: shelled.volume, originalVolume: baseShape.volume };
+        })
+      );
     } finally {
       this.occtModule.deleteShape(baseShape.id);
     }
@@ -237,10 +255,10 @@ export class OCCTTestRunner {
       tests,
       summary: {
         total: tests.length,
-        passed: tests.filter(t => t.passed).length,
-        failed: tests.filter(t => !t.passed).length,
-        duration: suiteDuration
-      }
+        passed: tests.filter((t) => t.passed).length,
+        failed: tests.filter((t) => !t.passed).length,
+        duration: suiteDuration,
+      },
     };
   }
 
@@ -255,40 +273,56 @@ export class OCCTTestRunner {
 
     try {
       // Translation test
-      tests.push(await this.runTest('Transform Translation', async () => {
-        const translated = this.occtModule.transform(originalShape.id, 50, 30, 20, 0, 0, 0, 1, 1, 1);
-        this.validateShape(translated, 'solid');
-        this.occtModule.deleteShape(translated.id);
-        return {
-          volume: translated.volume,
-          originalVolume: originalShape.volume,
-          centerX: translated.centerX,
-          centerY: translated.centerY,
-          centerZ: translated.centerZ
-        };
-      }));
+      tests.push(
+        await this.runTest('Transform Translation', async () => {
+          const translated = this.occtModule.transform(
+            originalShape.id,
+            50,
+            30,
+            20,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1
+          );
+          this.validateShape(translated, 'solid');
+          this.occtModule.deleteShape(translated.id);
+          return {
+            volume: translated.volume,
+            originalVolume: originalShape.volume,
+            centerX: translated.centerX,
+            centerY: translated.centerY,
+            centerZ: translated.centerZ,
+          };
+        })
+      );
 
       // Scaling test
-      tests.push(await this.runTest('Transform Scale', async () => {
-        const scaled = this.occtModule.transform(originalShape.id, 0, 0, 0, 0, 0, 0, 2, 2, 2);
-        this.validateShape(scaled, 'solid');
-        const expectedVolume = originalShape.volume * 8; // 2^3
-        this.occtModule.deleteShape(scaled.id);
-        return { volume: scaled.volume, expectedVolume };
-      }));
+      tests.push(
+        await this.runTest('Transform Scale', async () => {
+          const scaled = this.occtModule.transform(originalShape.id, 0, 0, 0, 0, 0, 0, 2, 2, 2);
+          this.validateShape(scaled, 'solid');
+          const expectedVolume = originalShape.volume * 8; // 2^3
+          this.occtModule.deleteShape(scaled.id);
+          return { volume: scaled.volume, expectedVolume };
+        })
+      );
 
       // Copy test
-      tests.push(await this.runTest('Copy Shape', async () => {
-        const copied = this.occtModule.copyShape(originalShape.id);
-        this.validateShape(copied, 'solid');
-        this.occtModule.deleteShape(copied.id);
-        return {
-          volume: copied.volume,
-          originalVolume: originalShape.volume,
-          sameId: copied.id === originalShape.id
-        };
-      }));
-
+      tests.push(
+        await this.runTest('Copy Shape', async () => {
+          const copied = this.occtModule.copyShape(originalShape.id);
+          this.validateShape(copied, 'solid');
+          this.occtModule.deleteShape(copied.id);
+          return {
+            volume: copied.volume,
+            originalVolume: originalShape.volume,
+            sameId: copied.id === originalShape.id,
+          };
+        })
+      );
     } finally {
       this.occtModule.deleteShape(originalShape.id);
     }
@@ -300,10 +334,10 @@ export class OCCTTestRunner {
       tests,
       summary: {
         total: tests.length,
-        passed: tests.filter(t => t.passed).length,
-        failed: tests.filter(t => !t.passed).length,
-        duration: suiteDuration
-      }
+        passed: tests.filter((t) => t.passed).length,
+        failed: tests.filter((t) => !t.passed).length,
+        duration: suiteDuration,
+      },
     };
   }
 
@@ -318,26 +352,29 @@ export class OCCTTestRunner {
 
     try {
       // Basic tessellation
-      tests.push(await this.runTest('Basic Tessellation', async () => {
-        const mesh = this.occtModule.tessellate(testShape.id, 0.5, 0.2);
-        this.validateMesh(mesh);
-        return {
-          vertexCount: mesh.vertexCount,
-          triangleCount: mesh.triangleCount,
-          edgeCount: mesh.edgeCount
-        };
-      }));
+      tests.push(
+        await this.runTest('Basic Tessellation', async () => {
+          const mesh = this.occtModule.tessellate(testShape.id, 0.5, 0.2);
+          this.validateMesh(mesh);
+          return {
+            vertexCount: mesh.vertexCount,
+            triangleCount: mesh.triangleCount,
+            edgeCount: mesh.edgeCount,
+          };
+        })
+      );
 
       // High quality tessellation
-      tests.push(await this.runTest('High Quality Tessellation', async () => {
-        const mesh = this.occtModule.tessellate(testShape.id, 0.1, 0.05);
-        this.validateMesh(mesh);
-        return {
-          vertexCount: mesh.vertexCount,
-          triangleCount: mesh.triangleCount
-        };
-      }));
-
+      tests.push(
+        await this.runTest('High Quality Tessellation', async () => {
+          const mesh = this.occtModule.tessellate(testShape.id, 0.1, 0.05);
+          this.validateMesh(mesh);
+          return {
+            vertexCount: mesh.vertexCount,
+            triangleCount: mesh.triangleCount,
+          };
+        })
+      );
     } finally {
       this.occtModule.deleteShape(testShape.id);
     }
@@ -349,10 +386,10 @@ export class OCCTTestRunner {
       tests,
       summary: {
         total: tests.length,
-        passed: tests.filter(t => t.passed).length,
-        failed: tests.filter(t => !t.passed).length,
-        duration: suiteDuration
-      }
+        passed: tests.filter((t) => t.passed).length,
+        failed: tests.filter((t) => !t.passed).length,
+        duration: suiteDuration,
+      },
     };
   }
 
@@ -364,51 +401,57 @@ export class OCCTTestRunner {
     const suiteStart = performance.now();
 
     // Primitive creation performance
-    tests.push(await this.runTest('Primitive Creation Performance', async () => {
-      const start = performance.now();
-      const shapes = [];
+    tests.push(
+      await this.runTest('Primitive Creation Performance', async () => {
+        const start = performance.now();
+        const shapes = [];
 
-      for (let i = 0; i < 50; i++) {
-        shapes.push(this.occtModule.makeBox(10 + i, 10 + i, 10 + i));
-      }
+        for (let i = 0; i < 50; i++) {
+          shapes.push(this.occtModule.makeBox(10 + i, 10 + i, 10 + i));
+        }
 
-      const end = performance.now();
-      const totalTime = end - start;
-      const avgTime = totalTime / 50;
+        const end = performance.now();
+        const totalTime = end - start;
+        const avgTime = totalTime / 50;
 
-      // Cleanup
-      for (const shape of shapes) {
-        this.occtModule.deleteShape(shape.id);
-      }
+        // Cleanup
+        for (const shape of shapes) {
+          this.occtModule.deleteShape(shape.id);
+        }
 
-      if (avgTime > 100) { // More than 100ms per primitive
-        throw new Error(`Primitive creation too slow: ${avgTime.toFixed(2)}ms average`);
-      }
+        if (avgTime > 100) {
+          // More than 100ms per primitive
+          throw new Error(`Primitive creation too slow: ${avgTime.toFixed(2)}ms average`);
+        }
 
-      return { totalTime, avgTime, count: 50 };
-    }));
+        return { totalTime, avgTime, count: 50 };
+      })
+    );
 
     // Boolean operation performance
-    tests.push(await this.runTest('Boolean Operation Performance', async () => {
-      const box1 = this.occtModule.makeBox(40, 40, 40);
-      const box2 = this.occtModule.makeBoxWithOrigin(20, 20, 20, 40, 40, 40);
+    tests.push(
+      await this.runTest('Boolean Operation Performance', async () => {
+        const box1 = this.occtModule.makeBox(40, 40, 40);
+        const box2 = this.occtModule.makeBoxWithOrigin(20, 20, 20, 40, 40, 40);
 
-      const start = performance.now();
-      const union = this.occtModule.booleanUnion(box1.id, box2.id);
-      const end = performance.now();
+        const start = performance.now();
+        const union = this.occtModule.booleanUnion(box1.id, box2.id);
+        const end = performance.now();
 
-      const operationTime = end - start;
+        const operationTime = end - start;
 
-      this.occtModule.deleteShape(box1.id);
-      this.occtModule.deleteShape(box2.id);
-      this.occtModule.deleteShape(union.id);
+        this.occtModule.deleteShape(box1.id);
+        this.occtModule.deleteShape(box2.id);
+        this.occtModule.deleteShape(union.id);
 
-      if (operationTime > 2000) { // More than 2 seconds
-        throw new Error(`Boolean operation too slow: ${operationTime.toFixed(2)}ms`);
-      }
+        if (operationTime > 2000) {
+          // More than 2 seconds
+          throw new Error(`Boolean operation too slow: ${operationTime.toFixed(2)}ms`);
+        }
 
-      return { operationTime };
-    }));
+        return { operationTime };
+      })
+    );
 
     const suiteDuration = performance.now() - suiteStart;
 
@@ -417,10 +460,10 @@ export class OCCTTestRunner {
       tests,
       summary: {
         total: tests.length,
-        passed: tests.filter(t => t.passed).length,
-        failed: tests.filter(t => !t.passed).length,
-        duration: suiteDuration
-      }
+        passed: tests.filter((t) => t.passed).length,
+        failed: tests.filter((t) => !t.passed).length,
+        duration: suiteDuration,
+      },
     };
   }
 
@@ -440,7 +483,7 @@ export class OCCTTestRunner {
         name,
         passed: true,
         duration,
-        details
+        details,
       };
     } catch (error) {
       const duration = performance.now() - start;
@@ -451,7 +494,7 @@ export class OCCTTestRunner {
         name,
         passed: false,
         duration,
-        error: error instanceof Error ? error.message : String(error)
+        error: error instanceof Error ? error.message : String(error),
       };
     }
   }
@@ -526,9 +569,11 @@ export class OCCTTestRunner {
     let totalDuration = 0;
 
     for (const suite of suites) {
-      const passRate = (suite.summary.passed / suite.summary.total * 100).toFixed(1);
+      const passRate = ((suite.summary.passed / suite.summary.total) * 100).toFixed(1);
       console.log(`\n${suite.name}:`);
-      console.log(`  ✅ ${suite.summary.passed}/${suite.summary.total} tests passed (${passRate}%)`);
+      console.log(
+        `  ✅ ${suite.summary.passed}/${suite.summary.total} tests passed (${passRate}%)`
+      );
       console.log(`  ⏱️  Duration: ${suite.summary.duration.toFixed(2)}ms`);
 
       totalTests += suite.summary.total;
@@ -536,7 +581,7 @@ export class OCCTTestRunner {
       totalDuration += suite.summary.duration;
     }
 
-    const overallPassRate = (totalPassed / totalTests * 100).toFixed(1);
+    const overallPassRate = ((totalPassed / totalTests) * 100).toFixed(1);
     console.log('\n' + '-'.repeat(40));
     console.log(`OVERALL: ${totalPassed}/${totalTests} tests passed (${overallPassRate}%)`);
     console.log(`TOTAL DURATION: ${totalDuration.toFixed(2)}ms`);
@@ -588,11 +633,13 @@ export async function runOCCTTests(): Promise<TestSuite[]> {
 
 // CLI support
 if (typeof process !== 'undefined' && process.argv && process.argv.includes('--run-tests')) {
-  runOCCTTests().then(results => {
-    const allPassed = results.every(suite => suite.summary.passed === suite.summary.total);
-    process.exit(allPassed ? 0 : 1);
-  }).catch(error => {
-    console.error('Test execution failed:', error);
-    process.exit(1);
-  });
+  runOCCTTests()
+    .then((results) => {
+      const allPassed = results.every((suite) => suite.summary.passed === suite.summary.total);
+      process.exit(allPassed ? 0 : 1);
+    })
+    .catch((error) => {
+      console.error('Test execution failed:', error);
+      process.exit(1);
+    });
 }

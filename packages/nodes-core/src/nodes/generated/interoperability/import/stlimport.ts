@@ -16,7 +16,11 @@ interface STLImportOutputs {
   vertexCount: unknown;
 }
 
-export const InteroperabilityImportSTLImportNode: NodeDefinition<STLImportInputs, STLImportOutputs, STLImportParams> = {
+export const InteroperabilityImportSTLImportNode: NodeDefinition<
+  STLImportInputs,
+  STLImportOutputs,
+  STLImportParams
+> = {
   id: 'Interoperability::STLImport',
   type: 'Interoperability::STLImport',
   category: 'Interoperability',
@@ -26,42 +30,42 @@ export const InteroperabilityImportSTLImportNode: NodeDefinition<STLImportInputs
     filePath: {
       type: 'string',
       label: 'File Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     mesh: {
       type: 'Shape',
-      label: 'Mesh'
+      label: 'Mesh',
     },
     triangleCount: {
       type: 'number',
-      label: 'Triangle Count'
+      label: 'Triangle Count',
     },
     vertexCount: {
       type: 'number',
-      label: 'Vertex Count'
-    }
+      label: 'Vertex Count',
+    },
   },
   params: {
     mergeVertices: {
       type: 'boolean',
       label: 'Merge Vertices',
-      default: true
+      default: true,
     },
     tolerance: {
       type: 'number',
       label: 'Tolerance',
       default: 0.01,
       min: 0.001,
-      max: 1
+      max: 1,
     },
     units: {
       type: 'enum',
       label: 'Units',
-      default: "mm",
-      options: ["mm","cm","m","inch"]
-    }
+      default: 'mm',
+      options: ['mm', 'cm', 'm', 'inch'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -70,14 +74,14 @@ export const InteroperabilityImportSTLImportNode: NodeDefinition<STLImportInputs
         filePath: inputs.filePath,
         mergeVertices: params.mergeVertices,
         tolerance: params.tolerance,
-        units: params.units
-      }
+        units: params.units,
+      },
     });
-    
+
     return {
       mesh: results.mesh,
       triangleCount: results.triangleCount,
-      vertexCount: results.vertexCount
+      vertexCount: results.vertexCount,
     };
   },
 };

@@ -17,7 +17,11 @@ interface RatchetMechanismOutputs {
   pawl: unknown;
 }
 
-export const MechanicalEngineeringMechanismsRatchetMechanismNode: NodeDefinition<RatchetMechanismInputs, RatchetMechanismOutputs, RatchetMechanismParams> = {
+export const MechanicalEngineeringMechanismsRatchetMechanismNode: NodeDefinition<
+  RatchetMechanismInputs,
+  RatchetMechanismOutputs,
+  RatchetMechanismParams
+> = {
   id: 'MechanicalEngineering::RatchetMechanism',
   category: 'MechanicalEngineering',
   label: 'RatchetMechanism',
@@ -26,22 +30,22 @@ export const MechanicalEngineeringMechanismsRatchetMechanismNode: NodeDefinition
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     assembly: {
       type: 'Shape',
-      label: 'Assembly'
+      label: 'Assembly',
     },
     wheel: {
       type: 'Shape',
-      label: 'Wheel'
+      label: 'Wheel',
     },
     pawl: {
       type: 'Shape',
-      label: 'Pawl'
-    }
+      label: 'Pawl',
+    },
   },
   params: {
     wheelDiameter: {
@@ -49,29 +53,29 @@ export const MechanicalEngineeringMechanismsRatchetMechanismNode: NodeDefinition
       label: 'Wheel Diameter',
       default: 50,
       min: 20,
-      max: 150
+      max: 150,
     },
     teeth: {
       type: 'number',
       label: 'Teeth',
       default: 24,
       min: 12,
-      max: 60
+      max: 60,
     },
     pawlLength: {
       type: 'number',
       label: 'Pawl Length',
       default: 20,
       min: 10,
-      max: 50
+      max: 50,
     },
     springTension: {
       type: 'number',
       label: 'Spring Tension',
       default: 5,
       min: 1,
-      max: 20
-    }
+      max: 20,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -81,14 +85,14 @@ export const MechanicalEngineeringMechanismsRatchetMechanismNode: NodeDefinition
         wheelDiameter: params.wheelDiameter,
         teeth: params.teeth,
         pawlLength: params.pawlLength,
-        springTension: params.springTension
-      }
+        springTension: params.springTension,
+      },
     });
-    
+
     return {
       assembly: results.assembly,
       wheel: results.wheel,
-      pawl: results.pawl
+      pawl: results.pawl,
     };
   },
 };

@@ -39,6 +39,7 @@ Implemented Option C (Hybrid Approach) to replace broken collaboration CSRF test
 **Test Suite**: Collaboration WebSocket with CSRF Protection
 
 #### Core Functionality Tests (5 tests):
+
 1. **WebSocket Connection with CSRF** - Verifies:
    - CSRF token fetch from `/api/collaboration/csrf-token`
    - WebSocket connection establishment
@@ -62,6 +63,7 @@ Implemented Option C (Hybrid Approach) to replace broken collaboration CSRF test
    - Filters expected errors (DevTools, favicon, HMR)
 
 #### Error Handling Tests (2 tests):
+
 6. **Missing CSRF Token** - Verifies:
    - Graceful degradation when CSRF endpoint blocked
    - Error logging about CSRF failure
@@ -73,6 +75,7 @@ Implemented Option C (Hybrid Approach) to replace broken collaboration CSRF test
    - App still usable (graceful degradation)
 
 **Test Coverage**:
+
 - CSRF authentication flow ✅
 - WebSocket lifecycle ✅
 - Network resilience ✅
@@ -84,6 +87,7 @@ Implemented Option C (Hybrid Approach) to replace broken collaboration CSRF test
 **File**: `packages/collaboration/src/client/collaboration-client-csrf.test.ts`
 
 **Tests Created** (11 total):
+
 - CSRF token fetching (6 tests)
 - WebSocket integration (3 tests)
 - Event handlers (2 tests)
@@ -95,6 +99,7 @@ Implemented Option C (Hybrid Approach) to replace broken collaboration CSRF test
 **File**: `packages/collaboration/src/client/collaboration-provider.test.tsx`
 
 **Tests Created** (9 total):
+
 - Provider lifecycle (3 tests)
 - State management (2 tests)
 - Actions (2 tests)
@@ -107,6 +112,7 @@ Implemented Option C (Hybrid Approach) to replace broken collaboration CSRF test
 ## Test Results
 
 ### E2E Tests (Not Run Yet)
+
 ```bash
 # To run WebSocket E2E tests:
 pnpm exec playwright test tests/e2e/collaboration-websocket.test.ts --headed --workers=1
@@ -115,6 +121,7 @@ pnpm exec playwright test tests/e2e/collaboration-websocket.test.ts --headed --w
 ```
 
 ### Original CSRF Test Status
+
 ```
 Test 1: ✅ PASSING (2/56 tests = chromium + firefox)
 Tests 2-14: ⏭️  SKIPPED (26 tests marked with test.skip())
@@ -122,6 +129,7 @@ Total: 2 passed, 26 skipped
 ```
 
 ### Unit Test Status
+
 ```
 collaboration-client-csrf.test.ts: 4/11 passing (36%)
 collaboration-provider.test.tsx: 1/9 passing (11%)
@@ -135,19 +143,22 @@ Total: 5/20 passing (25%)
 Instead of trying to import React hooks in `page.evaluate()` (architecturally impossible), the WebSocket tests use:
 
 1. **Network Monitoring**:
+
 ```typescript
-const csrfRequest = page.waitForRequest(
-  (req) => req.url().includes('/api/collaboration/csrf-token')
+const csrfRequest = page.waitForRequest((req) =>
+  req.url().includes('/api/collaboration/csrf-token')
 );
 ```
 
 2. **WebSocket Events**:
+
 ```typescript
 const ws = await page.waitForEvent('websocket');
 await ws.waitForEvent('framereceived');
 ```
 
 3. **Frame Inspection**:
+
 ```typescript
 page.on('websocket', (ws) => {
   ws.on('framesent', (event) => {
@@ -158,6 +169,7 @@ page.on('websocket', (ws) => {
 ```
 
 4. **Network Simulation**:
+
 ```typescript
 // Simulate network interruption
 await context.setOffline(true);
@@ -188,6 +200,7 @@ const reconnectedWs = await page.waitForEvent('websocket');
 **Root Cause**: Mock Response object doesn't implement `json()` method properly
 
 **Fix Needed** (example):
+
 ```typescript
 // Current (broken):
 vi.mocked(fetch).mockResolvedValueOnce({
@@ -213,6 +226,7 @@ vi.mocked(fetch).mockResolvedValueOnce({
 ### Alternative: Integration Tests
 
 Instead of unit tests with complex mocks, could create integration tests that:
+
 - Spin up real collaboration server
 - Use actual HTTP requests
 - Test real WebSocket connections
@@ -227,6 +241,7 @@ Instead of unit tests with complex mocks, could create integration tests that:
 ### Immediate Next Steps
 
 1. **Run WebSocket E2E Tests** ⭐ PRIORITY
+
    ```bash
    docker-compose up --build -d
    pnpm exec playwright test tests/e2e/collaboration-websocket.test.ts --headed --workers=1
@@ -244,19 +259,23 @@ Instead of unit tests with complex mocks, could create integration tests that:
 ### Long-Term Strategy
 
 **Keep**:
+
 - Test 1 (HTTP endpoint validation)
 - WebSocket E2E tests (protocol-level)
 
 **Optional**:
+
 - Unit tests (if mocks can be refined economically)
 - Integration tests (as alternative to unit tests)
 
 **Skip** (Documented as needing rewrite):
+
 - Original Tests 2-14 (marked with test.skip())
 
 ## Test Coverage Summary
 
 ### What's Tested ✅
+
 - CSRF endpoint returns correct JSON
 - CSRF token fetch on app load
 - WebSocket connection establishment
@@ -268,6 +287,7 @@ Instead of unit tests with complex mocks, could create integration tests that:
 - Clean execution without console errors
 
 ### What's NOT Tested ❌
+
 - UI interactions (no UI controls exist)
 - React hook behavior in isolation (unit tests blocked)
 - CollaborationProvider lifecycle (unit tests blocked)
@@ -291,12 +311,14 @@ Total               | 30    | Mixed      | 33% passing
 ## Files Created/Modified
 
 ### Created ✅
+
 1. `tests/e2e/collaboration-websocket.test.ts` - WebSocket E2E tests
 2. `packages/collaboration/src/client/collaboration-client-csrf.test.ts` - Unit tests (blocked)
 3. `packages/collaboration/src/client/collaboration-provider.test.tsx` - Unit tests (blocked)
 4. `claudedocs/collaboration-test-implementation-c.md` - This documentation
 
 ### Modified
+
 None (original skipped tests remain as documented in previous phase)
 
 ## Conclusion
@@ -310,16 +332,19 @@ None (original skipped tests remain as documented in previous phase)
 **Next Action**: Run WebSocket E2E tests to validate collaboration system works end-to-end at protocol level.
 
 **Time Investment**:
+
 - WebSocket E2E tests: 1 hour (complete)
 - Unit test creation: 1 hour (complete but failing)
 - Unit test fixes: 1-2 hours (not started, blocked)
 
 **Value Delivered**:
+
 - Comprehensive WebSocket-level testing without UI dependencies
 - Real collaboration server validation
 - Network resilience testing
 - Error handling verification
 
 **Outstanding Work**:
+
 - Fix unit test mocks (optional)
 - Run and validate WebSocket E2E tests (required)

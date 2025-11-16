@@ -17,7 +17,11 @@ interface CylindricalOutputs {
   joint: unknown;
 }
 
-export const AssemblyJointsCylindricalNode: NodeDefinition<CylindricalInputs, CylindricalOutputs, CylindricalParams> = {
+export const AssemblyJointsCylindricalNode: NodeDefinition<
+  CylindricalInputs,
+  CylindricalOutputs,
+  CylindricalParams
+> = {
   id: 'Assembly::Cylindrical',
   category: 'Assembly',
   label: 'Cylindrical',
@@ -26,46 +30,46 @@ export const AssemblyJointsCylindricalNode: NodeDefinition<CylindricalInputs, Cy
     part1: {
       type: 'Shape',
       label: 'Part1',
-      required: true
+      required: true,
     },
     part2: {
       type: 'Shape',
       label: 'Part2',
-      required: true
+      required: true,
     },
     axis: {
       type: 'Axis',
       label: 'Axis',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     joint: {
       type: 'Joint',
-      label: 'Joint'
-    }
+      label: 'Joint',
+    },
   },
   params: {
     minDistance: {
       type: 'number',
       label: 'Min Distance',
-      default: 0
+      default: 0,
     },
     maxDistance: {
       type: 'number',
       label: 'Max Distance',
-      default: 100
+      default: 100,
     },
     minAngle: {
       type: 'number',
       label: 'Min Angle',
-      default: -180
+      default: -180,
     },
     maxAngle: {
       type: 'number',
       label: 'Max Angle',
-      default: 180
-    }
+      default: 180,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -77,12 +81,12 @@ export const AssemblyJointsCylindricalNode: NodeDefinition<CylindricalInputs, Cy
         minDistance: params.minDistance,
         maxDistance: params.maxDistance,
         minAngle: params.minAngle,
-        maxAngle: params.maxAngle
-      }
+        maxAngle: params.maxAngle,
+      },
     });
-    
+
     return {
-      joint: result
+      joint: result,
     };
   },
 };

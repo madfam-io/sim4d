@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { DataListListItemNode } from './list-item.node';
 import { createTestContext } from '../test-utils';
@@ -8,10 +7,10 @@ describe('DataListListItemNode', () => {
     const context = createTestContext();
     const inputs = {
       list: undefined,
-      index: undefined
+      index: undefined,
     } as any;
     const params = {
-      wrap: false
+      wrap: false,
     } as any;
 
     const result = await DataListListItemNode.evaluate(context, inputs, params);

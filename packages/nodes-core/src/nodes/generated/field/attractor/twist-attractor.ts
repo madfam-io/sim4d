@@ -15,7 +15,11 @@ interface TwistAttractorOutputs {
   field: unknown;
 }
 
-export const FieldAttractorTwistAttractorNode: NodeDefinition<TwistAttractorInputs, TwistAttractorOutputs, TwistAttractorParams> = {
+export const FieldAttractorTwistAttractorNode: NodeDefinition<
+  TwistAttractorInputs,
+  TwistAttractorOutputs,
+  TwistAttractorParams
+> = {
   id: 'Field::TwistAttractor',
   type: 'Field::TwistAttractor',
   category: 'Field',
@@ -25,14 +29,14 @@ export const FieldAttractorTwistAttractorNode: NodeDefinition<TwistAttractorInpu
     axis: {
       type: 'Line',
       label: 'Axis',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     field: {
       type: 'VectorField',
-      label: 'Field'
-    }
+      label: 'Field',
+    },
   },
   params: {
     angle: {
@@ -40,26 +44,26 @@ export const FieldAttractorTwistAttractorNode: NodeDefinition<TwistAttractorInpu
       label: 'Angle',
       default: 90,
       min: -360,
-      max: 360
+      max: 360,
     },
     height: {
       type: 'number',
       label: 'Height',
       default: 100,
-      min: 0.1
+      min: 0.1,
     },
     radius: {
       type: 'number',
       label: 'Radius',
       default: 50,
-      min: 0.1
+      min: 0.1,
     },
     falloff: {
       type: 'enum',
       label: 'Falloff',
-      default: "smooth",
-      options: ["linear","smooth","exponential"]
-    }
+      default: 'smooth',
+      options: ['linear', 'smooth', 'exponential'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -69,12 +73,12 @@ export const FieldAttractorTwistAttractorNode: NodeDefinition<TwistAttractorInpu
         angle: params.angle,
         height: params.height,
         radius: params.radius,
-        falloff: params.falloff
-      }
+        falloff: params.falloff,
+      },
     });
-    
+
     return {
-      field: result
+      field: result,
     };
   },
 };

@@ -10,7 +10,11 @@ interface TruncateOutputs {
   result: unknown;
 }
 
-export const MathRoundingTruncateNode: NodeDefinition<TruncateInputs, TruncateOutputs, TruncateParams> = {
+export const MathRoundingTruncateNode: NodeDefinition<
+  TruncateInputs,
+  TruncateOutputs,
+  TruncateParams
+> = {
   id: 'Math::Truncate',
   category: 'Math',
   label: 'Truncate',
@@ -19,26 +23,26 @@ export const MathRoundingTruncateNode: NodeDefinition<TruncateInputs, TruncateOu
     value: {
       type: 'number',
       label: 'Value',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'number',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathTrunc',
       params: {
-        value: inputs.value
-      }
+        value: inputs.value,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

@@ -14,7 +14,11 @@ interface ExplodedViewOutputs {
   paths: unknown;
 }
 
-export const AssemblyPatternsExplodedViewNode: NodeDefinition<ExplodedViewInputs, ExplodedViewOutputs, ExplodedViewParams> = {
+export const AssemblyPatternsExplodedViewNode: NodeDefinition<
+  ExplodedViewInputs,
+  ExplodedViewOutputs,
+  ExplodedViewParams
+> = {
   id: 'Assembly::ExplodedView',
   type: 'Assembly::ExplodedView',
   category: 'Assembly',
@@ -24,18 +28,18 @@ export const AssemblyPatternsExplodedViewNode: NodeDefinition<ExplodedViewInputs
     assembly: {
       type: 'Assembly',
       label: 'Assembly',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     exploded: {
       type: 'Shape[]',
-      label: 'Exploded'
+      label: 'Exploded',
     },
     paths: {
       type: 'Wire[]',
-      label: 'Paths'
-    }
+      label: 'Paths',
+    },
   },
   params: {
     distance: {
@@ -43,13 +47,13 @@ export const AssemblyPatternsExplodedViewNode: NodeDefinition<ExplodedViewInputs
       label: 'Distance',
       default: 100,
       min: 0,
-      max: 10000
+      max: 10000,
     },
     autoSpace: {
       type: 'boolean',
       label: 'Auto Space',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -57,13 +61,13 @@ export const AssemblyPatternsExplodedViewNode: NodeDefinition<ExplodedViewInputs
       params: {
         assembly: inputs.assembly,
         distance: params.distance,
-        autoSpace: params.autoSpace
-      }
+        autoSpace: params.autoSpace,
+      },
     });
-    
+
     return {
       exploded: results.exploded,
-      paths: results.paths
+      paths: results.paths,
     };
   },
 };

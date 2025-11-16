@@ -16,7 +16,11 @@ interface SlackNotificationOutputs {
   timestamp: unknown;
 }
 
-export const InteroperabilityMessagingSlackNotificationNode: NodeDefinition<SlackNotificationInputs, SlackNotificationOutputs, SlackNotificationParams> = {
+export const InteroperabilityMessagingSlackNotificationNode: NodeDefinition<
+  SlackNotificationInputs,
+  SlackNotificationOutputs,
+  SlackNotificationParams
+> = {
   id: 'Interoperability::SlackNotification',
   category: 'Interoperability',
   label: 'SlackNotification',
@@ -25,40 +29,40 @@ export const InteroperabilityMessagingSlackNotificationNode: NodeDefinition<Slac
     message: {
       type: 'string',
       label: 'Message',
-      required: true
+      required: true,
     },
     attachments: {
       type: 'Properties[]',
       label: 'Attachments',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     sent: {
       type: 'boolean',
-      label: 'Sent'
+      label: 'Sent',
     },
     timestamp: {
       type: 'string',
-      label: 'Timestamp'
-    }
+      label: 'Timestamp',
+    },
   },
   params: {
     webhookUrl: {
       type: 'string',
       label: 'Webhook Url',
-      default: ""
+      default: '',
     },
     channel: {
       type: 'string',
       label: 'Channel',
-      default: "#general"
+      default: '#general',
     },
     username: {
       type: 'string',
       label: 'Username',
-      default: "BrepFlow"
-    }
+      default: 'BrepFlow',
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -68,13 +72,13 @@ export const InteroperabilityMessagingSlackNotificationNode: NodeDefinition<Slac
         attachments: inputs.attachments,
         webhookUrl: params.webhookUrl,
         channel: params.channel,
-        username: params.username
-      }
+        username: params.username,
+      },
     });
-    
+
     return {
       sent: results.sent,
-      timestamp: results.timestamp
+      timestamp: results.timestamp,
     };
   },
 };

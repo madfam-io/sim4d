@@ -11,7 +11,11 @@ interface RandomPoissonOutputs {
   value: unknown;
 }
 
-export const MathRandomRandomPoissonNode: NodeDefinition<RandomPoissonInputs, RandomPoissonOutputs, RandomPoissonParams> = {
+export const MathRandomRandomPoissonNode: NodeDefinition<
+  RandomPoissonInputs,
+  RandomPoissonOutputs,
+  RandomPoissonParams
+> = {
   id: 'Math::RandomPoisson',
   category: 'Math',
   label: 'RandomPoisson',
@@ -20,35 +24,35 @@ export const MathRandomRandomPoissonNode: NodeDefinition<RandomPoissonInputs, Ra
   outputs: {
     value: {
       type: 'number',
-      label: 'Value'
-    }
+      label: 'Value',
+    },
   },
   params: {
     lambda: {
       type: 'number',
       label: 'Lambda',
       default: 1,
-      min: 0.01
+      min: 0.01,
     },
     seed: {
       type: 'number',
       label: 'Seed',
       default: -1,
       min: -1,
-      max: 999999
-    }
+      max: 999999,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathRandomPoisson',
       params: {
         lambda: params.lambda,
-        seed: params.seed
-      }
+        seed: params.seed,
+      },
     });
-    
+
     return {
-      value: result
+      value: result,
     };
   },
 };

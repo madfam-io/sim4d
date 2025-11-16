@@ -16,7 +16,11 @@ interface CurveSpiralOutputs {
   turns: unknown;
 }
 
-export const AnalysisCurvesCurveSpiralNode: NodeDefinition<CurveSpiralInputs, CurveSpiralOutputs, CurveSpiralParams> = {
+export const AnalysisCurvesCurveSpiralNode: NodeDefinition<
+  CurveSpiralInputs,
+  CurveSpiralOutputs,
+  CurveSpiralParams
+> = {
   id: 'Analysis::CurveSpiral',
   category: 'Analysis',
   label: 'CurveSpiral',
@@ -25,26 +29,26 @@ export const AnalysisCurvesCurveSpiralNode: NodeDefinition<CurveSpiralInputs, Cu
     curve: {
       type: 'Wire',
       label: 'Curve',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     isSpiral: {
       type: 'boolean',
-      label: 'Is Spiral'
+      label: 'Is Spiral',
     },
     center: {
       type: 'Point',
-      label: 'Center'
+      label: 'Center',
     },
     pitch: {
       type: 'number',
-      label: 'Pitch'
+      label: 'Pitch',
     },
     turns: {
       type: 'number',
-      label: 'Turns'
-    }
+      label: 'Turns',
+    },
   },
   params: {
     tolerance: {
@@ -52,13 +56,13 @@ export const AnalysisCurvesCurveSpiralNode: NodeDefinition<CurveSpiralInputs, Cu
       label: 'Tolerance',
       default: 0.01,
       min: 0.001,
-      max: 1
+      max: 1,
     },
     showCenter: {
       type: 'boolean',
       label: 'Show Center',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -66,15 +70,15 @@ export const AnalysisCurvesCurveSpiralNode: NodeDefinition<CurveSpiralInputs, Cu
       params: {
         curve: inputs.curve,
         tolerance: params.tolerance,
-        showCenter: params.showCenter
-      }
+        showCenter: params.showCenter,
+      },
     });
-    
+
     return {
       isSpiral: results.isSpiral,
       center: results.center,
       pitch: results.pitch,
-      turns: results.turns
+      turns: results.turns,
     };
   },
 };

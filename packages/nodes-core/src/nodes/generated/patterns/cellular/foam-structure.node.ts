@@ -13,7 +13,11 @@ interface FoamStructureOutputs {
   foam: unknown;
 }
 
-export const PatternsCellularFoamStructureNode: NodeDefinition<FoamStructureInputs, FoamStructureOutputs, FoamStructureParams> = {
+export const PatternsCellularFoamStructureNode: NodeDefinition<
+  FoamStructureInputs,
+  FoamStructureOutputs,
+  FoamStructureParams
+> = {
   id: 'Patterns::FoamStructure',
   category: 'Patterns',
   label: 'FoamStructure',
@@ -22,14 +26,14 @@ export const PatternsCellularFoamStructureNode: NodeDefinition<FoamStructureInpu
     container: {
       type: 'Shape',
       label: 'Container',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     foam: {
       type: 'Face[]',
-      label: 'Foam'
-    }
+      label: 'Foam',
+    },
   },
   params: {
     bubbleCount: {
@@ -38,15 +42,15 @@ export const PatternsCellularFoamStructureNode: NodeDefinition<FoamStructureInpu
       default: 50,
       min: 5,
       max: 500,
-      step: 5
+      step: 5,
     },
     sizeVariation: {
       type: 'number',
       label: 'Size Variation',
       default: 0.5,
       min: 0,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -54,12 +58,12 @@ export const PatternsCellularFoamStructureNode: NodeDefinition<FoamStructureInpu
       params: {
         container: inputs.container,
         bubbleCount: params.bubbleCount,
-        sizeVariation: params.sizeVariation
-      }
+        sizeVariation: params.sizeVariation,
+      },
     });
-    
+
     return {
-      foam: result
+      foam: result,
     };
   },
 };

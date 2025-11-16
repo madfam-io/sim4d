@@ -21,15 +21,19 @@ export async function getGeometryAPI(): Promise<IntegratedGeometryAPI> {
     return initializationPromise;
   }
 
-  initializationPromise = Promise.resolve(getGeometryAPIBase({
-    enableRealOCCT: true,
-    maxRetries: 2,
-  })).then(api => {
-    apiInstance = api;
-    return api;
-  }).finally(() => {
-    initializationPromise = null;
-  });
+  initializationPromise = Promise.resolve(
+    getGeometryAPIBase({
+      enableRealOCCT: true,
+      maxRetries: 2,
+    })
+  )
+    .then((api) => {
+      apiInstance = api;
+      return api;
+    })
+    .finally(() => {
+      initializationPromise = null;
+    });
 
   return initializationPromise;
 }
@@ -51,9 +55,9 @@ export function getAPIStatus() {
   if (!apiInstance) {
     return { initialized: false, usingRealOCCT: false };
   }
-  return { 
+  return {
     initialized: apiInstance.isInitialized,
-    usingRealOCCT: true
+    usingRealOCCT: true,
   };
 }
 

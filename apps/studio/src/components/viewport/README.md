@@ -22,6 +22,7 @@ Defines the core types and interfaces for the multi-viewport system:
 ### 2. ViewportInstance Component (`ViewportInstance.tsx`)
 
 Individual viewport wrapper that:
+
 - Wraps the existing Enhanced3DViewport component
 - Provides viewport-specific controls (render mode, view type)
 - Shows active viewport indicators
@@ -29,6 +30,7 @@ Individual viewport wrapper that:
 - Displays viewport status (camera mode, zoom, quality)
 
 **Key Features:**
+
 - Header with viewport name and view type
 - Render mode toggle button (R key)
 - View type dropdown menu (1-7 keys for standard views)
@@ -39,6 +41,7 @@ Individual viewport wrapper that:
 ### 3. ViewportLayoutManager Component (`ViewportLayoutManager.tsx`)
 
 Main layout management component that:
+
 - Manages multiple viewport instances
 - Handles layout switching (single ↔ quad ↔ horizontal ↔ vertical)
 - Uses react-resizable-panels for dynamic resizing
@@ -46,6 +49,7 @@ Main layout management component that:
 - Provides keyboard shortcuts for layout switching
 
 **Key Features:**
+
 - Layout controls with visual layout selector
 - Camera sync toggle
 - Active viewport information display
@@ -55,6 +59,7 @@ Main layout management component that:
 ### 4. Professional Styling
 
 **ViewportInstance.css:**
+
 - Professional design with enhanced design tokens
 - Active viewport highlighting with gradient borders
 - Smooth animations and transitions
@@ -62,6 +67,7 @@ Main layout management component that:
 - Accessibility support (focus indicators, high contrast)
 
 **ViewportLayoutManager.css:**
+
 - Layout-specific styling for different configurations
 - Professional resize handles with hover states
 - Camera sync visual indicators
@@ -93,19 +99,23 @@ viewport3d: (
 ## Usage Guide
 
 ### Layout Switching
+
 - **Keyboard**: Ctrl+1 (single), Ctrl+2 (horizontal), Ctrl+3 (vertical), Ctrl+4 (quad)
 - **UI**: Click the layout button in the top toolbar
 
 ### Viewport Navigation
+
 - **Keyboard**: Tab to cycle between viewports
 - **UI**: Click on any viewport to make it active
 
 ### View Controls (per viewport)
+
 - **R key**: Cycle through render modes
 - **1-7 keys**: Switch to standard views (Front, Back, Left, Right, Top, Bottom, ISO)
 - **UI**: Use the render mode and view type buttons in each viewport header
 
 ### Camera Synchronization
+
 - Click the camera sync button to link all viewport cameras
 - When enabled, camera movements in the active viewport affect all viewports
 
@@ -137,6 +147,7 @@ viewport3d: (
 ## Testing
 
 The implementation can be tested by:
+
 1. Starting the development server: `pnpm -w run dev`
 2. Navigating to http://localhost:5173
 3. Using the layout controls in the viewport area

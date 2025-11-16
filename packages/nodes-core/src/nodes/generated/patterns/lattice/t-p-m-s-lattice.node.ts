@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -13,7 +12,11 @@ interface Outputs {
   lattice: Shape;
 }
 
-export const TPMSLatticeNode: NodeDefinition<TPMSLatticeInputs, TPMSLatticeOutputs, TPMSLatticeParams> = {
+export const TPMSLatticeNode: NodeDefinition<
+  TPMSLatticeInputs,
+  TPMSLatticeOutputs,
+  TPMSLatticeParams
+> = {
   type: 'Patterns::TPMSLattice',
   category: 'Patterns',
   subcategory: 'Lattice',
@@ -21,52 +24,44 @@ export const TPMSLatticeNode: NodeDefinition<TPMSLatticeInputs, TPMSLatticeOutpu
   metadata: {
     label: 'TPMSLattice',
     description: 'TPMS lattice structures',
-    
-    
   },
 
   params: {
-        type: {
-      "default": "gyroid",
-      "options": [
-        "gyroid",
-        "schwarz-p",
-        "schwarz-d",
-        "neovius"
-      ]
+    type: {
+      default: 'gyroid',
+      options: ['gyroid', 'schwarz-p', 'schwarz-d', 'neovius'],
     },
     period: {
-      "default": 10,
-      "min": 1
+      default: 10,
+      min: 1,
     },
     thickness: {
-      "default": 1,
-      "min": 0.1
-    }
+      default: 1,
+      min: 0.1,
+    },
   },
 
   inputs: {
-        bounds: 'Box'
+    bounds: 'Box',
   },
 
   outputs: {
-        lattice: 'Shape'
+    lattice: 'Shape',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'tpmsLattice',
       params: {
         bounds: inputs.bounds,
         type: params.type,
         period: params.period,
-        thickness: params.thickness
-      }
+        thickness: params.thickness,
+      },
     });
 
     return {
-      lattice: result
+      lattice: result,
     };
-  }
+  },
 };

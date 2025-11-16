@@ -19,14 +19,14 @@ export default defineConfig({
     timeout: 30000, // Extended timeout for audit operations
     toHaveScreenshot: {
       threshold: 0.2, // More tolerant for accessibility features
-      animations: 'disabled'
-    }
+      animations: 'disabled',
+    },
   },
   reporter: [
     ['html', { outputFolder: 'audit-report' }],
     ['json', { outputFile: 'audit-results.json' }],
     ['junit', { outputFile: 'audit-results.xml' }],
-    ['list']
+    ['list'],
   ],
   use: {
     baseURL: PREVIEW_URL,
@@ -46,37 +46,37 @@ export default defineConfig({
         // Accessibility-specific flags
         '--force-prefers-reduced-motion',
         '--enable-accessibility-logging',
-        '--accessibility-fail-on-warning'
-      ]
-    }
+        '--accessibility-fail-on-warning',
+      ],
+    },
   },
   projects: [
     {
       name: 'accessibility-audit',
       testDir: './tests/audit/accessibility',
-      use: { ...devices['Desktop Chrome'] }
+      use: { ...devices['Desktop Chrome'] },
     },
     {
       name: 'functionality-audit',
       testDir: './tests/audit/functionality',
-      use: { ...devices['Desktop Chrome'] }
+      use: { ...devices['Desktop Chrome'] },
     },
     {
       name: 'performance-audit',
       testDir: './tests/audit/performance',
-      use: { ...devices['Desktop Chrome'] }
+      use: { ...devices['Desktop Chrome'] },
     },
     {
       name: 'cross-browser-audit',
       testDir: './tests/audit/accessibility',
-      use: { ...devices['Desktop Firefox'] }
-    }
+      use: { ...devices['Desktop Firefox'] },
+    },
   ],
   // Start dev server before running tests
   webServer: {
     command: `bash scripts/start-studio-preview.sh ${PREVIEW_HOST} ${PREVIEW_PORT}`,
     url: PREVIEW_URL,
     reuseExistingServer: !process.env.CI,
-    timeout: 240000
-  }
+    timeout: 240000,
+  },
 });

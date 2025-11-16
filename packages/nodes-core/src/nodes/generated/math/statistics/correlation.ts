@@ -11,7 +11,11 @@ interface CorrelationOutputs {
   correlation: unknown;
 }
 
-export const MathStatisticsCorrelationNode: NodeDefinition<CorrelationInputs, CorrelationOutputs, CorrelationParams> = {
+export const MathStatisticsCorrelationNode: NodeDefinition<
+  CorrelationInputs,
+  CorrelationOutputs,
+  CorrelationParams
+> = {
   id: 'Math::Correlation',
   type: 'Math::Correlation',
   category: 'Math',
@@ -21,19 +25,19 @@ export const MathStatisticsCorrelationNode: NodeDefinition<CorrelationInputs, Co
     x: {
       type: 'number[]',
       label: 'X',
-      required: true
+      required: true,
     },
     y: {
       type: 'number[]',
       label: 'Y',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     correlation: {
       type: 'number',
-      label: 'Correlation'
-    }
+      label: 'Correlation',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -41,12 +45,12 @@ export const MathStatisticsCorrelationNode: NodeDefinition<CorrelationInputs, Co
       type: 'mathCorrelation',
       params: {
         x: inputs.x,
-        y: inputs.y
-      }
+        y: inputs.y,
+      },
     });
-    
+
     return {
-      correlation: result
+      correlation: result,
     };
   },
 };

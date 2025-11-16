@@ -86,8 +86,14 @@ test.describe('Phase 4A - Live Parameter Editing', () => {
 
     test('Inspector updates when switching between nodes', async ({ page }) => {
       // Create two different nodes
-      const boxId = await nodeHelper.createBoxNode({ width: 100, height: 50, depth: 25 }, { x: 200, y: 200 });
-      const cylinderId = await nodeHelper.createCylinderNode({ radius: 30, height: 80 }, { x: 400, y: 200 });
+      const boxId = await nodeHelper.createBoxNode(
+        { width: 100, height: 50, depth: 25 },
+        { x: 200, y: 200 }
+      );
+      const cylinderId = await nodeHelper.createCylinderNode(
+        { radius: 30, height: 80 },
+        { x: 400, y: 200 }
+      );
 
       // Select first node and verify Inspector
       await nodeHelper.selectNode(boxId);
@@ -190,7 +196,9 @@ test.describe('Phase 4A - Live Parameter Editing', () => {
       await inspectorHelper.editParameter('width', '999999');
 
       // Should either accept or show range error
-      const hasError = await page.locator('[data-testid="param-error"]').isVisible({ timeout: 1000 });
+      const hasError = await page
+        .locator('[data-testid="param-error"]')
+        .isVisible({ timeout: 1000 });
       const paramValue = await page.inputValue('[data-testid="inspector-param-width"]');
 
       if (hasError) {
@@ -340,8 +348,14 @@ test.describe('Phase 4A - Live Parameter Editing', () => {
 
     test('Inspector handles different node types correctly', async ({ page }) => {
       // Test with different node types to ensure Inspector adapts
-      const boxId = await nodeHelper.createBoxNode({ width: 100, height: 50, depth: 25 }, { x: 200, y: 200 });
-      const cylinderId = await nodeHelper.createCylinderNode({ radius: 30, height: 80 }, { x: 400, y: 200 });
+      const boxId = await nodeHelper.createBoxNode(
+        { width: 100, height: 50, depth: 25 },
+        { x: 200, y: 200 }
+      );
+      const cylinderId = await nodeHelper.createCylinderNode(
+        { radius: 30, height: 80 },
+        { x: 400, y: 200 }
+      );
 
       // Test Box node parameters
       await nodeHelper.selectNode(boxId);

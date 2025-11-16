@@ -13,7 +13,11 @@ interface ContextFreeArtOutputs {
   art: unknown;
 }
 
-export const PatternsProceduralContextFreeArtNode: NodeDefinition<ContextFreeArtInputs, ContextFreeArtOutputs, ContextFreeArtParams> = {
+export const PatternsProceduralContextFreeArtNode: NodeDefinition<
+  ContextFreeArtInputs,
+  ContextFreeArtOutputs,
+  ContextFreeArtParams
+> = {
   id: 'Patterns::ContextFreeArt',
   type: 'Patterns::ContextFreeArt',
   category: 'Patterns',
@@ -23,20 +27,20 @@ export const PatternsProceduralContextFreeArtNode: NodeDefinition<ContextFreeArt
     canvas: {
       type: 'Face',
       label: 'Canvas',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     art: {
       type: 'Shape[]',
-      label: 'Art'
-    }
+      label: 'Art',
+    },
   },
   params: {
     rules: {
       type: 'string',
       label: 'Rules',
-      default: "CIRCLE{},SQUARE{r 45}"
+      default: 'CIRCLE{},SQUARE{r 45}',
     },
     depth: {
       type: 'number',
@@ -44,8 +48,8 @@ export const PatternsProceduralContextFreeArtNode: NodeDefinition<ContextFreeArt
       default: 10,
       min: 1,
       max: 20,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const PatternsProceduralContextFreeArtNode: NodeDefinition<ContextFreeArt
       params: {
         canvas: inputs.canvas,
         rules: params.rules,
-        depth: params.depth
-      }
+        depth: params.depth,
+      },
     });
-    
+
     return {
-      art: result
+      art: result,
     };
   },
 };

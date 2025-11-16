@@ -14,7 +14,11 @@ interface HelicalEntryOutputs {
   helixPath: unknown;
 }
 
-export const FabricationCNCHelicalEntryNode: NodeDefinition<HelicalEntryInputs, HelicalEntryOutputs, HelicalEntryParams> = {
+export const FabricationCNCHelicalEntryNode: NodeDefinition<
+  HelicalEntryInputs,
+  HelicalEntryOutputs,
+  HelicalEntryParams
+> = {
   id: 'Fabrication::HelicalEntry',
   type: 'Fabrication::HelicalEntry',
   category: 'Fabrication',
@@ -24,19 +28,19 @@ export const FabricationCNCHelicalEntryNode: NodeDefinition<HelicalEntryInputs, 
     entryPoint: {
       type: 'Point',
       label: 'Entry Point',
-      required: true
+      required: true,
     },
     depth: {
       type: 'Number',
       label: 'Depth',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     helixPath: {
       type: 'Wire',
-      label: 'Helix Path'
-    }
+      label: 'Helix Path',
+    },
   },
   params: {
     helixDiameter: {
@@ -44,15 +48,15 @@ export const FabricationCNCHelicalEntryNode: NodeDefinition<HelicalEntryInputs, 
       label: 'Helix Diameter',
       default: 10,
       min: 1,
-      max: 50
+      max: 50,
     },
     helixAngle: {
       type: 'number',
       label: 'Helix Angle',
       default: 3,
       min: 1,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -61,12 +65,12 @@ export const FabricationCNCHelicalEntryNode: NodeDefinition<HelicalEntryInputs, 
         entryPoint: inputs.entryPoint,
         depth: inputs.depth,
         helixDiameter: params.helixDiameter,
-        helixAngle: params.helixAngle
-      }
+        helixAngle: params.helixAngle,
+      },
     });
-    
+
     return {
-      helixPath: result
+      helixPath: result,
     };
   },
 };

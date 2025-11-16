@@ -16,7 +16,11 @@ interface ClampingCollarOutputs {
   bore: unknown;
 }
 
-export const MechanicalEngineeringFastenersClampingCollarNode: NodeDefinition<ClampingCollarInputs, ClampingCollarOutputs, ClampingCollarParams> = {
+export const MechanicalEngineeringFastenersClampingCollarNode: NodeDefinition<
+  ClampingCollarInputs,
+  ClampingCollarOutputs,
+  ClampingCollarParams
+> = {
   id: 'MechanicalEngineering::ClampingCollar',
   category: 'MechanicalEngineering',
   label: 'ClampingCollar',
@@ -25,18 +29,18 @@ export const MechanicalEngineeringFastenersClampingCollarNode: NodeDefinition<Cl
     position: {
       type: 'Point',
       label: 'Position',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     collar: {
       type: 'Shape',
-      label: 'Collar'
+      label: 'Collar',
     },
     bore: {
       type: 'Wire',
-      label: 'Bore'
-    }
+      label: 'Bore',
+    },
   },
   params: {
     shaftDiameter: {
@@ -44,28 +48,28 @@ export const MechanicalEngineeringFastenersClampingCollarNode: NodeDefinition<Cl
       label: 'Shaft Diameter',
       default: 10,
       min: 3,
-      max: 50
+      max: 50,
     },
     outerDiameter: {
       type: 'number',
       label: 'Outer Diameter',
       default: 20,
       min: 8,
-      max: 80
+      max: 80,
     },
     width: {
       type: 'number',
       label: 'Width',
       default: 8,
       min: 3,
-      max: 20
+      max: 20,
     },
     clampType: {
       type: 'enum',
       label: 'Clamp Type',
-      default: "set-screw",
-      options: ["set-screw","split","hinged"]
-    }
+      default: 'set-screw',
+      options: ['set-screw', 'split', 'hinged'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -75,13 +79,13 @@ export const MechanicalEngineeringFastenersClampingCollarNode: NodeDefinition<Cl
         shaftDiameter: params.shaftDiameter,
         outerDiameter: params.outerDiameter,
         width: params.width,
-        clampType: params.clampType
-      }
+        clampType: params.clampType,
+      },
     });
-    
+
     return {
       collar: results.collar,
-      bore: results.bore
+      bore: results.bore,
     };
   },
 };

@@ -12,7 +12,11 @@ interface NonPlanarSlicingOutputs {
   nonPlanarSlices: unknown;
 }
 
-export const Fabrication3DPrintingNonPlanarSlicingNode: NodeDefinition<NonPlanarSlicingInputs, NonPlanarSlicingOutputs, NonPlanarSlicingParams> = {
+export const Fabrication3DPrintingNonPlanarSlicingNode: NodeDefinition<
+  NonPlanarSlicingInputs,
+  NonPlanarSlicingOutputs,
+  NonPlanarSlicingParams
+> = {
   id: 'Fabrication::NonPlanarSlicing',
   type: 'Fabrication::NonPlanarSlicing',
   category: 'Fabrication',
@@ -22,14 +26,14 @@ export const Fabrication3DPrintingNonPlanarSlicingNode: NodeDefinition<NonPlanar
     model: {
       type: 'Shape',
       label: 'Model',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     nonPlanarSlices: {
       type: 'Wire[]',
-      label: 'Non Planar Slices'
-    }
+      label: 'Non Planar Slices',
+    },
   },
   params: {
     maxAngle: {
@@ -37,20 +41,20 @@ export const Fabrication3DPrintingNonPlanarSlicingNode: NodeDefinition<NonPlanar
       label: 'Max Angle',
       default: 30,
       min: 0,
-      max: 60
-    }
+      max: 60,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'nonPlanarSlicing',
       params: {
         model: inputs.model,
-        maxAngle: params.maxAngle
-      }
+        maxAngle: params.maxAngle,
+      },
     });
-    
+
     return {
-      nonPlanarSlices: result
+      nonPlanarSlices: result,
     };
   },
 };

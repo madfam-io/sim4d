@@ -12,7 +12,11 @@ interface StandardDeviationOutputs {
   stddev: unknown;
 }
 
-export const MathStatisticsStandardDeviationNode: NodeDefinition<StandardDeviationInputs, StandardDeviationOutputs, StandardDeviationParams> = {
+export const MathStatisticsStandardDeviationNode: NodeDefinition<
+  StandardDeviationInputs,
+  StandardDeviationOutputs,
+  StandardDeviationParams
+> = {
   id: 'Math::StandardDeviation',
   type: 'Math::StandardDeviation',
   category: 'Math',
@@ -22,33 +26,33 @@ export const MathStatisticsStandardDeviationNode: NodeDefinition<StandardDeviati
     values: {
       type: 'number[]',
       label: 'Values',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     stddev: {
       type: 'number',
-      label: 'Stddev'
-    }
+      label: 'Stddev',
+    },
   },
   params: {
     sample: {
       type: 'boolean',
       label: 'Sample',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathStdDev',
       params: {
         values: inputs.values,
-        sample: params.sample
-      }
+        sample: params.sample,
+      },
     });
-    
+
     return {
-      stddev: result
+      stddev: result,
     };
   },
 };

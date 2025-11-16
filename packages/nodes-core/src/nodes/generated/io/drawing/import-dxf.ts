@@ -15,7 +15,11 @@ interface ImportDXFOutputs {
   layers: unknown;
 }
 
-export const IODrawingImportDXFNode: NodeDefinition<ImportDXFInputs, ImportDXFOutputs, ImportDXFParams> = {
+export const IODrawingImportDXFNode: NodeDefinition<
+  ImportDXFInputs,
+  ImportDXFOutputs,
+  ImportDXFParams
+> = {
   id: 'IO::ImportDXF',
   type: 'IO::ImportDXF',
   category: 'IO',
@@ -25,37 +29,37 @@ export const IODrawingImportDXFNode: NodeDefinition<ImportDXFInputs, ImportDXFOu
     fileData: {
       type: 'Data',
       label: 'File Data',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     wires: {
       type: 'Wire[]',
-      label: 'Wires'
+      label: 'Wires',
     },
     layers: {
       type: 'Data',
-      label: 'Layers'
-    }
+      label: 'Layers',
+    },
   },
   params: {
     importAs: {
       type: 'enum',
       label: 'Import As',
-      default: "2d",
-      options: ["2d","3d","both"]
+      default: '2d',
+      options: ['2d', '3d', 'both'],
     },
     layerFilter: {
       type: 'string',
       label: 'Layer Filter',
-      default: "*"
+      default: '*',
     },
     units: {
       type: 'enum',
       label: 'Units',
-      default: "mm",
-      options: ["mm","cm","m","inch"]
-    }
+      default: 'mm',
+      options: ['mm', 'cm', 'm', 'inch'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -64,13 +68,13 @@ export const IODrawingImportDXFNode: NodeDefinition<ImportDXFInputs, ImportDXFOu
         fileData: inputs.fileData,
         importAs: params.importAs,
         layerFilter: params.layerFilter,
-        units: params.units
-      }
+        units: params.units,
+      },
     });
-    
+
     return {
       wires: results.wires,
-      layers: results.layers
+      layers: results.layers,
     };
   },
 };

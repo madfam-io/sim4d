@@ -30,9 +30,7 @@ export const TutorialTrigger = () => {
       </div>
 
       {/* Tutorial Component */}
-      {showTutorial && (
-        <AbacusIntegrationTutorial onClose={closeTutorial} />
-      )}
+      {showTutorial && <AbacusIntegrationTutorial onClose={closeTutorial} />}
 
       <style jsx>{`
         .tutorial-trigger {

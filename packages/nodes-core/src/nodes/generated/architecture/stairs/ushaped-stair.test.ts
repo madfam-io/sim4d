@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { ArchitectureStairsUShapedStairNode } from './ushaped-stair.node';
 import { createTestContext } from '../test-utils';
@@ -7,11 +6,11 @@ describe('ArchitectureStairsUShapedStairNode', () => {
   it('should evaluate without throwing', async () => {
     const context = createTestContext();
     const inputs = {
-      startPoint: undefined
+      startPoint: undefined,
     } as any;
     const params = {
       totalRise: 3000,
-      clearance: 100
+      clearance: 100,
     } as any;
 
     const result = await ArchitectureStairsUShapedStairNode.evaluate(context, inputs, params);

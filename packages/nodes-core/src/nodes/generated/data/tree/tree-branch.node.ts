@@ -11,7 +11,11 @@ interface TreeBranchOutputs {
   branch: unknown;
 }
 
-export const DataTreeTreeBranchNode: NodeDefinition<TreeBranchInputs, TreeBranchOutputs, TreeBranchParams> = {
+export const DataTreeTreeBranchNode: NodeDefinition<
+  TreeBranchInputs,
+  TreeBranchOutputs,
+  TreeBranchParams
+> = {
   id: 'Data::TreeBranch',
   category: 'Data',
   label: 'TreeBranch',
@@ -20,19 +24,19 @@ export const DataTreeTreeBranchNode: NodeDefinition<TreeBranchInputs, TreeBranch
     tree: {
       type: 'DataTree',
       label: 'Tree',
-      required: true
+      required: true,
     },
     path: {
       type: 'string',
       label: 'Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     branch: {
       type: 'Data[]',
-      label: 'Branch'
-    }
+      label: 'Branch',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -40,12 +44,12 @@ export const DataTreeTreeBranchNode: NodeDefinition<TreeBranchInputs, TreeBranch
       type: 'treeBranch',
       params: {
         tree: inputs.tree,
-        path: inputs.path
-      }
+        path: inputs.path,
+      },
     });
-    
+
     return {
-      branch: result
+      branch: result,
     };
   },
 };

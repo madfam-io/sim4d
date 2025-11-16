@@ -13,7 +13,11 @@ interface VoronoiFractureOutputs {
   fragments: unknown;
 }
 
-export const PatternsVoronoiVoronoiFractureNode: NodeDefinition<VoronoiFractureInputs, VoronoiFractureOutputs, VoronoiFractureParams> = {
+export const PatternsVoronoiVoronoiFractureNode: NodeDefinition<
+  VoronoiFractureInputs,
+  VoronoiFractureOutputs,
+  VoronoiFractureParams
+> = {
   id: 'Patterns::VoronoiFracture',
   type: 'Patterns::VoronoiFracture',
   category: 'Patterns',
@@ -23,14 +27,14 @@ export const PatternsVoronoiVoronoiFractureNode: NodeDefinition<VoronoiFractureI
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     fragments: {
       type: 'Face[]',
-      label: 'Fragments'
-    }
+      label: 'Fragments',
+    },
   },
   params: {
     irregularity: {
@@ -38,15 +42,15 @@ export const PatternsVoronoiVoronoiFractureNode: NodeDefinition<VoronoiFractureI
       label: 'Irregularity',
       default: 0.5,
       min: 0,
-      max: 1
+      max: 1,
     },
     density: {
       type: 'number',
       label: 'Density',
       default: 10,
       min: 1,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -54,12 +58,12 @@ export const PatternsVoronoiVoronoiFractureNode: NodeDefinition<VoronoiFractureI
       params: {
         surface: inputs.surface,
         irregularity: params.irregularity,
-        density: params.density
-      }
+        density: params.density,
+      },
     });
-    
+
     return {
-      fragments: result
+      fragments: result,
     };
   },
 };

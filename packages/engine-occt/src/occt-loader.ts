@@ -3,7 +3,11 @@
  * Handles loading and initialization of the real OCCT WebAssembly module
  */
 
-import { WASMCapabilityDetector, WASMPerformanceMonitor, type OCCTConfig } from './wasm-capability-detector';
+import {
+  WASMCapabilityDetector,
+  WASMPerformanceMonitor,
+  type OCCTConfig,
+} from './wasm-capability-detector';
 
 declare function createOCCTCoreModule(config?: any): Promise<any>;
 
@@ -23,7 +27,7 @@ class LoaderState {
   private static circuitBreaker: CircuitBreakerState = {
     failures: 0,
     lastFailureTime: 0,
-    state: 'closed'
+    state: 'closed',
   };
 
   static isCircuitOpen(): boolean {
@@ -55,7 +59,7 @@ class LoaderState {
     this.circuitBreaker = {
       failures: 0,
       lastFailureTime: 0,
-      state: 'closed'
+      state: 'closed',
     };
   }
 }
@@ -76,7 +80,8 @@ export async function loadOCCTModule(options: LoaderOptions = {}): Promise<any> 
     const isBrowser = typeof window !== 'undefined';
     const isWorker = typeof importScripts === 'function';
     const isNode = typeof process !== 'undefined' && process.versions && process.versions.node;
-    const isTest = typeof global !== 'undefined' && (global.__vitest || process.env.NODE_ENV === 'test');
+    const isTest =
+      typeof global !== 'undefined' && (global.__vitest || process.env.NODE_ENV === 'test');
 
     console.log('[OCCT] Environment detection:', { isBrowser, isWorker, isNode, isTest });
 
@@ -121,7 +126,6 @@ export async function loadOCCTModule(options: LoaderOptions = {}): Promise<any> 
         console.log(`[OCCT] Successfully loaded ${config.mode} in ${duration.toFixed(1)}ms`);
 
         return occtModule;
-
       } catch (error) {
         console.warn(`[OCCT] Attempt ${attempts} failed:`, error);
 
@@ -131,12 +135,11 @@ export async function loadOCCTModule(options: LoaderOptions = {}): Promise<any> 
         }
 
         // Wait before retry (exponential backoff)
-        await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempts - 1) * 1000));
+        await new Promise((resolve) => setTimeout(resolve, Math.pow(2, attempts - 1) * 1000));
       }
     }
 
     throw new Error('Unexpected end of load attempts');
-
   } catch (error) {
     endMeasurement();
     console.error('[OCCT] Failed to load WASM module:', error);
@@ -162,11 +165,15 @@ async function loadNodeJSOCCT(): Promise<any> {
   if (!fs.existsSync(jsPath)) missingArtifacts.push(path.basename(jsPath));
   if (!fs.existsSync(wasmPath)) missingArtifacts.push(path.basename(wasmPath));
   if (!fs.existsSync(workerPath)) {
-    console.warn('[OCCT Node.js] Worker glue not found. Pthread worker paths will be resolved relative to the current working directory.');
+    console.warn(
+      '[OCCT Node.js] Worker glue not found. Pthread worker paths will be resolved relative to the current working directory.'
+    );
   }
 
   if (missingArtifacts.length > 0) {
-    throw new Error(`OCCT Node bundle missing: ${missingArtifacts.join(', ')}. Run \"pnpm run build:wasm\" to regenerate.`);
+    throw new Error(
+      `OCCT Node bundle missing: ${missingArtifacts.join(', ')}. Run \"pnpm run build:wasm\" to regenerate.`
+    );
   }
 
   const moduleUrl = url.pathToFileURL(jsPath).href;
@@ -174,7 +181,10 @@ async function loadNodeJSOCCT(): Promise<any> {
   const workerUrl = fs.existsSync(workerPath) ? url.pathToFileURL(workerPath).href : undefined;
 
   const wasmModuleImport = await import(/* @vite-ignore */ moduleUrl);
-  const factory = wasmModuleImport.default || wasmModuleImport.createOCCTCoreModule || wasmModuleImport.createOCCTModule;
+  const factory =
+    wasmModuleImport.default ||
+    wasmModuleImport.createOCCTCoreModule ||
+    wasmModuleImport.createOCCTModule;
 
   if (typeof factory !== 'function') {
     throw new Error(`OCCT Node bundle does not export a usable factory function: ${moduleUrl}`);
@@ -196,7 +206,10 @@ async function loadNodeJSOCCT(): Promise<any> {
 
   (globalThis as any).Module = moduleInstance;
 
-  console.log('[OCCT Node.js] OCCT wasm module ready with exports:', Object.keys(moduleInstance).length);
+  console.log(
+    '[OCCT Node.js] OCCT wasm module ready with exports:',
+    Object.keys(moduleInstance).length
+  );
 
   const adapter = new OCCTAdapter(moduleInstance);
   await adapter.init();
@@ -217,10 +230,10 @@ async function loadFullOCCTModule(config: OCCTConfig, options: LoaderOptions): P
   try {
     const jsUrl = new URL(/* @vite-ignore */ '../wasm/occt.js', import.meta.url).href;
     const jsModule = await import(jsUrl);
-    
+
     // Get the factory function from the module
     const factory = jsModule.default || jsModule.createOCCTModule;
-    
+
     if (typeof factory !== 'function') {
       throw new Error('OCCT JS glue code does not export a factory function');
     }
@@ -238,7 +251,9 @@ async function loadFullOCCTModule(config: OCCTConfig, options: LoaderOptions): P
       },
 
       // Memory configuration based on detected capabilities
-      INITIAL_MEMORY: parseInt(config.memory.replace(/GB|MB/, '')) * (config.memory.includes('GB') ? 1024 * 1024 * 1024 : 1024 * 1024),
+      INITIAL_MEMORY:
+        parseInt(config.memory.replace(/GB|MB/, '')) *
+        (config.memory.includes('GB') ? 1024 * 1024 * 1024 : 1024 * 1024),
       MAXIMUM_MEMORY: 4 * 1024 * 1024 * 1024, // 4GB max
       ALLOW_MEMORY_GROWTH: true,
 
@@ -247,7 +262,7 @@ async function loadFullOCCTModule(config: OCCTConfig, options: LoaderOptions): P
       PTHREAD_POOL_SIZE: config.workers,
 
       // Runtime callbacks
-      onRuntimeInitialized: function() {
+      onRuntimeInitialized: function () {
         console.log('[OCCT] Full runtime initialized successfully');
 
         // Validate that we have the expected OCCT functions
@@ -268,23 +283,23 @@ async function loadFullOCCTModule(config: OCCTConfig, options: LoaderOptions): P
 
       printErr: (text: string) => {
         console.error('[OCCT Error]', text);
-      }
+      },
     };
 
     // Call the Emscripten factory function with our config
     const occtModule = await factory(moduleConfig);
-    
+
     console.log('[OCCT] Full module loaded successfully', {
-    hasExports: !!occtModule,
-    exportCount: occtModule ? Object.keys(occtModule).length : 0
-  });
+      hasExports: !!occtModule,
+      exportCount: occtModule ? Object.keys(occtModule).length : 0,
+    });
 
-  (globalThis as any).Module = occtModule;
+    (globalThis as any).Module = occtModule;
 
-  // Wrap the raw OCCT module with an invoke interface
-  const occtAdapter = new OCCTAdapter(occtModule);
-  await occtAdapter.init();
-  return occtAdapter;
+    // Wrap the raw OCCT module with an invoke interface
+    const occtAdapter = new OCCTAdapter(occtModule);
+    await occtAdapter.init();
+    return occtAdapter;
   } catch (error) {
     console.error('[OCCT] Failed to load full OCCT module:', error);
     throw error;
@@ -305,10 +320,10 @@ async function loadOptimizedOCCTModule(config: OCCTConfig, options: LoaderOption
   try {
     const jsUrl = new URL(/* @vite-ignore */ '../wasm/occt-core.js', import.meta.url).href;
     const jsModule = await import(jsUrl);
-    
+
     // Get the factory function from the module
     const factory = jsModule.default || jsModule.createOCCTCoreModule;
-    
+
     if (typeof factory !== 'function') {
       throw new Error('OCCT Core JS glue code does not export a factory function');
     }
@@ -326,7 +341,9 @@ async function loadOptimizedOCCTModule(config: OCCTConfig, options: LoaderOption
       },
 
       // Optimized memory configuration
-      INITIAL_MEMORY: parseInt(config.memory.replace(/GB|MB/, '')) * (config.memory.includes('GB') ? 1024 * 1024 * 1024 : 1024 * 1024),
+      INITIAL_MEMORY:
+        parseInt(config.memory.replace(/GB|MB/, '')) *
+        (config.memory.includes('GB') ? 1024 * 1024 * 1024 : 1024 * 1024),
       MAXIMUM_MEMORY: 2 * 1024 * 1024 * 1024, // 2GB max for optimized
       ALLOW_MEMORY_GROWTH: true,
 
@@ -334,7 +351,7 @@ async function loadOptimizedOCCTModule(config: OCCTConfig, options: LoaderOption
       USE_PTHREADS: false,
 
       // Runtime callbacks
-      onRuntimeInitialized: function() {
+      onRuntimeInitialized: function () {
         console.log('[OCCT] Optimized runtime initialized successfully');
       },
 
@@ -344,14 +361,14 @@ async function loadOptimizedOCCTModule(config: OCCTConfig, options: LoaderOption
 
       printErr: (text: string) => {
         console.error('[OCCT Error]', text);
-      }
+      },
     };
 
     // Call the Emscripten factory function with our config
     const occtModule = await factory(moduleConfig);
-    
+
     console.log('[OCCT] Optimized module loaded successfully');
-    
+
     (globalThis as any).Module = occtModule;
 
     // Wrap the raw OCCT module with an invoke interface
@@ -378,7 +395,9 @@ async function instantiateWASMDirect(wasmUrl: string, Module?: any): Promise<any
       memory,
       __memory_base: 0,
       __table_base: 0,
-      abort: () => { throw new Error('WASM abort'); },
+      abort: () => {
+        throw new Error('WASM abort');
+      },
       emscripten_resize_heap: () => false,
     },
     wasi_snapshot_preview1: {
@@ -386,7 +405,7 @@ async function instantiateWASMDirect(wasmUrl: string, Module?: any): Promise<any
       fd_close: () => 0,
       fd_write: () => 0,
       fd_seek: () => 0,
-    }
+    },
   });
 
   return {
@@ -410,7 +429,7 @@ async function getConfigForMode(mode: string): Promise<OCCTConfig> {
     workers: Math.min(navigator.hardwareConcurrency || 2, 4),
     enableSIMD: caps.hasSimd,
     useThreads: false,
-    memory: '1GB'
+    memory: '1GB',
   };
 
   switch (mode) {
@@ -421,13 +440,13 @@ async function getConfigForMode(mode: string): Promise<OCCTConfig> {
         wasmFile: 'occt.wasm',
         workers: Math.min(navigator.hardwareConcurrency || 4, 8),
         memory: '2GB',
-        useThreads: caps.hasThreads && caps.hasSharedArrayBuffer
+        useThreads: caps.hasThreads && caps.hasSharedArrayBuffer,
       };
     case 'optimized-occt':
       return {
         ...baseConfig,
         mode: 'optimized-occt',
-        wasmFile: 'occt-core.wasm'
+        wasmFile: 'occt-core.wasm',
       };
     default:
       throw new Error(`Unknown forced mode: ${mode}`);
@@ -437,7 +456,11 @@ async function getConfigForMode(mode: string): Promise<OCCTConfig> {
 /**
  * Check if OCCT WASM is available with enhanced detection
  */
-export async function isOCCTAvailable(): Promise<{ available: boolean; mode: string; capabilities?: any }> {
+export async function isOCCTAvailable(): Promise<{
+  available: boolean;
+  mode: string;
+  capabilities?: any;
+}> {
   try {
     // Get capabilities first
     const capabilities = await WASMCapabilityDetector.detectCapabilities();
@@ -445,14 +468,17 @@ export async function isOCCTAvailable(): Promise<{ available: boolean; mode: str
     // Check for different WASM files
     const wasmFiles = [
       { file: 'occt.wasm', mode: 'full-occt' },
-      { file: 'occt-core.wasm', mode: 'optimized-occt' }
+      { file: 'occt-core.wasm', mode: 'optimized-occt' },
     ];
 
     for (const { file, mode } of wasmFiles) {
       try {
-        const response = await fetch(new URL(/* @vite-ignore */ `../wasm/${file}`, import.meta.url).href, {
-          method: 'HEAD'
-        });
+        const response = await fetch(
+          new URL(/* @vite-ignore */ `../wasm/${file}`, import.meta.url).href,
+          {
+            method: 'HEAD',
+          }
+        );
         if (response.ok) {
           return { available: true, mode, capabilities };
         }
@@ -567,7 +593,14 @@ class OCCTAdapter {
     throw new Error('Invalid shape reference');
   }
 
-  private makeBox(params: { width?: number; height?: number; depth?: number; dx?: number; dy?: number; dz?: number }) {
+  private makeBox(params: {
+    width?: number;
+    height?: number;
+    depth?: number;
+    dx?: number;
+    dy?: number;
+    dz?: number;
+  }) {
     const width = params.width ?? params.dx ?? params.depth ?? 1;
     const height = params.height ?? params.dy ?? width;
     const depth = params.depth ?? params.dz ?? height;

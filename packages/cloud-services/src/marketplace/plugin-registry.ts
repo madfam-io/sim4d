@@ -292,33 +292,34 @@ export class PluginRegistry extends EventEmitter {
     // Apply filters
     if (options.query) {
       const query = options.query.toLowerCase();
-      results = results.filter(entry =>
-        entry.metadata.name.toLowerCase().includes(query) ||
-        entry.metadata.description.toLowerCase().includes(query) ||
-        entry.metadata.tags.some(tag => tag.toLowerCase().includes(query))
+      results = results.filter(
+        (entry) =>
+          entry.metadata.name.toLowerCase().includes(query) ||
+          entry.metadata.description.toLowerCase().includes(query) ||
+          entry.metadata.tags.some((tag) => tag.toLowerCase().includes(query))
       );
     }
 
     if (options.category) {
-      results = results.filter(entry => entry.metadata.category === options.category);
+      results = results.filter((entry) => entry.metadata.category === options.category);
     }
 
     if (options.tags) {
-      results = results.filter(entry =>
-        options.tags!.every(tag => entry.metadata.tags.includes(tag))
+      results = results.filter((entry) =>
+        options.tags!.every((tag) => entry.metadata.tags.includes(tag))
       );
     }
 
     if (options.author) {
-      results = results.filter(entry => entry.metadata.author === options.author);
+      results = results.filter((entry) => entry.metadata.author === options.author);
     }
 
     if (options.verified !== undefined) {
-      results = results.filter(entry => entry.verifiedAuthor === options.verified);
+      results = results.filter((entry) => entry.verifiedAuthor === options.verified);
     }
 
     if (!options.includeDeprecated) {
-      results = results.filter(entry => entry.status === 'active');
+      results = results.filter((entry) => entry.status === 'active');
     }
 
     // Sort results
@@ -387,8 +388,9 @@ export class PluginRegistry extends EventEmitter {
       return [];
     }
 
-    return Array.from(entry.versions.values())
-      .sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime());
+    return Array.from(entry.versions.values()).sort(
+      (a, b) => b.publishedAt.getTime() - a.publishedAt.getTime()
+    );
   }
 
   /**
@@ -427,7 +429,11 @@ export class PluginRegistry extends EventEmitter {
     return downloadToken;
   }
 
-  async getDownloadUrl(pluginId: PluginId, version?: string, downloadToken?: string): Promise<string> {
+  async getDownloadUrl(
+    pluginId: PluginId,
+    version?: string,
+    downloadToken?: string
+  ): Promise<string> {
     const entry = this.registry.get(pluginId);
     if (!entry) {
       throw new Error(`Plugin ${pluginId} not found`);
@@ -483,14 +489,16 @@ export class PluginRegistry extends EventEmitter {
       // Version distribution
       for (const [version] of entry.versions) {
         const majorVersion = version.split('.')[0];
-        stats.versionsDistribution[majorVersion] = (stats.versionsDistribution[majorVersion] || 0) + 1;
+        stats.versionsDistribution[majorVersion] =
+          (stats.versionsDistribution[majorVersion] || 0) + 1;
       }
 
       // Security score distribution
       const currentVersion = entry.versions.get(entry.currentVersion);
       if (currentVersion) {
         const scoreRange = this.getScoreRange(currentVersion.security.trustScore);
-        stats.securityScoreDistribution[scoreRange] = (stats.securityScoreDistribution[scoreRange] || 0) + 1;
+        stats.securityScoreDistribution[scoreRange] =
+          (stats.securityScoreDistribution[scoreRange] || 0) + 1;
       }
     }
 
@@ -499,7 +507,10 @@ export class PluginRegistry extends EventEmitter {
     return stats;
   }
 
-  async getPluginStats(pluginId: PluginId, period?: { start: Date; end: Date }): Promise<{
+  async getPluginStats(
+    pluginId: PluginId,
+    period?: { start: Date; end: Date }
+  ): Promise<{
     downloads: number;
     versions: number;
     lastUpdate: Date;
@@ -626,7 +637,10 @@ export class PluginRegistry extends EventEmitter {
     };
   }
 
-  private async performSecurityScan(bundle: ArrayBuffer, manifest: PluginManifest): Promise<SecurityInfo> {
+  private async performSecurityScan(
+    bundle: ArrayBuffer,
+    manifest: PluginManifest
+  ): Promise<SecurityInfo> {
     // Placeholder security scan
     return {
       scanDate: new Date(),
@@ -720,14 +734,20 @@ export class PluginRegistry extends EventEmitter {
 
   private async calculateIntegrityHash(bundle: ArrayBuffer): Promise<string> {
     const hashBuffer = await crypto.subtle.digest('SHA-256', bundle);
-    return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+    return Array.from(new Uint8Array(hashBuffer))
+      .map((b) => b.toString(16).padStart(2, '0'))
+      .join('');
   }
 
   private async calculateChecksum(bundle: ArrayBuffer): Promise<string> {
     return this.calculateIntegrityHash(bundle);
   }
 
-  private async storeBundle(pluginId: PluginId, version: string, bundle: ArrayBuffer): Promise<void> {
+  private async storeBundle(
+    pluginId: PluginId,
+    version: string,
+    bundle: ArrayBuffer
+  ): Promise<void> {
     // Implementation depends on storage provider
   }
 
@@ -739,12 +759,19 @@ export class PluginRegistry extends EventEmitter {
     return `${this.config.distribution.cdnUrl}/plugins/${pluginId}/${version}/bundle.js`;
   }
 
-  private async cryptoVerifySignature(data: ArrayBuffer, signature: Ed25519Signature): Promise<boolean> {
+  private async cryptoVerifySignature(
+    data: ArrayBuffer,
+    signature: Ed25519Signature
+  ): Promise<boolean> {
     // Implementation depends on crypto library
     return true; // Placeholder
   }
 
-  private async generateDownloadToken(pluginId: PluginId, version: string, userId?: UserId): Promise<string> {
+  private async generateDownloadToken(
+    pluginId: PluginId,
+    version: string,
+    userId?: UserId
+  ): Promise<string> {
     return `token_${pluginId}_${version}_${Date.now()}`;
   }
 
@@ -752,7 +779,10 @@ export class PluginRegistry extends EventEmitter {
     // Implementation depends on token validation strategy
   }
 
-  private async getDownloadHistory(pluginId: PluginId, period?: { start: Date; end: Date }): Promise<Array<{ date: Date; count: number }>> {
+  private async getDownloadHistory(
+    pluginId: PluginId,
+    period?: { start: Date; end: Date }
+  ): Promise<Array<{ date: Date; count: number }>> {
     // Implementation depends on analytics storage
     return [];
   }

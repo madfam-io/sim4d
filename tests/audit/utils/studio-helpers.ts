@@ -120,7 +120,9 @@ export async function bootstrapStudio(page: Page): Promise<void> {
 
   const initialErrors = await getAuditErrors(page);
   if (initialErrors.length > 0) {
-    throw new Error(`Studio bootstrap emitted ${initialErrors.length} console error(s): ${initialErrors.slice(0, 3).join(' | ')}`);
+    throw new Error(
+      `Studio bootstrap emitted ${initialErrors.length} console error(s): ${initialErrors.slice(0, 3).join(' | ')}`
+    );
   }
 
   await clearAuditErrors(page);

@@ -14,7 +14,11 @@ interface PalletizingPatternOutputs {
   placementPoints: unknown;
 }
 
-export const FabricationRoboticsPalletizingPatternNode: NodeDefinition<PalletizingPatternInputs, PalletizingPatternOutputs, PalletizingPatternParams> = {
+export const FabricationRoboticsPalletizingPatternNode: NodeDefinition<
+  PalletizingPatternInputs,
+  PalletizingPatternOutputs,
+  PalletizingPatternParams
+> = {
   id: 'Fabrication::PalletizingPattern',
   type: 'Fabrication::PalletizingPattern',
   category: 'Fabrication',
@@ -24,26 +28,26 @@ export const FabricationRoboticsPalletizingPatternNode: NodeDefinition<Palletizi
     boxSize: {
       type: 'Vector',
       label: 'Box Size',
-      required: true
+      required: true,
     },
     palletSize: {
       type: 'Vector',
       label: 'Pallet Size',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     placementPoints: {
       type: 'Transform[]',
-      label: 'Placement Points'
-    }
+      label: 'Placement Points',
+    },
   },
   params: {
     pattern: {
       type: 'enum',
       label: 'Pattern',
-      default: "interlocked",
-      options: ["column","interlocked","pinwheel","split-row"]
+      default: 'interlocked',
+      options: ['column', 'interlocked', 'pinwheel', 'split-row'],
     },
     layersCount: {
       type: 'number',
@@ -51,8 +55,8 @@ export const FabricationRoboticsPalletizingPatternNode: NodeDefinition<Palletizi
       default: 10,
       min: 1,
       max: 50,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -61,12 +65,12 @@ export const FabricationRoboticsPalletizingPatternNode: NodeDefinition<Palletizi
         boxSize: inputs.boxSize,
         palletSize: inputs.palletSize,
         pattern: params.pattern,
-        layersCount: params.layersCount
-      }
+        layersCount: params.layersCount,
+      },
     });
-    
+
     return {
-      placementPoints: result
+      placementPoints: result,
     };
   },
 };

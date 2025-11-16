@@ -21,19 +21,19 @@ export const MathOperatorsPowerNode: NodeDefinition<PowerInputs, PowerOutputs, P
     base: {
       type: 'number',
       label: 'Base',
-      required: true
+      required: true,
     },
     exponent: {
       type: 'number',
       label: 'Exponent',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'number',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -41,12 +41,12 @@ export const MathOperatorsPowerNode: NodeDefinition<PowerInputs, PowerOutputs, P
       type: 'mathPower',
       params: {
         base: inputs.base,
-        exponent: inputs.exponent
-      }
+        exponent: inputs.exponent,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

@@ -12,10 +12,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const wasmDir = path.resolve(__dirname, '../wasm');
 
-const requiredArtifacts = [
-  'occt-core.node.mjs',
-  'occt-core.node.wasm'
-];
+const requiredArtifacts = ['occt-core.node.mjs', 'occt-core.node.wasm'];
 
 describe('Node OCCT smoke', () => {
   let api: IntegratedGeometryAPI | null = null;
@@ -27,7 +24,7 @@ describe('Node OCCT smoke', () => {
       const message = [
         'Real OCCT artifacts are missing for Node smoke test.',
         `Expected files in ${wasmDir}: ${missing.join(', ')}`,
-        'Run "pnpm run build:wasm" before executing the test suite.'
+        'Run "pnpm run build:wasm" before executing the test suite.',
       ].join('\n');
       throw new Error(message);
     }
@@ -38,7 +35,7 @@ describe('Node OCCT smoke', () => {
       enableMemoryManagement: false,
       enableErrorRecovery: false,
       workerPoolConfig: undefined,
-      memoryConfig: undefined
+      memoryConfig: undefined,
     });
 
     api = new IntegratedGeometryAPI(config);
@@ -59,7 +56,7 @@ describe('Node OCCT smoke', () => {
       center: { x: 0, y: 0, z: 0 },
       width: 10,
       height: 5,
-      depth: 7
+      depth: 7,
     });
 
     expect(boxResult.success).toBe(true);

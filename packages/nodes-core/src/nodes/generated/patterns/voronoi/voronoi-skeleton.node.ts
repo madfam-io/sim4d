@@ -12,7 +12,11 @@ interface VoronoiSkeletonOutputs {
   skeleton: unknown;
 }
 
-export const PatternsVoronoiVoronoiSkeletonNode: NodeDefinition<VoronoiSkeletonInputs, VoronoiSkeletonOutputs, VoronoiSkeletonParams> = {
+export const PatternsVoronoiVoronoiSkeletonNode: NodeDefinition<
+  VoronoiSkeletonInputs,
+  VoronoiSkeletonOutputs,
+  VoronoiSkeletonParams
+> = {
   id: 'Patterns::VoronoiSkeleton',
   category: 'Patterns',
   label: 'VoronoiSkeleton',
@@ -21,14 +25,14 @@ export const PatternsVoronoiVoronoiSkeletonNode: NodeDefinition<VoronoiSkeletonI
     boundary: {
       type: 'Wire',
       label: 'Boundary',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     skeleton: {
       type: 'Wire[]',
-      label: 'Skeleton'
-    }
+      label: 'Skeleton',
+    },
   },
   params: {
     pruning: {
@@ -36,20 +40,20 @@ export const PatternsVoronoiVoronoiSkeletonNode: NodeDefinition<VoronoiSkeletonI
       label: 'Pruning',
       default: 0.1,
       min: 0,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'voronoiSkeleton',
       params: {
         boundary: inputs.boundary,
-        pruning: params.pruning
-      }
+        pruning: params.pruning,
+      },
     });
-    
+
     return {
-      skeleton: result
+      skeleton: result,
     };
   },
 };

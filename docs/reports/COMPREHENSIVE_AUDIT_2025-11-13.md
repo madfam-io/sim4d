@@ -11,12 +11,14 @@
 ### Overall Health Score: C+ (72/100)
 
 **Codebase Scale**:
+
 - 2,227 TypeScript files
 - 14 packages, 2 applications
 - 903 test files
 - ~179K lines of code
 
 ### Critical Findings
+
 - ⚠️ **21 security vulnerabilities** (4 critical, 7 high, 7 medium, 3 low)
 - ⚠️ **657 `any` type usages** with TypeScript strict mode disabled
 - ⚠️ **5-7s cold load time** (misses 3s target by 2-4s)
@@ -25,7 +27,9 @@
 - ✅ **Modern tooling** and comprehensive error handling
 
 ### Production Readiness: ❌ NO-GO
+
 **Blockers**:
+
 1. Critical security vulnerabilities (arbitrary code execution, CSRF)
 2. Type safety issues (strict mode disabled, 657 `any`)
 3. Performance bottlenecks (bundle size, single worker)
@@ -70,6 +74,7 @@
 ### 1. Code Quality (Grade: C+, Score: 70/100)
 
 #### Strengths ✅
+
 - Excellent monorepo structure with clear boundaries
 - Modern tooling (Turborepo, pnpm, Vitest, Playwright)
 - 903 test files indicating mature testing practices
@@ -79,23 +84,27 @@
 #### Critical Issues ❌
 
 **1. TypeScript Strict Mode Disabled** (CRITICAL)
+
 ```json
 // apps/studio/tsconfig.json:11
 "strict": false  // ❌ Root has strict:true but Studio overrides to false
 ```
 
 **Impact**:
+
 - 657 `any` type usages across 100 files
 - No null/undefined checking
 - Implicit type coercion bugs
 - 7 `@ts-ignore` bypasses
 
 **Recommendation**: Enable incrementally over 2-3 weeks
+
 1. Enable `strictNullChecks: true` first
 2. Fix compilation errors (estimated 2-3 weeks)
 3. Add ESLint rule to ban `any`
 
 **2. Circular Dependencies** (CRITICAL)
+
 ```
 ResponsiveLayoutManager.tsx
   ↓
@@ -111,6 +120,7 @@ MobileTabBar.tsx
 
 **3. Naming Collisions** (HIGH)
 `getGeometryAPI()` defined in 3 locations with different signatures:
+
 - `/apps/studio/src/services/geometry-api.ts:15`
 - `/packages/engine-occt/src/integrated-geometry-api.ts:21`
 - `/packages/engine-occt/src/index.ts:21`
@@ -120,6 +130,7 @@ MobileTabBar.tsx
 #### Testing Coverage
 
 **Metrics**:
+
 ```
 Total test files: 903
 Studio app: Only 13 test files (❌ critical gap)
@@ -128,12 +139,14 @@ Target: 80%
 ```
 
 **Critical Gaps**:
+
 - `geometry-service.production.ts` (310 lines, 0 tests)
 - `initialization.ts` (262 lines, 0 tests)
 - No React component tests
 - 6/14 test suites failing
 
 **Recommendation**:
+
 1. Fix test environment (WASM/worker initialization)
 2. Add tests for Studio services
 3. Achieve 60% coverage minimum (then 80%)
@@ -145,15 +158,17 @@ Target: 80%
 #### Critical Vulnerabilities (4)
 
 **1. Arbitrary Code Execution** (CVSS: 9.8)
+
 ```typescript
 // packages/engine-core/src/scripting/javascript-executor.ts:102,226,513
-const scriptFunction = new Function('return ' + wrappedScript)();  // ❌
+const scriptFunction = new Function('return ' + wrappedScript)(); // ❌
 ```
 
 **OWASP**: A03:2021 - Injection
 **Risk**: Sandbox escape, XSS, data exfiltration, DoS
 
 **Fix**:
+
 1. Replace `Function()` with safe-eval library (vm2, isolated-vm)
 2. Implement CSP with `unsafe-eval` disabled
 3. Use WASM sandboxing for script execution
@@ -161,11 +176,12 @@ const scriptFunction = new Function('return ' + wrappedScript)();  // ❌
 **Priority**: IMMEDIATE (blocks production)
 
 **2. Missing CSRF Protection** (CVSS: 8.1)
+
 ```typescript
 // packages/collaboration/src/server/collaboration-server.ts:30-36
 this.io = new Server(httpServer, {
   cors: {
-    origin: options?.corsOrigin ?? '*',  // ❌ Wildcard CORS
+    origin: options?.corsOrigin ?? '*', // ❌ Wildcard CORS
   },
 });
 ```
@@ -174,6 +190,7 @@ this.io = new Server(httpServer, {
 **Risk**: Cross-site WebSocket hijacking
 
 **Fix**:
+
 1. Remove wildcard default, require explicit whitelist
 2. Implement CSRF token validation
 3. Validate `Origin` header
@@ -182,11 +199,12 @@ this.io = new Server(httpServer, {
 **Priority**: IMMEDIATE
 
 **3. Insecure JWT Secrets** (CVSS: 8.2)
+
 ```typescript
 // packages/cloud-services/src/security/authentication-service.ts:19-25
 export interface AuthConfig {
   jwt: {
-    secret: string;  // ❌ No encryption/rotation
+    secret: string; // ❌ No encryption/rotation
   };
 }
 ```
@@ -195,6 +213,7 @@ export interface AuthConfig {
 **Risk**: Token forgery if secret compromised
 
 **Fix**:
+
 1. Store in vault (AWS Secrets Manager, HashiCorp Vault)
 2. Implement key rotation (30-90 days)
 3. Use RS256 instead of HS256
@@ -203,6 +222,7 @@ export interface AuthConfig {
 **Priority**: IMMEDIATE
 
 **4. Unvalidated File Upload** (CVSS: 7.5)
+
 ```typescript
 // packages/cloud-services/src/storage/cloud-storage-service.ts:94-116
 async uploadProjectFile(projectId, filename, data) {
@@ -214,6 +234,7 @@ async uploadProjectFile(projectId, filename, data) {
 **Risk**: Malware upload, path traversal, zip bombs
 
 **Fix**:
+
 1. Validate file types (whitelist: STEP, IGES, STL)
 2. Verify magic numbers
 3. Implement virus scanning (ClamAV)
@@ -223,6 +244,7 @@ async uploadProjectFile(projectId, filename, data) {
 **Priority**: HIGH
 
 #### High Severity (7 more)
+
 - localStorage without encryption (#5)
 - Missing geometry API input validation (#6)
 - Weak password hashing (100k vs 600k iterations) (#7)
@@ -232,6 +254,7 @@ async uploadProjectFile(projectId, filename, data) {
 - Missing rate limiting (#11)
 
 #### Remediation Timeline
+
 - **Phase 1 (Weeks 1-2)**: Critical fixes (#1-#4, #8)
 - **Phase 2 (Weeks 3-4)**: High priority (#5-#7, #9-#11)
 - **Total**: 8-12 weeks for full security posture
@@ -242,21 +265,23 @@ async uploadProjectFile(projectId, filename, data) {
 
 #### Current vs Target
 
-| Metric | Target | Current | Status |
-|--------|--------|---------|--------|
-| **Cold load** | ≤3s | 5-7s | ❌ Miss by 2-4s |
-| **Viewport FPS** | ≥60fps | Unknown | ⚠️ Needs measurement |
-| **Memory ceiling** | ≤2GB | Unknown | ⚠️ Needs measurement |
-| **Bundle size** | - | 2.1MB JS + 48.5MB WASM | ⚠️ Large |
+| Metric             | Target | Current                | Status               |
+| ------------------ | ------ | ---------------------- | -------------------- |
+| **Cold load**      | ≤3s    | 5-7s                   | ❌ Miss by 2-4s      |
+| **Viewport FPS**   | ≥60fps | Unknown                | ⚠️ Needs measurement |
+| **Memory ceiling** | ≤2GB   | Unknown                | ⚠️ Needs measurement |
+| **Bundle size**    | -      | 2.1MB JS + 48.5MB WASM | ⚠️ Large             |
 
 #### Critical Bottlenecks
 
 **1. Bundle Size (2.1MB JS + 48.5MB WASM)**
+
 - Three.js (600KB) bundled in main instead of vendor chunk
 - Zero lazy-loaded components despite 240KB non-critical UI
 - WASM blocks app initialization
 
 **Fix**:
+
 ```typescript
 // vite.config.ts - Correct manualChunks
 build: {
@@ -271,6 +296,7 @@ build: {
 ```
 
 **2. No Worker Pool**
+
 - Single WASM worker creates serial bottleneck
 - Can't utilize multi-core CPUs
 - Expected gain: 200-500ms with parallel evaluation
@@ -278,12 +304,12 @@ build: {
 **Fix**: Implement worker pool (already planned in engine-occt)
 
 **3. Memory Leak Risk**
+
 ```typescript
 // apps/studio/src/components/Viewport.tsx
 // ❌ No Three.js cleanup in useEffect return
 useEffect(() => {
   // Create scene, renderer, geometries...
-
   // Missing:
   // return () => {
   //   renderer.dispose();
@@ -295,6 +321,7 @@ useEffect(() => {
 **Impact**: Unbounded memory growth
 
 #### Quick Wins (1 Week, ~40% Improvement)
+
 1. Lazy load 4 components → -240KB (-400ms load)
 2. Fix Three.js vendor chunk → Better caching
 3. WASM streaming → -2-3s time to interactive
@@ -309,29 +336,34 @@ useEffect(() => {
 #### Monorepo Structure (9/10) ✅
 
 **Dependency Hierarchy**:
+
 ```
 types → schemas → engine-core → engine-occt → sdk → nodes-core → viewport → studio
                               ↘ cli ↗
 ```
 
 **Strengths**:
+
 - Clean dependency flow, no circular package deps
 - Turbo pipeline optimization (`dependsOn: ["^build"]`)
 - Single responsibility per package (SOLID)
 - pnpm workspaces + Turborepo for efficient builds
 
 **Concerns**:
+
 - Strict mode disabled in studio
 - Path alias inconsistency (root: `@brepflow/*`, studio: `@/*`)
 
 #### Separation of Concerns (8/10)
 
 **Strengths**:
+
 - engine-core is framework-agnostic (no React dependency)
 - Worker isolation prevents shared state bugs
 - Clear abstraction layers
 
 **Boundary Violations**:
+
 - 5 UI components in `packages/engine-core` (should be in studio or ui-components)
 - CSS imports in engine-core package
 - `getGeometryAPI()` defined in 3 locations
@@ -341,22 +373,25 @@ types → schemas → engine-core → engine-occt → sdk → nodes-core → vie
 #### State Management (7/10)
 
 **Current Issues**:
+
 ```typescript
 // graph-store.ts - Multiple responsibilities (SRP violation)
 interface GraphState {
-  graph: GraphInstance;           // ✅ Domain state
-  dagEngine: DAGEngine | null;    // ❌ Infrastructure concern
-  isEvaluating: boolean;          // ❌ UI state
-  selectedNodes: Set<NodeId>;     // ❌ Duplicated in selection-store
+  graph: GraphInstance; // ✅ Domain state
+  dagEngine: DAGEngine | null; // ❌ Infrastructure concern
+  isEvaluating: boolean; // ❌ UI state
+  selectedNodes: Set<NodeId>; // ❌ Duplicated in selection-store
 }
 ```
 
 **Problems**:
+
 - State fragmentation across stores
 - No event bus for cross-store communication
 - Async initialization race conditions
 
 **Recommendation**:
+
 ```typescript
 // Separate domain/UI/infrastructure
 stores/
@@ -373,12 +408,14 @@ stores/
 #### Worker Architecture (9/10) ✅
 
 **Excellent Design**:
+
 - Thread isolation via Web Workers
 - COOP/COEP headers for SharedArrayBuffer
 - 30s timeout protection
 - Manual message passing (no Comlink overhead)
 
 **Missing**:
+
 - Worker pool for parallel operations (critical bottleneck)
 - Health monitoring with automatic restart
 - Memory pressure handling
@@ -388,11 +425,13 @@ stores/
 #### Plugin System (8/10)
 
 **Well-Designed**:
+
 - Capability-based security (PluginPermission enum)
 - Namespace isolation (storage, logger)
 - NodeBuilder ergonomics
 
 **Incomplete**:
+
 ```typescript
 private createWorkerProxy(manifest: PluginManifest): WorkerAPI {
   return {} as WorkerAPI;  // ❌ Stub implementation
@@ -404,12 +443,14 @@ private createWorkerProxy(manifest: PluginManifest): WorkerAPI {
 #### Error Handling (9/10) ✅
 
 **Production-Ready**:
+
 - Centralized ErrorManager with error classification
 - User-friendly vs technical messages
 - Recovery action framework
 - Monitoring integration (metrics, Sentry)
 
 **Example**:
+
 ```typescript
 export enum ErrorCode {
   GEOMETRY_COMPUTATION_FAILED,
@@ -471,16 +512,18 @@ private getDefaultRecoveryActions(code: ErrorCode): RecoveryAction[] {
 **Priority**: HIGH (affects 100% of codebase)
 
 6. ✅ **Enable TypeScript strict mode** incrementally
+
    ```json
    // apps/studio/tsconfig.json
    {
      "compilerOptions": {
-       "strict": true,  // Enable!
+       "strict": true, // Enable!
        "strictNullChecks": true,
        "strictFunctionTypes": true
      }
    }
    ```
+
    - Fix compilation errors (2-3 weeks)
    - Add ESLint rule to ban `any`
 
@@ -503,11 +546,13 @@ private getDefaultRecoveryActions(code: ErrorCode): RecoveryAction[] {
 **Priority**: HIGH (misses 3s cold load target)
 
 10. ✅ **Lazy load heavy components**
+
     ```typescript
-    const MonitoringDashboard = React.lazy(() =>
-      import('./components/monitoring/MonitoringDashboard')
+    const MonitoringDashboard = React.lazy(
+      () => import('./components/monitoring/MonitoringDashboard')
     );
     ```
+
     - MonitoringDashboard, CommandPalette, OnboardingOrchestrator, ScriptNodeIDE
     - Expected: -240KB, -400ms load time
 
@@ -516,11 +561,11 @@ private getDefaultRecoveryActions(code: ErrorCode): RecoveryAction[] {
     - Better caching, cleaner architecture
 
 12. ✅ **WASM streaming**
+
     ```typescript
-    const wasmModule = await WebAssembly.instantiateStreaming(
-      fetch('occt.wasm')
-    );
+    const wasmModule = await WebAssembly.instantiateStreaming(fetch('occt.wasm'));
     ```
+
     - Expected: -2-3s time to interactive
 
 13. ✅ **Implement worker pool**
@@ -534,13 +579,14 @@ private getDefaultRecoveryActions(code: ErrorCode): RecoveryAction[] {
       // ...setup...
       return () => {
         renderer.dispose();
-        scene.traverse(obj => {
+        scene.traverse((obj) => {
           obj.geometry?.dispose();
           obj.material?.dispose();
         });
       };
     });
     ```
+
     - Prevent memory leaks
 
 **Estimated Effort**: 2 weeks, 1 senior engineer
@@ -570,7 +616,8 @@ private getDefaultRecoveryActions(code: ErrorCode): RecoveryAction[] {
     - Separate domain/UI/infrastructure stores
     - Implement event bus
 
-19. ✅ **Replace 581 console.* with logger**
+19. ✅ **Replace 581 console.\* with logger**
+
     ```typescript
     // Before
     console.log('Geometry evaluated');
@@ -599,6 +646,7 @@ private getDefaultRecoveryActions(code: ErrorCode): RecoveryAction[] {
     - Handle large graphs (>1.5GB memory limit)
 
 22. ✅ **Implement event bus** for stores
+
     ```typescript
     export class StoreEventBus {
       emit(event: 'nodeAdded', payload: NodeInstance): void;
@@ -607,6 +655,7 @@ private getDefaultRecoveryActions(code: ErrorCode): RecoveryAction[] {
     ```
 
 23. ✅ **Add rendering abstraction layer**
+
     ```typescript
     export interface RendererAPI {
       render(meshes: MeshData[]): void;
@@ -614,6 +663,7 @@ private getDefaultRecoveryActions(code: ErrorCode): RecoveryAction[] {
       dispose(): void;
     }
     ```
+
     - Enables migration from Three.js to Babylon.js/PlayCanvas
 
 24. ✅ **Distributed tracing** (OpenTelemetry)
@@ -629,30 +679,32 @@ private getDefaultRecoveryActions(code: ErrorCode): RecoveryAction[] {
 
 ### High-Risk Areas (Must Fix Before v1.0)
 
-| Risk | Level (1-10) | Impact | Mitigation | Timeline |
-|------|--------------|--------|------------|----------|
-| **Arbitrary code execution** | 10 | Critical security breach | Safe-eval, CSP | Week 1 |
-| **CSRF attacks** | 9 | Session hijacking | CSRF tokens, origin validation | Week 1 |
-| **Type safety** | 8 | Runtime errors | Enable strict mode | Weeks 3-4 |
-| **Worker bottleneck** | 7 | Performance degradation | Worker pool | Week 5 |
-| **Memory leaks** | 6 | App slowdown over time | Three.js disposal | Week 6 |
-| **Test coverage** | 7 | Undetected bugs | Unit tests for services | Weeks 7-8 |
+| Risk                         | Level (1-10) | Impact                   | Mitigation                     | Timeline  |
+| ---------------------------- | ------------ | ------------------------ | ------------------------------ | --------- |
+| **Arbitrary code execution** | 10           | Critical security breach | Safe-eval, CSP                 | Week 1    |
+| **CSRF attacks**             | 9            | Session hijacking        | CSRF tokens, origin validation | Week 1    |
+| **Type safety**              | 8            | Runtime errors           | Enable strict mode             | Weeks 3-4 |
+| **Worker bottleneck**        | 7            | Performance degradation  | Worker pool                    | Week 5    |
+| **Memory leaks**             | 6            | App slowdown over time   | Three.js disposal              | Week 6    |
+| **Test coverage**            | 7            | Undetected bugs          | Unit tests for services        | Weeks 7-8 |
 
 ### Medium-Risk Areas
 
-| Risk | Level (1-10) | Impact | Mitigation | Timeline |
-|------|--------------|--------|------------|----------|
-| **Circular deps** | 6 | Build issues, coupling | Extract shared types | Week 7 |
-| **Bundle size** | 5 | Slow initial load | Lazy loading, code splitting | Week 5 |
-| **State fragmentation** | 4 | Maintenance burden | Refactor stores | Month 3 |
-| **Plugin incompleteness** | 3 | Limited extensibility | Complete implementation | Month 4-5 |
+| Risk                      | Level (1-10) | Impact                 | Mitigation                   | Timeline  |
+| ------------------------- | ------------ | ---------------------- | ---------------------------- | --------- |
+| **Circular deps**         | 6            | Build issues, coupling | Extract shared types         | Week 7    |
+| **Bundle size**           | 5            | Slow initial load      | Lazy loading, code splitting | Week 5    |
+| **State fragmentation**   | 4            | Maintenance burden     | Refactor stores              | Month 3   |
+| **Plugin incompleteness** | 3            | Limited extensibility  | Complete implementation      | Month 4-5 |
 
 ---
 
 ## Compliance Impact
 
 ### GDPR (Score: 6/10 - MEDIUM Risk)
+
 **Gaps**:
+
 - localStorage encryption missing (personal data)
 - Incomplete audit logging
 - Session management issues
@@ -660,7 +712,9 @@ private getDefaultRecoveryActions(code: ErrorCode): RecoveryAction[] {
 **Recommendation**: Encrypt sensitive data, implement audit logs
 
 ### SOC 2 (Score: 4/10 - HIGH Risk)
+
 **Gaps**:
+
 - Access controls insufficient (CSRF, RBAC)
 - Logging incomplete (no distributed tracing)
 - Encryption deficiencies (JWT secrets, localStorage)
@@ -668,7 +722,9 @@ private getDefaultRecoveryActions(code: ErrorCode): RecoveryAction[] {
 **Recommendation**: Complete Phase 1-2 security hardening
 
 ### ISO 27001 (Score: 6/10 - MEDIUM Risk)
+
 **Gaps**:
+
 - Security policies need formalization
 - Incident response plan missing
 - Risk assessment incomplete
@@ -679,26 +735,26 @@ private getDefaultRecoveryActions(code: ErrorCode): RecoveryAction[] {
 
 ## Metrics Summary
 
-| Category | Metric | Value | Target | Status |
-|----------|--------|-------|--------|--------|
-| **Quality** | TypeScript strict | Disabled (Studio) | Enabled | ❌ |
-| | `any` usage | 657 occurrences | <50 | ❌ |
-| | Test coverage | ~40% | 80% | ❌ |
-| | Circular deps | 2 cycles | 0 | ⚠️ |
-| | Console statements | 581 | 0 (use logger) | ❌ |
-| | TODO comments | 30 | - | ✅ Good |
-| **Security** | Critical vulns | 4 | 0 | ❌ |
-| | High vulns | 7 | 0 | ❌ |
-| | CVSS base score | 7.8 (High) | <4.0 | ❌ |
-| **Performance** | Cold load | 5-7s | ≤3s | ❌ |
-| | Bundle size (JS) | 2.1MB | <1.5MB | ⚠️ |
-| | Bundle size (WASM) | 48.5MB | - | ℹ️ Expected |
-| | Lazy-loaded components | 0 | >5 | ❌ |
-| **Architecture** | Monorepo score | 9/10 | - | ✅ |
-| | Separation of concerns | 8/10 | - | ✅ |
-| | State management | 7/10 | >8 | ⚠️ |
-| | Worker architecture | 9/10 | - | ✅ |
-| | Error handling | 9/10 | - | ✅ |
+| Category         | Metric                 | Value             | Target         | Status      |
+| ---------------- | ---------------------- | ----------------- | -------------- | ----------- |
+| **Quality**      | TypeScript strict      | Disabled (Studio) | Enabled        | ❌          |
+|                  | `any` usage            | 657 occurrences   | <50            | ❌          |
+|                  | Test coverage          | ~40%              | 80%            | ❌          |
+|                  | Circular deps          | 2 cycles          | 0              | ⚠️          |
+|                  | Console statements     | 581               | 0 (use logger) | ❌          |
+|                  | TODO comments          | 30                | -              | ✅ Good     |
+| **Security**     | Critical vulns         | 4                 | 0              | ❌          |
+|                  | High vulns             | 7                 | 0              | ❌          |
+|                  | CVSS base score        | 7.8 (High)        | <4.0           | ❌          |
+| **Performance**  | Cold load              | 5-7s              | ≤3s            | ❌          |
+|                  | Bundle size (JS)       | 2.1MB             | <1.5MB         | ⚠️          |
+|                  | Bundle size (WASM)     | 48.5MB            | -              | ℹ️ Expected |
+|                  | Lazy-loaded components | 0                 | >5             | ❌          |
+| **Architecture** | Monorepo score         | 9/10              | -              | ✅          |
+|                  | Separation of concerns | 8/10              | -              | ✅          |
+|                  | State management       | 7/10              | >8             | ⚠️          |
+|                  | Worker architecture    | 9/10              | -              | ✅          |
+|                  | Error handling         | 9/10              | -              | ✅          |
 
 ---
 
@@ -742,29 +798,33 @@ private getDefaultRecoveryActions(code: ErrorCode): RecoveryAction[] {
 
 ### Total Remediation Time
 
-| Phase | Duration | FTE | Focus |
-|-------|----------|-----|-------|
-| **Phase 1: Security** | 2 weeks | 1.0 senior eng | Critical vulnerabilities |
-| **Phase 2: Type Safety** | 2 weeks | 1.0 senior eng | Strict mode, `any` elimination |
-| **Phase 3: Performance** | 2 weeks | 1.0 senior eng | Bundle, worker pool, disposal |
-| **Phase 4: Quality** | 4 weeks | 1.0 senior + 0.5 QA | Testing, refactoring |
-| **Phase 5: Architecture** | 3 months | 1.0 senior eng | Long-term scalability |
-| **Total (Critical Path)** | **10 weeks** | **1.5 FTE avg** | Phases 1-4 |
+| Phase                     | Duration     | FTE                 | Focus                          |
+| ------------------------- | ------------ | ------------------- | ------------------------------ |
+| **Phase 1: Security**     | 2 weeks      | 1.0 senior eng      | Critical vulnerabilities       |
+| **Phase 2: Type Safety**  | 2 weeks      | 1.0 senior eng      | Strict mode, `any` elimination |
+| **Phase 3: Performance**  | 2 weeks      | 1.0 senior eng      | Bundle, worker pool, disposal  |
+| **Phase 4: Quality**      | 4 weeks      | 1.0 senior + 0.5 QA | Testing, refactoring           |
+| **Phase 5: Architecture** | 3 months     | 1.0 senior eng      | Long-term scalability          |
+| **Total (Critical Path)** | **10 weeks** | **1.5 FTE avg**     | Phases 1-4                     |
 
 ### Resource Requirements
 
 **Phase 1-2 (Security + Type Safety) - 4 weeks**:
+
 - 1x Senior Engineer (security expertise)
 - 0.5x Security Specialist (consultation)
 
 **Phase 3 (Performance) - 2 weeks**:
+
 - 1x Senior Engineer (frontend performance)
 
 **Phase 4 (Quality & Testing) - 4 weeks**:
+
 - 1x Senior Engineer
 - 0.5x QA Engineer
 
 **Phase 5 (Architecture) - 3 months**:
+
 - 1x Senior Engineer (part-time alongside feature work)
 
 ---
@@ -774,6 +834,7 @@ private getDefaultRecoveryActions(code: ErrorCode): RecoveryAction[] {
 ### Current State: ❌ **NO-GO for Production**
 
 **Blockers**:
+
 1. ⚠️ Critical security vulnerabilities (arbitrary code execution, CSRF)
 2. ⚠️ Type safety issues (strict mode disabled, 657 `any`)
 3. ⚠️ Performance misses targets (5-7s vs 3s cold load)
@@ -782,6 +843,7 @@ private getDefaultRecoveryActions(code: ErrorCode): RecoveryAction[] {
 ### After Phase 1-2 (4 weeks): ✅ **CONDITIONAL GO**
 
 **Achievements**:
+
 - ✅ Security hardened (critical vulns fixed)
 - ✅ Type-safe (strict mode enabled)
 - ⚠️ Performance improved but not optimal
@@ -792,6 +854,7 @@ private getDefaultRecoveryActions(code: ErrorCode): RecoveryAction[] {
 ### After Phase 1-3 (6 weeks): ✅ **GO for Production**
 
 **Achievements**:
+
 - ✅ Security hardened
 - ✅ Type-safe
 - ✅ Performance meets targets (3s cold load)
@@ -802,6 +865,7 @@ private getDefaultRecoveryActions(code: ErrorCode): RecoveryAction[] {
 ### After Phase 1-4 (10 weeks): ✅ **STRONG GO**
 
 **Achievements**:
+
 - ✅ Security hardened
 - ✅ Type-safe
 - ✅ Performance optimized
@@ -844,6 +908,7 @@ However, **critical security vulnerabilities and type safety issues create signi
 ### Final Assessment
 
 **Production Readiness Timeline**:
+
 - **Current**: ❌ NO-GO (critical issues)
 - **4 weeks** (Phases 1-2): ⚠️ Beta-ready
 - **6 weeks** (Phases 1-3): ✅ Production-ready
@@ -856,6 +921,7 @@ However, **critical security vulnerabilities and type safety issues create signi
 ## Appendix: Tools & Methodologies
 
 **Analysis Tools**:
+
 - Static analysis: Serena MCP, TypeScript compiler
 - Code search: Grep with pattern matching
 - Dependency analysis: Package graph analysis
@@ -863,6 +929,7 @@ However, **critical security vulnerabilities and type safety issues create signi
 - Performance profiling: Bundle analyzer, lighthouse
 
 **Methodologies**:
+
 - OWASP Top 10 security framework
 - SOLID architectural principles
 - TypeScript best practices
@@ -870,6 +937,7 @@ However, **critical security vulnerabilities and type safety issues create signi
 - Monorepo conventions
 
 **Files Analyzed**:
+
 - 2,227 TypeScript files
 - 14 package.json files
 - Build configurations (Turborepo, Vite, Vitest, Playwright)

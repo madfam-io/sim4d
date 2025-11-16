@@ -16,7 +16,11 @@ interface WallOpeningOutputs {
   opening: unknown;
 }
 
-export const ArchitectureWallsWallOpeningNode: NodeDefinition<WallOpeningInputs, WallOpeningOutputs, WallOpeningParams> = {
+export const ArchitectureWallsWallOpeningNode: NodeDefinition<
+  WallOpeningInputs,
+  WallOpeningOutputs,
+  WallOpeningParams
+> = {
   id: 'Architecture::WallOpening',
   category: 'Architecture',
   label: 'WallOpening',
@@ -25,23 +29,23 @@ export const ArchitectureWallsWallOpeningNode: NodeDefinition<WallOpeningInputs,
     wall: {
       type: 'Shape',
       label: 'Wall',
-      required: true
+      required: true,
     },
     position: {
       type: 'Point',
       label: 'Position',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     wallWithOpening: {
       type: 'Shape',
-      label: 'Wall With Opening'
+      label: 'Wall With Opening',
     },
     opening: {
       type: 'Face',
-      label: 'Opening'
-    }
+      label: 'Opening',
+    },
   },
   params: {
     width: {
@@ -49,22 +53,22 @@ export const ArchitectureWallsWallOpeningNode: NodeDefinition<WallOpeningInputs,
       label: 'Width',
       default: 900,
       min: 100,
-      max: 5000
+      max: 5000,
     },
     height: {
       type: 'number',
       label: 'Height',
       default: 2100,
       min: 100,
-      max: 5000
+      max: 5000,
     },
     sillHeight: {
       type: 'number',
       label: 'Sill Height',
       default: 0,
       min: 0,
-      max: 2000
-    }
+      max: 2000,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -74,13 +78,13 @@ export const ArchitectureWallsWallOpeningNode: NodeDefinition<WallOpeningInputs,
         position: inputs.position,
         width: params.width,
         height: params.height,
-        sillHeight: params.sillHeight
-      }
+        sillHeight: params.sillHeight,
+      },
     });
-    
+
     return {
       wallWithOpening: results.wallWithOpening,
-      opening: results.opening
+      opening: results.opening,
     };
   },
 };

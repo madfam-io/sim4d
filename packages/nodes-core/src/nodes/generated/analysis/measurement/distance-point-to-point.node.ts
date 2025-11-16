@@ -1,6 +1,11 @@
-
 import { NodeDefinition } from '@brepflow/types';
-import { NumberParam, BoolParam, StringParam, EnumParam, Vector3Param } from '../../../../utils/param-utils.js';
+import {
+  NumberParam,
+  BoolParam,
+  StringParam,
+  EnumParam,
+  Vector3Param,
+} from '../../../../utils/param-utils.js';
 
 type Params = {};
 interface Inputs {
@@ -12,7 +17,11 @@ interface Outputs {
   vector: Vector;
 }
 
-export const DistancePointToPointNode: NodeDefinition<DistancePointToPointInputs, DistancePointToPointOutputs, DistancePointToPointParams> = {
+export const DistancePointToPointNode: NodeDefinition<
+  DistancePointToPointInputs,
+  DistancePointToPointOutputs,
+  DistancePointToPointParams
+> = {
   type: 'Analysis::DistancePointToPoint',
   category: 'Analysis',
   subcategory: 'Measurement',
@@ -20,38 +29,32 @@ export const DistancePointToPointNode: NodeDefinition<DistancePointToPointInputs
   metadata: {
     label: 'DistancePointToPoint',
     description: 'Measure distance between two points',
-    
-    
   },
 
-  params: {
-    
-  },
+  params: {},
 
   inputs: {
-        point1: 'Point',
-    point2: 'Point'
+    point1: 'Point',
+    point2: 'Point',
   },
 
   outputs: {
-        distance: 'number',
-    vector: 'Vector'
+    distance: 'number',
+    vector: 'Vector',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'measureDistancePointPoint',
       params: {
         point1: inputs.point1,
-        point2: inputs.point2
-        
-      }
+        point2: inputs.point2,
+      },
     });
 
     return {
       distance: result,
-      vector: result
+      vector: result,
     };
-  }
+  },
 };

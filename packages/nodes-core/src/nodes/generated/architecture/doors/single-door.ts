@@ -18,7 +18,11 @@ interface SingleDoorOutputs {
   frame: unknown;
 }
 
-export const ArchitectureDoorsSingleDoorNode: NodeDefinition<SingleDoorInputs, SingleDoorOutputs, SingleDoorParams> = {
+export const ArchitectureDoorsSingleDoorNode: NodeDefinition<
+  SingleDoorInputs,
+  SingleDoorOutputs,
+  SingleDoorParams
+> = {
   id: 'Architecture::SingleDoor',
   type: 'Architecture::SingleDoor',
   category: 'Architecture',
@@ -28,23 +32,23 @@ export const ArchitectureDoorsSingleDoorNode: NodeDefinition<SingleDoorInputs, S
     position: {
       type: 'Point',
       label: 'Position',
-      required: true
+      required: true,
     },
     wall: {
       type: 'Shape',
       label: 'Wall',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     door: {
       type: 'Shape',
-      label: 'Door'
+      label: 'Door',
     },
     frame: {
       type: 'Shape',
-      label: 'Frame'
-    }
+      label: 'Frame',
+    },
   },
   params: {
     width: {
@@ -52,35 +56,35 @@ export const ArchitectureDoorsSingleDoorNode: NodeDefinition<SingleDoorInputs, S
       label: 'Width',
       default: 900,
       min: 600,
-      max: 1200
+      max: 1200,
     },
     height: {
       type: 'number',
       label: 'Height',
       default: 2100,
       min: 1800,
-      max: 2400
+      max: 2400,
     },
     thickness: {
       type: 'number',
       label: 'Thickness',
       default: 45,
       min: 35,
-      max: 60
+      max: 60,
     },
     swing: {
       type: 'enum',
       label: 'Swing',
-      default: "right",
-      options: ["left","right"]
+      default: 'right',
+      options: ['left', 'right'],
     },
     opening: {
       type: 'number',
       label: 'Opening',
       default: 0,
       min: 0,
-      max: 90
-    }
+      max: 90,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -92,13 +96,13 @@ export const ArchitectureDoorsSingleDoorNode: NodeDefinition<SingleDoorInputs, S
         height: params.height,
         thickness: params.thickness,
         swing: params.swing,
-        opening: params.opening
-      }
+        opening: params.opening,
+      },
     });
-    
+
     return {
       door: results.door,
-      frame: results.frame
+      frame: results.frame,
     };
   },
 };

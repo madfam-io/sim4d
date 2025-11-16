@@ -14,7 +14,11 @@ interface SimplifyShapeOutputs {
   simplified: unknown;
 }
 
-export const AdvancedHealingSimplifyShapeNode: NodeDefinition<SimplifyShapeInputs, SimplifyShapeOutputs, SimplifyShapeParams> = {
+export const AdvancedHealingSimplifyShapeNode: NodeDefinition<
+  SimplifyShapeInputs,
+  SimplifyShapeOutputs,
+  SimplifyShapeParams
+> = {
   id: 'Advanced::SimplifyShape',
   category: 'Advanced',
   label: 'SimplifyShape',
@@ -23,34 +27,34 @@ export const AdvancedHealingSimplifyShapeNode: NodeDefinition<SimplifyShapeInput
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     simplified: {
       type: 'Shape',
-      label: 'Simplified'
-    }
+      label: 'Simplified',
+    },
   },
   params: {
     simplifyMethod: {
       type: 'enum',
       label: 'Simplify Method',
-      default: "merge-faces",
-      options: ["merge-faces","remove-details","defeaturing"]
+      default: 'merge-faces',
+      options: ['merge-faces', 'remove-details', 'defeaturing'],
     },
     tolerance: {
       type: 'number',
       label: 'Tolerance',
       default: 0.01,
       min: 0.0001,
-      max: 1
+      max: 1,
     },
     preserveTopology: {
       type: 'boolean',
       label: 'Preserve Topology',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -59,12 +63,12 @@ export const AdvancedHealingSimplifyShapeNode: NodeDefinition<SimplifyShapeInput
         shape: inputs.shape,
         simplifyMethod: params.simplifyMethod,
         tolerance: params.tolerance,
-        preserveTopology: params.preserveTopology
-      }
+        preserveTopology: params.preserveTopology,
+      },
     });
-    
+
     return {
-      simplified: result
+      simplified: result,
     };
   },
 };

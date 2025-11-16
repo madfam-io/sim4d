@@ -23,8 +23,8 @@ export const SolidHelicalHelixNode: NodeDefinition<HelixInputs, HelixOutputs, He
   outputs: {
     helix: {
       type: 'Wire',
-      label: 'Helix'
-    }
+      label: 'Helix',
+    },
   },
   params: {
     radius: {
@@ -32,27 +32,27 @@ export const SolidHelicalHelixNode: NodeDefinition<HelixInputs, HelixOutputs, He
       label: 'Radius',
       default: 50,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     pitch: {
       type: 'number',
       label: 'Pitch',
       default: 20,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     height: {
       type: 'number',
       label: 'Height',
       default: 100,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     leftHanded: {
       type: 'boolean',
       label: 'Left Handed',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -61,12 +61,12 @@ export const SolidHelicalHelixNode: NodeDefinition<HelixInputs, HelixOutputs, He
         radius: params.radius,
         pitch: params.pitch,
         height: params.height,
-        leftHanded: params.leftHanded
-      }
+        leftHanded: params.leftHanded,
+      },
     });
-    
+
     return {
-      helix: result
+      helix: result,
     };
   },
 };

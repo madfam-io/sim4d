@@ -14,7 +14,11 @@ interface FieldHeatMapOutputs {
   heatMap: unknown;
 }
 
-export const FieldsVisualizationFieldHeatMapNode: NodeDefinition<FieldHeatMapInputs, FieldHeatMapOutputs, FieldHeatMapParams> = {
+export const FieldsVisualizationFieldHeatMapNode: NodeDefinition<
+  FieldHeatMapInputs,
+  FieldHeatMapOutputs,
+  FieldHeatMapParams
+> = {
   id: 'Fields::FieldHeatMap',
   category: 'Fields',
   label: 'FieldHeatMap',
@@ -23,19 +27,19 @@ export const FieldsVisualizationFieldHeatMapNode: NodeDefinition<FieldHeatMapInp
     field: {
       type: 'Field',
       label: 'Field',
-      optional: true
+      optional: true,
     },
     plane: {
       type: 'Plane',
       label: 'Plane',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     heatMap: {
       type: 'Mesh',
-      label: 'Heat Map'
-    }
+      label: 'Heat Map',
+    },
   },
   params: {
     resolution: {
@@ -43,14 +47,14 @@ export const FieldsVisualizationFieldHeatMapNode: NodeDefinition<FieldHeatMapInp
       label: 'Resolution',
       default: 50,
       min: 10,
-      max: 200
+      max: 200,
     },
     interpolation: {
       type: 'enum',
       label: 'Interpolation',
-      default: "\"bilinear\"",
-      options: ["nearest","bilinear","bicubic"]
-    }
+      default: '"bilinear"',
+      options: ['nearest', 'bilinear', 'bicubic'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -59,12 +63,12 @@ export const FieldsVisualizationFieldHeatMapNode: NodeDefinition<FieldHeatMapInp
         field: inputs.field,
         plane: inputs.plane,
         resolution: params.resolution,
-        interpolation: params.interpolation
-      }
+        interpolation: params.interpolation,
+      },
     });
-    
+
     return {
-      heatMap: result
+      heatMap: result,
     };
   },
 };

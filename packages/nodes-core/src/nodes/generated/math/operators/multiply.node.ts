@@ -11,7 +11,11 @@ interface MultiplyOutputs {
   result: unknown;
 }
 
-export const MathOperatorsMultiplyNode: NodeDefinition<MultiplyInputs, MultiplyOutputs, MultiplyParams> = {
+export const MathOperatorsMultiplyNode: NodeDefinition<
+  MultiplyInputs,
+  MultiplyOutputs,
+  MultiplyParams
+> = {
   id: 'Math::Multiply',
   category: 'Math',
   label: 'Multiply',
@@ -20,19 +24,19 @@ export const MathOperatorsMultiplyNode: NodeDefinition<MultiplyInputs, MultiplyO
     a: {
       type: 'number',
       label: 'A',
-      required: true
+      required: true,
     },
     b: {
       type: 'number',
       label: 'B',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'number',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -40,12 +44,12 @@ export const MathOperatorsMultiplyNode: NodeDefinition<MultiplyInputs, MultiplyO
       type: 'mathMultiply',
       params: {
         a: inputs.a,
-        b: inputs.b
-      }
+        b: inputs.b,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

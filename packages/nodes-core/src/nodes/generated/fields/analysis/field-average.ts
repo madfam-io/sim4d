@@ -14,7 +14,11 @@ interface FieldAverageOutputs {
   standardDeviation: number;
 }
 
-export const FieldsAnalysisFieldAverageNode: NodeDefinition<FieldAverageInputs, FieldAverageOutputs, FieldAverageParams> = {
+export const FieldsAnalysisFieldAverageNode: NodeDefinition<
+  FieldAverageInputs,
+  FieldAverageOutputs,
+  FieldAverageParams
+> = {
   id: 'Fields::FieldAverage',
   type: 'Fields::FieldAverage',
   category: 'Fields',
@@ -24,23 +28,23 @@ export const FieldsAnalysisFieldAverageNode: NodeDefinition<FieldAverageInputs, 
     field: {
       type: 'Field',
       label: 'Field',
-      optional: true
+      optional: true,
     },
     domain: {
       type: 'Geometry',
       label: 'Domain',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     average: {
       type: 'Number',
-      label: 'Average'
+      label: 'Average',
     },
     standardDeviation: {
       type: 'Number',
-      label: 'Standard Deviation'
-    }
+      label: 'Standard Deviation',
+    },
   },
   params: {
     sampleCount: {
@@ -48,8 +52,8 @@ export const FieldsAnalysisFieldAverageNode: NodeDefinition<FieldAverageInputs, 
       label: 'Sample Count',
       default: 1000,
       min: 100,
-      max: 10000
-    }
+      max: 10000,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -57,13 +61,13 @@ export const FieldsAnalysisFieldAverageNode: NodeDefinition<FieldAverageInputs, 
       params: {
         field: inputs.field,
         domain: inputs.domain,
-        sampleCount: params.sampleCount
-      }
+        sampleCount: params.sampleCount,
+      },
     });
-    
+
     return {
       average: results.average,
-      standardDeviation: results.standardDeviation
+      standardDeviation: results.standardDeviation,
     };
   },
 };

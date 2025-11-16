@@ -16,7 +16,11 @@ interface CSVWriterOutputs {
   rowsWritten: unknown;
 }
 
-export const InteroperabilityDataCSVWriterNode: NodeDefinition<CSVWriterInputs, CSVWriterOutputs, CSVWriterParams> = {
+export const InteroperabilityDataCSVWriterNode: NodeDefinition<
+  CSVWriterInputs,
+  CSVWriterOutputs,
+  CSVWriterParams
+> = {
   id: 'Interoperability::CSVWriter',
   type: 'Interoperability::CSVWriter',
   category: 'Interoperability',
@@ -26,41 +30,41 @@ export const InteroperabilityDataCSVWriterNode: NodeDefinition<CSVWriterInputs, 
     data: {
       type: 'Properties[]',
       label: 'Data',
-      required: true
+      required: true,
     },
     filePath: {
       type: 'string',
       label: 'File Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     success: {
       type: 'boolean',
-      label: 'Success'
+      label: 'Success',
     },
     rowsWritten: {
       type: 'number',
-      label: 'Rows Written'
-    }
+      label: 'Rows Written',
+    },
   },
   params: {
     delimiter: {
       type: 'string',
       label: 'Delimiter',
-      default: ","
+      default: ',',
     },
     includeHeader: {
       type: 'boolean',
       label: 'Include Header',
-      default: true
+      default: true,
     },
     encoding: {
       type: 'enum',
       label: 'Encoding',
-      default: "utf-8",
-      options: ["utf-8","ascii"]
-    }
+      default: 'utf-8',
+      options: ['utf-8', 'ascii'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -70,13 +74,13 @@ export const InteroperabilityDataCSVWriterNode: NodeDefinition<CSVWriterInputs, 
         filePath: inputs.filePath,
         delimiter: params.delimiter,
         includeHeader: params.includeHeader,
-        encoding: params.encoding
-      }
+        encoding: params.encoding,
+      },
     });
-    
+
     return {
       success: results.success,
-      rowsWritten: results.rowsWritten
+      rowsWritten: results.rowsWritten,
     };
   },
 };

@@ -155,7 +155,11 @@ export type Operation =
   | BatchOperation;
 
 // Conflict Resolution
-export type ConflictResolutionStrategy = 'merge' | 'last-writer-wins' | 'first-writer-wins' | 'user-decision';
+export type ConflictResolutionStrategy =
+  | 'merge'
+  | 'last-writer-wins'
+  | 'first-writer-wins'
+  | 'user-decision';
 
 export interface ConflictResolution {
   resolved: boolean;
@@ -326,16 +330,17 @@ export interface CollaborationEngine {
 
   // Operation Management
   applyOperation: (sessionId: SessionId, operation: Operation) => Promise<void>;
-  transformOperation: (
-    localOp: Operation,
-    remoteOp: Operation
-  ) => Promise<Operation>;
+  transformOperation: (localOp: Operation, remoteOp: Operation) => Promise<Operation>;
   resolveConflict: (conflict: OperationConflict) => Promise<ConflictResolution>;
 
   // Real-time Communication
   broadcastOperation: (sessionId: SessionId, operation: Operation) => Promise<void>;
   broadcastCursor: (sessionId: SessionId, userId: UserId, cursor: CursorPosition) => Promise<void>;
-  broadcastSelection: (sessionId: SessionId, userId: UserId, selection: SelectionState) => Promise<void>;
+  broadcastSelection: (
+    sessionId: SessionId,
+    userId: UserId,
+    selection: SelectionState
+  ) => Promise<void>;
 
   // Synchronization
   syncWithServer: (sessionId: SessionId, lastKnownVersion: number) => Promise<Operation[]>;

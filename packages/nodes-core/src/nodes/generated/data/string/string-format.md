@@ -1,4 +1,3 @@
-
 # StringFormat Node
 
 **Category:** Data / String
@@ -11,25 +10,18 @@ This node has no parameters.
 
 ## Inputs
 
-
 ### Template
+
 - **Type:** string
 - **Required:** Yes
 
-
-
 ### Values
+
 - **Type:** Data[]
 - **Required:** Yes
 
-
-
 ## Outputs
 
-
 ### Formatted
+
 - **Type:** string
-
-
-
-

@@ -15,7 +15,9 @@ test.describe('Performance Benchmarks', () => {
 
   test('initial load completes within 3s', async ({ page }) => {
     const metrics = await page.evaluate(() => {
-      const timing = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
+      const timing = performance.getEntriesByType('navigation')[0] as
+        | PerformanceNavigationTiming
+        | undefined;
       if (timing) {
         return {
           domContentLoaded: timing.domContentLoadedEventEnd - timing.startTime,

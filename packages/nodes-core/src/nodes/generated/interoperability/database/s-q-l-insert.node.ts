@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -23,51 +22,48 @@ export const SQLInsertNode: NodeDefinition<SQLInsertInputs, SQLInsertOutputs, SQ
   metadata: {
     label: 'SQLInsert',
     description: 'Insert data into SQL database',
-    
-    
   },
 
   params: {
-        connectionString: {
-      "default": ""
+    connectionString: {
+      default: '',
     },
     tableName: {
-      "default": "",
-      "description": "Target table name"
+      default: '',
+      description: 'Target table name',
     },
     batchSize: {
-      "default": 100,
-      "min": 1,
-      "max": 1000
-    }
+      default: 100,
+      min: 1,
+      max: 1000,
+    },
   },
 
   inputs: {
-        data: 'Properties[]'
+    data: 'Properties[]',
   },
 
   outputs: {
-        success: 'boolean',
+    success: 'boolean',
     insertedRows: 'number',
-    errors: 'string[]'
+    errors: 'string[]',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'sqlInsert',
       params: {
         data: inputs.data,
         connectionString: params.connectionString,
         tableName: params.tableName,
-        batchSize: params.batchSize
-      }
+        batchSize: params.batchSize,
+      },
     });
 
     return {
       success: result,
       insertedRows: result,
-      errors: result
+      errors: result,
     };
-  }
+  },
 };

@@ -19,7 +19,7 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
   error,
   onReset,
   isolated = false,
-  specializedFor
+  specializedFor,
 }) => {
   const [brepFlowError, setBrepFlowError] = useState<BrepFlowError | null>(null);
   const [isExecutingRecovery, setIsExecutingRecovery] = useState<string | null>(null);
@@ -28,7 +28,7 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
     if (errorId) {
       const errorManager = ErrorManager.getInstance();
       const errors = errorManager.getErrors();
-      const foundError = errors.find(e => e.id === errorId);
+      const foundError = errors.find((e) => e.id === errorId);
       setBrepFlowError(foundError || null);
     }
   }, [errorId]);
@@ -66,21 +66,31 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
 
   const getSeverityColor = (severity: ErrorSeverity): string => {
     switch (severity) {
-      case ErrorSeverity.LOW: return '#10b981'; // green
-      case ErrorSeverity.MEDIUM: return '#f59e0b'; // amber
-      case ErrorSeverity.HIGH: return '#ef4444'; // red
-      case ErrorSeverity.CRITICAL: return '#dc2626'; // dark red
-      default: return '#6b7280'; // gray
+      case ErrorSeverity.LOW:
+        return '#10b981'; // green
+      case ErrorSeverity.MEDIUM:
+        return '#f59e0b'; // amber
+      case ErrorSeverity.HIGH:
+        return '#ef4444'; // red
+      case ErrorSeverity.CRITICAL:
+        return '#dc2626'; // dark red
+      default:
+        return '#6b7280'; // gray
     }
   };
 
   const getSeverityIcon = (severity: ErrorSeverity): string => {
     switch (severity) {
-      case ErrorSeverity.LOW: return '⚠️';
-      case ErrorSeverity.MEDIUM: return '⚠️';
-      case ErrorSeverity.HIGH: return '❌';
-      case ErrorSeverity.CRITICAL: return '🚨';
-      default: return '❓';
+      case ErrorSeverity.LOW:
+        return '⚠️';
+      case ErrorSeverity.MEDIUM:
+        return '⚠️';
+      case ErrorSeverity.HIGH:
+        return '❌';
+      case ErrorSeverity.CRITICAL:
+        return '🚨';
+      default:
+        return '❓';
     }
   };
 
@@ -90,9 +100,7 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
         return (
           <div className="specialized-message wasm">
             <h4>🔧 WASM Engine Issue</h4>
-            <p>
-              The WebAssembly geometry engine encountered an error. This might be due to:
-            </p>
+            <p>The WebAssembly geometry engine encountered an error. This might be due to:</p>
             <ul>
               <li>Complex geometry operations exceeding memory limits</li>
               <li>Invalid parameters passed to geometry functions</li>
@@ -105,9 +113,7 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
         return (
           <div className="specialized-message geometry">
             <h4>📐 Geometry Computation Error</h4>
-            <p>
-              Unable to compute the requested geometry operation. Common causes:
-            </p>
+            <p>Unable to compute the requested geometry operation. Common causes:</p>
             <ul>
               <li>Invalid or contradictory geometric parameters</li>
               <li>Degenerate geometry (zero-area surfaces, zero-length curves)</li>
@@ -120,9 +126,7 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
         return (
           <div className="specialized-message network">
             <h4>🌐 Network Connection Error</h4>
-            <p>
-              Unable to communicate with the server. This might be due to:
-            </p>
+            <p>Unable to communicate with the server. This might be due to:</p>
             <ul>
               <li>Network connectivity issues</li>
               <li>Server maintenance or downtime</li>
@@ -147,19 +151,21 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
     context: {
       timestamp: Date.now(),
       sessionId: 'unknown',
-      buildVersion: 'unknown'
+      buildVersion: 'unknown',
     },
     recoverable: true,
-    recoveryActions: [{
-      id: 'reset',
-      label: 'Try Again',
-      description: 'Attempt to recover from this error',
-      action: () => true,
-      destructive: false,
-      requiresConfirmation: false
-    }],
+    recoveryActions: [
+      {
+        id: 'reset',
+        label: 'Try Again',
+        description: 'Attempt to recover from this error',
+        action: () => true,
+        destructive: false,
+        requiresConfirmation: false,
+      },
+    ],
     reportedToService: false,
-    occurredAt: new Date()
+    occurredAt: new Date(),
   };
 
   return (
@@ -172,36 +178,44 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
         borderRadius: '8px',
         backgroundColor: '#fef2f2',
         fontFamily: 'system-ui, -apple-system, sans-serif',
-        maxWidth: isolated ? '500px' : '100%'
+        maxWidth: isolated ? '500px' : '100%',
       }}
     >
       <div className="error-header" style={{ marginBottom: '1.5rem' }}>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.5rem',
-          marginBottom: '0.5rem'
-        }}>
-          <span style={{ fontSize: '1.5rem' }}>
-            {getSeverityIcon(displayError.severity)}
-          </span>
-          <h3 style={{
-            margin: 0,
-            color: getSeverityColor(displayError.severity),
-            fontSize: '1.25rem'
-          }}>
-            {displayError.severity === ErrorSeverity.CRITICAL ? 'Critical Error' :
-             displayError.severity === ErrorSeverity.HIGH ? 'Error' :
-             displayError.severity === ErrorSeverity.MEDIUM ? 'Warning' : 'Notice'}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            marginBottom: '0.5rem',
+          }}
+        >
+          <span style={{ fontSize: '1.5rem' }}>{getSeverityIcon(displayError.severity)}</span>
+          <h3
+            style={{
+              margin: 0,
+              color: getSeverityColor(displayError.severity),
+              fontSize: '1.25rem',
+            }}
+          >
+            {displayError.severity === ErrorSeverity.CRITICAL
+              ? 'Critical Error'
+              : displayError.severity === ErrorSeverity.HIGH
+                ? 'Error'
+                : displayError.severity === ErrorSeverity.MEDIUM
+                  ? 'Warning'
+                  : 'Notice'}
           </h3>
         </div>
 
-        <p style={{
-          margin: 0,
-          fontSize: '1rem',
-          color: '#374151',
-          fontWeight: 500
-        }}>
+        <p
+          style={{
+            margin: 0,
+            fontSize: '1rem',
+            color: '#374151',
+            fontWeight: 500,
+          }}
+        >
           {displayError.userMessage}
         </p>
       </div>
@@ -210,36 +224,50 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
 
       {/* Technical details (collapsible) */}
       <details style={{ marginBottom: '1.5rem' }}>
-        <summary style={{
-          cursor: 'pointer',
-          color: '#6b7280',
-          fontSize: '0.875rem',
-          marginBottom: '0.5rem'
-        }}>
+        <summary
+          style={{
+            cursor: 'pointer',
+            color: '#6b7280',
+            fontSize: '0.875rem',
+            marginBottom: '0.5rem',
+          }}
+        >
           Technical Details
         </summary>
-        <div style={{
-          padding: '0.75rem',
-          backgroundColor: '#f9fafb',
-          borderRadius: '4px',
-          fontSize: '0.8rem',
-          color: '#374151',
-          fontFamily: 'monospace'
-        }}>
-          <p><strong>Error Code:</strong> {displayError.code}</p>
-          <p><strong>Category:</strong> {displayError.category}</p>
-          <p><strong>Time:</strong> {displayError.occurredAt.toLocaleString()}</p>
+        <div
+          style={{
+            padding: '0.75rem',
+            backgroundColor: '#f9fafb',
+            borderRadius: '4px',
+            fontSize: '0.8rem',
+            color: '#374151',
+            fontFamily: 'monospace',
+          }}
+        >
+          <p>
+            <strong>Error Code:</strong> {displayError.code}
+          </p>
+          <p>
+            <strong>Category:</strong> {displayError.category}
+          </p>
+          <p>
+            <strong>Time:</strong> {displayError.occurredAt.toLocaleString()}
+          </p>
           {displayError.message !== displayError.userMessage && (
-            <p><strong>Technical Message:</strong> {displayError.message}</p>
+            <p>
+              <strong>Technical Message:</strong> {displayError.message}
+            </p>
           )}
           {displayError.technicalDetails && (
             <details>
               <summary>Stack Trace</summary>
-              <pre style={{
-                whiteSpace: 'pre-wrap',
-                fontSize: '0.75rem',
-                marginTop: '0.5rem'
-              }}>
+              <pre
+                style={{
+                  whiteSpace: 'pre-wrap',
+                  fontSize: '0.75rem',
+                  marginTop: '0.5rem',
+                }}
+              >
                 {displayError.technicalDetails}
               </pre>
             </details>
@@ -248,41 +276,46 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
       </details>
 
       {/* Recovery actions */}
-      {displayError.recoverable && displayError.recoveryActions && displayError.recoveryActions.length > 0 && (
-        <div className="recovery-actions" style={{ marginBottom: '1rem' }}>
-          <h4 style={{
-            margin: '0 0 0.75rem 0',
-            fontSize: '1rem',
-            color: '#374151'
-          }}>
-            What would you like to do?
-          </h4>
+      {displayError.recoverable &&
+        displayError.recoveryActions &&
+        displayError.recoveryActions.length > 0 && (
+          <div className="recovery-actions" style={{ marginBottom: '1rem' }}>
+            <h4
+              style={{
+                margin: '0 0 0.75rem 0',
+                fontSize: '1rem',
+                color: '#374151',
+              }}
+            >
+              What would you like to do?
+            </h4>
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-            {displayError.recoveryActions.map((action) => (
-              <button
-                key={action.id}
-                onClick={() => handleRecoveryAction(action)}
-                disabled={isExecutingRecovery === action.id}
-                style={{
-                  padding: '0.5rem 1rem',
-                  border: (action.destructive ?? false) ? '1px solid #ef4444' : '1px solid #d1d5db',
-                  borderRadius: '6px',
-                  backgroundColor: (action.destructive ?? false) ? '#fef2f2' : '#ffffff',
-                  color: (action.destructive ?? false) ? '#dc2626' : '#374151',
-                  cursor: isExecutingRecovery ? 'not-allowed' : 'pointer',
-                  fontSize: '0.875rem',
-                  fontWeight: '500',
-                  opacity: isExecutingRecovery && isExecutingRecovery !== action.id ? 0.5 : 1
-                }}
-                title={action.description}
-              >
-                {isExecutingRecovery === action.id ? '...' : action.label}
-              </button>
-            ))}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+              {displayError.recoveryActions.map((action) => (
+                <button
+                  key={action.id}
+                  onClick={() => handleRecoveryAction(action)}
+                  disabled={isExecutingRecovery === action.id}
+                  style={{
+                    padding: '0.5rem 1rem',
+                    border:
+                      (action.destructive ?? false) ? '1px solid #ef4444' : '1px solid #d1d5db',
+                    borderRadius: '6px',
+                    backgroundColor: (action.destructive ?? false) ? '#fef2f2' : '#ffffff',
+                    color: (action.destructive ?? false) ? '#dc2626' : '#374151',
+                    cursor: isExecutingRecovery ? 'not-allowed' : 'pointer',
+                    fontSize: '0.875rem',
+                    fontWeight: '500',
+                    opacity: isExecutingRecovery && isExecutingRecovery !== action.id ? 0.5 : 1,
+                  }}
+                  title={action.description}
+                >
+                  {isExecutingRecovery === action.id ? '...' : action.label}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
       {/* Default reset button if no recovery actions */}
       {(!displayError.recoveryActions || displayError.recoveryActions.length === 0) && (
@@ -296,7 +329,7 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
             color: 'white',
             cursor: 'pointer',
             fontSize: '0.875rem',
-            fontWeight: '500'
+            fontWeight: '500',
           }}
         >
           Try Again
@@ -304,13 +337,15 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
       )}
 
       {/* Error reporting status */}
-      <div style={{
-        marginTop: '1rem',
-        fontSize: '0.75rem',
-        color: '#6b7280',
-        borderTop: '1px solid #e5e7eb',
-        paddingTop: '0.75rem'
-      }}>
+      <div
+        style={{
+          marginTop: '1rem',
+          fontSize: '0.75rem',
+          color: '#6b7280',
+          borderTop: '1px solid #e5e7eb',
+          paddingTop: '0.75rem',
+        }}
+      >
         {displayError.reportedToService ? (
           <span>✅ Error has been automatically reported</span>
         ) : (

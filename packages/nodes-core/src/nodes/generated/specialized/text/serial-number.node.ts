@@ -15,7 +15,11 @@ interface SerialNumberOutputs {
   serials: unknown;
 }
 
-export const SpecializedTextSerialNumberNode: NodeDefinition<SerialNumberInputs, SerialNumberOutputs, SerialNumberParams> = {
+export const SpecializedTextSerialNumberNode: NodeDefinition<
+  SerialNumberInputs,
+  SerialNumberOutputs,
+  SerialNumberParams
+> = {
   id: 'Specialized::SerialNumber',
   category: 'Specialized',
   label: 'SerialNumber',
@@ -24,20 +28,20 @@ export const SpecializedTextSerialNumberNode: NodeDefinition<SerialNumberInputs,
     count: {
       type: 'number',
       label: 'Count',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     serials: {
       type: 'string[]',
-      label: 'Serials'
-    }
+      label: 'Serials',
+    },
   },
   params: {
     prefix: {
       type: 'string',
       label: 'Prefix',
-      default: "SN"
+      default: 'SN',
     },
     startNumber: {
       type: 'number',
@@ -45,7 +49,7 @@ export const SpecializedTextSerialNumberNode: NodeDefinition<SerialNumberInputs,
       default: 1,
       min: 0,
       max: 999999,
-      step: 1
+      step: 1,
     },
     digits: {
       type: 'number',
@@ -53,7 +57,7 @@ export const SpecializedTextSerialNumberNode: NodeDefinition<SerialNumberInputs,
       default: 6,
       min: 1,
       max: 10,
-      step: 1
+      step: 1,
     },
     increment: {
       type: 'number',
@@ -61,8 +65,8 @@ export const SpecializedTextSerialNumberNode: NodeDefinition<SerialNumberInputs,
       default: 1,
       min: 1,
       max: 100,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -72,12 +76,12 @@ export const SpecializedTextSerialNumberNode: NodeDefinition<SerialNumberInputs,
         prefix: params.prefix,
         startNumber: params.startNumber,
         digits: params.digits,
-        increment: params.increment
-      }
+        increment: params.increment,
+      },
     });
-    
+
     return {
-      serials: result
+      serials: result,
     };
   },
 };

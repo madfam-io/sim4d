@@ -14,7 +14,11 @@ interface StringReplaceOutputs {
   result: unknown;
 }
 
-export const DataStringStringReplaceNode: NodeDefinition<StringReplaceInputs, StringReplaceOutputs, StringReplaceParams> = {
+export const DataStringStringReplaceNode: NodeDefinition<
+  StringReplaceInputs,
+  StringReplaceOutputs,
+  StringReplaceParams
+> = {
   id: 'Data::StringReplace',
   type: 'Data::StringReplace',
   category: 'Data',
@@ -24,31 +28,31 @@ export const DataStringStringReplaceNode: NodeDefinition<StringReplaceInputs, St
     string: {
       type: 'string',
       label: 'String',
-      required: true
+      required: true,
     },
     search: {
       type: 'string',
       label: 'Search',
-      required: true
+      required: true,
     },
     replace: {
       type: 'string',
       label: 'Replace',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'string',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {
     global: {
       type: 'boolean',
       label: 'Global',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -57,12 +61,12 @@ export const DataStringStringReplaceNode: NodeDefinition<StringReplaceInputs, St
         string: inputs.string,
         search: inputs.search,
         replace: inputs.replace,
-        global: params.global
-      }
+        global: params.global,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

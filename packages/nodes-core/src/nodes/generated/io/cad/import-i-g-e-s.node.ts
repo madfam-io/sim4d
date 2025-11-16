@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -13,52 +12,50 @@ interface Outputs {
   shape: Shape;
 }
 
-export const ImportIGESNode: NodeDefinition<ImportIGESInputs, ImportIGESOutputs, ImportIGESParams> = {
-  type: 'IO::ImportIGES',
-  category: 'IO',
-  subcategory: 'CAD',
+export const ImportIGESNode: NodeDefinition<ImportIGESInputs, ImportIGESOutputs, ImportIGESParams> =
+  {
+    type: 'IO::ImportIGES',
+    category: 'IO',
+    subcategory: 'CAD',
 
-  metadata: {
-    label: 'ImportIGES',
-    description: 'Import IGES file',
-    
-    
-  },
-
-  params: {
-        readSurfaces: {
-      "default": true
+    metadata: {
+      label: 'ImportIGES',
+      description: 'Import IGES file',
     },
-    readCurves: {
-      "default": true
+
+    params: {
+      readSurfaces: {
+        default: true,
+      },
+      readCurves: {
+        default: true,
+      },
+      sequence: {
+        default: true,
+      },
     },
-    sequence: {
-      "default": true
-    }
-  },
 
-  inputs: {
-        fileData: 'Data'
-  },
+    inputs: {
+      fileData: 'Data',
+    },
 
-  outputs: {
-        shape: 'Shape'
-  },
+    outputs: {
+      shape: 'Shape',
+    },
 
-  async evaluate(context, inputs, params) {
-    
-    const result = await context.geometry.execute({
-      type: 'importIGES',
-      params: {
-        fileData: inputs.fileData,
-        readSurfaces: params.readSurfaces,
-        readCurves: params.readCurves,
-        sequence: params.sequence
-      }
-    });
+    async evaluate(context, inputs, params) {
+      const result = await context.geometry.execute({
+        type: 'importIGES',
+        params: {
+          fileData: inputs.fileData,
+          readSurfaces: params.readSurfaces,
+          readCurves: params.readCurves,
+          sequence: params.sequence,
+        },
+      });
 
-    return {
-      shape: result
-    };
-  }
-};
+      return {
+        shape: result,
+      };
+    },
+  };

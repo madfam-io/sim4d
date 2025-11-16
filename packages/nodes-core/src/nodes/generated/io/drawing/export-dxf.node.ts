@@ -15,7 +15,11 @@ interface ExportDXFOutputs {
   dxfData: unknown;
 }
 
-export const IODrawingExportDXFNode: NodeDefinition<ExportDXFInputs, ExportDXFOutputs, ExportDXFParams> = {
+export const IODrawingExportDXFNode: NodeDefinition<
+  ExportDXFInputs,
+  ExportDXFOutputs,
+  ExportDXFParams
+> = {
   id: 'IO::ExportDXF',
   category: 'IO',
   label: 'ExportDXF',
@@ -24,38 +28,38 @@ export const IODrawingExportDXFNode: NodeDefinition<ExportDXFInputs, ExportDXFOu
     shapes: {
       type: 'Shape[]',
       label: 'Shapes',
-      required: true
+      required: true,
     },
     layers: {
       type: 'Data',
       label: 'Layers',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     dxfData: {
       type: 'Data',
-      label: 'Dxf Data'
-    }
+      label: 'Dxf Data',
+    },
   },
   params: {
     version: {
       type: 'enum',
       label: 'Version',
-      default: "R2010",
-      options: ["R12","R2000","R2004","R2007","R2010"]
+      default: 'R2010',
+      options: ['R12', 'R2000', 'R2004', 'R2007', 'R2010'],
     },
     projection: {
       type: 'enum',
       label: 'Projection',
-      default: "top",
-      options: ["top","front","right","iso"]
+      default: 'top',
+      options: ['top', 'front', 'right', 'iso'],
     },
     hiddenLines: {
       type: 'boolean',
       label: 'Hidden Lines',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -65,12 +69,12 @@ export const IODrawingExportDXFNode: NodeDefinition<ExportDXFInputs, ExportDXFOu
         layers: inputs.layers,
         version: params.version,
         projection: params.projection,
-        hiddenLines: params.hiddenLines
-      }
+        hiddenLines: params.hiddenLines,
+      },
     });
-    
+
     return {
-      dxfData: result
+      dxfData: result,
     };
   },
 };

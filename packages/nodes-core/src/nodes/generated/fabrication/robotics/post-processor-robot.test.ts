@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { FabricationRoboticsPostProcessorRobotNode } from './post-processor-robot.node';
 import { createTestContext } from '../test-utils';
@@ -7,13 +6,17 @@ describe('FabricationRoboticsPostProcessorRobotNode', () => {
   it('should evaluate without throwing', async () => {
     const context = createTestContext();
     const inputs = {
-      trajectory: undefined
+      trajectory: undefined,
     } as any;
     const params = {
-      robotBrand: "abb"
+      robotBrand: 'abb',
     } as any;
 
-    const result = await FabricationRoboticsPostProcessorRobotNode.evaluate(context, inputs, params);
+    const result = await FabricationRoboticsPostProcessorRobotNode.evaluate(
+      context,
+      inputs,
+      params
+    );
     expect(result).toBeDefined();
   });
 });

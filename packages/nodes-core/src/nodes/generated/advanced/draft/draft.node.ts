@@ -24,19 +24,19 @@ export const AdvancedDraftDraftNode: NodeDefinition<DraftInputs, DraftOutputs, D
     solid: {
       type: 'Shape',
       label: 'Solid',
-      required: true
+      required: true,
     },
     facesToDraft: {
       type: 'Face[]',
       label: 'Faces To Draft',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     drafted: {
       type: 'Shape',
-      label: 'Drafted'
-    }
+      label: 'Drafted',
+    },
   },
   params: {
     angle: {
@@ -44,18 +44,18 @@ export const AdvancedDraftDraftNode: NodeDefinition<DraftInputs, DraftOutputs, D
       label: 'Angle',
       default: 3,
       min: -30,
-      max: 30
+      max: 30,
     },
     pullDirection: {
       type: 'vec3',
       label: 'Pull Direction',
-      default: [0,0,1]
+      default: [0, 0, 1],
     },
     neutralPlane: {
       type: 'vec3',
       label: 'Neutral Plane',
-      default: [0,0,0]
-    }
+      default: [0, 0, 0],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -65,12 +65,12 @@ export const AdvancedDraftDraftNode: NodeDefinition<DraftInputs, DraftOutputs, D
         facesToDraft: inputs.facesToDraft,
         angle: params.angle,
         pullDirection: params.pullDirection,
-        neutralPlane: params.neutralPlane
-      }
+        neutralPlane: params.neutralPlane,
+      },
     });
-    
+
     return {
-      drafted: result
+      drafted: result,
     };
   },
 };

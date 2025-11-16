@@ -3,7 +3,7 @@ import {
   Plugin,
   PluginId,
   PluginPermission,
-  UserId
+  UserId,
 } from '../../../packages/cloud-services/src/plugins/types';
 
 /**
@@ -56,27 +56,28 @@ export class MockServices {
 
         async searchPlugins(query: string) {
           const delay = marketplaceConfig.searchLatency || 100;
-          await new Promise(resolve => setTimeout(resolve, delay));
+          await new Promise((resolve) => setTimeout(resolve, delay));
 
-          return marketplaceConfig.plugins.filter(plugin =>
-            plugin.name.toLowerCase().includes(query.toLowerCase()) ||
-            plugin.description.toLowerCase().includes(query.toLowerCase())
+          return marketplaceConfig.plugins.filter(
+            (plugin) =>
+              plugin.name.toLowerCase().includes(query.toLowerCase()) ||
+              plugin.description.toLowerCase().includes(query.toLowerCase())
           );
         },
 
         async getPlugin(id: string) {
           const delay = marketplaceConfig.searchLatency || 100;
-          await new Promise(resolve => setTimeout(resolve, delay));
+          await new Promise((resolve) => setTimeout(resolve, delay));
 
-          return marketplaceConfig.plugins.find(plugin => plugin.id === id);
+          return marketplaceConfig.plugins.find((plugin) => plugin.id === id);
         },
 
         async installPlugin(id: string) {
-          const plugin = marketplaceConfig.plugins.find(p => p.id === id);
+          const plugin = marketplaceConfig.plugins.find((p) => p.id === id);
           if (!plugin) throw new Error(`Plugin ${id} not found`);
 
           const delay = plugin.installLatency || 1000;
-          await new Promise(resolve => setTimeout(resolve, delay));
+          await new Promise((resolve) => setTimeout(resolve, delay));
 
           // Simulate installation failure
           const failureRate = marketplaceConfig.installFailureRate || 0;
@@ -86,14 +87,14 @@ export class MockServices {
 
           return {
             success: true,
-            plugin: plugin
+            plugin: plugin,
           };
-        }
+        },
       };
 
       // Override fetch for marketplace API calls
       const originalFetch = window.fetch;
-      window.fetch = async function(url, options) {
+      window.fetch = async function (url, options) {
         if (typeof url === 'string' && url.includes('/api/plugins')) {
           const mockMarketplace = (window as any).mockMarketplace;
 
@@ -102,7 +103,7 @@ export class MockServices {
             const query = urlObj.searchParams.get('q') || '';
             const results = await mockMarketplace.searchPlugins(query);
             return new Response(JSON.stringify(results), {
-              headers: { 'Content-Type': 'application/json' }
+              headers: { 'Content-Type': 'application/json' },
             });
           }
 
@@ -111,12 +112,12 @@ export class MockServices {
             try {
               const result = await mockMarketplace.installPlugin(pluginId);
               return new Response(JSON.stringify(result), {
-                headers: { 'Content-Type': 'application/json' }
+                headers: { 'Content-Type': 'application/json' },
               });
             } catch (error) {
               return new Response(JSON.stringify({ error: error.message }), {
                 status: 500,
-                headers: { 'Content-Type': 'application/json' }
+                headers: { 'Content-Type': 'application/json' },
               });
             }
           }
@@ -125,7 +126,7 @@ export class MockServices {
             const pluginId = url.split('/plugins/')[1];
             const plugin = await mockMarketplace.getPlugin(pluginId);
             return new Response(JSON.stringify(plugin), {
-              headers: { 'Content-Type': 'application/json' }
+              headers: { 'Content-Type': 'application/json' },
             });
           }
         }
@@ -145,7 +146,7 @@ export class MockServices {
         sessions: new Map(),
 
         async createSession(userId: string) {
-          const user = cloudConfig.users.find(u => u.id === userId);
+          const user = cloudConfig.users.find((u) => u.id === userId);
           if (!user) throw new Error(`User ${userId} not found`);
 
           const sessionId = `session-${Date.now()}-${Math.random()}`;
@@ -154,7 +155,7 @@ export class MockServices {
             userId: userId,
             user: user,
             plugins: new Map(),
-            createdAt: new Date()
+            createdAt: new Date(),
           });
 
           return sessionId;
@@ -162,14 +163,14 @@ export class MockServices {
 
         async syncPluginState(sessionId: string, pluginId: string, state: any) {
           const delay = cloudConfig.syncLatency || 50;
-          await new Promise(resolve => setTimeout(resolve, delay));
+          await new Promise((resolve) => setTimeout(resolve, delay));
 
           const session = this.sessions.get(sessionId);
           if (!session) throw new Error(`Session ${sessionId} not found`);
 
           session.plugins.set(pluginId, {
             state: state,
-            lastUpdated: new Date()
+            lastUpdated: new Date(),
           });
 
           // Simulate sync conflicts
@@ -186,7 +187,7 @@ export class MockServices {
           if (!session) return null;
 
           return session.plugins.get(pluginId);
-        }
+        },
       };
 
       // Mock WebSocket connections for real-time collaboration
@@ -212,9 +213,11 @@ export class MockServices {
 
           if (response) {
             setTimeout(() => {
-              this.dispatchEvent(new MessageEvent('message', {
-                data: JSON.stringify(response)
-              }));
+              this.dispatchEvent(
+                new MessageEvent('message', {
+                  data: JSON.stringify(response),
+                })
+              );
             }, cloudConfig.syncLatency || 50);
           }
         }
@@ -232,14 +235,14 @@ export class MockServices {
               return {
                 type: 'plugin_state_synced',
                 pluginId: message.pluginId,
-                timestamp: new Date().toISOString()
+                timestamp: new Date().toISOString(),
               };
 
             case 'plugin_collaboration_event':
               return {
                 type: 'collaboration_event_response',
                 eventId: message.eventId,
-                participants: mockCloudServices.users.length
+                participants: mockCloudServices.users.length,
               };
 
             default:
@@ -291,7 +294,7 @@ export class MockServices {
           }
 
           return true; // Allow safe actions
-        }
+        },
       };
 
       // Mock Worker for plugin isolation testing
@@ -310,9 +313,11 @@ export class MockServices {
 
           // Simulate worker initialization
           setTimeout(() => {
-            this.dispatchEvent(new MessageEvent('message', {
-              data: { type: 'worker_ready', pluginId: this.pluginId }
-            }));
+            this.dispatchEvent(
+              new MessageEvent('message', {
+                data: { type: 'worker_ready', pluginId: this.pluginId },
+              })
+            );
           }, 100);
         }
 
@@ -325,22 +330,26 @@ export class MockServices {
             const allowed = mockSecurity.enforceSecurityBoundary(this.pluginId, action);
 
             if (!allowed) {
-              this.dispatchEvent(new MessageEvent('error', {
-                data: { error: `Permission denied for action: ${action}` }
-              }));
+              this.dispatchEvent(
+                new MessageEvent('error', {
+                  data: { error: `Permission denied for action: ${action}` },
+                })
+              );
               return;
             }
           }
 
           // Simulate worker response
           setTimeout(() => {
-            this.dispatchEvent(new MessageEvent('message', {
-              data: {
-                type: 'action_response',
-                result: `Action completed: ${message.type}`,
-                pluginId: this.pluginId
-              }
-            }));
+            this.dispatchEvent(
+              new MessageEvent('message', {
+                data: {
+                  type: 'action_response',
+                  result: `Action completed: ${message.type}`,
+                  pluginId: this.pluginId,
+                },
+              })
+            );
           }, 50);
         }
 
@@ -366,14 +375,14 @@ export class MockServices {
       // Simulate different network speeds
       const conditions = {
         fast: { downloadThroughput: 1000000, uploadThroughput: 1000000, latency: 10 },
-        slow: { downloadThroughput: 50000, uploadThroughput: 20000, latency: 500 }
+        slow: { downloadThroughput: 50000, uploadThroughput: 20000, latency: 500 },
       };
 
       if (condition !== 'fast') {
         await this.page.route('**/*', async (route) => {
           // Add artificial delay for slow connections
           if (condition === 'slow') {
-            await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 300));
+            await new Promise((resolve) => setTimeout(resolve, 200 + Math.random() * 300));
           }
           await route.continue();
         });
@@ -397,7 +406,7 @@ export class MockServices {
       hasSecurityIssues: overrides.hasSecurityIssues || false,
       installLatency: overrides.installLatency || 1000,
       executionTime: overrides.executionTime || 100,
-      memoryUsage: overrides.memoryUsage || 1024 * 1024 // 1MB
+      memoryUsage: overrides.memoryUsage || 1024 * 1024, // 1MB
     };
   }
 
@@ -405,18 +414,20 @@ export class MockServices {
     const plugins: MockPluginConfig[] = [];
 
     for (let i = 0; i < pluginCount; i++) {
-      plugins.push(this.generateTestPlugin({
-        id: `test-plugin-${i}`,
-        name: `Test Plugin ${i}`,
-        description: `Test plugin number ${i} for automated testing`
-      }));
+      plugins.push(
+        this.generateTestPlugin({
+          id: `test-plugin-${i}`,
+          name: `Test Plugin ${i}`,
+          description: `Test plugin number ${i} for automated testing`,
+        })
+      );
     }
 
     return {
       plugins,
       searchLatency: 200,
       installFailureRate: 0.1, // 10% failure rate
-      networkCondition: 'fast'
+      networkCondition: 'fast',
     };
   }
 
@@ -427,14 +438,14 @@ export class MockServices {
       users.push({
         id: `test-user-${i}`,
         name: `Test User ${i}`,
-        permissions: ['plugin_install', 'plugin_execute', 'collaboration']
+        permissions: ['plugin_install', 'plugin_execute', 'collaboration'],
       });
     }
 
     return {
       users,
       syncLatency: 100,
-      conflictRate: 0.05 // 5% conflict rate
+      conflictRate: 0.05, // 5% conflict rate
     };
   }
 

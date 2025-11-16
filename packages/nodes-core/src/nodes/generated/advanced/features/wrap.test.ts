@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { AdvancedFeaturesWrapNode } from './wrap.node';
 import { createTestContext } from '../test-utils';
@@ -8,11 +7,11 @@ describe('AdvancedFeaturesWrapNode', () => {
     const context = createTestContext();
     const inputs = {
       targetSurface: undefined,
-      sketch: undefined
+      sketch: undefined,
     } as any;
     const params = {
-      wrapType: "emboss",
-      depth: 1
+      wrapType: 'emboss',
+      depth: 1,
     } as any;
 
     const result = await AdvancedFeaturesWrapNode.evaluate(context, inputs, params);

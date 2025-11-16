@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -19,36 +18,33 @@ export const ToJSONNode: NodeDefinition<ToJSONInputs, ToJSONOutputs, ToJSONParam
   metadata: {
     label: 'ToJSON',
     description: 'Convert to JSON',
-    
-    
   },
 
   params: {
-        pretty: {
-      "default": false
-    }
+    pretty: {
+      default: false,
+    },
   },
 
   inputs: {
-        data: 'Data'
+    data: 'Data',
   },
 
   outputs: {
-        json: 'string'
+    json: 'string',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'convertToJSON',
       params: {
         data: inputs.data,
-        pretty: params.pretty
-      }
+        pretty: params.pretty,
+      },
     });
 
     return {
-      json: result
+      json: result,
     };
-  }
+  },
 };

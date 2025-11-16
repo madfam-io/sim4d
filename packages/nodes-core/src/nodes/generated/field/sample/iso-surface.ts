@@ -13,7 +13,11 @@ interface IsoSurfaceOutputs {
   surface: unknown;
 }
 
-export const FieldSampleIsoSurfaceNode: NodeDefinition<IsoSurfaceInputs, IsoSurfaceOutputs, IsoSurfaceParams> = {
+export const FieldSampleIsoSurfaceNode: NodeDefinition<
+  IsoSurfaceInputs,
+  IsoSurfaceOutputs,
+  IsoSurfaceParams
+> = {
   id: 'Field::IsoSurface',
   type: 'Field::IsoSurface',
   category: 'Field',
@@ -23,20 +27,20 @@ export const FieldSampleIsoSurfaceNode: NodeDefinition<IsoSurfaceInputs, IsoSurf
     field: {
       type: 'ScalarField',
       label: 'Field',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     surface: {
       type: 'Mesh',
-      label: 'Surface'
-    }
+      label: 'Surface',
+    },
   },
   params: {
     value: {
       type: 'number',
       label: 'Value',
-      default: 0.5
+      default: 0.5,
     },
     resolution: {
       type: 'number',
@@ -44,8 +48,8 @@ export const FieldSampleIsoSurfaceNode: NodeDefinition<IsoSurfaceInputs, IsoSurf
       default: 50,
       min: 10,
       max: 200,
-      step: 5
-    }
+      step: 5,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const FieldSampleIsoSurfaceNode: NodeDefinition<IsoSurfaceInputs, IsoSurf
       params: {
         field: inputs.field,
         value: params.value,
-        resolution: params.resolution
-      }
+        resolution: params.resolution,
+      },
     });
-    
+
     return {
-      surface: result
+      surface: result,
     };
   },
 };

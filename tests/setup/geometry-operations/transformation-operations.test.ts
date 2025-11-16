@@ -27,14 +27,22 @@ describe('Transformation Operations', () => {
       await geometryAPI.init();
 
       const originalBox = await geometryAPI.invoke('MAKE_BOX', {
-        width: 100, height: 50, depth: 25
+        width: 100,
+        height: 50,
+        depth: 25,
       });
 
       const translatedBox = await geometryAPI.invoke('TRANSFORM', {
         shape: originalBox,
-        tx: 100, ty: 50, tz: 25,
-        rx: 0, ry: 0, rz: 0,
-        sx: 1, sy: 1, sz: 1
+        tx: 100,
+        ty: 50,
+        tz: 25,
+        rx: 0,
+        ry: 0,
+        rz: 0,
+        sx: 1,
+        sy: 1,
+        sz: 1,
       });
 
       expect(translatedBox).toBeDefined();
@@ -49,34 +57,49 @@ describe('Transformation Operations', () => {
       await geometryAPI.init();
 
       const sphere = await geometryAPI.invoke('MAKE_SPHERE_WITH_CENTER', {
-        centerX: 100, centerY: 100, centerZ: 100,
-        radius: 25
+        centerX: 100,
+        centerY: 100,
+        centerZ: 100,
+        radius: 25,
       });
 
       const translated = await geometryAPI.invoke('TRANSFORM', {
         shape: sphere,
-        tx: -50, ty: -75, tz: -100,
-        rx: 0, ry: 0, rz: 0,
-        sx: 1, sy: 1, sz: 1
+        tx: -50,
+        ty: -75,
+        tz: -100,
+        rx: 0,
+        ry: 0,
+        rz: 0,
+        sx: 1,
+        sy: 1,
+        sz: 1,
       });
 
-      expect(translated.centerX).toBe(50);   // 100 - 50
-      expect(translated.centerY).toBe(25);   // 100 - 75
-      expect(translated.centerZ).toBe(0);    // 100 - 100
+      expect(translated.centerX).toBe(50); // 100 - 50
+      expect(translated.centerY).toBe(25); // 100 - 75
+      expect(translated.centerZ).toBe(0); // 100 - 100
     });
 
     it('should preserve shape properties during translation', async () => {
       await geometryAPI.init();
 
       const cylinder = await geometryAPI.invoke('MAKE_CYLINDER', {
-        radius: 30, height: 100
+        radius: 30,
+        height: 100,
       });
 
       const translated = await geometryAPI.invoke('TRANSFORM', {
         shape: cylinder,
-        tx: 200, ty: 300, tz: 400,
-        rx: 0, ry: 0, rz: 0,
-        sx: 1, sy: 1, sz: 1
+        tx: 200,
+        ty: 300,
+        tz: 400,
+        rx: 0,
+        ry: 0,
+        rz: 0,
+        sx: 1,
+        sy: 1,
+        sz: 1,
       });
 
       expect(translated.volume).toBeCloseTo(cylinder.volume, 1);
@@ -93,14 +116,22 @@ describe('Transformation Operations', () => {
       await geometryAPI.init();
 
       const box = await geometryAPI.invoke('MAKE_BOX', {
-        width: 100, height: 50, depth: 25
+        width: 100,
+        height: 50,
+        depth: 25,
       });
 
       const scaled = await geometryAPI.invoke('TRANSFORM', {
         shape: box,
-        tx: 0, ty: 0, tz: 0,
-        rx: 0, ry: 0, rz: 0,
-        sx: 2, sy: 2, sz: 2
+        tx: 0,
+        ty: 0,
+        tz: 0,
+        rx: 0,
+        ry: 0,
+        rz: 0,
+        sx: 2,
+        sy: 2,
+        sz: 2,
       });
 
       expect(scaled).toBeDefined();
@@ -114,14 +145,20 @@ describe('Transformation Operations', () => {
       await geometryAPI.init();
 
       const sphere = await geometryAPI.invoke('MAKE_SPHERE', {
-        radius: 50
+        radius: 50,
       });
 
       const scaled = await geometryAPI.invoke('TRANSFORM', {
         shape: sphere,
-        tx: 0, ty: 0, tz: 0,
-        rx: 0, ry: 0, rz: 0,
-        sx: 2, sy: 1, sz: 0.5
+        tx: 0,
+        ty: 0,
+        tz: 0,
+        rx: 0,
+        ry: 0,
+        rz: 0,
+        sx: 2,
+        sy: 1,
+        sz: 0.5,
       });
 
       expect(scaled).toBeDefined();
@@ -132,14 +169,21 @@ describe('Transformation Operations', () => {
       await geometryAPI.init();
 
       const torus = await geometryAPI.invoke('MAKE_TORUS', {
-        majorRadius: 100, minorRadius: 20
+        majorRadius: 100,
+        minorRadius: 20,
       });
 
       const scaled = await geometryAPI.invoke('TRANSFORM', {
         shape: torus,
-        tx: 0, ty: 0, tz: 0,
-        rx: 0, ry: 0, rz: 0,
-        sx: 0.5, sy: 0.5, sz: 0.5
+        tx: 0,
+        ty: 0,
+        tz: 0,
+        rx: 0,
+        ry: 0,
+        rz: 0,
+        sx: 0.5,
+        sy: 0.5,
+        sz: 0.5,
       });
 
       expect(scaled.volume).toBeCloseTo(torus.volume * 0.125, 1); // 0.5³ = 0.125
@@ -149,23 +193,39 @@ describe('Transformation Operations', () => {
       await geometryAPI.init();
 
       const box = await geometryAPI.invoke('MAKE_BOX', {
-        width: 100, height: 50, depth: 25
+        width: 100,
+        height: 50,
+        depth: 25,
       });
 
       // Zero scaling should be handled appropriately
-      await expect(geometryAPI.invoke('TRANSFORM', {
-        shape: box,
-        tx: 0, ty: 0, tz: 0,
-        rx: 0, ry: 0, rz: 0,
-        sx: 0, sy: 1, sz: 1
-      })).rejects.toThrow();
+      await expect(
+        geometryAPI.invoke('TRANSFORM', {
+          shape: box,
+          tx: 0,
+          ty: 0,
+          tz: 0,
+          rx: 0,
+          ry: 0,
+          rz: 0,
+          sx: 0,
+          sy: 1,
+          sz: 1,
+        })
+      ).rejects.toThrow();
 
       // Negative scaling should be handled
       const negativeScaled = await geometryAPI.invoke('TRANSFORM', {
         shape: box,
-        tx: 0, ty: 0, tz: 0,
-        rx: 0, ry: 0, rz: 0,
-        sx: -1, sy: 1, sz: 1
+        tx: 0,
+        ty: 0,
+        tz: 0,
+        rx: 0,
+        ry: 0,
+        rz: 0,
+        sx: -1,
+        sy: 1,
+        sz: 1,
       });
 
       expect(negativeScaled).toBeDefined();
@@ -178,16 +238,26 @@ describe('Transformation Operations', () => {
       await geometryAPI.init();
 
       const box = await geometryAPI.invoke('MAKE_BOX_WITH_ORIGIN', {
-        x: 50, y: 0, z: 0,
-        width: 100, height: 50, depth: 25
+        x: 50,
+        y: 0,
+        z: 0,
+        width: 100,
+        height: 50,
+        depth: 25,
       });
 
       // 90-degree rotation around Z-axis (π/2 radians)
       const rotated = await geometryAPI.invoke('TRANSFORM', {
         shape: box,
-        tx: 0, ty: 0, tz: 0,
-        rx: 0, ry: 0, rz: Math.PI / 2,
-        sx: 1, sy: 1, sz: 1
+        tx: 0,
+        ty: 0,
+        tz: 0,
+        rx: 0,
+        ry: 0,
+        rz: Math.PI / 2,
+        sx: 1,
+        sy: 1,
+        sz: 1,
       });
 
       expect(rotated).toBeDefined();
@@ -199,15 +269,22 @@ describe('Transformation Operations', () => {
       await geometryAPI.init();
 
       const cylinder = await geometryAPI.invoke('MAKE_CYLINDER', {
-        radius: 25, height: 100
+        radius: 25,
+        height: 100,
       });
 
       // Rotate around X and Y axes
       const rotated = await geometryAPI.invoke('TRANSFORM', {
         shape: cylinder,
-        tx: 0, ty: 0, tz: 0,
-        rx: Math.PI / 4, ry: Math.PI / 6, rz: 0,
-        sx: 1, sy: 1, sz: 1
+        tx: 0,
+        ty: 0,
+        tz: 0,
+        rx: Math.PI / 4,
+        ry: Math.PI / 6,
+        rz: 0,
+        sx: 1,
+        sy: 1,
+        sz: 1,
       });
 
       expect(rotated).toBeDefined();
@@ -218,14 +295,22 @@ describe('Transformation Operations', () => {
       await geometryAPI.init();
 
       const cone = await geometryAPI.invoke('MAKE_CONE', {
-        radius1: 50, radius2: 25, height: 100
+        radius1: 50,
+        radius2: 25,
+        height: 100,
       });
 
       const rotated = await geometryAPI.invoke('TRANSFORM', {
         shape: cone,
-        tx: 0, ty: 0, tz: 0,
-        rx: Math.PI, ry: Math.PI / 2, rz: Math.PI / 3,
-        sx: 1, sy: 1, sz: 1
+        tx: 0,
+        ty: 0,
+        tz: 0,
+        rx: Math.PI,
+        ry: Math.PI / 2,
+        rz: Math.PI / 3,
+        sx: 1,
+        sy: 1,
+        sz: 1,
       });
 
       expect(rotated.volume).toBeCloseTo(cone.volume, 1);
@@ -237,14 +322,20 @@ describe('Transformation Operations', () => {
       await geometryAPI.init();
 
       const sphere = await geometryAPI.invoke('MAKE_SPHERE', {
-        radius: 25
+        radius: 25,
       });
 
       const transformed = await geometryAPI.invoke('TRANSFORM', {
         shape: sphere,
-        tx: 100, ty: 50, tz: 25,
-        rx: Math.PI / 4, ry: 0, rz: Math.PI / 6,
-        sx: 2, sy: 1.5, sz: 0.8
+        tx: 100,
+        ty: 50,
+        tz: 25,
+        rx: Math.PI / 4,
+        ry: 0,
+        rz: Math.PI / 6,
+        sx: 2,
+        sy: 1.5,
+        sz: 0.8,
       });
 
       expect(transformed).toBeDefined();
@@ -258,23 +349,37 @@ describe('Transformation Operations', () => {
       await geometryAPI.init();
 
       const box = await geometryAPI.invoke('MAKE_BOX', {
-        width: 50, height: 50, depth: 50
+        width: 50,
+        height: 50,
+        depth: 50,
       });
 
       // First transformation: translate and scale
       const step1 = await geometryAPI.invoke('TRANSFORM', {
         shape: box,
-        tx: 50, ty: 0, tz: 0,
-        rx: 0, ry: 0, rz: 0,
-        sx: 2, sy: 2, sz: 2
+        tx: 50,
+        ty: 0,
+        tz: 0,
+        rx: 0,
+        ry: 0,
+        rz: 0,
+        sx: 2,
+        sy: 2,
+        sz: 2,
       });
 
       // Second transformation: rotate the result
       const step2 = await geometryAPI.invoke('TRANSFORM', {
         shape: step1,
-        tx: 0, ty: 0, tz: 0,
-        rx: 0, ry: 0, rz: Math.PI / 2,
-        sx: 1, sy: 1, sz: 1
+        tx: 0,
+        ty: 0,
+        tz: 0,
+        rx: 0,
+        ry: 0,
+        rz: Math.PI / 2,
+        sx: 1,
+        sy: 1,
+        sz: 1,
       });
 
       expect(step2).toBeDefined();
@@ -287,11 +392,12 @@ describe('Transformation Operations', () => {
       await geometryAPI.init();
 
       const original = await geometryAPI.invoke('MAKE_TORUS', {
-        majorRadius: 50, minorRadius: 15
+        majorRadius: 50,
+        minorRadius: 15,
       });
 
       const copy = await geometryAPI.invoke('COPY_SHAPE', {
-        shape: original
+        shape: original,
       });
 
       expect(copy).toBeDefined();
@@ -307,19 +413,27 @@ describe('Transformation Operations', () => {
       await geometryAPI.init();
 
       const original = await geometryAPI.invoke('MAKE_BOX', {
-        width: 100, height: 50, depth: 25
+        width: 100,
+        height: 50,
+        depth: 25,
       });
 
       const copy = await geometryAPI.invoke('COPY_SHAPE', {
-        shape: original
+        shape: original,
       });
 
       // Transform the copy
       const transformedCopy = await geometryAPI.invoke('TRANSFORM', {
         shape: copy,
-        tx: 200, ty: 0, tz: 0,
-        rx: 0, ry: 0, rz: 0,
-        sx: 1, sy: 1, sz: 1
+        tx: 200,
+        ty: 0,
+        tz: 0,
+        rx: 0,
+        ry: 0,
+        rz: 0,
+        sx: 1,
+        sy: 1,
+        sz: 1,
       });
 
       // Original should be unchanged
@@ -333,36 +447,58 @@ describe('Transformation Operations', () => {
       await geometryAPI.init();
 
       const box = await geometryAPI.invoke('MAKE_BOX', {
-        width: 100, height: 50, depth: 25
+        width: 100,
+        height: 50,
+        depth: 25,
       });
 
       // Invalid shape reference
-      await expect(geometryAPI.invoke('TRANSFORM', {
-        shape: { id: 'invalid', type: 'solid' } as ShapeHandle,
-        tx: 0, ty: 0, tz: 0,
-        rx: 0, ry: 0, rz: 0,
-        sx: 1, sy: 1, sz: 1
-      })).rejects.toThrow();
+      await expect(
+        geometryAPI.invoke('TRANSFORM', {
+          shape: { id: 'invalid', type: 'solid' } as ShapeHandle,
+          tx: 0,
+          ty: 0,
+          tz: 0,
+          rx: 0,
+          ry: 0,
+          rz: 0,
+          sx: 1,
+          sy: 1,
+          sz: 1,
+        })
+      ).rejects.toThrow();
 
       // Invalid transformation parameters
-      await expect(geometryAPI.invoke('TRANSFORM', {
-        shape: box,
-        tx: NaN, ty: 0, tz: 0,
-        rx: 0, ry: 0, rz: 0,
-        sx: 1, sy: 1, sz: 1
-      })).rejects.toThrow();
+      await expect(
+        geometryAPI.invoke('TRANSFORM', {
+          shape: box,
+          tx: NaN,
+          ty: 0,
+          tz: 0,
+          rx: 0,
+          ry: 0,
+          rz: 0,
+          sx: 1,
+          sy: 1,
+          sz: 1,
+        })
+      ).rejects.toThrow();
     });
 
     it('should validate copy operation parameters', async () => {
       await geometryAPI.init();
 
-      await expect(geometryAPI.invoke('COPY_SHAPE', {
-        shape: null as any
-      })).rejects.toThrow();
+      await expect(
+        geometryAPI.invoke('COPY_SHAPE', {
+          shape: null as any,
+        })
+      ).rejects.toThrow();
 
-      await expect(geometryAPI.invoke('COPY_SHAPE', {
-        shape: { id: 'invalid', type: 'solid' } as ShapeHandle
-      })).rejects.toThrow();
+      await expect(
+        geometryAPI.invoke('COPY_SHAPE', {
+          shape: { id: 'invalid', type: 'solid' } as ShapeHandle,
+        })
+      ).rejects.toThrow();
     });
   });
 
@@ -371,22 +507,30 @@ describe('Transformation Operations', () => {
       await geometryAPI.init();
 
       const targets = {
-        'simple_transform': 25,    // ms - translation only
-        'complex_transform': 50,   // ms - combined operations
-        'copy_operation': 15       // ms - shape copying
+        simple_transform: 25, // ms - translation only
+        complex_transform: 50, // ms - combined operations
+        copy_operation: 15, // ms - shape copying
       };
 
       // Simple transform (translation only)
       const box = await geometryAPI.invoke('MAKE_BOX', {
-        width: 100, height: 50, depth: 25
+        width: 100,
+        height: 50,
+        depth: 25,
       });
 
       let endMeasurement = GeometryPerformanceTracker.startMeasurement('simple_transform');
       await geometryAPI.invoke('TRANSFORM', {
         shape: box,
-        tx: 100, ty: 50, tz: 25,
-        rx: 0, ry: 0, rz: 0,
-        sx: 1, sy: 1, sz: 1
+        tx: 100,
+        ty: 50,
+        tz: 25,
+        rx: 0,
+        ry: 0,
+        rz: 0,
+        sx: 1,
+        sy: 1,
+        sz: 1,
       });
       let duration = endMeasurement();
       expect(duration).toBeLessThan(targets.simple_transform);
@@ -395,9 +539,15 @@ describe('Transformation Operations', () => {
       endMeasurement = GeometryPerformanceTracker.startMeasurement('complex_transform');
       await geometryAPI.invoke('TRANSFORM', {
         shape: box,
-        tx: 100, ty: 50, tz: 25,
-        rx: Math.PI / 4, ry: Math.PI / 6, rz: Math.PI / 3,
-        sx: 2, sy: 1.5, sz: 0.8
+        tx: 100,
+        ty: 50,
+        tz: 25,
+        rx: Math.PI / 4,
+        ry: Math.PI / 6,
+        rz: Math.PI / 3,
+        sx: 2,
+        sy: 1.5,
+        sz: 0.8,
       });
       duration = endMeasurement();
       expect(duration).toBeLessThan(targets.complex_transform);
@@ -417,7 +567,7 @@ describe('Transformation Operations', () => {
         geometryAPI.invoke('MAKE_SPHERE', { radius: 25 }),
         geometryAPI.invoke('MAKE_CYLINDER', { radius: 20, height: 60 }),
         geometryAPI.invoke('MAKE_CONE', { radius1: 30, radius2: 15, height: 50 }),
-        geometryAPI.invoke('MAKE_TORUS', { majorRadius: 40, minorRadius: 8 })
+        geometryAPI.invoke('MAKE_TORUS', { majorRadius: 40, minorRadius: 8 }),
       ]);
 
       const startTime = performance.now();
@@ -425,16 +575,22 @@ describe('Transformation Operations', () => {
         shapes.map((shape, index) =>
           geometryAPI.invoke('TRANSFORM', {
             shape,
-            tx: index * 100, ty: 0, tz: 0,
-            rx: 0, ry: 0, rz: index * Math.PI / 4,
-            sx: 1 + index * 0.2, sy: 1, sz: 1
+            tx: index * 100,
+            ty: 0,
+            tz: 0,
+            rx: 0,
+            ry: 0,
+            rz: (index * Math.PI) / 4,
+            sx: 1 + index * 0.2,
+            sy: 1,
+            sz: 1,
           })
         )
       );
       const endTime = performance.now();
 
       expect(transformedShapes).toHaveLength(5);
-      expect(transformedShapes.every(s => s && s.id)).toBe(true);
+      expect(transformedShapes.every((s) => s && s.id)).toBe(true);
       expect(endTime - startTime).toBeLessThan(200); // 5 transforms in < 200ms
     });
   });
@@ -446,18 +602,26 @@ describe('Transformation Operations', () => {
       const initialCount = await geometryAPI.invoke('GET_SHAPE_COUNT', {});
 
       const original = await geometryAPI.invoke('MAKE_BOX', {
-        width: 100, height: 50, depth: 25
+        width: 100,
+        height: 50,
+        depth: 25,
       });
 
       const transformed = await geometryAPI.invoke('TRANSFORM', {
         shape: original,
-        tx: 100, ty: 0, tz: 0,
-        rx: 0, ry: 0, rz: 0,
-        sx: 2, sy: 2, sz: 2
+        tx: 100,
+        ty: 0,
+        tz: 0,
+        rx: 0,
+        ry: 0,
+        rz: 0,
+        sx: 2,
+        sy: 2,
+        sz: 2,
       });
 
       const copy = await geometryAPI.invoke('COPY_SHAPE', {
-        shape: original
+        shape: original,
       });
 
       const currentCount = await geometryAPI.invoke('GET_SHAPE_COUNT', {});

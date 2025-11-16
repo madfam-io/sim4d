@@ -14,7 +14,11 @@ interface JSONGeneratorOutputs {
   size: unknown;
 }
 
-export const InteroperabilityAPIJSONGeneratorNode: NodeDefinition<JSONGeneratorInputs, JSONGeneratorOutputs, JSONGeneratorParams> = {
+export const InteroperabilityAPIJSONGeneratorNode: NodeDefinition<
+  JSONGeneratorInputs,
+  JSONGeneratorOutputs,
+  JSONGeneratorParams
+> = {
   id: 'Interoperability::JSONGenerator',
   category: 'Interoperability',
   label: 'JSONGenerator',
@@ -23,18 +27,18 @@ export const InteroperabilityAPIJSONGeneratorNode: NodeDefinition<JSONGeneratorI
     data: {
       type: 'Properties',
       label: 'Data',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     json: {
       type: 'string',
-      label: 'Json'
+      label: 'Json',
     },
     size: {
       type: 'number',
-      label: 'Size'
-    }
+      label: 'Size',
+    },
   },
   params: {
     indent: {
@@ -42,13 +46,13 @@ export const InteroperabilityAPIJSONGeneratorNode: NodeDefinition<JSONGeneratorI
       label: 'Indent',
       default: 2,
       min: 0,
-      max: 8
+      max: 8,
     },
     compact: {
       type: 'boolean',
       label: 'Compact',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -56,13 +60,13 @@ export const InteroperabilityAPIJSONGeneratorNode: NodeDefinition<JSONGeneratorI
       params: {
         data: inputs.data,
         indent: params.indent,
-        compact: params.compact
-      }
+        compact: params.compact,
+      },
     });
-    
+
     return {
       json: results.json,
-      size: results.size
+      size: results.size,
     };
   },
 };

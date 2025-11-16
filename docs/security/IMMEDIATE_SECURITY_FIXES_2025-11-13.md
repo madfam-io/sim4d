@@ -19,6 +19,7 @@ Two **CRITICAL security vulnerabilities** have been addressed with immediate def
 ## 1. Script Executor Security (CVE-2025-BREPFLOW-001)
 
 ### Vulnerability Details
+
 - **CVSS Score**: 9.8 (Critical)
 - **OWASP Classification**: A03:2021 - Injection
 - **Attack Vector**: `Function()` constructor allowed arbitrary JavaScript execution
@@ -29,13 +30,16 @@ Two **CRITICAL security vulnerabilities** have been addressed with immediate def
 **File**: `packages/engine-core/src/scripting/javascript-executor.ts`
 
 #### 1. Script Size Limit
+
 ```typescript
 private static readonly MAX_SCRIPT_SIZE = 100000; // 100KB
 ```
+
 - Prevents resource exhaustion attacks
 - Blocks large malicious payloads
 
 #### 2. Blacklist System
+
 ```typescript
 private scriptBlacklist: Set<string> = new Set();
 
@@ -50,10 +54,12 @@ private hashScript(script: string): string {
   return hash.toString(36);
 }
 ```
+
 - Tracks scripts flagged as malicious by hash
 - Prevents repeated attempts with same exploit
 
 #### 3. Dangerous Pattern Detection
+
 ```typescript
 private validateScriptSyntax(script: string): void {
   const dangerousPatterns = [
@@ -78,10 +84,12 @@ private validateScriptSyntax(script: string): void {
   }
 }
 ```
+
 - Blocks most common injection vectors
 - Validates syntax without executing code
 
 #### 4. CSP Compliance Check
+
 ```typescript
 private checkCSPCompliance(script: string): boolean {
   const cspViolations = [
@@ -92,10 +100,12 @@ private checkCSPCompliance(script: string): boolean {
   return !cspViolations.some(pattern => pattern.test(script));
 }
 ```
+
 - Enforces Content Security Policy rules
 - Prevents inline script injection
 
 #### 5. Frozen Sandbox
+
 ```typescript
 private createSecureSandbox(...) {
   const sandbox = Object.create(null); // No prototype chain
@@ -112,11 +122,13 @@ private createSecureSandbox(...) {
   return Object.freeze(sandbox);
 }
 ```
+
 - Prevents prototype pollution
 - Immutable sandbox objects
 - No access to `Object.prototype`
 
 #### 6. Input Sanitization
+
 ```typescript
 setOutput: (name: string, value: any) => {
   if (typeof name !== 'string' || name.length > 100) {
@@ -130,23 +142,27 @@ log: (message: string, level: 'info' | 'warn' | 'error' = 'info') => {
   this.addLog(logs, level, sanitized, context.runtime.nodeId);
 },
 ```
+
 - Validates all input lengths
 - Sanitizes log messages
 - Freezes outputs to prevent mutation
 
 #### 7. Temporary Execution Block
+
 ```typescript
 private async executeInSecureContext(...): Promise<...> {
   // TEMPORARY: Reject execution until worker-based sandbox implemented
   reject(new Error('Worker-based sandboxing not yet implemented. Please update to use isolated-vm or web worker execution.'));
 }
 ```
+
 - Blocks execution temporarily (breaks functionality)
 - Prevents exploits until Phase 2 complete
 
 ### Migration Required ⚠️
 
 **Phase 2 Options** (choose one):
+
 1. **isolated-vm** (Node.js) - True VM isolation with memory limits
 2. **Web Worker** (Browser) - Thread isolation with message passing
 3. **QuickJS** (Universal) - Lightweight ES2020 sandbox
@@ -159,6 +175,7 @@ private async executeInSecureContext(...): Promise<...> {
 ## 2. Collaboration Server CSRF Protection (CVE-2025-BREPFLOW-002)
 
 ### Vulnerability Details
+
 - **CVSS Score**: 8.1 (High)
 - **OWASP Classification**: A01:2021 - Broken Access Control
 - **Attack Vector**: Wildcard CORS + no CSRF protection
@@ -169,6 +186,7 @@ private async executeInSecureContext(...): Promise<...> {
 **File**: `packages/collaboration/src/server/collaboration-server.ts`
 
 #### 1. Required Origin Whitelist
+
 ```typescript
 export interface CollaborationServerOptions {
   corsOrigin: string | string[]; // REQUIRED, no default wildcard
@@ -189,11 +207,13 @@ constructor(httpServer: HTTPServer, options: CollaborationServerOptions) {
   }
 }
 ```
+
 - **Breaking change**: `corsOrigin` is now **required**
 - Wildcard `*` explicitly rejected
 - Throws error on startup if misconfigured
 
 #### 2. Dynamic Origin Validation
+
 ```typescript
 private validateOrigin(origin: string | undefined, callback: Function): void {
   if (!origin) {
@@ -211,11 +231,13 @@ private validateOrigin(origin: string | undefined, callback: Function): void {
   callback(new Error('Origin not allowed'), false);
 }
 ```
+
 - Validates every connection attempt
 - Logs blocked attempts for monitoring
 - Strict in production, lenient in development
 
 #### 3. HMAC-Based CSRF Tokens
+
 ```typescript
 public generateCSRFToken(sessionId: string): string {
   const timestamp = Date.now().toString();
@@ -247,12 +269,14 @@ private validateCSRFToken(token: string): boolean {
   );
 }
 ```
+
 - HMAC-SHA256 signatures prevent forgery
 - 1-hour token expiration
 - Timing-safe comparison prevents timing attacks
 - Unique per session
 
 #### 4. Rate Limiting
+
 ```typescript
 private checkRateLimit(ip: string): boolean {
   const tracker = this.connectionLimits.get(ip);
@@ -283,12 +307,14 @@ private checkRateLimit(ip: string): boolean {
   return true;
 }
 ```
+
 - 10 connections per IP per hour (configurable)
 - Automatic blacklisting after excessive violations
 - Hourly reset for legitimate users
 - Cleanup job prevents memory bloat
 
 #### 5. Middleware Authentication
+
 ```typescript
 private setupMiddleware(): void {
   this.io.use(async (socket, next) => {
@@ -314,11 +340,13 @@ private setupMiddleware(): void {
   });
 }
 ```
+
 - Multi-layer security (rate limit → CSRF → origin)
 - Blocks connection before any data processing
 - Logged for security monitoring
 
 #### 6. Input Validation
+
 ```typescript
 socket.on('document:join', async (documentId: string, user: User) => {
   if (!this.isValidDocumentId(documentId)) {
@@ -341,6 +369,7 @@ private isValidDocumentId(documentId: unknown): documentId is string {
   );
 }
 ```
+
 - Type guards for all incoming data
 - Length limits prevent DoS
 - Regex validation blocks injection
@@ -383,6 +412,7 @@ app.get('/api/collaboration/csrf-token', (req, res) => {
 ## Migration Checklist
 
 ### Script Executor
+
 - [x] **Phase 1 Complete** (2025-11-13)
   - [x] Add script size limits
   - [x] Implement blacklist
@@ -398,6 +428,7 @@ app.get('/api/collaboration/csrf-token', (req, res) => {
   - [ ] Production deployment
 
 ### Collaboration Server
+
 - [x] **Phase 1 Complete** (2025-11-13)
   - [x] Required origin whitelist
   - [x] CSRF token generation/validation
@@ -417,6 +448,7 @@ app.get('/api/collaboration/csrf-token', (req, res) => {
 ## Configuration Examples
 
 ### Development
+
 ```typescript
 // docker-compose.yml or .env.development
 const collaborationServer = new CollaborationServer(httpServer, {
@@ -428,13 +460,11 @@ const collaborationServer = new CollaborationServer(httpServer, {
 ```
 
 ### Production
+
 ```typescript
 // .env.production
 const collaborationServer = new CollaborationServer(httpServer, {
-  corsOrigin: [
-    'https://studio.brepflow.com',
-    'https://app.brepflow.com',
-  ],
+  corsOrigin: ['https://studio.brepflow.com', 'https://app.brepflow.com'],
   csrfTokenSecret: process.env.CSRF_TOKEN_SECRET, // From vault
   enableRateLimiting: true,
   maxConnectionsPerIP: 10,
@@ -449,12 +479,14 @@ const collaborationServer = new CollaborationServer(httpServer, {
 ## Testing
 
 ### Script Executor Tests
+
 ```bash
 # Run security-focused tests
 pnpm --filter @brepflow/engine-core test src/scripting/__tests__/javascript-executor.security.test.ts
 ```
 
 ### Collaboration Server Tests
+
 ```bash
 # Test CSRF protection
 pnpm --filter @brepflow/collaboration test src/server/__tests__/csrf-protection.test.ts
@@ -488,6 +520,7 @@ console.warn('SECURITY: IP blacklisted for excessive connections:', ip);
 ## Success Criteria
 
 ### Phase 1 (Complete ✅)
+
 - [x] No wildcard CORS in collaboration server
 - [x] CSRF token implementation (generation + validation)
 - [x] Rate limiting with blacklist
@@ -496,6 +529,7 @@ console.warn('SECURITY: IP blacklisted for excessive connections:', ip);
 - [x] Input validation for all WebSocket messages
 
 ### Phase 2 (Required for Production ⚠️)
+
 - [ ] True VM isolation for script execution
 - [ ] Frontend CSRF token integration
 - [ ] Security penetration testing

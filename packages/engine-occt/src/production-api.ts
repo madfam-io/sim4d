@@ -28,11 +28,14 @@ export interface ProductionWorkerConfig {
 export class ProductionWorkerAPI implements WorkerAPI {
   private worker: any = null;
   private requestId = 0;
-  private pendingRequests = new Map<number, {
-    resolve: (value: any) => void;
-    reject: (error: Error) => void;
-    timeout: NodeJS.Timeout;
-  }>();
+  private pendingRequests = new Map<
+    number,
+    {
+      resolve: (value: any) => void;
+      reject: (error: Error) => void;
+      timeout: NodeJS.Timeout;
+    }
+  >();
   private isInitialized = false;
   private config: ProductionWorkerConfig;
 
@@ -73,7 +76,10 @@ export class ProductionWorkerAPI implements WorkerAPI {
         const localWorkerPath = path.resolve(process.cwd(), 'packages/engine-occt/dist/worker.mjs');
         nodeWorkerUrlObject = pathToFileURL(localWorkerPath);
         workerUrl = nodeWorkerUrlObject.href;
-        getLogger().info('Unknown context: falling back to local worker file', { workerUrl, localWorkerPath });
+        getLogger().info('Unknown context: falling back to local worker file', {
+          workerUrl,
+          localWorkerPath,
+        });
       }
 
       getLogger().info(`Creating worker with URL: ${workerUrl}`);
@@ -85,18 +91,20 @@ export class ProductionWorkerAPI implements WorkerAPI {
       } else {
         this.worker = new Worker(workerUrl, workerOptions);
       }
-      
+
       this.setupWorkerHandlers();
-      
+
       // Initialize OCCT
       await this.invoke('INIT', {});
       this.isInitialized = true;
-      
+
       getLogger().info('Production OCCT worker initialized successfully');
     } catch (error) {
       getLogger().error('Failed to initialize production worker', error);
       this.cleanup();
-      throw new Error(`Worker initialization failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Worker initialization failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     }
   }
 
@@ -150,11 +158,11 @@ export class ProductionWorkerAPI implements WorkerAPI {
         });
         // Could trigger worker restart here
         break;
-        
+
       case 'WORKER_ERROR':
         getLogger().error('Worker reported error', event.error);
         break;
-        
+
       default:
         getLogger().debug('Unknown worker event', event);
     }
@@ -167,7 +175,7 @@ export class ProductionWorkerAPI implements WorkerAPI {
       pending.reject(error);
     }
     this.pendingRequests.clear();
-    
+
     // Mark as not initialized
     this.isInitialized = false;
   }
@@ -204,7 +212,7 @@ export class ProductionWorkerAPI implements WorkerAPI {
 
       // Send request
       this.worker!.postMessage(request);
-      
+
       getLogger().debug(`Sent request ${requestId}: ${operation}`, params);
     });
   }
@@ -309,9 +317,11 @@ export class ProductionWorkerAPI implements WorkerAPI {
 }
 
 // Factory function for easy creation
-export function createProductionAPI(overrides: Partial<ProductionWorkerConfig> = {}): ProductionWorkerAPI {
+export function createProductionAPI(
+  overrides: Partial<ProductionWorkerConfig> = {}
+): ProductionWorkerAPI {
   const config = getConfig();
-  
+
   const fullConfig: ProductionWorkerConfig = {
     wasmPath: config.occtWasmPath,
     initTimeout: config.occtInitTimeout,

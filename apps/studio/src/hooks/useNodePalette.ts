@@ -69,7 +69,7 @@ export function useNodePalette({
         );
       },
     }),
-    [discoveredNodes],
+    [discoveredNodes]
   );
 
   const allCategories = useMemo(() => {
@@ -89,7 +89,7 @@ export function useNodePalette({
   const statistics = useMemo(() => {
     const nodesByCategory = isCatalogReady
       ? Object.fromEntries(
-          Object.entries(categoryTree).map(([cat, data]) => [cat, data.nodes.length]),
+          Object.entries(categoryTree).map(([cat, data]) => [cat, data.nodes.length])
         )
       : {};
 
@@ -118,9 +118,7 @@ export function useNodePalette({
       return [] as typeof discoveredNodes;
     }
 
-    let filtered = searchQuery.trim()
-      ? searchNodes(searchQuery)
-      : [...discoveredNodes];
+    let filtered = searchQuery.trim() ? searchNodes(searchQuery) : [...discoveredNodes];
 
     if (selectedCategory) {
       filtered = filtered.filter((node) => {

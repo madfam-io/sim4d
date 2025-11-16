@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { ArchitectureWallsInsulatedWallNode } from './insulated-wall.node';
 import { createTestContext } from '../test-utils';
@@ -7,11 +6,11 @@ describe('ArchitectureWallsInsulatedWallNode', () => {
   it('should evaluate without throwing', async () => {
     const context = createTestContext();
     const inputs = {
-      wallCavity: undefined
+      wallCavity: undefined,
     } as any;
     const params = {
-      insulationType: "batt",
-      rValue: 19
+      insulationType: 'batt',
+      rValue: 19,
     } as any;
 
     const result = await ArchitectureWallsInsulatedWallNode.evaluate(context, inputs, params);

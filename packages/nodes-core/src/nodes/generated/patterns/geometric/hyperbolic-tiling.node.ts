@@ -14,7 +14,11 @@ interface HyperbolicTilingOutputs {
   tiling: unknown;
 }
 
-export const PatternsGeometricHyperbolicTilingNode: NodeDefinition<HyperbolicTilingInputs, HyperbolicTilingOutputs, HyperbolicTilingParams> = {
+export const PatternsGeometricHyperbolicTilingNode: NodeDefinition<
+  HyperbolicTilingInputs,
+  HyperbolicTilingOutputs,
+  HyperbolicTilingParams
+> = {
   id: 'Patterns::HyperbolicTiling',
   category: 'Patterns',
   label: 'HyperbolicTiling',
@@ -23,14 +27,14 @@ export const PatternsGeometricHyperbolicTilingNode: NodeDefinition<HyperbolicTil
     disk: {
       type: 'Face',
       label: 'Disk',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     tiling: {
       type: 'Wire[]',
-      label: 'Tiling'
-    }
+      label: 'Tiling',
+    },
   },
   params: {
     p: {
@@ -39,7 +43,7 @@ export const PatternsGeometricHyperbolicTilingNode: NodeDefinition<HyperbolicTil
       default: 7,
       min: 3,
       max: 12,
-      step: 1
+      step: 1,
     },
     q: {
       type: 'number',
@@ -47,7 +51,7 @@ export const PatternsGeometricHyperbolicTilingNode: NodeDefinition<HyperbolicTil
       default: 3,
       min: 3,
       max: 12,
-      step: 1
+      step: 1,
     },
     iterations: {
       type: 'number',
@@ -55,8 +59,8 @@ export const PatternsGeometricHyperbolicTilingNode: NodeDefinition<HyperbolicTil
       default: 3,
       min: 1,
       max: 5,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -65,12 +69,12 @@ export const PatternsGeometricHyperbolicTilingNode: NodeDefinition<HyperbolicTil
         disk: inputs.disk,
         p: params.p,
         q: params.q,
-        iterations: params.iterations
-      }
+        iterations: params.iterations,
+      },
     });
-    
+
     return {
-      tiling: result
+      tiling: result,
     };
   },
 };

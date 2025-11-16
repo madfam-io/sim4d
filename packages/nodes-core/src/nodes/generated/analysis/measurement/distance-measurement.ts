@@ -16,7 +16,11 @@ interface DistanceMeasurementOutputs {
   midpoint: [number, number, number];
 }
 
-export const AnalysisMeasurementDistanceMeasurementNode: NodeDefinition<DistanceMeasurementInputs, DistanceMeasurementOutputs, DistanceMeasurementParams> = {
+export const AnalysisMeasurementDistanceMeasurementNode: NodeDefinition<
+  DistanceMeasurementInputs,
+  DistanceMeasurementOutputs,
+  DistanceMeasurementParams
+> = {
   id: 'Analysis::DistanceMeasurement',
   type: 'Analysis::DistanceMeasurement',
   category: 'Analysis',
@@ -26,27 +30,27 @@ export const AnalysisMeasurementDistanceMeasurementNode: NodeDefinition<Distance
     point1: {
       type: 'Point',
       label: 'Point1',
-      required: true
+      required: true,
     },
     point2: {
       type: 'Point',
       label: 'Point2',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     distance: {
       type: 'number',
-      label: 'Distance'
+      label: 'Distance',
     },
     dimensionLine: {
       type: 'Wire',
-      label: 'Dimension Line'
+      label: 'Dimension Line',
     },
     midpoint: {
       type: 'Point',
-      label: 'Midpoint'
-    }
+      label: 'Midpoint',
+    },
   },
   params: {
     precision: {
@@ -54,13 +58,13 @@ export const AnalysisMeasurementDistanceMeasurementNode: NodeDefinition<Distance
       label: 'Precision',
       default: 2,
       min: 0,
-      max: 6
+      max: 6,
     },
     showDimension: {
       type: 'boolean',
       label: 'Show Dimension',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -69,14 +73,14 @@ export const AnalysisMeasurementDistanceMeasurementNode: NodeDefinition<Distance
         point1: inputs.point1,
         point2: inputs.point2,
         precision: params.precision,
-        showDimension: params.showDimension
-      }
+        showDimension: params.showDimension,
+      },
     });
-    
+
     return {
       distance: results.distance,
       dimensionLine: results.dimensionLine,
-      midpoint: results.midpoint
+      midpoint: results.midpoint,
     };
   },
 };

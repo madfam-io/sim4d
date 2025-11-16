@@ -19,7 +19,11 @@ interface EmailSenderOutputs {
   messageId: unknown;
 }
 
-export const InteroperabilityMessagingEmailSenderNode: NodeDefinition<EmailSenderInputs, EmailSenderOutputs, EmailSenderParams> = {
+export const InteroperabilityMessagingEmailSenderNode: NodeDefinition<
+  EmailSenderInputs,
+  EmailSenderOutputs,
+  EmailSenderParams
+> = {
   id: 'Interoperability::EmailSender',
   category: 'Interoperability',
   label: 'EmailSender',
@@ -28,57 +32,57 @@ export const InteroperabilityMessagingEmailSenderNode: NodeDefinition<EmailSende
     to: {
       type: 'string',
       label: 'To',
-      required: true
+      required: true,
     },
     subject: {
       type: 'string',
       label: 'Subject',
-      required: true
+      required: true,
     },
     body: {
       type: 'string',
       label: 'Body',
-      required: true
+      required: true,
     },
     attachments: {
       type: 'string[]',
       label: 'Attachments',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     sent: {
       type: 'boolean',
-      label: 'Sent'
+      label: 'Sent',
     },
     messageId: {
       type: 'string',
-      label: 'Message Id'
-    }
+      label: 'Message Id',
+    },
   },
   params: {
     smtpServer: {
       type: 'string',
       label: 'Smtp Server',
-      default: ""
+      default: '',
     },
     port: {
       type: 'number',
       label: 'Port',
       default: 587,
       min: 1,
-      max: 65535
+      max: 65535,
     },
     username: {
       type: 'string',
       label: 'Username',
-      default: ""
+      default: '',
     },
     password: {
       type: 'string',
       label: 'Password',
-      default: ""
-    }
+      default: '',
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -91,13 +95,13 @@ export const InteroperabilityMessagingEmailSenderNode: NodeDefinition<EmailSende
         smtpServer: params.smtpServer,
         port: params.port,
         username: params.username,
-        password: params.password
-      }
+        password: params.password,
+      },
     });
-    
+
     return {
       sent: results.sent,
-      messageId: results.messageId
+      messageId: results.messageId,
     };
   },
 };

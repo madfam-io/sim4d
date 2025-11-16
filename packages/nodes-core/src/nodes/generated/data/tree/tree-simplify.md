@@ -1,4 +1,3 @@
-
 # TreeSimplify Node
 
 **Category:** Data / Tree
@@ -11,19 +10,13 @@ This node has no parameters.
 
 ## Inputs
 
-
 ### Tree
+
 - **Type:** DataTree
 - **Required:** Yes
 
-
-
 ## Outputs
 
-
 ### Simplified
+
 - **Type:** DataTree
-
-
-
-

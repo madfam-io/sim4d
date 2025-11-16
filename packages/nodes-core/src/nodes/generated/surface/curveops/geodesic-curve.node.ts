@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 type Params = {};
@@ -11,7 +10,11 @@ interface Outputs {
   geodesic: Wire;
 }
 
-export const GeodesicCurveNode: NodeDefinition<GeodesicCurveInputs, GeodesicCurveOutputs, GeodesicCurveParams> = {
+export const GeodesicCurveNode: NodeDefinition<
+  GeodesicCurveInputs,
+  GeodesicCurveOutputs,
+  GeodesicCurveParams
+> = {
   type: 'Surface::GeodesicCurve',
   category: 'Surface',
   subcategory: 'CurveOps',
@@ -19,38 +22,32 @@ export const GeodesicCurveNode: NodeDefinition<GeodesicCurveInputs, GeodesicCurv
   metadata: {
     label: 'GeodesicCurve',
     description: 'Create geodesic curve',
-    
-    
   },
 
-  params: {
-    
-  },
+  params: {},
 
   inputs: {
-        surface: 'Face',
+    surface: 'Face',
     startPoint: 'Point',
-    endPoint: 'Point'
+    endPoint: 'Point',
   },
 
   outputs: {
-        geodesic: 'Wire'
+    geodesic: 'Wire',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'geodesicCurve',
       params: {
         surface: inputs.surface,
         startPoint: inputs.startPoint,
-        endPoint: inputs.endPoint
-        
-      }
+        endPoint: inputs.endPoint,
+      },
     });
 
     return {
-      geodesic: result
+      geodesic: result,
     };
-  }
+  },
 };

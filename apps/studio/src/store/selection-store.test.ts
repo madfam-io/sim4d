@@ -55,10 +55,20 @@ describe('selection-store', () => {
   it('tracks selection box gestures', () => {
     useSelectionStore.getState().startBoxSelection(10, 20);
     expect(useSelectionStore.getState().isSelecting).toBe(true);
-    expect(useSelectionStore.getState().selectionBox).toEqual({ startX: 10, startY: 20, endX: 10, endY: 20 });
+    expect(useSelectionStore.getState().selectionBox).toEqual({
+      startX: 10,
+      startY: 20,
+      endX: 10,
+      endY: 20,
+    });
 
     useSelectionStore.getState().updateBoxSelection(30, 40);
-    expect(useSelectionStore.getState().selectionBox).toEqual({ startX: 10, startY: 20, endX: 30, endY: 40 });
+    expect(useSelectionStore.getState().selectionBox).toEqual({
+      startX: 10,
+      startY: 20,
+      endX: 30,
+      endY: 40,
+    });
 
     useSelectionStore.getState().endBoxSelection(['node-1', 'node-2']);
     expect(useSelectionStore.getState().isSelecting).toBe(false);

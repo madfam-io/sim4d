@@ -11,7 +11,11 @@ interface SetIntersectionOutputs {
   intersection: unknown;
 }
 
-export const DataSetSetIntersectionNode: NodeDefinition<SetIntersectionInputs, SetIntersectionOutputs, SetIntersectionParams> = {
+export const DataSetSetIntersectionNode: NodeDefinition<
+  SetIntersectionInputs,
+  SetIntersectionOutputs,
+  SetIntersectionParams
+> = {
   id: 'Data::SetIntersection',
   type: 'Data::SetIntersection',
   category: 'Data',
@@ -21,19 +25,19 @@ export const DataSetSetIntersectionNode: NodeDefinition<SetIntersectionInputs, S
     setA: {
       type: 'Data[]',
       label: 'Set A',
-      required: true
+      required: true,
     },
     setB: {
       type: 'Data[]',
       label: 'Set B',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     intersection: {
       type: 'Data[]',
-      label: 'Intersection'
-    }
+      label: 'Intersection',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -41,12 +45,12 @@ export const DataSetSetIntersectionNode: NodeDefinition<SetIntersectionInputs, S
       type: 'setIntersection',
       params: {
         setA: inputs.setA,
-        setB: inputs.setB
-      }
+        setB: inputs.setB,
+      },
     });
-    
+
     return {
-      intersection: result
+      intersection: result,
     };
   },
 };

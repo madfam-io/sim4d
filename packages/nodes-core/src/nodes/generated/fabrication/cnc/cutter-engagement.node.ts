@@ -13,7 +13,11 @@ interface CutterEngagementOutputs {
   engagementAngle: number[];
 }
 
-export const FabricationCNCCutterEngagementNode: NodeDefinition<CutterEngagementInputs, CutterEngagementOutputs, CutterEngagementParams> = {
+export const FabricationCNCCutterEngagementNode: NodeDefinition<
+  CutterEngagementInputs,
+  CutterEngagementOutputs,
+  CutterEngagementParams
+> = {
   id: 'Fabrication::CutterEngagement',
   category: 'Fabrication',
   label: 'CutterEngagement',
@@ -22,19 +26,19 @@ export const FabricationCNCCutterEngagementNode: NodeDefinition<CutterEngagement
     toolpath: {
       type: 'Wire',
       label: 'Toolpath',
-      required: true
+      required: true,
     },
     stock: {
       type: 'Shape',
       label: 'Stock',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     engagementAngle: {
       type: 'Number[]',
-      label: 'Engagement Angle'
-    }
+      label: 'Engagement Angle',
+    },
   },
   params: {
     toolDiameter: {
@@ -42,8 +46,8 @@ export const FabricationCNCCutterEngagementNode: NodeDefinition<CutterEngagement
       label: 'Tool Diameter',
       default: 10,
       min: 1,
-      max: 50
-    }
+      max: 50,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -51,12 +55,12 @@ export const FabricationCNCCutterEngagementNode: NodeDefinition<CutterEngagement
       params: {
         toolpath: inputs.toolpath,
         stock: inputs.stock,
-        toolDiameter: params.toolDiameter
-      }
+        toolDiameter: params.toolDiameter,
+      },
     });
-    
+
     return {
-      engagementAngle: result
+      engagementAngle: result,
     };
   },
 };

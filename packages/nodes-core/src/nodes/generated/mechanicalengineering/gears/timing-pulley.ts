@@ -16,7 +16,11 @@ interface TimingPulleyOutputs {
   pitchCircle: unknown;
 }
 
-export const MechanicalEngineeringGearsTimingPulleyNode: NodeDefinition<TimingPulleyInputs, TimingPulleyOutputs, TimingPulleyParams> = {
+export const MechanicalEngineeringGearsTimingPulleyNode: NodeDefinition<
+  TimingPulleyInputs,
+  TimingPulleyOutputs,
+  TimingPulleyParams
+> = {
   id: 'MechanicalEngineering::TimingPulley',
   type: 'MechanicalEngineering::TimingPulley',
   category: 'MechanicalEngineering',
@@ -26,45 +30,45 @@ export const MechanicalEngineeringGearsTimingPulleyNode: NodeDefinition<TimingPu
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     pulley: {
       type: 'Shape',
-      label: 'Pulley'
+      label: 'Pulley',
     },
     pitchCircle: {
       type: 'Wire',
-      label: 'Pitch Circle'
-    }
+      label: 'Pitch Circle',
+    },
   },
   params: {
     pitch: {
       type: 'enum',
       label: 'Pitch',
-      default: "GT2",
-      options: ["MXL","XL","L","H","T2.5","T5","T10","GT2"]
+      default: 'GT2',
+      options: ['MXL', 'XL', 'L', 'H', 'T2.5', 'T5', 'T10', 'GT2'],
     },
     teeth: {
       type: 'number',
       label: 'Teeth',
       default: 20,
       min: 10,
-      max: 100
+      max: 100,
     },
     width: {
       type: 'number',
       label: 'Width',
       default: 10,
       min: 6,
-      max: 50
+      max: 50,
     },
     flanges: {
       type: 'boolean',
       label: 'Flanges',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -74,13 +78,13 @@ export const MechanicalEngineeringGearsTimingPulleyNode: NodeDefinition<TimingPu
         pitch: params.pitch,
         teeth: params.teeth,
         width: params.width,
-        flanges: params.flanges
-      }
+        flanges: params.flanges,
+      },
     });
-    
+
     return {
       pulley: results.pulley,
-      pitchCircle: results.pitchCircle
+      pitchCircle: results.pitchCircle,
     };
   },
 };

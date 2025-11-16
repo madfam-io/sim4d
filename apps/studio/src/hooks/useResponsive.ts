@@ -5,10 +5,10 @@ export const breakpoints = {
   'mobile-s': 320,
   'mobile-m': 375,
   'mobile-l': 425,
-  'tablet': 768,
-  'laptop': 1024,
-  'desktop': 1440,
-  'desktop-l': 1920
+  tablet: 768,
+  laptop: 1024,
+  desktop: 1440,
+  'desktop-l': 1920,
 } as const;
 
 export type Breakpoint = keyof typeof breakpoints;
@@ -60,7 +60,7 @@ export const getDeviceCapabilities = (): DeviceCapabilities => {
     pointer: pointerCoarse ? 'coarse' : pointerFine ? 'fine' : 'none',
     orientation: isPortrait ? 'portrait' : 'landscape',
     reducedMotion,
-    highContrast
+    highContrast,
   };
 };
 
@@ -70,7 +70,7 @@ export const useResponsive = () => {
   const [capabilities, setCapabilities] = useState<DeviceCapabilities>(getDeviceCapabilities());
   const [dimensions, setDimensions] = useState({
     width: window.innerWidth,
-    height: window.innerHeight
+    height: window.innerHeight,
   });
 
   useEffect(() => {
@@ -82,7 +82,7 @@ export const useResponsive = () => {
         setBreakpoint(getBreakpoint());
         setDimensions({
           width: window.innerWidth,
-          height: window.innerHeight
+          height: window.innerHeight,
         });
       }, 150); // Debounce resize events
     };
@@ -98,14 +98,14 @@ export const useResponsive = () => {
     const mediaQueries = [
       window.matchMedia('(hover: hover)'),
       window.matchMedia('(pointer: coarse)'),
-      window.matchMedia('(prefers-reduced-motion: reduce)')
+      window.matchMedia('(prefers-reduced-motion: reduce)'),
     ];
 
     const handleMediaChange = () => {
       setCapabilities(getDeviceCapabilities());
     };
 
-    mediaQueries.forEach(mq => {
+    mediaQueries.forEach((mq) => {
       mq.addEventListener('change', handleMediaChange);
     });
 
@@ -113,7 +113,7 @@ export const useResponsive = () => {
       clearTimeout(resizeTimer);
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('orientationchange', handleOrientationChange);
-      mediaQueries.forEach(mq => {
+      mediaQueries.forEach((mq) => {
         mq.removeEventListener('change', handleMediaChange);
       });
     };
@@ -146,7 +146,7 @@ export const useResponsive = () => {
     // Utilities
     isBreakpoint,
     isAbove,
-    isBelow
+    isBelow,
   };
 };
 
@@ -154,7 +154,13 @@ export const useResponsive = () => {
 export const responsive = (styles: Partial<Record<Breakpoint, React.CSSProperties>>) => {
   const currentBreakpoint = getBreakpoint();
   const breakpointOrder: Breakpoint[] = [
-    'mobile-s', 'mobile-m', 'mobile-l', 'tablet', 'laptop', 'desktop', 'desktop-l'
+    'mobile-s',
+    'mobile-m',
+    'mobile-l',
+    'tablet',
+    'laptop',
+    'desktop',
+    'desktop-l',
   ];
 
   let appliedStyles: React.CSSProperties = {};

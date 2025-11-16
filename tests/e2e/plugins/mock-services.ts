@@ -69,124 +69,137 @@ export class MockPluginServices {
   /**
    * Initialize all mock services in the browser context
    */
-  async initialize(config: {
-    marketplace?: MockPluginMarketplaceConfig;
-    cloudServices?: MockCloudServicesConfig;
-  } = {}): Promise<void> {
+  async initialize(
+    config: {
+      marketplace?: MockPluginMarketplaceConfig;
+      cloudServices?: MockCloudServicesConfig;
+    } = {}
+  ): Promise<void> {
     // Inject mock services into browser context
-    await this.page.addInitScript((data) => {
-      const { marketplaceConfig, cloudConfig } = data;
+    await this.page.addInitScript(
+      (data) => {
+        const { marketplaceConfig, cloudConfig } = data;
 
-      // Mock Plugin Registry API
-      (window as any).mockPluginRegistry = {
-        async getPlugins(query?: string) {
-          await new Promise(resolve => setTimeout(resolve, marketplaceConfig?.latencyMs || 100));
-
-          if (Math.random() < (marketplaceConfig?.errorRate || 0)) {
-            throw new Error('Mock network error');
-          }
-
-          let plugins = marketplaceConfig?.plugins || [];
-          if (query) {
-            plugins = plugins.filter(p =>
-              p.name.toLowerCase().includes(query.toLowerCase()) ||
-              p.description.toLowerCase().includes(query.toLowerCase())
+        // Mock Plugin Registry API
+        (window as any).mockPluginRegistry = {
+          async getPlugins(query?: string) {
+            await new Promise((resolve) =>
+              setTimeout(resolve, marketplaceConfig?.latencyMs || 100)
             );
-          }
-          return plugins;
-        },
 
-        async getPlugin(id: string) {
-          await new Promise(resolve => setTimeout(resolve, marketplaceConfig?.latencyMs || 100));
-          return marketplaceConfig?.plugins?.find(p => p.id === id) || null;
-        },
+            if (Math.random() < (marketplaceConfig?.errorRate || 0)) {
+              throw new Error('Mock network error');
+            }
 
-        async downloadPlugin(id: string) {
-          await new Promise(resolve => setTimeout(resolve, (marketplaceConfig?.latencyMs || 100) * 10));
+            let plugins = marketplaceConfig?.plugins || [];
+            if (query) {
+              plugins = plugins.filter(
+                (p) =>
+                  p.name.toLowerCase().includes(query.toLowerCase()) ||
+                  p.description.toLowerCase().includes(query.toLowerCase())
+              );
+            }
+            return plugins;
+          },
 
-          const plugin = marketplaceConfig?.plugins?.find(p => p.id === id);
-          if (!plugin) throw new Error('Plugin not found');
+          async getPlugin(id: string) {
+            await new Promise((resolve) =>
+              setTimeout(resolve, marketplaceConfig?.latencyMs || 100)
+            );
+            return marketplaceConfig?.plugins?.find((p) => p.id === id) || null;
+          },
 
-          return {
-            id: plugin.id,
-            bundle: new Uint8Array(plugin.bundle.size),
-            manifest: plugin.manifest,
-            signature: plugin.manifest.signature
-          };
-        }
-      };
+          async downloadPlugin(id: string) {
+            await new Promise((resolve) =>
+              setTimeout(resolve, (marketplaceConfig?.latencyMs || 100) * 10)
+            );
 
-      // Mock Collaboration API
-      (window as any).mockCollaboration = {
-        async createSession(userIds: string[]) {
-          await new Promise(resolve => setTimeout(resolve, cloudConfig?.syncLatencyMs || 50));
+            const plugin = marketplaceConfig?.plugins?.find((p) => p.id === id);
+            if (!plugin) throw new Error('Plugin not found');
 
-          return {
-            sessionId: `session_${Date.now()}`,
-            users: userIds.map(id => cloudConfig?.userSessions?.find(u => u.userId === id)).filter(Boolean),
-            state: new Map()
-          };
-        },
+            return {
+              id: plugin.id,
+              bundle: new Uint8Array(plugin.bundle.size),
+              manifest: plugin.manifest,
+              signature: plugin.manifest.signature,
+            };
+          },
+        };
 
-        async syncPluginState(sessionId: string, pluginId: string, state: any) {
-          await new Promise(resolve => setTimeout(resolve, cloudConfig?.syncLatencyMs || 50));
+        // Mock Collaboration API
+        (window as any).mockCollaboration = {
+          async createSession(userIds: string[]) {
+            await new Promise((resolve) => setTimeout(resolve, cloudConfig?.syncLatencyMs || 50));
 
-          // Simulate state synchronization across users
-          const event = new CustomEvent('plugin-state-sync', {
-            detail: { sessionId, pluginId, state }
-          });
-          window.dispatchEvent(event);
-        },
+            return {
+              sessionId: `session_${Date.now()}`,
+              users: userIds
+                .map((id) => cloudConfig?.userSessions?.find((u) => u.userId === id))
+                .filter(Boolean),
+              state: new Map(),
+            };
+          },
 
-        async getUserSession(userId: string) {
-          return cloudConfig?.userSessions?.find(u => u.userId === userId) || null;
-        }
-      };
+          async syncPluginState(sessionId: string, pluginId: string, state: any) {
+            await new Promise((resolve) => setTimeout(resolve, cloudConfig?.syncLatencyMs || 50));
 
-      // Mock Plugin Sandbox API
-      (window as any).mockPluginSandbox = {
-        async createSandbox(pluginId: string, config: any) {
-          return {
-            workerId: `worker_${pluginId}_${Date.now()}`,
-            memoryLimit: config.memoryLimit || 64 * 1024 * 1024,
-            timeoutMs: config.timeoutMs || 30000,
-            isolated: true
-          };
-        },
+            // Simulate state synchronization across users
+            const event = new CustomEvent('plugin-state-sync', {
+              detail: { sessionId, pluginId, state },
+            });
+            window.dispatchEvent(event);
+          },
 
-        async executeSandboxed(workerId: string, code: string, args: any[]) {
-          // Simulate sandboxed execution
-          await new Promise(resolve => setTimeout(resolve, 10));
+          async getUserSession(userId: string) {
+            return cloudConfig?.userSessions?.find((u) => u.userId === userId) || null;
+          },
+        };
 
-          // Simple evaluation (in real implementation would use Web Workers)
-          try {
-            const fn = new Function('args', code);
-            return { success: true, result: fn(args) };
-          } catch (error) {
-            return { success: false, error: error.message };
-          }
-        },
+        // Mock Plugin Sandbox API
+        (window as any).mockPluginSandbox = {
+          async createSandbox(pluginId: string, config: any) {
+            return {
+              workerId: `worker_${pluginId}_${Date.now()}`,
+              memoryLimit: config.memoryLimit || 64 * 1024 * 1024,
+              timeoutMs: config.timeoutMs || 30000,
+              isolated: true,
+            };
+          },
 
-        async destroySandbox(workerId: string) {
-          // Simulate cleanup
-          await new Promise(resolve => setTimeout(resolve, 10));
-          return true;
-        }
-      };
+          async executeSandboxed(workerId: string, code: string, args: any[]) {
+            // Simulate sandboxed execution
+            await new Promise((resolve) => setTimeout(resolve, 10));
 
-      // Mock signature verification
-      (window as any).mockCrypto = {
-        async verifyEd25519Signature(data: Uint8Array, signature: string, publicKey: string) {
-          // Simulate signature verification (always pass for testing)
-          await new Promise(resolve => setTimeout(resolve, 50));
-          return signature === 'valid_signature';
-        }
-      };
+            // Simple evaluation (in real implementation would use Web Workers)
+            try {
+              const fn = new Function('args', code);
+              return { success: true, result: fn(args) };
+            } catch (error) {
+              return { success: false, error: error.message };
+            }
+          },
 
-    }, {
-      marketplaceConfig: config.marketplace,
-      cloudConfig: config.cloudServices
-    });
+          async destroySandbox(workerId: string) {
+            // Simulate cleanup
+            await new Promise((resolve) => setTimeout(resolve, 10));
+            return true;
+          },
+        };
+
+        // Mock signature verification
+        (window as any).mockCrypto = {
+          async verifyEd25519Signature(data: Uint8Array, signature: string, publicKey: string) {
+            // Simulate signature verification (always pass for testing)
+            await new Promise((resolve) => setTimeout(resolve, 50));
+            return signature === 'valid_signature';
+          },
+        };
+      },
+      {
+        marketplaceConfig: config.marketplace,
+        cloudConfig: config.cloudServices,
+      }
+    );
 
     // Initialize marketplace mock
     await this.marketplace.setup(this.page, config.marketplace);
@@ -239,7 +252,7 @@ export class MockPluginServices {
         marketplaceRequests: 0,
         collaborationEvents: 0,
         sandboxExecutions: 0,
-        errors: 0
+        errors: 0,
       };
       return stats;
     });
@@ -254,7 +267,7 @@ export class MockPluginServices {
         marketplaceRequests: 0,
         collaborationEvents: 0,
         sandboxExecutions: 0,
-        errors: 0
+        errors: 0,
       };
     });
   }
@@ -329,7 +342,8 @@ class MockPluginMarketplace {
         name: 'Geometry Tools Plus',
         version: '2.1.0',
         author: 'CAD Solutions Inc.',
-        description: 'Advanced geometry operations including complex boolean operations and surface analysis',
+        description:
+          'Advanced geometry operations including complex boolean operations and surface analysis',
         category: 'Geometry',
         rating: 4.8,
         downloads: 15420,
@@ -337,9 +351,9 @@ class MockPluginMarketplace {
         price: 29.99,
         bundle: {
           size: 2.5 * 1024 * 1024, // 2.5MB
-          checksums: { 'sha256': 'abc123' },
+          checksums: { sha256: 'abc123' },
           dependencies: [],
-          assets: ['icons/', 'shaders/', 'documentation/']
+          assets: ['icons/', 'shaders/', 'documentation/'],
         },
         manifest: {
           nodes: ['GeometryPlus::AdvancedBoolean', 'GeometryPlus::SurfaceAnalysis'],
@@ -347,15 +361,16 @@ class MockPluginMarketplace {
           panels: ['GeometryAnalyzer'],
           permissions: ['read:graph', 'write:graph', 'worker:spawn'],
           engines: { brepflow: '>=0.1.0' },
-          signature: 'valid_signature'
-        }
+          signature: 'valid_signature',
+        },
       },
       {
         id: 'collaboration-sync',
         name: 'Real-time Collaboration',
         version: '1.0.3',
         author: 'TeamWork Systems',
-        description: 'Enable real-time collaboration with live parameter synchronization and conflict resolution',
+        description:
+          'Enable real-time collaboration with live parameter synchronization and conflict resolution',
         category: 'Collaboration',
         rating: 4.2,
         downloads: 8934,
@@ -363,9 +378,9 @@ class MockPluginMarketplace {
         price: 0, // Free
         bundle: {
           size: 1.2 * 1024 * 1024, // 1.2MB
-          checksums: { 'sha256': 'def456' },
+          checksums: { sha256: 'def456' },
           dependencies: ['socket.io'],
-          assets: ['ui/', 'translations/']
+          assets: ['ui/', 'translations/'],
         },
         manifest: {
           nodes: [],
@@ -373,8 +388,8 @@ class MockPluginMarketplace {
           panels: ['CollaborationPanel'],
           permissions: ['network:websocket', 'ui:notification', 'ui:panel'],
           engines: { brepflow: '>=0.1.0' },
-          signature: 'valid_signature'
-        }
+          signature: 'valid_signature',
+        },
       },
       {
         id: 'parametric-optimizer',
@@ -389,18 +404,24 @@ class MockPluginMarketplace {
         price: 99.99,
         bundle: {
           size: 8.7 * 1024 * 1024, // 8.7MB
-          checksums: { 'sha256': 'ghi789' },
+          checksums: { sha256: 'ghi789' },
           dependencies: ['tensorflow.js'],
-          assets: ['models/', 'algorithms/', 'examples/']
+          assets: ['models/', 'algorithms/', 'examples/'],
         },
         manifest: {
           nodes: ['Optimizer::GeneticAlgorithm', 'Optimizer::MLPredict'],
           commands: ['optimize', 'trainModel', 'suggestParameters'],
           panels: ['OptimizerDashboard'],
-          permissions: ['read:graph', 'write:graph', 'network:fetch', 'worker:spawn', 'wasm:execute'],
+          permissions: [
+            'read:graph',
+            'write:graph',
+            'network:fetch',
+            'worker:spawn',
+            'wasm:execute',
+          ],
           engines: { brepflow: '>=0.1.0' },
-          signature: 'valid_signature'
-        }
+          signature: 'valid_signature',
+        },
       },
       {
         id: 'test-malicious-plugin',
@@ -415,9 +436,9 @@ class MockPluginMarketplace {
         price: 0,
         bundle: {
           size: 0.1 * 1024 * 1024, // 0.1MB
-          checksums: { 'sha256': 'suspicious' },
+          checksums: { sha256: 'suspicious' },
           dependencies: [],
-          assets: []
+          assets: [],
         },
         manifest: {
           nodes: ['Malicious::DataExfiltrator'],
@@ -425,9 +446,9 @@ class MockPluginMarketplace {
           panels: [],
           permissions: ['read:files', 'write:files', 'network:fetch', 'system:info', 'native:code'],
           engines: { brepflow: '>=0.1.0' },
-          signature: 'invalid_signature'
-        }
-      }
+          signature: 'invalid_signature',
+        },
+      },
     ];
   }
 }
@@ -483,22 +504,22 @@ class MockCloudServices {
         displayName: 'Alice Designer',
         avatar: '/avatars/alice.png',
         permissions: ['install_plugins', 'create_sessions'],
-        pluginQuota: 100
+        pluginQuota: 100,
       },
       {
         userId: 'user2',
         displayName: 'Bob Engineer',
         avatar: '/avatars/bob.png',
         permissions: ['install_plugins', 'join_sessions'],
-        pluginQuota: 50
+        pluginQuota: 50,
       },
       {
         userId: 'user3',
         displayName: 'Carol Manager',
         avatar: '/avatars/carol.png',
         permissions: ['install_plugins', 'create_sessions', 'admin'],
-        pluginQuota: 200
-      }
+        pluginQuota: 200,
+      },
     ];
   }
 }
@@ -552,12 +573,12 @@ export const TEST_PLUGIN_CONFIGS = {
           commands: [],
           panels: [],
           permissions: ['read:graph', 'write:graph'],
-          engines: { brepflow: '>=0.1.0' }
-        }
-      }
+          engines: { brepflow: '>=0.1.0' },
+        },
+      },
     ],
     latencyMs: 100,
-    errorRate: 0.05
+    errorRate: 0.05,
   },
 
   COLLABORATION_TEST: {
@@ -569,16 +590,16 @@ export const TEST_PLUGIN_CONFIGS = {
         displayName: 'Test User 1',
         avatar: '/test-avatar-1.png',
         permissions: ['install_plugins'],
-        pluginQuota: 10
+        pluginQuota: 10,
       },
       {
         userId: 'test_user_2',
         displayName: 'Test User 2',
         avatar: '/test-avatar-2.png',
         permissions: ['install_plugins'],
-        pluginQuota: 10
-      }
-    ]
+        pluginQuota: 10,
+      },
+    ],
   },
 
   SECURITY_TEST: {
@@ -602,11 +623,11 @@ export const TEST_PLUGIN_CONFIGS = {
           panels: [],
           permissions: ['read:files', 'write:files', 'network:fetch', 'native:code'],
           engines: { brepflow: '>=0.1.0' },
-          signature: 'invalid_signature'
-        }
-      }
+          signature: 'invalid_signature',
+        },
+      },
     ],
     latencyMs: 10,
-    errorRate: 0
-  }
+    errorRate: 0,
+  },
 };

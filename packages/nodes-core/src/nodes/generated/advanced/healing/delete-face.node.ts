@@ -13,7 +13,11 @@ interface DeleteFaceOutputs {
   result: unknown;
 }
 
-export const AdvancedHealingDeleteFaceNode: NodeDefinition<DeleteFaceInputs, DeleteFaceOutputs, DeleteFaceParams> = {
+export const AdvancedHealingDeleteFaceNode: NodeDefinition<
+  DeleteFaceInputs,
+  DeleteFaceOutputs,
+  DeleteFaceParams
+> = {
   id: 'Advanced::DeleteFace',
   category: 'Advanced',
   label: 'DeleteFace',
@@ -22,27 +26,27 @@ export const AdvancedHealingDeleteFaceNode: NodeDefinition<DeleteFaceInputs, Del
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
+      required: true,
     },
     facesToDelete: {
       type: 'Face[]',
       label: 'Faces To Delete',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'Shape',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {
     healingType: {
       type: 'enum',
       label: 'Healing Type',
-      default: "extend",
-      options: ["cap","extend","none"]
-    }
+      default: 'extend',
+      options: ['cap', 'extend', 'none'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -50,12 +54,12 @@ export const AdvancedHealingDeleteFaceNode: NodeDefinition<DeleteFaceInputs, Del
       params: {
         shape: inputs.shape,
         facesToDelete: inputs.facesToDelete,
-        healingType: params.healingType
-      }
+        healingType: params.healingType,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

@@ -8,7 +8,11 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { IconButton } from '../ui/Button';
 import { Panel } from '../ui/Panel';
-import type { CameraSyncMode, ViewportInstance, ViewportSyncParticipation } from './multi-viewport-interfaces';
+import type {
+  CameraSyncMode,
+  ViewportInstance,
+  ViewportSyncParticipation,
+} from './multi-viewport-interfaces';
 import type { SyncMode, ViewportSyncSettings } from './CameraSynchronizationEngine';
 import './ViewportSyncControls.css';
 
@@ -16,7 +20,10 @@ export interface ViewportSyncControlsProps {
   viewports: ViewportInstance[];
   activeViewportId: string;
   onSyncModeChange: (mode: CameraSyncMode) => void;
-  onViewportSyncSettingsChange: (viewportId: string, settings: Partial<ViewportSyncSettings>) => void;
+  onViewportSyncSettingsChange: (
+    viewportId: string,
+    settings: Partial<ViewportSyncSettings>
+  ) => void;
   onGlobalSyncToggle: (enabled: boolean) => void;
   syncEnabled: boolean;
   currentSyncMode: CameraSyncMode;
@@ -37,50 +44,50 @@ const SYNC_MODES: SyncModeConfig[] = [
     label: 'Independent',
     description: 'All viewports operate independently',
     icon: 'unlink',
-    shortDescription: 'No sync'
+    shortDescription: 'No sync',
   },
   {
     id: 'rotation',
     label: 'Rotation Sync',
     description: 'Synchronized rotation and orbit, independent pan and zoom',
     icon: 'rotate-3d',
-    shortDescription: 'Orbit only'
+    shortDescription: 'Orbit only',
   },
   {
     id: 'pan',
     label: 'Pan Sync',
     description: 'Synchronized panning, independent rotation and zoom',
     icon: 'move',
-    shortDescription: 'Pan only'
+    shortDescription: 'Pan only',
   },
   {
     id: 'zoom',
     label: 'Zoom Sync',
     description: 'Synchronized zoom level, independent pan and rotation',
     icon: 'zoom-in',
-    shortDescription: 'Zoom only'
+    shortDescription: 'Zoom only',
   },
   {
     id: 'full',
     label: 'Full Sync',
     description: 'Complete camera synchronization across all viewports',
     icon: 'link',
-    shortDescription: 'All camera'
+    shortDescription: 'All camera',
   },
   {
     id: 'orthographic-lock',
     label: 'Ortho Lock',
     description: 'Maintains orthographic view constraints during sync',
     icon: 'lock',
-    shortDescription: 'Ortho constrained'
-  }
+    shortDescription: 'Ortho constrained',
+  },
 ];
 
 const SYNC_DIRECTION_OPTIONS = [
   { id: 'all', label: 'All Axes', icon: 'box' },
   { id: 'xy', label: 'XY Plane', icon: 'square' },
   { id: 'xz', label: 'XZ Plane', icon: 'square' },
-  { id: 'yz', label: 'YZ Plane', icon: 'square' }
+  { id: 'yz', label: 'YZ Plane', icon: 'square' },
 ] as const;
 
 export const ViewportSyncControls: React.FC<ViewportSyncControlsProps> = ({
@@ -91,31 +98,40 @@ export const ViewportSyncControls: React.FC<ViewportSyncControlsProps> = ({
   onGlobalSyncToggle,
   syncEnabled,
   currentSyncMode,
-  className = ''
+  className = '',
 }) => {
   const [showAdvancedControls, setShowAdvancedControls] = useState(false);
   const [selectedViewportId, setSelectedViewportId] = useState<string | null>(null);
 
   const currentSyncConfig = useMemo(() => {
-    return SYNC_MODES.find(mode => mode.id === currentSyncMode) || SYNC_MODES[0];
+    return SYNC_MODES.find((mode) => mode.id === currentSyncMode) || SYNC_MODES[0];
   }, [currentSyncMode]);
 
-  const handleSyncModeSelect = useCallback((mode: CameraSyncMode) => {
-    onSyncModeChange(mode);
-    if (mode === 'none') {
-      onGlobalSyncToggle(false);
-    } else {
-      onGlobalSyncToggle(true);
-    }
-  }, [onSyncModeChange, onGlobalSyncToggle]);
+  const handleSyncModeSelect = useCallback(
+    (mode: CameraSyncMode) => {
+      onSyncModeChange(mode);
+      if (mode === 'none') {
+        onGlobalSyncToggle(false);
+      } else {
+        onGlobalSyncToggle(true);
+      }
+    },
+    [onSyncModeChange, onGlobalSyncToggle]
+  );
 
-  const handleViewportPriorityChange = useCallback((viewportId: string, priority: number) => {
-    onViewportSyncSettingsChange(viewportId, { priority });
-  }, [onViewportSyncSettingsChange]);
+  const handleViewportPriorityChange = useCallback(
+    (viewportId: string, priority: number) => {
+      onViewportSyncSettingsChange(viewportId, { priority });
+    },
+    [onViewportSyncSettingsChange]
+  );
 
-  const handleViewportParticipationToggle = useCallback((viewportId: string, participate: boolean) => {
-    onViewportSyncSettingsChange(viewportId, { participateInSync: participate });
-  }, [onViewportSyncSettingsChange]);
+  const handleViewportParticipationToggle = useCallback(
+    (viewportId: string, participate: boolean) => {
+      onViewportSyncSettingsChange(viewportId, { participateInSync: participate });
+    },
+    [onViewportSyncSettingsChange]
+  );
 
   const renderSyncModeSelector = () => (
     <div className="sync-mode-selector">
@@ -153,7 +169,12 @@ export const ViewportSyncControls: React.FC<ViewportSyncControlsProps> = ({
             </div>
             {currentSyncMode === mode.id && (
               <div className="sync-mode-indicator">
-                <IconButton icon="check" size="sm" variant="ghost" aria-label="Currently selected sync mode" />
+                <IconButton
+                  icon="check"
+                  size="sm"
+                  variant="ghost"
+                  aria-label="Currently selected sync mode"
+                />
               </div>
             )}
           </button>
@@ -211,9 +232,9 @@ export const ViewportSyncControls: React.FC<ViewportSyncControlsProps> = ({
                 icon="settings"
                 size="sm"
                 variant="ghost"
-                onClick={() => setSelectedViewportId(
-                  selectedViewportId === viewport.id ? null : viewport.id
-                )}
+                onClick={() =>
+                  setSelectedViewportId(selectedViewportId === viewport.id ? null : viewport.id)
+                }
                 title="Viewport sync settings"
                 aria-label="Viewport sync settings"
               />
@@ -237,12 +258,13 @@ export const ViewportSyncControls: React.FC<ViewportSyncControlsProps> = ({
             <h4>Sync Direction</h4>
             <div className="direction-buttons">
               {SYNC_DIRECTION_OPTIONS.map((option) => (
-                <button
-                  key={option.id}
-                  className="direction-button"
-                  title={option.label}
-                >
-                  <IconButton icon={option.icon as any} size="sm" variant="ghost" aria-label={option.label} />
+                <button key={option.id} className="direction-button" title={option.label}>
+                  <IconButton
+                    icon={option.icon as any}
+                    size="sm"
+                    variant="ghost"
+                    aria-label={option.label}
+                  />
                   <span>{option.label}</span>
                 </button>
               ))}
@@ -306,7 +328,7 @@ export const ViewportSyncControls: React.FC<ViewportSyncControlsProps> = ({
   const renderViewportSettings = () => {
     if (!selectedViewportId) return null;
 
-    const viewport = viewports.find(v => v.id === selectedViewportId);
+    const viewport = viewports.find((v) => v.id === selectedViewportId);
     if (!viewport) return null;
 
     return (
@@ -349,7 +371,9 @@ export const ViewportSyncControls: React.FC<ViewportSyncControlsProps> = ({
                 min="1"
                 max="10"
                 defaultValue={viewport.viewType === 'perspective' ? '10' : '5'}
-                onChange={(e) => handleViewportPriorityChange(viewport.id, parseInt(e.target.value))}
+                onChange={(e) =>
+                  handleViewportPriorityChange(viewport.id, parseInt(e.target.value))
+                }
               />
               <div className="priority-labels">
                 <span>Low</span>

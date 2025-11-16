@@ -239,10 +239,7 @@ export class InvitationService extends EventEmitter {
     return response;
   }
 
-  async declineInvitation(
-    invitationId: string,
-    reason?: string
-  ): Promise<InvitationResponse> {
+  async declineInvitation(invitationId: string, reason?: string): Promise<InvitationResponse> {
     const invitation = await this.getInvitation(invitationId);
     if (!invitation) {
       throw new Error('Invitation not found');
@@ -388,8 +385,8 @@ export class InvitationService extends EventEmitter {
       const templateName = isReminder
         ? this.config.emailService.templates.reminder
         : invitation.type === 'project'
-        ? this.config.emailService.templates.projectInvitation
-        : this.config.emailService.templates.teamInvitation;
+          ? this.config.emailService.templates.projectInvitation
+          : this.config.emailService.templates.teamInvitation;
 
       await this.sendEmail(templateName, emailData);
 
@@ -447,7 +444,9 @@ export class InvitationService extends EventEmitter {
     const existingInvitations = await this.getUserSentInvitations(userId, 'pending');
 
     if (existingInvitations.length + count > this.config.maxInvitations) {
-      throw new Error(`Invitation limit exceeded. Maximum ${this.config.maxInvitations} pending invitations allowed`);
+      throw new Error(
+        `Invitation limit exceeded. Maximum ${this.config.maxInvitations} pending invitations allowed`
+      );
     }
   }
 
@@ -491,9 +490,12 @@ export class InvitationService extends EventEmitter {
    * Cleanup and Maintenance
    */
   private startCleanupTimer(): void {
-    this.cleanupTimer = setInterval(() => {
-      this.cleanupExpiredInvitations();
-    }, 60 * 60 * 1000); // Run every hour
+    this.cleanupTimer = setInterval(
+      () => {
+        this.cleanupExpiredInvitations();
+      },
+      60 * 60 * 1000
+    ); // Run every hour
   }
 
   private async cleanupExpiredInvitations(): Promise<void> {
@@ -543,17 +545,27 @@ export class InvitationService extends EventEmitter {
     // Also save to database
   }
 
-  private async loadUserInvitationsFromDb(userId: UserId, status?: string): Promise<PendingInvitation[]> {
+  private async loadUserInvitationsFromDb(
+    userId: UserId,
+    status?: string
+  ): Promise<PendingInvitation[]> {
     // Implementation depends on database service
     throw new Error('User invitations database access implementation required');
   }
 
-  private async loadResourceInvitationsFromDb(type: string, resourceId: string, status?: string): Promise<PendingInvitation[]> {
+  private async loadResourceInvitationsFromDb(
+    type: string,
+    resourceId: string,
+    status?: string
+  ): Promise<PendingInvitation[]> {
     // Implementation depends on database service
     throw new Error('Resource invitations database access implementation required');
   }
 
-  private async getUserSentInvitations(userId: UserId, status: string): Promise<PendingInvitation[]> {
+  private async getUserSentInvitations(
+    userId: UserId,
+    status: string
+  ): Promise<PendingInvitation[]> {
     // Implementation depends on database service
     throw new Error('Sent invitations database access implementation required');
   }
@@ -568,22 +580,38 @@ export class InvitationService extends EventEmitter {
     throw new Error('User lookup implementation required');
   }
 
-  private async createUserFromInvitation(invitation: PendingInvitation, userData: { name: string; password: string }): Promise<UserId> {
+  private async createUserFromInvitation(
+    invitation: PendingInvitation,
+    userData: { name: string; password: string }
+  ): Promise<UserId> {
     // Implementation depends on user service
     throw new Error('User creation implementation required');
   }
 
-  private async addUserToProject(projectId: ProjectId, userId: UserId, role: ProjectRole, addedBy: UserId): Promise<void> {
+  private async addUserToProject(
+    projectId: ProjectId,
+    userId: UserId,
+    role: ProjectRole,
+    addedBy: UserId
+  ): Promise<void> {
     // Implementation depends on permission service
     throw new Error('Project collaboration implementation required');
   }
 
-  private async addUserToTeam(teamId: TeamId, userId: UserId, role: TeamRole, addedBy: UserId): Promise<void> {
+  private async addUserToTeam(
+    teamId: TeamId,
+    userId: UserId,
+    role: TeamRole,
+    addedBy: UserId
+  ): Promise<void> {
     // Implementation depends on permission service
     throw new Error('Team membership implementation required');
   }
 
-  private async checkCancelPermission(invitation: PendingInvitation, userId: UserId): Promise<boolean> {
+  private async checkCancelPermission(
+    invitation: PendingInvitation,
+    userId: UserId
+  ): Promise<boolean> {
     // Implementation depends on permission service
     throw new Error('Permission check implementation required');
   }

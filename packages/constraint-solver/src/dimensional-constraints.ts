@@ -28,8 +28,8 @@ export class DimensionalConstraint {
 
       const distance = Math.sqrt(
         Math.pow(e1.position.x - e2.position.x, 2) +
-        Math.pow(e1.position.y - e2.position.y, 2) +
-        Math.pow(e1.position.z - e2.position.z, 2)
+          Math.pow(e1.position.y - e2.position.y, 2) +
+          Math.pow(e1.position.z - e2.position.z, 2)
       );
 
       return Math.abs(distance - targetValue);
@@ -83,8 +83,10 @@ export class DimensionalConstraint {
       return Math.abs(l1 - l2);
     }
 
-    if ((e1?.type === 'circle' || e1?.type === 'arc') &&
-        (e2?.type === 'circle' || e2?.type === 'arc')) {
+    if (
+      (e1?.type === 'circle' || e1?.type === 'arc') &&
+      (e2?.type === 'circle' || e2?.type === 'arc')
+    ) {
       if (!e1.radius || !e2.radius) return Infinity;
 
       return Math.abs(e1.radius - e2.radius);
@@ -95,7 +97,7 @@ export class DimensionalConstraint {
 
   private getEntities(entities: Map<string, ConstraintEntity>): ConstraintEntity[] {
     return this.constraint.entities
-      .map(id => entities.get(id))
+      .map((id) => entities.get(id))
       .filter((e): e is ConstraintEntity => e !== undefined);
   }
 
@@ -107,7 +109,7 @@ export class DimensionalConstraint {
     return {
       x: a.x - b.x,
       y: a.y - b.y,
-      z: a.z - b.z
+      z: a.z - b.z,
     };
   }
 }

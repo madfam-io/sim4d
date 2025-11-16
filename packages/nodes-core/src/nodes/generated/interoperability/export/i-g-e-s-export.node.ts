@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -15,68 +14,58 @@ interface Outputs {
   entityCount: number;
 }
 
-export const IGESExportNode: NodeDefinition<IGESExportInputs, IGESExportOutputs, IGESExportParams> = {
-  type: 'Interoperability::IGESExport',
-  category: 'Interoperability',
-  subcategory: 'Export',
+export const IGESExportNode: NodeDefinition<IGESExportInputs, IGESExportOutputs, IGESExportParams> =
+  {
+    type: 'Interoperability::IGESExport',
+    category: 'Interoperability',
+    subcategory: 'Export',
 
-  metadata: {
-    label: 'IGESExport',
-    description: 'Export geometry to IGES format',
-    
-    
-  },
-
-  params: {
-        units: {
-      "default": "mm",
-      "options": [
-        "mm",
-        "cm",
-        "m",
-        "inch"
-      ]
+    metadata: {
+      label: 'IGESExport',
+      description: 'Export geometry to IGES format',
     },
-    precision: {
-      "default": 0.01,
-      "min": 0.001,
-      "max": 1
+
+    params: {
+      units: {
+        default: 'mm',
+        options: ['mm', 'cm', 'm', 'inch'],
+      },
+      precision: {
+        default: 0.01,
+        min: 0.001,
+        max: 1,
+      },
+      writeMode: {
+        default: 'brep',
+        options: ['brep', 'faces'],
+      },
     },
-    writeMode: {
-      "default": "brep",
-      "options": [
-        "brep",
-        "faces"
-      ]
-    }
-  },
 
-  inputs: {
-        shapes: 'Shape[]',
-    filePath: 'string'
-  },
+    inputs: {
+      shapes: 'Shape[]',
+      filePath: 'string',
+    },
 
-  outputs: {
-        success: 'boolean',
-    entityCount: 'number'
-  },
+    outputs: {
+      success: 'boolean',
+      entityCount: 'number',
+    },
 
-  async evaluate(context, inputs, params) {
-    
-    const result = await context.geometry.execute({
-      type: 'igesExport',
-      params: {
-        shapes: inputs.shapes,
-        filePath: inputs.filePath,
-        units: params.units,
-        precision: params.precision,
-        writeMode: params.writeMode
-      }
-    });
+    async evaluate(context, inputs, params) {
+      const result = await context.geometry.execute({
+        type: 'igesExport',
+        params: {
+          shapes: inputs.shapes,
+          filePath: inputs.filePath,
+          units: params.units,
+          precision: params.precision,
+          writeMode: params.writeMode,
+        },
+      });
 
-    return {
-      success: result,
-      entityCount: result
-    };
-  }
-};
+      return {
+        success: result,
+        entityCount: result,
+      };
+    },
+  };

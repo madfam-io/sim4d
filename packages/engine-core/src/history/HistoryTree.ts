@@ -34,11 +34,7 @@ export class ParametricHistoryTree {
   /**
    * Add a new operation to the history tree
    */
-  addOperation(
-    operation: string,
-    parameters: Record<string, any>,
-    parentId?: string
-  ): string {
+  addOperation(operation: string, parameters: Record<string, any>, parentId?: string): string {
     const id = uuidv4();
     const node: HistoryNode = {
       id,
@@ -116,10 +112,10 @@ export class ParametricHistoryTree {
     if (node.parentId) {
       const parent = this.state.nodes.get(node.parentId);
       if (parent) {
-        parent.childrenIds = parent.childrenIds.filter(id => id !== nodeId);
+        parent.childrenIds = parent.childrenIds.filter((id) => id !== nodeId);
       }
     } else {
-      this.state.rootIds = this.state.rootIds.filter(id => id !== nodeId);
+      this.state.rootIds = this.state.rootIds.filter((id) => id !== nodeId);
     }
 
     // Delete the node
@@ -198,11 +194,11 @@ export class ParametricHistoryTree {
         isSuppressed: node.isSuppressed,
         timestamp: node.timestamp,
         error: node.error,
-        children: node.childrenIds.map(childId => buildTree(childId)).filter(Boolean),
+        children: node.childrenIds.map((childId) => buildTree(childId)).filter(Boolean),
       };
     };
 
-    return this.state.rootIds.map(rootId => buildTree(rootId)).filter(Boolean);
+    return this.state.rootIds.map((rootId) => buildTree(rootId)).filter(Boolean);
   }
 
   /**

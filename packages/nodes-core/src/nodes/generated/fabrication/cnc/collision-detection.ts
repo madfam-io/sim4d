@@ -15,7 +15,11 @@ interface CollisionDetectionOutputs {
   safePath: unknown;
 }
 
-export const FabricationCNCCollisionDetectionNode: NodeDefinition<CollisionDetectionInputs, CollisionDetectionOutputs, CollisionDetectionParams> = {
+export const FabricationCNCCollisionDetectionNode: NodeDefinition<
+  CollisionDetectionInputs,
+  CollisionDetectionOutputs,
+  CollisionDetectionParams
+> = {
   id: 'Fabrication::CollisionDetection',
   type: 'Fabrication::CollisionDetection',
   category: 'Fabrication',
@@ -25,23 +29,23 @@ export const FabricationCNCCollisionDetectionNode: NodeDefinition<CollisionDetec
     toolpath: {
       type: 'Wire[]',
       label: 'Toolpath',
-      required: true
+      required: true,
     },
     model: {
       type: 'Shape',
       label: 'Model',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     collisions: {
       type: 'Point[]',
-      label: 'Collisions'
+      label: 'Collisions',
     },
     safePath: {
       type: 'Wire[]',
-      label: 'Safe Path'
-    }
+      label: 'Safe Path',
+    },
   },
   params: {
     toolLength: {
@@ -49,15 +53,15 @@ export const FabricationCNCCollisionDetectionNode: NodeDefinition<CollisionDetec
       label: 'Tool Length',
       default: 50,
       min: 10,
-      max: 200
+      max: 200,
     },
     holderDiameter: {
       type: 'number',
       label: 'Holder Diameter',
       default: 20,
       min: 5,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -66,13 +70,13 @@ export const FabricationCNCCollisionDetectionNode: NodeDefinition<CollisionDetec
         toolpath: inputs.toolpath,
         model: inputs.model,
         toolLength: params.toolLength,
-        holderDiameter: params.holderDiameter
-      }
+        holderDiameter: params.holderDiameter,
+      },
     });
-    
+
     return {
       collisions: results.collisions,
-      safePath: results.safePath
+      safePath: results.safePath,
     };
   },
 };

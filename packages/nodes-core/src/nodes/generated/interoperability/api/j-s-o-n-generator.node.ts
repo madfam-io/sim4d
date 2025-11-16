@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -13,7 +12,11 @@ interface Outputs {
   size: number;
 }
 
-export const JSONGeneratorNode: NodeDefinition<JSONGeneratorInputs, JSONGeneratorOutputs, JSONGeneratorParams> = {
+export const JSONGeneratorNode: NodeDefinition<
+  JSONGeneratorInputs,
+  JSONGeneratorOutputs,
+  JSONGeneratorParams
+> = {
   type: 'Interoperability::JSONGenerator',
   category: 'Interoperability',
   subcategory: 'API',
@@ -21,46 +24,43 @@ export const JSONGeneratorNode: NodeDefinition<JSONGeneratorInputs, JSONGenerato
   metadata: {
     label: 'JSONGenerator',
     description: 'Generate JSON from data',
-    
-    
   },
 
   params: {
-        indent: {
-      "default": 2,
-      "min": 0,
-      "max": 8,
-      "description": "Indentation spaces"
+    indent: {
+      default: 2,
+      min: 0,
+      max: 8,
+      description: 'Indentation spaces',
     },
     compact: {
-      "default": false,
-      "description": "Compact output"
-    }
+      default: false,
+      description: 'Compact output',
+    },
   },
 
   inputs: {
-        data: 'Properties'
+    data: 'Properties',
   },
 
   outputs: {
-        json: 'string',
-    size: 'number'
+    json: 'string',
+    size: 'number',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'jsonGenerator',
       params: {
         data: inputs.data,
         indent: params.indent,
-        compact: params.compact
-      }
+        compact: params.compact,
+      },
     });
 
     return {
       json: result,
-      size: result
+      size: result,
     };
-  }
+  },
 };

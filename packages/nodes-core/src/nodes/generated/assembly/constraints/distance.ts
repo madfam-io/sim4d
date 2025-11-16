@@ -15,7 +15,11 @@ interface DistanceOutputs {
   constraint: unknown;
 }
 
-export const AssemblyConstraintsDistanceNode: NodeDefinition<DistanceInputs, DistanceOutputs, DistanceParams> = {
+export const AssemblyConstraintsDistanceNode: NodeDefinition<
+  DistanceInputs,
+  DistanceOutputs,
+  DistanceParams
+> = {
   id: 'Assembly::Distance',
   type: 'Assembly::Distance',
   category: 'Assembly',
@@ -25,23 +29,23 @@ export const AssemblyConstraintsDistanceNode: NodeDefinition<DistanceInputs, Dis
     entity1: {
       type: 'Shape',
       label: 'Entity1',
-      required: true
+      required: true,
     },
     entity2: {
       type: 'Shape',
       label: 'Entity2',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     constrained: {
       type: 'Shape[]',
-      label: 'Constrained'
+      label: 'Constrained',
     },
     constraint: {
       type: 'Constraint',
-      label: 'Constraint'
-    }
+      label: 'Constraint',
+    },
   },
   params: {
     distance: {
@@ -49,13 +53,13 @@ export const AssemblyConstraintsDistanceNode: NodeDefinition<DistanceInputs, Dis
       label: 'Distance',
       default: 10,
       min: 0,
-      max: 10000
+      max: 10000,
     },
     minimum: {
       type: 'boolean',
       label: 'Minimum',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -64,13 +68,13 @@ export const AssemblyConstraintsDistanceNode: NodeDefinition<DistanceInputs, Dis
         entity1: inputs.entity1,
         entity2: inputs.entity2,
         distance: params.distance,
-        minimum: params.minimum
-      }
+        minimum: params.minimum,
+      },
     });
-    
+
     return {
       constrained: results.constrained,
-      constraint: results.constraint
+      constraint: results.constraint,
     };
   },
 };

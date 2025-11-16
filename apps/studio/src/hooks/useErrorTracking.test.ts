@@ -30,7 +30,7 @@ describe('useErrorTracking', () => {
           message: 'Test error',
           source: 'node',
           severity: 'error',
-          nodeId: 'node1'
+          nodeId: 'node1',
         });
       });
 
@@ -46,7 +46,7 @@ describe('useErrorTracking', () => {
         source: 'node',
         severity: 'error',
         nodeId: 'node1',
-        timestamp: expect.any(Date)
+        timestamp: expect.any(Date),
       });
     });
 
@@ -58,12 +58,12 @@ describe('useErrorTracking', () => {
         id1 = result.current.addError({
           message: 'Error 1',
           source: 'system',
-          severity: 'error'
+          severity: 'error',
         });
         id2 = result.current.addError({
           message: 'Error 2',
           source: 'user',
-          severity: 'warning'
+          severity: 'warning',
         });
       });
 
@@ -78,7 +78,7 @@ describe('useErrorTracking', () => {
         { source: 'node' as const, severity: 'error' as const },
         { source: 'evaluation' as const, severity: 'warning' as const },
         { source: 'system' as const, severity: 'info' as const },
-        { source: 'user' as const, severity: 'error' as const }
+        { source: 'user' as const, severity: 'error' as const },
       ];
 
       act(() => {
@@ -86,16 +86,16 @@ describe('useErrorTracking', () => {
           result.current.addError({
             message: `Test message ${index}`,
             source: testCase.source,
-            severity: testCase.severity
+            severity: testCase.severity,
           });
         });
       });
 
       expect(result.current.errors.size).toBe(4);
-      
+
       const errors = Array.from(result.current.errors.values());
       testCases.forEach((testCase, index) => {
-        const error = errors.find(e => e.message === `Test message ${index}`);
+        const error = errors.find((e) => e.message === `Test message ${index}`);
         expect(error?.source).toBe(testCase.source);
         expect(error?.severity).toBe(testCase.severity);
       });
@@ -111,7 +111,7 @@ describe('useErrorTracking', () => {
           source: 'evaluation',
           severity: 'error',
           nodeId: 'specific-node',
-          details: { stack: 'Error stack trace', code: 500 }
+          details: { stack: 'Error stack trace', code: 500 },
         });
       });
 
@@ -128,7 +128,7 @@ describe('useErrorTracking', () => {
         warningId = result.current.addError({
           message: 'Warning message',
           source: 'system',
-          severity: 'warning'
+          severity: 'warning',
         });
       });
 
@@ -151,7 +151,7 @@ describe('useErrorTracking', () => {
         infoId = result.current.addError({
           message: 'Info message',
           source: 'user',
-          severity: 'info'
+          severity: 'info',
         });
       });
 
@@ -173,7 +173,7 @@ describe('useErrorTracking', () => {
         errorId = result.current.addError({
           message: 'Persistent error',
           source: 'node',
-          severity: 'error'
+          severity: 'error',
         });
       });
 
@@ -197,17 +197,17 @@ describe('useErrorTracking', () => {
         warningId = result.current.addError({
           message: 'Warning',
           source: 'system',
-          severity: 'warning'
+          severity: 'warning',
         });
         infoId = result.current.addError({
           message: 'Info',
           source: 'user',
-          severity: 'info'
+          severity: 'info',
         });
         errorId = result.current.addError({
           message: 'Error',
           source: 'node',
-          severity: 'error'
+          severity: 'error',
         });
       });
 
@@ -235,12 +235,12 @@ describe('useErrorTracking', () => {
         errorId1 = result.current.addError({
           message: 'Error 1',
           source: 'node',
-          severity: 'error'
+          severity: 'error',
         });
         errorId2 = result.current.addError({
           message: 'Error 2',
           source: 'system',
-          severity: 'warning'
+          severity: 'warning',
         });
       });
 
@@ -262,7 +262,7 @@ describe('useErrorTracking', () => {
         result.current.addError({
           message: 'Test error',
           source: 'node',
-          severity: 'error'
+          severity: 'error',
         });
       });
 
@@ -285,7 +285,7 @@ describe('useErrorTracking', () => {
         warningId = result.current.addError({
           message: 'Warning to remove',
           source: 'system',
-          severity: 'warning'
+          severity: 'warning',
         });
       });
 
@@ -315,17 +315,17 @@ describe('useErrorTracking', () => {
         result.current.addError({
           message: 'Error 1',
           source: 'node',
-          severity: 'error'
+          severity: 'error',
         });
         result.current.addError({
           message: 'Warning 1',
           source: 'system',
-          severity: 'warning'
+          severity: 'warning',
         });
         result.current.addError({
           message: 'Info 1',
           source: 'user',
-          severity: 'info'
+          severity: 'info',
         });
       });
 
@@ -348,7 +348,7 @@ describe('useErrorTracking', () => {
         result.current.addError({
           message: 'Warning with timer',
           source: 'system',
-          severity: 'warning'
+          severity: 'warning',
         });
       });
 
@@ -378,24 +378,24 @@ describe('useErrorTracking', () => {
           message: 'Node 1 Error 1',
           source: 'node',
           severity: 'error',
-          nodeId: 'node1'
+          nodeId: 'node1',
         });
         result.current.addError({
           message: 'Node 1 Error 2',
           source: 'evaluation',
           severity: 'warning',
-          nodeId: 'node1'
+          nodeId: 'node1',
         });
         result.current.addError({
           message: 'Node 2 Error',
           source: 'node',
           severity: 'error',
-          nodeId: 'node2'
+          nodeId: 'node2',
         });
         result.current.addError({
           message: 'System Error',
           source: 'system',
-          severity: 'error'
+          severity: 'error',
           // No nodeId
         });
       });
@@ -431,7 +431,7 @@ describe('useErrorTracking', () => {
           message: 'Node error',
           source: 'node',
           severity: 'error',
-          nodeId: 'test-node'
+          nodeId: 'test-node',
         });
       });
 
@@ -456,7 +456,7 @@ describe('useErrorTracking', () => {
         errorId = result.current.addError({
           message: 'Test error',
           source: 'node',
-          severity: 'error'
+          severity: 'error',
         });
       });
 
@@ -478,12 +478,12 @@ describe('useErrorTracking', () => {
         result.current.addError({
           message: 'Error 1',
           source: 'node',
-          severity: 'error'
+          severity: 'error',
         });
         result.current.addError({
           message: 'Error 2',
           source: 'system',
-          severity: 'warning'
+          severity: 'warning',
         });
       });
 
@@ -505,7 +505,7 @@ describe('useErrorTracking', () => {
         result.current.addError({
           message: '',
           source: 'system',
-          severity: 'info'
+          severity: 'info',
         });
       });
 
@@ -522,7 +522,7 @@ describe('useErrorTracking', () => {
         result.current.addError({
           message: specialMessage,
           source: 'user',
-          severity: 'error'
+          severity: 'error',
         });
       });
 
@@ -539,7 +539,7 @@ describe('useErrorTracking', () => {
         null_value: null,
         undefined_value: undefined,
         boolean: true,
-        number: 42
+        number: 42,
       };
 
       act(() => {
@@ -547,7 +547,7 @@ describe('useErrorTracking', () => {
           message: 'Complex error',
           source: 'evaluation',
           severity: 'error',
-          details: complexDetails
+          details: complexDetails,
         });
       });
 

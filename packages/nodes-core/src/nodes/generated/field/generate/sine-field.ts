@@ -14,7 +14,11 @@ interface SineFieldOutputs {
   field: unknown;
 }
 
-export const FieldGenerateSineFieldNode: NodeDefinition<SineFieldInputs, SineFieldOutputs, SineFieldParams> = {
+export const FieldGenerateSineFieldNode: NodeDefinition<
+  SineFieldInputs,
+  SineFieldOutputs,
+  SineFieldParams
+> = {
   id: 'Field::SineField',
   type: 'Field::SineField',
   category: 'Field',
@@ -24,32 +28,32 @@ export const FieldGenerateSineFieldNode: NodeDefinition<SineFieldInputs, SineFie
     domain: {
       type: 'Box',
       label: 'Domain',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     field: {
       type: 'ScalarField',
-      label: 'Field'
-    }
+      label: 'Field',
+    },
   },
   params: {
     frequency: {
       type: 'vec3',
       label: 'Frequency',
-      default: [0.1,0.1,0.1]
+      default: [0.1, 0.1, 0.1],
     },
     amplitude: {
       type: 'number',
       label: 'Amplitude',
       default: 1,
-      min: 0
+      min: 0,
     },
     phase: {
       type: 'vec3',
       label: 'Phase',
-      default: [0,0,0]
-    }
+      default: [0, 0, 0],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -58,12 +62,12 @@ export const FieldGenerateSineFieldNode: NodeDefinition<SineFieldInputs, SineFie
         domain: inputs.domain,
         frequency: params.frequency,
         amplitude: params.amplitude,
-        phase: params.phase
-      }
+        phase: params.phase,
+      },
     });
-    
+
     return {
-      field: result
+      field: result,
     };
   },
 };

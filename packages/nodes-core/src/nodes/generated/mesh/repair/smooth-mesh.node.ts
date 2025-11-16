@@ -14,7 +14,11 @@ interface SmoothMeshOutputs {
   smoothed: unknown;
 }
 
-export const MeshRepairSmoothMeshNode: NodeDefinition<SmoothMeshInputs, SmoothMeshOutputs, SmoothMeshParams> = {
+export const MeshRepairSmoothMeshNode: NodeDefinition<
+  SmoothMeshInputs,
+  SmoothMeshOutputs,
+  SmoothMeshParams
+> = {
   id: 'Mesh::SmoothMesh',
   category: 'Mesh',
   label: 'SmoothMesh',
@@ -23,14 +27,14 @@ export const MeshRepairSmoothMeshNode: NodeDefinition<SmoothMeshInputs, SmoothMe
     mesh: {
       type: 'Mesh',
       label: 'Mesh',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     smoothed: {
       type: 'Mesh',
-      label: 'Smoothed'
-    }
+      label: 'Smoothed',
+    },
   },
   params: {
     iterations: {
@@ -39,20 +43,20 @@ export const MeshRepairSmoothMeshNode: NodeDefinition<SmoothMeshInputs, SmoothMe
       default: 5,
       min: 1,
       max: 100,
-      step: 1
+      step: 1,
     },
     smoothingFactor: {
       type: 'number',
       label: 'Smoothing Factor',
       default: 0.5,
       min: 0,
-      max: 1
+      max: 1,
     },
     preserveVolume: {
       type: 'boolean',
       label: 'Preserve Volume',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -61,12 +65,12 @@ export const MeshRepairSmoothMeshNode: NodeDefinition<SmoothMeshInputs, SmoothMe
         mesh: inputs.mesh,
         iterations: params.iterations,
         smoothingFactor: params.smoothingFactor,
-        preserveVolume: params.preserveVolume
-      }
+        preserveVolume: params.preserveVolume,
+      },
     });
-    
+
     return {
-      smoothed: result
+      smoothed: result,
     };
   },
 };

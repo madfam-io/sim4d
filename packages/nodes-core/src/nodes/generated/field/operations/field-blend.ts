@@ -14,7 +14,11 @@ interface FieldBlendOutputs {
   field: unknown;
 }
 
-export const FieldOperationsFieldBlendNode: NodeDefinition<FieldBlendInputs, FieldBlendOutputs, FieldBlendParams> = {
+export const FieldOperationsFieldBlendNode: NodeDefinition<
+  FieldBlendInputs,
+  FieldBlendOutputs,
+  FieldBlendParams
+> = {
   id: 'Field::FieldBlend',
   type: 'Field::FieldBlend',
   category: 'Field',
@@ -24,32 +28,32 @@ export const FieldOperationsFieldBlendNode: NodeDefinition<FieldBlendInputs, Fie
     fieldA: {
       type: 'ScalarField',
       label: 'Field A',
-      required: true
+      required: true,
     },
     fieldB: {
       type: 'ScalarField',
       label: 'Field B',
-      required: true
+      required: true,
     },
     factor: {
       type: 'number',
       label: 'Factor',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     field: {
       type: 'ScalarField',
-      label: 'Field'
-    }
+      label: 'Field',
+    },
   },
   params: {
     mode: {
       type: 'enum',
       label: 'Mode',
-      default: "linear",
-      options: ["linear","smooth","overlay","multiply"]
-    }
+      default: 'linear',
+      options: ['linear', 'smooth', 'overlay', 'multiply'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -58,12 +62,12 @@ export const FieldOperationsFieldBlendNode: NodeDefinition<FieldBlendInputs, Fie
         fieldA: inputs.fieldA,
         fieldB: inputs.fieldB,
         factor: inputs.factor,
-        mode: params.mode
-      }
+        mode: params.mode,
+      },
     });
-    
+
     return {
-      field: result
+      field: result,
     };
   },
 };

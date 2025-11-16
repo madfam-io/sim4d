@@ -146,7 +146,7 @@ export interface ServerToClientEvents {
   'presence:leave': (userId: string) => void;
   'document:sync': (document: Document) => void;
   'conflict:detected': (conflict: Conflict) => void;
-  'error': (error: Error) => void;
+  error: (error: Error) => void;
 }
 
 export interface ClientToServerEvents {

@@ -15,7 +15,11 @@ interface SuspendedCeilingOutputs {
   tiles: unknown;
 }
 
-export const ArchitectureCeilingsSuspendedCeilingNode: NodeDefinition<SuspendedCeilingInputs, SuspendedCeilingOutputs, SuspendedCeilingParams> = {
+export const ArchitectureCeilingsSuspendedCeilingNode: NodeDefinition<
+  SuspendedCeilingInputs,
+  SuspendedCeilingOutputs,
+  SuspendedCeilingParams
+> = {
   id: 'Architecture::SuspendedCeiling',
   type: 'Architecture::SuspendedCeiling',
   category: 'Architecture',
@@ -25,37 +29,37 @@ export const ArchitectureCeilingsSuspendedCeilingNode: NodeDefinition<SuspendedC
     roomBoundary: {
       type: 'Wire',
       label: 'Room Boundary',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     ceiling: {
       type: 'Shape',
-      label: 'Ceiling'
+      label: 'Ceiling',
     },
     grid: {
       type: 'Wire[]',
-      label: 'Grid'
+      label: 'Grid',
     },
     tiles: {
       type: 'Face[]',
-      label: 'Tiles'
-    }
+      label: 'Tiles',
+    },
   },
   params: {
     tileSize: {
       type: 'enum',
       label: 'Tile Size',
-      default: "600x600",
-      options: ["600x600","600x1200","1200x1200"]
+      default: '600x600',
+      options: ['600x600', '600x1200', '1200x1200'],
     },
     suspensionHeight: {
       type: 'number',
       label: 'Suspension Height',
       default: 300,
       min: 150,
-      max: 1000
-    }
+      max: 1000,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -63,14 +67,14 @@ export const ArchitectureCeilingsSuspendedCeilingNode: NodeDefinition<SuspendedC
       params: {
         roomBoundary: inputs.roomBoundary,
         tileSize: params.tileSize,
-        suspensionHeight: params.suspensionHeight
-      }
+        suspensionHeight: params.suspensionHeight,
+      },
     });
-    
+
     return {
       ceiling: results.ceiling,
       grid: results.grid,
-      tiles: results.tiles
+      tiles: results.tiles,
     };
   },
 };

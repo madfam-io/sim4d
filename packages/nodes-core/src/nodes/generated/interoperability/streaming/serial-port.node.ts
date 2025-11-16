@@ -17,7 +17,11 @@ interface SerialPortOutputs {
   buffer: unknown;
 }
 
-export const InteroperabilityStreamingSerialPortNode: NodeDefinition<SerialPortInputs, SerialPortOutputs, SerialPortParams> = {
+export const InteroperabilityStreamingSerialPortNode: NodeDefinition<
+  SerialPortInputs,
+  SerialPortOutputs,
+  SerialPortParams
+> = {
   id: 'Interoperability::SerialPort',
   category: 'Interoperability',
   label: 'SerialPort',
@@ -26,47 +30,47 @@ export const InteroperabilityStreamingSerialPortNode: NodeDefinition<SerialPortI
     data: {
       type: 'string',
       label: 'Data',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     connected: {
       type: 'boolean',
-      label: 'Connected'
+      label: 'Connected',
     },
     received: {
       type: 'string',
-      label: 'Received'
+      label: 'Received',
     },
     buffer: {
       type: 'string[]',
-      label: 'Buffer'
-    }
+      label: 'Buffer',
+    },
   },
   params: {
     port: {
       type: 'string',
       label: 'Port',
-      default: "COM1"
+      default: 'COM1',
     },
     baudRate: {
       type: 'enum',
       label: 'Baud Rate',
-      default: "9600",
-      options: ["9600","19200","38400","57600","115200"]
+      default: '9600',
+      options: ['9600', '19200', '38400', '57600', '115200'],
     },
     dataBits: {
       type: 'enum',
       label: 'Data Bits',
-      default: "8",
-      options: ["7","8"]
+      default: '8',
+      options: ['7', '8'],
     },
     parity: {
       type: 'enum',
       label: 'Parity',
-      default: "none",
-      options: ["none","even","odd"]
-    }
+      default: 'none',
+      options: ['none', 'even', 'odd'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -76,14 +80,14 @@ export const InteroperabilityStreamingSerialPortNode: NodeDefinition<SerialPortI
         port: params.port,
         baudRate: params.baudRate,
         dataBits: params.dataBits,
-        parity: params.parity
-      }
+        parity: params.parity,
+      },
     });
-    
+
     return {
       connected: results.connected,
       received: results.received,
-      buffer: results.buffer
+      buffer: results.buffer,
     };
   },
 };

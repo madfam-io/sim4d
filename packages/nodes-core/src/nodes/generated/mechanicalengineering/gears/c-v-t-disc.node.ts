@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -23,44 +22,41 @@ export const CVTDiscNode: NodeDefinition<CVTDiscInputs, CVTDiscOutputs, CVTDiscP
   metadata: {
     label: 'CVTDisc',
     description: 'Create CVT transmission disc',
-    
-    
   },
 
   params: {
-        minDiameter: {
-      "default": 30,
-      "min": 20,
-      "max": 100
+    minDiameter: {
+      default: 30,
+      min: 20,
+      max: 100,
     },
     maxDiameter: {
-      "default": 100,
-      "min": 50,
-      "max": 300
+      default: 100,
+      min: 50,
+      max: 300,
     },
     coneAngle: {
-      "default": 11,
-      "min": 8,
-      "max": 15
+      default: 11,
+      min: 8,
+      max: 15,
     },
     shaftDiameter: {
-      "default": 20,
-      "min": 10,
-      "max": 50
-    }
+      default: 20,
+      min: 10,
+      max: 50,
+    },
   },
 
   inputs: {
-        center: 'Point'
+    center: 'Point',
   },
 
   outputs: {
-        disc: 'Shape',
-    contactSurface: 'Surface'
+    disc: 'Shape',
+    contactSurface: 'Surface',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'cvtDisc',
       params: {
@@ -68,13 +64,13 @@ export const CVTDiscNode: NodeDefinition<CVTDiscInputs, CVTDiscOutputs, CVTDiscP
         minDiameter: params.minDiameter,
         maxDiameter: params.maxDiameter,
         coneAngle: params.coneAngle,
-        shaftDiameter: params.shaftDiameter
-      }
+        shaftDiameter: params.shaftDiameter,
+      },
     });
 
     return {
       disc: result,
-      contactSurface: result
+      contactSurface: result,
     };
-  }
+  },
 };

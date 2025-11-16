@@ -15,7 +15,11 @@ interface CompoundWallOutputs {
   layers: unknown;
 }
 
-export const ArchitectureWallsCompoundWallNode: NodeDefinition<CompoundWallInputs, CompoundWallOutputs, CompoundWallParams> = {
+export const ArchitectureWallsCompoundWallNode: NodeDefinition<
+  CompoundWallInputs,
+  CompoundWallOutputs,
+  CompoundWallParams
+> = {
   id: 'Architecture::CompoundWall',
   category: 'Architecture',
   label: 'CompoundWall',
@@ -24,18 +28,18 @@ export const ArchitectureWallsCompoundWallNode: NodeDefinition<CompoundWallInput
     path: {
       type: 'Wire',
       label: 'Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     compoundWall: {
       type: 'Shape',
-      label: 'Compound Wall'
+      label: 'Compound Wall',
     },
     layers: {
       type: 'Shape[]',
-      label: 'Layers'
-    }
+      label: 'Layers',
+    },
   },
   params: {
     layers: {
@@ -44,18 +48,18 @@ export const ArchitectureWallsCompoundWallNode: NodeDefinition<CompoundWallInput
       default: 3,
       min: 1,
       max: 10,
-      step: 1
+      step: 1,
     },
     layerThicknesses: {
       type: 'string',
       label: 'Layer Thicknesses',
-      default: "100,50,100"
+      default: '100,50,100',
     },
     layerMaterials: {
       type: 'string',
       label: 'Layer Materials',
-      default: "brick,insulation,drywall"
-    }
+      default: 'brick,insulation,drywall',
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -64,13 +68,13 @@ export const ArchitectureWallsCompoundWallNode: NodeDefinition<CompoundWallInput
         path: inputs.path,
         layers: params.layers,
         layerThicknesses: params.layerThicknesses,
-        layerMaterials: params.layerMaterials
-      }
+        layerMaterials: params.layerMaterials,
+      },
     });
-    
+
     return {
       compoundWall: results.compoundWall,
-      layers: results.layers
+      layers: results.layers,
     };
   },
 };

@@ -6,10 +6,7 @@ export interface PresenceListProps {
   className?: string;
 }
 
-export function PresenceList({
-  maxVisible = 5,
-  className = '',
-}: PresenceListProps) {
+export function PresenceList({ maxVisible = 5, className = '' }: PresenceListProps) {
   const { activeUsers, userCount, isConnected } = usePresence();
 
   if (!isConnected) {
@@ -30,9 +27,7 @@ export function PresenceList({
         {visibleUsers.map((user) => (
           <div
             key={user.id}
-            className={`presence-avatar ${
-              user.isCurrentUser ? 'current-user' : ''
-            }`}
+            className={`presence-avatar ${user.isCurrentUser ? 'current-user' : ''}`}
             style={{
               backgroundColor: user.color,
               backgroundImage: user.avatar ? `url(${user.avatar})` : undefined,

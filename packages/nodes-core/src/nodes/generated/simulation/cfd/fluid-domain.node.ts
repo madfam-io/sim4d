@@ -15,7 +15,11 @@ interface FluidDomainOutputs {
   walls: unknown;
 }
 
-export const SimulationCFDFluidDomainNode: NodeDefinition<FluidDomainInputs, FluidDomainOutputs, FluidDomainParams> = {
+export const SimulationCFDFluidDomainNode: NodeDefinition<
+  FluidDomainInputs,
+  FluidDomainOutputs,
+  FluidDomainParams
+> = {
   id: 'Simulation::FluidDomain',
   category: 'Simulation',
   label: 'FluidDomain',
@@ -24,38 +28,38 @@ export const SimulationCFDFluidDomainNode: NodeDefinition<FluidDomainInputs, Flu
     geometry: {
       type: 'Shape',
       label: 'Geometry',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     fluidDomain: {
       type: 'Shape',
-      label: 'Fluid Domain'
+      label: 'Fluid Domain',
     },
     walls: {
       type: 'Face[]',
-      label: 'Walls'
-    }
+      label: 'Walls',
+    },
   },
   params: {
     domainType: {
       type: 'enum',
       label: 'Domain Type',
-      default: "external",
-      options: ["internal","external","both"]
+      default: 'external',
+      options: ['internal', 'external', 'both'],
     },
     boundingBoxScale: {
       type: 'vec3',
       label: 'Bounding Box Scale',
-      default: [3,3,3]
+      default: [3, 3, 3],
     },
     refinementDistance: {
       type: 'number',
       label: 'Refinement Distance',
       default: 10,
       min: 1,
-      max: 1000
-    }
+      max: 1000,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -64,13 +68,13 @@ export const SimulationCFDFluidDomainNode: NodeDefinition<FluidDomainInputs, Flu
         geometry: inputs.geometry,
         domainType: params.domainType,
         boundingBoxScale: params.boundingBoxScale,
-        refinementDistance: params.refinementDistance
-      }
+        refinementDistance: params.refinementDistance,
+      },
     });
-    
+
     return {
       fluidDomain: results.fluidDomain,
-      walls: results.walls
+      walls: results.walls,
     };
   },
 };

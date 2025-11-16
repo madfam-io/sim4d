@@ -17,7 +17,11 @@ interface VisibilityAnalysisOutputs {
   sightLines: unknown;
 }
 
-export const AnalysisProximityVisibilityAnalysisNode: NodeDefinition<VisibilityAnalysisInputs, VisibilityAnalysisOutputs, VisibilityAnalysisParams> = {
+export const AnalysisProximityVisibilityAnalysisNode: NodeDefinition<
+  VisibilityAnalysisInputs,
+  VisibilityAnalysisOutputs,
+  VisibilityAnalysisParams
+> = {
   id: 'Analysis::VisibilityAnalysis',
   type: 'Analysis::VisibilityAnalysis',
   category: 'Analysis',
@@ -27,32 +31,32 @@ export const AnalysisProximityVisibilityAnalysisNode: NodeDefinition<VisibilityA
     viewpoint: {
       type: 'Point',
       label: 'Viewpoint',
-      required: true
+      required: true,
     },
     targets: {
       type: 'Point[]',
       label: 'Targets',
-      required: true
+      required: true,
     },
     obstacles: {
       type: 'Shape[]',
       label: 'Obstacles',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     visibleTargets: {
       type: 'Point[]',
-      label: 'Visible Targets'
+      label: 'Visible Targets',
     },
     occludedTargets: {
       type: 'Point[]',
-      label: 'Occluded Targets'
+      label: 'Occluded Targets',
     },
     sightLines: {
       type: 'Wire[]',
-      label: 'Sight Lines'
-    }
+      label: 'Sight Lines',
+    },
   },
   params: {
     viewAngle: {
@@ -60,15 +64,15 @@ export const AnalysisProximityVisibilityAnalysisNode: NodeDefinition<VisibilityA
       label: 'View Angle',
       default: 120,
       min: 10,
-      max: 360
+      max: 360,
     },
     maxDistance: {
       type: 'number',
       label: 'Max Distance',
       default: 100,
       min: 1,
-      max: 1000
-    }
+      max: 1000,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -78,14 +82,14 @@ export const AnalysisProximityVisibilityAnalysisNode: NodeDefinition<VisibilityA
         targets: inputs.targets,
         obstacles: inputs.obstacles,
         viewAngle: params.viewAngle,
-        maxDistance: params.maxDistance
-      }
+        maxDistance: params.maxDistance,
+      },
     });
-    
+
     return {
       visibleTargets: results.visibleTargets,
       occludedTargets: results.occludedTargets,
-      sightLines: results.sightLines
+      sightLines: results.sightLines,
     };
   },
 };

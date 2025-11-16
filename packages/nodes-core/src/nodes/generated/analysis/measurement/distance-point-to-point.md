@@ -1,4 +1,3 @@
-
 # DistancePointToPoint Node
 
 **Category:** Analysis / Measurement
@@ -11,30 +10,24 @@ This node has no parameters.
 
 ## Inputs
 
-
 ### point1
+
 - **Type:** Point
 - **Required:** Yes
-
-
 
 ### point2
+
 - **Type:** Point
 - **Required:** Yes
-
-
 
 ## Outputs
 
-
 ### distance
+
 - **Type:** number
 - **Description:** Distance value
 
-
 ### vector
+
 - **Type:** Vector
 - **Description:** Vector from point1 to point2
-
-
-

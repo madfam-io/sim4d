@@ -111,7 +111,11 @@ test.describe('Phase 4B - Performance Monitoring and Diagnostics', () => {
       for (const nodeId of nodes) {
         await nodeHelper.selectNode(nodeId);
 
-        if (await page.locator('[data-testid="performance-section-toggle"]').isVisible({ timeout: 2000 })) {
+        if (
+          await page
+            .locator('[data-testid="performance-section-toggle"]')
+            .isVisible({ timeout: 2000 })
+        ) {
           await inspectorHelper.openPerformanceSection();
           const metrics = await inspectorHelper.getPerformanceMetrics();
 
@@ -138,7 +142,11 @@ test.describe('Phase 4B - Performance Monitoring and Diagnostics', () => {
       }
 
       // Check if diagnostics section becomes available
-      if (await page.locator('[data-testid="diagnostics-section-toggle"]').isVisible({ timeout: 3000 })) {
+      if (
+        await page
+          .locator('[data-testid="diagnostics-section-toggle"]')
+          .isVisible({ timeout: 3000 })
+      ) {
         await inspectorHelper.openDiagnosticsSection();
         await inspectorHelper.verifyDiagnostics();
       } else {
@@ -166,7 +174,11 @@ test.describe('Phase 4B - Performance Monitoring and Diagnostics', () => {
       }
 
       // Check for diagnostic information
-      if (await page.locator('[data-testid="diagnostics-section-toggle"]').isVisible({ timeout: 3000 })) {
+      if (
+        await page
+          .locator('[data-testid="diagnostics-section-toggle"]')
+          .isVisible({ timeout: 3000 })
+      ) {
         const diagnostics = await inspectorHelper.getDiagnosticSuggestions();
 
         if (diagnostics.suggestions.length > 0) {
@@ -194,7 +206,11 @@ test.describe('Phase 4B - Performance Monitoring and Diagnostics', () => {
       }
 
       // Try to interact with diagnostics
-      if (await page.locator('[data-testid="diagnostics-section-toggle"]').isVisible({ timeout: 3000 })) {
+      if (
+        await page
+          .locator('[data-testid="diagnostics-section-toggle"]')
+          .isVisible({ timeout: 3000 })
+      ) {
         await inspectorHelper.openDiagnosticsSection();
 
         // Try clicking on a diagnostic suggestion
@@ -226,7 +242,11 @@ test.describe('Phase 4B - Performance Monitoring and Diagnostics', () => {
       await nodeHelper.evaluateGraph();
 
       // Check if diagnostics section is hidden or shows no errors
-      if (await page.locator('[data-testid="diagnostics-section-toggle"]').isVisible({ timeout: 2000 })) {
+      if (
+        await page
+          .locator('[data-testid="diagnostics-section-toggle"]')
+          .isVisible({ timeout: 2000 })
+      ) {
         await inspectorHelper.openDiagnosticsSection();
         const diagnostics = await inspectorHelper.getDiagnosticSuggestions();
         expect(diagnostics.errorCount).toBe(0);
@@ -244,7 +264,11 @@ test.describe('Phase 4B - Performance Monitoring and Diagnostics', () => {
       await nodeHelper.selectNode(nodeId);
 
       // Check if configuration section is available
-      if (await page.locator('[data-testid="configuration-section-toggle"]').isVisible({ timeout: 2000 })) {
+      if (
+        await page
+          .locator('[data-testid="configuration-section-toggle"]')
+          .isVisible({ timeout: 2000 })
+      ) {
         await inspectorHelper.openConfigurationSection();
         await inspectorHelper.verifyConfigurationTemplates();
       }
@@ -255,7 +279,11 @@ test.describe('Phase 4B - Performance Monitoring and Diagnostics', () => {
       await nodeHelper.selectNode(nodeId);
 
       // Try to export configuration
-      if (await page.locator('[data-testid="configuration-section-toggle"]').isVisible({ timeout: 2000 })) {
+      if (
+        await page
+          .locator('[data-testid="configuration-section-toggle"]')
+          .isVisible({ timeout: 2000 })
+      ) {
         await inspectorHelper.exportConfiguration();
         await inspectorHelper.verifyConfigurationExported();
       }
@@ -270,7 +298,11 @@ test.describe('Phase 4B - Performance Monitoring and Diagnostics', () => {
       await inspectorHelper.editParameter('height', '125');
 
       // Export configuration
-      if (await page.locator('[data-testid="configuration-section-toggle"]').isVisible({ timeout: 2000 })) {
+      if (
+        await page
+          .locator('[data-testid="configuration-section-toggle"]')
+          .isVisible({ timeout: 2000 })
+      ) {
         await inspectorHelper.exportConfiguration();
 
         // Verify configuration contains updated parameters
@@ -303,11 +335,17 @@ test.describe('Phase 4B - Performance Monitoring and Diagnostics', () => {
       if (nodes.length > 0) {
         await nodeHelper.selectNode(nodes[0]);
 
-        if (await page.locator('[data-testid="configuration-section-toggle"]').isVisible({ timeout: 2000 })) {
+        if (
+          await page
+            .locator('[data-testid="configuration-section-toggle"]')
+            .isVisible({ timeout: 2000 })
+        ) {
           await inspectorHelper.openConfigurationSection();
 
           // Verify templates section shows available configurations
-          const templatesVisible = await page.locator('[data-testid="configuration-templates"]').isVisible({ timeout: 2000 });
+          const templatesVisible = await page
+            .locator('[data-testid="configuration-templates"]')
+            .isVisible({ timeout: 2000 });
           expect(templatesVisible).toBe(true);
         }
       }
@@ -331,14 +369,22 @@ test.describe('Phase 4B - Performance Monitoring and Diagnostics', () => {
       await inspectorHelper.editParameter('width', '150');
 
       // Test performance section if available
-      if (await page.locator('[data-testid="performance-section-toggle"]').isVisible({ timeout: 2000 })) {
+      if (
+        await page
+          .locator('[data-testid="performance-section-toggle"]')
+          .isVisible({ timeout: 2000 })
+      ) {
         await inspectorHelper.openPerformanceSection();
         const metrics = await inspectorHelper.getPerformanceMetrics();
         expect(metrics.evaluationCount).toBeGreaterThanOrEqual(1);
       }
 
       // Test configuration section if available
-      if (await page.locator('[data-testid="configuration-section-toggle"]').isVisible({ timeout: 2000 })) {
+      if (
+        await page
+          .locator('[data-testid="configuration-section-toggle"]')
+          .isVisible({ timeout: 2000 })
+      ) {
         await inspectorHelper.openConfigurationSection();
       }
     });
@@ -348,7 +394,11 @@ test.describe('Phase 4B - Performance Monitoring and Diagnostics', () => {
       await nodeHelper.selectNode(nodeId);
 
       // Open performance section
-      if (await page.locator('[data-testid="performance-section-toggle"]').isVisible({ timeout: 2000 })) {
+      if (
+        await page
+          .locator('[data-testid="performance-section-toggle"]')
+          .isVisible({ timeout: 2000 })
+      ) {
         await inspectorHelper.openPerformanceSection();
 
         // Switch to another area and back
@@ -356,7 +406,9 @@ test.describe('Phase 4B - Performance Monitoring and Diagnostics', () => {
         await nodeHelper.selectNode(nodeId);
 
         // Performance section should still be available
-        const performanceSectionVisible = await page.locator('[data-testid="performance-section"]').isVisible({ timeout: 2000 });
+        const performanceSectionVisible = await page
+          .locator('[data-testid="performance-section"]')
+          .isVisible({ timeout: 2000 });
         if (performanceSectionVisible) {
           expect(performanceSectionVisible).toBe(true);
         }
@@ -372,7 +424,11 @@ test.describe('Phase 4B - Performance Monitoring and Diagnostics', () => {
       await nodeHelper.selectNode(nodeId);
 
       let initialMetrics;
-      if (await page.locator('[data-testid="performance-section-toggle"]').isVisible({ timeout: 2000 })) {
+      if (
+        await page
+          .locator('[data-testid="performance-section-toggle"]')
+          .isVisible({ timeout: 2000 })
+      ) {
         initialMetrics = await inspectorHelper.getPerformanceMetrics();
       }
 
@@ -382,7 +438,12 @@ test.describe('Phase 4B - Performance Monitoring and Diagnostics', () => {
       await nodeHelper.selectNode(nodeId);
 
       // Check if metrics updated
-      if (initialMetrics && await page.locator('[data-testid="performance-section-toggle"]').isVisible({ timeout: 2000 })) {
+      if (
+        initialMetrics &&
+        (await page
+          .locator('[data-testid="performance-section-toggle"]')
+          .isVisible({ timeout: 2000 }))
+      ) {
         const updatedMetrics = await inspectorHelper.getPerformanceMetrics();
         expect(updatedMetrics.evaluationCount).toBeGreaterThan(initialMetrics.evaluationCount);
       }
@@ -392,8 +453,14 @@ test.describe('Phase 4B - Performance Monitoring and Diagnostics', () => {
   test.describe('Advanced Diagnostics Scenarios', () => {
     test('Complex error scenarios provide comprehensive diagnostics', async ({ page }) => {
       // Create a scenario that might produce complex errors
-      const box1 = await nodeHelper.createBoxNode({ width: 100, height: 50, depth: 25 }, { x: 200, y: 200 });
-      const box2 = await nodeHelper.createBoxNode({ width: 80, height: 80, depth: 80 }, { x: 200, y: 350 });
+      const box1 = await nodeHelper.createBoxNode(
+        { width: 100, height: 50, depth: 25 },
+        { x: 200, y: 200 }
+      );
+      const box2 = await nodeHelper.createBoxNode(
+        { width: 80, height: 80, depth: 80 },
+        { x: 200, y: 350 }
+      );
 
       // Try to create invalid geometry through parameter manipulation
       await nodeHelper.selectNode(box1);
@@ -413,7 +480,11 @@ test.describe('Phase 4B - Performance Monitoring and Diagnostics', () => {
       for (const nodeId of [box1, box2]) {
         await nodeHelper.selectNode(nodeId);
 
-        if (await page.locator('[data-testid="diagnostics-section-toggle"]').isVisible({ timeout: 2000 })) {
+        if (
+          await page
+            .locator('[data-testid="diagnostics-section-toggle"]')
+            .isVisible({ timeout: 2000 })
+        ) {
           const diagnostics = await inspectorHelper.getDiagnosticSuggestions();
 
           if (diagnostics.suggestions.length > 0) {
@@ -438,7 +509,11 @@ test.describe('Phase 4B - Performance Monitoring and Diagnostics', () => {
       for (const nodeId of nodes) {
         await nodeHelper.selectNode(nodeId);
 
-        if (await page.locator('[data-testid="performance-section-toggle"]').isVisible({ timeout: 2000 })) {
+        if (
+          await page
+            .locator('[data-testid="performance-section-toggle"]')
+            .isVisible({ timeout: 2000 })
+        ) {
           const metrics = await inspectorHelper.getPerformanceMetrics();
 
           // Verify reasonable performance values

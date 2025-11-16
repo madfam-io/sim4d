@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { SimulationKinematicsForwardKinematicsNode } from './forward-kinematics.node';
 import { createTestContext } from '../test-utils';
@@ -8,14 +7,18 @@ describe('SimulationKinematicsForwardKinematicsNode', () => {
     const context = createTestContext();
     const inputs = {
       mechanism: undefined,
-      jointValues: undefined
+      jointValues: undefined,
     } as any;
     const params = {
       timeStep: 0.01,
-      duration: 1
+      duration: 1,
     } as any;
 
-    const result = await SimulationKinematicsForwardKinematicsNode.evaluate(context, inputs, params);
+    const result = await SimulationKinematicsForwardKinematicsNode.evaluate(
+      context,
+      inputs,
+      params
+    );
     expect(result).toBeDefined();
   });
 });

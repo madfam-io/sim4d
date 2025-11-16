@@ -19,7 +19,11 @@ interface LinearRegressionOutputs {
   predictions: unknown;
 }
 
-export const AlgorithmicMachineLearningLinearRegressionNode: NodeDefinition<LinearRegressionInputs, LinearRegressionOutputs, LinearRegressionParams> = {
+export const AlgorithmicMachineLearningLinearRegressionNode: NodeDefinition<
+  LinearRegressionInputs,
+  LinearRegressionOutputs,
+  LinearRegressionParams
+> = {
   id: 'Algorithmic::LinearRegression',
   type: 'Algorithmic::LinearRegression',
   category: 'Algorithmic',
@@ -29,56 +33,56 @@ export const AlgorithmicMachineLearningLinearRegressionNode: NodeDefinition<Line
     trainingData: {
       type: 'Properties[]',
       label: 'Training Data',
-      required: true
+      required: true,
     },
     features: {
       type: 'string[]',
       label: 'Features',
-      required: true
+      required: true,
     },
     target: {
       type: 'string',
       label: 'Target',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     model: {
       type: 'Properties',
-      label: 'Model'
+      label: 'Model',
     },
     coefficients: {
       type: 'number[]',
-      label: 'Coefficients'
+      label: 'Coefficients',
     },
     rSquared: {
       type: 'number',
-      label: 'R Squared'
+      label: 'R Squared',
     },
     predictions: {
       type: 'number[]',
-      label: 'Predictions'
-    }
+      label: 'Predictions',
+    },
   },
   params: {
     regularization: {
       type: 'enum',
       label: 'Regularization',
-      default: "none",
-      options: ["none","ridge","lasso"]
+      default: 'none',
+      options: ['none', 'ridge', 'lasso'],
     },
     alpha: {
       type: 'number',
       label: 'Alpha',
       default: 1,
       min: 0.001,
-      max: 100
+      max: 100,
     },
     normalize: {
       type: 'boolean',
       label: 'Normalize',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -89,15 +93,15 @@ export const AlgorithmicMachineLearningLinearRegressionNode: NodeDefinition<Line
         target: inputs.target,
         regularization: params.regularization,
         alpha: params.alpha,
-        normalize: params.normalize
-      }
+        normalize: params.normalize,
+      },
     });
-    
+
     return {
       model: results.model,
       coefficients: results.coefficients,
       rSquared: results.rSquared,
-      predictions: results.predictions
+      predictions: results.predictions,
     };
   },
 };

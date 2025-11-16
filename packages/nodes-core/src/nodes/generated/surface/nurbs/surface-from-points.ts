@@ -16,7 +16,11 @@ interface SurfaceFromPointsOutputs {
   surface: unknown;
 }
 
-export const SurfaceNURBSSurfaceFromPointsNode: NodeDefinition<SurfaceFromPointsInputs, SurfaceFromPointsOutputs, SurfaceFromPointsParams> = {
+export const SurfaceNURBSSurfaceFromPointsNode: NodeDefinition<
+  SurfaceFromPointsInputs,
+  SurfaceFromPointsOutputs,
+  SurfaceFromPointsParams
+> = {
   id: 'Surface::SurfaceFromPoints',
   type: 'Surface::SurfaceFromPoints',
   category: 'Surface',
@@ -26,24 +30,24 @@ export const SurfaceNURBSSurfaceFromPointsNode: NodeDefinition<SurfaceFromPoints
     points: {
       type: 'Point[]',
       label: 'Points',
-      required: true
+      required: true,
     },
     uCount: {
       type: 'number',
       label: 'U Count',
-      required: true
+      required: true,
     },
     vCount: {
       type: 'number',
       label: 'V Count',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     surface: {
       type: 'Face',
-      label: 'Surface'
-    }
+      label: 'Surface',
+    },
   },
   params: {
     degreeU: {
@@ -51,22 +55,22 @@ export const SurfaceNURBSSurfaceFromPointsNode: NodeDefinition<SurfaceFromPoints
       label: 'Degree U',
       default: 3,
       min: 1,
-      max: 10
+      max: 10,
     },
     degreeV: {
       type: 'number',
       label: 'Degree V',
       default: 3,
       min: 1,
-      max: 10
+      max: 10,
     },
     smoothness: {
       type: 'number',
       label: 'Smoothness',
       default: 0.5,
       min: 0,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -77,12 +81,12 @@ export const SurfaceNURBSSurfaceFromPointsNode: NodeDefinition<SurfaceFromPoints
         vCount: inputs.vCount,
         degreeU: params.degreeU,
         degreeV: params.degreeV,
-        smoothness: params.smoothness
-      }
+        smoothness: params.smoothness,
+      },
     });
-    
+
     return {
-      surface: result
+      surface: result,
     };
   },
 };

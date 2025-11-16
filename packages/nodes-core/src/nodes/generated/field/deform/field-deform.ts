@@ -13,7 +13,11 @@ interface FieldDeformOutputs {
   deformed: unknown;
 }
 
-export const FieldDeformFieldDeformNode: NodeDefinition<FieldDeformInputs, FieldDeformOutputs, FieldDeformParams> = {
+export const FieldDeformFieldDeformNode: NodeDefinition<
+  FieldDeformInputs,
+  FieldDeformOutputs,
+  FieldDeformParams
+> = {
   id: 'Field::FieldDeform',
   type: 'Field::FieldDeform',
   category: 'Field',
@@ -23,19 +27,19 @@ export const FieldDeformFieldDeformNode: NodeDefinition<FieldDeformInputs, Field
     geometry: {
       type: 'Shape',
       label: 'Geometry',
-      required: true
+      required: true,
     },
     field: {
       type: 'VectorField',
       label: 'Field',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     deformed: {
       type: 'Shape',
-      label: 'Deformed'
-    }
+      label: 'Deformed',
+    },
   },
   params: {
     strength: {
@@ -43,8 +47,8 @@ export const FieldDeformFieldDeformNode: NodeDefinition<FieldDeformInputs, Field
       label: 'Strength',
       default: 10,
       min: -100,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -52,12 +56,12 @@ export const FieldDeformFieldDeformNode: NodeDefinition<FieldDeformInputs, Field
       params: {
         geometry: inputs.geometry,
         field: inputs.field,
-        strength: params.strength
-      }
+        strength: params.strength,
+      },
     });
-    
+
     return {
-      deformed: result
+      deformed: result,
     };
   },
 };

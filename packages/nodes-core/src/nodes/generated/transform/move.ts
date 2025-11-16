@@ -25,14 +25,14 @@ export const TransformMoveNode: NodeDefinition<MoveInputs, MoveOutputs, MovePara
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     moved: {
       type: 'Shape',
-      label: 'Moved'
-    }
+      label: 'Moved',
+    },
   },
   params: {
     x: {
@@ -40,27 +40,27 @@ export const TransformMoveNode: NodeDefinition<MoveInputs, MoveOutputs, MovePara
       label: 'X',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     y: {
       type: 'number',
       label: 'Y',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     z: {
       type: 'number',
       label: 'Z',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     copy: {
       type: 'boolean',
       label: 'Copy',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -70,12 +70,12 @@ export const TransformMoveNode: NodeDefinition<MoveInputs, MoveOutputs, MovePara
         x: params.x,
         y: params.y,
         z: params.z,
-        copy: params.copy
-      }
+        copy: params.copy,
+      },
     });
-    
+
     return {
-      moved: result
+      moved: result,
     };
   },
 };

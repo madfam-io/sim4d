@@ -13,7 +13,11 @@ interface FieldRotateOutputs {
   rotated: unknown;
 }
 
-export const FieldDeformFieldRotateNode: NodeDefinition<FieldRotateInputs, FieldRotateOutputs, FieldRotateParams> = {
+export const FieldDeformFieldRotateNode: NodeDefinition<
+  FieldRotateInputs,
+  FieldRotateOutputs,
+  FieldRotateParams
+> = {
   id: 'Field::FieldRotate',
   type: 'Field::FieldRotate',
   category: 'Field',
@@ -23,19 +27,19 @@ export const FieldDeformFieldRotateNode: NodeDefinition<FieldRotateInputs, Field
     geometry: {
       type: 'Shape[]',
       label: 'Geometry',
-      required: true
+      required: true,
     },
     field: {
       type: 'VectorField',
       label: 'Field',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     rotated: {
       type: 'Shape[]',
-      label: 'Rotated'
-    }
+      label: 'Rotated',
+    },
   },
   params: {
     maxAngle: {
@@ -43,8 +47,8 @@ export const FieldDeformFieldRotateNode: NodeDefinition<FieldRotateInputs, Field
       label: 'Max Angle',
       default: 180,
       min: -360,
-      max: 360
-    }
+      max: 360,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -52,12 +56,12 @@ export const FieldDeformFieldRotateNode: NodeDefinition<FieldRotateInputs, Field
       params: {
         geometry: inputs.geometry,
         field: inputs.field,
-        maxAngle: params.maxAngle
-      }
+        maxAngle: params.maxAngle,
+      },
     });
-    
+
     return {
-      rotated: result
+      rotated: result,
     };
   },
 };

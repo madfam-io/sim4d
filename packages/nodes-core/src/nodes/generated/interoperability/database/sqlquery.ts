@@ -16,7 +16,11 @@ interface SQLQueryOutputs {
   columns: unknown;
 }
 
-export const InteroperabilityDatabaseSQLQueryNode: NodeDefinition<SQLQueryInputs, SQLQueryOutputs, SQLQueryParams> = {
+export const InteroperabilityDatabaseSQLQueryNode: NodeDefinition<
+  SQLQueryInputs,
+  SQLQueryOutputs,
+  SQLQueryParams
+> = {
   id: 'Interoperability::SQLQuery',
   type: 'Interoperability::SQLQuery',
   category: 'Interoperability',
@@ -26,41 +30,41 @@ export const InteroperabilityDatabaseSQLQueryNode: NodeDefinition<SQLQueryInputs
     parameters: {
       type: 'Properties',
       label: 'Parameters',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     data: {
       type: 'Properties[]',
-      label: 'Data'
+      label: 'Data',
     },
     rowCount: {
       type: 'number',
-      label: 'Row Count'
+      label: 'Row Count',
     },
     columns: {
       type: 'string[]',
-      label: 'Columns'
-    }
+      label: 'Columns',
+    },
   },
   params: {
     connectionString: {
       type: 'string',
       label: 'Connection String',
-      default: ""
+      default: '',
     },
     query: {
       type: 'string',
       label: 'Query',
-      default: "SELECT * FROM table"
+      default: 'SELECT * FROM table',
     },
     timeout: {
       type: 'number',
       label: 'Timeout',
       default: 30,
       min: 1,
-      max: 300
-    }
+      max: 300,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -69,14 +73,14 @@ export const InteroperabilityDatabaseSQLQueryNode: NodeDefinition<SQLQueryInputs
         parameters: inputs.parameters,
         connectionString: params.connectionString,
         query: params.query,
-        timeout: params.timeout
-      }
+        timeout: params.timeout,
+      },
     });
-    
+
     return {
       data: results.data,
       rowCount: results.rowCount,
-      columns: results.columns
+      columns: results.columns,
     };
   },
 };

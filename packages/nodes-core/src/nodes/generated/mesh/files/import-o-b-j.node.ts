@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -21,42 +20,39 @@ export const ImportOBJNode: NodeDefinition<ImportOBJInputs, ImportOBJOutputs, Im
   metadata: {
     label: 'ImportOBJ',
     description: 'Import OBJ mesh',
-    
-    
   },
 
   params: {
-        importMaterials: {
-      "default": true
+    importMaterials: {
+      default: true,
     },
     importTextures: {
-      "default": false
-    }
+      default: false,
+    },
   },
 
   inputs: {
-        fileData: 'Data'
+    fileData: 'Data',
   },
 
   outputs: {
-        mesh: 'Mesh',
-    materials: 'Data'
+    mesh: 'Mesh',
+    materials: 'Data',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'importOBJ',
       params: {
         fileData: inputs.fileData,
         importMaterials: params.importMaterials,
-        importTextures: params.importTextures
-      }
+        importTextures: params.importTextures,
+      },
     });
 
     return {
       mesh: result,
-      materials: result
+      materials: result,
     };
-  }
+  },
 };

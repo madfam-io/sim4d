@@ -14,7 +14,11 @@ interface TiltUpPanelOutputs {
   liftingPoints: Array<[number, number, number]>;
 }
 
-export const ArchitectureWallsTiltUpPanelNode: NodeDefinition<TiltUpPanelInputs, TiltUpPanelOutputs, TiltUpPanelParams> = {
+export const ArchitectureWallsTiltUpPanelNode: NodeDefinition<
+  TiltUpPanelInputs,
+  TiltUpPanelOutputs,
+  TiltUpPanelParams
+> = {
   id: 'Architecture::TiltUpPanel',
   type: 'Architecture::TiltUpPanel',
   category: 'Architecture',
@@ -24,18 +28,18 @@ export const ArchitectureWallsTiltUpPanelNode: NodeDefinition<TiltUpPanelInputs,
     panelOutline: {
       type: 'Wire',
       label: 'Panel Outline',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     panel: {
       type: 'Shape',
-      label: 'Panel'
+      label: 'Panel',
     },
     liftingPoints: {
       type: 'Point[]',
-      label: 'Lifting Points'
-    }
+      label: 'Lifting Points',
+    },
   },
   params: {
     panelThickness: {
@@ -43,13 +47,13 @@ export const ArchitectureWallsTiltUpPanelNode: NodeDefinition<TiltUpPanelInputs,
       label: 'Panel Thickness',
       default: 200,
       min: 150,
-      max: 400
+      max: 400,
     },
     reinforcement: {
       type: 'boolean',
       label: 'Reinforcement',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -57,13 +61,13 @@ export const ArchitectureWallsTiltUpPanelNode: NodeDefinition<TiltUpPanelInputs,
       params: {
         panelOutline: inputs.panelOutline,
         panelThickness: params.panelThickness,
-        reinforcement: params.reinforcement
-      }
+        reinforcement: params.reinforcement,
+      },
     });
-    
+
     return {
       panel: results.panel,
-      liftingPoints: results.liftingPoints
+      liftingPoints: results.liftingPoints,
     };
   },
 };

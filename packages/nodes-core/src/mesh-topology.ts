@@ -54,7 +54,12 @@ export const MeshHealingNode: NodeDefinition<
 export const TopologyOptimizationNode: NodeDefinition<
   { shape: ShapeHandle },
   { optimizedShape: ShapeHandle },
-  { objectiveFunction: string; constraints: any[]; targetReduction: number; preserveFeatures: boolean }
+  {
+    objectiveFunction: string;
+    constraints: any[];
+    targetReduction: number;
+    preserveFeatures: boolean;
+  }
 > = {
   id: 'MeshTopology::TopologyOptimization',
   category: 'Mesh & Topology',
@@ -106,7 +111,12 @@ export const TopologyOptimizationNode: NodeDefinition<
 export const MeshQualityAnalysisNode: NodeDefinition<
   { mesh: any },
   { qualityMetrics: any },
-  { checkAspectRatio: boolean; checkSkewness: boolean; checkVolume: boolean; generateReport: boolean }
+  {
+    checkAspectRatio: boolean;
+    checkSkewness: boolean;
+    checkVolume: boolean;
+    generateReport: boolean;
+  }
 > = {
   id: 'MeshTopology::MeshQualityAnalysis',
   category: 'Mesh & Topology',
@@ -201,7 +211,12 @@ export const NonManifoldRepairNode: NodeDefinition<
 export const MeshRefinementNode: NodeDefinition<
   { mesh: any },
   { refinedMesh: any },
-  { refinementMethod: string; targetSize: number; adaptiveRefinement: boolean; preserveBoundaries: boolean }
+  {
+    refinementMethod: string;
+    targetSize: number;
+    adaptiveRefinement: boolean;
+    preserveBoundaries: boolean;
+  }
 > = {
   id: 'MeshTopology::MeshRefinement',
   category: 'Mesh & Topology',
@@ -253,7 +268,12 @@ export const MeshRefinementNode: NodeDefinition<
 export const MeshSmoothingNode: NodeDefinition<
   { mesh: any },
   { smoothedMesh: any },
-  { smoothingMethod: string; iterations: number; relaxationFactor: number; preserveFeatures: boolean }
+  {
+    smoothingMethod: string;
+    iterations: number;
+    relaxationFactor: number;
+    preserveFeatures: boolean;
+  }
 > = {
   id: 'MeshTopology::MeshSmoothing',
   category: 'Mesh & Topology',

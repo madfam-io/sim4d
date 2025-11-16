@@ -10,7 +10,11 @@ interface BezierCurveOutputs {
   curve: unknown;
 }
 
-export const SketchCurvesBezierCurveNode: NodeDefinition<BezierCurveInputs, BezierCurveOutputs, BezierCurveParams> = {
+export const SketchCurvesBezierCurveNode: NodeDefinition<
+  BezierCurveInputs,
+  BezierCurveOutputs,
+  BezierCurveParams
+> = {
   id: 'Sketch::BezierCurve',
   category: 'Sketch',
   label: 'BezierCurve',
@@ -19,26 +23,26 @@ export const SketchCurvesBezierCurveNode: NodeDefinition<BezierCurveInputs, Bezi
     controlPoints: {
       type: 'Point[]',
       label: 'Control Points',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     curve: {
       type: 'Wire',
-      label: 'Curve'
-    }
+      label: 'Curve',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'makeBezier',
       params: {
-        controlPoints: inputs.controlPoints
-      }
+        controlPoints: inputs.controlPoints,
+      },
     });
-    
+
     return {
-      curve: result
+      curve: result,
     };
   },
 };

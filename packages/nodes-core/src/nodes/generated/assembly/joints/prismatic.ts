@@ -15,7 +15,11 @@ interface PrismaticOutputs {
   joint: unknown;
 }
 
-export const AssemblyJointsPrismaticNode: NodeDefinition<PrismaticInputs, PrismaticOutputs, PrismaticParams> = {
+export const AssemblyJointsPrismaticNode: NodeDefinition<
+  PrismaticInputs,
+  PrismaticOutputs,
+  PrismaticParams
+> = {
   id: 'Assembly::Prismatic',
   type: 'Assembly::Prismatic',
   category: 'Assembly',
@@ -25,24 +29,24 @@ export const AssemblyJointsPrismaticNode: NodeDefinition<PrismaticInputs, Prisma
     part1: {
       type: 'Shape',
       label: 'Part1',
-      required: true
+      required: true,
     },
     part2: {
       type: 'Shape',
       label: 'Part2',
-      required: true
+      required: true,
     },
     direction: {
       type: 'Vector',
       label: 'Direction',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     joint: {
       type: 'Joint',
-      label: 'Joint'
-    }
+      label: 'Joint',
+    },
   },
   params: {
     minDistance: {
@@ -50,15 +54,15 @@ export const AssemblyJointsPrismaticNode: NodeDefinition<PrismaticInputs, Prisma
       label: 'Min Distance',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     maxDistance: {
       type: 'number',
       label: 'Max Distance',
       default: 100,
       min: -10000,
-      max: 10000
-    }
+      max: 10000,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -68,12 +72,12 @@ export const AssemblyJointsPrismaticNode: NodeDefinition<PrismaticInputs, Prisma
         part2: inputs.part2,
         direction: inputs.direction,
         minDistance: params.minDistance,
-        maxDistance: params.maxDistance
-      }
+        maxDistance: params.maxDistance,
+      },
     });
-    
+
     return {
-      joint: result
+      joint: result,
     };
   },
 };

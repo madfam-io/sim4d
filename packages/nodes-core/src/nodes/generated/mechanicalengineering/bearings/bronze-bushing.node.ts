@@ -17,7 +17,11 @@ interface BronzeBushingOutputs {
   grooves: unknown;
 }
 
-export const MechanicalEngineeringBearingsBronzeBushingNode: NodeDefinition<BronzeBushingInputs, BronzeBushingOutputs, BronzeBushingParams> = {
+export const MechanicalEngineeringBearingsBronzeBushingNode: NodeDefinition<
+  BronzeBushingInputs,
+  BronzeBushingOutputs,
+  BronzeBushingParams
+> = {
   id: 'MechanicalEngineering::BronzeBushing',
   category: 'MechanicalEngineering',
   label: 'BronzeBushing',
@@ -26,18 +30,18 @@ export const MechanicalEngineeringBearingsBronzeBushingNode: NodeDefinition<Bron
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     bushing: {
       type: 'Shape',
-      label: 'Bushing'
+      label: 'Bushing',
     },
     grooves: {
       type: 'Wire[]',
-      label: 'Grooves'
-    }
+      label: 'Grooves',
+    },
   },
   params: {
     innerDiameter: {
@@ -45,32 +49,32 @@ export const MechanicalEngineeringBearingsBronzeBushingNode: NodeDefinition<Bron
       label: 'Inner Diameter',
       default: 10,
       min: 3,
-      max: 100
+      max: 100,
     },
     outerDiameter: {
       type: 'number',
       label: 'Outer Diameter',
       default: 14,
       min: 5,
-      max: 120
+      max: 120,
     },
     length: {
       type: 'number',
       label: 'Length',
       default: 15,
       min: 5,
-      max: 100
+      max: 100,
     },
     oilGrooves: {
       type: 'boolean',
       label: 'Oil Grooves',
-      default: true
+      default: true,
     },
     flanged: {
       type: 'boolean',
       label: 'Flanged',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -81,13 +85,13 @@ export const MechanicalEngineeringBearingsBronzeBushingNode: NodeDefinition<Bron
         outerDiameter: params.outerDiameter,
         length: params.length,
         oilGrooves: params.oilGrooves,
-        flanged: params.flanged
-      }
+        flanged: params.flanged,
+      },
     });
-    
+
     return {
       bushing: results.bushing,
-      grooves: results.grooves
+      grooves: results.grooves,
     };
   },
 };

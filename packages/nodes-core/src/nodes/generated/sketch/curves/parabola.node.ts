@@ -14,7 +14,11 @@ interface ParabolaOutputs {
   curve: unknown;
 }
 
-export const SketchCurvesParabolaNode: NodeDefinition<ParabolaInputs, ParabolaOutputs, ParabolaParams> = {
+export const SketchCurvesParabolaNode: NodeDefinition<
+  ParabolaInputs,
+  ParabolaOutputs,
+  ParabolaParams
+> = {
   id: 'Sketch::Parabola',
   category: 'Sketch',
   label: 'Parabola',
@@ -23,14 +27,14 @@ export const SketchCurvesParabolaNode: NodeDefinition<ParabolaInputs, ParabolaOu
     vertex: {
       type: 'Point',
       label: 'Vertex',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     curve: {
       type: 'Wire',
-      label: 'Curve'
-    }
+      label: 'Curve',
+    },
   },
   params: {
     focalLength: {
@@ -38,22 +42,22 @@ export const SketchCurvesParabolaNode: NodeDefinition<ParabolaInputs, ParabolaOu
       label: 'Focal Length',
       default: 10,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     startParam: {
       type: 'number',
       label: 'Start Param',
       default: -100,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     endParam: {
       type: 'number',
       label: 'End Param',
       default: 100,
       min: -10000,
-      max: 10000
-    }
+      max: 10000,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -62,12 +66,12 @@ export const SketchCurvesParabolaNode: NodeDefinition<ParabolaInputs, ParabolaOu
         vertex: inputs.vertex,
         focalLength: params.focalLength,
         startParam: params.startParam,
-        endParam: params.endParam
-      }
+        endParam: params.endParam,
+      },
     });
-    
+
     return {
-      curve: result
+      curve: result,
     };
   },
 };

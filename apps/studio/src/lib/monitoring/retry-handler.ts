@@ -46,12 +46,12 @@ export class RetryHandler {
       attempt: 0,
       maxAttempts: config.maxAttempts,
       operation: operationName,
-      startTime
+      startTime,
     };
 
     this.logger.debug('Starting retry operation', {
       operation: operationName,
-      config
+      config,
     });
 
     for (let attempt = 1; attempt <= config.maxAttempts; attempt++) {
@@ -62,7 +62,7 @@ export class RetryHandler {
         this.logger.debug('Executing operation attempt', {
           operation: operationName,
           attempt,
-          maxAttempts: config.maxAttempts
+          maxAttempts: config.maxAttempts,
         });
 
         const result = await operation();
@@ -73,26 +73,25 @@ export class RetryHandler {
         this.logger.info('Operation succeeded', {
           operation: operationName,
           attempt,
-          totalTime
+          totalTime,
         });
 
         this.metrics.incrementCounter('retry_operations_succeeded', {
           operation: operationName,
-          attempt: attempt.toString()
+          attempt: attempt.toString(),
         });
 
         this.metrics.recordTiming('retry_operation_duration_ms', totalTime, {
           operation: operationName,
-          status: 'success'
+          status: 'success',
         });
 
         return {
           success: true,
           result,
           attempts: attempt,
-          totalTime
+          totalTime,
         };
-
       } catch (error) {
         lastError = error instanceof Error ? error : new Error(String(error));
 
@@ -100,19 +99,19 @@ export class RetryHandler {
           operation: operationName,
           attempt,
           error: lastError.message,
-          stack: lastError.stack
+          stack: lastError.stack,
         });
 
         // Check if error is retryable
         if (!this.isRetryableError(lastError, config)) {
           this.logger.error('Non-retryable error encountered', {
             operation: operationName,
-            error: lastError.message
+            error: lastError.message,
           });
 
           this.metrics.incrementCounter('retry_operations_failed', {
             operation: operationName,
-            reason: 'non_retryable'
+            reason: 'non_retryable',
           });
 
           const totalTime = Date.now() - startTime;
@@ -120,7 +119,7 @@ export class RetryHandler {
             success: false,
             error: lastError,
             attempts: attempt,
-            totalTime
+            totalTime,
           };
         }
 
@@ -132,24 +131,24 @@ export class RetryHandler {
             operation: operationName,
             attempts: config.maxAttempts,
             totalTime,
-            finalError: lastError.message
+            finalError: lastError.message,
           });
 
           this.metrics.incrementCounter('retry_operations_failed', {
             operation: operationName,
-            reason: 'max_attempts'
+            reason: 'max_attempts',
           });
 
           this.metrics.recordTiming('retry_operation_duration_ms', totalTime, {
             operation: operationName,
-            status: 'failed'
+            status: 'failed',
           });
 
           return {
             success: false,
             error: lastError,
             attempts: attempt,
-            totalTime
+            totalTime,
           };
         }
 
@@ -160,12 +159,12 @@ export class RetryHandler {
           operation: operationName,
           attempt,
           delay,
-          nextAttempt: attempt + 1
+          nextAttempt: attempt + 1,
         });
 
         this.metrics.incrementCounter('retry_operations_retried', {
           operation: operationName,
-          attempt: attempt.toString()
+          attempt: attempt.toString(),
         });
 
         // Wait before retrying
@@ -179,7 +178,7 @@ export class RetryHandler {
       success: false,
       error: lastError || new Error('Unknown error'),
       attempts: config.maxAttempts,
-      totalTime
+      totalTime,
     };
   }
 
@@ -204,8 +203,8 @@ export class RetryHandler {
       retryableErrors: options.retryableErrors || [
         ErrorCode.NETWORK_TIMEOUT,
         ErrorCode.API_REQUEST_FAILED,
-        ErrorCode.CONNECTION_LOST
-      ]
+        ErrorCode.CONNECTION_LOST,
+      ],
     };
 
     return this.executeWithRetry(
@@ -235,8 +234,8 @@ export class RetryHandler {
       retryableErrors: options.retryableErrors || [
         ErrorCode.NETWORK_TIMEOUT,
         ErrorCode.API_REQUEST_FAILED,
-        ErrorCode.CONNECTION_LOST
-      ]
+        ErrorCode.CONNECTION_LOST,
+      ],
     };
 
     return this.executeWithRetry(
@@ -263,8 +262,8 @@ export class RetryHandler {
         ErrorCode.NETWORK_TIMEOUT,
         ErrorCode.API_REQUEST_FAILED,
         ErrorCode.GEOMETRY_COMPUTATION_FAILED,
-        ErrorCode.WASM_EXECUTION_ERROR
-      ]
+        ErrorCode.WASM_EXECUTION_ERROR,
+      ],
     };
 
     return this.executeWithRetry(operation, config, operationName);
@@ -282,10 +281,7 @@ export class RetryHandler {
       backoffStrategy: 'linear',
       baseDelay: 500,
       maxDelay: 500,
-      retryableErrors: [
-        ErrorCode.WASM_EXECUTION_ERROR,
-        ErrorCode.GEOMETRY_COMPUTATION_FAILED
-      ]
+      retryableErrors: [ErrorCode.WASM_EXECUTION_ERROR, ErrorCode.GEOMETRY_COMPUTATION_FAILED],
     };
 
     return this.executeWithRetry(operation, config, operationName);
@@ -306,8 +302,8 @@ export class RetryHandler {
       retryableErrors: [
         ErrorCode.NETWORK_TIMEOUT,
         ErrorCode.API_REQUEST_FAILED,
-        ErrorCode.CONNECTION_LOST
-      ]
+        ErrorCode.CONNECTION_LOST,
+      ],
     };
 
     return this.executeWithRetry(operation, config, operationName);
@@ -322,27 +318,35 @@ export class RetryHandler {
     const errorStack = error.stack?.toLowerCase() || '';
 
     // Network-related errors
-    if (errorMessage.includes('network') ||
-        errorMessage.includes('timeout') ||
-        errorMessage.includes('fetch') ||
-        errorMessage.includes('connection') ||
-        errorMessage.includes('cors')) {
-      return config.retryableErrors.includes(ErrorCode.NETWORK_TIMEOUT) ||
-             config.retryableErrors.includes(ErrorCode.API_REQUEST_FAILED) ||
-             config.retryableErrors.includes(ErrorCode.CONNECTION_LOST);
+    if (
+      errorMessage.includes('network') ||
+      errorMessage.includes('timeout') ||
+      errorMessage.includes('fetch') ||
+      errorMessage.includes('connection') ||
+      errorMessage.includes('cors')
+    ) {
+      return (
+        config.retryableErrors.includes(ErrorCode.NETWORK_TIMEOUT) ||
+        config.retryableErrors.includes(ErrorCode.API_REQUEST_FAILED) ||
+        config.retryableErrors.includes(ErrorCode.CONNECTION_LOST)
+      );
     }
 
     // WASM-related errors
-    if (errorMessage.includes('wasm') ||
-        errorMessage.includes('webassembly') ||
-        errorStack.includes('wasm')) {
+    if (
+      errorMessage.includes('wasm') ||
+      errorMessage.includes('webassembly') ||
+      errorStack.includes('wasm')
+    ) {
       return config.retryableErrors.includes(ErrorCode.WASM_EXECUTION_ERROR);
     }
 
     // Geometry computation errors
-    if (errorMessage.includes('geometry') ||
-        errorMessage.includes('computation') ||
-        errorMessage.includes('opencascade')) {
+    if (
+      errorMessage.includes('geometry') ||
+      errorMessage.includes('computation') ||
+      errorMessage.includes('opencascade')
+    ) {
       return config.retryableErrors.includes(ErrorCode.GEOMETRY_COMPUTATION_FAILED);
     }
 
@@ -374,7 +378,7 @@ export class RetryHandler {
    * Sleep for specified milliseconds
    */
   private delay(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   /**
@@ -419,7 +423,7 @@ export class RetryHandler {
       successRate: total > 0 ? (succeeded / total) * 100 : 0,
       averageAttempts: 0, // Would need to track this separately
       averageDuration: durationStats.avg,
-      totalOperations: total
+      totalOperations: total,
     };
   }
 }

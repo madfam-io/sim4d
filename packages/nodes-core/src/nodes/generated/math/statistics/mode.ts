@@ -20,26 +20,26 @@ export const MathStatisticsModeNode: NodeDefinition<ModeInputs, ModeOutputs, Mod
     values: {
       type: 'number[]',
       label: 'Values',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     mode: {
       type: 'number[]',
-      label: 'Mode'
-    }
+      label: 'Mode',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathMode',
       params: {
-        values: inputs.values
-      }
+        values: inputs.values,
+      },
     });
-    
+
     return {
-      mode: result
+      mode: result,
     };
   },
 };

@@ -59,47 +59,51 @@ export function BrowserWASMTestSuite() {
 
   const log = (message: string) => {
     const timestamp = new Date().toLocaleTimeString();
-    setConsoleOutput(prev => [...prev, `[${timestamp}] ${message}`]);
+    setConsoleOutput((prev) => [...prev, `[${timestamp}] ${message}`]);
   };
 
   const updateTest = (suiteName: string, testName: string, update: Partial<TestResult>) => {
-    setSuites(prev => prev.map(suite => {
-      if (suite.name === suiteName) {
-        return {
-          ...suite,
-          tests: suite.tests.map(test => {
-            if (test.name === testName) {
-              return { ...test, ...update };
-            }
-            return test;
-          }),
-        };
-      }
-      return suite;
-    }));
+    setSuites((prev) =>
+      prev.map((suite) => {
+        if (suite.name === suiteName) {
+          return {
+            ...suite,
+            tests: suite.tests.map((test) => {
+              if (test.name === testName) {
+                return { ...test, ...update };
+              }
+              return test;
+            }),
+          };
+        }
+        return suite;
+      })
+    );
   };
 
   const runEnvironmentTests = async () => {
     const suiteName = '🌐 Environment & Capabilities';
-    
+
     // Browser Capabilities
     const testName = 'Browser Capabilities Detection';
     updateTest(suiteName, testName, { status: 'running' });
     const start = performance.now();
-    
+
     const caps = {
       webAssembly: typeof WebAssembly !== 'undefined',
       sharedArrayBuffer: typeof SharedArrayBuffer !== 'undefined',
       webGL: !!document.createElement('canvas').getContext('webgl'),
       webGL2: !!document.createElement('canvas').getContext('webgl2'),
-      simd: (WebAssembly as any).validate?.(new Uint8Array([0x00, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00])),
+      simd: (WebAssembly as any).validate?.(
+        new Uint8Array([0x00, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00])
+      ),
     };
-    
+
     log(`Capabilities: ${JSON.stringify(caps)}`);
-    updateTest(suiteName, testName, { 
-      status: 'passed', 
+    updateTest(suiteName, testName, {
+      status: 'passed',
       duration: performance.now() - start,
-      details: caps 
+      details: caps,
     });
 
     // WebAssembly Support
@@ -107,16 +111,18 @@ export function BrowserWASMTestSuite() {
     const wasmStart = performance.now();
     if (caps.webAssembly) {
       try {
-        const module = await WebAssembly.compile(new Uint8Array([0x00, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00]));
+        const module = await WebAssembly.compile(
+          new Uint8Array([0x00, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00])
+        );
         log('WebAssembly module creation successful');
-        updateTest(suiteName, 'WebAssembly Support', { 
-          status: 'passed', 
-          duration: performance.now() - wasmStart 
+        updateTest(suiteName, 'WebAssembly Support', {
+          status: 'passed',
+          duration: performance.now() - wasmStart,
         });
       } catch (e) {
-        updateTest(suiteName, 'WebAssembly Support', { 
-          status: 'failed', 
-          error: String(e) 
+        updateTest(suiteName, 'WebAssembly Support', {
+          status: 'failed',
+          error: String(e),
         });
       }
     }
@@ -131,20 +137,20 @@ export function BrowserWASMTestSuite() {
       const val = Atomics.load(arr, 0);
       if (val === 42) {
         log('SharedArrayBuffer and Atomics working correctly');
-        updateTest(suiteName, 'SharedArrayBuffer Support', { 
-          status: 'passed', 
-          duration: performance.now() - sabStart 
+        updateTest(suiteName, 'SharedArrayBuffer Support', {
+          status: 'passed',
+          duration: performance.now() - sabStart,
         });
       } else {
-        updateTest(suiteName, 'SharedArrayBuffer Support', { 
-          status: 'failed', 
-          error: 'Atomics not working correctly' 
+        updateTest(suiteName, 'SharedArrayBuffer Support', {
+          status: 'failed',
+          error: 'Atomics not working correctly',
         });
       }
     } else {
-      updateTest(suiteName, 'SharedArrayBuffer Support', { 
-        status: 'failed', 
-        error: 'SharedArrayBuffer not available' 
+      updateTest(suiteName, 'SharedArrayBuffer Support', {
+        status: 'failed',
+        error: 'SharedArrayBuffer not available',
       });
     }
 
@@ -156,19 +162,18 @@ export function BrowserWASMTestSuite() {
     if (gl) {
       const renderer = gl.getParameter(gl.RENDERER);
       log(`WebGL: ${renderer}`);
-      updateTest(suiteName, 'WebGL/WebGL2 Support', { 
-        status: 'passed', 
+      updateTest(suiteName, 'WebGL/WebGL2 Support', {
+        status: 'passed',
         duration: performance.now() - glStart,
-        details: { renderer } 
+        details: { renderer },
       });
     } else {
-      updateTest(suiteName, 'WebGL/WebGL2 Support', { 
-        status: 'failed', 
-        error: 'WebGL not supported' 
+      updateTest(suiteName, 'WebGL/WebGL2 Support', {
+        status: 'failed',
+        error: 'WebGL not supported',
       });
     }
   };
-
 
   const runAllTests = async () => {
     setIsRunning(true);
@@ -179,20 +184,26 @@ export function BrowserWASMTestSuite() {
     await runEnvironmentTests();
 
     // Mark remaining tests as skipped for now
-    ['⚙️ OCCT WASM Integration', '🚀 Performance & Memory', '🛡️ Error Recovery & Resilience'].forEach(suiteName => {
-      setSuites(prev => prev.map(suite => {
-        if (suite.name === suiteName) {
-          return {
-            ...suite,
-            tests: suite.tests.map(test => ({
-              ...test,
-              status: 'passed' as const,
-              details: { note: 'Placeholder - Real WASM tests pending' }
-            }))
-          };
-        }
-        return suite;
-      }));
+    [
+      '⚙️ OCCT WASM Integration',
+      '🚀 Performance & Memory',
+      '🛡️ Error Recovery & Resilience',
+    ].forEach((suiteName) => {
+      setSuites((prev) =>
+        prev.map((suite) => {
+          if (suite.name === suiteName) {
+            return {
+              ...suite,
+              tests: suite.tests.map((test) => ({
+                ...test,
+                status: 'passed' as const,
+                details: { note: 'Placeholder - Real WASM tests pending' },
+              })),
+            };
+          }
+          return suite;
+        })
+      );
     });
 
     log('Test suite completed!');
@@ -201,13 +212,13 @@ export function BrowserWASMTestSuite() {
 
   // Calculate stats
   const stats = React.useMemo(() => {
-    const allTests = suites.flatMap(s => s.tests);
+    const allTests = suites.flatMap((s) => s.tests);
     return {
       total: allTests.length,
-      passed: allTests.filter(t => t.status === 'passed').length,
-      failed: allTests.filter(t => t.status === 'failed').length,
-      pending: allTests.filter(t => t.status === 'pending').length,
-      running: allTests.filter(t => t.status === 'running').length,
+      passed: allTests.filter((t) => t.status === 'passed').length,
+      failed: allTests.filter((t) => t.status === 'failed').length,
+      pending: allTests.filter((t) => t.status === 'pending').length,
+      running: allTests.filter((t) => t.status === 'running').length,
     };
   }, [suites]);
 
@@ -215,75 +226,92 @@ export function BrowserWASMTestSuite() {
     <div style={{ padding: '20px', background: '#0a0a0a', color: '#e0e0e0', minHeight: '100vh' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <h1 style={{ color: '#4CAF50' }}>🔧 BrepFlow WASM Integration Test Suite</h1>
-        
+
         <div style={{ display: 'flex', gap: '20px', margin: '20px 0' }}>
           <div>Total: {stats.total}</div>
           <div>✅ Passed: {stats.passed}</div>
           <div>❌ Failed: {stats.failed}</div>
           <div>⏳ Pending: {stats.pending}</div>
         </div>
-        
+
         <div style={{ margin: '20px 0' }}>
-          <button 
-            onClick={runAllTests} 
+          <button
+            onClick={runAllTests}
             disabled={isRunning}
-            style={{ 
-              padding: '10px 20px', 
+            style={{
+              padding: '10px 20px',
               background: isRunning ? '#666' : '#4CAF50',
               color: 'white',
               border: 'none',
               borderRadius: '5px',
-              cursor: isRunning ? 'not-allowed' : 'pointer'
+              cursor: isRunning ? 'not-allowed' : 'pointer',
             }}
           >
             {isRunning ? '🔄 Running...' : '▶️ Run All Tests'}
           </button>
         </div>
 
-        {suites.map(suite => (
-          <div key={suite.name} style={{ 
-            background: '#1a1a1a', 
-            border: '1px solid #333', 
-            borderRadius: '8px', 
-            padding: '20px',
-            margin: '20px 0' 
-          }}>
+        {suites.map((suite) => (
+          <div
+            key={suite.name}
+            style={{
+              background: '#1a1a1a',
+              border: '1px solid #333',
+              borderRadius: '8px',
+              padding: '20px',
+              margin: '20px 0',
+            }}
+          >
             <h2 style={{ color: '#2196F3', marginBottom: '15px' }}>{suite.name}</h2>
-            {suite.tests.map(test => (
-              <div key={test.name} style={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                padding: '8px',
-                background: '#2a2a2a',
-                borderRadius: '3px',
-                margin: '5px 0'
-              }}>
-                <span style={{ 
-                  width: '20px', 
-                  height: '20px', 
-                  borderRadius: '50%',
-                  marginRight: '10px',
-                  background: test.status === 'passed' ? '#4CAF50' : 
-                              test.status === 'failed' ? '#f44336' :
-                              test.status === 'running' ? '#FFC107' : '#666'
-                }} />
+            {suite.tests.map((test) => (
+              <div
+                key={test.name}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '8px',
+                  background: '#2a2a2a',
+                  borderRadius: '3px',
+                  margin: '5px 0',
+                }}
+              >
+                <span
+                  style={{
+                    width: '20px',
+                    height: '20px',
+                    borderRadius: '50%',
+                    marginRight: '10px',
+                    background:
+                      test.status === 'passed'
+                        ? '#4CAF50'
+                        : test.status === 'failed'
+                          ? '#f44336'
+                          : test.status === 'running'
+                            ? '#FFC107'
+                            : '#666',
+                  }}
+                />
                 <span style={{ flex: 1 }}>{test.name}</span>
                 {test.duration && <span>{test.duration.toFixed(2)}ms</span>}
-                {test.error && <span style={{ color: '#f44336', marginLeft: '10px' }}>{test.error}</span>}
+                {test.error && (
+                  <span style={{ color: '#f44336', marginLeft: '10px' }}>{test.error}</span>
+                )}
               </div>
             ))}
           </div>
         ))}
 
-        <div style={{ 
-          background: '#1a1a1a', 
-          border: '1px solid #333', 
-          borderRadius: '8px', 
-          padding: '20px',
-          margin: '20px 0',
-          maxHeight: '300px',
-          overflow: 'auto'
-        }}>
+        <div
+          style={{
+            background: '#1a1a1a',
+            border: '1px solid #333',
+            borderRadius: '8px',
+            padding: '20px',
+            margin: '20px 0',
+            maxHeight: '300px',
+            overflow: 'auto',
+          }}
+        >
           <h3>Console Output:</h3>
           <pre style={{ fontSize: '12px', whiteSpace: 'pre-wrap' }}>
             {consoleOutput.join('\n') || 'Test console ready...'}

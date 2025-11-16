@@ -14,7 +14,11 @@ interface FillHolesOutputs {
   holesCount: unknown;
 }
 
-export const MeshRepairFillHolesNode: NodeDefinition<FillHolesInputs, FillHolesOutputs, FillHolesParams> = {
+export const MeshRepairFillHolesNode: NodeDefinition<
+  FillHolesInputs,
+  FillHolesOutputs,
+  FillHolesParams
+> = {
   id: 'Mesh::FillHoles',
   category: 'Mesh',
   label: 'FillHoles',
@@ -23,18 +27,18 @@ export const MeshRepairFillHolesNode: NodeDefinition<FillHolesInputs, FillHolesO
     mesh: {
       type: 'Mesh',
       label: 'Mesh',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     filled: {
       type: 'Mesh',
-      label: 'Filled'
+      label: 'Filled',
     },
     holesCount: {
       type: 'number',
-      label: 'Holes Count'
-    }
+      label: 'Holes Count',
+    },
   },
   params: {
     maxHoleSize: {
@@ -42,14 +46,14 @@ export const MeshRepairFillHolesNode: NodeDefinition<FillHolesInputs, FillHolesO
       label: 'Max Hole Size',
       default: 100,
       min: 1,
-      max: 10000
+      max: 10000,
     },
     fillMethod: {
       type: 'enum',
       label: 'Fill Method',
-      default: "smooth",
-      options: ["flat","smooth","curvature"]
-    }
+      default: 'smooth',
+      options: ['flat', 'smooth', 'curvature'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -57,13 +61,13 @@ export const MeshRepairFillHolesNode: NodeDefinition<FillHolesInputs, FillHolesO
       params: {
         mesh: inputs.mesh,
         maxHoleSize: params.maxHoleSize,
-        fillMethod: params.fillMethod
-      }
+        fillMethod: params.fillMethod,
+      },
     });
-    
+
     return {
       filled: results.filled,
-      holesCount: results.holesCount
+      holesCount: results.holesCount,
     };
   },
 };

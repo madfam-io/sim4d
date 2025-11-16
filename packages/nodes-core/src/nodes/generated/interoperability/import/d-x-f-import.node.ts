@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -24,58 +23,49 @@ export const DXFImportNode: NodeDefinition<DXFImportInputs, DXFImportOutputs, DX
   metadata: {
     label: 'DXFImport',
     description: 'Import DXF 2D drawing files',
-    
-    
   },
 
   params: {
-        units: {
-      "default": "auto",
-      "options": [
-        "auto",
-        "mm",
-        "cm",
-        "m",
-        "inch"
-      ]
+    units: {
+      default: 'auto',
+      options: ['auto', 'mm', 'cm', 'm', 'inch'],
     },
     layers: {
-      "default": "all",
-      "description": "Comma-separated layer names"
+      default: 'all',
+      description: 'Comma-separated layer names',
     },
     explodeBlocks: {
-      "default": false
-    }
+      default: false,
+    },
   },
 
   inputs: {
-        filePath: 'string'
+    filePath: 'string',
   },
 
   outputs: {
-        curves: 'Wire[]',
+    curves: 'Wire[]',
     points: 'Point[]',
     texts: 'Properties[]',
-    layers: 'string[]'
+    layers: 'string[]',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'dxfImport',
       params: {
         filePath: inputs.filePath,
         units: params.units,
         layers: params.layers,
-        explodeBlocks: params.explodeBlocks
-      }
+        explodeBlocks: params.explodeBlocks,
+      },
     });
 
     return {
       curves: result,
       points: result,
       texts: result,
-      layers: result
+      layers: result,
     };
-  }
+  },
 };

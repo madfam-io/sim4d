@@ -12,7 +12,11 @@ interface AwningWindowOutputs {
   window: unknown;
 }
 
-export const ArchitectureWindowsAwningWindowNode: NodeDefinition<AwningWindowInputs, AwningWindowOutputs, AwningWindowParams> = {
+export const ArchitectureWindowsAwningWindowNode: NodeDefinition<
+  AwningWindowInputs,
+  AwningWindowOutputs,
+  AwningWindowParams
+> = {
   id: 'Architecture::AwningWindow',
   category: 'Architecture',
   label: 'AwningWindow',
@@ -21,14 +25,14 @@ export const ArchitectureWindowsAwningWindowNode: NodeDefinition<AwningWindowInp
     opening: {
       type: 'Wire',
       label: 'Opening',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     window: {
       type: 'Shape',
-      label: 'Window'
-    }
+      label: 'Window',
+    },
   },
   params: {
     opening: {
@@ -36,20 +40,20 @@ export const ArchitectureWindowsAwningWindowNode: NodeDefinition<AwningWindowInp
       label: 'Opening',
       default: 0,
       min: 0,
-      max: 45
-    }
+      max: 45,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'awningWindow',
       params: {
         opening: inputs.opening,
-        opening: params.opening
-      }
+        opening: params.opening,
+      },
     });
-    
+
     return {
-      window: result
+      window: result,
     };
   },
 };

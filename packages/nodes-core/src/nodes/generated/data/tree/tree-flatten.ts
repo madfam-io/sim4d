@@ -12,7 +12,11 @@ interface TreeFlattenOutputs {
   flattened: unknown;
 }
 
-export const DataTreeTreeFlattenNode: NodeDefinition<TreeFlattenInputs, TreeFlattenOutputs, TreeFlattenParams> = {
+export const DataTreeTreeFlattenNode: NodeDefinition<
+  TreeFlattenInputs,
+  TreeFlattenOutputs,
+  TreeFlattenParams
+> = {
   id: 'Data::TreeFlatten',
   type: 'Data::TreeFlatten',
   category: 'Data',
@@ -22,14 +26,14 @@ export const DataTreeTreeFlattenNode: NodeDefinition<TreeFlattenInputs, TreeFlat
     tree: {
       type: 'DataTree',
       label: 'Tree',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     flattened: {
       type: 'DataTree',
-      label: 'Flattened'
-    }
+      label: 'Flattened',
+    },
   },
   params: {
     depth: {
@@ -37,20 +41,20 @@ export const DataTreeTreeFlattenNode: NodeDefinition<TreeFlattenInputs, TreeFlat
       label: 'Depth',
       default: 1,
       min: 0,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'treeFlatten',
       params: {
         tree: inputs.tree,
-        depth: params.depth
-      }
+        depth: params.depth,
+      },
     });
-    
+
     return {
-      flattened: result
+      flattened: result,
     };
   },
 };

@@ -19,15 +19,18 @@ export const wallSystemTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'height', type: 'number', default: 3000, min: 100, max: 10000 },
       { name: 'thickness', type: 'number', default: 200, min: 50, max: 500 },
-      { name: 'justification', type: 'enum', options: ['center', 'left', 'right'], default: 'center' }
+      {
+        name: 'justification',
+        type: 'enum',
+        options: ['center', 'left', 'right'],
+        default: 'center',
+      },
     ],
-    inputs: [
-      { name: 'centerline', type: 'Wire', required: true }
-    ],
+    inputs: [{ name: 'centerline', type: 'Wire', required: true }],
     outputs: [
       { name: 'wall', type: 'Shape' },
-      { name: 'centerline', type: 'Wire' }
-    ]
+      { name: 'centerline', type: 'Wire' },
+    ],
   },
   {
     category: 'Architecture',
@@ -39,14 +42,10 @@ export const wallSystemTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'height', type: 'number', default: 3000, min: 100, max: 10000 },
       { name: 'thickness', type: 'number', default: 200, min: 50, max: 500 },
-      { name: 'segments', type: 'number', default: 10, min: 3, max: 50, step: 1 }
+      { name: 'segments', type: 'number', default: 10, min: 3, max: 50, step: 1 },
     ],
-    inputs: [
-      { name: 'curve', type: 'Wire', required: true }
-    ],
-    outputs: [
-      { name: 'wall', type: 'Shape' }
-    ]
+    inputs: [{ name: 'curve', type: 'Wire', required: true }],
+    outputs: [{ name: 'wall', type: 'Shape' }],
   },
   {
     category: 'Architecture',
@@ -58,15 +57,13 @@ export const wallSystemTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'layers', type: 'number', default: 3, min: 1, max: 10, step: 1 },
       { name: 'layerThicknesses', type: 'string', default: '100,50,100' },
-      { name: 'layerMaterials', type: 'string', default: 'brick,insulation,drywall' }
+      { name: 'layerMaterials', type: 'string', default: 'brick,insulation,drywall' },
     ],
-    inputs: [
-      { name: 'path', type: 'Wire', required: true }
-    ],
+    inputs: [{ name: 'path', type: 'Wire', required: true }],
     outputs: [
       { name: 'compoundWall', type: 'Shape' },
-      { name: 'layers', type: 'Shape[]' }
-    ]
+      { name: 'layers', type: 'Shape[]' },
+    ],
   },
   {
     category: 'Architecture',
@@ -79,16 +76,14 @@ export const wallSystemTemplates: NodeTemplate[] = [
       { name: 'gridU', type: 'number', default: 1500, min: 500, max: 3000 },
       { name: 'gridV', type: 'number', default: 1500, min: 500, max: 3000 },
       { name: 'mullionWidth', type: 'number', default: 50, min: 20, max: 200 },
-      { name: 'mullionDepth', type: 'number', default: 100, min: 50, max: 300 }
+      { name: 'mullionDepth', type: 'number', default: 100, min: 50, max: 300 },
     ],
-    inputs: [
-      { name: 'surface', type: 'Face', required: true }
-    ],
+    inputs: [{ name: 'surface', type: 'Face', required: true }],
     outputs: [
       { name: 'curtainWall', type: 'Shape' },
       { name: 'mullions', type: 'Shape[]' },
-      { name: 'panels', type: 'Face[]' }
-    ]
+      { name: 'panels', type: 'Face[]' },
+    ],
   },
   {
     category: 'Architecture',
@@ -100,16 +95,16 @@ export const wallSystemTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'width', type: 'number', default: 900, min: 100, max: 5000 },
       { name: 'height', type: 'number', default: 2100, min: 100, max: 5000 },
-      { name: 'sillHeight', type: 'number', default: 0, min: 0, max: 2000 }
+      { name: 'sillHeight', type: 'number', default: 0, min: 0, max: 2000 },
     ],
     inputs: [
       { name: 'wall', type: 'Shape', required: true },
-      { name: 'position', type: 'Point', required: true }
+      { name: 'position', type: 'Point', required: true },
     ],
     outputs: [
       { name: 'wallWithOpening', type: 'Shape' },
-      { name: 'opening', type: 'Face' }
-    ]
+      { name: 'opening', type: 'Face' },
+    ],
   },
   {
     category: 'Architecture',
@@ -119,15 +114,13 @@ export const wallSystemTemplates: NodeTemplate[] = [
     operation: 'WALL_JOIN',
     occtBinding: 'wallJoin',
     parameters: [
-      { name: 'joinType', type: 'enum', options: ['miter', 'butt', 'overlap'], default: 'miter' }
+      { name: 'joinType', type: 'enum', options: ['miter', 'butt', 'overlap'], default: 'miter' },
     ],
     inputs: [
       { name: 'wall1', type: 'Shape', required: true },
-      { name: 'wall2', type: 'Shape', required: true }
+      { name: 'wall2', type: 'Shape', required: true },
     ],
-    outputs: [
-      { name: 'joinedWalls', type: 'Shape' }
-    ]
+    outputs: [{ name: 'joinedWalls', type: 'Shape' }],
   },
   {
     category: 'Architecture',
@@ -139,14 +132,10 @@ export const wallSystemTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'height', type: 'number', default: 2000, min: 500, max: 6000 },
       { name: 'baseThickness', type: 'number', default: 400, min: 200, max: 1000 },
-      { name: 'batter', type: 'number', default: 10, min: 0, max: 30 }
+      { name: 'batter', type: 'number', default: 10, min: 0, max: 30 },
     ],
-    inputs: [
-      { name: 'path', type: 'Wire', required: true }
-    ],
-    outputs: [
-      { name: 'retainingWall', type: 'Shape' }
-    ]
+    inputs: [{ name: 'path', type: 'Wire', required: true }],
+    outputs: [{ name: 'retainingWall', type: 'Shape' }],
   },
   {
     category: 'Architecture',
@@ -158,14 +147,10 @@ export const wallSystemTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'studSpacing', type: 'number', default: 400, min: 300, max: 600 },
       { name: 'studWidth', type: 'number', default: 90, min: 50, max: 200 },
-      { name: 'studDepth', type: 'number', default: 45, min: 35, max: 100 }
+      { name: 'studDepth', type: 'number', default: 45, min: 35, max: 100 },
     ],
-    inputs: [
-      { name: 'outline', type: 'Wire', required: true }
-    ],
-    outputs: [
-      { name: 'studFrame', type: 'Shape[]' }
-    ]
+    inputs: [{ name: 'outline', type: 'Wire', required: true }],
+    outputs: [{ name: 'studFrame', type: 'Shape[]' }],
   },
   {
     category: 'Architecture',
@@ -175,15 +160,16 @@ export const wallSystemTemplates: NodeTemplate[] = [
     operation: 'INSULATED_WALL',
     occtBinding: 'insulatedWall',
     parameters: [
-      { name: 'insulationType', type: 'enum', options: ['batt', 'rigid', 'spray', 'blown'], default: 'batt' },
-      { name: 'rValue', type: 'number', default: 19, min: 5, max: 50 }
+      {
+        name: 'insulationType',
+        type: 'enum',
+        options: ['batt', 'rigid', 'spray', 'blown'],
+        default: 'batt',
+      },
+      { name: 'rValue', type: 'number', default: 19, min: 5, max: 50 },
     ],
-    inputs: [
-      { name: 'wallCavity', type: 'Shape', required: true }
-    ],
-    outputs: [
-      { name: 'insulatedWall', type: 'Shape' }
-    ]
+    inputs: [{ name: 'wallCavity', type: 'Shape', required: true }],
+    outputs: [{ name: 'insulatedWall', type: 'Shape' }],
   },
   {
     category: 'Architecture',
@@ -194,15 +180,13 @@ export const wallSystemTemplates: NodeTemplate[] = [
     occtBinding: 'tiltUpPanel',
     parameters: [
       { name: 'panelThickness', type: 'number', default: 200, min: 150, max: 400 },
-      { name: 'reinforcement', type: 'boolean', default: true }
+      { name: 'reinforcement', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'panelOutline', type: 'Wire', required: true }
-    ],
+    inputs: [{ name: 'panelOutline', type: 'Wire', required: true }],
     outputs: [
       { name: 'panel', type: 'Shape' },
-      { name: 'liftingPoints', type: 'Point[]' }
-    ]
+      { name: 'liftingPoints', type: 'Point[]' },
+    ],
   },
   {
     category: 'Architecture',
@@ -214,14 +198,10 @@ export const wallSystemTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'height', type: 'number', default: 1000, min: 300, max: 2000 },
       { name: 'coping', type: 'boolean', default: true },
-      { name: 'copingOverhang', type: 'number', default: 50, min: 0, max: 150 }
+      { name: 'copingOverhang', type: 'number', default: 50, min: 0, max: 150 },
     ],
-    inputs: [
-      { name: 'roofEdge', type: 'Wire', required: true }
-    ],
-    outputs: [
-      { name: 'parapet', type: 'Shape' }
-    ]
+    inputs: [{ name: 'roofEdge', type: 'Wire', required: true }],
+    outputs: [{ name: 'parapet', type: 'Shape' }],
   },
   {
     category: 'Architecture',
@@ -231,15 +211,16 @@ export const wallSystemTemplates: NodeTemplate[] = [
     operation: 'FIRE_WALL',
     occtBinding: 'fireWall',
     parameters: [
-      { name: 'fireRating', type: 'enum', options: ['1-hour', '2-hour', '3-hour', '4-hour'], default: '2-hour' },
-      { name: 'thickness', type: 'number', default: 250, min: 200, max: 400 }
+      {
+        name: 'fireRating',
+        type: 'enum',
+        options: ['1-hour', '2-hour', '3-hour', '4-hour'],
+        default: '2-hour',
+      },
+      { name: 'thickness', type: 'number', default: 250, min: 200, max: 400 },
     ],
-    inputs: [
-      { name: 'path', type: 'Wire', required: true }
-    ],
-    outputs: [
-      { name: 'fireWall', type: 'Shape' }
-    ]
+    inputs: [{ name: 'path', type: 'Wire', required: true }],
+    outputs: [{ name: 'fireWall', type: 'Shape' }],
   },
   {
     category: 'Architecture',
@@ -250,15 +231,18 @@ export const wallSystemTemplates: NodeTemplate[] = [
     occtBinding: 'movablePartition',
     parameters: [
       { name: 'panelWidth', type: 'number', default: 1200, min: 600, max: 2000 },
-      { name: 'trackType', type: 'enum', options: ['ceiling', 'floor', 'both'], default: 'ceiling' }
+      {
+        name: 'trackType',
+        type: 'enum',
+        options: ['ceiling', 'floor', 'both'],
+        default: 'ceiling',
+      },
     ],
-    inputs: [
-      { name: 'path', type: 'Wire', required: true }
-    ],
+    inputs: [{ name: 'path', type: 'Wire', required: true }],
     outputs: [
       { name: 'partition', type: 'Shape[]' },
-      { name: 'track', type: 'Wire' }
-    ]
+      { name: 'track', type: 'Wire' },
+    ],
   },
   {
     category: 'Architecture',
@@ -269,14 +253,10 @@ export const wallSystemTemplates: NodeTemplate[] = [
     occtBinding: 'soundproofWall',
     parameters: [
       { name: 'stcRating', type: 'number', default: 50, min: 30, max: 80 },
-      { name: 'massLayers', type: 'number', default: 2, min: 1, max: 4, step: 1 }
+      { name: 'massLayers', type: 'number', default: 2, min: 1, max: 4, step: 1 },
     ],
-    inputs: [
-      { name: 'wallPath', type: 'Wire', required: true }
-    ],
-    outputs: [
-      { name: 'acousticWall', type: 'Shape' }
-    ]
+    inputs: [{ name: 'wallPath', type: 'Wire', required: true }],
+    outputs: [{ name: 'acousticWall', type: 'Shape' }],
   },
   {
     category: 'Architecture',
@@ -287,15 +267,18 @@ export const wallSystemTemplates: NodeTemplate[] = [
     occtBinding: 'greenWall',
     parameters: [
       { name: 'moduleSize', type: 'number', default: 600, min: 300, max: 1200 },
-      { name: 'irrigationType', type: 'enum', options: ['drip', 'hydroponic', 'aeroponic'], default: 'drip' }
+      {
+        name: 'irrigationType',
+        type: 'enum',
+        options: ['drip', 'hydroponic', 'aeroponic'],
+        default: 'drip',
+      },
     ],
-    inputs: [
-      { name: 'wallSurface', type: 'Face', required: true }
-    ],
+    inputs: [{ name: 'wallSurface', type: 'Face', required: true }],
     outputs: [
       { name: 'greenWall', type: 'Shape' },
-      { name: 'modules', type: 'Shape[]' }
-    ]
+      { name: 'modules', type: 'Shape[]' },
+    ],
   },
   {
     category: 'Architecture',
@@ -306,16 +289,19 @@ export const wallSystemTemplates: NodeTemplate[] = [
     occtBinding: 'doubleSkinned Facade',
     parameters: [
       { name: 'cavityWidth', type: 'number', default: 600, min: 300, max: 1500 },
-      { name: 'ventilationType', type: 'enum', options: ['natural', 'mechanical', 'hybrid'], default: 'natural' }
+      {
+        name: 'ventilationType',
+        type: 'enum',
+        options: ['natural', 'mechanical', 'hybrid'],
+        default: 'natural',
+      },
     ],
-    inputs: [
-      { name: 'buildingFace', type: 'Face', required: true }
-    ],
+    inputs: [{ name: 'buildingFace', type: 'Face', required: true }],
     outputs: [
       { name: 'innerSkin', type: 'Shape' },
       { name: 'outerSkin', type: 'Shape' },
-      { name: 'cavity', type: 'Shape' }
-    ]
+      { name: 'cavity', type: 'Shape' },
+    ],
   },
   {
     category: 'Architecture',
@@ -325,15 +311,16 @@ export const wallSystemTemplates: NodeTemplate[] = [
     operation: 'RAIN_SCREEN',
     occtBinding: 'rainScreen',
     parameters: [
-      { name: 'claddingType', type: 'enum', options: ['metal', 'composite', 'terracotta', 'wood'], default: 'composite' },
-      { name: 'ventGap', type: 'number', default: 25, min: 20, max: 50 }
+      {
+        name: 'claddingType',
+        type: 'enum',
+        options: ['metal', 'composite', 'terracotta', 'wood'],
+        default: 'composite',
+      },
+      { name: 'ventGap', type: 'number', default: 25, min: 20, max: 50 },
     ],
-    inputs: [
-      { name: 'wall', type: 'Shape', required: true }
-    ],
-    outputs: [
-      { name: 'rainScreen', type: 'Shape' }
-    ]
+    inputs: [{ name: 'wall', type: 'Shape', required: true }],
+    outputs: [{ name: 'rainScreen', type: 'Shape' }],
   },
   {
     category: 'Architecture',
@@ -344,15 +331,13 @@ export const wallSystemTemplates: NodeTemplate[] = [
     occtBinding: 'shearWall',
     parameters: [
       { name: 'thickness', type: 'number', default: 300, min: 200, max: 500 },
-      { name: 'reinforcementRatio', type: 'number', default: 0.025, min: 0.01, max: 0.04 }
+      { name: 'reinforcementRatio', type: 'number', default: 0.025, min: 0.01, max: 0.04 },
     ],
-    inputs: [
-      { name: 'wallOutline', type: 'Wire', required: true }
-    ],
+    inputs: [{ name: 'wallOutline', type: 'Wire', required: true }],
     outputs: [
       { name: 'shearWall', type: 'Shape' },
-      { name: 'reinforcement', type: 'Wire[]' }
-    ]
+      { name: 'reinforcement', type: 'Wire[]' },
+    ],
   },
   {
     category: 'Architecture',
@@ -363,15 +348,13 @@ export const wallSystemTemplates: NodeTemplate[] = [
     occtBinding: 'foundationWall',
     parameters: [
       { name: 'depth', type: 'number', default: 1500, min: 1000, max: 3000 },
-      { name: 'footingWidth', type: 'number', default: 600, min: 400, max: 1200 }
+      { name: 'footingWidth', type: 'number', default: 600, min: 400, max: 1200 },
     ],
-    inputs: [
-      { name: 'foundationLine', type: 'Wire', required: true }
-    ],
+    inputs: [{ name: 'foundationLine', type: 'Wire', required: true }],
     outputs: [
       { name: 'foundationWall', type: 'Shape' },
-      { name: 'footing', type: 'Shape' }
-    ]
+      { name: 'footing', type: 'Shape' },
+    ],
   },
   {
     category: 'Architecture',
@@ -381,16 +364,22 @@ export const wallSystemTemplates: NodeTemplate[] = [
     operation: 'HISTORIC_WALL_RESTORATION',
     occtBinding: 'historicWallRestoration',
     parameters: [
-      { name: 'period', type: 'enum', options: ['victorian', 'georgian', 'art-deco', 'modernist'], default: 'victorian' },
-      { name: 'preservationLevel', type: 'enum', options: ['restore', 'rehabilitate', 'preserve'], default: 'preserve' }
+      {
+        name: 'period',
+        type: 'enum',
+        options: ['victorian', 'georgian', 'art-deco', 'modernist'],
+        default: 'victorian',
+      },
+      {
+        name: 'preservationLevel',
+        type: 'enum',
+        options: ['restore', 'rehabilitate', 'preserve'],
+        default: 'preserve',
+      },
     ],
-    inputs: [
-      { name: 'existingWall', type: 'Shape', required: true }
-    ],
-    outputs: [
-      { name: 'restoredWall', type: 'Shape' }
-    ]
-  }
+    inputs: [{ name: 'existingWall', type: 'Shape', required: true }],
+    outputs: [{ name: 'restoredWall', type: 'Shape' }],
+  },
 ];
 
 /**
@@ -407,14 +396,10 @@ export const floorCeilingTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'thickness', type: 'number', default: 150, min: 100, max: 300 },
       { name: 'vaporBarrier', type: 'boolean', default: true },
-      { name: 'insulation', type: 'boolean', default: true }
+      { name: 'insulation', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'boundary', type: 'Wire', required: true }
-    ],
-    outputs: [
-      { name: 'slab', type: 'Shape' }
-    ]
+    inputs: [{ name: 'boundary', type: 'Wire', required: true }],
+    outputs: [{ name: 'slab', type: 'Shape' }],
   },
   {
     category: 'Architecture',
@@ -424,17 +409,22 @@ export const floorCeilingTemplates: NodeTemplate[] = [
     operation: 'COMPOSITE_FLOOR',
     occtBinding: 'compositeFloor',
     parameters: [
-      { name: 'deckType', type: 'enum', options: ['2-inch', '3-inch', 'cellular'], default: '3-inch' },
-      { name: 'concreteThickness', type: 'number', default: 100, min: 75, max: 200 }
+      {
+        name: 'deckType',
+        type: 'enum',
+        options: ['2-inch', '3-inch', 'cellular'],
+        default: '3-inch',
+      },
+      { name: 'concreteThickness', type: 'number', default: 100, min: 75, max: 200 },
     ],
     inputs: [
       { name: 'floorOutline', type: 'Wire', required: true },
-      { name: 'beams', type: 'Wire[]', required: true }
+      { name: 'beams', type: 'Wire[]', required: true },
     ],
     outputs: [
       { name: 'compositeFloor', type: 'Shape' },
-      { name: 'deck', type: 'Shape' }
-    ]
+      { name: 'deck', type: 'Shape' },
+    ],
   },
   {
     category: 'Architecture',
@@ -446,16 +436,14 @@ export const floorCeilingTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'height', type: 'number', default: 300, min: 150, max: 600 },
       { name: 'panelSize', type: 'number', default: 600, min: 500, max: 1200 },
-      { name: 'loadRating', type: 'number', default: 1250, min: 500, max: 2000 }
+      { name: 'loadRating', type: 'number', default: 1250, min: 500, max: 2000 },
     ],
-    inputs: [
-      { name: 'roomBoundary', type: 'Wire', required: true }
-    ],
+    inputs: [{ name: 'roomBoundary', type: 'Wire', required: true }],
     outputs: [
       { name: 'raisedFloor', type: 'Shape' },
       { name: 'pedestals', type: 'Shape[]' },
-      { name: 'panels', type: 'Face[]' }
-    ]
+      { name: 'panels', type: 'Face[]' },
+    ],
   },
   {
     category: 'Architecture',
@@ -467,15 +455,13 @@ export const floorCeilingTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'joistDepth', type: 'number', default: 250, min: 150, max: 400 },
       { name: 'joistSpacing', type: 'number', default: 400, min: 300, max: 600 },
-      { name: 'subfloorThickness', type: 'number', default: 18, min: 15, max: 25 }
+      { name: 'subfloorThickness', type: 'number', default: 18, min: 15, max: 25 },
     ],
-    inputs: [
-      { name: 'floorBoundary', type: 'Wire', required: true }
-    ],
+    inputs: [{ name: 'floorBoundary', type: 'Wire', required: true }],
     outputs: [
       { name: 'floorSystem', type: 'Shape' },
-      { name: 'joists', type: 'Shape[]' }
-    ]
+      { name: 'joists', type: 'Shape[]' },
+    ],
   },
   {
     category: 'Architecture',
@@ -486,16 +472,16 @@ export const floorCeilingTemplates: NodeTemplate[] = [
     occtBinding: 'postTensionedSlab',
     parameters: [
       { name: 'slabThickness', type: 'number', default: 200, min: 150, max: 400 },
-      { name: 'tendonSpacing', type: 'number', default: 1200, min: 900, max: 1800 }
+      { name: 'tendonSpacing', type: 'number', default: 1200, min: 900, max: 1800 },
     ],
     inputs: [
       { name: 'slabOutline', type: 'Wire', required: true },
-      { name: 'columnPoints', type: 'Point[]', required: false }
+      { name: 'columnPoints', type: 'Point[]', required: false },
     ],
     outputs: [
       { name: 'ptSlab', type: 'Shape' },
-      { name: 'tendons', type: 'Wire[]' }
-    ]
+      { name: 'tendons', type: 'Wire[]' },
+    ],
   },
   {
     category: 'Architecture',
@@ -505,17 +491,20 @@ export const floorCeilingTemplates: NodeTemplate[] = [
     operation: 'SUSPENDED_CEILING',
     occtBinding: 'suspendedCeiling',
     parameters: [
-      { name: 'tileSize', type: 'enum', options: ['600x600', '600x1200', '1200x1200'], default: '600x600' },
-      { name: 'suspensionHeight', type: 'number', default: 300, min: 150, max: 1000 }
+      {
+        name: 'tileSize',
+        type: 'enum',
+        options: ['600x600', '600x1200', '1200x1200'],
+        default: '600x600',
+      },
+      { name: 'suspensionHeight', type: 'number', default: 300, min: 150, max: 1000 },
     ],
-    inputs: [
-      { name: 'roomBoundary', type: 'Wire', required: true }
-    ],
+    inputs: [{ name: 'roomBoundary', type: 'Wire', required: true }],
     outputs: [
       { name: 'ceiling', type: 'Shape' },
       { name: 'grid', type: 'Wire[]' },
-      { name: 'tiles', type: 'Face[]' }
-    ]
+      { name: 'tiles', type: 'Face[]' },
+    ],
   },
   {
     category: 'Architecture',
@@ -527,14 +516,10 @@ export const floorCeilingTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'cofferSize', type: 'number', default: 1200, min: 600, max: 2000 },
       { name: 'cofferDepth', type: 'number', default: 150, min: 50, max: 300 },
-      { name: 'beamWidth', type: 'number', default: 200, min: 100, max: 400 }
+      { name: 'beamWidth', type: 'number', default: 200, min: 100, max: 400 },
     ],
-    inputs: [
-      { name: 'ceilingBoundary', type: 'Wire', required: true }
-    ],
-    outputs: [
-      { name: 'cofferedCeiling', type: 'Shape' }
-    ]
+    inputs: [{ name: 'ceilingBoundary', type: 'Wire', required: true }],
+    outputs: [{ name: 'cofferedCeiling', type: 'Shape' }],
   },
   {
     category: 'Architecture',
@@ -544,15 +529,16 @@ export const floorCeilingTemplates: NodeTemplate[] = [
     operation: 'VAULTED_CEILING',
     occtBinding: 'vaultedCeiling',
     parameters: [
-      { name: 'vaultType', type: 'enum', options: ['barrel', 'groin', 'cloister', 'dome'], default: 'barrel' },
-      { name: 'rise', type: 'number', default: 1000, min: 500, max: 3000 }
+      {
+        name: 'vaultType',
+        type: 'enum',
+        options: ['barrel', 'groin', 'cloister', 'dome'],
+        default: 'barrel',
+      },
+      { name: 'rise', type: 'number', default: 1000, min: 500, max: 3000 },
     ],
-    inputs: [
-      { name: 'ceilingOutline', type: 'Wire', required: true }
-    ],
-    outputs: [
-      { name: 'vaultedCeiling', type: 'Shape' }
-    ]
+    inputs: [{ name: 'ceilingOutline', type: 'Wire', required: true }],
+    outputs: [{ name: 'vaultedCeiling', type: 'Shape' }],
   },
   {
     category: 'Architecture',
@@ -562,16 +548,19 @@ export const floorCeilingTemplates: NodeTemplate[] = [
     operation: 'MEZZANINE_FLOOR',
     occtBinding: 'mezzanineFloor',
     parameters: [
-      { name: 'structureType', type: 'enum', options: ['steel', 'concrete', 'wood'], default: 'steel' },
-      { name: 'clearHeight', type: 'number', default: 2400, min: 2100, max: 3000 }
+      {
+        name: 'structureType',
+        type: 'enum',
+        options: ['steel', 'concrete', 'wood'],
+        default: 'steel',
+      },
+      { name: 'clearHeight', type: 'number', default: 2400, min: 2100, max: 3000 },
     ],
-    inputs: [
-      { name: 'mezzanineOutline', type: 'Wire', required: true }
-    ],
+    inputs: [{ name: 'mezzanineOutline', type: 'Wire', required: true }],
     outputs: [
       { name: 'mezzanine', type: 'Shape' },
-      { name: 'structure', type: 'Shape[]' }
-    ]
+      { name: 'structure', type: 'Shape[]' },
+    ],
   },
   {
     category: 'Architecture',
@@ -582,14 +571,15 @@ export const floorCeilingTemplates: NodeTemplate[] = [
     occtBinding: 'epoxyFloor',
     parameters: [
       { name: 'thickness', type: 'number', default: 3, min: 2, max: 10 },
-      { name: 'texture', type: 'enum', options: ['smooth', 'orange-peel', 'quartz', 'flake'], default: 'smooth' }
+      {
+        name: 'texture',
+        type: 'enum',
+        options: ['smooth', 'orange-peel', 'quartz', 'flake'],
+        default: 'smooth',
+      },
     ],
-    inputs: [
-      { name: 'floorSurface', type: 'Face', required: true }
-    ],
-    outputs: [
-      { name: 'epoxyFloor', type: 'Face' }
-    ]
+    inputs: [{ name: 'floorSurface', type: 'Face', required: true }],
+    outputs: [{ name: 'epoxyFloor', type: 'Face' }],
   },
   {
     category: 'Architecture',
@@ -601,15 +591,13 @@ export const floorCeilingTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'pipeSpacing', type: 'number', default: 200, min: 150, max: 300 },
       { name: 'pipeDialeter', type: 'number', default: 16, min: 12, max: 25 },
-      { name: 'zoneCount', type: 'number', default: 1, min: 1, max: 10, step: 1 }
+      { name: 'zoneCount', type: 'number', default: 1, min: 1, max: 10, step: 1 },
     ],
-    inputs: [
-      { name: 'floorArea', type: 'Face', required: true }
-    ],
+    inputs: [{ name: 'floorArea', type: 'Face', required: true }],
     outputs: [
       { name: 'radiantLayout', type: 'Wire[]' },
-      { name: 'manifold', type: 'Point' }
-    ]
+      { name: 'manifold', type: 'Point' },
+    ],
   },
   {
     category: 'Architecture',
@@ -620,14 +608,15 @@ export const floorCeilingTemplates: NodeTemplate[] = [
     occtBinding: 'acousticCeiling',
     parameters: [
       { name: 'nrc', type: 'number', default: 0.85, min: 0.5, max: 1 },
-      { name: 'panelType', type: 'enum', options: ['perforated', 'baffles', 'clouds', 'tiles'], default: 'tiles' }
+      {
+        name: 'panelType',
+        type: 'enum',
+        options: ['perforated', 'baffles', 'clouds', 'tiles'],
+        default: 'tiles',
+      },
     ],
-    inputs: [
-      { name: 'ceilingArea', type: 'Face', required: true }
-    ],
-    outputs: [
-      { name: 'acousticCeiling', type: 'Shape' }
-    ]
+    inputs: [{ name: 'ceilingArea', type: 'Face', required: true }],
+    outputs: [{ name: 'acousticCeiling', type: 'Shape' }],
   },
   {
     category: 'Architecture',
@@ -638,16 +627,16 @@ export const floorCeilingTemplates: NodeTemplate[] = [
     occtBinding: 'floorDrainage',
     parameters: [
       { name: 'slope', type: 'number', default: 0.01, min: 0.005, max: 0.02 },
-      { name: 'drainType', type: 'enum', options: ['point', 'linear', 'area'], default: 'point' }
+      { name: 'drainType', type: 'enum', options: ['point', 'linear', 'area'], default: 'point' },
     ],
     inputs: [
       { name: 'floorBoundary', type: 'Wire', required: true },
-      { name: 'drainLocations', type: 'Point[]', required: true }
+      { name: 'drainLocations', type: 'Point[]', required: true },
     ],
     outputs: [
       { name: 'slopedFloor', type: 'Shape' },
-      { name: 'drains', type: 'Shape[]' }
-    ]
+      { name: 'drains', type: 'Shape[]' },
+    ],
   },
   {
     category: 'Architecture',
@@ -657,16 +646,19 @@ export const floorCeilingTemplates: NodeTemplate[] = [
     operation: 'STRETCH_CEILING',
     occtBinding: 'stretchCeiling',
     parameters: [
-      { name: 'fabricType', type: 'enum', options: ['matte', 'satin', 'gloss', 'translucent'], default: 'matte' },
-      { name: 'backlighting', type: 'boolean', default: false }
+      {
+        name: 'fabricType',
+        type: 'enum',
+        options: ['matte', 'satin', 'gloss', 'translucent'],
+        default: 'matte',
+      },
+      { name: 'backlighting', type: 'boolean', default: false },
     ],
-    inputs: [
-      { name: 'ceilingBoundary', type: 'Wire', required: true }
-    ],
+    inputs: [{ name: 'ceilingBoundary', type: 'Wire', required: true }],
     outputs: [
       { name: 'stretchCeiling', type: 'Face' },
-      { name: 'track', type: 'Wire' }
-    ]
+      { name: 'track', type: 'Wire' },
+    ],
   },
   {
     category: 'Architecture',
@@ -676,16 +668,19 @@ export const floorCeilingTemplates: NodeTemplate[] = [
     operation: 'GREEN_ROOF',
     occtBinding: 'greenRoof',
     parameters: [
-      { name: 'type', type: 'enum', options: ['extensive', 'intensive', 'semi-intensive'], default: 'extensive' },
-      { name: 'soilDepth', type: 'number', default: 100, min: 50, max: 500 }
+      {
+        name: 'type',
+        type: 'enum',
+        options: ['extensive', 'intensive', 'semi-intensive'],
+        default: 'extensive',
+      },
+      { name: 'soilDepth', type: 'number', default: 100, min: 50, max: 500 },
     ],
-    inputs: [
-      { name: 'roofSurface', type: 'Face', required: true }
-    ],
+    inputs: [{ name: 'roofSurface', type: 'Face', required: true }],
     outputs: [
       { name: 'greenRoof', type: 'Shape' },
-      { name: 'layers', type: 'Shape[]' }
-    ]
+      { name: 'layers', type: 'Shape[]' },
+    ],
   },
   {
     category: 'Architecture',
@@ -696,14 +691,10 @@ export const floorCeilingTemplates: NodeTemplate[] = [
     occtBinding: 'floorExpansionJoint',
     parameters: [
       { name: 'jointWidth', type: 'number', default: 25, min: 10, max: 100 },
-      { name: 'sealantDepth', type: 'number', default: 10, min: 5, max: 25 }
+      { name: 'sealantDepth', type: 'number', default: 10, min: 5, max: 25 },
     ],
-    inputs: [
-      { name: 'jointPath', type: 'Wire', required: true }
-    ],
-    outputs: [
-      { name: 'expansionJoint', type: 'Shape' }
-    ]
+    inputs: [{ name: 'jointPath', type: 'Wire', required: true }],
+    outputs: [{ name: 'expansionJoint', type: 'Shape' }],
   },
   {
     category: 'Architecture',
@@ -713,16 +704,24 @@ export const floorCeilingTemplates: NodeTemplate[] = [
     operation: 'SKYLIGHT',
     occtBinding: 'skyLight',
     parameters: [
-      { name: 'type', type: 'enum', options: ['flat', 'pyramid', 'barrel', 'dome'], default: 'pyramid' },
-      { name: 'glazingType', type: 'enum', options: ['single', 'double', 'triple', 'aerogel'], default: 'double' }
+      {
+        name: 'type',
+        type: 'enum',
+        options: ['flat', 'pyramid', 'barrel', 'dome'],
+        default: 'pyramid',
+      },
+      {
+        name: 'glazingType',
+        type: 'enum',
+        options: ['single', 'double', 'triple', 'aerogel'],
+        default: 'double',
+      },
     ],
-    inputs: [
-      { name: 'opening', type: 'Wire', required: true }
-    ],
+    inputs: [{ name: 'opening', type: 'Wire', required: true }],
     outputs: [
       { name: 'skylight', type: 'Shape' },
-      { name: 'frame', type: 'Shape' }
-    ]
+      { name: 'frame', type: 'Shape' },
+    ],
   },
   {
     category: 'Architecture',
@@ -732,16 +731,24 @@ export const floorCeilingTemplates: NodeTemplate[] = [
     operation: 'FLOOR_FINISH',
     occtBinding: 'floorFinish',
     parameters: [
-      { name: 'material', type: 'enum', options: ['tile', 'wood', 'carpet', 'vinyl', 'polished-concrete'], default: 'tile' },
-      { name: 'pattern', type: 'enum', options: ['straight', 'diagonal', 'herringbone', 'random'], default: 'straight' }
+      {
+        name: 'material',
+        type: 'enum',
+        options: ['tile', 'wood', 'carpet', 'vinyl', 'polished-concrete'],
+        default: 'tile',
+      },
+      {
+        name: 'pattern',
+        type: 'enum',
+        options: ['straight', 'diagonal', 'herringbone', 'random'],
+        default: 'straight',
+      },
     ],
-    inputs: [
-      { name: 'floorArea', type: 'Face', required: true }
-    ],
+    inputs: [{ name: 'floorArea', type: 'Face', required: true }],
     outputs: [
       { name: 'finishedFloor', type: 'Face' },
-      { name: 'pattern', type: 'Wire[]' }
-    ]
+      { name: 'pattern', type: 'Wire[]' },
+    ],
   },
   {
     category: 'Architecture',
@@ -753,14 +760,10 @@ export const floorCeilingTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'beamDepth', type: 'number', default: 300, min: 200, max: 600 },
       { name: 'beamWidth', type: 'number', default: 150, min: 100, max: 300 },
-      { name: 'spacing', type: 'number', default: 1200, min: 600, max: 2400 }
+      { name: 'spacing', type: 'number', default: 1200, min: 600, max: 2400 },
     ],
-    inputs: [
-      { name: 'ceilingArea', type: 'Face', required: true }
-    ],
-    outputs: [
-      { name: 'beams', type: 'Shape[]' }
-    ]
+    inputs: [{ name: 'ceilingArea', type: 'Face', required: true }],
+    outputs: [{ name: 'beams', type: 'Shape[]' }],
   },
   {
     category: 'Architecture',
@@ -771,16 +774,14 @@ export const floorCeilingTemplates: NodeTemplate[] = [
     occtBinding: 'pedestalPavers',
     parameters: [
       { name: 'paverSize', type: 'number', default: 600, min: 300, max: 900 },
-      { name: 'pedestalHeight', type: 'number', default: 100, min: 25, max: 500 }
+      { name: 'pedestalHeight', type: 'number', default: 100, min: 25, max: 500 },
     ],
-    inputs: [
-      { name: 'area', type: 'Face', required: true }
-    ],
+    inputs: [{ name: 'area', type: 'Face', required: true }],
     outputs: [
       { name: 'pavers', type: 'Face[]' },
-      { name: 'pedestals', type: 'Shape[]' }
-    ]
-  }
+      { name: 'pedestals', type: 'Shape[]' },
+    ],
+  },
 ];
 
 /**
@@ -798,16 +799,14 @@ export const stairsRampsTemplates: NodeTemplate[] = [
       { name: 'totalRise', type: 'number', default: 3000, min: 1000, max: 6000 },
       { name: 'treadDepth', type: 'number', default: 280, min: 250, max: 350 },
       { name: 'riserHeight', type: 'number', default: 175, min: 150, max: 200 },
-      { name: 'width', type: 'number', default: 1200, min: 900, max: 2000 }
+      { name: 'width', type: 'number', default: 1200, min: 900, max: 2000 },
     ],
-    inputs: [
-      { name: 'startPoint', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'startPoint', type: 'Point', required: true }],
     outputs: [
       { name: 'staircase', type: 'Shape' },
       { name: 'treads', type: 'Shape[]' },
-      { name: 'risers', type: 'Shape[]' }
-    ]
+      { name: 'risers', type: 'Shape[]' },
+    ],
   },
   {
     category: 'Architecture',
@@ -819,15 +818,13 @@ export const stairsRampsTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'totalRise', type: 'number', default: 3000, min: 1000, max: 6000 },
       { name: 'landingSize', type: 'number', default: 1200, min: 900, max: 2000 },
-      { name: 'turnDirection', type: 'enum', options: ['left', 'right'], default: 'right' }
+      { name: 'turnDirection', type: 'enum', options: ['left', 'right'], default: 'right' },
     ],
-    inputs: [
-      { name: 'startPoint', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'startPoint', type: 'Point', required: true }],
     outputs: [
       { name: 'staircase', type: 'Shape' },
-      { name: 'landing', type: 'Shape' }
-    ]
+      { name: 'landing', type: 'Shape' },
+    ],
   },
   {
     category: 'Architecture',
@@ -838,14 +835,10 @@ export const stairsRampsTemplates: NodeTemplate[] = [
     occtBinding: 'uShapedStair',
     parameters: [
       { name: 'totalRise', type: 'number', default: 3000, min: 1000, max: 6000 },
-      { name: 'clearance', type: 'number', default: 100, min: 50, max: 300 }
+      { name: 'clearance', type: 'number', default: 100, min: 50, max: 300 },
     ],
-    inputs: [
-      { name: 'startPoint', type: 'Point', required: true }
-    ],
-    outputs: [
-      { name: 'staircase', type: 'Shape' }
-    ]
+    inputs: [{ name: 'startPoint', type: 'Point', required: true }],
+    outputs: [{ name: 'staircase', type: 'Shape' }],
   },
   {
     category: 'Architecture',
@@ -858,15 +851,13 @@ export const stairsRampsTemplates: NodeTemplate[] = [
       { name: 'diameter', type: 'number', default: 2000, min: 1200, max: 3000 },
       { name: 'totalRise', type: 'number', default: 3000, min: 1000, max: 6000 },
       { name: 'rotation', type: 'number', default: 360, min: 270, max: 720 },
-      { name: 'centerPole', type: 'boolean', default: true }
+      { name: 'centerPole', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'centerPoint', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'centerPoint', type: 'Point', required: true }],
     outputs: [
       { name: 'spiralStair', type: 'Shape' },
-      { name: 'centerPole', type: 'Shape' }
-    ]
+      { name: 'centerPole', type: 'Shape' },
+    ],
   },
   {
     category: 'Architecture',
@@ -878,14 +869,10 @@ export const stairsRampsTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'innerRadius', type: 'number', default: 500, min: 0, max: 1000 },
       { name: 'outerRadius', type: 'number', default: 1500, min: 1000, max: 3000 },
-      { name: 'totalRise', type: 'number', default: 3000, min: 1000, max: 6000 }
+      { name: 'totalRise', type: 'number', default: 3000, min: 1000, max: 6000 },
     ],
-    inputs: [
-      { name: 'centerPoint', type: 'Point', required: true }
-    ],
-    outputs: [
-      { name: 'helicalStair', type: 'Shape' }
-    ]
+    inputs: [{ name: 'centerPoint', type: 'Point', required: true }],
+    outputs: [{ name: 'helicalStair', type: 'Shape' }],
   },
   {
     category: 'Architecture',
@@ -896,14 +883,10 @@ export const stairsRampsTemplates: NodeTemplate[] = [
     occtBinding: 'winderStair',
     parameters: [
       { name: 'winderCount', type: 'number', default: 3, min: 2, max: 5, step: 1 },
-      { name: 'turnAngle', type: 'number', default: 90, min: 45, max: 180 }
+      { name: 'turnAngle', type: 'number', default: 90, min: 45, max: 180 },
     ],
-    inputs: [
-      { name: 'path', type: 'Wire', required: true }
-    ],
-    outputs: [
-      { name: 'winderStair', type: 'Shape' }
-    ]
+    inputs: [{ name: 'path', type: 'Wire', required: true }],
+    outputs: [{ name: 'winderStair', type: 'Shape' }],
   },
   {
     category: 'Architecture',
@@ -915,16 +898,16 @@ export const stairsRampsTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'slope', type: 'number', default: 0.083, min: 0.05, max: 0.125 },
       { name: 'width', type: 'number', default: 1200, min: 900, max: 2000 },
-      { name: 'handrails', type: 'boolean', default: true }
+      { name: 'handrails', type: 'boolean', default: true },
     ],
     inputs: [
       { name: 'startPoint', type: 'Point', required: true },
-      { name: 'endPoint', type: 'Point', required: true }
+      { name: 'endPoint', type: 'Point', required: true },
     ],
     outputs: [
       { name: 'ramp', type: 'Shape' },
-      { name: 'handrails', type: 'Shape[]' }
-    ]
+      { name: 'handrails', type: 'Shape[]' },
+    ],
   },
   {
     category: 'Architecture',
@@ -935,16 +918,16 @@ export const stairsRampsTemplates: NodeTemplate[] = [
     occtBinding: 'switchbackRamp',
     parameters: [
       { name: 'runLength', type: 'number', default: 9000, min: 6000, max: 12000 },
-      { name: 'landingSize', type: 'number', default: 1500, min: 1500, max: 2000 }
+      { name: 'landingSize', type: 'number', default: 1500, min: 1500, max: 2000 },
     ],
     inputs: [
       { name: 'startPoint', type: 'Point', required: true },
-      { name: 'totalRise', type: 'Number', required: true }
+      { name: 'totalRise', type: 'Number', required: true },
     ],
     outputs: [
       { name: 'ramp', type: 'Shape' },
-      { name: 'landings', type: 'Shape[]' }
-    ]
+      { name: 'landings', type: 'Shape[]' },
+    ],
   },
   {
     category: 'Architecture',
@@ -956,15 +939,13 @@ export const stairsRampsTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'radius', type: 'number', default: 15000, min: 10000, max: 25000 },
       { name: 'pitch', type: 'number', default: 3000, min: 2500, max: 4000 },
-      { name: 'width', type: 'number', default: 7000, min: 5500, max: 9000 }
+      { name: 'width', type: 'number', default: 7000, min: 5500, max: 9000 },
     ],
     inputs: [
       { name: 'centerPoint', type: 'Point', required: true },
-      { name: 'levels', type: 'Number', required: true }
+      { name: 'levels', type: 'Number', required: true },
     ],
-    outputs: [
-      { name: 'helicalRamp', type: 'Shape' }
-    ]
+    outputs: [{ name: 'helicalRamp', type: 'Shape' }],
   },
   {
     category: 'Architecture',
@@ -976,15 +957,13 @@ export const stairsRampsTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'height', type: 'number', default: 900, min: 850, max: 1000 },
       { name: 'diameter', type: 'number', default: 50, min: 40, max: 60 },
-      { name: 'mountType', type: 'enum', options: ['wall', 'post', 'glass'], default: 'post' }
+      { name: 'mountType', type: 'enum', options: ['wall', 'post', 'glass'], default: 'post' },
     ],
-    inputs: [
-      { name: 'stairEdge', type: 'Wire', required: true }
-    ],
+    inputs: [{ name: 'stairEdge', type: 'Wire', required: true }],
     outputs: [
       { name: 'handrail', type: 'Shape' },
-      { name: 'posts', type: 'Shape[]' }
-    ]
+      { name: 'posts', type: 'Shape[]' },
+    ],
   },
   {
     category: 'Architecture',
@@ -994,15 +973,16 @@ export const stairsRampsTemplates: NodeTemplate[] = [
     operation: 'STAIR_BALUSTRADE',
     occtBinding: 'stairBalustrade',
     parameters: [
-      { name: 'style', type: 'enum', options: ['vertical', 'horizontal', 'glass', 'cable'], default: 'vertical' },
-      { name: 'spacing', type: 'number', default: 100, min: 75, max: 125 }
+      {
+        name: 'style',
+        type: 'enum',
+        options: ['vertical', 'horizontal', 'glass', 'cable'],
+        default: 'vertical',
+      },
+      { name: 'spacing', type: 'number', default: 100, min: 75, max: 125 },
     ],
-    inputs: [
-      { name: 'stairSide', type: 'Wire', required: true }
-    ],
-    outputs: [
-      { name: 'balustrade', type: 'Shape' }
-    ]
+    inputs: [{ name: 'stairSide', type: 'Wire', required: true }],
+    outputs: [{ name: 'balustrade', type: 'Shape' }],
   },
   {
     category: 'Architecture',
@@ -1013,14 +993,15 @@ export const stairsRampsTemplates: NodeTemplate[] = [
     occtBinding: 'stairNosing',
     parameters: [
       { name: 'projection', type: 'number', default: 25, min: 20, max: 40 },
-      { name: 'material', type: 'enum', options: ['aluminum', 'rubber', 'wood', 'stone'], default: 'aluminum' }
+      {
+        name: 'material',
+        type: 'enum',
+        options: ['aluminum', 'rubber', 'wood', 'stone'],
+        default: 'aluminum',
+      },
     ],
-    inputs: [
-      { name: 'treadEdges', type: 'Edge[]', required: true }
-    ],
-    outputs: [
-      { name: 'nosing', type: 'Shape[]' }
-    ]
+    inputs: [{ name: 'treadEdges', type: 'Edge[]', required: true }],
+    outputs: [{ name: 'nosing', type: 'Shape[]' }],
   },
   {
     category: 'Architecture',
@@ -1032,14 +1013,10 @@ export const stairsRampsTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'type', type: 'enum', options: ['closed', 'open', 'mono'], default: 'closed' },
       { name: 'material', type: 'enum', options: ['steel', 'wood', 'concrete'], default: 'steel' },
-      { name: 'depth', type: 'number', default: 300, min: 200, max: 500 }
+      { name: 'depth', type: 'number', default: 300, min: 200, max: 500 },
     ],
-    inputs: [
-      { name: 'stairProfile', type: 'Wire', required: true }
-    ],
-    outputs: [
-      { name: 'stringers', type: 'Shape[]' }
-    ]
+    inputs: [{ name: 'stairProfile', type: 'Wire', required: true }],
+    outputs: [{ name: 'stringers', type: 'Shape[]' }],
   },
   {
     category: 'Architecture',
@@ -1049,16 +1026,19 @@ export const stairsRampsTemplates: NodeTemplate[] = [
     operation: 'ESCAPE_STAIR',
     occtBinding: 'escapeStair',
     parameters: [
-      { name: 'enclosure', type: 'enum', options: ['open', 'enclosed', 'pressurized'], default: 'enclosed' },
-      { name: 'width', type: 'number', default: 1200, min: 1100, max: 1500 }
+      {
+        name: 'enclosure',
+        type: 'enum',
+        options: ['open', 'enclosed', 'pressurized'],
+        default: 'enclosed',
+      },
+      { name: 'width', type: 'number', default: 1200, min: 1100, max: 1500 },
     ],
     inputs: [
       { name: 'stairwell', type: 'Wire', required: true },
-      { name: 'floors', type: 'Number', required: true }
+      { name: 'floors', type: 'Number', required: true },
     ],
-    outputs: [
-      { name: 'escapeStair', type: 'Shape' }
-    ]
+    outputs: [{ name: 'escapeStair', type: 'Shape' }],
   },
   {
     category: 'Architecture',
@@ -1068,15 +1048,16 @@ export const stairsRampsTemplates: NodeTemplate[] = [
     operation: 'MONUMENTAL_STAIR',
     occtBinding: 'monumentalStair',
     parameters: [
-      { name: 'style', type: 'enum', options: ['imperial', 'bifurcated', 'horseshoe'], default: 'imperial' },
-      { name: 'width', type: 'number', default: 3000, min: 2000, max: 6000 }
+      {
+        name: 'style',
+        type: 'enum',
+        options: ['imperial', 'bifurcated', 'horseshoe'],
+        default: 'imperial',
+      },
+      { name: 'width', type: 'number', default: 3000, min: 2000, max: 6000 },
     ],
-    inputs: [
-      { name: 'footprint', type: 'Wire', required: true }
-    ],
-    outputs: [
-      { name: 'monumentalStair', type: 'Shape' }
-    ]
+    inputs: [{ name: 'footprint', type: 'Wire', required: true }],
+    outputs: [{ name: 'monumentalStair', type: 'Shape' }],
   },
   {
     category: 'Architecture',
@@ -1087,16 +1068,16 @@ export const stairsRampsTemplates: NodeTemplate[] = [
     occtBinding: 'floatingStair',
     parameters: [
       { name: 'cantileverDepth', type: 'number', default: 100, min: 50, max: 200 },
-      { name: 'treadThickness', type: 'number', default: 60, min: 40, max: 100 }
+      { name: 'treadThickness', type: 'number', default: 60, min: 40, max: 100 },
     ],
     inputs: [
       { name: 'wallLine', type: 'Wire', required: true },
-      { name: 'riseRun', type: 'Vector', required: true }
+      { name: 'riseRun', type: 'Vector', required: true },
     ],
     outputs: [
       { name: 'floatingStair', type: 'Shape' },
-      { name: 'anchors', type: 'Point[]' }
-    ]
+      { name: 'anchors', type: 'Point[]' },
+    ],
   },
   {
     category: 'Architecture',
@@ -1107,15 +1088,18 @@ export const stairsRampsTemplates: NodeTemplate[] = [
     occtBinding: 'loadingDock',
     parameters: [
       { name: 'dockHeight', type: 'number', default: 1200, min: 900, max: 1500 },
-      { name: 'levellerType', type: 'enum', options: ['hydraulic', 'mechanical', 'air-powered'], default: 'hydraulic' }
+      {
+        name: 'levellerType',
+        type: 'enum',
+        options: ['hydraulic', 'mechanical', 'air-powered'],
+        default: 'hydraulic',
+      },
     ],
-    inputs: [
-      { name: 'dockPosition', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'dockPosition', type: 'Point', required: true }],
     outputs: [
       { name: 'dockRamp', type: 'Shape' },
-      { name: 'leveller', type: 'Shape' }
-    ]
+      { name: 'leveller', type: 'Shape' },
+    ],
   },
   {
     category: 'Architecture',
@@ -1125,15 +1109,16 @@ export const stairsRampsTemplates: NodeTemplate[] = [
     operation: 'CURB_RAMP',
     occtBinding: 'curbRamp',
     parameters: [
-      { name: 'type', type: 'enum', options: ['perpendicular', 'parallel', 'combination'], default: 'perpendicular' },
-      { name: 'flareSlope', type: 'number', default: 0.1, min: 0.083, max: 0.125 }
+      {
+        name: 'type',
+        type: 'enum',
+        options: ['perpendicular', 'parallel', 'combination'],
+        default: 'perpendicular',
+      },
+      { name: 'flareSlope', type: 'number', default: 0.1, min: 0.083, max: 0.125 },
     ],
-    inputs: [
-      { name: 'curbLine', type: 'Wire', required: true }
-    ],
-    outputs: [
-      { name: 'curbRamp', type: 'Shape' }
-    ]
+    inputs: [{ name: 'curbLine', type: 'Wire', required: true }],
+    outputs: [{ name: 'curbRamp', type: 'Shape' }],
   },
   {
     category: 'Architecture',
@@ -1144,15 +1129,13 @@ export const stairsRampsTemplates: NodeTemplate[] = [
     occtBinding: 'alternatingTreadStair',
     parameters: [
       { name: 'angle', type: 'number', default: 56, min: 50, max: 70 },
-      { name: 'treadWidth', type: 'number', default: 600, min: 500, max: 700 }
+      { name: 'treadWidth', type: 'number', default: 600, min: 500, max: 700 },
     ],
     inputs: [
       { name: 'startPoint', type: 'Point', required: true },
-      { name: 'totalRise', type: 'Number', required: true }
+      { name: 'totalRise', type: 'Number', required: true },
     ],
-    outputs: [
-      { name: 'alternatingStair', type: 'Shape' }
-    ]
+    outputs: [{ name: 'alternatingStair', type: 'Shape' }],
   },
   {
     category: 'Architecture',
@@ -1164,15 +1147,11 @@ export const stairsRampsTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'gradient', type: 'number', default: 0.15, min: 0.1, max: 0.2 },
       { name: 'width', type: 'number', default: 6000, min: 5000, max: 8000 },
-      { name: 'transitionLength', type: 'number', default: 3000, min: 2000, max: 4000 }
+      { name: 'transitionLength', type: 'number', default: 3000, min: 2000, max: 4000 },
     ],
-    inputs: [
-      { name: 'rampPath', type: 'Wire', required: true }
-    ],
-    outputs: [
-      { name: 'vehicleRamp', type: 'Shape' }
-    ]
-  }
+    inputs: [{ name: 'rampPath', type: 'Wire', required: true }],
+    outputs: [{ name: 'vehicleRamp', type: 'Shape' }],
+  },
 ];
 
 /**
@@ -1191,16 +1170,16 @@ export const doorsWindowsTemplates: NodeTemplate[] = [
       { name: 'height', type: 'number', default: 2100, min: 1800, max: 2400 },
       { name: 'thickness', type: 'number', default: 45, min: 35, max: 60 },
       { name: 'swing', type: 'enum', options: ['left', 'right'], default: 'right' },
-      { name: 'opening', type: 'number', default: 0, min: 0, max: 90 }
+      { name: 'opening', type: 'number', default: 0, min: 0, max: 90 },
     ],
     inputs: [
       { name: 'position', type: 'Point', required: true },
-      { name: 'wall', type: 'Shape', required: false }
+      { name: 'wall', type: 'Shape', required: false },
     ],
     outputs: [
       { name: 'door', type: 'Shape' },
-      { name: 'frame', type: 'Shape' }
-    ]
+      { name: 'frame', type: 'Shape' },
+    ],
   },
   {
     category: 'Architecture',
@@ -1212,15 +1191,13 @@ export const doorsWindowsTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'totalWidth', type: 'number', default: 1800, min: 1200, max: 2400 },
       { name: 'height', type: 'number', default: 2100, min: 1800, max: 2400 },
-      { name: 'activeLeaf', type: 'enum', options: ['left', 'right', 'both'], default: 'both' }
+      { name: 'activeLeaf', type: 'enum', options: ['left', 'right', 'both'], default: 'both' },
     ],
-    inputs: [
-      { name: 'position', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'position', type: 'Point', required: true }],
     outputs: [
       { name: 'doors', type: 'Shape[]' },
-      { name: 'frame', type: 'Shape' }
-    ]
+      { name: 'frame', type: 'Shape' },
+    ],
   },
   {
     category: 'Architecture',
@@ -1232,15 +1209,13 @@ export const doorsWindowsTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'panelCount', type: 'number', default: 2, min: 1, max: 4, step: 1 },
       { name: 'panelWidth', type: 'number', default: 900, min: 600, max: 1500 },
-      { name: 'openingPercent', type: 'number', default: 0, min: 0, max: 100 }
+      { name: 'openingPercent', type: 'number', default: 0, min: 0, max: 100 },
     ],
-    inputs: [
-      { name: 'opening', type: 'Wire', required: true }
-    ],
+    inputs: [{ name: 'opening', type: 'Wire', required: true }],
     outputs: [
       { name: 'panels', type: 'Shape[]' },
-      { name: 'track', type: 'Shape' }
-    ]
+      { name: 'track', type: 'Shape' },
+    ],
   },
   {
     category: 'Architecture',
@@ -1252,14 +1227,10 @@ export const doorsWindowsTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'diameter', type: 'number', default: 2000, min: 1800, max: 3000 },
       { name: 'wings', type: 'number', default: 4, min: 3, max: 4, step: 1 },
-      { name: 'rotation', type: 'number', default: 0, min: 0, max: 360 }
+      { name: 'rotation', type: 'number', default: 0, min: 0, max: 360 },
     ],
-    inputs: [
-      { name: 'center', type: 'Point', required: true }
-    ],
-    outputs: [
-      { name: 'revolvingDoor', type: 'Shape' }
-    ]
+    inputs: [{ name: 'center', type: 'Point', required: true }],
+    outputs: [{ name: 'revolvingDoor', type: 'Shape' }],
   },
   {
     category: 'Architecture',
@@ -1270,14 +1241,15 @@ export const doorsWindowsTemplates: NodeTemplate[] = [
     occtBinding: 'foldingDoor',
     parameters: [
       { name: 'panels', type: 'number', default: 4, min: 2, max: 8, step: 2 },
-      { name: 'foldDirection', type: 'enum', options: ['left', 'right', 'center'], default: 'left' }
+      {
+        name: 'foldDirection',
+        type: 'enum',
+        options: ['left', 'right', 'center'],
+        default: 'left',
+      },
     ],
-    inputs: [
-      { name: 'opening', type: 'Wire', required: true }
-    ],
-    outputs: [
-      { name: 'foldingDoor', type: 'Shape[]' }
-    ]
+    inputs: [{ name: 'opening', type: 'Wire', required: true }],
+    outputs: [{ name: 'foldingDoor', type: 'Shape[]' }],
   },
   {
     category: 'Architecture',
@@ -1288,15 +1260,13 @@ export const doorsWindowsTemplates: NodeTemplate[] = [
     occtBinding: 'rollupDoor',
     parameters: [
       { name: 'slatHeight', type: 'number', default: 75, min: 50, max: 100 },
-      { name: 'openHeight', type: 'number', default: 0, min: 0, max: 3000 }
+      { name: 'openHeight', type: 'number', default: 0, min: 0, max: 3000 },
     ],
-    inputs: [
-      { name: 'opening', type: 'Wire', required: true }
-    ],
+    inputs: [{ name: 'opening', type: 'Wire', required: true }],
     outputs: [
       { name: 'rollupDoor', type: 'Shape' },
-      { name: 'guides', type: 'Shape[]' }
-    ]
+      { name: 'guides', type: 'Shape[]' },
+    ],
   },
   {
     category: 'Architecture',
@@ -1309,16 +1279,14 @@ export const doorsWindowsTemplates: NodeTemplate[] = [
       { name: 'width', type: 'number', default: 600, min: 400, max: 1200 },
       { name: 'height', type: 'number', default: 1200, min: 600, max: 2000 },
       { name: 'hinge', type: 'enum', options: ['left', 'right', 'top'], default: 'left' },
-      { name: 'opening', type: 'number', default: 0, min: 0, max: 90 }
+      { name: 'opening', type: 'number', default: 0, min: 0, max: 90 },
     ],
-    inputs: [
-      { name: 'position', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'position', type: 'Point', required: true }],
     outputs: [
       { name: 'window', type: 'Shape' },
       { name: 'frame', type: 'Shape' },
-      { name: 'glass', type: 'Face' }
-    ]
+      { name: 'glass', type: 'Face' },
+    ],
   },
   {
     category: 'Architecture',
@@ -1329,15 +1297,13 @@ export const doorsWindowsTemplates: NodeTemplate[] = [
     occtBinding: 'slidingWindow',
     parameters: [
       { name: 'panels', type: 'number', default: 2, min: 2, max: 4, step: 1 },
-      { name: 'operablePanel', type: 'enum', options: ['left', 'right', 'both'], default: 'left' }
+      { name: 'operablePanel', type: 'enum', options: ['left', 'right', 'both'], default: 'left' },
     ],
-    inputs: [
-      { name: 'opening', type: 'Wire', required: true }
-    ],
+    inputs: [{ name: 'opening', type: 'Wire', required: true }],
     outputs: [
       { name: 'window', type: 'Shape' },
-      { name: 'panels', type: 'Shape[]' }
-    ]
+      { name: 'panels', type: 'Shape[]' },
+    ],
   },
   {
     category: 'Architecture',
@@ -1349,16 +1315,14 @@ export const doorsWindowsTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'width', type: 'number', default: 900, min: 600, max: 1500 },
       { name: 'height', type: 'number', default: 1500, min: 900, max: 2400 },
-      { name: 'sashPosition', type: 'number', default: 0.5, min: 0, max: 1 }
+      { name: 'sashPosition', type: 'number', default: 0.5, min: 0, max: 1 },
     ],
-    inputs: [
-      { name: 'position', type: 'Point', required: true }
-    ],
+    inputs: [{ name: 'position', type: 'Point', required: true }],
     outputs: [
       { name: 'window', type: 'Shape' },
       { name: 'upperSash', type: 'Shape' },
-      { name: 'lowerSash', type: 'Shape' }
-    ]
+      { name: 'lowerSash', type: 'Shape' },
+    ],
   },
   {
     category: 'Architecture',
@@ -1367,15 +1331,9 @@ export const doorsWindowsTemplates: NodeTemplate[] = [
     description: 'Awning window',
     operation: 'AWNING_WINDOW',
     occtBinding: 'awningWindow',
-    parameters: [
-      { name: 'opening', type: 'number', default: 0, min: 0, max: 45 }
-    ],
-    inputs: [
-      { name: 'opening', type: 'Wire', required: true }
-    ],
-    outputs: [
-      { name: 'window', type: 'Shape' }
-    ]
+    parameters: [{ name: 'opening', type: 'number', default: 0, min: 0, max: 45 }],
+    inputs: [{ name: 'opening', type: 'Wire', required: true }],
+    outputs: [{ name: 'window', type: 'Shape' }],
   },
   {
     category: 'Architecture',
@@ -1387,15 +1345,13 @@ export const doorsWindowsTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'projection', type: 'number', default: 600, min: 400, max: 1200 },
       { name: 'angleCount', type: 'number', default: 3, min: 3, max: 5, step: 1 },
-      { name: 'centerAngle', type: 'number', default: 135, min: 90, max: 180 }
+      { name: 'centerAngle', type: 'number', default: 135, min: 90, max: 180 },
     ],
-    inputs: [
-      { name: 'wallOpening', type: 'Wire', required: true }
-    ],
+    inputs: [{ name: 'wallOpening', type: 'Wire', required: true }],
     outputs: [
       { name: 'bayWindow', type: 'Shape' },
-      { name: 'windows', type: 'Shape[]' }
-    ]
+      { name: 'windows', type: 'Shape[]' },
+    ],
   },
   {
     category: 'Architecture',
@@ -1406,14 +1362,10 @@ export const doorsWindowsTemplates: NodeTemplate[] = [
     occtBinding: 'bowWindow',
     parameters: [
       { name: 'projection', type: 'number', default: 600, min: 400, max: 1200 },
-      { name: 'segments', type: 'number', default: 5, min: 3, max: 7, step: 1 }
+      { name: 'segments', type: 'number', default: 5, min: 3, max: 7, step: 1 },
     ],
-    inputs: [
-      { name: 'wallOpening', type: 'Wire', required: true }
-    ],
-    outputs: [
-      { name: 'bowWindow', type: 'Shape' }
-    ]
+    inputs: [{ name: 'wallOpening', type: 'Wire', required: true }],
+    outputs: [{ name: 'bowWindow', type: 'Shape' }],
   },
   {
     category: 'Architecture',
@@ -1424,14 +1376,10 @@ export const doorsWindowsTemplates: NodeTemplate[] = [
     occtBinding: 'clerestoryWindow',
     parameters: [
       { name: 'height', type: 'number', default: 600, min: 400, max: 1200 },
-      { name: 'continuous', type: 'boolean', default: true }
+      { name: 'continuous', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'wallTop', type: 'Wire', required: true }
-    ],
-    outputs: [
-      { name: 'clerestory', type: 'Shape' }
-    ]
+    inputs: [{ name: 'wallTop', type: 'Wire', required: true }],
+    outputs: [{ name: 'clerestory', type: 'Shape' }],
   },
   {
     category: 'Architecture',
@@ -1441,16 +1389,17 @@ export const doorsWindowsTemplates: NodeTemplate[] = [
     operation: 'FIRE_DOOR',
     occtBinding: 'fireDoor',
     parameters: [
-      { name: 'rating', type: 'enum', options: ['20-min', '45-min', '60-min', '90-min'], default: '60-min' },
+      {
+        name: 'rating',
+        type: 'enum',
+        options: ['20-min', '45-min', '60-min', '90-min'],
+        default: '60-min',
+      },
       { name: 'closer', type: 'boolean', default: true },
-      { name: 'panic', type: 'boolean', default: true }
+      { name: 'panic', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'opening', type: 'Wire', required: true }
-    ],
-    outputs: [
-      { name: 'fireDoor', type: 'Shape' }
-    ]
+    inputs: [{ name: 'opening', type: 'Wire', required: true }],
+    outputs: [{ name: 'fireDoor', type: 'Shape' }],
   },
   {
     category: 'Architecture',
@@ -1461,14 +1410,15 @@ export const doorsWindowsTemplates: NodeTemplate[] = [
     occtBinding: 'securityDoor',
     parameters: [
       { name: 'level', type: 'enum', options: ['standard', 'high', 'maximum'], default: 'high' },
-      { name: 'accessControl', type: 'enum', options: ['key', 'code', 'card', 'biometric'], default: 'card' }
+      {
+        name: 'accessControl',
+        type: 'enum',
+        options: ['key', 'code', 'card', 'biometric'],
+        default: 'card',
+      },
     ],
-    inputs: [
-      { name: 'opening', type: 'Wire', required: true }
-    ],
-    outputs: [
-      { name: 'securityDoor', type: 'Shape' }
-    ]
+    inputs: [{ name: 'opening', type: 'Wire', required: true }],
+    outputs: [{ name: 'securityDoor', type: 'Shape' }],
   },
   {
     category: 'Architecture',
@@ -1478,17 +1428,22 @@ export const doorsWindowsTemplates: NodeTemplate[] = [
     operation: 'STAINED_GLASS_WINDOW',
     occtBinding: 'stainedGlassWindow',
     parameters: [
-      { name: 'pattern', type: 'enum', options: ['geometric', 'floral', 'abstract', 'pictorial'], default: 'geometric' },
-      { name: 'leadWidth', type: 'number', default: 6, min: 4, max: 10 }
+      {
+        name: 'pattern',
+        type: 'enum',
+        options: ['geometric', 'floral', 'abstract', 'pictorial'],
+        default: 'geometric',
+      },
+      { name: 'leadWidth', type: 'number', default: 6, min: 4, max: 10 },
     ],
     inputs: [
       { name: 'opening', type: 'Wire', required: true },
-      { name: 'pattern', type: 'Wire[]', required: false }
+      { name: 'pattern', type: 'Wire[]', required: false },
     ],
     outputs: [
       { name: 'stainedGlass', type: 'Shape' },
-      { name: 'leadCame', type: 'Wire[]' }
-    ]
+      { name: 'leadCame', type: 'Wire[]' },
+    ],
   },
   {
     category: 'Architecture',
@@ -1499,15 +1454,18 @@ export const doorsWindowsTemplates: NodeTemplate[] = [
     occtBinding: 'overheadDoor',
     parameters: [
       { name: 'sections', type: 'number', default: 4, min: 3, max: 6, step: 1 },
-      { name: 'trackType', type: 'enum', options: ['standard', 'low-headroom', 'high-lift'], default: 'standard' }
+      {
+        name: 'trackType',
+        type: 'enum',
+        options: ['standard', 'low-headroom', 'high-lift'],
+        default: 'standard',
+      },
     ],
-    inputs: [
-      { name: 'opening', type: 'Wire', required: true }
-    ],
+    inputs: [{ name: 'opening', type: 'Wire', required: true }],
     outputs: [
       { name: 'overheadDoor', type: 'Shape' },
-      { name: 'tracks', type: 'Wire[]' }
-    ]
+      { name: 'tracks', type: 'Wire[]' },
+    ],
   },
   {
     category: 'Architecture',
@@ -1518,15 +1476,13 @@ export const doorsWindowsTemplates: NodeTemplate[] = [
     occtBinding: 'jalousieWindow',
     parameters: [
       { name: 'slats', type: 'number', default: 10, min: 5, max: 20, step: 1 },
-      { name: 'angle', type: 'number', default: 0, min: 0, max: 90 }
+      { name: 'angle', type: 'number', default: 0, min: 0, max: 90 },
     ],
-    inputs: [
-      { name: 'opening', type: 'Wire', required: true }
-    ],
+    inputs: [{ name: 'opening', type: 'Wire', required: true }],
     outputs: [
       { name: 'jalousie', type: 'Shape' },
-      { name: 'slats', type: 'Shape[]' }
-    ]
+      { name: 'slats', type: 'Shape[]' },
+    ],
   },
   {
     category: 'Architecture',
@@ -1538,15 +1494,13 @@ export const doorsWindowsTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'splitHeight', type: 'number', default: 1050, min: 900, max: 1200 },
       { name: 'topOpen', type: 'boolean', default: false },
-      { name: 'bottomOpen', type: 'boolean', default: false }
+      { name: 'bottomOpen', type: 'boolean', default: false },
     ],
-    inputs: [
-      { name: 'opening', type: 'Wire', required: true }
-    ],
+    inputs: [{ name: 'opening', type: 'Wire', required: true }],
     outputs: [
       { name: 'topDoor', type: 'Shape' },
-      { name: 'bottomDoor', type: 'Shape' }
-    ]
+      { name: 'bottomDoor', type: 'Shape' },
+    ],
   },
   {
     category: 'Architecture',
@@ -1556,17 +1510,20 @@ export const doorsWindowsTemplates: NodeTemplate[] = [
     operation: 'GOTHIC_WINDOW',
     occtBinding: 'gothicWindow',
     parameters: [
-      { name: 'style', type: 'enum', options: ['lancet', 'equilateral', 'flamboyant', 'perpendicular'], default: 'equilateral' },
-      { name: 'tracery', type: 'boolean', default: true }
+      {
+        name: 'style',
+        type: 'enum',
+        options: ['lancet', 'equilateral', 'flamboyant', 'perpendicular'],
+        default: 'equilateral',
+      },
+      { name: 'tracery', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'opening', type: 'Wire', required: true }
-    ],
+    inputs: [{ name: 'opening', type: 'Wire', required: true }],
     outputs: [
       { name: 'gothicWindow', type: 'Shape' },
-      { name: 'tracery', type: 'Wire[]' }
-    ]
-  }
+      { name: 'tracery', type: 'Wire[]' },
+    ],
+  },
 ];
 
 // Export all architecture templates
@@ -1574,5 +1531,5 @@ export const allArchitectureTemplates = [
   ...wallSystemTemplates,
   ...floorCeilingTemplates,
   ...stairsRampsTemplates,
-  ...doorsWindowsTemplates
+  ...doorsWindowsTemplates,
 ];

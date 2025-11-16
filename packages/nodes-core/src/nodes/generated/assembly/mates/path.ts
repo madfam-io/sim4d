@@ -25,23 +25,23 @@ export const AssemblyMatesPathNode: NodeDefinition<PathInputs, PathOutputs, Path
     path: {
       type: 'Wire',
       label: 'Path',
-      required: true
+      required: true,
     },
     follower: {
       type: 'Shape',
       label: 'Follower',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     pathed: {
       type: 'Shape[]',
-      label: 'Pathed'
+      label: 'Pathed',
     },
     mate: {
       type: 'Mate',
-      label: 'Mate'
-    }
+      label: 'Mate',
+    },
   },
   params: {
     position: {
@@ -49,13 +49,13 @@ export const AssemblyMatesPathNode: NodeDefinition<PathInputs, PathOutputs, Path
       label: 'Position',
       default: 0,
       min: 0,
-      max: 1
+      max: 1,
     },
     tangent: {
       type: 'boolean',
       label: 'Tangent',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -64,13 +64,13 @@ export const AssemblyMatesPathNode: NodeDefinition<PathInputs, PathOutputs, Path
         path: inputs.path,
         follower: inputs.follower,
         position: params.position,
-        tangent: params.tangent
-      }
+        tangent: params.tangent,
+      },
     });
-    
+
     return {
       pathed: results.pathed,
-      mate: results.mate
+      mate: results.mate,
     };
   },
 };

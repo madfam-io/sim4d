@@ -97,7 +97,10 @@ describe('useClipboard', () => {
     expect(pastedNodes[1].id).not.toBe('node2'); // Should have new ID
     expect(pastedNodes[0].position.x).toBe(100); // Base position
     expect(pastedNodes[1].position.x).toBe(150); // Offset position
-    expect(global.console.log).toHaveBeenCalledWith('📋 Pasted 2 nodes at position', { x: 100, y: 100 });
+    expect(global.console.log).toHaveBeenCalledWith('📋 Pasted 2 nodes at position', {
+      x: 100,
+      y: 100,
+    });
   });
 
   it('pastes nodes at specified position', () => {

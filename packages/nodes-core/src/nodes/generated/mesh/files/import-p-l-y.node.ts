@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -21,42 +20,39 @@ export const ImportPLYNode: NodeDefinition<ImportPLYInputs, ImportPLYOutputs, Im
   metadata: {
     label: 'ImportPLY',
     description: 'Import PLY mesh',
-    
-    
   },
 
   params: {
-        importColors: {
-      "default": true
+    importColors: {
+      default: true,
     },
     importProperties: {
-      "default": true
-    }
+      default: true,
+    },
   },
 
   inputs: {
-        fileData: 'Data'
+    fileData: 'Data',
   },
 
   outputs: {
-        mesh: 'Mesh',
-    properties: 'Data'
+    mesh: 'Mesh',
+    properties: 'Data',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'importPLY',
       params: {
         fileData: inputs.fileData,
         importColors: params.importColors,
-        importProperties: params.importProperties
-      }
+        importProperties: params.importProperties,
+      },
     });
 
     return {
       mesh: result,
-      properties: result
+      properties: result,
     };
-  }
+  },
 };

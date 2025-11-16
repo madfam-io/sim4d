@@ -12,7 +12,11 @@ interface ArcSineOutputs {
   angle: unknown;
 }
 
-export const MathTrigonometryArcSineNode: NodeDefinition<ArcSineInputs, ArcSineOutputs, ArcSineParams> = {
+export const MathTrigonometryArcSineNode: NodeDefinition<
+  ArcSineInputs,
+  ArcSineOutputs,
+  ArcSineParams
+> = {
   id: 'Math::ArcSine',
   type: 'Math::ArcSine',
   category: 'Math',
@@ -22,34 +26,34 @@ export const MathTrigonometryArcSineNode: NodeDefinition<ArcSineInputs, ArcSineO
     value: {
       type: 'number',
       label: 'Value',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     angle: {
       type: 'number',
-      label: 'Angle'
-    }
+      label: 'Angle',
+    },
   },
   params: {
     angleUnit: {
       type: 'enum',
       label: 'Angle Unit',
-      default: "radians",
-      options: ["radians","degrees"]
-    }
+      default: 'radians',
+      options: ['radians', 'degrees'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathAsin',
       params: {
         value: inputs.value,
-        angleUnit: params.angleUnit
-      }
+        angleUnit: params.angleUnit,
+      },
     });
-    
+
     return {
-      angle: result
+      angle: result,
     };
   },
 };

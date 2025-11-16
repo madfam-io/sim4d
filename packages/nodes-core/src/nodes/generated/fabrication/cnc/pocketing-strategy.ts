@@ -16,7 +16,11 @@ interface PocketingStrategyOutputs {
   finishing: unknown;
 }
 
-export const FabricationCNCPocketingStrategyNode: NodeDefinition<PocketingStrategyInputs, PocketingStrategyOutputs, PocketingStrategyParams> = {
+export const FabricationCNCPocketingStrategyNode: NodeDefinition<
+  PocketingStrategyInputs,
+  PocketingStrategyOutputs,
+  PocketingStrategyParams
+> = {
   id: 'Fabrication::PocketingStrategy',
   type: 'Fabrication::PocketingStrategy',
   category: 'Fabrication',
@@ -26,43 +30,43 @@ export const FabricationCNCPocketingStrategyNode: NodeDefinition<PocketingStrate
     pocket: {
       type: 'Wire',
       label: 'Pocket',
-      required: true
+      required: true,
     },
     depth: {
       type: 'Number',
       label: 'Depth',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     roughing: {
       type: 'Wire[]',
-      label: 'Roughing'
+      label: 'Roughing',
     },
     finishing: {
       type: 'Wire[]',
-      label: 'Finishing'
-    }
+      label: 'Finishing',
+    },
   },
   params: {
     pattern: {
       type: 'enum',
       label: 'Pattern',
-      default: "spiral",
-      options: ["spiral","zigzag","contour","trochoidal"]
+      default: 'spiral',
+      options: ['spiral', 'zigzag', 'contour', 'trochoidal'],
     },
     stepdown: {
       type: 'number',
       label: 'Stepdown',
       default: 2,
       min: 0.1,
-      max: 10
+      max: 10,
     },
     finishPass: {
       type: 'boolean',
       label: 'Finish Pass',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -72,13 +76,13 @@ export const FabricationCNCPocketingStrategyNode: NodeDefinition<PocketingStrate
         depth: inputs.depth,
         pattern: params.pattern,
         stepdown: params.stepdown,
-        finishPass: params.finishPass
-      }
+        finishPass: params.finishPass,
+      },
     });
-    
+
     return {
       roughing: results.roughing,
-      finishing: results.finishing
+      finishing: results.finishing,
     };
   },
 };

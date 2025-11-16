@@ -13,7 +13,11 @@ interface FocusCompensationOutputs {
   focusMap: unknown;
 }
 
-export const FabricationLaserFocusCompensationNode: NodeDefinition<FocusCompensationInputs, FocusCompensationOutputs, FocusCompensationParams> = {
+export const FabricationLaserFocusCompensationNode: NodeDefinition<
+  FocusCompensationInputs,
+  FocusCompensationOutputs,
+  FocusCompensationParams
+> = {
   id: 'Fabrication::FocusCompensation',
   type: 'Fabrication::FocusCompensation',
   category: 'Fabrication',
@@ -23,14 +27,14 @@ export const FabricationLaserFocusCompensationNode: NodeDefinition<FocusCompensa
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     focusMap: {
       type: 'Data',
-      label: 'Focus Map'
-    }
+      label: 'Focus Map',
+    },
   },
   params: {
     focalLength: {
@@ -38,15 +42,15 @@ export const FabricationLaserFocusCompensationNode: NodeDefinition<FocusCompensa
       label: 'Focal Length',
       default: 50,
       min: 20,
-      max: 200
+      max: 200,
     },
     beamDivergence: {
       type: 'number',
       label: 'Beam Divergence',
       default: 2,
       min: 0.5,
-      max: 5
-    }
+      max: 5,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -54,12 +58,12 @@ export const FabricationLaserFocusCompensationNode: NodeDefinition<FocusCompensa
       params: {
         surface: inputs.surface,
         focalLength: params.focalLength,
-        beamDivergence: params.beamDivergence
-      }
+        beamDivergence: params.beamDivergence,
+      },
     });
-    
+
     return {
-      focusMap: result
+      focusMap: result,
     };
   },
 };

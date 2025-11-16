@@ -16,7 +16,8 @@ const getHintsForCurrentState = (state: any): Hint[] => {
     hints.push({
       id: 'welcome-skill-selection',
       title: 'Choose Your Path',
-      content: 'Select your experience level to get a personalized onboarding experience. Don\'t worry - you can always change this later!',
+      content:
+        "Select your experience level to get a personalized onboarding experience. Don't worry - you can always change this later!",
       position: 'center',
       delay: 2,
       priority: 'medium',
@@ -29,7 +30,8 @@ const getHintsForCurrentState = (state: any): Hint[] => {
     hints.push({
       id: 'tour-navigation',
       title: 'Tour Navigation',
-      content: 'Use the Next/Previous buttons to navigate through the tour. You can skip the tour at any time if you prefer to explore on your own.',
+      content:
+        'Use the Next/Previous buttons to navigate through the tour. You can skip the tour at any time if you prefer to explore on your own.',
       position: 'top-right',
       delay: 1,
       priority: 'low',
@@ -39,7 +41,8 @@ const getHintsForCurrentState = (state: any): Hint[] => {
       hints.push({
         id: 'tour-beginner-tip',
         title: 'Take Your Time',
-        content: 'Since you\'re new to 3D modeling, don\'t rush through the tour. Each step builds on the previous one.',
+        content:
+          "Since you're new to 3D modeling, don't rush through the tour. Each step builds on the previous one.",
         position: 'bottom-left',
         delay: 3,
         priority: 'medium',
@@ -52,7 +55,8 @@ const getHintsForCurrentState = (state: any): Hint[] => {
     hints.push({
       id: 'playground-help',
       title: 'Need Help?',
-      content: 'If you get stuck, look for the help section in the instructions panel. You can also click the hint button to toggle these helpful tips.',
+      content:
+        'If you get stuck, look for the help section in the instructions panel. You can also click the hint button to toggle these helpful tips.',
       position: 'bottom-right',
       delay: 5,
       priority: 'low',
@@ -62,7 +66,8 @@ const getHintsForCurrentState = (state: any): Hint[] => {
       hints.push({
         id: 'first-shape-encouragement',
         title: 'Your First Shape',
-        content: 'Don\'t worry about making mistakes! This is a safe space to learn and experiment. The goal is to get comfortable with the interface.',
+        content:
+          "Don't worry about making mistakes! This is a safe space to learn and experiment. The goal is to get comfortable with the interface.",
         position: 'top-left',
         delay: 10,
         priority: 'medium',
@@ -75,7 +80,8 @@ const getHintsForCurrentState = (state: any): Hint[] => {
     hints.push({
       id: 'main-app-welcome-back',
       title: 'Welcome Back!',
-      content: 'You can restart the onboarding process anytime from the help menu, or jump into interactive playgrounds to practice specific skills.',
+      content:
+        'You can restart the onboarding process anytime from the help menu, or jump into interactive playgrounds to practice specific skills.',
       position: 'top-right',
       delay: 2,
       priority: 'low',
@@ -103,9 +109,7 @@ export const OnboardingOrchestrator: React.FC<OnboardingOrchestratorProps> = ({ 
   return (
     <>
       <AnimatePresence mode="wait">
-        {showWelcomeScreen && (
-          <WelcomeScreen key="welcome" />
-        )}
+        {showWelcomeScreen && <WelcomeScreen key="welcome" />}
 
         {showTour && (
           <div key="tour" className="tour-overlay">
@@ -114,9 +118,7 @@ export const OnboardingOrchestrator: React.FC<OnboardingOrchestratorProps> = ({ 
           </div>
         )}
 
-        {showPlaygrounds && (
-          <PlaygroundManager key="playgrounds" />
-        )}
+        {showPlaygrounds && <PlaygroundManager key="playgrounds" />}
 
         {showMainApp && (
           <div key="main-app" className="main-app-container">
@@ -125,11 +127,7 @@ export const OnboardingOrchestrator: React.FC<OnboardingOrchestratorProps> = ({ 
             {/* Progress tracker for users who haven't completed onboarding */}
             {state.completedTutorials.length < 4 && (
               <div className="progress-tracker-container">
-                <ProgressTracker
-                  position="sidebar"
-                  compact={false}
-                  showDetails={true}
-                />
+                <ProgressTracker position="sidebar" compact={false} showDetails={true} />
               </div>
             )}
           </div>
@@ -137,11 +135,7 @@ export const OnboardingOrchestrator: React.FC<OnboardingOrchestratorProps> = ({ 
       </AnimatePresence>
 
       {/* Hint system is always active */}
-      <HintSystem
-        hints={currentHints}
-        enabled={true}
-      />
-
+      <HintSystem hints={currentHints} enabled={true} />
     </>
   );
 };

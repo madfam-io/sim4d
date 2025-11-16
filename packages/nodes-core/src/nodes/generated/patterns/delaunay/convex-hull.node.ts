@@ -11,7 +11,11 @@ interface ConvexHullOutputs {
   vertices: Array<[number, number, number]>;
 }
 
-export const PatternsDelaunayConvexHullNode: NodeDefinition<ConvexHullInputs, ConvexHullOutputs, ConvexHullParams> = {
+export const PatternsDelaunayConvexHullNode: NodeDefinition<
+  ConvexHullInputs,
+  ConvexHullOutputs,
+  ConvexHullParams
+> = {
   id: 'Patterns::ConvexHull',
   category: 'Patterns',
   label: 'ConvexHull',
@@ -20,31 +24,31 @@ export const PatternsDelaunayConvexHullNode: NodeDefinition<ConvexHullInputs, Co
     points: {
       type: 'Point[]',
       label: 'Points',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     hull: {
       type: 'Wire',
-      label: 'Hull'
+      label: 'Hull',
     },
     vertices: {
       type: 'Point[]',
-      label: 'Vertices'
-    }
+      label: 'Vertices',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
       type: 'convexHull',
       params: {
-        points: inputs.points
-      }
+        points: inputs.points,
+      },
     });
-    
+
     return {
       hull: results.hull,
-      vertices: results.vertices
+      vertices: results.vertices,
     };
   },
 };

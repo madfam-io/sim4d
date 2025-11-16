@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { FabricationLaserNestingOptimizationNode } from './nesting-optimization.node';
 import { createTestContext } from '../test-utils';
@@ -8,12 +7,12 @@ describe('FabricationLaserNestingOptimizationNode', () => {
     const context = createTestContext();
     const inputs = {
       parts: undefined,
-      sheet: undefined
+      sheet: undefined,
     } as any;
     const params = {
       spacing: 2,
       rotations: true,
-      grainDirection: false
+      grainDirection: false,
     } as any;
 
     const result = await FabricationLaserNestingOptimizationNode.evaluate(context, inputs, params);

@@ -14,7 +14,11 @@ interface WallThicknessOutputs {
   thinAreas: unknown;
 }
 
-export const Fabrication3DPrintingWallThicknessNode: NodeDefinition<WallThicknessInputs, WallThicknessOutputs, WallThicknessParams> = {
+export const Fabrication3DPrintingWallThicknessNode: NodeDefinition<
+  WallThicknessInputs,
+  WallThicknessOutputs,
+  WallThicknessParams
+> = {
   id: 'Fabrication::WallThickness',
   type: 'Fabrication::WallThickness',
   category: 'Fabrication',
@@ -24,32 +28,32 @@ export const Fabrication3DPrintingWallThicknessNode: NodeDefinition<WallThicknes
     model: {
       type: 'Shape',
       label: 'Model',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     analysis: {
       type: 'Data',
-      label: 'Analysis'
+      label: 'Analysis',
     },
     thinAreas: {
       type: 'Face[]',
-      label: 'Thin Areas'
-    }
+      label: 'Thin Areas',
+    },
   },
   params: {
     minThickness: {
       type: 'number',
       label: 'Min Thickness',
       default: 1,
-      min: 0.1
+      min: 0.1,
     },
     maxThickness: {
       type: 'number',
       label: 'Max Thickness',
       default: 10,
-      min: 1
-    }
+      min: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -57,13 +61,13 @@ export const Fabrication3DPrintingWallThicknessNode: NodeDefinition<WallThicknes
       params: {
         model: inputs.model,
         minThickness: params.minThickness,
-        maxThickness: params.maxThickness
-      }
+        maxThickness: params.maxThickness,
+      },
     });
-    
+
     return {
       analysis: results.analysis,
-      thinAreas: results.thinAreas
+      thinAreas: results.thinAreas,
     };
   },
 };

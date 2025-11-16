@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { SpecializedTextEngraveNode } from './engrave.node';
 import { createTestContext } from '../test-utils';
@@ -8,12 +7,12 @@ describe('SpecializedTextEngraveNode', () => {
     const context = createTestContext();
     const inputs = {
       targetFace: undefined,
-      pattern: undefined
+      pattern: undefined,
     } as any;
     const params = {
       depth: 1,
       angle: 45,
-      roundCorners: true
+      roundCorners: true,
     } as any;
 
     const result = await SpecializedTextEngraveNode.evaluate(context, inputs, params);

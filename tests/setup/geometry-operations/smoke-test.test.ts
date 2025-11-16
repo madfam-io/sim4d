@@ -32,7 +32,7 @@ describe('Geometry Operations Smoke Test', () => {
     const box = await geometryAPI.invoke('MAKE_BOX', {
       width: 100,
       height: 50,
-      depth: 25
+      depth: 25,
     });
 
     expect(box).toBeDefined();
@@ -48,7 +48,7 @@ describe('Geometry Operations Smoke Test', () => {
     await geometryAPI.init();
 
     const sphere = await geometryAPI.invoke('MAKE_SPHERE', {
-      radius: 25
+      radius: 25,
     });
 
     expect(sphere).toBeDefined();
@@ -63,12 +63,12 @@ describe('Geometry Operations Smoke Test', () => {
     const box = await geometryAPI.invoke('MAKE_BOX', {
       width: 50,
       height: 50,
-      depth: 50
+      depth: 50,
     });
 
     const { mesh } = await geometryAPI.invoke('TESSELLATE', {
       shape: box,
-      tolerance: 0.1
+      tolerance: 0.1,
     });
 
     expect(mesh).toBeDefined();

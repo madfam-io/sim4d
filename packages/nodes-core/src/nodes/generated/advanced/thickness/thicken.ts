@@ -14,7 +14,11 @@ interface ThickenOutputs {
   solid: unknown;
 }
 
-export const AdvancedThicknessThickenNode: NodeDefinition<ThickenInputs, ThickenOutputs, ThickenParams> = {
+export const AdvancedThicknessThickenNode: NodeDefinition<
+  ThickenInputs,
+  ThickenOutputs,
+  ThickenParams
+> = {
   id: 'Advanced::Thicken',
   type: 'Advanced::Thicken',
   category: 'Advanced',
@@ -24,14 +28,14 @@ export const AdvancedThicknessThickenNode: NodeDefinition<ThickenInputs, Thicken
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     solid: {
       type: 'Shape',
-      label: 'Solid'
-    }
+      label: 'Solid',
+    },
   },
   params: {
     thickness: {
@@ -39,19 +43,19 @@ export const AdvancedThicknessThickenNode: NodeDefinition<ThickenInputs, Thicken
       label: 'Thickness',
       default: 5,
       min: 0.01,
-      max: 1000
+      max: 1000,
     },
     direction: {
       type: 'enum',
       label: 'Direction',
-      default: "normal",
-      options: ["normal","reverse","both"]
+      default: 'normal',
+      options: ['normal', 'reverse', 'both'],
     },
     autoClose: {
       type: 'boolean',
       label: 'Auto Close',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -60,12 +64,12 @@ export const AdvancedThicknessThickenNode: NodeDefinition<ThickenInputs, Thicken
         surface: inputs.surface,
         thickness: params.thickness,
         direction: params.direction,
-        autoClose: params.autoClose
-      }
+        autoClose: params.autoClose,
+      },
     });
-    
+
     return {
-      solid: result
+      solid: result,
     };
   },
 };

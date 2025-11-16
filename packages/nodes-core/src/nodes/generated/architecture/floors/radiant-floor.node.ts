@@ -15,7 +15,11 @@ interface RadiantFloorOutputs {
   manifold: [number, number, number];
 }
 
-export const ArchitectureFloorsRadiantFloorNode: NodeDefinition<RadiantFloorInputs, RadiantFloorOutputs, RadiantFloorParams> = {
+export const ArchitectureFloorsRadiantFloorNode: NodeDefinition<
+  RadiantFloorInputs,
+  RadiantFloorOutputs,
+  RadiantFloorParams
+> = {
   id: 'Architecture::RadiantFloor',
   category: 'Architecture',
   label: 'RadiantFloor',
@@ -24,18 +28,18 @@ export const ArchitectureFloorsRadiantFloorNode: NodeDefinition<RadiantFloorInpu
     floorArea: {
       type: 'Face',
       label: 'Floor Area',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     radiantLayout: {
       type: 'Wire[]',
-      label: 'Radiant Layout'
+      label: 'Radiant Layout',
     },
     manifold: {
       type: 'Point',
-      label: 'Manifold'
-    }
+      label: 'Manifold',
+    },
   },
   params: {
     pipeSpacing: {
@@ -43,14 +47,14 @@ export const ArchitectureFloorsRadiantFloorNode: NodeDefinition<RadiantFloorInpu
       label: 'Pipe Spacing',
       default: 200,
       min: 150,
-      max: 300
+      max: 300,
     },
     pipeDialeter: {
       type: 'number',
       label: 'Pipe Dialeter',
       default: 16,
       min: 12,
-      max: 25
+      max: 25,
     },
     zoneCount: {
       type: 'number',
@@ -58,8 +62,8 @@ export const ArchitectureFloorsRadiantFloorNode: NodeDefinition<RadiantFloorInpu
       default: 1,
       min: 1,
       max: 10,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -68,13 +72,13 @@ export const ArchitectureFloorsRadiantFloorNode: NodeDefinition<RadiantFloorInpu
         floorArea: inputs.floorArea,
         pipeSpacing: params.pipeSpacing,
         pipeDialeter: params.pipeDialeter,
-        zoneCount: params.zoneCount
-      }
+        zoneCount: params.zoneCount,
+      },
     });
-    
+
     return {
       radiantLayout: results.radiantLayout,
-      manifold: results.manifold
+      manifold: results.manifold,
     };
   },
 };

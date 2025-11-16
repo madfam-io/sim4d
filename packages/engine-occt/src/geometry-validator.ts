@@ -32,7 +32,10 @@ export class GeometryValidator {
         this.validateShape(result, 'shape');
       } else if (result?.positions && result?.indices) {
         this.validateMesh(result);
-      } else if (typeof result === 'string' && (result.includes('STEP') || result.includes('IGES'))) {
+      } else if (
+        typeof result === 'string' &&
+        (result.includes('STEP') || result.includes('IGES'))
+      ) {
         // Likely an export result
         const format = result.includes('STEP') ? 'STEP' : 'IGES';
         this.validateExport(result, format.toLowerCase());
@@ -43,7 +46,7 @@ export class GeometryValidator {
 
     return {
       valid: errors.length === 0,
-      errors
+      errors,
     };
   }
 
@@ -69,23 +72,29 @@ export class GeometryValidator {
 
     // Check for NaN or Infinity
     const bbox = [
-      shape.bbox_min_x, shape.bbox_min_y, shape.bbox_min_z,
-      shape.bbox_max_x, shape.bbox_max_y, shape.bbox_max_z
+      shape.bbox_min_x,
+      shape.bbox_min_y,
+      shape.bbox_min_z,
+      shape.bbox_max_x,
+      shape.bbox_max_y,
+      shape.bbox_max_z,
     ];
 
-    if (bbox.some(v => !isFinite(v))) {
+    if (bbox.some((v) => !isFinite(v))) {
       throw new Error(`Invalid ${type}: bounding box contains NaN or Infinity`);
     }
 
     // Validate bounding box logic
-    if (shape.bbox_min_x > shape.bbox_max_x ||
-        shape.bbox_min_y > shape.bbox_max_y ||
-        shape.bbox_min_z > shape.bbox_max_z) {
+    if (
+      shape.bbox_min_x > shape.bbox_max_x ||
+      shape.bbox_min_y > shape.bbox_max_y ||
+      shape.bbox_min_z > shape.bbox_max_z
+    ) {
       throw new Error(`Invalid ${type}: inverted bounding box`);
     }
 
     // Check for degenerate shapes
-    const volume = 
+    const volume =
       (shape.bbox_max_x - shape.bbox_min_x) *
       (shape.bbox_max_y - shape.bbox_min_y) *
       (shape.bbox_max_z - shape.bbox_min_z);
@@ -107,7 +116,7 @@ export class GeometryValidator {
     if (operation === 'intersect') {
       // Intersection should not increase bounding box
       // (This is a simplified check, actual validation would be more complex)
-      const volume = 
+      const volume =
         (result.bbox_max_x - result.bbox_min_x) *
         (result.bbox_max_y - result.bbox_min_y) *
         (result.bbox_max_z - result.bbox_min_z);
@@ -134,7 +143,9 @@ export class GeometryValidator {
 
     // Positions and normals should match
     if (positionCount !== normalCount) {
-      throw new Error(`Invalid mesh: position/normal count mismatch (${positionCount} vs ${normalCount})`);
+      throw new Error(
+        `Invalid mesh: position/normal count mismatch (${positionCount} vs ${normalCount})`
+      );
     }
 
     // Should have 3 components per vertex
@@ -177,7 +188,7 @@ export class GeometryValidator {
       const ny = mesh.normals[i * 3 + 1];
       const nz = mesh.normals[i * 3 + 2];
       const length = Math.sqrt(nx * nx + ny * ny + nz * nz);
-      
+
       if (Math.abs(length - 1.0) > 0.01) {
         console.warn(`Warning: Normal vector ${i} not normalized (length=${length})`);
       }
@@ -189,7 +200,7 @@ export class GeometryValidator {
       const i0 = mesh.indices[i];
       const i1 = mesh.indices[i + 1];
       const i2 = mesh.indices[i + 2];
-      
+
       if (i0 === i1 || i1 === i2 || i0 === i2) {
         degenerateCount++;
       }
@@ -210,7 +221,7 @@ export class GeometryValidator {
     } catch (error) {
       return {
         valid: false,
-        message: error instanceof Error ? error.message : 'Export validation failed'
+        message: error instanceof Error ? error.message : 'Export validation failed',
       };
     }
   }
@@ -247,7 +258,11 @@ export class GeometryValidator {
         throw new Error('Invalid STEP file: missing schema declaration');
       }
     } else if (format === 'iges') {
-      if (!data.startsWith('                                                                        S      1')) {
+      if (
+        !data.startsWith(
+          '                                                                        S      1'
+        )
+      ) {
         throw new Error('Invalid IGES file: incorrect start section');
       }
     }
@@ -255,7 +270,7 @@ export class GeometryValidator {
     // Check for reasonable file size
     const sizeKB = new Blob([data]).size / 1024;
     const maxSizeMB = getConfig().maxExportSizeMB;
-    
+
     if (sizeKB > maxSizeMB * 1024) {
       throw new Error(`Export file too large: ${sizeKB.toFixed(2)}KB exceeds ${maxSizeMB}MB limit`);
     }
@@ -274,7 +289,8 @@ export class GeometryValidator {
       }
     } else {
       // Binary STL
-      if (data.byteLength < 84) { // Header (80) + triangle count (4)
+      if (data.byteLength < 84) {
+        // Header (80) + triangle count (4)
         throw new Error('Invalid binary STL: file too small');
       }
     }
@@ -287,11 +303,13 @@ export class GeometryValidator {
   }
 
   private isValidBBox(shape: any): boolean {
-    return typeof shape.bbox_min_x === 'number' &&
-           typeof shape.bbox_min_y === 'number' &&
-           typeof shape.bbox_min_z === 'number' &&
-           typeof shape.bbox_max_x === 'number' &&
-           typeof shape.bbox_max_y === 'number' &&
-           typeof shape.bbox_max_z === 'number';
+    return (
+      typeof shape.bbox_min_x === 'number' &&
+      typeof shape.bbox_min_y === 'number' &&
+      typeof shape.bbox_min_z === 'number' &&
+      typeof shape.bbox_max_x === 'number' &&
+      typeof shape.bbox_max_y === 'number' &&
+      typeof shape.bbox_max_z === 'number'
+    );
   }
 }

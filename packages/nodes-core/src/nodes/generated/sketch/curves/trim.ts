@@ -23,14 +23,14 @@ export const SketchCurvesTrimNode: NodeDefinition<TrimInputs, TrimOutputs, TrimP
     curve: {
       type: 'Wire',
       label: 'Curve',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     trimmed: {
       type: 'Wire',
-      label: 'Trimmed'
-    }
+      label: 'Trimmed',
+    },
   },
   params: {
     startParameter: {
@@ -38,15 +38,15 @@ export const SketchCurvesTrimNode: NodeDefinition<TrimInputs, TrimOutputs, TrimP
       label: 'Start Parameter',
       default: 0,
       min: 0,
-      max: 1
+      max: 1,
     },
     endParameter: {
       type: 'number',
       label: 'End Parameter',
       default: 1,
       min: 0,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -54,12 +54,12 @@ export const SketchCurvesTrimNode: NodeDefinition<TrimInputs, TrimOutputs, TrimP
       params: {
         curve: inputs.curve,
         startParameter: params.startParameter,
-        endParameter: params.endParameter
-      }
+        endParameter: params.endParameter,
+      },
     });
-    
+
     return {
-      trimmed: result
+      trimmed: result,
     };
   },
 };

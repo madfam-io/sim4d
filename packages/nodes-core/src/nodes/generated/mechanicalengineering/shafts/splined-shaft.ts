@@ -16,7 +16,11 @@ interface SplinedShaftOutputs {
   splines: unknown;
 }
 
-export const MechanicalEngineeringShaftsSplinedShaftNode: NodeDefinition<SplinedShaftInputs, SplinedShaftOutputs, SplinedShaftParams> = {
+export const MechanicalEngineeringShaftsSplinedShaftNode: NodeDefinition<
+  SplinedShaftInputs,
+  SplinedShaftOutputs,
+  SplinedShaftParams
+> = {
   id: 'MechanicalEngineering::SplinedShaft',
   type: 'MechanicalEngineering::SplinedShaft',
   category: 'MechanicalEngineering',
@@ -26,18 +30,18 @@ export const MechanicalEngineeringShaftsSplinedShaftNode: NodeDefinition<Splined
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shaft: {
       type: 'Shape',
-      label: 'Shaft'
+      label: 'Shaft',
     },
     splines: {
       type: 'Wire[]',
-      label: 'Splines'
-    }
+      label: 'Splines',
+    },
   },
   params: {
     majorDiameter: {
@@ -45,29 +49,29 @@ export const MechanicalEngineeringShaftsSplinedShaftNode: NodeDefinition<Splined
       label: 'Major Diameter',
       default: 25,
       min: 10,
-      max: 100
+      max: 100,
     },
     minorDiameter: {
       type: 'number',
       label: 'Minor Diameter',
       default: 22,
       min: 8,
-      max: 95
+      max: 95,
     },
     splineCount: {
       type: 'number',
       label: 'Spline Count',
       default: 6,
       min: 4,
-      max: 20
+      max: 20,
     },
     length: {
       type: 'number',
       label: 'Length',
       default: 50,
       min: 10,
-      max: 200
-    }
+      max: 200,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -77,13 +81,13 @@ export const MechanicalEngineeringShaftsSplinedShaftNode: NodeDefinition<Splined
         majorDiameter: params.majorDiameter,
         minorDiameter: params.minorDiameter,
         splineCount: params.splineCount,
-        length: params.length
-      }
+        length: params.length,
+      },
     });
-    
+
     return {
       shaft: results.shaft,
-      splines: results.splines
+      splines: results.splines,
     };
   },
 };

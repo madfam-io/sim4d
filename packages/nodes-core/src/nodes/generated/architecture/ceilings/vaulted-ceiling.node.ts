@@ -13,7 +13,11 @@ interface VaultedCeilingOutputs {
   vaultedCeiling: unknown;
 }
 
-export const ArchitectureCeilingsVaultedCeilingNode: NodeDefinition<VaultedCeilingInputs, VaultedCeilingOutputs, VaultedCeilingParams> = {
+export const ArchitectureCeilingsVaultedCeilingNode: NodeDefinition<
+  VaultedCeilingInputs,
+  VaultedCeilingOutputs,
+  VaultedCeilingParams
+> = {
   id: 'Architecture::VaultedCeiling',
   category: 'Architecture',
   label: 'VaultedCeiling',
@@ -22,29 +26,29 @@ export const ArchitectureCeilingsVaultedCeilingNode: NodeDefinition<VaultedCeili
     ceilingOutline: {
       type: 'Wire',
       label: 'Ceiling Outline',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     vaultedCeiling: {
       type: 'Shape',
-      label: 'Vaulted Ceiling'
-    }
+      label: 'Vaulted Ceiling',
+    },
   },
   params: {
     vaultType: {
       type: 'enum',
       label: 'Vault Type',
-      default: "barrel",
-      options: ["barrel","groin","cloister","dome"]
+      default: 'barrel',
+      options: ['barrel', 'groin', 'cloister', 'dome'],
     },
     rise: {
       type: 'number',
       label: 'Rise',
       default: 1000,
       min: 500,
-      max: 3000
-    }
+      max: 3000,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -52,12 +56,12 @@ export const ArchitectureCeilingsVaultedCeilingNode: NodeDefinition<VaultedCeili
       params: {
         ceilingOutline: inputs.ceilingOutline,
         vaultType: params.vaultType,
-        rise: params.rise
-      }
+        rise: params.rise,
+      },
     });
-    
+
     return {
-      vaultedCeiling: result
+      vaultedCeiling: result,
     };
   },
 };

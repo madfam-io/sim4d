@@ -1,4 +1,3 @@
-
 # RuledSurface Node
 
 **Category:** Solid / Surface
@@ -11,25 +10,21 @@ This node has no parameters.
 
 ## Inputs
 
-
 ### Curve1
+
 - **Type:** Wire
 - **Required:** Yes
 - **Description:** First curve
 
-
 ### Curve2
+
 - **Type:** Wire
 - **Required:** Yes
 - **Description:** Second curve
 
-
 ## Outputs
 
-
 ### Surface
+
 - **Type:** Face
 - **Description:** Ruled surface
-
-
-

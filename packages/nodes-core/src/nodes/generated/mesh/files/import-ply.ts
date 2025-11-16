@@ -14,7 +14,11 @@ interface ImportPLYOutputs {
   properties: unknown;
 }
 
-export const MeshFilesImportPLYNode: NodeDefinition<ImportPLYInputs, ImportPLYOutputs, ImportPLYParams> = {
+export const MeshFilesImportPLYNode: NodeDefinition<
+  ImportPLYInputs,
+  ImportPLYOutputs,
+  ImportPLYParams
+> = {
   id: 'Mesh::ImportPLY',
   type: 'Mesh::ImportPLY',
   category: 'Mesh',
@@ -24,30 +28,30 @@ export const MeshFilesImportPLYNode: NodeDefinition<ImportPLYInputs, ImportPLYOu
     fileData: {
       type: 'Data',
       label: 'File Data',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     mesh: {
       type: 'Mesh',
-      label: 'Mesh'
+      label: 'Mesh',
     },
     properties: {
       type: 'Data',
-      label: 'Properties'
-    }
+      label: 'Properties',
+    },
   },
   params: {
     importColors: {
       type: 'boolean',
       label: 'Import Colors',
-      default: true
+      default: true,
     },
     importProperties: {
       type: 'boolean',
       label: 'Import Properties',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -55,13 +59,13 @@ export const MeshFilesImportPLYNode: NodeDefinition<ImportPLYInputs, ImportPLYOu
       params: {
         fileData: inputs.fileData,
         importColors: params.importColors,
-        importProperties: params.importProperties
-      }
+        importProperties: params.importProperties,
+      },
     });
-    
+
     return {
       mesh: results.mesh,
-      properties: results.properties
+      properties: results.properties,
     };
   },
 };

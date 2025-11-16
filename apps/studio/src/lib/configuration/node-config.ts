@@ -100,14 +100,14 @@ export class NodeConfigurationManager {
         author: metadata.author || 'Unknown',
         usage: {
           timesUsed: 0,
-          lastUsed: new Date()
+          lastUsed: new Date(),
         },
-        ...metadata
+        ...metadata,
       },
       version: '1.0.0',
       createdAt: new Date(),
       updatedAt: new Date(),
-      tags: this.generateTags(node.type)
+      tags: this.generateTags(node.type),
     };
 
     // Store the configuration
@@ -145,8 +145,8 @@ export class NodeConfigurationManager {
       state: {
         error: null,
         computing: false,
-        result: null
-      }
+        result: null,
+      },
     };
 
     this.saveToStorage();
@@ -157,8 +157,8 @@ export class NodeConfigurationManager {
    * Get all saved configurations
    */
   public getAllConfigurations(): NodeConfiguration[] {
-    return Array.from(this.configurations.values()).sort((a, b) =>
-      b.updatedAt.getTime() - a.updatedAt.getTime()
+    return Array.from(this.configurations.values()).sort(
+      (a, b) => b.updatedAt.getTime() - a.updatedAt.getTime()
     );
   }
 
@@ -167,7 +167,7 @@ export class NodeConfigurationManager {
    */
   public getConfigurationsByCategory(category: string): NodeConfiguration[] {
     return Array.from(this.configurations.values())
-      .filter(config => config.metadata.category === category)
+      .filter((config) => config.metadata.category === category)
       .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime());
   }
 
@@ -176,7 +176,7 @@ export class NodeConfigurationManager {
    */
   public getConfigurationsByNodeType(nodeType: string): NodeConfiguration[] {
     return Array.from(this.configurations.values())
-      .filter(config => config.nodeType === nodeType)
+      .filter((config) => config.nodeType === nodeType)
       .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime());
   }
 
@@ -186,12 +186,13 @@ export class NodeConfigurationManager {
   public searchConfigurations(query: string): NodeConfiguration[] {
     const searchTerm = query.toLowerCase();
     return Array.from(this.configurations.values())
-      .filter(config =>
-        config.name.toLowerCase().includes(searchTerm) ||
-        config.description?.toLowerCase().includes(searchTerm) ||
-        config.nodeType.toLowerCase().includes(searchTerm) ||
-        config.tags?.some(tag => tag.toLowerCase().includes(searchTerm)) ||
-        config.metadata.category?.toLowerCase().includes(searchTerm)
+      .filter(
+        (config) =>
+          config.name.toLowerCase().includes(searchTerm) ||
+          config.description?.toLowerCase().includes(searchTerm) ||
+          config.nodeType.toLowerCase().includes(searchTerm) ||
+          config.tags?.some((tag) => tag.toLowerCase().includes(searchTerm)) ||
+          config.metadata.category?.toLowerCase().includes(searchTerm)
       )
       .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime());
   }
@@ -199,10 +200,7 @@ export class NodeConfigurationManager {
   /**
    * Update configuration
    */
-  public updateConfiguration(
-    configId: string,
-    updates: Partial<NodeConfiguration>
-  ): boolean {
+  public updateConfiguration(configId: string, updates: Partial<NodeConfiguration>): boolean {
     const config = this.configurations.get(configId);
     if (!config) {
       return false;
@@ -285,7 +283,7 @@ export class NodeConfigurationManager {
     metadata: Partial<ConfigurationTemplate['metadata']> = {}
   ): ConfigurationTemplate | null {
     const configurations = configIds
-      .map(id => this.configurations.get(id))
+      .map((id) => this.configurations.get(id))
       .filter(Boolean) as NodeConfiguration[];
 
     if (configurations.length === 0) {
@@ -307,8 +305,8 @@ export class NodeConfigurationManager {
         tags: metadata.tags || [],
         difficulty: metadata.difficulty || 'intermediate',
         estimatedTime: metadata.estimatedTime,
-        ...metadata
-      }
+        ...metadata,
+      },
     };
 
     this.templates.set(template.id, template);
@@ -321,8 +319,8 @@ export class NodeConfigurationManager {
    * Get all templates
    */
   public getAllTemplates(): ConfigurationTemplate[] {
-    return Array.from(this.templates.values()).sort((a, b) =>
-      b.metadata.createdAt.getTime() - a.metadata.createdAt.getTime()
+    return Array.from(this.templates.values()).sort(
+      (a, b) => b.metadata.createdAt.getTime() - a.metadata.createdAt.getTime()
     );
   }
 
@@ -331,7 +329,7 @@ export class NodeConfigurationManager {
    */
   public getTemplatesByCategory(category: string): ConfigurationTemplate[] {
     return Array.from(this.templates.values())
-      .filter(template => template.category === category)
+      .filter((template) => template.category === category)
       .sort((a, b) => b.metadata.createdAt.getTime() - a.metadata.createdAt.getTime());
   }
 
@@ -363,7 +361,7 @@ export class NodeConfigurationManager {
     const configurationsByCategory: Record<string, number> = {};
     const configurationsByNodeType: Record<string, number> = {};
 
-    configs.forEach(config => {
+    configs.forEach((config) => {
       const category = config.metadata.category || 'Unknown';
       const nodeType = config.nodeType;
 
@@ -372,11 +370,11 @@ export class NodeConfigurationManager {
     });
 
     const mostUsedConfigurations = configs
-      .map(config => ({
+      .map((config) => ({
         config,
-        usageCount: config.metadata.usage?.timesUsed || 0
+        usageCount: config.metadata.usage?.timesUsed || 0,
       }))
-      .filter(item => item.usageCount > 0)
+      .filter((item) => item.usageCount > 0)
       .sort((a, b) => b.usageCount - a.usageCount)
       .slice(0, 10);
 
@@ -390,7 +388,7 @@ export class NodeConfigurationManager {
       configurationsByCategory,
       configurationsByNodeType,
       mostUsedConfigurations,
-      recentConfigurations
+      recentConfigurations,
     };
   }
 
@@ -424,7 +422,7 @@ export class NodeConfigurationManager {
       const configsData = Object.fromEntries(
         Array.from(this.configurations.entries()).map(([id, config]) => [
           id,
-          this.serializeConfiguration(config)
+          this.serializeConfiguration(config),
         ])
       );
       localStorage.setItem(this.STORAGE_KEY_CONFIGS, JSON.stringify(configsData));
@@ -433,7 +431,7 @@ export class NodeConfigurationManager {
       const templatesData = Object.fromEntries(
         Array.from(this.templates.entries()).map(([id, template]) => [
           id,
-          this.serializeTemplate(template)
+          this.serializeTemplate(template),
         ])
       );
       localStorage.setItem(this.STORAGE_KEY_TEMPLATES, JSON.stringify(templatesData));
@@ -449,11 +447,13 @@ export class NodeConfigurationManager {
       updatedAt: config.updatedAt.toISOString(),
       metadata: {
         ...config.metadata,
-        usage: config.metadata.usage ? {
-          ...config.metadata.usage,
-          lastUsed: config.metadata.usage.lastUsed.toISOString()
-        } : undefined
-      }
+        usage: config.metadata.usage
+          ? {
+              ...config.metadata.usage,
+              lastUsed: config.metadata.usage.lastUsed.toISOString(),
+            }
+          : undefined,
+      },
     };
   }
 
@@ -464,33 +464,37 @@ export class NodeConfigurationManager {
       updatedAt: new Date(data.updatedAt),
       metadata: {
         ...data.metadata,
-        usage: data.metadata.usage ? {
-          ...data.metadata.usage,
-          lastUsed: new Date(data.metadata.usage.lastUsed)
-        } : undefined
-      }
+        usage: data.metadata.usage
+          ? {
+              ...data.metadata.usage,
+              lastUsed: new Date(data.metadata.usage.lastUsed),
+            }
+          : undefined,
+      },
     };
   }
 
   private serializeTemplate(template: ConfigurationTemplate): any {
     return {
       ...template,
-      configurations: template.configurations.map(config => this.serializeConfiguration(config)),
+      configurations: template.configurations.map((config) => this.serializeConfiguration(config)),
       metadata: {
         ...template.metadata,
-        createdAt: template.metadata.createdAt.toISOString()
-      }
+        createdAt: template.metadata.createdAt.toISOString(),
+      },
     };
   }
 
   private deserializeTemplate(data: any): ConfigurationTemplate {
     return {
       ...data,
-      configurations: data.configurations.map((config: any) => this.deserializeConfiguration(config)),
+      configurations: data.configurations.map((config: any) =>
+        this.deserializeConfiguration(config)
+      ),
       metadata: {
         ...data.metadata,
-        createdAt: new Date(data.metadata.createdAt)
-      }
+        createdAt: new Date(data.metadata.createdAt),
+      },
     };
   }
 
@@ -524,7 +528,7 @@ export class NodeConfigurationManager {
       'Features::Chamfer': ['Solid::Box', 'Solid::Cylinder'],
       'Boolean::Union': ['Solid::Box', 'Solid::Cylinder', 'Solid::Sphere'],
       'Boolean::Intersection': ['Solid::Box', 'Solid::Cylinder', 'Solid::Sphere'],
-      'Boolean::Difference': ['Solid::Box', 'Solid::Cylinder', 'Solid::Sphere']
+      'Boolean::Difference': ['Solid::Box', 'Solid::Cylinder', 'Solid::Sphere'],
     };
 
     return dependencyMap[nodeType] || [];

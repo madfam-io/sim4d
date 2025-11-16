@@ -14,7 +14,11 @@ interface TangentOutputs {
   constraint: unknown;
 }
 
-export const AssemblyConstraintsTangentNode: NodeDefinition<TangentInputs, TangentOutputs, TangentParams> = {
+export const AssemblyConstraintsTangentNode: NodeDefinition<
+  TangentInputs,
+  TangentOutputs,
+  TangentParams
+> = {
   id: 'Assembly::Tangent',
   category: 'Assembly',
   label: 'Tangent',
@@ -23,30 +27,30 @@ export const AssemblyConstraintsTangentNode: NodeDefinition<TangentInputs, Tange
     entity1: {
       type: 'Shape',
       label: 'Entity1',
-      required: true
+      required: true,
     },
     entity2: {
       type: 'Shape',
       label: 'Entity2',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     constrained: {
       type: 'Shape[]',
-      label: 'Constrained'
+      label: 'Constrained',
     },
     constraint: {
       type: 'Constraint',
-      label: 'Constraint'
-    }
+      label: 'Constraint',
+    },
   },
   params: {
     inside: {
       type: 'boolean',
       label: 'Inside',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -54,13 +58,13 @@ export const AssemblyConstraintsTangentNode: NodeDefinition<TangentInputs, Tange
       params: {
         entity1: inputs.entity1,
         entity2: inputs.entity2,
-        inside: params.inside
-      }
+        inside: params.inside,
+      },
     });
-    
+
     return {
       constrained: results.constrained,
-      constraint: results.constraint
+      constraint: results.constraint,
     };
   },
 };

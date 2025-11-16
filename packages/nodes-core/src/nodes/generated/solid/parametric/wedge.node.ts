@@ -24,8 +24,8 @@ export const SolidParametricWedgeNode: NodeDefinition<WedgeInputs, WedgeOutputs,
   outputs: {
     solid: {
       type: 'Solid',
-      label: 'Solid'
-    }
+      label: 'Solid',
+    },
   },
   params: {
     dx: {
@@ -33,43 +33,43 @@ export const SolidParametricWedgeNode: NodeDefinition<WedgeInputs, WedgeOutputs,
       label: 'Dx',
       default: 100,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     dy: {
       type: 'number',
       label: 'Dy',
       default: 50,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     dz: {
       type: 'number',
       label: 'Dz',
       default: 75,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     xmax: {
       type: 'number',
       label: 'Xmax',
       default: 50,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     zmin: {
       type: 'number',
       label: 'Zmin',
       default: 25,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     zmax: {
       type: 'number',
       label: 'Zmax',
       default: 50,
       min: 0.1,
-      max: 10000
-    }
+      max: 10000,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -80,12 +80,12 @@ export const SolidParametricWedgeNode: NodeDefinition<WedgeInputs, WedgeOutputs,
         dz: params.dz,
         xmax: params.xmax,
         zmin: params.zmin,
-        zmax: params.zmax
-      }
+        zmax: params.zmax,
+      },
     });
-    
+
     return {
-      solid: result
+      solid: result,
     };
   },
 };

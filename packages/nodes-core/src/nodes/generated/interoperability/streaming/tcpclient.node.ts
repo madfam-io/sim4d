@@ -16,7 +16,11 @@ interface TCPClientOutputs {
   error: unknown;
 }
 
-export const InteroperabilityStreamingTCPClientNode: NodeDefinition<TCPClientInputs, TCPClientOutputs, TCPClientParams> = {
+export const InteroperabilityStreamingTCPClientNode: NodeDefinition<
+  TCPClientInputs,
+  TCPClientOutputs,
+  TCPClientParams
+> = {
   id: 'Interoperability::TCPClient',
   category: 'Interoperability',
   label: 'TCPClient',
@@ -25,43 +29,43 @@ export const InteroperabilityStreamingTCPClientNode: NodeDefinition<TCPClientInp
     data: {
       type: 'string',
       label: 'Data',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     connected: {
       type: 'boolean',
-      label: 'Connected'
+      label: 'Connected',
     },
     response: {
       type: 'string',
-      label: 'Response'
+      label: 'Response',
     },
     error: {
       type: 'string',
-      label: 'Error'
-    }
+      label: 'Error',
+    },
   },
   params: {
     host: {
       type: 'string',
       label: 'Host',
-      default: "localhost"
+      default: 'localhost',
     },
     port: {
       type: 'number',
       label: 'Port',
       default: 8080,
       min: 1,
-      max: 65535
+      max: 65535,
     },
     timeout: {
       type: 'number',
       label: 'Timeout',
       default: 30,
       min: 1,
-      max: 300
-    }
+      max: 300,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -70,14 +74,14 @@ export const InteroperabilityStreamingTCPClientNode: NodeDefinition<TCPClientInp
         data: inputs.data,
         host: params.host,
         port: params.port,
-        timeout: params.timeout
-      }
+        timeout: params.timeout,
+      },
     });
-    
+
     return {
       connected: results.connected,
       response: results.response,
-      error: results.error
+      error: results.error,
     };
   },
 };

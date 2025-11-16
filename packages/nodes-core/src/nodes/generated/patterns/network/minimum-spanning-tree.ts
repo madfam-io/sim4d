@@ -10,7 +10,11 @@ interface MinimumSpanningTreeOutputs {
   tree: unknown;
 }
 
-export const PatternsNetworkMinimumSpanningTreeNode: NodeDefinition<MinimumSpanningTreeInputs, MinimumSpanningTreeOutputs, MinimumSpanningTreeParams> = {
+export const PatternsNetworkMinimumSpanningTreeNode: NodeDefinition<
+  MinimumSpanningTreeInputs,
+  MinimumSpanningTreeOutputs,
+  MinimumSpanningTreeParams
+> = {
   id: 'Patterns::MinimumSpanningTree',
   type: 'Patterns::MinimumSpanningTree',
   category: 'Patterns',
@@ -20,26 +24,26 @@ export const PatternsNetworkMinimumSpanningTreeNode: NodeDefinition<MinimumSpann
     points: {
       type: 'Point[]',
       label: 'Points',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     tree: {
       type: 'Wire[]',
-      label: 'Tree'
-    }
+      label: 'Tree',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'minimumSpanningTree',
       params: {
-        points: inputs.points
-      }
+        points: inputs.points,
+      },
     });
-    
+
     return {
-      tree: result
+      tree: result,
     };
   },
 };

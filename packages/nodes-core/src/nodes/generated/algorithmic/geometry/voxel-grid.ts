@@ -16,7 +16,11 @@ interface VoxelGridOutputs {
   bounds: unknown;
 }
 
-export const AlgorithmicGeometryVoxelGridNode: NodeDefinition<VoxelGridInputs, VoxelGridOutputs, VoxelGridParams> = {
+export const AlgorithmicGeometryVoxelGridNode: NodeDefinition<
+  VoxelGridInputs,
+  VoxelGridOutputs,
+  VoxelGridParams
+> = {
   id: 'Algorithmic::VoxelGrid',
   type: 'Algorithmic::VoxelGrid',
   category: 'Algorithmic',
@@ -26,22 +30,22 @@ export const AlgorithmicGeometryVoxelGridNode: NodeDefinition<VoxelGridInputs, V
     geometry: {
       type: 'Shape',
       label: 'Geometry',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     voxels: {
       type: 'Shape[]',
-      label: 'Voxels'
+      label: 'Voxels',
     },
     grid: {
       type: 'Properties',
-      label: 'Grid'
+      label: 'Grid',
     },
     bounds: {
       type: 'Properties',
-      label: 'Bounds'
-    }
+      label: 'Bounds',
+    },
   },
   params: {
     voxelSize: {
@@ -49,18 +53,18 @@ export const AlgorithmicGeometryVoxelGridNode: NodeDefinition<VoxelGridInputs, V
       label: 'Voxel Size',
       default: 1,
       min: 0.1,
-      max: 10
+      max: 10,
     },
     fillInterior: {
       type: 'boolean',
       label: 'Fill Interior',
-      default: true
+      default: true,
     },
     optimize: {
       type: 'boolean',
       label: 'Optimize',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -69,14 +73,14 @@ export const AlgorithmicGeometryVoxelGridNode: NodeDefinition<VoxelGridInputs, V
         geometry: inputs.geometry,
         voxelSize: params.voxelSize,
         fillInterior: params.fillInterior,
-        optimize: params.optimize
-      }
+        optimize: params.optimize,
+      },
     });
-    
+
     return {
       voxels: results.voxels,
       grid: results.grid,
-      bounds: results.bounds
+      bounds: results.bounds,
     };
   },
 };

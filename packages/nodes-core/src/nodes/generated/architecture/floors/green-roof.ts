@@ -14,7 +14,11 @@ interface GreenRoofOutputs {
   layers: unknown;
 }
 
-export const ArchitectureFloorsGreenRoofNode: NodeDefinition<GreenRoofInputs, GreenRoofOutputs, GreenRoofParams> = {
+export const ArchitectureFloorsGreenRoofNode: NodeDefinition<
+  GreenRoofInputs,
+  GreenRoofOutputs,
+  GreenRoofParams
+> = {
   id: 'Architecture::GreenRoof',
   type: 'Architecture::GreenRoof',
   category: 'Architecture',
@@ -24,33 +28,33 @@ export const ArchitectureFloorsGreenRoofNode: NodeDefinition<GreenRoofInputs, Gr
     roofSurface: {
       type: 'Face',
       label: 'Roof Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     greenRoof: {
       type: 'Shape',
-      label: 'Green Roof'
+      label: 'Green Roof',
     },
     layers: {
       type: 'Shape[]',
-      label: 'Layers'
-    }
+      label: 'Layers',
+    },
   },
   params: {
     type: {
       type: 'enum',
       label: 'Type',
-      default: "extensive",
-      options: ["extensive","intensive","semi-intensive"]
+      default: 'extensive',
+      options: ['extensive', 'intensive', 'semi-intensive'],
     },
     soilDepth: {
       type: 'number',
       label: 'Soil Depth',
       default: 100,
       min: 50,
-      max: 500
-    }
+      max: 500,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -58,13 +62,13 @@ export const ArchitectureFloorsGreenRoofNode: NodeDefinition<GreenRoofInputs, Gr
       params: {
         roofSurface: inputs.roofSurface,
         type: params.type,
-        soilDepth: params.soilDepth
-      }
+        soilDepth: params.soilDepth,
+      },
     });
-    
+
     return {
       greenRoof: results.greenRoof,
-      layers: results.layers
+      layers: results.layers,
     };
   },
 };

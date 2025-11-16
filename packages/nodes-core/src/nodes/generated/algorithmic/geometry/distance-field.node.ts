@@ -16,7 +16,11 @@ interface DistanceFieldOutputs {
   gradient: Array<[number, number, number]>;
 }
 
-export const AlgorithmicGeometryDistanceFieldNode: NodeDefinition<DistanceFieldInputs, DistanceFieldOutputs, DistanceFieldParams> = {
+export const AlgorithmicGeometryDistanceFieldNode: NodeDefinition<
+  DistanceFieldInputs,
+  DistanceFieldOutputs,
+  DistanceFieldParams
+> = {
   id: 'Algorithmic::DistanceField',
   category: 'Algorithmic',
   label: 'DistanceField',
@@ -25,22 +29,22 @@ export const AlgorithmicGeometryDistanceFieldNode: NodeDefinition<DistanceFieldI
     geometry: {
       type: 'Shape',
       label: 'Geometry',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     field: {
       type: 'Properties',
-      label: 'Field'
+      label: 'Field',
     },
     isosurface: {
       type: 'Shape',
-      label: 'Isosurface'
+      label: 'Isosurface',
     },
     gradient: {
       type: 'Vector[]',
-      label: 'Gradient'
-    }
+      label: 'Gradient',
+    },
   },
   params: {
     resolution: {
@@ -48,18 +52,18 @@ export const AlgorithmicGeometryDistanceFieldNode: NodeDefinition<DistanceFieldI
       label: 'Resolution',
       default: 50,
       min: 10,
-      max: 200
+      max: 200,
     },
     bounds: {
       type: 'Vector',
       label: 'Bounds',
-      default: "100,100,100"
+      default: '100,100,100',
     },
     signed: {
       type: 'boolean',
       label: 'Signed',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -68,14 +72,14 @@ export const AlgorithmicGeometryDistanceFieldNode: NodeDefinition<DistanceFieldI
         geometry: inputs.geometry,
         resolution: params.resolution,
         bounds: params.bounds,
-        signed: params.signed
-      }
+        signed: params.signed,
+      },
     });
-    
+
     return {
       field: results.field,
       isosurface: results.isosurface,
-      gradient: results.gradient
+      gradient: results.gradient,
     };
   },
 };

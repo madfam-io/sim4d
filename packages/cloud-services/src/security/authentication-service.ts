@@ -109,7 +109,13 @@ export interface MfaSetup {
 export interface SecurityEvent {
   id: string;
   userId: UserId;
-  type: 'login' | 'logout' | 'password_change' | 'mfa_enabled' | 'suspicious_login' | 'account_locked';
+  type:
+    | 'login'
+    | 'logout'
+    | 'password_change'
+    | 'mfa_enabled'
+    | 'suspicious_login'
+    | 'account_locked';
   ipAddress: string;
   userAgent: string;
   timestamp: Date;
@@ -120,7 +126,10 @@ export interface SecurityEvent {
 export class AuthenticationService extends EventEmitter {
   private config: AuthConfig;
   private sessions = new Map<string, AuthSession>();
-  private loginAttempts = new Map<string, { count: number; lastAttempt: Date; lockedUntil?: Date }>();
+  private loginAttempts = new Map<
+    string,
+    { count: number; lastAttempt: Date; lockedUntil?: Date }
+  >();
   private mfaSecrets = new Map<UserId, { secret: string; backupCodes: string[] }>();
   private securityEvents: SecurityEvent[] = [];
   private refreshTokens = new Map<string, { userId: UserId; expiresAt: Date; deviceId: string }>();
@@ -134,7 +143,9 @@ export class AuthenticationService extends EventEmitter {
   /**
    * User Registration
    */
-  async register(data: RegisterData): Promise<{ user: User; tokens: AuthTokens; requiresEmailVerification: boolean }> {
+  async register(
+    data: RegisterData
+  ): Promise<{ user: User; tokens: AuthTokens; requiresEmailVerification: boolean }> {
     // Validate registration data
     await this.validateRegistrationData(data);
 
@@ -194,7 +205,10 @@ export class AuthenticationService extends EventEmitter {
   /**
    * Authentication
    */
-  async login(credentials: AuthCredentials, context: { ipAddress: string; userAgent: string }): Promise<{
+  async login(
+    credentials: AuthCredentials,
+    context: { ipAddress: string; userAgent: string }
+  ): Promise<{
     user: User;
     tokens: AuthTokens;
     requiresMfa: boolean;
@@ -227,7 +241,9 @@ export class AuthenticationService extends EventEmitter {
 
     // Check email verification
     if (this.config.security.requireEmailVerification && !user.isEmailVerified) {
-      throw new Error('Email verification required. Please check your email for verification link.');
+      throw new Error(
+        'Email verification required. Please check your email for verification link.'
+      );
     }
 
     // Check MFA requirement
@@ -451,7 +467,9 @@ export class AuthenticationService extends EventEmitter {
   /**
    * Session Management
    */
-  async validateToken(token: string): Promise<{ valid: boolean; userId?: UserId; sessionId?: string }> {
+  async validateToken(
+    token: string
+  ): Promise<{ valid: boolean; userId?: UserId; sessionId?: string }> {
     try {
       const payload = await this.verifyJwt(token);
 
@@ -504,7 +522,7 @@ export class AuthenticationService extends EventEmitter {
   }
 
   async logoutAllSessions(userId: UserId): Promise<void> {
-    const userSessions = Array.from(this.sessions.values()).filter(s => s.userId === userId);
+    const userSessions = Array.from(this.sessions.values()).filter((s) => s.userId === userId);
 
     for (const session of userSessions) {
       session.isActive = false;
@@ -522,14 +540,18 @@ export class AuthenticationService extends EventEmitter {
 
   async getUserSessions(userId: UserId): Promise<AuthSession[]> {
     return Array.from(this.sessions.values())
-      .filter(s => s.userId === userId && s.isActive)
+      .filter((s) => s.userId === userId && s.isActive)
       .sort((a, b) => b.lastActivity.getTime() - a.lastActivity.getTime());
   }
 
   /**
    * Password Management
    */
-  async changePassword(userId: UserId, currentPassword: string, newPassword: string): Promise<void> {
+  async changePassword(
+    userId: UserId,
+    currentPassword: string,
+    newPassword: string
+  ): Promise<void> {
     const user = await this.findUserById(userId);
     if (!user) {
       throw new Error('User not found');
@@ -625,7 +647,7 @@ export class AuthenticationService extends EventEmitter {
    */
   async getSecurityEvents(userId: UserId, limit: number = 50): Promise<SecurityEvent[]> {
     return this.securityEvents
-      .filter(event => event.userId === userId)
+      .filter((event) => event.userId === userId)
       .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
       .slice(0, limit);
   }
@@ -650,7 +672,7 @@ export class AuthenticationService extends EventEmitter {
     }
 
     // Check for logins from new locations
-    const uniqueLocations = new Set(userSessions.map(s => s.metadata.location).filter(Boolean));
+    const uniqueLocations = new Set(userSessions.map((s) => s.metadata.location).filter(Boolean));
     if (uniqueLocations.size > 5) {
       riskScore += 15;
       anomalies.push('Logins from multiple geographic locations');
@@ -658,8 +680,9 @@ export class AuthenticationService extends EventEmitter {
     }
 
     // Check for rapid successive logins
-    const recentLogins = recentEvents.filter(e => e.type === 'login' &&
-      e.timestamp > new Date(Date.now() - 24 * 60 * 60 * 1000));
+    const recentLogins = recentEvents.filter(
+      (e) => e.type === 'login' && e.timestamp > new Date(Date.now() - 24 * 60 * 60 * 1000)
+    );
     if (recentLogins.length > 10) {
       riskScore += 25;
       anomalies.push('Unusually high login frequency');
@@ -704,7 +727,8 @@ export class AuthenticationService extends EventEmitter {
   }
 
   private validatePassword(password: string): void {
-    const { minLength, requireUppercase, requireLowercase, requireNumbers, requireSymbols } = this.config.password;
+    const { minLength, requireUppercase, requireLowercase, requireNumbers, requireSymbols } =
+      this.config.password;
 
     if (password.length < minLength) {
       throw new Error(`Password must be at least ${minLength} characters long`);
@@ -784,46 +808,94 @@ export class AuthenticationService extends EventEmitter {
   }
 
   private startSessionCleanup(): void {
-    setInterval(() => {
-      const now = new Date();
-      for (const [sessionId, session] of this.sessions) {
-        if (!session.isActive || session.expiresAt < now) {
-          this.sessions.delete(sessionId);
+    setInterval(
+      () => {
+        const now = new Date();
+        for (const [sessionId, session] of this.sessions) {
+          if (!session.isActive || session.expiresAt < now) {
+            this.sessions.delete(sessionId);
+          }
         }
-      }
 
-      // Clean up expired refresh tokens
-      for (const [token, data] of this.refreshTokens) {
-        if (data.expiresAt < now) {
-          this.refreshTokens.delete(token);
+        // Clean up expired refresh tokens
+        for (const [token, data] of this.refreshTokens) {
+          if (data.expiresAt < now) {
+            this.refreshTokens.delete(token);
+          }
         }
-      }
-    }, 60 * 60 * 1000); // Run every hour
+      },
+      60 * 60 * 1000
+    ); // Run every hour
   }
 
   // Data access methods (to be implemented with actual database/services)
-  private async findUserByEmail(email: string): Promise<any> { return null; }
-  private async findUserById(userId: UserId): Promise<any> { return null; }
-  private async createUser(userData: any): Promise<User> { throw new Error('Not implemented'); }
-  private async updateUser(userId: UserId, updates: any): Promise<void> { }
-  private async updateLastLogin(userId: UserId, ipAddress: string): Promise<void> { }
-  private async createSession(userId: UserId, deviceId: string, ipAddress: string, userAgent: string): Promise<AuthSession> { throw new Error('Not implemented'); }
-  private async createMfaSession(userId: UserId, ipAddress: string, userAgent: string): Promise<string> { return 'mfa-session'; }
-  private async checkRateLimit(email: string, ipAddress: string): Promise<void> { }
-  private async recordFailedLogin(identifier: string, ipAddress: string): Promise<void> { }
-  private async verifyMfaCode(userId: UserId, code: string): Promise<boolean> { return false; }
-  private async detectSuspiciousLogin(userId: UserId, ipAddress: string, userAgent: string): Promise<void> { }
-  private async generateTokens(userId: UserId, deviceId: string, rememberMe?: boolean): Promise<AuthTokens> { throw new Error('Not implemented'); }
-  private async verifyJwt(token: string): Promise<any> { throw new Error('Not implemented'); }
-  private async verifyTotpCode(secret: string, code: string): Promise<boolean> { return false; }
-  private async generateQrCode(email: string, secret: string): Promise<string> { return ''; }
-  private async validateInviteCode(code: string): Promise<void> { }
-  private async sendEmailVerification(user: User): Promise<void> { }
-  private async exchangeOAuthCode(provider: string, code: string): Promise<any> { return {}; }
-  private async storePasswordResetToken(userId: UserId, token: string, expiresAt: Date): Promise<void> { }
-  private async getPasswordResetToken(token: string): Promise<any> { return null; }
-  private async deletePasswordResetToken(token: string): Promise<void> { }
-  private async sendPasswordResetEmail(user: User, token: string): Promise<void> { }
+  private async findUserByEmail(email: string): Promise<any> {
+    return null;
+  }
+  private async findUserById(userId: UserId): Promise<any> {
+    return null;
+  }
+  private async createUser(userData: any): Promise<User> {
+    throw new Error('Not implemented');
+  }
+  private async updateUser(userId: UserId, updates: any): Promise<void> {}
+  private async updateLastLogin(userId: UserId, ipAddress: string): Promise<void> {}
+  private async createSession(
+    userId: UserId,
+    deviceId: string,
+    ipAddress: string,
+    userAgent: string
+  ): Promise<AuthSession> {
+    throw new Error('Not implemented');
+  }
+  private async createMfaSession(
+    userId: UserId,
+    ipAddress: string,
+    userAgent: string
+  ): Promise<string> {
+    return 'mfa-session';
+  }
+  private async checkRateLimit(email: string, ipAddress: string): Promise<void> {}
+  private async recordFailedLogin(identifier: string, ipAddress: string): Promise<void> {}
+  private async verifyMfaCode(userId: UserId, code: string): Promise<boolean> {
+    return false;
+  }
+  private async detectSuspiciousLogin(
+    userId: UserId,
+    ipAddress: string,
+    userAgent: string
+  ): Promise<void> {}
+  private async generateTokens(
+    userId: UserId,
+    deviceId: string,
+    rememberMe?: boolean
+  ): Promise<AuthTokens> {
+    throw new Error('Not implemented');
+  }
+  private async verifyJwt(token: string): Promise<any> {
+    throw new Error('Not implemented');
+  }
+  private async verifyTotpCode(secret: string, code: string): Promise<boolean> {
+    return false;
+  }
+  private async generateQrCode(email: string, secret: string): Promise<string> {
+    return '';
+  }
+  private async validateInviteCode(code: string): Promise<void> {}
+  private async sendEmailVerification(user: User): Promise<void> {}
+  private async exchangeOAuthCode(provider: string, code: string): Promise<any> {
+    return {};
+  }
+  private async storePasswordResetToken(
+    userId: UserId,
+    token: string,
+    expiresAt: Date
+  ): Promise<void> {}
+  private async getPasswordResetToken(token: string): Promise<any> {
+    return null;
+  }
+  private async deletePasswordResetToken(token: string): Promise<void> {}
+  private async sendPasswordResetEmail(user: User, token: string): Promise<void> {}
 
   private getDefaultUserPreferences(): UserPreferences {
     return {

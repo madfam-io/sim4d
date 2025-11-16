@@ -12,22 +12,25 @@ import type {
   ViewportCameraState,
   ViewportRenderMode,
   ViewportViewType,
-  CameraSyncMode
+  CameraSyncMode,
 } from './multi-viewport-interfaces';
 import {
   DEFAULT_LAYOUTS,
   createDefaultViewports,
-  STANDARD_VIEWPORT_CONFIGS
+  STANDARD_VIEWPORT_CONFIGS,
 } from './multi-viewport-interfaces';
 import type { ViewportSyncSettings } from './CameraSynchronizationEngine';
 import './ViewportLayoutManager.css';
 
-const LAYOUT_ICONS: Record<ViewportLayoutType, 'square' | 'grid-3x3' | 'columns' | 'rows' | 'layout-grid'> = {
+const LAYOUT_ICONS: Record<
+  ViewportLayoutType,
+  'square' | 'grid-3x3' | 'columns' | 'rows' | 'layout-grid'
+> = {
   single: 'square',
   quad: 'grid-3x3',
   horizontal: 'columns',
   vertical: 'rows',
-  custom: 'layout-grid'
+  custom: 'layout-grid',
 };
 
 export const ViewportLayoutManager: React.FC<ViewportLayoutManagerProps> = ({
@@ -40,22 +43,22 @@ export const ViewportLayoutManager: React.FC<ViewportLayoutManagerProps> = ({
   initialViewports,
   enableKeyboardShortcuts = true,
   showLayoutControls = true,
-  geometryData
+  geometryData,
 }) => {
   // Initialize layout configuration
   const [layoutConfig, setLayoutConfig] = useState<ViewportLayoutConfig>(() => {
     const baseConfig = DEFAULT_LAYOUTS[initialLayout];
     const viewports = initialViewports?.length
-      ? initialViewports.map((partial, index) => ({
-          ...createDefaultViewports(initialLayout)[index] || createDefaultViewports('single')[0],
-          ...partial
-        })) as ViewportInstanceType[]
+      ? (initialViewports.map((partial, index) => ({
+          ...(createDefaultViewports(initialLayout)[index] || createDefaultViewports('single')[0]),
+          ...partial,
+        })) as ViewportInstanceType[])
       : createDefaultViewports(initialLayout);
 
     return {
       ...baseConfig,
       viewports,
-      activeViewportId: viewports.find(v => v.active)?.id || viewports[0]?.id || 'main'
+      activeViewportId: viewports.find((v) => v.active)?.id || viewports[0]?.id || 'main',
     };
   });
 
@@ -71,7 +74,7 @@ export const ViewportLayoutManager: React.FC<ViewportLayoutManagerProps> = ({
 
   // Get active viewport
   const activeViewport = useMemo(() => {
-    return layoutConfig.viewports.find(v => v.id === layoutConfig.activeViewportId);
+    return layoutConfig.viewports.find((v) => v.id === layoutConfig.activeViewportId);
   }, [layoutConfig.viewports, layoutConfig.activeViewportId]);
 
   // Initialize synchronization engine
@@ -83,7 +86,7 @@ export const ViewportLayoutManager: React.FC<ViewportLayoutManagerProps> = ({
     const engine = syncEngineRef.current;
 
     // Register all viewports with the sync engine
-    layoutConfig.viewports.forEach(viewport => {
+    layoutConfig.viewports.forEach((viewport) => {
       engine.registerViewport(viewport, {
         participateInSync: true,
         receivesUpdates: true,
@@ -95,21 +98,19 @@ export const ViewportLayoutManager: React.FC<ViewportLayoutManagerProps> = ({
           preserveOrthographic: true,
           interpolationSpeed: 0.8,
           threshold: 0.001,
-          debounceMs: 16
-        }
+          debounceMs: 16,
+        },
       });
 
       // Add event listener for camera updates
       engine.addEventListener(viewport.id, (event) => {
         if (event.sourceViewportId !== 'sync-engine') return;
 
-        setLayoutConfig(prev => ({
+        setLayoutConfig((prev) => ({
           ...prev,
-          viewports: prev.viewports.map(v =>
-            v.id === viewport.id
-              ? { ...v, camera: { ...v.camera, ...event.deltaCamera } }
-              : v
-          )
+          viewports: prev.viewports.map((v) =>
+            v.id === viewport.id ? { ...v, camera: { ...v.camera, ...event.deltaCamera } } : v
+          ),
         }));
       });
 
@@ -119,135 +120,154 @@ export const ViewportLayoutManager: React.FC<ViewportLayoutManagerProps> = ({
 
     // Cleanup function
     return () => {
-      layoutConfig.viewports.forEach(viewport => {
+      layoutConfig.viewports.forEach((viewport) => {
         engine.unregisterViewport(viewport.id);
       });
     };
   }, [layoutConfig.viewports, currentSyncMode]);
 
   // Handle layout type change
-  const handleLayoutChange = useCallback((newLayoutType: ViewportLayoutType) => {
-    const newConfig: ViewportLayoutConfig = {
-      ...DEFAULT_LAYOUTS[newLayoutType],
-      viewports: createDefaultViewports(newLayoutType),
-      activeViewportId: createDefaultViewports(newLayoutType)[0]?.id || 'main'
-    };
+  const handleLayoutChange = useCallback(
+    (newLayoutType: ViewportLayoutType) => {
+      const newConfig: ViewportLayoutConfig = {
+        ...DEFAULT_LAYOUTS[newLayoutType],
+        viewports: createDefaultViewports(newLayoutType),
+        activeViewportId: createDefaultViewports(newLayoutType)[0]?.id || 'main',
+      };
 
-    setLayoutConfig(newConfig);
-    onLayoutChange?.(newConfig);
-    setShowLayoutMenu(false);
-  }, [onLayoutChange]);
+      setLayoutConfig(newConfig);
+      onLayoutChange?.(newConfig);
+      setShowLayoutMenu(false);
+    },
+    [onLayoutChange]
+  );
 
   // Handle viewport selection
-  const handleViewportSelect = useCallback((viewportId: string) => {
-    setLayoutConfig(prev => {
-      const newConfig = {
-        ...prev,
-        activeViewportId: viewportId,
-        viewports: prev.viewports.map(v => ({
-          ...v,
-          active: v.id === viewportId
-        }))
-      };
-      return newConfig;
-    });
-    onViewportSelect?.(viewportId);
-  }, [onViewportSelect]);
+  const handleViewportSelect = useCallback(
+    (viewportId: string) => {
+      setLayoutConfig((prev) => {
+        const newConfig = {
+          ...prev,
+          activeViewportId: viewportId,
+          viewports: prev.viewports.map((v) => ({
+            ...v,
+            active: v.id === viewportId,
+          })),
+        };
+        return newConfig;
+      });
+      onViewportSelect?.(viewportId);
+    },
+    [onViewportSelect]
+  );
 
   // Handle camera changes with synchronization
-  const handleCameraChange = useCallback((viewportId: string, camera: ViewportCameraState) => {
-    const previousCamera = previousCameraStates.current.get(viewportId);
+  const handleCameraChange = useCallback(
+    (viewportId: string, camera: ViewportCameraState) => {
+      const previousCamera = previousCameraStates.current.get(viewportId);
 
-    // Update the camera state
-    setLayoutConfig(prev => ({
-      ...prev,
-      viewports: prev.viewports.map(v =>
-        v.id === viewportId ? { ...v, camera } : v
-      )
-    }));
+      // Update the camera state
+      setLayoutConfig((prev) => ({
+        ...prev,
+        viewports: prev.viewports.map((v) => (v.id === viewportId ? { ...v, camera } : v)),
+      }));
 
-    // Trigger synchronization if enabled and engine is available
-    if (syncEngineRef.current && previousCamera && currentSyncMode !== 'none') {
-      syncEngineRef.current.syncCameraChange(viewportId, camera, previousCamera);
-    }
+      // Trigger synchronization if enabled and engine is available
+      if (syncEngineRef.current && previousCamera && currentSyncMode !== 'none') {
+        syncEngineRef.current.syncCameraChange(viewportId, camera, previousCamera);
+      }
 
-    // Store the new camera state
-    previousCameraStates.current.set(viewportId, { ...camera });
+      // Store the new camera state
+      previousCameraStates.current.set(viewportId, { ...camera });
 
-    onCameraChange?.(viewportId, camera);
-  }, [onCameraChange, currentSyncMode]);
+      onCameraChange?.(viewportId, camera);
+    },
+    [onCameraChange, currentSyncMode]
+  );
 
   // Handle render mode changes
-  const handleRenderModeChange = useCallback((viewportId: string, mode: ViewportRenderMode) => {
-    setLayoutConfig(prev => ({
-      ...prev,
-      viewports: prev.viewports.map(v =>
-        v.id === viewportId ? { ...v, renderMode: mode } : v
-      )
-    }));
-    onRenderModeChange?.(viewportId, mode);
-  }, [onRenderModeChange]);
+  const handleRenderModeChange = useCallback(
+    (viewportId: string, mode: ViewportRenderMode) => {
+      setLayoutConfig((prev) => ({
+        ...prev,
+        viewports: prev.viewports.map((v) =>
+          v.id === viewportId ? { ...v, renderMode: mode } : v
+        ),
+      }));
+      onRenderModeChange?.(viewportId, mode);
+    },
+    [onRenderModeChange]
+  );
 
   // Handle view type changes
   const handleViewTypeChange = useCallback((viewportId: string, viewType: ViewportViewType) => {
     const standardCamera = STANDARD_VIEWPORT_CONFIGS[viewType];
     if (standardCamera) {
-      setLayoutConfig(prev => ({
+      setLayoutConfig((prev) => ({
         ...prev,
-        viewports: prev.viewports.map(v =>
+        viewports: prev.viewports.map((v) =>
           v.id === viewportId
             ? {
                 ...v,
                 viewType,
-                camera: { ...standardCamera, zoom: v.camera.zoom } as ViewportCameraState
+                camera: { ...standardCamera, zoom: v.camera.zoom } as ViewportCameraState,
               }
             : v
-        )
+        ),
       }));
     }
   }, []);
 
   // Handle sync mode changes
-  const handleSyncModeChange = useCallback((mode: CameraSyncMode) => {
-    setCurrentSyncMode(mode);
-    setSyncedCameras(mode !== 'none');
-    setLayoutConfig(prev => ({
-      ...prev,
-      syncedCameras: mode !== 'none'
-    }));
+  const handleSyncModeChange = useCallback(
+    (mode: CameraSyncMode) => {
+      setCurrentSyncMode(mode);
+      setSyncedCameras(mode !== 'none');
+      setLayoutConfig((prev) => ({
+        ...prev,
+        syncedCameras: mode !== 'none',
+      }));
 
-    // Update sync settings for all viewports
-    if (syncEngineRef.current) {
-      layoutConfig.viewports.forEach(viewport => {
-        const settings = syncEngineRef.current?.getSyncSettings(viewport.id);
-        if (settings) {
-          syncEngineRef.current?.updateSyncSettings(viewport.id, {
-            ...settings,
-            syncConfig: {
-              ...settings.syncConfig,
-              mode: mode
-            }
-          });
-        }
-      });
-    }
-  }, [layoutConfig.viewports]);
+      // Update sync settings for all viewports
+      if (syncEngineRef.current) {
+        layoutConfig.viewports.forEach((viewport) => {
+          const settings = syncEngineRef.current?.getSyncSettings(viewport.id);
+          if (settings) {
+            syncEngineRef.current?.updateSyncSettings(viewport.id, {
+              ...settings,
+              syncConfig: {
+                ...settings.syncConfig,
+                mode: mode,
+              },
+            });
+          }
+        });
+      }
+    },
+    [layoutConfig.viewports]
+  );
 
   // Handle viewport sync settings changes
-  const handleViewportSyncSettingsChange = useCallback((viewportId: string, settings: Partial<ViewportSyncSettings>) => {
-    if (syncEngineRef.current) {
-      syncEngineRef.current.updateSyncSettings(viewportId, settings);
-    }
-  }, []);
+  const handleViewportSyncSettingsChange = useCallback(
+    (viewportId: string, settings: Partial<ViewportSyncSettings>) => {
+      if (syncEngineRef.current) {
+        syncEngineRef.current.updateSyncSettings(viewportId, settings);
+      }
+    },
+    []
+  );
 
   // Handle global sync toggle
-  const handleGlobalSyncToggle = useCallback((enabled: boolean) => {
-    if (enabled && currentSyncMode === 'none') {
-      handleSyncModeChange('rotation'); // Default to rotation sync
-    } else if (!enabled) {
-      handleSyncModeChange('none');
-    }
-  }, [currentSyncMode, handleSyncModeChange]);
+  const handleGlobalSyncToggle = useCallback(
+    (enabled: boolean) => {
+      if (enabled && currentSyncMode === 'none') {
+        handleSyncModeChange('rotation'); // Default to rotation sync
+      } else if (!enabled) {
+        handleSyncModeChange('none');
+      }
+    },
+    [currentSyncMode, handleSyncModeChange]
+  );
 
   // Handle camera sync toggle (legacy support)
   const handleCameraSyncToggle = useCallback(() => {
@@ -272,7 +292,7 @@ export const ViewportLayoutManager: React.FC<ViewportLayoutManagerProps> = ({
           1: 'single',
           2: 'horizontal',
           3: 'vertical',
-          4: 'quad'
+          4: 'quad',
         };
 
         const layout = layoutMap[num];
@@ -283,9 +303,16 @@ export const ViewportLayoutManager: React.FC<ViewportLayoutManagerProps> = ({
       }
 
       // Tab to cycle through viewports in multi-viewport layouts
-      if (event.key === 'Tab' && !event.ctrlKey && !event.metaKey && layoutConfig.viewports.length > 1) {
+      if (
+        event.key === 'Tab' &&
+        !event.ctrlKey &&
+        !event.metaKey &&
+        layoutConfig.viewports.length > 1
+      ) {
         event.preventDefault();
-        const currentIndex = layoutConfig.viewports.findIndex(v => v.id === layoutConfig.activeViewportId);
+        const currentIndex = layoutConfig.viewports.findIndex(
+          (v) => v.id === layoutConfig.activeViewportId
+        );
         const nextIndex = (currentIndex + 1) % layoutConfig.viewports.length;
         handleViewportSelect(layoutConfig.viewports[nextIndex].id);
       }
@@ -322,7 +349,12 @@ export const ViewportLayoutManager: React.FC<ViewportLayoutManagerProps> = ({
                   onClick={() => handleLayoutChange(layoutType as ViewportLayoutType)}
                   title={`${layoutType} layout`}
                 >
-                  <IconButton icon={icon} size="sm" variant="ghost" aria-label={`${layoutType} layout`} />
+                  <IconButton
+                    icon={icon}
+                    size="sm"
+                    variant="ghost"
+                    aria-label={`${layoutType} layout`}
+                  />
                   <span>{layoutType}</span>
                 </button>
               ))}
@@ -348,7 +380,8 @@ export const ViewportLayoutManager: React.FC<ViewportLayoutManagerProps> = ({
               variant={showSyncControls ? 'primary' : 'ghost'}
               className="sync-settings-btn"
               onClick={() => setShowSyncControls(!showSyncControls)}
-              title="Sync Settings" aria-label="Sync Settings"
+              title="Sync Settings"
+              aria-label="Sync Settings"
             />
           </>
         )}
@@ -499,7 +532,9 @@ export const ViewportLayoutManager: React.FC<ViewportLayoutManagerProps> = ({
                       onCameraChange={(camera) => handleCameraChange(bottomRight.id, camera)}
                       onSelect={() => handleViewportSelect(bottomRight.id)}
                       onRenderModeChange={(mode) => handleRenderModeChange(bottomRight.id, mode)}
-                      onViewTypeChange={(viewType) => handleViewTypeChange(bottomRight.id, viewType)}
+                      onViewTypeChange={(viewType) =>
+                        handleViewTypeChange(bottomRight.id, viewType)
+                      }
                     />
                   )}
                 </Panel>
@@ -518,8 +553,10 @@ export const ViewportLayoutManager: React.FC<ViewportLayoutManagerProps> = ({
     `layout-${layoutConfig.type}`,
     syncedCameras && 'cameras-synced',
     showSyncControls && 'sync-controls-open',
-    className
-  ].filter(Boolean).join(' ');
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   // Cleanup sync engine on unmount
   useEffect(() => {
@@ -534,9 +571,7 @@ export const ViewportLayoutManager: React.FC<ViewportLayoutManagerProps> = ({
   return (
     <div className={containerClasses}>
       {renderLayoutControls()}
-      <div className="viewport-layout-content">
-        {renderViewports()}
-      </div>
+      <div className="viewport-layout-content">{renderViewports()}</div>
 
       {/* Advanced Sync Controls Panel */}
       {showSyncControls && layoutConfig.viewports.length > 1 && (

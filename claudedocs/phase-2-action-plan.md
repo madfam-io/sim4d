@@ -1,12 +1,14 @@
 # BrepFlow Test Suite - Phase 2 Action Plan
 
 ## Current Status
+
 ✅ **Phase 1 COMPLETE**: 916 import path issues resolved, 90%+ test pass rate achieved
 🔄 **Phase 2 READY**: Core engine stabilization and infrastructure completion
 
 ## Phase 2 Objectives
 
 ### Target Metrics
+
 - [ ] **95%+ test pass rate** across all packages
 - [ ] **Zero unhandled geometry operations** in mock system
 - [ ] **Core engine tests**: ≥90% pass rate (collaboration + scripting)
@@ -16,6 +18,7 @@
 ## Immediate Actions (Priority 1 - Next 2 hours)
 
 ### 1. Expand Mock Geometry Coverage
+
 **File**: `/packages/nodes-core/src/nodes/generated/test-utils.ts`
 **Goal**: Support all geometry operations currently showing "Unhandled"
 
@@ -115,7 +118,9 @@ case 'makeCompound':
 ```
 
 ### 2. Verify Full Generated Test Coverage
+
 **Commands**:
+
 ```bash
 cd packages/nodes-core
 pnpm test -- src/nodes/generated/solid/ --run
@@ -126,14 +131,17 @@ pnpm test -- src/nodes/generated/mesh/ --run
 **Expected Result**: 95%+ pass rate, zero "Unhandled geometry operation" warnings
 
 ### 3. Fix Source Map Warnings
+
 **Issue**: Missing .js.map files causing Vite warnings
 **Files to check**:
+
 - `/packages/nodes-core/src/index.js.map`
 - `/packages/nodes-core/src/sketch.js.map`
 - `/packages/nodes-core/src/sketch-parametric.js.map`
 - Various other `.js.map` files
 
 **Actions**:
+
 1. Check if these `.js` files should exist or if config needs updating
 2. Update Vite config to properly generate source maps
 3. Remove orphaned .js files if they shouldn't exist
@@ -147,25 +155,33 @@ find src -name "*.js" -not -path "*/node_modules/*" | head -10
 ## Medium Priority Actions (Next 4-6 hours)
 
 ### 4. Fix Core Engine Tests
+
 **Target**: `/packages/engine-core/src/**/*.test.ts`
 
 #### Collaboration Engine Issues (11 failing tests)
+
 **Files to fix**:
+
 - `src/collaboration/__tests__/parameter-sync.test.ts`
 - `src/collaboration/__tests__/operational-transform.test.ts`
 - `src/collaboration/__tests__/collaboration-engine.test.ts`
 
 **Common issues**:
+
 1. **Spy function call mismatches**: Update test expectations
 2. **Timeout issues**: Increase test timeouts or optimize async operations
 3. **State management**: Fix lock manager and session state logic
 
 **Sample fixes**:
+
 ```typescript
 // In parameter-sync.test.ts - Fix spy expectations
-expect(mockCallback).toHaveBeenCalledWith('session1', expect.objectContaining({
-  // Update expected object structure
-}));
+expect(mockCallback).toHaveBeenCalledWith(
+  'session1',
+  expect.objectContaining({
+    // Update expected object structure
+  })
+);
 
 // In operational-transform.test.ts - Fix conflict detection
 expect(conflictType).toBe('NODE_ID_CONFLICT'); // not 'CREATE_NODE_vs_CREATE_NODE'
@@ -179,16 +195,20 @@ describe('session workflow', () => {
 ```
 
 #### Script Engine Issues (5 failing tests)
+
 **Files to fix**:
+
 - `src/scripting/__tests__/script-engine.test.ts`
 
 **Issues**:
+
 1. **Validation not rejecting invalid nodes**: Fix validation logic
 2. **Execution returning undefined**: Ensure proper return values
 3. **Error handling not throwing**: Fix exception throwing
 4. **Timeout not enforcing**: Fix infinite loop protection
 
 ### 5. Fix OCCT Integration
+
 **Target**: `/packages/engine-occt/src/**/*.test.ts`
 **Issue**: 1 unhandled error in WASM module loading
 
@@ -203,6 +223,7 @@ try {
 ```
 
 ### 6. Fix Build Dependencies
+
 **Target**: Marketing, CLI, Studio packages
 **Issue**: Build order dependencies not resolved
 
@@ -215,6 +236,7 @@ try {
 ## Quality Validation Scripts
 
 ### 1. Test Coverage Validation
+
 ```bash
 #!/bin/bash
 # /scripts/validate-test-coverage.sh
@@ -239,6 +261,7 @@ echo "Test coverage validation complete"
 ```
 
 ### 2. Mock Operation Coverage
+
 ```bash
 #!/bin/bash
 # /scripts/check-mock-coverage.sh
@@ -254,6 +277,7 @@ echo "Mock coverage check complete"
 ## Success Criteria
 
 ### Phase 2 Complete When:
+
 - [ ] **Zero "Unhandled geometry operation" warnings** in generated tests
 - [ ] **95%+ pass rate** for nodes-core package
 - [ ] **90%+ pass rate** for engine-core collaboration tests
@@ -263,6 +287,7 @@ echo "Mock coverage check complete"
 - [ ] **Zero source map warnings** in development
 
 ### Measurement Commands:
+
 ```bash
 # Overall package test status
 pnpm run test 2>&1 | grep -E "(passed|failed)"
@@ -286,10 +311,12 @@ pnpm run build
 ## Risk Mitigation
 
 ### High Risk Items:
+
 1. **OCCT WASM issues**: May require expert review if complex
 2. **Core engine architecture**: Changes could affect system design
 
 ### Mitigation Strategies:
+
 1. **Incremental approach**: Fix mock operations first (low risk, high impact)
 2. **Isolation testing**: Test each package independently before integration
 3. **Backup validation**: Keep Phase 1 achievements as baseline success

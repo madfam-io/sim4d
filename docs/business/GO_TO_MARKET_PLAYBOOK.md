@@ -7,6 +7,7 @@ This playbook provides actionable steps to execute BrepFlow's go-to-market strat
 ## 📅 Week 1: Launch Preparation
 
 ### Day 1-2: Asset Creation
+
 - [ ] **Logo & Brand Kit**
   - Primary logo variations
   - Color palette: #3B82F6 (primary), #10B981 (success), #1F2937 (dark)
@@ -14,13 +15,11 @@ This playbook provides actionable steps to execute BrepFlow's go-to-market strat
   - Brand guidelines document
 
 - [ ] **Landing Page**
+
   ```html
   <!-- Key Sections -->
-  - Hero: "Design at the speed of thought"
-  - Demo video (60 seconds)
-  - Feature comparison table
-  - Pricing cards
-  - Sign-up form with social auth
+  - Hero: "Design at the speed of thought" - Demo video (60 seconds) - Feature comparison table -
+  Pricing cards - Sign-up form with social auth
   ```
 
 - [ ] **Product Hunt Assets**
@@ -30,7 +29,9 @@ This playbook provides actionable steps to execute BrepFlow's go-to-market strat
   - Hunter lined up (5K+ followers)
 
 ### Day 3-4: Community Setup
+
 - [ ] **Discord Server**
+
   ```
   Channels:
   #welcome
@@ -56,6 +57,7 @@ This playbook provides actionable steps to execute BrepFlow's go-to-market strat
   - Instagram: @BrepFlowDesign
 
 ### Day 5-7: Content Pipeline
+
 - [ ] **Blog Posts** (Pre-written)
   1. "Why We Built BrepFlow"
   2. "BrepFlow vs Grasshopper: Complete Comparison"
@@ -72,8 +74,10 @@ This playbook provides actionable steps to execute BrepFlow's go-to-market strat
 ## 🚀 Week 2-4: Launch Execution
 
 ### Product Hunt Launch Day
+
 ```markdown
 Timeline:
+
 - 12:01 AM PST: Product goes live
 - 12:05 AM: Team upvotes (first 20 votes)
 - 6:00 AM: First push notification to email list
@@ -84,6 +88,7 @@ Timeline:
 ```
 
 ### Launch Week Activities
+
 - [ ] **Press Outreach**
   - TechCrunch tip line
   - The Verge product team
@@ -99,7 +104,9 @@ Timeline:
 ## 👥 Month 1: User Acquisition
 
 ### Week 1-2: Organic Growth
+
 - [ ] **SEO Foundation**
+
   ```
   Target Keywords:
   - "grasshopper alternative" (500 searches/mo)
@@ -109,16 +116,18 @@ Timeline:
   ```
 
 - [ ] **Content Calendar**
-  | Day | Content Type | Topic | Channel |
-  |-----|-------------|-------|---------|
-  | Mon | Tutorial | Basic node creation | YouTube |
-  | Tue | Blog | Feature spotlight | Website |
-  | Wed | Short | Quick tip | TikTok/Shorts |
-  | Thu | Case study | User success | Blog |
-  | Fri | Livestream | Office hours | YouTube |
+      | Day | Content Type | Topic | Channel |
+      |-----|-------------|-------|---------|
+      | Mon | Tutorial | Basic node creation | YouTube |
+      | Tue | Blog | Feature spotlight | Website |
+      | Wed | Short | Quick tip | TikTok/Shorts |
+      | Thu | Case study | User success | Blog |
+      | Fri | Livestream | Office hours | YouTube |
 
 ### Week 3-4: Influencer Outreach
+
 - [ ] **Target List** (Contact via DM/Email)
+
   ```
   Tier 1 (100K+ followers):
   - @TheCodingTrain (creative coding)
@@ -144,6 +153,7 @@ Timeline:
 ## 🎓 Month 2: Academic Program
 
 ### University Partnership Template
+
 ```
 Email Subject: Free BrepFlow Enterprise for [University Name]
 
@@ -160,18 +170,20 @@ Interested? Let's schedule a 15-minute call.
 ```
 
 ### Target Universities (Phase 1)
+
 - [ ] **Tier 1**: MIT, Stanford, CMU, Georgia Tech
 - [ ] **Tier 2**: State universities with strong engineering
 - [ ] **International**: ETH Zurich, TU Delft, NUS, IIT
 
 ### Student Ambassador Program
+
 ```javascript
 const ambassadorBenefits = {
-  monthly_credit: "$50 cloud compute",
+  monthly_credit: '$50 cloud compute',
   resume_reference: true,
   internship_priority: true,
-  swag_package: "T-shirt, stickers, notebook",
-  certificate: "BrepFlow Certified Ambassador"
+  swag_package: 'T-shirt, stickers, notebook',
+  certificate: 'BrepFlow Certified Ambassador',
 };
 ```
 
@@ -180,6 +192,7 @@ const ambassadorBenefits = {
 ### Conversion Optimization
 
 #### Free → Pro Conversion Funnel
+
 ```
 Trigger Points:
 1. Hit 3 private project limit → Upgrade prompt
@@ -189,6 +202,7 @@ Trigger Points:
 ```
 
 #### Pricing A/B Tests
+
 - Test 1: $29 vs $39 Pro pricing
 - Test 2: Annual discount (20% vs 30%)
 - Test 3: Free trial length (7 vs 14 days)
@@ -197,6 +211,7 @@ Trigger Points:
 ### Enterprise Sales Playbook
 
 #### Outbound Strategy
+
 ```sql
 -- Target Account Criteria
 SELECT company
@@ -208,6 +223,7 @@ WHERE employees > 100
 ```
 
 #### Sales Email Template
+
 ```
 Subject: How [Competitor Customer] Reduced Design Time by 40%
 
@@ -230,24 +246,26 @@ Worth a 15-min demo to see if we could help [Company] similarly?
 ### Plugin Developer Program
 
 #### Launch Incentives
+
 ```javascript
 const developerIncentives = {
   first_100_developers: {
     guaranteed_monthly: 1000, // USD
     marketplace_fee: 0, // First year
-    technical_support: "Priority",
-    marketing_support: 5000 // USD value
+    technical_support: 'Priority',
+    marketing_support: 5000, // USD value
   },
   hackathon_prizes: {
     first_place: 10000,
     second_place: 5000,
     third_place: 2500,
-    honorable_mentions: 500
-  }
+    honorable_mentions: 500,
+  },
 };
 ```
 
 #### Plugin Ideas to Seed
+
 1. **Essential Utilities**
    - Grasshopper importer
    - Batch operations
@@ -267,6 +285,7 @@ const developerIncentives = {
    - Figma bridge
 
 ### Developer Documentation
+
 - [ ] API Reference (auto-generated)
 - [ ] Getting Started Guide
 - [ ] Video Tutorial Series
@@ -276,6 +295,7 @@ const developerIncentives = {
 ## 📊 Metrics & Reporting
 
 ### Weekly Metrics Dashboard
+
 ```typescript
 interface WeeklyMetrics {
   // Growth
@@ -307,6 +327,7 @@ interface WeeklyMetrics {
 ### OKRs (Quarterly)
 
 #### Q1 OKRs
+
 ```
 Objective: Achieve Product-Market Fit
 
@@ -317,6 +338,7 @@ KR4: 50 community plugins
 ```
 
 #### Q2 OKRs
+
 ```
 Objective: Scale User Acquisition
 
@@ -329,22 +351,25 @@ KR4: 200 community plugins
 ## 🎯 Campaign Calendars
 
 ### Q1 Marketing Calendar
-| Month | Campaign | Budget | Goal |
-|-------|----------|--------|------|
-| Month 1 | Product Hunt Launch | $5K | 5K users |
-| Month 2 | University Blitz | $10K | 20 partnerships |
-| Month 3 | Influencer Wave 1 | $25K | 100K impressions |
+
+| Month   | Campaign            | Budget | Goal             |
+| ------- | ------------------- | ------ | ---------------- |
+| Month 1 | Product Hunt Launch | $5K    | 5K users         |
+| Month 2 | University Blitz    | $10K   | 20 partnerships  |
+| Month 3 | Influencer Wave 1   | $25K   | 100K impressions |
 
 ### Q2 Marketing Calendar
-| Month | Campaign | Budget | Goal |
-|-------|----------|--------|------|
-| Month 4 | Developer Hackathon | $30K | 100 plugins |
-| Month 5 | Enterprise Webinars | $10K | 50 leads |
-| Month 6 | Summer Student Program | $20K | 10K students |
+
+| Month   | Campaign               | Budget | Goal         |
+| ------- | ---------------------- | ------ | ------------ |
+| Month 4 | Developer Hackathon    | $30K   | 100 plugins  |
+| Month 5 | Enterprise Webinars    | $10K   | 50 leads     |
+| Month 6 | Summer Student Program | $20K   | 10K students |
 
 ## 🔧 Tools & Resources
 
 ### Marketing Stack
+
 - **Analytics**: Mixpanel + Google Analytics
 - **Email**: SendGrid + Customer.io
 - **Social**: Buffer + Hootsuite
@@ -354,6 +379,7 @@ KR4: 200 community plugins
 - **Community**: Discord + Discourse
 
 ### Growth Experiments Framework
+
 ```python
 class Experiment:
     def __init__(self, hypothesis, metric, target):
@@ -381,6 +407,7 @@ exp1 = Experiment(
 ## 📱 Social Media Templates
 
 ### Twitter Thread Template
+
 ```
 1/ 🚀 BrepFlow is now LIVE!
 
@@ -406,6 +433,7 @@ Here's why this changes everything for designers 🧵
 ```
 
 ### LinkedIn Post Template
+
 ```
 🎯 Announcing BrepFlow: The Future of Collaborative CAD
 
@@ -432,6 +460,7 @@ Try it free: brepflow.com
 ## ✅ Launch Checklist
 
 ### Pre-Launch (T-7 days)
+
 - [ ] Landing page live
 - [ ] Email list warmed up (3 emails sent)
 - [ ] Beta users briefed on launch
@@ -442,6 +471,7 @@ Try it free: brepflow.com
 - [ ] Servers load tested
 
 ### Launch Day (T-0)
+
 - [ ] Product Hunt submission live
 - [ ] Email blast sent
 - [ ] Social media posts live
@@ -451,6 +481,7 @@ Try it free: brepflow.com
 - [ ] Community engaged
 
 ### Post-Launch (T+7 days)
+
 - [ ] Thank you email to supporters
 - [ ] Survey sent to new users
 - [ ] Metrics analysis complete
@@ -471,7 +502,7 @@ Try it free: brepflow.com
 
 ---
 
-*"A goal without a plan is just a wish." - Antoine de Saint-Exupéry*
+_"A goal without a plan is just a wish." - Antoine de Saint-Exupéry_
 
 **Remember**: Execution beats strategy. Start now, iterate fast, learn constantly.
 

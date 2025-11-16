@@ -14,7 +14,11 @@ interface RoboticMillingOutputs {
   robotProgram: unknown;
 }
 
-export const FabricationRoboticsRoboticMillingNode: NodeDefinition<RoboticMillingInputs, RoboticMillingOutputs, RoboticMillingParams> = {
+export const FabricationRoboticsRoboticMillingNode: NodeDefinition<
+  RoboticMillingInputs,
+  RoboticMillingOutputs,
+  RoboticMillingParams
+> = {
   id: 'Fabrication::RoboticMilling',
   category: 'Fabrication',
   label: 'RoboticMilling',
@@ -23,19 +27,19 @@ export const FabricationRoboticsRoboticMillingNode: NodeDefinition<RoboticMillin
     millingPaths: {
       type: 'Wire[]',
       label: 'Milling Paths',
-      required: true
+      required: true,
     },
     toolOrientation: {
       type: 'Vector',
       label: 'Tool Orientation',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     robotProgram: {
       type: 'Data',
-      label: 'Robot Program'
-    }
+      label: 'Robot Program',
+    },
   },
   params: {
     spindleSpeed: {
@@ -43,15 +47,15 @@ export const FabricationRoboticsRoboticMillingNode: NodeDefinition<RoboticMillin
       label: 'Spindle Speed',
       default: 10000,
       min: 1000,
-      max: 30000
+      max: 30000,
     },
     feedRate: {
       type: 'number',
       label: 'Feed Rate',
       default: 1000,
       min: 10,
-      max: 5000
-    }
+      max: 5000,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -60,12 +64,12 @@ export const FabricationRoboticsRoboticMillingNode: NodeDefinition<RoboticMillin
         millingPaths: inputs.millingPaths,
         toolOrientation: inputs.toolOrientation,
         spindleSpeed: params.spindleSpeed,
-        feedRate: params.feedRate
-      }
+        feedRate: params.feedRate,
+      },
     });
-    
+
     return {
-      robotProgram: result
+      robotProgram: result,
     };
   },
 };

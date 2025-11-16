@@ -10,7 +10,11 @@ interface MatrixDeterminantOutputs {
   determinant: unknown;
 }
 
-export const MathMatrixMatrixDeterminantNode: NodeDefinition<MatrixDeterminantInputs, MatrixDeterminantOutputs, MatrixDeterminantParams> = {
+export const MathMatrixMatrixDeterminantNode: NodeDefinition<
+  MatrixDeterminantInputs,
+  MatrixDeterminantOutputs,
+  MatrixDeterminantParams
+> = {
   id: 'Math::MatrixDeterminant',
   category: 'Math',
   label: 'MatrixDeterminant',
@@ -19,26 +23,26 @@ export const MathMatrixMatrixDeterminantNode: NodeDefinition<MatrixDeterminantIn
     matrix: {
       type: 'Matrix',
       label: 'Matrix',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     determinant: {
       type: 'number',
-      label: 'Determinant'
-    }
+      label: 'Determinant',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathMatrixDeterminant',
       params: {
-        matrix: inputs.matrix
-      }
+        matrix: inputs.matrix,
+      },
     });
-    
+
     return {
-      determinant: result
+      determinant: result,
     };
   },
 };

@@ -1,4 +1,3 @@
-
 # Sign Node
 
 **Category:** Math / Comparison
@@ -11,19 +10,13 @@ This node has no parameters.
 
 ## Inputs
 
-
 ### Value
+
 - **Type:** number
 - **Required:** Yes
 
-
-
 ## Outputs
 
-
 ### Sign
+
 - **Type:** number
-
-
-
-

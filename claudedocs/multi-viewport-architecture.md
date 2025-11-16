@@ -1,4 +1,5 @@
 # Multi-Viewport Architecture Design
+
 **Phase 2: Enterprise-Grade Multi-Viewport CAD Interface**
 
 ## Executive Summary
@@ -8,12 +9,14 @@ Transform BrepFlow from single viewport to professional CAD multi-viewport syste
 ## Current State Analysis
 
 ### Existing Components
+
 - **Enhanced3DViewport.tsx**: Complete single viewport with tools, measurements, navigation
 - **Viewport.tsx**: Three.js integration with OCCT geometry rendering
 - **WorkbenchLayoutManager.tsx**: Resizable panel management system
 - **Layout types**: Comprehensive panel configuration and layout management
 
 ### Strengths
+
 ✅ Robust single viewport with full CAD toolset
 ✅ Three.js + OCCT.wasm geometry pipeline
 ✅ Flexible panel layout system with `react-resizable-panels`
@@ -21,6 +24,7 @@ Transform BrepFlow from single viewport to professional CAD multi-viewport syste
 ✅ Professional CAD UI patterns and measurement tools
 
 ### Gaps
+
 ❌ Single viewport limitation
 ❌ No multi-view camera synchronization
 ❌ No shared geometry optimization across views
@@ -92,6 +96,7 @@ export interface MultiViewportState {
 ### 3. Performance Architecture
 
 #### Shared Geometry System
+
 ```typescript
 export class GeometryManager {
   private geometryCache = new Map<string, THREE.BufferGeometry>();
@@ -112,6 +117,7 @@ export class GeometryManager {
 ```
 
 #### Render Loop Optimization
+
 ```typescript
 export class MultiViewportRenderer {
   private renderQueue: ViewportInstance[] = [];
@@ -128,7 +134,7 @@ export class MultiViewportRenderer {
     }
 
     // Medium priority: Other visible viewports
-    visibleViewports.forEach(viewport => {
+    visibleViewports.forEach((viewport) => {
       if (viewport.id !== activeViewport?.id) {
         this.renderViewport(viewport, 'medium');
       }
@@ -204,6 +210,7 @@ export class CameraSyncManager {
 ## Implementation Plan
 
 ### Phase 2.1: Foundation (Week 1-2)
+
 1. **Create core multi-viewport components**
    - `ViewportLayoutManager` with layout grid system
    - `ViewportInstance` wrapping existing functionality
@@ -215,6 +222,7 @@ export class CameraSyncManager {
    - Create viewport layout presets (quad, horizontal, etc.)
 
 ### Phase 2.2: Camera System (Week 3)
+
 1. **Camera state management**
    - Standardized camera state interface
    - Orthographic camera implementations
@@ -226,6 +234,7 @@ export class CameraSyncManager {
    - Cross-viewport interaction handling
 
 ### Phase 2.3: Performance Optimization (Week 4)
+
 1. **Shared geometry system**
    - Geometry instance sharing across viewports
    - LOD system for background views
@@ -237,6 +246,7 @@ export class CameraSyncManager {
    - Performance monitoring integration
 
 ### Phase 2.4: UI Integration (Week 5)
+
 1. **Layout controls**
    - Viewport layout switcher
    - Per-viewport settings panels
@@ -273,6 +283,7 @@ export interface ViewportLayoutManager {
 ### 2. Integration with Existing Systems
 
 #### Enhanced3DViewport Integration
+
 ```typescript
 // Extend existing Enhanced3DViewport for multi-viewport context
 export interface EnhancedViewportProps extends ViewportProps {
@@ -286,13 +297,14 @@ export interface EnhancedViewportProps extends ViewportProps {
 ```
 
 #### WorkbenchLayoutManager Integration
+
 ```typescript
 // Add viewport panels to layout system
 export type PanelId =
   | 'nodePanel'
   | 'nodeEditor'
-  | 'viewport3d'      // Single viewport (backward compatibility)
-  | 'multiViewport'   // Multi-viewport container
+  | 'viewport3d' // Single viewport (backward compatibility)
+  | 'multiViewport' // Multi-viewport container
   | 'inspector'
   | 'console'
   | 'toolbar';
@@ -301,6 +313,7 @@ export type PanelId =
 ### 3. Performance Optimization Strategies
 
 #### Memory Management
+
 ```typescript
 export class ViewportMemoryManager {
   private texturePool = new TexturePool();
@@ -324,6 +337,7 @@ export class ViewportMemoryManager {
 ```
 
 #### Render Optimization
+
 ```typescript
 export class ViewportRenderOptimizer {
   // Frustum culling per viewport
@@ -332,9 +346,7 @@ export class ViewportRenderOptimizer {
     const frustum = new THREE.Frustum();
     frustum.setFromProjectionMatrix(camera.projectionMatrix);
 
-    return this.sceneObjects.filter(obj =>
-      frustum.intersectsObject(obj)
-    );
+    return this.sceneObjects.filter((obj) => frustum.intersectsObject(obj));
   }
 
   // Adaptive LOD based on viewport size and distance
@@ -342,7 +354,7 @@ export class ViewportRenderOptimizer {
     const camera = viewport.getCamera();
     const viewportSize = viewport.getSize();
 
-    this.lodObjects.forEach(obj => {
+    this.lodObjects.forEach((obj) => {
       const distance = camera.position.distanceTo(obj.position);
       const lodLevel = this.calculateLOD(distance, viewportSize);
       obj.setLOD(lodLevel);
@@ -354,6 +366,7 @@ export class ViewportRenderOptimizer {
 ## Interface Specifications
 
 ### ViewportInstance Component
+
 ```typescript
 export class ViewportInstance extends React.Component<ViewportInstanceProps> {
   private renderer: THREE.WebGLRenderer;
@@ -383,6 +396,7 @@ export class ViewportInstance extends React.Component<ViewportInstanceProps> {
 ```
 
 ### Layout System Integration
+
 ```typescript
 export interface MultiViewportLayoutProps {
   layout: ViewportLayout;
@@ -418,18 +432,21 @@ export const MultiViewportLayout: React.FC<MultiViewportLayoutProps> = ({
 ## Success Metrics
 
 ### Performance Targets
+
 - **Multi-viewport render**: 4 viewports @ 30+ FPS with full geometry
 - **Memory efficiency**: <25% increase over single viewport
 - **Sync latency**: <16ms camera synchronization delay
 - **Layout switching**: <100ms transition between layouts
 
 ### User Experience Goals
+
 - **Seamless interaction**: Natural CAD workflow across multiple views
 - **Professional feel**: Industry-standard multi-viewport behavior
 - **Flexible layouts**: Easy customization and preset management
 - **Performance awareness**: Automatic quality scaling under load
 
 ### Technical Standards
+
 - **Backward compatibility**: Existing single viewport functionality preserved
 - **Clean architecture**: Modular, testable component design
 - **Resource efficiency**: Shared geometry with minimal overhead
@@ -440,6 +457,7 @@ export const MultiViewportLayout: React.FC<MultiViewportLayoutProps> = ({
 This multi-viewport architecture transforms BrepFlow into a professional CAD application with enterprise-grade viewport management. The design leverages existing Three.js infrastructure while adding sophisticated camera synchronization, shared geometry optimization, and flexible layout management.
 
 Key innovations:
+
 - **Performance-first design** with shared geometry and selective rendering
 - **Professional synchronization** with orthographic view preservation
 - **Flexible layout system** building on existing panel management

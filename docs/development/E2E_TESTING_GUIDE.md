@@ -7,11 +7,13 @@ This guide covers the comprehensive End-to-End (E2E) testing framework for BrepF
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Node.js 20.11.x
 - pnpm 8.6+
 - BrepFlow development environment set up
 
 ### Installation
+
 ```bash
 # Install dependencies (includes Playwright)
 pnpm install
@@ -21,6 +23,7 @@ npx playwright install
 ```
 
 ### Running Tests
+
 ```bash
 # Run all E2E tests
 pnpm test:e2e
@@ -41,6 +44,7 @@ pnpm test:e2e:report
 ## 🏗️ Framework Architecture
 
 ### Directory Structure
+
 ```
 tests/
 ├── e2e/
@@ -66,30 +70,36 @@ tests/
 ### Core Components
 
 #### Test Helpers
+
 - **NodeTestHelper**: Node creation, manipulation, and parameter testing
 - **ViewportTestHelper**: 3D viewport interaction and visual verification
 - **InspectorTestHelper**: Inspector panel testing for Phase 4A/4B features
 
 #### Test Fixtures
+
 - **TestScenarios**: Predefined node and workflow configurations
 - **MockGeometry**: Reproducible geometry data for consistent testing
 
 #### Configuration
+
 - **Playwright Config**: Optimized for CAD applications with WebGL support
 - **CI/CD Integration**: Automated testing pipeline with visual regression
 
 ## 📝 Test Categories
 
 ### 1. Phase 3: Parameter Dialog Workflows
+
 Tests the parameter dialog system for node creation and configuration.
 
 **Key Test Areas:**
+
 - Parameter dialog opening and closing
 - Parameter validation and error handling
 - Node creation with various parameter sets
 - Keyboard navigation and accessibility
 
 **Example:**
+
 ```typescript
 test('Create Box node with parameter dialog', async ({ page }) => {
   await nodeHelper.dragNodeFromPanel('Solid::Box', { x: 400, y: 300 });
@@ -111,15 +121,18 @@ test('Create Box node with parameter dialog', async ({ page }) => {
 ```
 
 ### 2. Phase 4A: Live Parameter Editing
+
 Tests the Inspector panel's live parameter editing capabilities.
 
 **Key Test Areas:**
+
 - Real-time parameter editing without dialogs
 - Undo/redo functionality
 - Parameter validation and feedback
 - Inspector responsiveness
 
 **Example:**
+
 ```typescript
 test('Live parameter editing without dialog popup', async ({ page }) => {
   const nodeId = await nodeHelper.createBoxNode({ width: 50, height: 50, depth: 50 });
@@ -136,15 +149,18 @@ test('Live parameter editing without dialog popup', async ({ page }) => {
 ```
 
 ### 3. Phase 4B: Performance Monitoring and Diagnostics
+
 Tests advanced Inspector features for performance analysis and error diagnostics.
 
 **Key Test Areas:**
+
 - Performance metrics collection and display
 - Error diagnostics and suggestions
 - Configuration management and export/import
 - Performance threshold validation
 
 **Example:**
+
 ```typescript
 test('Performance metrics show realistic values', async ({ page }) => {
   const nodeId = await nodeHelper.createBoxNode({ width: 100, height: 50, depth: 25 });
@@ -160,15 +176,18 @@ test('Performance metrics show realistic values', async ({ page }) => {
 ```
 
 ### 4. 3D Viewport Interaction and Visual Regression
+
 Tests viewport controls, visual rendering, and geometry interaction.
 
 **Key Test Areas:**
+
 - Camera controls (orbit, zoom, pan)
 - Rendering modes and visual consistency
 - Geometry visualization and updates
 - Performance under load
 
 **Example:**
+
 ```typescript
 test('Camera orbit controls work correctly', async ({ page }) => {
   await nodeHelper.createBoxNode({ width: 100, height: 50, depth: 25 });
@@ -203,7 +222,7 @@ await nodeHelper.connectNodes({
   sourceId: 'node1',
   sourceOutput: 'output',
   targetId: 'node2',
-  targetInput: 'input'
+  targetInput: 'input',
 });
 ```
 
@@ -296,30 +315,35 @@ const perfMetrics = mockEngine.getPerformanceMetrics(5); // 5 nodes
 ## 🎯 Best Practices
 
 ### 1. Test Organization
+
 - Group related tests in describe blocks
 - Use descriptive test names that explain the scenario
 - Follow the Arrange-Act-Assert pattern
 - Keep tests focused on single functionality
 
 ### 2. Reliability
+
 - Always wait for elements to be ready before interaction
 - Use appropriate timeouts for CAD operations (geometry can be slow)
 - Reset viewport state between tests when needed
 - Handle WebGL context initialization properly
 
 ### 3. Performance
+
 - Use test data fixtures for consistent scenarios
 - Batch similar operations to reduce test execution time
 - Clean up resources between tests
 - Monitor memory usage in long-running tests
 
 ### 4. Visual Testing
+
 - Use consistent viewport settings for screenshot comparison
 - Allow reasonable threshold for rendering variations (15%)
 - Test different viewing angles and zoom levels
 - Verify both solid and wireframe rendering modes
 
 ### 5. Error Handling
+
 - Test both valid and invalid parameter combinations
 - Verify error messages are helpful and actionable
 - Test error recovery scenarios
@@ -328,6 +352,7 @@ const perfMetrics = mockEngine.getPerformanceMetrics(5); // 5 nodes
 ## 📈 Performance Testing
 
 ### Viewport Performance
+
 ```typescript
 test('Viewport maintains good performance', async ({ page }) => {
   // Create test geometry
@@ -350,20 +375,17 @@ test('Viewport maintains good performance', async ({ page }) => {
 ```
 
 ### Memory Usage Testing
+
 ```typescript
 test('Memory usage remains stable', async ({ page }) => {
-  const initialMemory = await page.evaluate(() =>
-    (performance as any).memory?.usedJSHeapSize || 0
-  );
+  const initialMemory = await page.evaluate(() => (performance as any).memory?.usedJSHeapSize || 0);
 
   // Perform operations
   for (let i = 0; i < 10; i++) {
     await nodeHelper.createBoxNode({ width: 50, height: 50, depth: 50 });
   }
 
-  const finalMemory = await page.evaluate(() =>
-    (performance as any).memory?.usedJSHeapSize || 0
-  );
+  const finalMemory = await page.evaluate(() => (performance as any).memory?.usedJSHeapSize || 0);
 
   const memoryGrowth = finalMemory - initialMemory;
   expect(memoryGrowth).toBeLessThan(50 * 1024 * 1024); // <50MB
@@ -373,6 +395,7 @@ test('Memory usage remains stable', async ({ page }) => {
 ## 🔍 Visual Regression Testing
 
 ### Baseline Creation
+
 ```bash
 # Create new visual baselines
 pnpm test:e2e --update-snapshots
@@ -382,6 +405,7 @@ pnpm test:e2e tests/e2e/workflows/viewport-interaction-visual.test.ts --update-s
 ```
 
 ### Visual Comparison
+
 ```typescript
 test('Consistent rendering across sessions', async ({ page }) => {
   await nodeHelper.createBoxNode({ width: 100, height: 50, depth: 25 });
@@ -402,6 +426,7 @@ test('Consistent rendering across sessions', async ({ page }) => {
 ### Common Issues
 
 #### WebGL Context Issues
+
 ```typescript
 // Check WebGL availability
 const hasWebGL = await page.evaluate(() => {
@@ -416,6 +441,7 @@ if (!hasWebGL) {
 ```
 
 #### Timing Issues
+
 ```typescript
 // Use proper waits for CAD operations
 await viewportHelper.waitForGeometryRendered(); // Wait for 3D rendering
@@ -424,17 +450,17 @@ await page.waitForTimeout(500); // Last resort - fixed delay
 ```
 
 #### Memory Leaks
+
 ```typescript
 // Monitor memory growth
 test.afterEach(async ({ page }) => {
-  const memory = await page.evaluate(() =>
-    (performance as any).memory?.usedJSHeapSize || 0
-  );
+  const memory = await page.evaluate(() => (performance as any).memory?.usedJSHeapSize || 0);
   console.log(`Memory usage: ${(memory / 1024 / 1024).toFixed(2)} MB`);
 });
 ```
 
 ### Debug Mode
+
 ```bash
 # Run tests in debug mode
 pnpm test:e2e:debug
@@ -446,6 +472,7 @@ pnpm test:e2e:headed
 ## 📋 CI/CD Integration
 
 ### GitHub Actions
+
 The framework includes automated CI/CD integration with:
 
 - **E2E Tests**: Run on every push and PR
@@ -454,9 +481,11 @@ The framework includes automated CI/CD integration with:
 - **Artifact Collection**: Test reports, videos, and screenshots
 
 ### Configuration
+
 See `.github/workflows/e2e-tests.yml` for the complete CI/CD setup.
 
 ### Local Development
+
 ```bash
 # Run full test suite (unit + e2e)
 pnpm test:all

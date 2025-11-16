@@ -18,7 +18,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     this.state = {
       hasError: false,
       error: null,
-      errorId: null
+      errorId: null,
     };
 
     this.errorManager = ErrorManager.getInstance();
@@ -28,7 +28,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     return {
       hasError: true,
       error,
-      errorId: null
+      errorId: null,
     };
   }
 
@@ -61,8 +61,8 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
           expectedErrors: undefined,
           wasmRelated: false,
           geometryOperation: false,
-          asyncError: false
-        }
+          asyncError: false,
+        },
       }
     );
 
@@ -80,7 +80,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     this.setState({
       hasError: false,
       error: null,
-      errorId: null
+      errorId: null,
     });
   };
 
@@ -134,7 +134,7 @@ export class WASMErrorBoundary extends Component<ErrorBoundaryProps, ErrorBounda
     this.state = {
       hasError: false,
       error: null,
-      errorId: null
+      errorId: null,
     };
 
     this.errorManager = ErrorManager.getInstance();
@@ -144,51 +144,48 @@ export class WASMErrorBoundary extends Component<ErrorBoundaryProps, ErrorBounda
     return {
       hasError: true,
       error,
-      errorId: null
+      errorId: null,
     };
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     // Check if it's a WASM-related error
-    const isWASMError = error.message.includes('wasm') ||
-                       error.message.includes('WebAssembly') ||
-                       error.stack?.includes('wasm') ||
-                       false;
+    const isWASMError =
+      error.message.includes('wasm') ||
+      error.message.includes('WebAssembly') ||
+      error.stack?.includes('wasm') ||
+      false;
 
     const errorCode = isWASMError
       ? ErrorCode.WASM_EXECUTION_ERROR
       : ErrorCode.COMPONENT_RENDER_ERROR;
 
-    const brepFlowError = this.errorManager.fromJavaScriptError(
-      error,
-      errorCode,
-      {
-        severity: isWASMError ? ErrorSeverity.CRITICAL : ErrorSeverity.HIGH,
-        context: {
-          componentStack: errorInfo.componentStack ?? undefined,
-          wasmRelated: isWASMError,
-          timestamp: Date.now(),
-          sessionId: 'wasm-error-boundary-session',
-          buildVersion: import.meta.env.VITE_BUILD_VERSION ?? 'development',
-          errorBoundary: this.constructor.name,
-          nodeId: undefined,
-          operationId: undefined,
-          userId: undefined,
-          userAgent: navigator.userAgent,
-          url: window.location.href,
-          stackTrace: error.stack,
-          lineno: undefined,
-          colno: undefined,
-          duration: undefined,
-          nodeCount: undefined,
-          edgeCount: undefined,
-          memoryUsage: undefined,
-          expectedErrors: undefined,
-          geometryOperation: false,
-          asyncError: false
-        }
-      }
-    );
+    const brepFlowError = this.errorManager.fromJavaScriptError(error, errorCode, {
+      severity: isWASMError ? ErrorSeverity.CRITICAL : ErrorSeverity.HIGH,
+      context: {
+        componentStack: errorInfo.componentStack ?? undefined,
+        wasmRelated: isWASMError,
+        timestamp: Date.now(),
+        sessionId: 'wasm-error-boundary-session',
+        buildVersion: import.meta.env.VITE_BUILD_VERSION ?? 'development',
+        errorBoundary: this.constructor.name,
+        nodeId: undefined,
+        operationId: undefined,
+        userId: undefined,
+        userAgent: navigator.userAgent,
+        url: window.location.href,
+        stackTrace: error.stack,
+        lineno: undefined,
+        colno: undefined,
+        duration: undefined,
+        nodeCount: undefined,
+        edgeCount: undefined,
+        memoryUsage: undefined,
+        expectedErrors: undefined,
+        geometryOperation: false,
+        asyncError: false,
+      },
+    });
 
     this.setState({ errorId: brepFlowError.id ?? null });
     this.props.onError?.(error, errorInfo);
@@ -202,7 +199,7 @@ export class WASMErrorBoundary extends Component<ErrorBoundaryProps, ErrorBounda
     this.setState({
       hasError: false,
       error: null,
-      errorId: null
+      errorId: null,
     });
   };
 
@@ -234,7 +231,7 @@ export class GeometryErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
     this.state = {
       hasError: false,
       error: null,
-      errorId: null
+      errorId: null,
     };
 
     this.errorManager = ErrorManager.getInstance();
@@ -244,7 +241,7 @@ export class GeometryErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
     return {
       hasError: true,
       error,
-      errorId: null
+      errorId: null,
     };
   }
 
@@ -275,8 +272,8 @@ export class GeometryErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
           memoryUsage: undefined,
           expectedErrors: undefined,
           wasmRelated: false,
-          asyncError: false
-        }
+          asyncError: false,
+        },
       }
     );
 
@@ -292,7 +289,7 @@ export class GeometryErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
     this.setState({
       hasError: false,
       error: null,
-      errorId: null
+      errorId: null,
     });
   };
 
@@ -319,32 +316,35 @@ export class GeometryErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
 export function useAsyncError() {
   const errorManager = ErrorManager.getInstance();
 
-  return React.useCallback((error: Error, context?: any) => {
-    errorManager.fromJavaScriptError(error, ErrorCode.RUNTIME, {
-      context: {
-        ...context,
-        asyncError: true,
-        timestamp: Date.now(),
-        sessionId: 'async-error-session',
-        buildVersion: import.meta.env.VITE_BUILD_VERSION || 'development',
-        errorBoundary: 'useAsyncError',
-        nodeId: context?.nodeId,
-        operationId: context?.operationId,
-        userId: context?.userId,
-        userAgent: navigator.userAgent,
-        url: window.location.href,
-        stackTrace: error.stack,
-        lineno: context?.lineno,
-        colno: context?.colno,
-        duration: context?.duration,
-        nodeCount: context?.nodeCount,
-        edgeCount: context?.edgeCount,
-        memoryUsage: context?.memoryUsage,
-        expectedErrors: context?.expectedErrors,
-        wasmRelated: context?.wasmRelated ?? false,
-        geometryOperation: context?.geometryOperation ?? false,
-        componentStack: context?.componentStack
-      }
-    });
-  }, [errorManager]);
+  return React.useCallback(
+    (error: Error, context?: any) => {
+      errorManager.fromJavaScriptError(error, ErrorCode.RUNTIME, {
+        context: {
+          ...context,
+          asyncError: true,
+          timestamp: Date.now(),
+          sessionId: 'async-error-session',
+          buildVersion: import.meta.env.VITE_BUILD_VERSION || 'development',
+          errorBoundary: 'useAsyncError',
+          nodeId: context?.nodeId,
+          operationId: context?.operationId,
+          userId: context?.userId,
+          userAgent: navigator.userAgent,
+          url: window.location.href,
+          stackTrace: error.stack,
+          lineno: context?.lineno,
+          colno: context?.colno,
+          duration: context?.duration,
+          nodeCount: context?.nodeCount,
+          edgeCount: context?.edgeCount,
+          memoryUsage: context?.memoryUsage,
+          expectedErrors: context?.expectedErrors,
+          wasmRelated: context?.wasmRelated ?? false,
+          geometryOperation: context?.geometryOperation ?? false,
+          componentStack: context?.componentStack,
+        },
+      });
+    },
+    [errorManager]
+  );
 }

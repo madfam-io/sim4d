@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { PatternsAlgorithmicPackingCirclesNode } from './packing-circles.node';
 import { createTestContext } from '../test-utils';
@@ -8,10 +7,10 @@ describe('PatternsAlgorithmicPackingCirclesNode', () => {
     const context = createTestContext();
     const inputs = {
       boundary: undefined,
-      radii: undefined
+      radii: undefined,
     } as any;
     const params = {
-      algorithm: "power-diagram"
+      algorithm: 'power-diagram',
     } as any;
 
     const result = await PatternsAlgorithmicPackingCirclesNode.evaluate(context, inputs, params);

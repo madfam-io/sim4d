@@ -12,7 +12,11 @@ interface ArcCosineOutputs {
   angle: unknown;
 }
 
-export const MathTrigonometryArcCosineNode: NodeDefinition<ArcCosineInputs, ArcCosineOutputs, ArcCosineParams> = {
+export const MathTrigonometryArcCosineNode: NodeDefinition<
+  ArcCosineInputs,
+  ArcCosineOutputs,
+  ArcCosineParams
+> = {
   id: 'Math::ArcCosine',
   type: 'Math::ArcCosine',
   category: 'Math',
@@ -22,34 +26,34 @@ export const MathTrigonometryArcCosineNode: NodeDefinition<ArcCosineInputs, ArcC
     value: {
       type: 'number',
       label: 'Value',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     angle: {
       type: 'number',
-      label: 'Angle'
-    }
+      label: 'Angle',
+    },
   },
   params: {
     angleUnit: {
       type: 'enum',
       label: 'Angle Unit',
-      default: "radians",
-      options: ["radians","degrees"]
-    }
+      default: 'radians',
+      options: ['radians', 'degrees'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathAcos',
       params: {
         value: inputs.value,
-        angleUnit: params.angleUnit
-      }
+        angleUnit: params.angleUnit,
+      },
     });
-    
+
     return {
-      angle: result
+      angle: result,
     };
   },
 };

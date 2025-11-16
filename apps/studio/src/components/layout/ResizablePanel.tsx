@@ -37,7 +37,7 @@ const PanelHeader: React.FC<PanelHeaderProps> = ({ panel, onMinimize, onClose, o
         onClick={onMinimize}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-        title={panel.minimized ? "Restore" : "Minimize"}
+        title={panel.minimized ? 'Restore' : 'Minimize'}
       >
         {panel.minimized ? '□' : '−'}
       </motion.button>
@@ -56,11 +56,7 @@ const PanelHeader: React.FC<PanelHeaderProps> = ({ panel, onMinimize, onClose, o
   </div>
 );
 
-export const ResizablePanel: React.FC<ResizablePanelProps> = ({
-  id,
-  children,
-  className = ''
-}) => {
+export const ResizablePanel: React.FC<ResizablePanelProps> = ({ id, children, className = '' }) => {
   const {
     currentLayout,
     focusMode,
@@ -100,15 +96,17 @@ export const ResizablePanel: React.FC<ResizablePanelProps> = ({
     const style: React.CSSProperties = {};
 
     if (panelConfig.size.width) {
-      style.width = typeof panelConfig.size.width === 'number'
-        ? `${panelConfig.size.width}px`
-        : panelConfig.size.width;
+      style.width =
+        typeof panelConfig.size.width === 'number'
+          ? `${panelConfig.size.width}px`
+          : panelConfig.size.width;
     }
 
     if (panelConfig.size.height) {
-      style.height = typeof panelConfig.size.height === 'number'
-        ? `${panelConfig.size.height}px`
-        : panelConfig.size.height;
+      style.height =
+        typeof panelConfig.size.height === 'number'
+          ? `${panelConfig.size.height}px`
+          : panelConfig.size.height;
     }
 
     if (panelConfig.size.minWidth) {
@@ -131,7 +129,14 @@ export const ResizablePanel: React.FC<ResizablePanelProps> = ({
     if (!panelConfig.visible) classes.push('hidden');
 
     return classes.join(' ');
-  }, [className, panelConfig.minimized, panelConfig.visible, isFocused, isOtherPanelFocused, focusMode.dimOtherPanels]);
+  }, [
+    className,
+    panelConfig.minimized,
+    panelConfig.visible,
+    isFocused,
+    isOtherPanelFocused,
+    focusMode.dimOtherPanels,
+  ]);
 
   if (!panelConfig.visible && !isFocused) {
     return null;
@@ -151,7 +156,7 @@ export const ResizablePanel: React.FC<ResizablePanelProps> = ({
         exit={{ opacity: 0, scale: 0.95 }}
         transition={{
           duration: focusMode.transitionDuration / 1000,
-          ease: "easeInOut"
+          ease: 'easeInOut',
         }}
         layout
       >
@@ -167,7 +172,7 @@ export const ResizablePanel: React.FC<ResizablePanelProps> = ({
             <motion.div
               className="panel-content"
               initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
+              animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
@@ -179,4 +184,3 @@ export const ResizablePanel: React.FC<ResizablePanelProps> = ({
     </AnimatePresence>
   );
 };
-

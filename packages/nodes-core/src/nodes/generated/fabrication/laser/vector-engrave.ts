@@ -13,7 +13,11 @@ interface VectorEngraveOutputs {
   engravePaths: unknown;
 }
 
-export const FabricationLaserVectorEngraveNode: NodeDefinition<VectorEngraveInputs, VectorEngraveOutputs, VectorEngraveParams> = {
+export const FabricationLaserVectorEngraveNode: NodeDefinition<
+  VectorEngraveInputs,
+  VectorEngraveOutputs,
+  VectorEngraveParams
+> = {
   id: 'Fabrication::VectorEngrave',
   type: 'Fabrication::VectorEngrave',
   category: 'Fabrication',
@@ -23,14 +27,14 @@ export const FabricationLaserVectorEngraveNode: NodeDefinition<VectorEngraveInpu
     vectors: {
       type: 'Wire[]',
       label: 'Vectors',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     engravePaths: {
       type: 'Wire[]',
-      label: 'Engrave Paths'
-    }
+      label: 'Engrave Paths',
+    },
   },
   params: {
     depth: {
@@ -38,7 +42,7 @@ export const FabricationLaserVectorEngraveNode: NodeDefinition<VectorEngraveInpu
       label: 'Depth',
       default: 0.5,
       min: 0.1,
-      max: 5
+      max: 5,
     },
     passes: {
       type: 'number',
@@ -46,8 +50,8 @@ export const FabricationLaserVectorEngraveNode: NodeDefinition<VectorEngraveInpu
       default: 1,
       min: 1,
       max: 10,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -55,12 +59,12 @@ export const FabricationLaserVectorEngraveNode: NodeDefinition<VectorEngraveInpu
       params: {
         vectors: inputs.vectors,
         depth: params.depth,
-        passes: params.passes
-      }
+        passes: params.passes,
+      },
     });
-    
+
     return {
-      engravePaths: result
+      engravePaths: result,
     };
   },
 };

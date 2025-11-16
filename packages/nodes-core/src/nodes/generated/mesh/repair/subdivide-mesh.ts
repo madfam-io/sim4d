@@ -13,7 +13,11 @@ interface SubdivideMeshOutputs {
   subdivided: unknown;
 }
 
-export const MeshRepairSubdivideMeshNode: NodeDefinition<SubdivideMeshInputs, SubdivideMeshOutputs, SubdivideMeshParams> = {
+export const MeshRepairSubdivideMeshNode: NodeDefinition<
+  SubdivideMeshInputs,
+  SubdivideMeshOutputs,
+  SubdivideMeshParams
+> = {
   id: 'Mesh::SubdivideMesh',
   type: 'Mesh::SubdivideMesh',
   category: 'Mesh',
@@ -23,21 +27,21 @@ export const MeshRepairSubdivideMeshNode: NodeDefinition<SubdivideMeshInputs, Su
     mesh: {
       type: 'Mesh',
       label: 'Mesh',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     subdivided: {
       type: 'Mesh',
-      label: 'Subdivided'
-    }
+      label: 'Subdivided',
+    },
   },
   params: {
     subdivisionType: {
       type: 'enum',
       label: 'Subdivision Type',
-      default: "loop",
-      options: ["loop","catmull-clark","simple"]
+      default: 'loop',
+      options: ['loop', 'catmull-clark', 'simple'],
     },
     levels: {
       type: 'number',
@@ -45,8 +49,8 @@ export const MeshRepairSubdivideMeshNode: NodeDefinition<SubdivideMeshInputs, Su
       default: 1,
       min: 1,
       max: 5,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -54,12 +58,12 @@ export const MeshRepairSubdivideMeshNode: NodeDefinition<SubdivideMeshInputs, Su
       params: {
         mesh: inputs.mesh,
         subdivisionType: params.subdivisionType,
-        levels: params.levels
-      }
+        levels: params.levels,
+      },
     });
-    
+
     return {
-      subdivided: result
+      subdivided: result,
     };
   },
 };

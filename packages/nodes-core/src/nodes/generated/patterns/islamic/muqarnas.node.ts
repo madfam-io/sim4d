@@ -13,7 +13,11 @@ interface MuqarnasOutputs {
   muqarnas: unknown;
 }
 
-export const PatternsIslamicMuqarnasNode: NodeDefinition<MuqarnasInputs, MuqarnasOutputs, MuqarnasParams> = {
+export const PatternsIslamicMuqarnasNode: NodeDefinition<
+  MuqarnasInputs,
+  MuqarnasOutputs,
+  MuqarnasParams
+> = {
   id: 'Patterns::Muqarnas',
   category: 'Patterns',
   label: 'Muqarnas',
@@ -22,14 +26,14 @@ export const PatternsIslamicMuqarnasNode: NodeDefinition<MuqarnasInputs, Muqarna
     base: {
       type: 'Face',
       label: 'Base',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     muqarnas: {
       type: 'Shape[]',
-      label: 'Muqarnas'
-    }
+      label: 'Muqarnas',
+    },
   },
   params: {
     levels: {
@@ -38,14 +42,14 @@ export const PatternsIslamicMuqarnasNode: NodeDefinition<MuqarnasInputs, Muqarna
       default: 3,
       min: 1,
       max: 8,
-      step: 1
+      step: 1,
     },
     cellType: {
       type: 'enum',
       label: 'Cell Type',
-      default: "mixed",
-      options: ["square","octagonal","mixed"]
-    }
+      default: 'mixed',
+      options: ['square', 'octagonal', 'mixed'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const PatternsIslamicMuqarnasNode: NodeDefinition<MuqarnasInputs, Muqarna
       params: {
         base: inputs.base,
         levels: params.levels,
-        cellType: params.cellType
-      }
+        cellType: params.cellType,
+      },
     });
-    
+
     return {
-      muqarnas: result
+      muqarnas: result,
     };
   },
 };

@@ -16,7 +16,11 @@ interface ExportSVGOutputs {
   svgData: unknown;
 }
 
-export const IODrawingExportSVGNode: NodeDefinition<ExportSVGInputs, ExportSVGOutputs, ExportSVGParams> = {
+export const IODrawingExportSVGNode: NodeDefinition<
+  ExportSVGInputs,
+  ExportSVGOutputs,
+  ExportSVGParams
+> = {
   id: 'IO::ExportSVG',
   type: 'IO::ExportSVG',
   category: 'IO',
@@ -26,50 +30,50 @@ export const IODrawingExportSVGNode: NodeDefinition<ExportSVGInputs, ExportSVGOu
     shapes: {
       type: 'Shape[]',
       label: 'Shapes',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     svgData: {
       type: 'string',
-      label: 'Svg Data'
-    }
+      label: 'Svg Data',
+    },
   },
   params: {
     projection: {
       type: 'enum',
       label: 'Projection',
-      default: "top",
-      options: ["top","front","right","iso"]
+      default: 'top',
+      options: ['top', 'front', 'right', 'iso'],
     },
     width: {
       type: 'number',
       label: 'Width',
       default: 800,
       min: 100,
-      max: 10000
+      max: 10000,
     },
     height: {
       type: 'number',
       label: 'Height',
       default: 600,
       min: 100,
-      max: 10000
+      max: 10000,
     },
     strokeWidth: {
       type: 'number',
       label: 'Stroke Width',
       default: 1,
       min: 0.1,
-      max: 10
+      max: 10,
     },
     fillOpacity: {
       type: 'number',
       label: 'Fill Opacity',
       default: 0.3,
       min: 0,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -80,12 +84,12 @@ export const IODrawingExportSVGNode: NodeDefinition<ExportSVGInputs, ExportSVGOu
         width: params.width,
         height: params.height,
         strokeWidth: params.strokeWidth,
-        fillOpacity: params.fillOpacity
-      }
+        fillOpacity: params.fillOpacity,
+      },
     });
-    
+
     return {
-      svgData: result
+      svgData: result,
     };
   },
 };

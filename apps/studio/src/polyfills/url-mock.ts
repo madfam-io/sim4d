@@ -40,7 +40,7 @@ export function parse(urlStr: string): any {
       pathname: url.pathname,
       search: url.search,
       hash: url.hash,
-      href: url.href
+      href: url.href,
     };
   } catch {
     return {};
@@ -51,5 +51,5 @@ export default {
   fileURLToPath,
   pathToFileURL,
   format,
-  parse
+  parse,
 };

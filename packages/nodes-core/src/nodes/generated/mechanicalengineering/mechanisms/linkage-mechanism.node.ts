@@ -18,7 +18,11 @@ interface LinkageMechanismOutputs {
   joints: Array<[number, number, number]>;
 }
 
-export const MechanicalEngineeringMechanismsLinkageMechanismNode: NodeDefinition<LinkageMechanismInputs, LinkageMechanismOutputs, LinkageMechanismParams> = {
+export const MechanicalEngineeringMechanismsLinkageMechanismNode: NodeDefinition<
+  LinkageMechanismInputs,
+  LinkageMechanismOutputs,
+  LinkageMechanismParams
+> = {
   id: 'MechanicalEngineering::LinkageMechanism',
   category: 'MechanicalEngineering',
   label: 'LinkageMechanism',
@@ -27,58 +31,58 @@ export const MechanicalEngineeringMechanismsLinkageMechanismNode: NodeDefinition
     basePoints: {
       type: 'Point[]',
       label: 'Base Points',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     mechanism: {
       type: 'Shape',
-      label: 'Mechanism'
+      label: 'Mechanism',
     },
     links: {
       type: 'Shape[]',
-      label: 'Links'
+      label: 'Links',
     },
     joints: {
       type: 'Point[]',
-      label: 'Joints'
-    }
+      label: 'Joints',
+    },
   },
   params: {
     type: {
       type: 'enum',
       label: 'Type',
-      default: "four-bar",
-      options: ["four-bar","slider-crank","scotch-yoke","geneva"]
+      default: 'four-bar',
+      options: ['four-bar', 'slider-crank', 'scotch-yoke', 'geneva'],
     },
     linkLength1: {
       type: 'number',
       label: 'Link Length1',
       default: 50,
       min: 10,
-      max: 200
+      max: 200,
     },
     linkLength2: {
       type: 'number',
       label: 'Link Length2',
       default: 80,
       min: 10,
-      max: 200
+      max: 200,
     },
     linkLength3: {
       type: 'number',
       label: 'Link Length3',
       default: 60,
       min: 10,
-      max: 200
+      max: 200,
     },
     angle: {
       type: 'number',
       label: 'Angle',
       default: 0,
       min: 0,
-      max: 360
-    }
+      max: 360,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -89,14 +93,14 @@ export const MechanicalEngineeringMechanismsLinkageMechanismNode: NodeDefinition
         linkLength1: params.linkLength1,
         linkLength2: params.linkLength2,
         linkLength3: params.linkLength3,
-        angle: params.angle
-      }
+        angle: params.angle,
+      },
     });
-    
+
     return {
       mechanism: results.mechanism,
       links: results.links,
-      joints: results.joints
+      joints: results.joints,
     };
   },
 };

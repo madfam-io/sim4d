@@ -11,7 +11,11 @@ interface Delaunay3DOutputs {
   mesh: unknown;
 }
 
-export const PatternsDelaunayDelaunay3DNode: NodeDefinition<Delaunay3DInputs, Delaunay3DOutputs, Delaunay3DParams> = {
+export const PatternsDelaunayDelaunay3DNode: NodeDefinition<
+  Delaunay3DInputs,
+  Delaunay3DOutputs,
+  Delaunay3DParams
+> = {
   id: 'Patterns::Delaunay3D',
   category: 'Patterns',
   label: 'Delaunay3D',
@@ -20,31 +24,31 @@ export const PatternsDelaunayDelaunay3DNode: NodeDefinition<Delaunay3DInputs, De
     points: {
       type: 'Point[]',
       label: 'Points',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     tetrahedra: {
       type: 'Shape[]',
-      label: 'Tetrahedra'
+      label: 'Tetrahedra',
     },
     mesh: {
       type: 'Mesh',
-      label: 'Mesh'
-    }
+      label: 'Mesh',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
       type: 'delaunay3D',
       params: {
-        points: inputs.points
-      }
+        points: inputs.points,
+      },
     });
-    
+
     return {
       tetrahedra: results.tetrahedra,
-      mesh: results.mesh
+      mesh: results.mesh,
     };
   },
 };

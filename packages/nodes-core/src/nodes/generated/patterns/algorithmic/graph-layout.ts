@@ -15,7 +15,11 @@ interface GraphLayoutOutputs {
   graph: unknown;
 }
 
-export const PatternsAlgorithmicGraphLayoutNode: NodeDefinition<GraphLayoutInputs, GraphLayoutOutputs, GraphLayoutParams> = {
+export const PatternsAlgorithmicGraphLayoutNode: NodeDefinition<
+  GraphLayoutInputs,
+  GraphLayoutOutputs,
+  GraphLayoutParams
+> = {
   id: 'Patterns::GraphLayout',
   type: 'Patterns::GraphLayout',
   category: 'Patterns',
@@ -25,30 +29,30 @@ export const PatternsAlgorithmicGraphLayoutNode: NodeDefinition<GraphLayoutInput
     nodes: {
       type: 'Point[]',
       label: 'Nodes',
-      required: true
+      required: true,
     },
     edges: {
       type: 'Data',
       label: 'Edges',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     layout: {
       type: 'Point[]',
-      label: 'Layout'
+      label: 'Layout',
     },
     graph: {
       type: 'Wire[]',
-      label: 'Graph'
-    }
+      label: 'Graph',
+    },
   },
   params: {
     algorithm: {
       type: 'enum',
       label: 'Algorithm',
-      default: "force-directed",
-      options: ["force-directed","circular","hierarchical","spectral"]
+      default: 'force-directed',
+      options: ['force-directed', 'circular', 'hierarchical', 'spectral'],
     },
     iterations: {
       type: 'number',
@@ -56,8 +60,8 @@ export const PatternsAlgorithmicGraphLayoutNode: NodeDefinition<GraphLayoutInput
       default: 100,
       min: 10,
       max: 1000,
-      step: 10
-    }
+      step: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -66,13 +70,13 @@ export const PatternsAlgorithmicGraphLayoutNode: NodeDefinition<GraphLayoutInput
         nodes: inputs.nodes,
         edges: inputs.edges,
         algorithm: params.algorithm,
-        iterations: params.iterations
-      }
+        iterations: params.iterations,
+      },
     });
-    
+
     return {
       layout: results.layout,
-      graph: results.graph
+      graph: results.graph,
     };
   },
 };

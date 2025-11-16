@@ -16,7 +16,11 @@ interface LinearRibOutputs {
   shape: unknown;
 }
 
-export const FeaturesStructuralLinearRibNode: NodeDefinition<LinearRibInputs, LinearRibOutputs, LinearRibParams> = {
+export const FeaturesStructuralLinearRibNode: NodeDefinition<
+  LinearRibInputs,
+  LinearRibOutputs,
+  LinearRibParams
+> = {
   id: 'Features::LinearRib',
   category: 'Features',
   label: 'LinearRib',
@@ -25,19 +29,19 @@ export const FeaturesStructuralLinearRibNode: NodeDefinition<LinearRibInputs, Li
     face: {
       type: 'Face',
       label: 'Face',
-      required: true
+      required: true,
     },
     path: {
       type: 'Curve',
       label: 'Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shape: {
       type: 'Shape',
-      label: 'Shape'
-    }
+      label: 'Shape',
+    },
   },
   params: {
     thickness: {
@@ -45,29 +49,29 @@ export const FeaturesStructuralLinearRibNode: NodeDefinition<LinearRibInputs, Li
       label: 'Thickness',
       default: 3,
       min: 0.1,
-      max: 100
+      max: 100,
     },
     height: {
       type: 'number',
       label: 'Height',
       default: 20,
       min: 0.1,
-      max: 1000
+      max: 1000,
     },
     draftAngle: {
       type: 'number',
       label: 'Draft Angle',
       default: 1,
       min: 0,
-      max: 10
+      max: 10,
     },
     topRadius: {
       type: 'number',
       label: 'Top Radius',
       default: 1,
       min: 0,
-      max: 50
-    }
+      max: 50,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -78,12 +82,12 @@ export const FeaturesStructuralLinearRibNode: NodeDefinition<LinearRibInputs, Li
         thickness: params.thickness,
         height: params.height,
         draftAngle: params.draftAngle,
-        topRadius: params.topRadius
-      }
+        topRadius: params.topRadius,
+      },
     });
-    
+
     return {
-      shape: result
+      shape: result,
     };
   },
 };

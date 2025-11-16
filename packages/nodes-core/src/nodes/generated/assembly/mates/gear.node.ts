@@ -24,23 +24,23 @@ export const AssemblyMatesGearNode: NodeDefinition<GearInputs, GearOutputs, Gear
     gear1: {
       type: 'Shape',
       label: 'Gear1',
-      required: true
+      required: true,
     },
     gear2: {
       type: 'Shape',
       label: 'Gear2',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     geared: {
       type: 'Shape[]',
-      label: 'Geared'
+      label: 'Geared',
     },
     mate: {
       type: 'Mate',
-      label: 'Mate'
-    }
+      label: 'Mate',
+    },
   },
   params: {
     ratio: {
@@ -48,13 +48,13 @@ export const AssemblyMatesGearNode: NodeDefinition<GearInputs, GearOutputs, Gear
       label: 'Ratio',
       default: 1,
       min: 0.1,
-      max: 100
+      max: 100,
     },
     reverse: {
       type: 'boolean',
       label: 'Reverse',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -63,13 +63,13 @@ export const AssemblyMatesGearNode: NodeDefinition<GearInputs, GearOutputs, Gear
         gear1: inputs.gear1,
         gear2: inputs.gear2,
         ratio: params.ratio,
-        reverse: params.reverse
-      }
+        reverse: params.reverse,
+      },
     });
-    
+
     return {
       geared: results.geared,
-      mate: results.mate
+      mate: results.mate,
     };
   },
 };

@@ -17,7 +17,11 @@ interface HollowShaftOutputs {
   bore: unknown;
 }
 
-export const MechanicalEngineeringShaftsHollowShaftNode: NodeDefinition<HollowShaftInputs, HollowShaftOutputs, HollowShaftParams> = {
+export const MechanicalEngineeringShaftsHollowShaftNode: NodeDefinition<
+  HollowShaftInputs,
+  HollowShaftOutputs,
+  HollowShaftParams
+> = {
   id: 'MechanicalEngineering::HollowShaft',
   category: 'MechanicalEngineering',
   label: 'HollowShaft',
@@ -26,23 +30,23 @@ export const MechanicalEngineeringShaftsHollowShaftNode: NodeDefinition<HollowSh
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
+      required: true,
     },
     axis: {
       type: 'Vector',
       label: 'Axis',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     shaft: {
       type: 'Shape',
-      label: 'Shaft'
+      label: 'Shaft',
     },
     bore: {
       type: 'Wire',
-      label: 'Bore'
-    }
+      label: 'Bore',
+    },
   },
   params: {
     outerDiameter: {
@@ -50,28 +54,28 @@ export const MechanicalEngineeringShaftsHollowShaftNode: NodeDefinition<HollowSh
       label: 'Outer Diameter',
       default: 40,
       min: 10,
-      max: 200
+      max: 200,
     },
     innerDiameter: {
       type: 'number',
       label: 'Inner Diameter',
       default: 30,
       min: 5,
-      max: 190
+      max: 190,
     },
     length: {
       type: 'number',
       label: 'Length',
       default: 100,
       min: 20,
-      max: 500
+      max: 500,
     },
     endMachining: {
       type: 'enum',
       label: 'End Machining',
-      default: "none",
-      options: ["none","threads","splines"]
-    }
+      default: 'none',
+      options: ['none', 'threads', 'splines'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -82,13 +86,13 @@ export const MechanicalEngineeringShaftsHollowShaftNode: NodeDefinition<HollowSh
         outerDiameter: params.outerDiameter,
         innerDiameter: params.innerDiameter,
         length: params.length,
-        endMachining: params.endMachining
-      }
+        endMachining: params.endMachining,
+      },
     });
-    
+
     return {
       shaft: results.shaft,
-      bore: results.bore
+      bore: results.bore,
     };
   },
 };

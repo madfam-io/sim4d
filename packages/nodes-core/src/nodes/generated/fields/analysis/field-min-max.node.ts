@@ -14,7 +14,11 @@ interface FieldMinMaxOutputs {
   maxPoint: [number, number, number];
 }
 
-export const FieldsAnalysisFieldMinMaxNode: NodeDefinition<FieldMinMaxInputs, FieldMinMaxOutputs, FieldMinMaxParams> = {
+export const FieldsAnalysisFieldMinMaxNode: NodeDefinition<
+  FieldMinMaxInputs,
+  FieldMinMaxOutputs,
+  FieldMinMaxParams
+> = {
   id: 'Fields::FieldMinMax',
   category: 'Fields',
   label: 'FieldMinMax',
@@ -23,31 +27,31 @@ export const FieldsAnalysisFieldMinMaxNode: NodeDefinition<FieldMinMaxInputs, Fi
     field: {
       type: 'Field',
       label: 'Field',
-      optional: true
+      optional: true,
     },
     domain: {
       type: 'Geometry',
       label: 'Domain',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     min: {
       type: 'Number',
-      label: 'Min'
+      label: 'Min',
     },
     max: {
       type: 'Number',
-      label: 'Max'
+      label: 'Max',
     },
     minPoint: {
       type: 'Point',
-      label: 'Min Point'
+      label: 'Min Point',
     },
     maxPoint: {
       type: 'Point',
-      label: 'Max Point'
-    }
+      label: 'Max Point',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -55,15 +59,15 @@ export const FieldsAnalysisFieldMinMaxNode: NodeDefinition<FieldMinMaxInputs, Fi
       type: 'analyzeFieldMinMax',
       params: {
         field: inputs.field,
-        domain: inputs.domain
-      }
+        domain: inputs.domain,
+      },
     });
-    
+
     return {
       min: results.min,
       max: results.max,
       minPoint: results.minPoint,
-      maxPoint: results.maxPoint
+      maxPoint: results.maxPoint,
     };
   },
 };

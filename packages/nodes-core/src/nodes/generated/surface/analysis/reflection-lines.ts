@@ -13,7 +13,11 @@ interface ReflectionLinesOutputs {
   reflectionLines: unknown;
 }
 
-export const SurfaceAnalysisReflectionLinesNode: NodeDefinition<ReflectionLinesInputs, ReflectionLinesOutputs, ReflectionLinesParams> = {
+export const SurfaceAnalysisReflectionLinesNode: NodeDefinition<
+  ReflectionLinesInputs,
+  ReflectionLinesOutputs,
+  ReflectionLinesParams
+> = {
   id: 'Surface::ReflectionLines',
   type: 'Surface::ReflectionLines',
   category: 'Surface',
@@ -23,14 +27,14 @@ export const SurfaceAnalysisReflectionLinesNode: NodeDefinition<ReflectionLinesI
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     reflectionLines: {
       type: 'Wire[]',
-      label: 'Reflection Lines'
-    }
+      label: 'Reflection Lines',
+    },
   },
   params: {
     lineCount: {
@@ -39,13 +43,13 @@ export const SurfaceAnalysisReflectionLinesNode: NodeDefinition<ReflectionLinesI
       default: 10,
       min: 3,
       max: 50,
-      step: 1
+      step: 1,
     },
     viewDirection: {
       type: 'vec3',
       label: 'View Direction',
-      default: [0,0,1]
-    }
+      default: [0, 0, 1],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const SurfaceAnalysisReflectionLinesNode: NodeDefinition<ReflectionLinesI
       params: {
         surface: inputs.surface,
         lineCount: params.lineCount,
-        viewDirection: params.viewDirection
-      }
+        viewDirection: params.viewDirection,
+      },
     });
-    
+
     return {
-      reflectionLines: result
+      reflectionLines: result,
     };
   },
 };

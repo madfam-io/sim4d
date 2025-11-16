@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { NeuralNetworkNode } from './neuralnetwork.node';
 import { createTestContext } from './../../test-utils';
@@ -9,13 +8,13 @@ describe('NeuralNetworkNode', () => {
     const inputs = {
       trainingData: null,
       features: null,
-      target: null
+      target: null,
     };
     const params = {
-      hiddenLayers: "10,5",
-      activation: "relu",
+      hiddenLayers: '10,5',
+      activation: 'relu',
       learningRate: 0.01,
-      epochs: 100
+      epochs: 100,
     };
 
     const result = await NeuralNetworkNode.evaluate(context, inputs, params);
@@ -26,6 +25,4 @@ describe('NeuralNetworkNode', () => {
     expect(result.accuracy).toBeDefined();
     expect(result.predictions).toBeDefined();
   });
-
-  
 });

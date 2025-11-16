@@ -15,7 +15,11 @@ interface BrickPatternOutputs {
   bricks: unknown;
 }
 
-export const PatternsTilingBrickPatternNode: NodeDefinition<BrickPatternInputs, BrickPatternOutputs, BrickPatternParams> = {
+export const PatternsTilingBrickPatternNode: NodeDefinition<
+  BrickPatternInputs,
+  BrickPatternOutputs,
+  BrickPatternParams
+> = {
   id: 'Patterns::BrickPattern',
   category: 'Patterns',
   label: 'BrickPattern',
@@ -24,40 +28,40 @@ export const PatternsTilingBrickPatternNode: NodeDefinition<BrickPatternInputs, 
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     bricks: {
       type: 'Face[]',
-      label: 'Bricks'
-    }
+      label: 'Bricks',
+    },
   },
   params: {
     bond: {
       type: 'enum',
       label: 'Bond',
-      default: "running",
-      options: ["running","stack","english","flemish","herringbone"]
+      default: 'running',
+      options: ['running', 'stack', 'english', 'flemish', 'herringbone'],
     },
     brickLength: {
       type: 'number',
       label: 'Brick Length',
       default: 20,
-      min: 1
+      min: 1,
     },
     brickWidth: {
       type: 'number',
       label: 'Brick Width',
       default: 10,
-      min: 1
+      min: 1,
     },
     mortarGap: {
       type: 'number',
       label: 'Mortar Gap',
       default: 1,
-      min: 0
-    }
+      min: 0,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -67,12 +71,12 @@ export const PatternsTilingBrickPatternNode: NodeDefinition<BrickPatternInputs, 
         bond: params.bond,
         brickLength: params.brickLength,
         brickWidth: params.brickWidth,
-        mortarGap: params.mortarGap
-      }
+        mortarGap: params.mortarGap,
+      },
     });
-    
+
     return {
-      bricks: result
+      bricks: result,
     };
   },
 };

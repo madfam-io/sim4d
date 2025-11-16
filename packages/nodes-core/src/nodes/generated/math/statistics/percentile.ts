@@ -12,7 +12,11 @@ interface PercentileOutputs {
   result: unknown;
 }
 
-export const MathStatisticsPercentileNode: NodeDefinition<PercentileInputs, PercentileOutputs, PercentileParams> = {
+export const MathStatisticsPercentileNode: NodeDefinition<
+  PercentileInputs,
+  PercentileOutputs,
+  PercentileParams
+> = {
   id: 'Math::Percentile',
   type: 'Math::Percentile',
   category: 'Math',
@@ -22,14 +26,14 @@ export const MathStatisticsPercentileNode: NodeDefinition<PercentileInputs, Perc
     values: {
       type: 'number[]',
       label: 'Values',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'number',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {
     percentile: {
@@ -37,20 +41,20 @@ export const MathStatisticsPercentileNode: NodeDefinition<PercentileInputs, Perc
       label: 'Percentile',
       default: 50,
       min: 0,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathPercentile',
       params: {
         values: inputs.values,
-        percentile: params.percentile
-      }
+        percentile: params.percentile,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

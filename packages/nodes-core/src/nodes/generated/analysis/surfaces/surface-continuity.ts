@@ -17,7 +17,11 @@ interface SurfaceContinuityOutputs {
   analysisLines: unknown;
 }
 
-export const AnalysisSurfacesSurfaceContinuityNode: NodeDefinition<SurfaceContinuityInputs, SurfaceContinuityOutputs, SurfaceContinuityParams> = {
+export const AnalysisSurfacesSurfaceContinuityNode: NodeDefinition<
+  SurfaceContinuityInputs,
+  SurfaceContinuityOutputs,
+  SurfaceContinuityParams
+> = {
   id: 'Analysis::SurfaceContinuity',
   type: 'Analysis::SurfaceContinuity',
   category: 'Analysis',
@@ -27,47 +31,47 @@ export const AnalysisSurfacesSurfaceContinuityNode: NodeDefinition<SurfaceContin
     surface1: {
       type: 'Face',
       label: 'Surface1',
-      required: true
+      required: true,
     },
     surface2: {
       type: 'Face',
       label: 'Surface2',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     isContinuous: {
       type: 'boolean',
-      label: 'Is Continuous'
+      label: 'Is Continuous',
     },
     discontinuityPoints: {
       type: 'Point[]',
-      label: 'Discontinuity Points'
+      label: 'Discontinuity Points',
     },
     analysisLines: {
       type: 'Wire[]',
-      label: 'Analysis Lines'
-    }
+      label: 'Analysis Lines',
+    },
   },
   params: {
     continuityType: {
       type: 'enum',
       label: 'Continuity Type',
-      default: "G1",
-      options: ["G0","G1","G2","C0","C1","C2"]
+      default: 'G1',
+      options: ['G0', 'G1', 'G2', 'C0', 'C1', 'C2'],
     },
     tolerance: {
       type: 'number',
       label: 'Tolerance',
       default: 0.01,
       min: 0.001,
-      max: 1
+      max: 1,
     },
     showAnalysis: {
       type: 'boolean',
       label: 'Show Analysis',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -77,14 +81,14 @@ export const AnalysisSurfacesSurfaceContinuityNode: NodeDefinition<SurfaceContin
         surface2: inputs.surface2,
         continuityType: params.continuityType,
         tolerance: params.tolerance,
-        showAnalysis: params.showAnalysis
-      }
+        showAnalysis: params.showAnalysis,
+      },
     });
-    
+
     return {
       isContinuous: results.isContinuous,
       discontinuityPoints: results.discontinuityPoints,
-      analysisLines: results.analysisLines
+      analysisLines: results.analysisLines,
     };
   },
 };

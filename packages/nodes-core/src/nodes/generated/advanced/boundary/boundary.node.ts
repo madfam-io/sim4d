@@ -14,7 +14,11 @@ interface BoundaryOutputs {
   shape: unknown;
 }
 
-export const AdvancedBoundaryBoundaryNode: NodeDefinition<BoundaryInputs, BoundaryOutputs, BoundaryParams> = {
+export const AdvancedBoundaryBoundaryNode: NodeDefinition<
+  BoundaryInputs,
+  BoundaryOutputs,
+  BoundaryParams
+> = {
   id: 'Advanced::Boundary',
   category: 'Advanced',
   label: 'Boundary',
@@ -23,33 +27,33 @@ export const AdvancedBoundaryBoundaryNode: NodeDefinition<BoundaryInputs, Bounda
     curves: {
       type: 'Wire[]',
       label: 'Curves',
-      required: true
+      required: true,
     },
     tangentFaces: {
       type: 'Face[]',
       label: 'Tangent Faces',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     shape: {
       type: 'Shape',
-      label: 'Shape'
-    }
+      label: 'Shape',
+    },
   },
   params: {
     type: {
       type: 'enum',
       label: 'Type',
-      default: "surface",
-      options: ["surface","solid"]
+      default: 'surface',
+      options: ['surface', 'solid'],
     },
     tangencyType: {
       type: 'enum',
       label: 'Tangency Type',
-      default: "none",
-      options: ["none","tangent","curvature"]
-    }
+      default: 'none',
+      options: ['none', 'tangent', 'curvature'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -58,12 +62,12 @@ export const AdvancedBoundaryBoundaryNode: NodeDefinition<BoundaryInputs, Bounda
         curves: inputs.curves,
         tangentFaces: inputs.tangentFaces,
         type: params.type,
-        tangencyType: params.tangencyType
-      }
+        tangencyType: params.tangencyType,
+      },
     });
-    
+
     return {
-      shape: result
+      shape: result,
     };
   },
 };

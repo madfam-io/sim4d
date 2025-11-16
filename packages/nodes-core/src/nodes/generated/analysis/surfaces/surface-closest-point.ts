@@ -17,7 +17,11 @@ interface SurfaceClosestPointOutputs {
   vParameter: unknown;
 }
 
-export const AnalysisSurfacesSurfaceClosestPointNode: NodeDefinition<SurfaceClosestPointInputs, SurfaceClosestPointOutputs, SurfaceClosestPointParams> = {
+export const AnalysisSurfacesSurfaceClosestPointNode: NodeDefinition<
+  SurfaceClosestPointInputs,
+  SurfaceClosestPointOutputs,
+  SurfaceClosestPointParams
+> = {
   id: 'Analysis::SurfaceClosestPoint',
   type: 'Analysis::SurfaceClosestPoint',
   category: 'Analysis',
@@ -27,31 +31,31 @@ export const AnalysisSurfacesSurfaceClosestPointNode: NodeDefinition<SurfaceClos
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
+      required: true,
     },
     point: {
       type: 'Point',
       label: 'Point',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     closestPoint: {
       type: 'Point',
-      label: 'Closest Point'
+      label: 'Closest Point',
     },
     distance: {
       type: 'number',
-      label: 'Distance'
+      label: 'Distance',
     },
     uParameter: {
       type: 'number',
-      label: 'U Parameter'
+      label: 'U Parameter',
     },
     vParameter: {
       type: 'number',
-      label: 'V Parameter'
-    }
+      label: 'V Parameter',
+    },
   },
   params: {
     tolerance: {
@@ -59,13 +63,13 @@ export const AnalysisSurfacesSurfaceClosestPointNode: NodeDefinition<SurfaceClos
       label: 'Tolerance',
       default: 0.01,
       min: 0.001,
-      max: 1
+      max: 1,
     },
     showConnection: {
       type: 'boolean',
       label: 'Show Connection',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -74,15 +78,15 @@ export const AnalysisSurfacesSurfaceClosestPointNode: NodeDefinition<SurfaceClos
         surface: inputs.surface,
         point: inputs.point,
         tolerance: params.tolerance,
-        showConnection: params.showConnection
-      }
+        showConnection: params.showConnection,
+      },
     });
-    
+
     return {
       closestPoint: results.closestPoint,
       distance: results.distance,
       uParameter: results.uParameter,
-      vParameter: results.vParameter
+      vParameter: results.vParameter,
     };
   },
 };

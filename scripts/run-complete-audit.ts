@@ -61,38 +61,34 @@ class AuditRunner {
       testedNodes: 0,
       passedNodes: 0,
       failedNodes: 0,
-      errors: []
+      errors: [],
     },
     accessibility: {
       wcagCompliance: false,
       keyboardNavigation: false,
       screenReaderSupport: false,
       violations: [],
-      warnings: []
+      warnings: [],
     },
     performance: {
       pageLoadTime: 0,
       nodeCreationTime: 0,
       evaluationTime: 0,
-      memoryUsage: 0
+      memoryUsage: 0,
     },
     coverage: {
       nodes: 0,
       accessibility: 0,
       keyboard: 0,
-      overall: 0
-    }
+      overall: 0,
+    },
   };
 
   async initialize() {
     console.log('🚀 Initializing audit runner...');
     this.browser = await chromium.launch({
       headless: true,
-      args: [
-        '--enable-unsafe-webgpu',
-        '--use-gl=swiftshader',
-        '--disable-dev-shm-usage'
-      ]
+      args: ['--enable-unsafe-webgpu', '--use-gl=swiftshader', '--disable-dev-shm-usage'],
     });
   }
 
@@ -100,7 +96,9 @@ class AuditRunner {
     console.log('📋 Running functionality tests...');
 
     try {
-      const { stdout } = await execAsync('pnpm test tests/audit/functionality/all-nodes.test.ts --reporter=json');
+      const { stdout } = await execAsync(
+        'pnpm test tests/audit/functionality/all-nodes.test.ts --reporter=json'
+      );
       const results = JSON.parse(stdout);
 
       // Parse test results
@@ -127,13 +125,17 @@ class AuditRunner {
 
     try {
       // Run WCAG compliance tests
-      const { stdout: wcagOutput } = await execAsync('pnpm test tests/audit/accessibility/wcag-compliance.test.ts --reporter=json');
+      const { stdout: wcagOutput } = await execAsync(
+        'pnpm test tests/audit/accessibility/wcag-compliance.test.ts --reporter=json'
+      );
       const wcagResults = JSON.parse(wcagOutput);
 
       this.results.accessibility.wcagCompliance = wcagResults.numFailedTests === 0;
 
       // Run keyboard navigation tests
-      const { stdout: keyboardOutput } = await execAsync('pnpm test tests/audit/accessibility/keyboard-navigation.test.ts --reporter=json');
+      const { stdout: keyboardOutput } = await execAsync(
+        'pnpm test tests/audit/accessibility/keyboard-navigation.test.ts --reporter=json'
+      );
       const keyboardResults = JSON.parse(keyboardOutput);
 
       this.results.accessibility.keyboardNavigation = keyboardResults.numFailedTests === 0;
@@ -144,7 +146,7 @@ class AuditRunner {
           if (test.status === 'failed' && test.message) {
             this.results.accessibility.violations.push({
               test: test.title,
-              message: test.message
+              message: test.message,
             });
           }
         });
@@ -153,7 +155,7 @@ class AuditRunner {
       console.error('Accessibility tests failed:', error.message);
       this.results.accessibility.violations.push({
         test: 'general',
-        message: error.message
+        message: error.message,
       });
     }
   }
@@ -192,14 +194,13 @@ class AuditRunner {
         if (performance.memory) {
           return {
             usedJSHeapSize: (performance as any).memory.usedJSHeapSize,
-            totalJSHeapSize: (performance as any).memory.totalJSHeapSize
+            totalJSHeapSize: (performance as any).memory.totalJSHeapSize,
           };
         }
         return { usedJSHeapSize: 0, totalJSHeapSize: 0 };
       });
 
       this.results.performance.memoryUsage = metrics.usedJSHeapSize / 1024 / 1024; // Convert to MB
-
     } catch (error: any) {
       console.error('Performance tests failed:', error.message);
     } finally {
@@ -222,14 +223,13 @@ class AuditRunner {
     this.results.coverage.accessibility = accessibilityScore;
 
     // Keyboard coverage
-    this.results.coverage.keyboard =
-      this.results.accessibility.keyboardNavigation ? 100 : 0;
+    this.results.coverage.keyboard = this.results.accessibility.keyboardNavigation ? 100 : 0;
 
     // Overall coverage
     this.results.coverage.overall =
-      (this.results.coverage.nodes * 0.4) +
-      (this.results.coverage.accessibility * 0.3) +
-      (this.results.coverage.keyboard * 0.3);
+      this.results.coverage.nodes * 0.4 +
+      this.results.coverage.accessibility * 0.3 +
+      this.results.coverage.keyboard * 0.3;
   }
 
   generateReport() {
@@ -246,19 +246,27 @@ Generated: ${this.results.timestamp}
 - Tested Nodes: ${this.results.functionality.testedNodes}
 - Passed: ${this.results.functionality.passedNodes}
 - Failed: ${this.results.functionality.failedNodes}
-${this.results.functionality.errors.length > 0 ? `
+${
+  this.results.functionality.errors.length > 0
+    ? `
 #### Errors:
-${this.results.functionality.errors.map(e => `- ${e}`).join('\n')}
-` : ''}
+${this.results.functionality.errors.map((e) => `- ${e}`).join('\n')}
+`
+    : ''
+}
 
 ### ♿ Accessibility Coverage: ${this.results.coverage.accessibility.toFixed(1)}%
 - WCAG Compliance: ${this.results.accessibility.wcagCompliance ? '✅ Passed' : '❌ Failed'}
 - Keyboard Navigation: ${this.results.accessibility.keyboardNavigation ? '✅ Passed' : '❌ Failed'}
 - Screen Reader Support: ${this.results.accessibility.screenReaderSupport ? '✅ Passed' : '❌ Failed'}
-${this.results.accessibility.violations.length > 0 ? `
+${
+  this.results.accessibility.violations.length > 0
+    ? `
 #### Violations:
-${this.results.accessibility.violations.map(v => `- ${v.test}: ${v.message}`).join('\n')}
-` : ''}
+${this.results.accessibility.violations.map((v) => `- ${v.test}: ${v.message}`).join('\n')}
+`
+    : ''
+}
 
 ### ⚡ Performance Metrics
 - Page Load Time: ${this.results.performance.pageLoadTime}ms
@@ -268,19 +276,27 @@ ${this.results.accessibility.violations.map(v => `- ${v.test}: ${v.message}`).jo
 
 ## Summary
 
-${this.results.coverage.overall >= 95 ? `
+${
+  this.results.coverage.overall >= 95
+    ? `
 🎉 **EXCELLENT**: Platform achieves ${this.results.coverage.overall.toFixed(1)}% coverage!
 All major functionality is accessible to all users.
-` : this.results.coverage.overall >= 80 ? `
+`
+    : this.results.coverage.overall >= 80
+      ? `
 ✅ **GOOD**: Platform achieves ${this.results.coverage.overall.toFixed(1)}% coverage.
 Most functionality is accessible, with some areas for improvement.
-` : `
+`
+      : `
 ⚠️ **NEEDS IMPROVEMENT**: Platform achieves only ${this.results.coverage.overall.toFixed(1)}% coverage.
 Significant work needed to ensure accessibility for all users.
-`}
+`
+}
 
 ### Recommendations
-${this.getRecommendations().map(r => `- ${r}`).join('\n')}
+${this.getRecommendations()
+  .map((r) => `- ${r}`)
+  .join('\n')}
 
 ### Next Steps
 1. Address critical accessibility violations
@@ -361,7 +377,6 @@ ${this.getRecommendations().map(r => `- ${r}`).join('\n')}
 
       // Exit with appropriate code
       process.exit(this.results.coverage.overall >= 80 ? 0 : 1);
-
     } catch (error) {
       console.error('Audit failed:', error);
       process.exit(1);

@@ -22,14 +22,14 @@ export const SketchCurvesOffsetNode: NodeDefinition<OffsetInputs, OffsetOutputs,
     curve: {
       type: 'Wire',
       label: 'Curve',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     offset: {
       type: 'Wire',
-      label: 'Offset'
-    }
+      label: 'Offset',
+    },
   },
   params: {
     distance: {
@@ -37,14 +37,14 @@ export const SketchCurvesOffsetNode: NodeDefinition<OffsetInputs, OffsetOutputs,
       label: 'Distance',
       default: 10,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     side: {
       type: 'enum',
       label: 'Side',
-      default: "right",
-      options: ["left","right","both"]
-    }
+      default: 'right',
+      options: ['left', 'right', 'both'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -52,12 +52,12 @@ export const SketchCurvesOffsetNode: NodeDefinition<OffsetInputs, OffsetOutputs,
       params: {
         curve: inputs.curve,
         distance: params.distance,
-        side: params.side
-      }
+        side: params.side,
+      },
     });
-    
+
     return {
-      offset: result
+      offset: result,
     };
   },
 };

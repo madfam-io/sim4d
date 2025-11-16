@@ -58,18 +58,18 @@ describe('Boolean Nodes', () => {
       const inputs = { shapes: [{ type: 'Shape', id: 'shape1' }] };
       const params = { simplify: true };
 
-      await expect(
-        UnionNode.evaluate(mockContext, inputs, params)
-      ).rejects.toThrow('Union requires at least 2 shapes');
+      await expect(UnionNode.evaluate(mockContext, inputs, params)).rejects.toThrow(
+        'Union requires at least 2 shapes'
+      );
     });
 
     it('should throw error with no shapes', async () => {
       const inputs = { shapes: [] };
       const params = { simplify: true };
 
-      await expect(
-        UnionNode.evaluate(mockContext, inputs, params)
-      ).rejects.toThrow('Union requires at least 2 shapes');
+      await expect(UnionNode.evaluate(mockContext, inputs, params)).rejects.toThrow(
+        'Union requires at least 2 shapes'
+      );
     });
 
     it('should validate node definition structure', () => {
@@ -159,9 +159,9 @@ describe('Boolean Nodes', () => {
       const inputs = { shapes: [{ type: 'Shape', id: 'shape1' }] };
       const params = { simplify: true };
 
-      await expect(
-        IntersectNode.evaluate(mockContext, inputs, params)
-      ).rejects.toThrow('Intersect requires at least 2 shapes');
+      await expect(IntersectNode.evaluate(mockContext, inputs, params)).rejects.toThrow(
+        'Intersect requires at least 2 shapes'
+      );
     });
 
     it('should validate node definition structure', () => {

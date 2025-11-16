@@ -438,7 +438,7 @@ export const evaluateCurveNode: NodeDefinition = {
   },
   execute: async (inputs, params, context) => {
     const t = inputs.parameter ?? params.parameter;
-    
+
     const result = await context.worker.invoke('EVALUATE_CURVE', {
       curve: inputs.curve,
       parameter: t,
@@ -513,7 +513,7 @@ export const evaluateSurfaceNode: NodeDefinition = {
   execute: async (inputs, params, context) => {
     const u = inputs.u ?? params.u;
     const v = inputs.v ?? params.v;
-    
+
     const result = await context.worker.invoke('EVALUATE_SURFACE', {
       surface: inputs.surface,
       u: u,

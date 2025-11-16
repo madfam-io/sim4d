@@ -36,4 +36,6 @@ if (skipped > 0) {
   process.exit(1);
 }
 
-console.log(`✅ Playwright audit results verified (tests: ${total}, skipped: ${skipped}, failures: ${failures}).`);
+console.log(
+  `✅ Playwright audit results verified (tests: ${total}, skipped: ${skipped}, failures: ${failures}).`
+);

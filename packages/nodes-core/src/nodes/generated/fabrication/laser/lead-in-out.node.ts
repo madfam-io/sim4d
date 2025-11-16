@@ -13,7 +13,11 @@ interface LeadInOutOutputs {
   pathsWithLeads: unknown;
 }
 
-export const FabricationLaserLeadInOutNode: NodeDefinition<LeadInOutInputs, LeadInOutOutputs, LeadInOutParams> = {
+export const FabricationLaserLeadInOutNode: NodeDefinition<
+  LeadInOutInputs,
+  LeadInOutOutputs,
+  LeadInOutParams
+> = {
   id: 'Fabrication::LeadInOut',
   category: 'Fabrication',
   label: 'LeadInOut',
@@ -22,14 +26,14 @@ export const FabricationLaserLeadInOutNode: NodeDefinition<LeadInOutInputs, Lead
     paths: {
       type: 'Wire[]',
       label: 'Paths',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     pathsWithLeads: {
       type: 'Wire[]',
-      label: 'Paths With Leads'
-    }
+      label: 'Paths With Leads',
+    },
   },
   params: {
     leadLength: {
@@ -37,14 +41,14 @@ export const FabricationLaserLeadInOutNode: NodeDefinition<LeadInOutInputs, Lead
       label: 'Lead Length',
       default: 2,
       min: 0.5,
-      max: 10
+      max: 10,
     },
     leadType: {
       type: 'enum',
       label: 'Lead Type',
-      default: "line",
-      options: ["line","arc","none"]
-    }
+      default: 'line',
+      options: ['line', 'arc', 'none'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -52,12 +56,12 @@ export const FabricationLaserLeadInOutNode: NodeDefinition<LeadInOutInputs, Lead
       params: {
         paths: inputs.paths,
         leadLength: params.leadLength,
-        leadType: params.leadType
-      }
+        leadType: params.leadType,
+      },
     });
-    
+
     return {
-      pathsWithLeads: result
+      pathsWithLeads: result,
     };
   },
 };

@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { PatternsPackingPolygonPackingNode } from './polygon-packing.node';
 import { createTestContext } from '../test-utils';
@@ -8,11 +7,11 @@ describe('PatternsPackingPolygonPackingNode', () => {
     const context = createTestContext();
     const inputs = {
       container: undefined,
-      polygons: undefined
+      polygons: undefined,
     } as any;
     const params = {
       rotations: true,
-      angleStep: 90
+      angleStep: 90,
     } as any;
 
     const result = await PatternsPackingPolygonPackingNode.evaluate(context, inputs, params);

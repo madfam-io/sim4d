@@ -781,6 +781,7 @@ pnpm audit:
    - ✅ Sandbox architecture for plugin execution (planned)
 
 3. **Cross-Origin Headers:**
+
    ```typescript
    headers: {
      'Cross-Origin-Opener-Policy': 'same-origin',

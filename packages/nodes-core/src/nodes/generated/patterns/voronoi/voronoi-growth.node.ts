@@ -14,7 +14,11 @@ interface VoronoiGrowthOutputs {
   pattern: unknown;
 }
 
-export const PatternsVoronoiVoronoiGrowthNode: NodeDefinition<VoronoiGrowthInputs, VoronoiGrowthOutputs, VoronoiGrowthParams> = {
+export const PatternsVoronoiVoronoiGrowthNode: NodeDefinition<
+  VoronoiGrowthInputs,
+  VoronoiGrowthOutputs,
+  VoronoiGrowthParams
+> = {
   id: 'Patterns::VoronoiGrowth',
   category: 'Patterns',
   label: 'VoronoiGrowth',
@@ -23,19 +27,19 @@ export const PatternsVoronoiVoronoiGrowthNode: NodeDefinition<VoronoiGrowthInput
     seeds: {
       type: 'Point[]',
       label: 'Seeds',
-      required: true
+      required: true,
     },
     boundary: {
       type: 'Wire',
       label: 'Boundary',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     pattern: {
       type: 'Wire[]',
-      label: 'Pattern'
-    }
+      label: 'Pattern',
+    },
   },
   params: {
     generations: {
@@ -44,15 +48,15 @@ export const PatternsVoronoiVoronoiGrowthNode: NodeDefinition<VoronoiGrowthInput
       default: 5,
       min: 1,
       max: 20,
-      step: 1
+      step: 1,
     },
     growthRate: {
       type: 'number',
       label: 'Growth Rate',
       default: 1.5,
       min: 1,
-      max: 3
-    }
+      max: 3,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -61,12 +65,12 @@ export const PatternsVoronoiVoronoiGrowthNode: NodeDefinition<VoronoiGrowthInput
         seeds: inputs.seeds,
         boundary: inputs.boundary,
         generations: params.generations,
-        growthRate: params.growthRate
-      }
+        growthRate: params.growthRate,
+      },
     });
-    
+
     return {
-      pattern: result
+      pattern: result,
     };
   },
 };

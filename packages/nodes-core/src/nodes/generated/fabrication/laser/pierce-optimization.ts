@@ -13,7 +13,11 @@ interface PierceOptimizationOutputs {
   piercePoints: Array<[number, number, number]>;
 }
 
-export const FabricationLaserPierceOptimizationNode: NodeDefinition<PierceOptimizationInputs, PierceOptimizationOutputs, PierceOptimizationParams> = {
+export const FabricationLaserPierceOptimizationNode: NodeDefinition<
+  PierceOptimizationInputs,
+  PierceOptimizationOutputs,
+  PierceOptimizationParams
+> = {
   id: 'Fabrication::PierceOptimization',
   type: 'Fabrication::PierceOptimization',
   category: 'Fabrication',
@@ -23,28 +27,28 @@ export const FabricationLaserPierceOptimizationNode: NodeDefinition<PierceOptimi
     closedPaths: {
       type: 'Wire[]',
       label: 'Closed Paths',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     piercePoints: {
       type: 'Point[]',
-      label: 'Pierce Points'
-    }
+      label: 'Pierce Points',
+    },
   },
   params: {
     preferCorners: {
       type: 'boolean',
       label: 'Prefer Corners',
-      default: true
+      default: true,
     },
     minEdgeDistance: {
       type: 'number',
       label: 'Min Edge Distance',
       default: 2,
       min: 0,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -52,12 +56,12 @@ export const FabricationLaserPierceOptimizationNode: NodeDefinition<PierceOptimi
       params: {
         closedPaths: inputs.closedPaths,
         preferCorners: params.preferCorners,
-        minEdgeDistance: params.minEdgeDistance
-      }
+        minEdgeDistance: params.minEdgeDistance,
+      },
     });
-    
+
     return {
-      piercePoints: result
+      piercePoints: result,
     };
   },
 };

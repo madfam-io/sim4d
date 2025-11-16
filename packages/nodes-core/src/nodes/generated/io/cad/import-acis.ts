@@ -13,7 +13,11 @@ interface ImportACISOutputs {
   shape: unknown;
 }
 
-export const IOCADImportACISNode: NodeDefinition<ImportACISInputs, ImportACISOutputs, ImportACISParams> = {
+export const IOCADImportACISNode: NodeDefinition<
+  ImportACISInputs,
+  ImportACISOutputs,
+  ImportACISParams
+> = {
   id: 'IO::ImportACIS',
   type: 'IO::ImportACIS',
   category: 'IO',
@@ -23,26 +27,26 @@ export const IOCADImportACISNode: NodeDefinition<ImportACISInputs, ImportACISOut
     fileData: {
       type: 'Data',
       label: 'File Data',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shape: {
       type: 'Shape',
-      label: 'Shape'
-    }
+      label: 'Shape',
+    },
   },
   params: {
     version: {
       type: 'string',
       label: 'Version',
-      default: "auto"
+      default: 'auto',
     },
     healGeometry: {
       type: 'boolean',
       label: 'Heal Geometry',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -50,12 +54,12 @@ export const IOCADImportACISNode: NodeDefinition<ImportACISInputs, ImportACISOut
       params: {
         fileData: inputs.fileData,
         version: params.version,
-        healGeometry: params.healGeometry
-      }
+        healGeometry: params.healGeometry,
+      },
     });
-    
+
     return {
-      shape: result
+      shape: result,
     };
   },
 };

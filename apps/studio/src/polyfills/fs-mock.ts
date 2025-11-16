@@ -47,5 +47,5 @@ export default {
   existsSync,
   statSync,
   mkdirSync,
-  readdirSync
+  readdirSync,
 };

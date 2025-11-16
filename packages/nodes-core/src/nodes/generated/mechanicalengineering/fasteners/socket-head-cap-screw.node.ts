@@ -16,7 +16,11 @@ interface SocketHeadCapScrewOutputs {
   socket: unknown;
 }
 
-export const MechanicalEngineeringFastenersSocketHeadCapScrewNode: NodeDefinition<SocketHeadCapScrewInputs, SocketHeadCapScrewOutputs, SocketHeadCapScrewParams> = {
+export const MechanicalEngineeringFastenersSocketHeadCapScrewNode: NodeDefinition<
+  SocketHeadCapScrewInputs,
+  SocketHeadCapScrewOutputs,
+  SocketHeadCapScrewParams
+> = {
   id: 'MechanicalEngineering::SocketHeadCapScrew',
   category: 'MechanicalEngineering',
   label: 'SocketHeadCapScrew',
@@ -25,47 +29,47 @@ export const MechanicalEngineeringFastenersSocketHeadCapScrewNode: NodeDefinitio
     position: {
       type: 'Point',
       label: 'Position',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     screw: {
       type: 'Shape',
-      label: 'Screw'
+      label: 'Screw',
     },
     socket: {
       type: 'Wire',
-      label: 'Socket'
-    }
+      label: 'Socket',
+    },
   },
   params: {
     diameter: {
       type: 'enum',
       label: 'Diameter',
-      default: "M5",
-      options: ["M3","M4","M5","M6","M8","M10"]
+      default: 'M5',
+      options: ['M3', 'M4', 'M5', 'M6', 'M8', 'M10'],
     },
     length: {
       type: 'number',
       label: 'Length',
       default: 16,
       min: 6,
-      max: 100
+      max: 100,
     },
     socketSize: {
       type: 'number',
       label: 'Socket Size',
       default: 4,
       min: 2,
-      max: 10
+      max: 10,
     },
     headDiameter: {
       type: 'number',
       label: 'Head Diameter',
       default: 8.5,
       min: 5,
-      max: 20
-    }
+      max: 20,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -75,13 +79,13 @@ export const MechanicalEngineeringFastenersSocketHeadCapScrewNode: NodeDefinitio
         diameter: params.diameter,
         length: params.length,
         socketSize: params.socketSize,
-        headDiameter: params.headDiameter
-      }
+        headDiameter: params.headDiameter,
+      },
     });
-    
+
     return {
       screw: results.screw,
-      socket: results.socket
+      socket: results.socket,
     };
   },
 };

@@ -18,7 +18,11 @@ interface S3UploadOutputs {
   etag: unknown;
 }
 
-export const InteroperabilityCloudS3UploadNode: NodeDefinition<S3UploadInputs, S3UploadOutputs, S3UploadParams> = {
+export const InteroperabilityCloudS3UploadNode: NodeDefinition<
+  S3UploadInputs,
+  S3UploadOutputs,
+  S3UploadParams
+> = {
   id: 'Interoperability::S3Upload',
   category: 'Interoperability',
   label: 'S3Upload',
@@ -27,49 +31,49 @@ export const InteroperabilityCloudS3UploadNode: NodeDefinition<S3UploadInputs, S
     filePath: {
       type: 'string',
       label: 'File Path',
-      required: true
+      required: true,
     },
     key: {
       type: 'string',
       label: 'Key',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     success: {
       type: 'boolean',
-      label: 'Success'
+      label: 'Success',
     },
     url: {
       type: 'string',
-      label: 'Url'
+      label: 'Url',
     },
     etag: {
       type: 'string',
-      label: 'Etag'
-    }
+      label: 'Etag',
+    },
   },
   params: {
     bucket: {
       type: 'string',
       label: 'Bucket',
-      default: ""
+      default: '',
     },
     accessKey: {
       type: 'string',
       label: 'Access Key',
-      default: ""
+      default: '',
     },
     secretKey: {
       type: 'string',
       label: 'Secret Key',
-      default: ""
+      default: '',
     },
     region: {
       type: 'string',
       label: 'Region',
-      default: "us-east-1"
-    }
+      default: 'us-east-1',
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -80,14 +84,14 @@ export const InteroperabilityCloudS3UploadNode: NodeDefinition<S3UploadInputs, S
         bucket: params.bucket,
         accessKey: params.accessKey,
         secretKey: params.secretKey,
-        region: params.region
-      }
+        region: params.region,
+      },
     });
-    
+
     return {
       success: results.success,
       url: results.url,
-      etag: results.etag
+      etag: results.etag,
     };
   },
 };

@@ -14,7 +14,11 @@ interface FieldFourierOutputs {
   magnitude: unknown;
 }
 
-export const FieldsAdvancedFieldFourierNode: NodeDefinition<FieldFourierInputs, FieldFourierOutputs, FieldFourierParams> = {
+export const FieldsAdvancedFieldFourierNode: NodeDefinition<
+  FieldFourierInputs,
+  FieldFourierOutputs,
+  FieldFourierParams
+> = {
   id: 'Fields::FieldFourier',
   category: 'Fields',
   label: 'FieldFourier',
@@ -23,44 +27,44 @@ export const FieldsAdvancedFieldFourierNode: NodeDefinition<FieldFourierInputs, 
     field: {
       type: 'Field',
       label: 'Field',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     transformedField: {
       type: 'Field',
-      label: 'Transformed Field'
+      label: 'Transformed Field',
     },
     phase: {
       type: 'Field',
-      label: 'Phase'
+      label: 'Phase',
     },
     magnitude: {
       type: 'Field',
-      label: 'Magnitude'
-    }
+      label: 'Magnitude',
+    },
   },
   params: {
     direction: {
       type: 'enum',
       label: 'Direction',
-      default: "\"forward\"",
-      options: ["forward","inverse"]
-    }
+      default: '"forward"',
+      options: ['forward', 'inverse'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
       type: 'fourierTransform',
       params: {
         field: inputs.field,
-        direction: params.direction
-      }
+        direction: params.direction,
+      },
     });
-    
+
     return {
       transformedField: results.transformedField,
       phase: results.phase,
-      magnitude: results.magnitude
+      magnitude: results.magnitude,
     };
   },
 };

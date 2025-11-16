@@ -17,7 +17,11 @@ interface UniversalJointOutputs {
   cross: unknown;
 }
 
-export const MechanicalEngineeringMechanismsUniversalJointNode: NodeDefinition<UniversalJointInputs, UniversalJointOutputs, UniversalJointParams> = {
+export const MechanicalEngineeringMechanismsUniversalJointNode: NodeDefinition<
+  UniversalJointInputs,
+  UniversalJointOutputs,
+  UniversalJointParams
+> = {
   id: 'MechanicalEngineering::UniversalJoint',
   category: 'MechanicalEngineering',
   label: 'UniversalJoint',
@@ -26,22 +30,22 @@ export const MechanicalEngineeringMechanismsUniversalJointNode: NodeDefinition<U
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     joint: {
       type: 'Shape',
-      label: 'Joint'
+      label: 'Joint',
     },
     yokes: {
       type: 'Shape[]',
-      label: 'Yokes'
+      label: 'Yokes',
     },
     cross: {
       type: 'Shape',
-      label: 'Cross'
-    }
+      label: 'Cross',
+    },
   },
   params: {
     yokeDiameter: {
@@ -49,29 +53,29 @@ export const MechanicalEngineeringMechanismsUniversalJointNode: NodeDefinition<U
       label: 'Yoke Diameter',
       default: 30,
       min: 10,
-      max: 80
+      max: 80,
     },
     crossPinDiameter: {
       type: 'number',
       label: 'Cross Pin Diameter',
       default: 8,
       min: 3,
-      max: 20
+      max: 20,
     },
     length: {
       type: 'number',
       label: 'Length',
       default: 60,
       min: 20,
-      max: 150
+      max: 150,
     },
     angle: {
       type: 'number',
       label: 'Angle',
       default: 0,
       min: 0,
-      max: 45
-    }
+      max: 45,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -81,14 +85,14 @@ export const MechanicalEngineeringMechanismsUniversalJointNode: NodeDefinition<U
         yokeDiameter: params.yokeDiameter,
         crossPinDiameter: params.crossPinDiameter,
         length: params.length,
-        angle: params.angle
-      }
+        angle: params.angle,
+      },
     });
-    
+
     return {
       joint: results.joint,
       yokes: results.yokes,
-      cross: results.cross
+      cross: results.cross,
     };
   },
 };

@@ -14,7 +14,11 @@ interface TabsAndSlotsOutputs {
   tabbedEdges: unknown;
 }
 
-export const FabricationLaserTabsAndSlotsNode: NodeDefinition<TabsAndSlotsInputs, TabsAndSlotsOutputs, TabsAndSlotsParams> = {
+export const FabricationLaserTabsAndSlotsNode: NodeDefinition<
+  TabsAndSlotsInputs,
+  TabsAndSlotsOutputs,
+  TabsAndSlotsParams
+> = {
   id: 'Fabrication::TabsAndSlots',
   category: 'Fabrication',
   label: 'TabsAndSlots',
@@ -23,14 +27,14 @@ export const FabricationLaserTabsAndSlotsNode: NodeDefinition<TabsAndSlotsInputs
     edges: {
       type: 'Edge[]',
       label: 'Edges',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     tabbedEdges: {
       type: 'Wire[]',
-      label: 'Tabbed Edges'
-    }
+      label: 'Tabbed Edges',
+    },
   },
   params: {
     tabWidth: {
@@ -38,22 +42,22 @@ export const FabricationLaserTabsAndSlotsNode: NodeDefinition<TabsAndSlotsInputs
       label: 'Tab Width',
       default: 10,
       min: 1,
-      max: 50
+      max: 50,
     },
     tabDepth: {
       type: 'number',
       label: 'Tab Depth',
       default: 5,
       min: 1,
-      max: 20
+      max: 20,
     },
     clearance: {
       type: 'number',
       label: 'Clearance',
       default: 0.1,
       min: 0,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -62,12 +66,12 @@ export const FabricationLaserTabsAndSlotsNode: NodeDefinition<TabsAndSlotsInputs
         edges: inputs.edges,
         tabWidth: params.tabWidth,
         tabDepth: params.tabDepth,
-        clearance: params.clearance
-      }
+        clearance: params.clearance,
+      },
     });
-    
+
     return {
-      tabbedEdges: result
+      tabbedEdges: result,
     };
   },
 };

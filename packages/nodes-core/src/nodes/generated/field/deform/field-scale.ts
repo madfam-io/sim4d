@@ -14,7 +14,11 @@ interface FieldScaleOutputs {
   scaled: unknown;
 }
 
-export const FieldDeformFieldScaleNode: NodeDefinition<FieldScaleInputs, FieldScaleOutputs, FieldScaleParams> = {
+export const FieldDeformFieldScaleNode: NodeDefinition<
+  FieldScaleInputs,
+  FieldScaleOutputs,
+  FieldScaleParams
+> = {
   id: 'Field::FieldScale',
   type: 'Field::FieldScale',
   category: 'Field',
@@ -24,33 +28,33 @@ export const FieldDeformFieldScaleNode: NodeDefinition<FieldScaleInputs, FieldSc
     geometry: {
       type: 'Shape[]',
       label: 'Geometry',
-      required: true
+      required: true,
     },
     field: {
       type: 'ScalarField',
       label: 'Field',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     scaled: {
       type: 'Shape[]',
-      label: 'Scaled'
-    }
+      label: 'Scaled',
+    },
   },
   params: {
     minScale: {
       type: 'number',
       label: 'Min Scale',
       default: 0.5,
-      min: 0
+      min: 0,
     },
     maxScale: {
       type: 'number',
       label: 'Max Scale',
       default: 2,
-      min: 0
-    }
+      min: 0,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -59,12 +63,12 @@ export const FieldDeformFieldScaleNode: NodeDefinition<FieldScaleInputs, FieldSc
         geometry: inputs.geometry,
         field: inputs.field,
         minScale: params.minScale,
-        maxScale: params.maxScale
-      }
+        maxScale: params.maxScale,
+      },
     });
-    
+
     return {
-      scaled: result
+      scaled: result,
     };
   },
 };

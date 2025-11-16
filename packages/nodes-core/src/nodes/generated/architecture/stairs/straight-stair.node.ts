@@ -17,7 +17,11 @@ interface StraightStairOutputs {
   risers: unknown;
 }
 
-export const ArchitectureStairsStraightStairNode: NodeDefinition<StraightStairInputs, StraightStairOutputs, StraightStairParams> = {
+export const ArchitectureStairsStraightStairNode: NodeDefinition<
+  StraightStairInputs,
+  StraightStairOutputs,
+  StraightStairParams
+> = {
   id: 'Architecture::StraightStair',
   category: 'Architecture',
   label: 'StraightStair',
@@ -26,22 +30,22 @@ export const ArchitectureStairsStraightStairNode: NodeDefinition<StraightStairIn
     startPoint: {
       type: 'Point',
       label: 'Start Point',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     staircase: {
       type: 'Shape',
-      label: 'Staircase'
+      label: 'Staircase',
     },
     treads: {
       type: 'Shape[]',
-      label: 'Treads'
+      label: 'Treads',
     },
     risers: {
       type: 'Shape[]',
-      label: 'Risers'
-    }
+      label: 'Risers',
+    },
   },
   params: {
     totalRise: {
@@ -49,29 +53,29 @@ export const ArchitectureStairsStraightStairNode: NodeDefinition<StraightStairIn
       label: 'Total Rise',
       default: 3000,
       min: 1000,
-      max: 6000
+      max: 6000,
     },
     treadDepth: {
       type: 'number',
       label: 'Tread Depth',
       default: 280,
       min: 250,
-      max: 350
+      max: 350,
     },
     riserHeight: {
       type: 'number',
       label: 'Riser Height',
       default: 175,
       min: 150,
-      max: 200
+      max: 200,
     },
     width: {
       type: 'number',
       label: 'Width',
       default: 1200,
       min: 900,
-      max: 2000
-    }
+      max: 2000,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -81,14 +85,14 @@ export const ArchitectureStairsStraightStairNode: NodeDefinition<StraightStairIn
         totalRise: params.totalRise,
         treadDepth: params.treadDepth,
         riserHeight: params.riserHeight,
-        width: params.width
-      }
+        width: params.width,
+      },
     });
-    
+
     return {
       staircase: results.staircase,
       treads: results.treads,
-      risers: results.risers
+      risers: results.risers,
     };
   },
 };

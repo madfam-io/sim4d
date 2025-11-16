@@ -13,7 +13,11 @@ interface SetupSheetsOutputs {
   setupDocument: unknown;
 }
 
-export const FabricationCNCSetupSheetsNode: NodeDefinition<SetupSheetsInputs, SetupSheetsOutputs, SetupSheetsParams> = {
+export const FabricationCNCSetupSheetsNode: NodeDefinition<
+  SetupSheetsInputs,
+  SetupSheetsOutputs,
+  SetupSheetsParams
+> = {
   id: 'Fabrication::SetupSheets',
   category: 'Fabrication',
   label: 'SetupSheets',
@@ -22,26 +26,26 @@ export const FabricationCNCSetupSheetsNode: NodeDefinition<SetupSheetsInputs, Se
     operations: {
       type: 'Data',
       label: 'Operations',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     setupDocument: {
       type: 'Data',
-      label: 'Setup Document'
-    }
+      label: 'Setup Document',
+    },
   },
   params: {
     includeToolList: {
       type: 'boolean',
       label: 'Include Tool List',
-      default: true
+      default: true,
     },
     includeFixtures: {
       type: 'boolean',
       label: 'Include Fixtures',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -49,12 +53,12 @@ export const FabricationCNCSetupSheetsNode: NodeDefinition<SetupSheetsInputs, Se
       params: {
         operations: inputs.operations,
         includeToolList: params.includeToolList,
-        includeFixtures: params.includeFixtures
-      }
+        includeFixtures: params.includeFixtures,
+      },
     });
-    
+
     return {
-      setupDocument: result
+      setupDocument: result,
     };
   },
 };

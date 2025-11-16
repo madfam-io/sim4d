@@ -15,7 +15,11 @@ interface PrintTimeEstimateOutputs {
   filamentMeters: number;
 }
 
-export const Fabrication3DPrintingPrintTimeEstimateNode: NodeDefinition<PrintTimeEstimateInputs, PrintTimeEstimateOutputs, PrintTimeEstimateParams> = {
+export const Fabrication3DPrintingPrintTimeEstimateNode: NodeDefinition<
+  PrintTimeEstimateInputs,
+  PrintTimeEstimateOutputs,
+  PrintTimeEstimateParams
+> = {
   id: 'Fabrication::PrintTimeEstimate',
   type: 'Fabrication::PrintTimeEstimate',
   category: 'Fabrication',
@@ -25,18 +29,18 @@ export const Fabrication3DPrintingPrintTimeEstimateNode: NodeDefinition<PrintTim
     model: {
       type: 'Shape',
       label: 'Model',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     timeHours: {
       type: 'Number',
-      label: 'Time Hours'
+      label: 'Time Hours',
     },
     filamentMeters: {
       type: 'Number',
-      label: 'Filament Meters'
-    }
+      label: 'Filament Meters',
+    },
   },
   params: {
     printSpeed: {
@@ -44,22 +48,22 @@ export const Fabrication3DPrintingPrintTimeEstimateNode: NodeDefinition<PrintTim
       label: 'Print Speed',
       default: 60,
       min: 10,
-      max: 300
+      max: 300,
     },
     travelSpeed: {
       type: 'number',
       label: 'Travel Speed',
       default: 120,
       min: 50,
-      max: 500
+      max: 500,
     },
     layerHeight: {
       type: 'number',
       label: 'Layer Height',
       default: 0.2,
       min: 0.05,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -68,13 +72,13 @@ export const Fabrication3DPrintingPrintTimeEstimateNode: NodeDefinition<PrintTim
         model: inputs.model,
         printSpeed: params.printSpeed,
         travelSpeed: params.travelSpeed,
-        layerHeight: params.layerHeight
-      }
+        layerHeight: params.layerHeight,
+      },
     });
-    
+
     return {
       timeHours: results.timeHours,
-      filamentMeters: results.filamentMeters
+      filamentMeters: results.filamentMeters,
     };
   },
 };

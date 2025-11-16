@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -23,42 +22,36 @@ export const STLExportNode: NodeDefinition<STLExportInputs, STLExportOutputs, ST
   metadata: {
     label: 'STLExport',
     description: 'Export mesh to STL format',
-    
-    
   },
 
   params: {
-        format: {
-      "default": "binary",
-      "options": [
-        "ascii",
-        "binary"
-      ]
+    format: {
+      default: 'binary',
+      options: ['ascii', 'binary'],
     },
     deflection: {
-      "default": 0.1,
-      "min": 0.01,
-      "max": 1
+      default: 0.1,
+      min: 0.01,
+      max: 1,
     },
     angularDeflection: {
-      "default": 0.1,
-      "min": 0.01,
-      "max": 1
-    }
+      default: 0.1,
+      min: 0.01,
+      max: 1,
+    },
   },
 
   inputs: {
-        shapes: 'Shape[]',
-    filePath: 'string'
+    shapes: 'Shape[]',
+    filePath: 'string',
   },
 
   outputs: {
-        success: 'boolean',
-    triangleCount: 'number'
+    success: 'boolean',
+    triangleCount: 'number',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'stlExport',
       params: {
@@ -66,13 +59,13 @@ export const STLExportNode: NodeDefinition<STLExportInputs, STLExportOutputs, ST
         filePath: inputs.filePath,
         format: params.format,
         deflection: params.deflection,
-        angularDeflection: params.angularDeflection
-      }
+        angularDeflection: params.angularDeflection,
+      },
     });
 
     return {
       success: result,
-      triangleCount: result
+      triangleCount: result,
     };
-  }
+  },
 };

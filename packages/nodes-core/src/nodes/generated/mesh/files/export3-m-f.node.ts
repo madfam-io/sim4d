@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -22,33 +21,30 @@ export const Export3MFNode: NodeDefinition<Export3MFInputs, Export3MFOutputs, Ex
   metadata: {
     label: 'Export3MF',
     description: 'Export to 3MF format',
-    
-    
   },
 
   params: {
-        includeColors: {
-      "default": true
+    includeColors: {
+      default: true,
     },
     includeMaterials: {
-      "default": true
+      default: true,
     },
     includeMetadata: {
-      "default": true
-    }
+      default: true,
+    },
   },
 
   inputs: {
-        mesh: 'Mesh',
-    metadata: 'Data'
+    mesh: 'Mesh',
+    metadata: 'Data',
   },
 
   outputs: {
-        file3MF: 'Data'
+    file3MF: 'Data',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'export3MF',
       params: {
@@ -56,12 +52,12 @@ export const Export3MFNode: NodeDefinition<Export3MFInputs, Export3MFOutputs, Ex
         metadata: inputs.metadata,
         includeColors: params.includeColors,
         includeMaterials: params.includeMaterials,
-        includeMetadata: params.includeMetadata
-      }
+        includeMetadata: params.includeMetadata,
+      },
     });
 
     return {
-      file3MF: result
+      file3MF: result,
     };
-  }
+  },
 };

@@ -3,7 +3,13 @@ import type { NodeDefinition, ShapeHandle, Vec3 } from '@brepflow/types';
 export const ToolpathGenerationNode: NodeDefinition<
   { shape: ShapeHandle; tool?: any },
   { toolpath: any },
-  { machiningOperation: string; toolDiameter: number; stepover: number; feedRate: number; spindleSpeed: number }
+  {
+    machiningOperation: string;
+    toolDiameter: number;
+    stepover: number;
+    feedRate: number;
+    spindleSpeed: number;
+  }
 > = {
   id: 'Manufacturing::ToolpathGeneration',
   category: 'Manufacturing',
@@ -69,7 +75,13 @@ export const ToolpathGenerationNode: NodeDefinition<
 export const PrintOptimizationNode: NodeDefinition<
   { shape: ShapeHandle },
   { optimizedShape: ShapeHandle; supports: ShapeHandle[] },
-  { printTechnology: string; layerHeight: number; infillDensity: number; supportAngle: number; orientation: Vec3 }
+  {
+    printTechnology: string;
+    layerHeight: number;
+    infillDensity: number;
+    supportAngle: number;
+    orientation: Vec3;
+  }
 > = {
   id: 'Manufacturing::PrintOptimization',
   category: 'Manufacturing',
@@ -125,9 +137,9 @@ export const PrintOptimizationNode: NodeDefinition<
       supportAngle: params.supportAngle,
       orientation: params.orientation,
     });
-    return { 
-      optimizedShape: result.shape, 
-      supports: result.supports || [] 
+    return {
+      optimizedShape: result.shape,
+      supports: result.supports || [],
     };
   },
 };
@@ -135,7 +147,13 @@ export const PrintOptimizationNode: NodeDefinition<
 export const ManufacturingConstraintsNode: NodeDefinition<
   { shape: ShapeHandle },
   { validationResult: any },
-  { manufacturingProcess: string; minWallThickness: number; maxAspectRatio: number; draftAngle: number; checkTolerances: boolean }
+  {
+    manufacturingProcess: string;
+    minWallThickness: number;
+    maxAspectRatio: number;
+    draftAngle: number;
+    checkTolerances: boolean;
+  }
 > = {
   id: 'Manufacturing::ManufacturingConstraints',
   category: 'Manufacturing',
@@ -152,7 +170,14 @@ export const ManufacturingConstraintsNode: NodeDefinition<
       type: 'string',
       label: 'Manufacturing Process',
       default: 'machining',
-      options: ['machining', 'injection_molding', 'die_casting', 'forging', 'sheet_metal', '3d_printing'],
+      options: [
+        'machining',
+        'injection_molding',
+        'die_casting',
+        'forging',
+        'sheet_metal',
+        '3d_printing',
+      ],
     },
     minWallThickness: {
       type: 'number',
@@ -249,7 +274,13 @@ export const MaterialWasteOptimizationNode: NodeDefinition<
 export const CostEstimationNode: NodeDefinition<
   { shape: ShapeHandle },
   { costAnalysis: any },
-  { manufacturingProcess: string; material: string; quantity: number; laborRate: number; machineRate: number }
+  {
+    manufacturingProcess: string;
+    material: string;
+    quantity: number;
+    laborRate: number;
+    machineRate: number;
+  }
 > = {
   id: 'Manufacturing::CostEstimation',
   category: 'Manufacturing',
@@ -272,7 +303,14 @@ export const CostEstimationNode: NodeDefinition<
       type: 'string',
       label: 'Material',
       default: 'aluminum_6061',
-      options: ['aluminum_6061', 'steel_1018', 'stainless_316', 'abs_plastic', 'pla_plastic', 'titanium_ti6al4v'],
+      options: [
+        'aluminum_6061',
+        'steel_1018',
+        'stainless_316',
+        'abs_plastic',
+        'pla_plastic',
+        'titanium_ti6al4v',
+      ],
     },
     quantity: {
       type: 'number',
@@ -312,7 +350,12 @@ export const CostEstimationNode: NodeDefinition<
 export const QualityControlNode: NodeDefinition<
   { referenceShape: ShapeHandle; inspectionData?: any },
   { qualityReport: any },
-  { toleranceType: string; toleranceValue: number; inspectionMethod: string; generateReport: boolean }
+  {
+    toleranceType: string;
+    toleranceValue: number;
+    inspectionMethod: string;
+    generateReport: boolean;
+  }
 > = {
   id: 'Manufacturing::QualityControl',
   category: 'Manufacturing',

@@ -13,7 +13,11 @@ interface IroningPassOutputs {
   ironingPaths: unknown;
 }
 
-export const Fabrication3DPrintingIroningPassNode: NodeDefinition<IroningPassInputs, IroningPassOutputs, IroningPassParams> = {
+export const Fabrication3DPrintingIroningPassNode: NodeDefinition<
+  IroningPassInputs,
+  IroningPassOutputs,
+  IroningPassParams
+> = {
   id: 'Fabrication::IroningPass',
   category: 'Fabrication',
   label: 'IroningPass',
@@ -22,14 +26,14 @@ export const Fabrication3DPrintingIroningPassNode: NodeDefinition<IroningPassInp
     topSurfaces: {
       type: 'Face[]',
       label: 'Top Surfaces',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     ironingPaths: {
       type: 'Wire[]',
-      label: 'Ironing Paths'
-    }
+      label: 'Ironing Paths',
+    },
   },
   params: {
     ironingSpeed: {
@@ -37,15 +41,15 @@ export const Fabrication3DPrintingIroningPassNode: NodeDefinition<IroningPassInp
       label: 'Ironing Speed',
       default: 20,
       min: 5,
-      max: 50
+      max: 50,
     },
     flowRate: {
       type: 'number',
       label: 'Flow Rate',
       default: 0.1,
       min: 0,
-      max: 0.3
-    }
+      max: 0.3,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const Fabrication3DPrintingIroningPassNode: NodeDefinition<IroningPassInp
       params: {
         topSurfaces: inputs.topSurfaces,
         ironingSpeed: params.ironingSpeed,
-        flowRate: params.flowRate
-      }
+        flowRate: params.flowRate,
+      },
     });
-    
+
     return {
-      ironingPaths: result
+      ironingPaths: result,
     };
   },
 };

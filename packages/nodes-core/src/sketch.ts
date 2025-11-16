@@ -331,4 +331,12 @@ export const PolygonNode: NodeDefinition<
   },
 };
 
-export const sketchNodes = [LineNode, CircleNode, RectangleNode, ArcNode, PointNode, EllipseNode, PolygonNode];
+export const sketchNodes = [
+  LineNode,
+  CircleNode,
+  RectangleNode,
+  ArcNode,
+  PointNode,
+  EllipseNode,
+  PolygonNode,
+];

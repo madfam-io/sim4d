@@ -13,7 +13,11 @@ interface IsoContourOutputs {
   contours: unknown;
 }
 
-export const FieldSampleIsoContourNode: NodeDefinition<IsoContourInputs, IsoContourOutputs, IsoContourParams> = {
+export const FieldSampleIsoContourNode: NodeDefinition<
+  IsoContourInputs,
+  IsoContourOutputs,
+  IsoContourParams
+> = {
   id: 'Field::IsoContour',
   category: 'Field',
   label: 'IsoContour',
@@ -22,26 +26,26 @@ export const FieldSampleIsoContourNode: NodeDefinition<IsoContourInputs, IsoCont
     field: {
       type: 'ScalarField',
       label: 'Field',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     contours: {
       type: 'Wire[]',
-      label: 'Contours'
-    }
+      label: 'Contours',
+    },
   },
   params: {
     value: {
       type: 'number',
       label: 'Value',
-      default: 0.5
+      default: 0.5,
     },
     smooth: {
       type: 'boolean',
       label: 'Smooth',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -49,12 +53,12 @@ export const FieldSampleIsoContourNode: NodeDefinition<IsoContourInputs, IsoCont
       params: {
         field: inputs.field,
         value: params.value,
-        smooth: params.smooth
-      }
+        smooth: params.smooth,
+      },
     });
-    
+
     return {
-      contours: result
+      contours: result,
     };
   },
 };

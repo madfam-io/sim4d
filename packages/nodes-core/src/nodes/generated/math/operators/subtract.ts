@@ -11,7 +11,11 @@ interface SubtractOutputs {
   result: unknown;
 }
 
-export const MathOperatorsSubtractNode: NodeDefinition<SubtractInputs, SubtractOutputs, SubtractParams> = {
+export const MathOperatorsSubtractNode: NodeDefinition<
+  SubtractInputs,
+  SubtractOutputs,
+  SubtractParams
+> = {
   id: 'Math::Subtract',
   type: 'Math::Subtract',
   category: 'Math',
@@ -21,19 +25,19 @@ export const MathOperatorsSubtractNode: NodeDefinition<SubtractInputs, SubtractO
     a: {
       type: 'number',
       label: 'A',
-      required: true
+      required: true,
     },
     b: {
       type: 'number',
       label: 'B',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'number',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -41,12 +45,12 @@ export const MathOperatorsSubtractNode: NodeDefinition<SubtractInputs, SubtractO
       type: 'mathSubtract',
       params: {
         a: inputs.a,
-        b: inputs.b
-      }
+        b: inputs.b,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

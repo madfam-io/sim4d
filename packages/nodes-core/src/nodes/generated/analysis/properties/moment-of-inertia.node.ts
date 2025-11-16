@@ -1,6 +1,11 @@
-
 import { NodeDefinition } from '@brepflow/types';
-import { NumberParam, BoolParam, StringParam, EnumParam, Vector3Param } from '../../../../utils/param-utils.js';
+import {
+  NumberParam,
+  BoolParam,
+  StringParam,
+  EnumParam,
+  Vector3Param,
+} from '../../../../utils/param-utils.js';
 
 type Params = {};
 interface Inputs {
@@ -13,7 +18,11 @@ interface Outputs {
   principalAxes: Vector[];
 }
 
-export const MomentOfInertiaNode: NodeDefinition<MomentOfInertiaInputs, MomentOfInertiaOutputs, MomentOfInertiaParams> = {
+export const MomentOfInertiaNode: NodeDefinition<
+  MomentOfInertiaInputs,
+  MomentOfInertiaOutputs,
+  MomentOfInertiaParams
+> = {
   type: 'Analysis::MomentOfInertia',
   category: 'Analysis',
   subcategory: 'Properties',
@@ -21,40 +30,34 @@ export const MomentOfInertiaNode: NodeDefinition<MomentOfInertiaInputs, MomentOf
   metadata: {
     label: 'MomentOfInertia',
     description: 'Calculate moment of inertia',
-    
-    
   },
 
-  params: {
-    
-  },
+  params: {},
 
   inputs: {
-        solid: 'Solid'
+    solid: 'Solid',
   },
 
   outputs: {
-        Ixx: 'number',
+    Ixx: 'number',
     Iyy: 'number',
     Izz: 'number',
-    principalAxes: 'Vector[]'
+    principalAxes: 'Vector[]',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'calculateMomentOfInertia',
       params: {
-        solid: inputs.solid
-        
-      }
+        solid: inputs.solid,
+      },
     });
 
     return {
       Ixx: result,
       Iyy: result,
       Izz: result,
-      principalAxes: result
+      principalAxes: result,
     };
-  }
+  },
 };

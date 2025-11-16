@@ -39,7 +39,9 @@ function HighlightText({ text, highlight }: { text: string; highlight?: string }
     <span>
       {parts.map((part, index) =>
         regex.test(part) ? (
-          <mark key={index} className="search-highlight">{part}</mark>
+          <mark key={index} className="search-highlight">
+            {part}
+          </mark>
         ) : (
           <span key={index}>{part}</span>
         )
@@ -60,7 +62,7 @@ export function NodeCard({
   onFavoriteToggle,
   searchHighlight,
   compact = false,
-  showDescription = false
+  showDescription = false,
 }: NodeCardProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
@@ -156,27 +158,22 @@ export function NodeCard({
 
       <div className="node-card-content">
         <div className={`node-title ${compact ? 'compact' : ''}`}>
-          <HighlightText
-            text={nodeLabel}
-            highlight={searchHighlight}
-          />
+          <HighlightText text={nodeLabel} highlight={searchHighlight} />
         </div>
 
         {!compact && (
           <div className="node-category">
-            <HighlightText
-              text={nodeCategory}
-              highlight={searchHighlight}
-            />
+            <HighlightText text={nodeCategory} highlight={searchHighlight} />
           </div>
         )}
 
         {showDescription && nodeDescription && (
           <div className="node-description">
             <HighlightText
-              text={nodeDescription.length > 60 ?
-                `${nodeDescription.substring(0, 60)}...` :
-                nodeDescription
+              text={
+                nodeDescription.length > 60
+                  ? `${nodeDescription.substring(0, 60)}...`
+                  : nodeDescription
               }
               highlight={searchHighlight}
             />
@@ -186,13 +183,16 @@ export function NodeCard({
 
       {!compact && nodeTags.length > 0 && (
         <div className="node-tags">
-          {nodeTags.slice(0, 3).map(tag => (
+          {nodeTags.slice(0, 3).map((tag) => (
             <span key={tag} className="node-tag" title={tag}>
               <HighlightText text={tag} highlight={searchHighlight} />
             </span>
           ))}
           {nodeTags.length > 3 && (
-            <span className="node-tag-more" title={`${nodeTags.length - 3} more tags: ${nodeTags.slice(3).join(', ')}`}>
+            <span
+              className="node-tag-more"
+              title={`${nodeTags.length - 3} more tags: ${nodeTags.slice(3).join(', ')}`}
+            >
               +{nodeTags.length - 3}
             </span>
           )}
@@ -220,7 +220,7 @@ export function NodeListItem({
   onHoverEnd,
   onDragStart,
   onFavoriteToggle,
-  searchHighlight
+  searchHighlight,
 }: NodeCardProps) {
   const [isDragging, setIsDragging] = useState(false);
 
@@ -273,9 +273,10 @@ export function NodeListItem({
         {nodeDescription && (
           <div className="node-list-description">
             <HighlightText
-              text={nodeDescription.length > 100 ?
-                `${nodeDescription.substring(0, 100)}...` :
-                nodeDescription
+              text={
+                nodeDescription.length > 100
+                  ? `${nodeDescription.substring(0, 100)}...`
+                  : nodeDescription
               }
               highlight={searchHighlight}
             />
@@ -284,15 +285,13 @@ export function NodeListItem({
 
         {nodeTags.length > 0 && (
           <div className="node-list-tags">
-            {nodeTags.slice(0, 4).map(tag => (
+            {nodeTags.slice(0, 4).map((tag) => (
               <span key={tag} className="node-list-tag">
                 <HighlightText text={tag} highlight={searchHighlight} />
               </span>
             ))}
             {nodeTags.length > 4 && (
-              <span className="node-list-tag-more">
-                +{nodeTags.length - 4}
-              </span>
+              <span className="node-list-tag-more">+{nodeTags.length - 4}</span>
             )}
           </div>
         )}
@@ -331,7 +330,7 @@ export function NodeCompactItem({
   onSelect,
   onDragStart,
   onFavoriteToggle,
-  searchHighlight
+  searchHighlight,
 }: NodeCardProps) {
   const [isDragging, setIsDragging] = useState(false);
 

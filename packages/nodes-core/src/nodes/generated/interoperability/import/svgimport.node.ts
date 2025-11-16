@@ -16,7 +16,11 @@ interface SVGImportOutputs {
   open: unknown;
 }
 
-export const InteroperabilityImportSVGImportNode: NodeDefinition<SVGImportInputs, SVGImportOutputs, SVGImportParams> = {
+export const InteroperabilityImportSVGImportNode: NodeDefinition<
+  SVGImportInputs,
+  SVGImportOutputs,
+  SVGImportParams
+> = {
   id: 'Interoperability::SVGImport',
   category: 'Interoperability',
   label: 'SVGImport',
@@ -25,22 +29,22 @@ export const InteroperabilityImportSVGImportNode: NodeDefinition<SVGImportInputs
     filePath: {
       type: 'string',
       label: 'File Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     curves: {
       type: 'Wire[]',
-      label: 'Curves'
+      label: 'Curves',
     },
     closed: {
       type: 'Wire[]',
-      label: 'Closed'
+      label: 'Closed',
     },
     open: {
       type: 'Wire[]',
-      label: 'Open'
-    }
+      label: 'Open',
+    },
   },
   params: {
     scale: {
@@ -48,20 +52,20 @@ export const InteroperabilityImportSVGImportNode: NodeDefinition<SVGImportInputs
       label: 'Scale',
       default: 1,
       min: 0.001,
-      max: 1000
+      max: 1000,
     },
     tolerance: {
       type: 'number',
       label: 'Tolerance',
       default: 0.1,
       min: 0.01,
-      max: 1
+      max: 1,
     },
     flatten: {
       type: 'boolean',
       label: 'Flatten',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -70,14 +74,14 @@ export const InteroperabilityImportSVGImportNode: NodeDefinition<SVGImportInputs
         filePath: inputs.filePath,
         scale: params.scale,
         tolerance: params.tolerance,
-        flatten: params.flatten
-      }
+        flatten: params.flatten,
+      },
     });
-    
+
     return {
       curves: results.curves,
       closed: results.closed,
-      open: results.open
+      open: results.open,
     };
   },
 };

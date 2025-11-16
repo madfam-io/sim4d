@@ -28,7 +28,14 @@ export interface SnapPoint {
 
 export interface ConstraintType {
   id: string;
-  type: 'distance' | 'angle' | 'parallel' | 'perpendicular' | 'coincident' | 'tangent' | 'concentric';
+  type:
+    | 'distance'
+    | 'angle'
+    | 'parallel'
+    | 'perpendicular'
+    | 'coincident'
+    | 'tangent'
+    | 'concentric';
   entities: string[];
   value?: number;
   isActive: boolean;
@@ -123,7 +130,7 @@ export class ConstraintSolver {
   }
 
   removeConstraint(constraintId: string): void {
-    this.constraints = this.constraints.filter(c => c.id !== constraintId);
+    this.constraints = this.constraints.filter((c) => c.id !== constraintId);
   }
 
   solve(): boolean {
@@ -168,7 +175,11 @@ export class ConstraintSolver {
     }
   }
 
-  private applyDistanceConstraint(obj1: THREE.Object3D, obj2: THREE.Object3D, targetDistance: number): boolean {
+  private applyDistanceConstraint(
+    obj1: THREE.Object3D,
+    obj2: THREE.Object3D,
+    targetDistance: number
+  ): boolean {
     const currentDistance = obj1.position.distanceTo(obj2.position);
     const diff = targetDistance - currentDistance;
 
@@ -221,7 +232,9 @@ export class ConstraintSolver {
     const distance = obj1.position.distanceTo(obj2.position);
     if (distance < 1e-6) return false; // Already coincident
 
-    const midpoint = new THREE.Vector3().addVectors(obj1.position, obj2.position).multiplyScalar(0.5);
+    const midpoint = new THREE.Vector3()
+      .addVectors(obj1.position, obj2.position)
+      .multiplyScalar(0.5);
     obj1.position.copy(midpoint);
     obj2.position.copy(midpoint);
 
@@ -229,7 +242,9 @@ export class ConstraintSolver {
   }
 }
 
-export const useConstraintsAndSnapping = create<ConstraintsAndSnappingState & ConstraintsAndSnappingActions>()(
+export const useConstraintsAndSnapping = create<
+  ConstraintsAndSnappingState & ConstraintsAndSnappingActions
+>()(
   devtools(
     (set, get) => ({
       // Initial state
@@ -397,9 +412,7 @@ export const useConstraintsAndSnapping = create<ConstraintsAndSnappingState & Co
         });
 
         // Sort by distance and return closest points
-        return snapPoints
-          .sort((a, b) => a.distance - b.distance)
-          .slice(0, 5); // Limit to 5 closest points
+        return snapPoints.sort((a, b) => a.distance - b.distance).slice(0, 5); // Limit to 5 closest points
       },
 
       snapToPoint: (position, scene) => {
@@ -493,7 +506,7 @@ export const useConstraintsAndSnapping = create<ConstraintsAndSnappingState & Co
 
       removeConstraint: (constraintId) => {
         set((state) => ({
-          constraints: state.constraints.filter(c => c.id !== constraintId),
+          constraints: state.constraints.filter((c) => c.id !== constraintId),
         }));
 
         const { constraintSolver } = get();
@@ -504,7 +517,7 @@ export const useConstraintsAndSnapping = create<ConstraintsAndSnappingState & Co
 
       updateConstraint: (constraintId, updates) => {
         set((state) => ({
-          constraints: state.constraints.map(c =>
+          constraints: state.constraints.map((c) =>
             c.id === constraintId ? { ...c, ...updates } : c
           ),
         }));
@@ -609,7 +622,10 @@ export const useConstraintVisuals = (scene: THREE.Scene) => {
 };
 
 // Helper functions for constraint visuals
-function createDistanceConstraintVisual(constraint: ConstraintType, scene: THREE.Scene): THREE.Object3D | null {
+function createDistanceConstraintVisual(
+  constraint: ConstraintType,
+  scene: THREE.Scene
+): THREE.Object3D | null {
   // Find the objects
   const [entity1Id, entity2Id] = constraint.entities;
   let obj1: THREE.Object3D | null = null;
@@ -636,7 +652,10 @@ function createDistanceConstraintVisual(constraint: ConstraintType, scene: THREE
   return new THREE.Line(geometry, material);
 }
 
-function createParallelConstraintVisual(constraint: ConstraintType, scene: THREE.Scene): THREE.Object3D | null {
+function createParallelConstraintVisual(
+  constraint: ConstraintType,
+  scene: THREE.Scene
+): THREE.Object3D | null {
   // Create parallel constraint symbol
   const group = new THREE.Group();
 
@@ -658,7 +677,10 @@ function createParallelConstraintVisual(constraint: ConstraintType, scene: THREE
   return group;
 }
 
-function createPerpendicularConstraintVisual(constraint: ConstraintType, scene: THREE.Scene): THREE.Object3D | null {
+function createPerpendicularConstraintVisual(
+  constraint: ConstraintType,
+  scene: THREE.Scene
+): THREE.Object3D | null {
   // Create perpendicular constraint symbol
   const group = new THREE.Group();
 
@@ -682,18 +704,22 @@ function createPerpendicularConstraintVisual(constraint: ConstraintType, scene: 
 // Export helper functions for external use
 export const getConstraintInfo = (constraintId: string): ConstraintType | undefined => {
   const state = useConstraintsAndSnapping.getState();
-  return state.constraints.find(c => c.id === constraintId);
+  return state.constraints.find((c) => c.id === constraintId);
 };
 
 export const getAllActiveConstraints = (): ConstraintType[] => {
   const state = useConstraintsAndSnapping.getState();
-  return state.constraints.filter(c => c.isActive);
+  return state.constraints.filter((c) => c.isActive);
 };
 
-export const getSnapPointsNear = (position: THREE.Vector3, scene: THREE.Scene, tolerance?: number): SnapPoint[] => {
+export const getSnapPointsNear = (
+  position: THREE.Vector3,
+  scene: THREE.Scene,
+  tolerance?: number
+): SnapPoint[] => {
   const state = useConstraintsAndSnapping.getState();
   const snapPoints = state.findSnapPoints(position, scene);
   const actualTolerance = tolerance || state.snapSettings.tolerance;
 
-  return snapPoints.filter(point => point.distance <= actualTolerance);
+  return snapPoints.filter((point) => point.distance <= actualTolerance);
 };

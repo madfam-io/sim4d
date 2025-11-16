@@ -15,7 +15,11 @@ interface ClosedCornerOutputs {
   result: unknown;
 }
 
-export const SheetMetalCornersClosedCornerNode: NodeDefinition<ClosedCornerInputs, ClosedCornerOutputs, ClosedCornerParams> = {
+export const SheetMetalCornersClosedCornerNode: NodeDefinition<
+  ClosedCornerInputs,
+  ClosedCornerOutputs,
+  ClosedCornerParams
+> = {
   id: 'SheetMetal::ClosedCorner',
   category: 'SheetMetal',
   label: 'ClosedCorner',
@@ -24,41 +28,41 @@ export const SheetMetalCornersClosedCornerNode: NodeDefinition<ClosedCornerInput
     sheet: {
       type: 'Shape',
       label: 'Sheet',
-      required: true
+      required: true,
     },
     faces: {
       type: 'Face[]',
       label: 'Faces',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'Shape',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {
     cornerType: {
       type: 'enum',
       label: 'Corner Type',
-      default: "overlap",
-      options: ["overlap","underlap","butt"]
+      default: 'overlap',
+      options: ['overlap', 'underlap', 'butt'],
     },
     gapDistance: {
       type: 'number',
       label: 'Gap Distance',
       default: 0,
       min: 0,
-      max: 10
+      max: 10,
     },
     overlapRatio: {
       type: 'number',
       label: 'Overlap Ratio',
       default: 0.5,
       min: 0,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -68,12 +72,12 @@ export const SheetMetalCornersClosedCornerNode: NodeDefinition<ClosedCornerInput
         faces: inputs.faces,
         cornerType: params.cornerType,
         gapDistance: params.gapDistance,
-        overlapRatio: params.overlapRatio
-      }
+        overlapRatio: params.overlapRatio,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

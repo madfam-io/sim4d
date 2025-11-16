@@ -15,7 +15,11 @@ interface CurveLengthOutputs {
   arcLength: unknown;
 }
 
-export const AnalysisCurvesCurveLengthNode: NodeDefinition<CurveLengthInputs, CurveLengthOutputs, CurveLengthParams> = {
+export const AnalysisCurvesCurveLengthNode: NodeDefinition<
+  CurveLengthInputs,
+  CurveLengthOutputs,
+  CurveLengthParams
+> = {
   id: 'Analysis::CurveLength',
   category: 'Analysis',
   label: 'CurveLength',
@@ -24,22 +28,22 @@ export const AnalysisCurvesCurveLengthNode: NodeDefinition<CurveLengthInputs, Cu
     curve: {
       type: 'Wire',
       label: 'Curve',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     length: {
       type: 'number',
-      label: 'Length'
+      label: 'Length',
     },
     segmentLengths: {
       type: 'number[]',
-      label: 'Segment Lengths'
+      label: 'Segment Lengths',
     },
     arcLength: {
       type: 'Wire',
-      label: 'Arc Length'
-    }
+      label: 'Arc Length',
+    },
   },
   params: {
     tolerance: {
@@ -47,15 +51,15 @@ export const AnalysisCurvesCurveLengthNode: NodeDefinition<CurveLengthInputs, Cu
       label: 'Tolerance',
       default: 0.01,
       min: 0.001,
-      max: 1
+      max: 1,
     },
     segments: {
       type: 'number',
       label: 'Segments',
       default: 100,
       min: 10,
-      max: 1000
-    }
+      max: 1000,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -63,14 +67,14 @@ export const AnalysisCurvesCurveLengthNode: NodeDefinition<CurveLengthInputs, Cu
       params: {
         curve: inputs.curve,
         tolerance: params.tolerance,
-        segments: params.segments
-      }
+        segments: params.segments,
+      },
     });
-    
+
     return {
       length: results.length,
       segmentLengths: results.segmentLengths,
-      arcLength: results.arcLength
+      arcLength: results.arcLength,
     };
   },
 };

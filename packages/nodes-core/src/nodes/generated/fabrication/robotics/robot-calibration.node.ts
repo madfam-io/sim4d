@@ -13,7 +13,11 @@ interface RobotCalibrationOutputs {
   accuracy: number;
 }
 
-export const FabricationRoboticsRobotCalibrationNode: NodeDefinition<RobotCalibrationInputs, RobotCalibrationOutputs, RobotCalibrationParams> = {
+export const FabricationRoboticsRobotCalibrationNode: NodeDefinition<
+  RobotCalibrationInputs,
+  RobotCalibrationOutputs,
+  RobotCalibrationParams
+> = {
   id: 'Fabrication::RobotCalibration',
   category: 'Fabrication',
   label: 'RobotCalibration',
@@ -22,39 +26,39 @@ export const FabricationRoboticsRobotCalibrationNode: NodeDefinition<RobotCalibr
     measurementPoints: {
       type: 'Point[]',
       label: 'Measurement Points',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     calibrationMatrix: {
       type: 'Transform',
-      label: 'Calibration Matrix'
+      label: 'Calibration Matrix',
     },
     accuracy: {
       type: 'Number',
-      label: 'Accuracy'
-    }
+      label: 'Accuracy',
+    },
   },
   params: {
     method: {
       type: 'enum',
       label: 'Method',
-      default: "dh-parameters",
-      options: ["dh-parameters","circle-point","plane","hand-eye"]
-    }
+      default: 'dh-parameters',
+      options: ['dh-parameters', 'circle-point', 'plane', 'hand-eye'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
       type: 'robotCalibration',
       params: {
         measurementPoints: inputs.measurementPoints,
-        method: params.method
-      }
+        method: params.method,
+      },
     });
-    
+
     return {
       calibrationMatrix: results.calibrationMatrix,
-      accuracy: results.accuracy
+      accuracy: results.accuracy,
     };
   },
 };

@@ -18,7 +18,11 @@ interface HTTPRequestOutputs {
   headers: unknown;
 }
 
-export const InteroperabilityAPIHTTPRequestNode: NodeDefinition<HTTPRequestInputs, HTTPRequestOutputs, HTTPRequestParams> = {
+export const InteroperabilityAPIHTTPRequestNode: NodeDefinition<
+  HTTPRequestInputs,
+  HTTPRequestOutputs,
+  HTTPRequestParams
+> = {
   id: 'Interoperability::HTTPRequest',
   type: 'Interoperability::HTTPRequest',
   category: 'Interoperability',
@@ -28,54 +32,54 @@ export const InteroperabilityAPIHTTPRequestNode: NodeDefinition<HTTPRequestInput
     headers: {
       type: 'Properties',
       label: 'Headers',
-      optional: true
+      optional: true,
     },
     body: {
       type: 'Properties',
       label: 'Body',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     response: {
       type: 'Properties',
-      label: 'Response'
+      label: 'Response',
     },
     statusCode: {
       type: 'number',
-      label: 'Status Code'
+      label: 'Status Code',
     },
     headers: {
       type: 'Properties',
-      label: 'Headers'
-    }
+      label: 'Headers',
+    },
   },
   params: {
     method: {
       type: 'enum',
       label: 'Method',
-      default: "GET",
-      options: ["GET","POST","PUT","DELETE"]
+      default: 'GET',
+      options: ['GET', 'POST', 'PUT', 'DELETE'],
     },
     url: {
       type: 'string',
       label: 'Url',
-      default: ""
+      default: '',
     },
     timeout: {
       type: 'number',
       label: 'Timeout',
       default: 30,
       min: 1,
-      max: 300
+      max: 300,
     },
     retries: {
       type: 'number',
       label: 'Retries',
       default: 3,
       min: 0,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -86,14 +90,14 @@ export const InteroperabilityAPIHTTPRequestNode: NodeDefinition<HTTPRequestInput
         method: params.method,
         url: params.url,
         timeout: params.timeout,
-        retries: params.retries
-      }
+        retries: params.retries,
+      },
     });
-    
+
     return {
       response: results.response,
       statusCode: results.statusCode,
-      headers: results.headers
+      headers: results.headers,
     };
   },
 };

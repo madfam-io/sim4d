@@ -12,7 +12,11 @@ interface BendTableOutputs {
   bendTable: unknown;
 }
 
-export const SheetMetalPropertiesBendTableNode: NodeDefinition<BendTableInputs, BendTableOutputs, BendTableParams> = {
+export const SheetMetalPropertiesBendTableNode: NodeDefinition<
+  BendTableInputs,
+  BendTableOutputs,
+  BendTableParams
+> = {
   id: 'SheetMetal::BendTable',
   category: 'SheetMetal',
   label: 'BendTable',
@@ -21,34 +25,34 @@ export const SheetMetalPropertiesBendTableNode: NodeDefinition<BendTableInputs, 
     tableData: {
       type: 'Data',
       label: 'Table Data',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     bendTable: {
       type: 'Data',
-      label: 'Bend Table'
-    }
+      label: 'Bend Table',
+    },
   },
   params: {
     tableType: {
       type: 'enum',
       label: 'Table Type',
-      default: "k-factor",
-      options: ["bend-deduction","bend-allowance","k-factor"]
-    }
+      default: 'k-factor',
+      options: ['bend-deduction', 'bend-allowance', 'k-factor'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'sheetBendTable',
       params: {
         tableData: inputs.tableData,
-        tableType: params.tableType
-      }
+        tableType: params.tableType,
+      },
     });
-    
+
     return {
-      bendTable: result
+      bendTable: result,
     };
   },
 };

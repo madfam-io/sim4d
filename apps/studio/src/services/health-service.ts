@@ -63,8 +63,8 @@ export class HealthService {
       browser: await this.checkBrowser(),
     };
 
-    const allHealthy = Object.values(checks).every(c => c.status === 'pass');
-    const anyFailed = Object.values(checks).some(c => c.status === 'fail');
+    const allHealthy = Object.values(checks).every((c) => c.status === 'pass');
+    const anyFailed = Object.values(checks).some((c) => c.status === 'fail');
 
     return {
       status: anyFailed ? 'unhealthy' : allHealthy ? 'healthy' : 'degraded',
@@ -158,9 +158,7 @@ export class HealthService {
 
     try {
       // Try to compile a minimal WASM module
-      const wasmCode = new Uint8Array([
-        0x00, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00,
-      ]);
+      const wasmCode = new Uint8Array([0x00, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00]);
       await WebAssembly.compile(wasmCode);
 
       return {
@@ -195,9 +193,9 @@ export class HealthService {
       const workerCode = `self.postMessage('test');`;
       const blob = new Blob([workerCode], { type: 'application/javascript' });
       const workerUrl = URL.createObjectURL(blob);
-      
+
       const testWorker = new Worker(workerUrl);
-      
+
       return new Promise((resolve) => {
         const timeout = setTimeout(() => {
           testWorker.terminate();
@@ -212,7 +210,7 @@ export class HealthService {
           clearTimeout(timeout);
           testWorker.terminate();
           URL.revokeObjectURL(workerUrl);
-          
+
           if (e.data === 'test') {
             resolve({
               status: 'pass',
@@ -249,11 +247,11 @@ export class HealthService {
    */
   private async checkBrowser(): Promise<HealthCheck> {
     const required = {
-      'WebGL2': typeof WebGL2RenderingContext !== 'undefined',
-      'IndexedDB': 'indexedDB' in window,
-      'LocalStorage': 'localStorage' in window,
-      'Fetch': 'fetch' in window,
-      'Promises': typeof Promise !== 'undefined',
+      WebGL2: typeof WebGL2RenderingContext !== 'undefined',
+      IndexedDB: 'indexedDB' in window,
+      LocalStorage: 'localStorage' in window,
+      Fetch: 'fetch' in window,
+      Promises: typeof Promise !== 'undefined',
     };
 
     const missing = Object.entries(required)
@@ -270,9 +268,9 @@ export class HealthService {
 
     // Check for optimal features
     const optimal = {
-      'WebGPU': 'gpu' in navigator,
-      'OffscreenCanvas': typeof OffscreenCanvas !== 'undefined',
-      'ResizeObserver': typeof ResizeObserver !== 'undefined',
+      WebGPU: 'gpu' in navigator,
+      OffscreenCanvas: typeof OffscreenCanvas !== 'undefined',
+      ResizeObserver: typeof ResizeObserver !== 'undefined',
     };
 
     const missingOptimal = Object.entries(optimal)
@@ -339,7 +337,7 @@ export class HealthService {
     try {
       const health = await this.getHealth();
       const ready = health.status !== 'unhealthy';
-      
+
       return {
         ready,
         message: ready ? 'Ready to serve' : 'Service not ready',

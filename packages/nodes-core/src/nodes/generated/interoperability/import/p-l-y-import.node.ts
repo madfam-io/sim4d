@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -23,50 +22,47 @@ export const PLYImportNode: NodeDefinition<PLYImportInputs, PLYImportOutputs, PL
   metadata: {
     label: 'PLYImport',
     description: 'Import PLY point cloud files',
-    
-    
   },
 
   params: {
-        loadColors: {
-      "default": true
+    loadColors: {
+      default: true,
     },
     loadNormals: {
-      "default": true
+      default: true,
     },
     scaleFactor: {
-      "default": 1,
-      "min": 0.001,
-      "max": 1000
-    }
+      default: 1,
+      min: 0.001,
+      max: 1000,
+    },
   },
 
   inputs: {
-        filePath: 'string'
+    filePath: 'string',
   },
 
   outputs: {
-        points: 'Point[]',
+    points: 'Point[]',
     colors: 'number[][]',
-    normals: 'Vector[]'
+    normals: 'Vector[]',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'plyImport',
       params: {
         filePath: inputs.filePath,
         loadColors: params.loadColors,
         loadNormals: params.loadNormals,
-        scaleFactor: params.scaleFactor
-      }
+        scaleFactor: params.scaleFactor,
+      },
     });
 
     return {
       points: result,
       colors: result,
-      normals: result
+      normals: result,
     };
-  }
+  },
 };

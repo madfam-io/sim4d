@@ -14,7 +14,11 @@ interface EscapeStairOutputs {
   escapeStair: unknown;
 }
 
-export const ArchitectureStairsEscapeStairNode: NodeDefinition<EscapeStairInputs, EscapeStairOutputs, EscapeStairParams> = {
+export const ArchitectureStairsEscapeStairNode: NodeDefinition<
+  EscapeStairInputs,
+  EscapeStairOutputs,
+  EscapeStairParams
+> = {
   id: 'Architecture::EscapeStair',
   category: 'Architecture',
   label: 'EscapeStair',
@@ -23,34 +27,34 @@ export const ArchitectureStairsEscapeStairNode: NodeDefinition<EscapeStairInputs
     stairwell: {
       type: 'Wire',
       label: 'Stairwell',
-      required: true
+      required: true,
     },
     floors: {
       type: 'Number',
       label: 'Floors',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     escapeStair: {
       type: 'Shape',
-      label: 'Escape Stair'
-    }
+      label: 'Escape Stair',
+    },
   },
   params: {
     enclosure: {
       type: 'enum',
       label: 'Enclosure',
-      default: "enclosed",
-      options: ["open","enclosed","pressurized"]
+      default: 'enclosed',
+      options: ['open', 'enclosed', 'pressurized'],
     },
     width: {
       type: 'number',
       label: 'Width',
       default: 1200,
       min: 1100,
-      max: 1500
-    }
+      max: 1500,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -59,12 +63,12 @@ export const ArchitectureStairsEscapeStairNode: NodeDefinition<EscapeStairInputs
         stairwell: inputs.stairwell,
         floors: inputs.floors,
         enclosure: params.enclosure,
-        width: params.width
-      }
+        width: params.width,
+      },
     });
-    
+
     return {
-      escapeStair: result
+      escapeStair: result,
     };
   },
 };

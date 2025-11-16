@@ -14,7 +14,11 @@ interface CollisionAvoidanceOutputs {
   collisionPoints: Array<[number, number, number]>;
 }
 
-export const FabricationRoboticsCollisionAvoidanceNode: NodeDefinition<CollisionAvoidanceInputs, CollisionAvoidanceOutputs, CollisionAvoidanceParams> = {
+export const FabricationRoboticsCollisionAvoidanceNode: NodeDefinition<
+  CollisionAvoidanceInputs,
+  CollisionAvoidanceOutputs,
+  CollisionAvoidanceParams
+> = {
   id: 'Fabrication::CollisionAvoidance',
   type: 'Fabrication::CollisionAvoidance',
   category: 'Fabrication',
@@ -24,23 +28,23 @@ export const FabricationRoboticsCollisionAvoidanceNode: NodeDefinition<Collision
     robotPath: {
       type: 'Transform[]',
       label: 'Robot Path',
-      required: true
+      required: true,
     },
     environment: {
       type: 'Shape[]',
       label: 'Environment',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     safePath: {
       type: 'Transform[]',
-      label: 'Safe Path'
+      label: 'Safe Path',
     },
     collisionPoints: {
       type: 'Point[]',
-      label: 'Collision Points'
-    }
+      label: 'Collision Points',
+    },
   },
   params: {
     safetyMargin: {
@@ -48,8 +52,8 @@ export const FabricationRoboticsCollisionAvoidanceNode: NodeDefinition<Collision
       label: 'Safety Margin',
       default: 10,
       min: 0,
-      max: 50
-    }
+      max: 50,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -57,13 +61,13 @@ export const FabricationRoboticsCollisionAvoidanceNode: NodeDefinition<Collision
       params: {
         robotPath: inputs.robotPath,
         environment: inputs.environment,
-        safetyMargin: params.safetyMargin
-      }
+        safetyMargin: params.safetyMargin,
+      },
     });
-    
+
     return {
       safePath: results.safePath,
-      collisionPoints: results.collisionPoints
+      collisionPoints: results.collisionPoints,
     };
   },
 };

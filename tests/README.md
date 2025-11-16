@@ -7,6 +7,7 @@ Comprehensive End-to-End testing framework for BrepFlow Studio using Playwright,
 ## 📊 Test Coverage
 
 ✅ **154 E2E Tests** across 4 test suites:
+
 - **Phase 3**: Parameter Dialog Workflows (15 tests)
 - **Phase 4A**: Live Parameter Editing (20 tests)
 - **Phase 4B**: Performance Monitoring & Diagnostics (25 tests)
@@ -55,16 +56,19 @@ tests/
 ## 🔧 Key Features
 
 ### Test Helpers
+
 - **NodeTestHelper**: Node creation, manipulation, parameter testing
 - **ViewportTestHelper**: 3D viewport interaction, visual verification
 - **InspectorTestHelper**: Inspector panel testing (Phase 4A/4B)
 
 ### Test Data
+
 - **Predefined Scenarios**: Standardized node configurations
 - **Mock Geometry**: Reproducible geometry responses
 - **Performance Baselines**: Expected timing and memory thresholds
 
 ### Advanced Testing
+
 - **Visual Regression**: Screenshot comparison with 15% threshold
 - **Performance Monitoring**: FPS, memory, timing validation
 - **Cross-Browser**: Chromium + Firefox compatibility
@@ -79,24 +83,28 @@ tests/
 ## 🔍 Test Categories
 
 ### 1. Parameter Dialog Workflows (Phase 3)
+
 - Dialog opening/closing behavior
 - Parameter validation and error handling
 - Node creation with various configurations
 - Keyboard navigation and accessibility
 
 ### 2. Live Parameter Editing (Phase 4A)
+
 - Real-time parameter editing in Inspector
 - Undo/redo functionality
 - Parameter validation and immediate feedback
 - Inspector responsiveness and performance
 
 ### 3. Performance & Diagnostics (Phase 4B)
+
 - Performance metrics collection and display
 - Error diagnostics with actionable suggestions
 - Configuration management and export/import
 - Advanced Inspector features integration
 
 ### 4. 3D Viewport Interaction
+
 - Camera controls (orbit, zoom, pan)
 - Rendering modes and visual consistency
 - Geometry visualization and updates
@@ -105,11 +113,13 @@ tests/
 ## 🎛️ Configuration
 
 ### Playwright Config (`playwright.config.ts`)
+
 - **Optimized for CAD**: WebGL support, SharedArrayBuffer, extended timeouts
 - **Visual Testing**: 15% threshold for Three.js rendering variations
 - **CI/CD Ready**: Automated browser installation and artifact collection
 
 ### GitHub Actions (`.github/workflows/e2e-tests.yml`)
+
 - **E2E Tests**: Run on every push/PR
 - **Visual Regression**: Automated on PRs with diff artifacts
 - **Performance Tests**: Scheduled on main branch

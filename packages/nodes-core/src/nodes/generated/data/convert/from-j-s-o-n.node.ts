@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 type Params = {};
@@ -18,36 +17,30 @@ export const FromJSONNode: NodeDefinition<FromJSONInputs, FromJSONOutputs, FromJ
   metadata: {
     label: 'FromJSON',
     description: 'Parse JSON',
-    
-    
   },
 
-  params: {
-    
-  },
+  params: {},
 
   inputs: {
-        json: 'string'
+    json: 'string',
   },
 
   outputs: {
-        data: 'Data',
-    isValid: 'boolean'
+    data: 'Data',
+    isValid: 'boolean',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'convertFromJSON',
       params: {
-        json: inputs.json
-        
-      }
+        json: inputs.json,
+      },
     });
 
     return {
       data: result,
-      isValid: result
+      isValid: result,
     };
-  }
+  },
 };

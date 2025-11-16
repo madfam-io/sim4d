@@ -13,10 +13,5 @@
     "noPropertyAccessFromIndexSignature": false,
     "skipLibCheck": true
   },
-  "exclude": [
-    "src/collaboration/**/*",
-    "**/*.test.ts",
-    "**/*.spec.ts",
-    "**/__tests__/**/*"
-  ]
+  "exclude": ["src/collaboration/**/*", "**/*.test.ts", "**/*.spec.ts", "**/__tests__/**/*"]
 }

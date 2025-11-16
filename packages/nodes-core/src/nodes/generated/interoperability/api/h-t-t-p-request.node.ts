@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -17,7 +16,11 @@ interface Outputs {
   headers: Properties;
 }
 
-export const HTTPRequestNode: NodeDefinition<HTTPRequestInputs, HTTPRequestOutputs, HTTPRequestParams> = {
+export const HTTPRequestNode: NodeDefinition<
+  HTTPRequestInputs,
+  HTTPRequestOutputs,
+  HTTPRequestParams
+> = {
   type: 'Interoperability::HTTPRequest',
   category: 'Interoperability',
   subcategory: 'API',
@@ -25,49 +28,41 @@ export const HTTPRequestNode: NodeDefinition<HTTPRequestInputs, HTTPRequestOutpu
   metadata: {
     label: 'HTTPRequest',
     description: 'Make HTTP REST API requests',
-    
-    
   },
 
   params: {
-        method: {
-      "default": "GET",
-      "options": [
-        "GET",
-        "POST",
-        "PUT",
-        "DELETE"
-      ]
+    method: {
+      default: 'GET',
+      options: ['GET', 'POST', 'PUT', 'DELETE'],
     },
     url: {
-      "default": "",
-      "description": "API endpoint URL"
+      default: '',
+      description: 'API endpoint URL',
     },
     timeout: {
-      "default": 30,
-      "min": 1,
-      "max": 300
+      default: 30,
+      min: 1,
+      max: 300,
     },
     retries: {
-      "default": 3,
-      "min": 0,
-      "max": 10
-    }
+      default: 3,
+      min: 0,
+      max: 10,
+    },
   },
 
   inputs: {
-        headers: 'Properties',
-    body: 'Properties'
+    headers: 'Properties',
+    body: 'Properties',
   },
 
   outputs: {
-        response: 'Properties',
+    response: 'Properties',
     statusCode: 'number',
-    headers: 'Properties'
+    headers: 'Properties',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'httpRequest',
       params: {
@@ -76,14 +71,14 @@ export const HTTPRequestNode: NodeDefinition<HTTPRequestInputs, HTTPRequestOutpu
         method: params.method,
         url: params.url,
         timeout: params.timeout,
-        retries: params.retries
-      }
+        retries: params.retries,
+      },
     });
 
     return {
       response: result,
       statusCode: result,
-      headers: result
+      headers: result,
     };
-  }
+  },
 };

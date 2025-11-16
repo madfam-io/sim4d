@@ -27,24 +27,24 @@ export const AdvancedSweepSweepNode: NodeDefinition<SweepInputs, SweepOutputs, S
     profile: {
       type: 'Wire',
       label: 'Profile',
-      required: true
+      required: true,
     },
     path: {
       type: 'Wire',
       label: 'Path',
-      required: true
+      required: true,
     },
     auxiliarySpine: {
       type: 'Wire',
       label: 'Auxiliary Spine',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     shape: {
       type: 'Shape',
-      label: 'Shape'
-    }
+      label: 'Shape',
+    },
   },
   params: {
     twistAngle: {
@@ -52,25 +52,25 @@ export const AdvancedSweepSweepNode: NodeDefinition<SweepInputs, SweepOutputs, S
       label: 'Twist Angle',
       default: 0,
       min: -360,
-      max: 360
+      max: 360,
     },
     scaleFactor: {
       type: 'number',
       label: 'Scale Factor',
       default: 1,
       min: 0.01,
-      max: 100
+      max: 100,
     },
     keepOrientation: {
       type: 'boolean',
       label: 'Keep Orientation',
-      default: false
+      default: false,
     },
     solid: {
       type: 'boolean',
       label: 'Solid',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -82,12 +82,12 @@ export const AdvancedSweepSweepNode: NodeDefinition<SweepInputs, SweepOutputs, S
         twistAngle: params.twistAngle,
         scaleFactor: params.scaleFactor,
         keepOrientation: params.keepOrientation,
-        solid: params.solid
-      }
+        solid: params.solid,
+      },
     });
-    
+
     return {
-      shape: result
+      shape: result,
     };
   },
 };

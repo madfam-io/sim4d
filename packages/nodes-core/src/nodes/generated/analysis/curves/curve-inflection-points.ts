@@ -15,7 +15,11 @@ interface CurveInflectionPointsOutputs {
   markers: unknown;
 }
 
-export const AnalysisCurvesCurveInflectionPointsNode: NodeDefinition<CurveInflectionPointsInputs, CurveInflectionPointsOutputs, CurveInflectionPointsParams> = {
+export const AnalysisCurvesCurveInflectionPointsNode: NodeDefinition<
+  CurveInflectionPointsInputs,
+  CurveInflectionPointsOutputs,
+  CurveInflectionPointsParams
+> = {
   id: 'Analysis::CurveInflectionPoints',
   type: 'Analysis::CurveInflectionPoints',
   category: 'Analysis',
@@ -25,22 +29,22 @@ export const AnalysisCurvesCurveInflectionPointsNode: NodeDefinition<CurveInflec
     curve: {
       type: 'Wire',
       label: 'Curve',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     inflectionPoints: {
       type: 'Point[]',
-      label: 'Inflection Points'
+      label: 'Inflection Points',
     },
     parameters: {
       type: 'number[]',
-      label: 'Parameters'
+      label: 'Parameters',
     },
     markers: {
       type: 'Shape[]',
-      label: 'Markers'
-    }
+      label: 'Markers',
+    },
   },
   params: {
     tolerance: {
@@ -48,13 +52,13 @@ export const AnalysisCurvesCurveInflectionPointsNode: NodeDefinition<CurveInflec
       label: 'Tolerance',
       default: 0.01,
       min: 0.001,
-      max: 1
+      max: 1,
     },
     markPoints: {
       type: 'boolean',
       label: 'Mark Points',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -62,14 +66,14 @@ export const AnalysisCurvesCurveInflectionPointsNode: NodeDefinition<CurveInflec
       params: {
         curve: inputs.curve,
         tolerance: params.tolerance,
-        markPoints: params.markPoints
-      }
+        markPoints: params.markPoints,
+      },
     });
-    
+
     return {
       inflectionPoints: results.inflectionPoints,
       parameters: results.parameters,
-      markers: results.markers
+      markers: results.markers,
     };
   },
 };

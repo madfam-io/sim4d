@@ -14,7 +14,11 @@ interface VectorFieldOutputs {
   field: unknown;
 }
 
-export const FieldGenerateVectorFieldNode: NodeDefinition<VectorFieldInputs, VectorFieldOutputs, VectorFieldParams> = {
+export const FieldGenerateVectorFieldNode: NodeDefinition<
+  VectorFieldInputs,
+  VectorFieldOutputs,
+  VectorFieldParams
+> = {
   id: 'Field::VectorField',
   type: 'Field::VectorField',
   category: 'Field',
@@ -24,31 +28,31 @@ export const FieldGenerateVectorFieldNode: NodeDefinition<VectorFieldInputs, Vec
     domain: {
       type: 'Box',
       label: 'Domain',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     field: {
       type: 'VectorField',
-      label: 'Field'
-    }
+      label: 'Field',
+    },
   },
   params: {
     expressionX: {
       type: 'string',
       label: 'Expression X',
-      default: "y"
+      default: 'y',
     },
     expressionY: {
       type: 'string',
       label: 'Expression Y',
-      default: "-x"
+      default: '-x',
     },
     expressionZ: {
       type: 'string',
       label: 'Expression Z',
-      default: "0"
-    }
+      default: '0',
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -57,12 +61,12 @@ export const FieldGenerateVectorFieldNode: NodeDefinition<VectorFieldInputs, Vec
         domain: inputs.domain,
         expressionX: params.expressionX,
         expressionY: params.expressionY,
-        expressionZ: params.expressionZ
-      }
+        expressionZ: params.expressionZ,
+      },
     });
-    
+
     return {
-      field: result
+      field: result,
     };
   },
 };

@@ -15,7 +15,11 @@ interface WoodJoistFloorOutputs {
   joists: unknown;
 }
 
-export const ArchitectureFloorsWoodJoistFloorNode: NodeDefinition<WoodJoistFloorInputs, WoodJoistFloorOutputs, WoodJoistFloorParams> = {
+export const ArchitectureFloorsWoodJoistFloorNode: NodeDefinition<
+  WoodJoistFloorInputs,
+  WoodJoistFloorOutputs,
+  WoodJoistFloorParams
+> = {
   id: 'Architecture::WoodJoistFloor',
   category: 'Architecture',
   label: 'WoodJoistFloor',
@@ -24,18 +28,18 @@ export const ArchitectureFloorsWoodJoistFloorNode: NodeDefinition<WoodJoistFloor
     floorBoundary: {
       type: 'Wire',
       label: 'Floor Boundary',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     floorSystem: {
       type: 'Shape',
-      label: 'Floor System'
+      label: 'Floor System',
     },
     joists: {
       type: 'Shape[]',
-      label: 'Joists'
-    }
+      label: 'Joists',
+    },
   },
   params: {
     joistDepth: {
@@ -43,22 +47,22 @@ export const ArchitectureFloorsWoodJoistFloorNode: NodeDefinition<WoodJoistFloor
       label: 'Joist Depth',
       default: 250,
       min: 150,
-      max: 400
+      max: 400,
     },
     joistSpacing: {
       type: 'number',
       label: 'Joist Spacing',
       default: 400,
       min: 300,
-      max: 600
+      max: 600,
     },
     subfloorThickness: {
       type: 'number',
       label: 'Subfloor Thickness',
       default: 18,
       min: 15,
-      max: 25
-    }
+      max: 25,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -67,13 +71,13 @@ export const ArchitectureFloorsWoodJoistFloorNode: NodeDefinition<WoodJoistFloor
         floorBoundary: inputs.floorBoundary,
         joistDepth: params.joistDepth,
         joistSpacing: params.joistSpacing,
-        subfloorThickness: params.subfloorThickness
-      }
+        subfloorThickness: params.subfloorThickness,
+      },
     });
-    
+
     return {
       floorSystem: results.floorSystem,
-      joists: results.joists
+      joists: results.joists,
     };
   },
 };

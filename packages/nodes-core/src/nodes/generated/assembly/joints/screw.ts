@@ -24,24 +24,24 @@ export const AssemblyJointsScrewNode: NodeDefinition<ScrewInputs, ScrewOutputs, 
     part1: {
       type: 'Shape',
       label: 'Part1',
-      required: true
+      required: true,
     },
     part2: {
       type: 'Shape',
       label: 'Part2',
-      required: true
+      required: true,
     },
     axis: {
       type: 'Axis',
       label: 'Axis',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     joint: {
       type: 'Joint',
-      label: 'Joint'
-    }
+      label: 'Joint',
+    },
   },
   params: {
     pitch: {
@@ -49,8 +49,8 @@ export const AssemblyJointsScrewNode: NodeDefinition<ScrewInputs, ScrewOutputs, 
       label: 'Pitch',
       default: 1,
       min: 0.01,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -59,12 +59,12 @@ export const AssemblyJointsScrewNode: NodeDefinition<ScrewInputs, ScrewOutputs, 
         part1: inputs.part1,
         part2: inputs.part2,
         axis: inputs.axis,
-        pitch: params.pitch
-      }
+        pitch: params.pitch,
+      },
     });
-    
+
     return {
-      joint: result
+      joint: result,
     };
   },
 };

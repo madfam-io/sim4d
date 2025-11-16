@@ -18,7 +18,11 @@ interface HelicalSweepOutputs {
   shape: unknown;
 }
 
-export const AdvancedSweepHelicalSweepNode: NodeDefinition<HelicalSweepInputs, HelicalSweepOutputs, HelicalSweepParams> = {
+export const AdvancedSweepHelicalSweepNode: NodeDefinition<
+  HelicalSweepInputs,
+  HelicalSweepOutputs,
+  HelicalSweepParams
+> = {
   id: 'Advanced::HelicalSweep',
   category: 'Advanced',
   label: 'HelicalSweep',
@@ -27,19 +31,19 @@ export const AdvancedSweepHelicalSweepNode: NodeDefinition<HelicalSweepInputs, H
     profile: {
       type: 'Wire',
       label: 'Profile',
-      required: true
+      required: true,
     },
     axis: {
       type: 'Axis',
       label: 'Axis',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     shape: {
       type: 'Shape',
-      label: 'Shape'
-    }
+      label: 'Shape',
+    },
   },
   params: {
     pitch: {
@@ -47,41 +51,41 @@ export const AdvancedSweepHelicalSweepNode: NodeDefinition<HelicalSweepInputs, H
       label: 'Pitch',
       default: 10,
       min: 0.1,
-      max: 1000
+      max: 1000,
     },
     height: {
       type: 'number',
       label: 'Height',
       default: 100,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     turns: {
       type: 'number',
       label: 'Turns',
       default: 5,
       min: 0.1,
-      max: 1000
+      max: 1000,
     },
     radius: {
       type: 'number',
       label: 'Radius',
       default: 20,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     leftHanded: {
       type: 'boolean',
       label: 'Left Handed',
-      default: false
+      default: false,
     },
     taper: {
       type: 'number',
       label: 'Taper',
       default: 0,
       min: -45,
-      max: 45
-    }
+      max: 45,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -94,12 +98,12 @@ export const AdvancedSweepHelicalSweepNode: NodeDefinition<HelicalSweepInputs, H
         turns: params.turns,
         radius: params.radius,
         leftHanded: params.leftHanded,
-        taper: params.taper
-      }
+        taper: params.taper,
+      },
     });
-    
+
     return {
-      shape: result
+      shape: result,
     };
   },
 };

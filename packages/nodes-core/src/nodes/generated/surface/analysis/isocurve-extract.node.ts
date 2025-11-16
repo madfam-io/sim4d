@@ -13,7 +13,11 @@ interface IsocurveExtractOutputs {
   isocurves: unknown;
 }
 
-export const SurfaceAnalysisIsocurveExtractNode: NodeDefinition<IsocurveExtractInputs, IsocurveExtractOutputs, IsocurveExtractParams> = {
+export const SurfaceAnalysisIsocurveExtractNode: NodeDefinition<
+  IsocurveExtractInputs,
+  IsocurveExtractOutputs,
+  IsocurveExtractParams
+> = {
   id: 'Surface::IsocurveExtract',
   category: 'Surface',
   label: 'IsocurveExtract',
@@ -22,21 +26,21 @@ export const SurfaceAnalysisIsocurveExtractNode: NodeDefinition<IsocurveExtractI
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     isocurves: {
       type: 'Wire[]',
-      label: 'Isocurves'
-    }
+      label: 'Isocurves',
+    },
   },
   params: {
     direction: {
       type: 'enum',
       label: 'Direction',
-      default: "both",
-      options: ["U","V","both"]
+      default: 'both',
+      options: ['U', 'V', 'both'],
     },
     count: {
       type: 'number',
@@ -44,8 +48,8 @@ export const SurfaceAnalysisIsocurveExtractNode: NodeDefinition<IsocurveExtractI
       default: 10,
       min: 1,
       max: 100,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const SurfaceAnalysisIsocurveExtractNode: NodeDefinition<IsocurveExtractI
       params: {
         surface: inputs.surface,
         direction: params.direction,
-        count: params.count
-      }
+        count: params.count,
+      },
     });
-    
+
     return {
-      isocurves: result
+      isocurves: result,
     };
   },
 };

@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { InteroperabilityDataCSVWriterNode } from './csvwriter.node';
 import { createTestContext } from '../test-utils';
@@ -8,12 +7,12 @@ describe('InteroperabilityDataCSVWriterNode', () => {
     const context = createTestContext();
     const inputs = {
       data: undefined,
-      filePath: undefined
+      filePath: undefined,
     } as any;
     const params = {
-      delimiter: ",",
+      delimiter: ',',
       includeHeader: true,
-      encoding: "utf-8"
+      encoding: 'utf-8',
     } as any;
 
     const result = await InteroperabilityDataCSVWriterNode.evaluate(context, inputs, params);

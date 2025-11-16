@@ -13,7 +13,11 @@ interface ConwayLifeOutputs {
   liveCells: unknown;
 }
 
-export const PatternsCellularConwayLifeNode: NodeDefinition<ConwayLifeInputs, ConwayLifeOutputs, ConwayLifeParams> = {
+export const PatternsCellularConwayLifeNode: NodeDefinition<
+  ConwayLifeInputs,
+  ConwayLifeOutputs,
+  ConwayLifeParams
+> = {
   id: 'Patterns::ConwayLife',
   category: 'Patterns',
   label: 'ConwayLife',
@@ -22,14 +26,14 @@ export const PatternsCellularConwayLifeNode: NodeDefinition<ConwayLifeInputs, Co
     initialCells: {
       type: 'Point[]',
       label: 'Initial Cells',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     liveCells: {
       type: 'Face[]',
-      label: 'Live Cells'
-    }
+      label: 'Live Cells',
+    },
   },
   params: {
     generations: {
@@ -38,14 +42,14 @@ export const PatternsCellularConwayLifeNode: NodeDefinition<ConwayLifeInputs, Co
       default: 10,
       min: 1,
       max: 100,
-      step: 1
+      step: 1,
     },
     cellSize: {
       type: 'number',
       label: 'Cell Size',
       default: 1,
-      min: 0.1
-    }
+      min: 0.1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const PatternsCellularConwayLifeNode: NodeDefinition<ConwayLifeInputs, Co
       params: {
         initialCells: inputs.initialCells,
         generations: params.generations,
-        cellSize: params.cellSize
-      }
+        cellSize: params.cellSize,
+      },
     });
-    
+
     return {
-      liveCells: result
+      liveCells: result,
     };
   },
 };

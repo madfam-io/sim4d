@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { PatternsAlgorithmicGraphLayoutNode } from './graph-layout.node';
 import { createTestContext } from '../test-utils';
@@ -8,11 +7,11 @@ describe('PatternsAlgorithmicGraphLayoutNode', () => {
     const context = createTestContext();
     const inputs = {
       nodes: undefined,
-      edges: undefined
+      edges: undefined,
     } as any;
     const params = {
-      algorithm: "force-directed",
-      iterations: 100
+      algorithm: 'force-directed',
+      iterations: 100,
     } as any;
 
     const result = await PatternsAlgorithmicGraphLayoutNode.evaluate(context, inputs, params);

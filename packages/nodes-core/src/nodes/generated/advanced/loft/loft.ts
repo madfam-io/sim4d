@@ -27,48 +27,48 @@ export const AdvancedLoftLoftNode: NodeDefinition<LoftInputs, LoftOutputs, LoftP
     profiles: {
       type: 'Wire[]',
       label: 'Profiles',
-      required: true
+      required: true,
     },
     guides: {
       type: 'Wire[]',
       label: 'Guides',
-      optional: true
+      optional: true,
     },
     centerLine: {
       type: 'Wire',
       label: 'Center Line',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     shape: {
       type: 'Shape',
-      label: 'Shape'
-    }
+      label: 'Shape',
+    },
   },
   params: {
     ruled: {
       type: 'boolean',
       label: 'Ruled',
-      default: false
+      default: false,
     },
     closed: {
       type: 'boolean',
       label: 'Closed',
-      default: false
+      default: false,
     },
     solid: {
       type: 'boolean',
       label: 'Solid',
-      default: true
+      default: true,
     },
     maxDegree: {
       type: 'number',
       label: 'Max Degree',
       default: 3,
       min: 1,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -80,12 +80,12 @@ export const AdvancedLoftLoftNode: NodeDefinition<LoftInputs, LoftOutputs, LoftP
         ruled: params.ruled,
         closed: params.closed,
         solid: params.solid,
-        maxDegree: params.maxDegree
-      }
+        maxDegree: params.maxDegree,
+      },
     });
-    
+
     return {
-      shape: result
+      shape: result,
     };
   },
 };

@@ -14,7 +14,11 @@ interface SkyLightOutputs {
   frame: unknown;
 }
 
-export const ArchitectureCeilingsSkyLightNode: NodeDefinition<SkyLightInputs, SkyLightOutputs, SkyLightParams> = {
+export const ArchitectureCeilingsSkyLightNode: NodeDefinition<
+  SkyLightInputs,
+  SkyLightOutputs,
+  SkyLightParams
+> = {
   id: 'Architecture::SkyLight',
   type: 'Architecture::SkyLight',
   category: 'Architecture',
@@ -24,32 +28,32 @@ export const ArchitectureCeilingsSkyLightNode: NodeDefinition<SkyLightInputs, Sk
     opening: {
       type: 'Wire',
       label: 'Opening',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     skylight: {
       type: 'Shape',
-      label: 'Skylight'
+      label: 'Skylight',
     },
     frame: {
       type: 'Shape',
-      label: 'Frame'
-    }
+      label: 'Frame',
+    },
   },
   params: {
     type: {
       type: 'enum',
       label: 'Type',
-      default: "pyramid",
-      options: ["flat","pyramid","barrel","dome"]
+      default: 'pyramid',
+      options: ['flat', 'pyramid', 'barrel', 'dome'],
     },
     glazingType: {
       type: 'enum',
       label: 'Glazing Type',
-      default: "double",
-      options: ["single","double","triple","aerogel"]
-    }
+      default: 'double',
+      options: ['single', 'double', 'triple', 'aerogel'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -57,13 +61,13 @@ export const ArchitectureCeilingsSkyLightNode: NodeDefinition<SkyLightInputs, Sk
       params: {
         opening: inputs.opening,
         type: params.type,
-        glazingType: params.glazingType
-      }
+        glazingType: params.glazingType,
+      },
     });
-    
+
     return {
       skylight: results.skylight,
-      frame: results.frame
+      frame: results.frame,
     };
   },
 };

@@ -4,12 +4,7 @@
  */
 
 import EventEmitter from 'events';
-import {
-  ProjectId,
-  UserId,
-  CloudMetadata,
-  VersionVector,
-} from '@brepflow/cloud-api/src/types';
+import { ProjectId, UserId, CloudMetadata, VersionVector } from '@brepflow/cloud-api/src/types';
 
 export interface StorageConfig {
   provider: 'aws' | 'gcp' | 'azure' | 'local';
@@ -216,7 +211,7 @@ export class CloudStorageService extends EventEmitter {
       createdBy: userId,
       createdAt: new Date().toISOString(),
       metadata,
-      files: files.objects.map(obj => ({
+      files: files.objects.map((obj) => ({
         path: this.extractPathFromKey(obj.key, projectId),
         size: obj.size,
         checksum: obj.checksum,
@@ -280,12 +275,14 @@ export class CloudStorageService extends EventEmitter {
     this.emit('backup-restored', { projectId: targetProject, backupId, manifest });
   }
 
-  async listProjectBackups(projectId: ProjectId): Promise<Array<{
-    backupId: string;
-    createdAt: Date;
-    size: number;
-    fileCount: number;
-  }>> {
+  async listProjectBackups(projectId: ProjectId): Promise<
+    Array<{
+      backupId: string;
+      createdAt: Date;
+      size: number;
+      fileCount: number;
+    }>
+  > {
     const prefix = this.getBackupPrefix(projectId);
     const result = await this.performList({ prefix });
 
@@ -465,7 +462,7 @@ export class CloudStorageService extends EventEmitter {
       'image/svg+xml',
     ];
 
-    return compressibleTypes.some(type => contentType.startsWith(type));
+    return compressibleTypes.some((type) => contentType.startsWith(type));
   }
 
   // Provider-specific implementations (to be implemented based on chosen provider)
@@ -524,6 +521,6 @@ export class CloudStorageService extends EventEmitter {
   private async calculateChecksum(data: ArrayBuffer): Promise<string> {
     const hashBuffer = await crypto.subtle.digest('SHA-256', data);
     const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
   }
 }

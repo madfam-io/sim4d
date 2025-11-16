@@ -19,7 +19,11 @@ interface BallBearingOutputs {
   outerRace: unknown;
 }
 
-export const MechanicalEngineeringBearingsBallBearingNode: NodeDefinition<BallBearingInputs, BallBearingOutputs, BallBearingParams> = {
+export const MechanicalEngineeringBearingsBallBearingNode: NodeDefinition<
+  BallBearingInputs,
+  BallBearingOutputs,
+  BallBearingParams
+> = {
   id: 'MechanicalEngineering::BallBearing',
   type: 'MechanicalEngineering::BallBearing',
   category: 'MechanicalEngineering',
@@ -29,27 +33,27 @@ export const MechanicalEngineeringBearingsBallBearingNode: NodeDefinition<BallBe
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
+      required: true,
     },
     axis: {
       type: 'Vector',
       label: 'Axis',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     bearing: {
       type: 'Shape',
-      label: 'Bearing'
+      label: 'Bearing',
     },
     innerRace: {
       type: 'Shape',
-      label: 'Inner Race'
+      label: 'Inner Race',
     },
     outerRace: {
       type: 'Shape',
-      label: 'Outer Race'
-    }
+      label: 'Outer Race',
+    },
   },
   params: {
     innerDiameter: {
@@ -57,34 +61,34 @@ export const MechanicalEngineeringBearingsBallBearingNode: NodeDefinition<BallBe
       label: 'Inner Diameter',
       default: 20,
       min: 3,
-      max: 200
+      max: 200,
     },
     outerDiameter: {
       type: 'number',
       label: 'Outer Diameter',
       default: 47,
       min: 10,
-      max: 400
+      max: 400,
     },
     width: {
       type: 'number',
       label: 'Width',
       default: 14,
       min: 3,
-      max: 100
+      max: 100,
     },
     ballCount: {
       type: 'number',
       label: 'Ball Count',
       default: 8,
       min: 5,
-      max: 20
+      max: 20,
     },
     showCage: {
       type: 'boolean',
       label: 'Show Cage',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -96,14 +100,14 @@ export const MechanicalEngineeringBearingsBallBearingNode: NodeDefinition<BallBe
         outerDiameter: params.outerDiameter,
         width: params.width,
         ballCount: params.ballCount,
-        showCage: params.showCage
-      }
+        showCage: params.showCage,
+      },
     });
-    
+
     return {
       bearing: results.bearing,
       innerRace: results.innerRace,
-      outerRace: results.outerRace
+      outerRace: results.outerRace,
     };
   },
 };

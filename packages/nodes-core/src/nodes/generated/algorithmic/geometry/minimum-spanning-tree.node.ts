@@ -15,7 +15,11 @@ interface MinimumSpanningTreeOutputs {
   edges: unknown;
 }
 
-export const AlgorithmicGeometryMinimumSpanningTreeNode: NodeDefinition<MinimumSpanningTreeInputs, MinimumSpanningTreeOutputs, MinimumSpanningTreeParams> = {
+export const AlgorithmicGeometryMinimumSpanningTreeNode: NodeDefinition<
+  MinimumSpanningTreeInputs,
+  MinimumSpanningTreeOutputs,
+  MinimumSpanningTreeParams
+> = {
   id: 'Algorithmic::MinimumSpanningTree',
   category: 'Algorithmic',
   label: 'MinimumSpanningTree',
@@ -24,35 +28,35 @@ export const AlgorithmicGeometryMinimumSpanningTreeNode: NodeDefinition<MinimumS
     points: {
       type: 'Point[]',
       label: 'Points',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     tree: {
       type: 'Wire[]',
-      label: 'Tree'
+      label: 'Tree',
     },
     totalWeight: {
       type: 'number',
-      label: 'Total Weight'
+      label: 'Total Weight',
     },
     edges: {
       type: 'Properties[]',
-      label: 'Edges'
-    }
+      label: 'Edges',
+    },
   },
   params: {
     algorithm: {
       type: 'enum',
       label: 'Algorithm',
-      default: "kruskal",
-      options: ["kruskal","prim"]
+      default: 'kruskal',
+      options: ['kruskal', 'prim'],
     },
     showWeights: {
       type: 'boolean',
       label: 'Show Weights',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -60,14 +64,14 @@ export const AlgorithmicGeometryMinimumSpanningTreeNode: NodeDefinition<MinimumS
       params: {
         points: inputs.points,
         algorithm: params.algorithm,
-        showWeights: params.showWeights
-      }
+        showWeights: params.showWeights,
+      },
     });
-    
+
     return {
       tree: results.tree,
       totalWeight: results.totalWeight,
-      edges: results.edges
+      edges: results.edges,
     };
   },
 };

@@ -8,7 +8,7 @@ interface ToolbarAction {
   active?: boolean;
   badge?: number;
   disabled?: boolean;
-  onClick?: () => void;  // Changed from 'action' to 'onClick'
+  onClick?: () => void; // Changed from 'action' to 'onClick'
 }
 
 interface PersistentToolbarProps {
@@ -23,7 +23,7 @@ export const PersistentToolbar: React.FC<PersistentToolbarProps> = ({
   primaryActions,
   secondaryActions = [],
   onModeChange,
-  className = ''
+  className = '',
 }) => {
   const [expandedMenu, setExpandedMenu] = useState(false);
   const [activeMode, setActiveMode] = useState('select');
@@ -40,7 +40,7 @@ export const PersistentToolbar: React.FC<PersistentToolbarProps> = ({
     <div className={`persistent-toolbar ${className}`}>
       {/* Primary Actions - Always Visible */}
       <div className="toolbar-primary">
-        {primaryActions.map(action => (
+        {primaryActions.map((action) => (
           <button
             key={action.id}
             className={`toolbar-button ${action.id === activeMode ? 'active' : ''}`}
@@ -66,10 +66,10 @@ export const PersistentToolbar: React.FC<PersistentToolbarProps> = ({
           >
             <span className="toolbar-icon">{expandedMenu ? '✕' : '⋯'}</span>
           </button>
-          
+
           {expandedMenu && (
             <div className="toolbar-dropdown">
-              {secondaryActions.map(action => (
+              {secondaryActions.map((action) => (
                 <button
                   key={action.id}
                   className="toolbar-dropdown-item"

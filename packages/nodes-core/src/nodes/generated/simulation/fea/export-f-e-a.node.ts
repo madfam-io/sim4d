@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -23,42 +22,34 @@ export const ExportFEANode: NodeDefinition<ExportFEAInputs, ExportFEAOutputs, Ex
   metadata: {
     label: 'ExportFEA',
     description: 'Export for FEA software',
-    
-    
   },
 
   params: {
-        format: {
-      "default": "nastran",
-      "options": [
-        "nastran",
-        "abaqus",
-        "ansys",
-        "calculix"
-      ]
+    format: {
+      default: 'nastran',
+      options: ['nastran', 'abaqus', 'ansys', 'calculix'],
     },
     includeLoads: {
-      "default": true
+      default: true,
     },
     includeConstraints: {
-      "default": true
+      default: true,
     },
     includeMaterials: {
-      "default": true
-    }
+      default: true,
+    },
   },
 
   inputs: {
-        feaModel: 'Mesh',
-    analysisData: 'Data'
+    feaModel: 'Mesh',
+    analysisData: 'Data',
   },
 
   outputs: {
-        feaFile: 'Data'
+    feaFile: 'Data',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'exportFEA',
       params: {
@@ -67,12 +58,12 @@ export const ExportFEANode: NodeDefinition<ExportFEAInputs, ExportFEAOutputs, Ex
         format: params.format,
         includeLoads: params.includeLoads,
         includeConstraints: params.includeConstraints,
-        includeMaterials: params.includeMaterials
-      }
+        includeMaterials: params.includeMaterials,
+      },
     });
 
     return {
-      feaFile: result
+      feaFile: result,
     };
-  }
+  },
 };

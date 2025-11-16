@@ -1,6 +1,6 @@
 /**
  * Simple Session Management
- * 
+ *
  * Minimal session system for MVP - no authentication required
  * Sessions are temporary (24h lifetime) and stored in-memory
  */
@@ -44,7 +44,7 @@ export class SimpleSessionManager {
   createSession(graph?: GraphInstance): Session {
     const sessionId = uuidv4();
     const now = Date.now();
-    
+
     const session: Session = {
       id: sessionId,
       graph: graph || this.createEmptyGraph(),
@@ -54,7 +54,7 @@ export class SimpleSessionManager {
     };
 
     this.sessions.set(sessionId, session);
-    
+
     // Schedule auto-cleanup
     setTimeout(() => {
       this.sessions.delete(sessionId);
@@ -121,7 +121,7 @@ export class SimpleSessionManager {
    * Get all sessions (for admin/debugging)
    */
   getAllSessions(): SessionSummary[] {
-    return Array.from(this.sessions.values()).map(session => ({
+    return Array.from(this.sessions.values()).map((session) => ({
       id: session.id,
       created: session.created,
       lastAccess: session.lastAccess,
@@ -157,7 +157,7 @@ export class SimpleSessionManager {
       }
     }
 
-    expiredSessions.forEach(id => this.sessions.delete(id));
+    expiredSessions.forEach((id) => this.sessions.delete(id));
 
     if (expiredSessions.length > 0) {
       console.log(`[SessionManager] Cleaned up ${expiredSessions.length} expired sessions`);

@@ -17,7 +17,11 @@ interface STEPImportOutputs {
   units: unknown;
 }
 
-export const InteroperabilityImportSTEPImportNode: NodeDefinition<STEPImportInputs, STEPImportOutputs, STEPImportParams> = {
+export const InteroperabilityImportSTEPImportNode: NodeDefinition<
+  STEPImportInputs,
+  STEPImportOutputs,
+  STEPImportParams
+> = {
   id: 'Interoperability::STEPImport',
   category: 'Interoperability',
   label: 'STEPImport',
@@ -26,47 +30,47 @@ export const InteroperabilityImportSTEPImportNode: NodeDefinition<STEPImportInpu
     filePath: {
       type: 'string',
       label: 'File Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shapes: {
       type: 'Shape[]',
-      label: 'Shapes'
+      label: 'Shapes',
     },
     metadata: {
       type: 'Properties',
-      label: 'Metadata'
+      label: 'Metadata',
     },
     units: {
       type: 'string',
-      label: 'Units'
-    }
+      label: 'Units',
+    },
   },
   params: {
     units: {
       type: 'enum',
       label: 'Units',
-      default: "auto",
-      options: ["auto","mm","cm","m","inch","ft"]
+      default: 'auto',
+      options: ['auto', 'mm', 'cm', 'm', 'inch', 'ft'],
     },
     healGeometry: {
       type: 'boolean',
       label: 'Heal Geometry',
-      default: true
+      default: true,
     },
     precision: {
       type: 'number',
       label: 'Precision',
       default: 0.01,
       min: 0.001,
-      max: 1
+      max: 1,
     },
     mergeSurfaces: {
       type: 'boolean',
       label: 'Merge Surfaces',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -76,14 +80,14 @@ export const InteroperabilityImportSTEPImportNode: NodeDefinition<STEPImportInpu
         units: params.units,
         healGeometry: params.healGeometry,
         precision: params.precision,
-        mergeSurfaces: params.mergeSurfaces
-      }
+        mergeSurfaces: params.mergeSurfaces,
+      },
     });
-    
+
     return {
       shapes: results.shapes,
       metadata: results.metadata,
-      units: results.units
+      units: results.units,
     };
   },
 };

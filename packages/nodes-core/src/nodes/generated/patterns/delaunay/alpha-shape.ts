@@ -13,7 +13,11 @@ interface AlphaShapeOutputs {
   mesh: unknown;
 }
 
-export const PatternsDelaunayAlphaShapeNode: NodeDefinition<AlphaShapeInputs, AlphaShapeOutputs, AlphaShapeParams> = {
+export const PatternsDelaunayAlphaShapeNode: NodeDefinition<
+  AlphaShapeInputs,
+  AlphaShapeOutputs,
+  AlphaShapeParams
+> = {
   id: 'Patterns::AlphaShape',
   type: 'Patterns::AlphaShape',
   category: 'Patterns',
@@ -23,39 +27,39 @@ export const PatternsDelaunayAlphaShapeNode: NodeDefinition<AlphaShapeInputs, Al
     points: {
       type: 'Point[]',
       label: 'Points',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shape: {
       type: 'Wire',
-      label: 'Shape'
+      label: 'Shape',
     },
     mesh: {
       type: 'Mesh',
-      label: 'Mesh'
-    }
+      label: 'Mesh',
+    },
   },
   params: {
     alpha: {
       type: 'number',
       label: 'Alpha',
       default: 1,
-      min: 0
-    }
+      min: 0,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
       type: 'alphaShape',
       params: {
         points: inputs.points,
-        alpha: params.alpha
-      }
+        alpha: params.alpha,
+      },
     });
-    
+
     return {
       shape: results.shape,
-      mesh: results.mesh
+      mesh: results.mesh,
     };
   },
 };

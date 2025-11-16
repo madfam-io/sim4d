@@ -11,8 +11,10 @@ Created comprehensive OCCT performance profiling infrastructure aligned with Roa
 ## Work Completed
 
 ### 1. **GeometryAPIFactory Fix** (`packages/engine-core/src/geometry-api-factory.ts`)
+
 **Problem**: Tried to import `createProductionAPI` which wasn't exported from `engine-occt`
-**Solution**: 
+**Solution**:
+
 - Changed to use `createGeometryAPI` from `IntegratedGeometryAPI`
 - Created adapter to match `WorkerAPI` interface
 - `IntegratedGeometryAPI.invoke` returns `OperationResult<T>`, adapter unwraps to `T`
@@ -31,10 +33,12 @@ const api: WorkerAPI = {
 ```
 
 ### 2. **Performance Test Suite** (`tests/audit/performance/occt-operations.perf.test.ts`)
+
 **Approach**: Playwright-based browser tests (not Vitest Node.js tests)
 **Why**: OCCT WASM loader uses `import.meta.url` and `new URL()` which require browser/ESM environment
 
 **Test Coverage**:
+
 - ✅ Box creation profiling (20 iterations)
 - ✅ Cylinder creation profiling (20 iterations)
 - ✅ Sphere creation profiling (20 iterations)
@@ -42,12 +46,14 @@ const api: WorkerAPI = {
 - ✅ Comprehensive performance report generation
 
 **Key Metrics**:
+
 - Iterations per operation: 20
 - P95 target: ≤ 1500ms (per roadmap)
 - Warm-up run before profiling
 - Graph clear between iterations
 
 ### 3. **Statistical Analysis Implementation**
+
 ```typescript
 const percentile = (p: number) => {
   const index = (p / 100) * (sorted.length - 1);
@@ -59,6 +65,7 @@ const percentile = (p: number) => {
 ```
 
 Calculates:
+
 - P50 (median)
 - P90, P95, P99 (tail latencies)
 - Mean ± standard deviation
@@ -67,17 +74,21 @@ Calculates:
 ## Architecture Insights
 
 ### OCCT WASM Loading
+
 **Location**: `packages/engine-occt/src/occt-loader.ts:315`
+
 ```typescript
 const wasmUrl = new URL(/* @vite-ignore */ `../wasm/${wasmFile}`, import.meta.url).href;
 ```
 
 **Constraint**: Requires ESM/browser environment
+
 - `import.meta.url` not available in Node.js CommonJS
 - `new URL()` with relative paths fails in Node.js tests
 - WASM files in `packages/engine-occt/wasm/` (exist, verified)
 
 ### Solution Pattern
+
 **✅ Correct**: Playwright tests → Browser environment → WASM loads
 **❌ Wrong**: Vitest tests → Node.js → WASM fails
 
@@ -101,6 +112,7 @@ const wasmUrl = new URL(/* @vite-ignore */ `../wasm/${wasmFile}`, import.meta.ur
 ## Next Steps
 
 ### Immediate (Horizon A)
+
 1. **Verify WASM Integration**: Run performance tests in browser to validate real OCCT
 2. **Collect Baseline Metrics**: Execute full test suite, capture P95 for all operations
 3. **Analyze Against Target**: Compare results to 1500ms P95 target
@@ -108,6 +120,7 @@ const wasmUrl = new URL(/* @vite-ignore */ `../wasm/${wasmFile}`, import.meta.ur
 5. **Expand Test Coverage**: Add Boolean operations (Union, Difference, Intersection), Features (Fillet, Chamfer), Complex assemblies
 
 ### Technical Debt
+
 - ✅ `engine-core` now uses `IntegratedGeometryAPI` correctly
 - ✅ WASM path configuration understood
 - ⏳ Full performance test suite (only 3 primitives implemented)
@@ -126,19 +139,24 @@ pnpm run test:e2e tests/audit/performance/occt-operations.perf.test.ts --project
 ## Integration with Existing Infrastructure
 
 Performance tests use same helpers as other E2E tests:
+
 - `bootstrapStudio(page)`: Initialize Studio app
 - `ensureCanvasReady(page, 10000)`: Wait for viewport
 - `clearAuditErrors(page)`: Reset error state
 
 Pattern matches `tests/audit/performance/performance-metrics.test.ts`:
+
 ```typescript
 test('profiles Box creation', async ({ page }) => {
-  const stats = await page.evaluate(async ({ iterations, target }) => {
-    const studio = (window as any).studio;
-    // ... profiling logic in browser context
-    return stats;
-  }, { iterations: ITERATIONS, target: P95_TARGET_MS });
-  
+  const stats = await page.evaluate(
+    async ({ iterations, target }) => {
+      const studio = (window as any).studio;
+      // ... profiling logic in browser context
+      return stats;
+    },
+    { iterations: ITERATIONS, target: P95_TARGET_MS }
+  );
+
   expect(stats.p95).toBeLessThanOrEqual(P95_TARGET_MS);
 });
 ```
@@ -146,6 +164,7 @@ test('profiles Box creation', async ({ page }) => {
 ## Roadmap Alignment
 
 **Horizon A (Complete by March 2025)**:
+
 - ✅ Performance profiling infrastructure
 - ✅ Statistical analysis methodology
 - ✅ P95 measurement implementation

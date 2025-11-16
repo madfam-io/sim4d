@@ -12,7 +12,11 @@ interface UniversalOutputs {
   joint: unknown;
 }
 
-export const AssemblyJointsUniversalNode: NodeDefinition<UniversalInputs, UniversalOutputs, UniversalParams> = {
+export const AssemblyJointsUniversalNode: NodeDefinition<
+  UniversalInputs,
+  UniversalOutputs,
+  UniversalParams
+> = {
   id: 'Assembly::Universal',
   category: 'Assembly',
   label: 'Universal',
@@ -21,24 +25,24 @@ export const AssemblyJointsUniversalNode: NodeDefinition<UniversalInputs, Univer
     part1: {
       type: 'Shape',
       label: 'Part1',
-      required: true
+      required: true,
     },
     part2: {
       type: 'Shape',
       label: 'Part2',
-      required: true
+      required: true,
     },
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     joint: {
       type: 'Joint',
-      label: 'Joint'
-    }
+      label: 'Joint',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -47,12 +51,12 @@ export const AssemblyJointsUniversalNode: NodeDefinition<UniversalInputs, Univer
       params: {
         part1: inputs.part1,
         part2: inputs.part2,
-        center: inputs.center
-      }
+        center: inputs.center,
+      },
     });
-    
+
     return {
-      joint: result
+      joint: result,
     };
   },
 };

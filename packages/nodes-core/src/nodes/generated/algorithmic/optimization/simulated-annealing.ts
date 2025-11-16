@@ -19,7 +19,11 @@ interface SimulatedAnnealingOutputs {
   values: unknown;
 }
 
-export const AlgorithmicOptimizationSimulatedAnnealingNode: NodeDefinition<SimulatedAnnealingInputs, SimulatedAnnealingOutputs, SimulatedAnnealingParams> = {
+export const AlgorithmicOptimizationSimulatedAnnealingNode: NodeDefinition<
+  SimulatedAnnealingInputs,
+  SimulatedAnnealingOutputs,
+  SimulatedAnnealingParams
+> = {
   id: 'Algorithmic::SimulatedAnnealing',
   type: 'Algorithmic::SimulatedAnnealing',
   category: 'Algorithmic',
@@ -29,31 +33,31 @@ export const AlgorithmicOptimizationSimulatedAnnealingNode: NodeDefinition<Simul
     objective: {
       type: 'Properties',
       label: 'Objective',
-      required: true
+      required: true,
     },
     initialSolution: {
       type: 'Properties',
       label: 'Initial Solution',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     bestSolution: {
       type: 'Properties',
-      label: 'Best Solution'
+      label: 'Best Solution',
     },
     bestValue: {
       type: 'number',
-      label: 'Best Value'
+      label: 'Best Value',
     },
     temperature: {
       type: 'number[]',
-      label: 'Temperature'
+      label: 'Temperature',
     },
     values: {
       type: 'number[]',
-      label: 'Values'
-    }
+      label: 'Values',
+    },
   },
   params: {
     initialTemp: {
@@ -61,29 +65,29 @@ export const AlgorithmicOptimizationSimulatedAnnealingNode: NodeDefinition<Simul
       label: 'Initial Temp',
       default: 1000,
       min: 1,
-      max: 10000
+      max: 10000,
     },
     finalTemp: {
       type: 'number',
       label: 'Final Temp',
       default: 0.1,
       min: 0.001,
-      max: 10
+      max: 10,
     },
     coolingRate: {
       type: 'number',
       label: 'Cooling Rate',
       default: 0.95,
       min: 0.8,
-      max: 0.99
+      max: 0.99,
     },
     maxIterations: {
       type: 'number',
       label: 'Max Iterations',
       default: 1000,
       min: 100,
-      max: 10000
-    }
+      max: 10000,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -94,15 +98,15 @@ export const AlgorithmicOptimizationSimulatedAnnealingNode: NodeDefinition<Simul
         initialTemp: params.initialTemp,
         finalTemp: params.finalTemp,
         coolingRate: params.coolingRate,
-        maxIterations: params.maxIterations
-      }
+        maxIterations: params.maxIterations,
+      },
     });
-    
+
     return {
       bestSolution: results.bestSolution,
       bestValue: results.bestValue,
       temperature: results.temperature,
-      values: results.values
+      values: results.values,
     };
   },
 };

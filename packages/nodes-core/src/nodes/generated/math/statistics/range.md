@@ -1,4 +1,3 @@
-
 # Range Node
 
 **Category:** Math / Statistics
@@ -11,29 +10,21 @@ This node has no parameters.
 
 ## Inputs
 
-
 ### Values
+
 - **Type:** number[]
 - **Required:** Yes
 
-
-
 ## Outputs
 
-
 ### Min
+
 - **Type:** number
-
-
 
 ### Max
+
 - **Type:** number
-
-
 
 ### Range
+
 - **Type:** number
-
-
-
-

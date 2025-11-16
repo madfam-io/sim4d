@@ -10,12 +10,14 @@ export function BoolParam(options: { default?: boolean } = {}): ParamDefinition 
   };
 }
 
-export function NumberParam(options: { 
-  default?: number; 
-  min?: number; 
-  max?: number; 
-  step?: number 
-} = {}): ParamDefinition {
+export function NumberParam(
+  options: {
+    default?: number;
+    min?: number;
+    max?: number;
+    step?: number;
+  } = {}
+): ParamDefinition {
   return {
     type: 'number',
     default: options.default ?? 0,
@@ -32,10 +34,7 @@ export function StringParam(options: { default?: string } = {}): ParamDefinition
   };
 }
 
-export function EnumParam(options: { 
-  default?: string; 
-  options: string[] 
-}): ParamDefinition {
+export function EnumParam(options: { default?: string; options: string[] }): ParamDefinition {
   return {
     type: 'enum',
     default: options.default ?? options.options[0],
@@ -43,9 +42,11 @@ export function EnumParam(options: {
   };
 }
 
-export function Vector3Param(options: { 
-  default?: [number, number, number] 
-} = {}): ParamDefinition {
+export function Vector3Param(
+  options: {
+    default?: [number, number, number];
+  } = {}
+): ParamDefinition {
   return {
     type: 'vec3',
     default: options.default ?? [0, 0, 0],

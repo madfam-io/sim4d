@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { AnalysisIntersectionRayIntersectionNode } from './ray-intersection.node';
 import { createTestContext } from '../test-utils';
@@ -9,11 +8,11 @@ describe('AnalysisIntersectionRayIntersectionNode', () => {
     const inputs = {
       rayOrigin: undefined,
       rayDirection: undefined,
-      targets: undefined
+      targets: undefined,
     } as any;
     const params = {
       tolerance: 0.01,
-      maxDistance: 1000
+      maxDistance: 1000,
     } as any;
 
     const result = await AnalysisIntersectionRayIntersectionNode.evaluate(context, inputs, params);

@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { SpecializedOptimizationShapeOptimizeNode } from './shape-optimize.node';
 import { createTestContext } from '../test-utils';
@@ -8,12 +7,12 @@ describe('SpecializedOptimizationShapeOptimizeNode', () => {
     const context = createTestContext();
     const inputs = {
       initialShape: undefined,
-      boundaryConditions: undefined
+      boundaryConditions: undefined,
     } as any;
     const params = {
-      objective: "min-weight",
+      objective: 'min-weight',
       morphRadius: 5,
-      iterations: 50
+      iterations: 50,
     } as any;
 
     const result = await SpecializedOptimizationShapeOptimizeNode.evaluate(context, inputs, params);

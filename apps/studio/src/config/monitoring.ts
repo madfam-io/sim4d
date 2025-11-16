@@ -22,40 +22,40 @@ export const DEVELOPMENT_CONFIG: MonitoringSystemConfig = {
     userAnalytics: {
       enabled: true,
       // endpoint: undefined,
-      anonymize: false // Don't anonymize in development for better debugging
+      anonymize: false, // Don't anonymize in development for better debugging
     },
     logging: {
       level: 'debug',
       console: true,
       remote: false,
-      structured: true
-    }
+      structured: true,
+    },
   },
   healthThresholds: {
     memory: {
       warning: 1000, // MB - More lenient in development
-      critical: 2000 // MB
+      critical: 2000, // MB
     },
     errorRate: {
       warning: 10, // % - More lenient in development
-      critical: 25 // %
+      critical: 25, // %
     },
     responseTime: {
       warning: 2000, // ms - More lenient in development
-      critical: 10000 // ms
+      critical: 10000, // ms
     },
     wasmMemory: {
       warning: 500, // MB
-      critical: 1000 // MB
-    }
+      critical: 1000, // MB
+    },
   },
   enabledFeatures: {
     errorReporting: true,
     performanceMonitoring: true,
     healthChecks: true,
     userAnalytics: true,
-    retryHandling: true
-  }
+    retryHandling: true,
+  },
 };
 
 // Production environment configuration
@@ -66,50 +66,50 @@ export const PRODUCTION_CONFIG: MonitoringSystemConfig = {
       sampleRate: 0.1, // Only report 10% of errors to reduce noise
       includeStackTrace: true,
       endpoint: process.env.VITE_ERROR_REPORTING_ENDPOINT,
-      apiKey: process.env.VITE_ERROR_REPORTING_API_KEY
+      apiKey: process.env.VITE_ERROR_REPORTING_API_KEY,
     },
     performance: {
       enabled: true,
       sampleRate: 0.05, // Collect 5% of performance data
-      endpoint: process.env.VITE_PERFORMANCE_ENDPOINT
+      endpoint: process.env.VITE_PERFORMANCE_ENDPOINT,
     },
     userAnalytics: {
       enabled: true,
       endpoint: process.env.VITE_ANALYTICS_ENDPOINT,
-      anonymize: true // Always anonymize in production
+      anonymize: true, // Always anonymize in production
     },
     logging: {
       level: 'warn',
       console: false, // Don't log to console in production
       remote: true,
-      structured: true
-    }
+      structured: true,
+    },
   },
   healthThresholds: {
     memory: {
       warning: 500, // MB
-      critical: 1000 // MB
+      critical: 1000, // MB
     },
     errorRate: {
       warning: 3, // %
-      critical: 10 // %
+      critical: 10, // %
     },
     responseTime: {
       warning: 1000, // ms
-      critical: 5000 // ms
+      critical: 5000, // ms
     },
     wasmMemory: {
       warning: 200, // MB
-      critical: 500 // MB
-    }
+      critical: 500, // MB
+    },
   },
   enabledFeatures: {
     errorReporting: true,
     performanceMonitoring: true,
     healthChecks: true,
     userAnalytics: true,
-    retryHandling: true
-  }
+    retryHandling: true,
+  },
 };
 
 // Staging environment configuration
@@ -120,50 +120,50 @@ export const STAGING_CONFIG: MonitoringSystemConfig = {
       sampleRate: 0.5, // Report 50% of errors in staging
       includeStackTrace: true,
       endpoint: process.env.VITE_ERROR_REPORTING_ENDPOINT,
-      apiKey: process.env.VITE_ERROR_REPORTING_API_KEY
+      apiKey: process.env.VITE_ERROR_REPORTING_API_KEY,
     },
     performance: {
       enabled: true,
       sampleRate: 0.2, // Collect 20% of performance data
-      endpoint: process.env.VITE_PERFORMANCE_ENDPOINT
+      endpoint: process.env.VITE_PERFORMANCE_ENDPOINT,
     },
     userAnalytics: {
       enabled: true,
       endpoint: process.env.VITE_ANALYTICS_ENDPOINT,
-      anonymize: true
+      anonymize: true,
     },
     logging: {
       level: 'info',
       console: true,
       remote: true,
-      structured: true
-    }
+      structured: true,
+    },
   },
   healthThresholds: {
     memory: {
       warning: 750, // MB - Between dev and prod
-      critical: 1500 // MB
+      critical: 1500, // MB
     },
     errorRate: {
       warning: 5, // %
-      critical: 15 // %
+      critical: 15, // %
     },
     responseTime: {
       warning: 1500, // ms
-      critical: 7500 // ms
+      critical: 7500, // ms
     },
     wasmMemory: {
       warning: 300, // MB
-      critical: 750 // MB
-    }
+      critical: 750, // MB
+    },
   },
   enabledFeatures: {
     errorReporting: true,
     performanceMonitoring: true,
     healthChecks: true,
     userAnalytics: true,
-    retryHandling: true
-  }
+    retryHandling: true,
+  },
 };
 
 // Test environment configuration (minimal monitoring)
@@ -172,48 +172,48 @@ export const TEST_CONFIG: MonitoringSystemConfig = {
     errorReporting: {
       enabled: false, // Disable external reporting in tests
       sampleRate: 0,
-      includeStackTrace: false
+      includeStackTrace: false,
     },
     performance: {
       enabled: false, // Disable performance monitoring in tests
-      sampleRate: 0
+      sampleRate: 0,
     },
     userAnalytics: {
       enabled: false, // Disable analytics in tests
-      anonymize: true
+      anonymize: true,
     },
     logging: {
       level: 'error', // Only log errors in tests
       console: false,
       remote: false,
-      structured: false
-    }
+      structured: false,
+    },
   },
   healthThresholds: {
     memory: {
       warning: 2000, // MB - Very lenient in tests
-      critical: 4000 // MB
+      critical: 4000, // MB
     },
     errorRate: {
       warning: 50, // % - Very lenient in tests
-      critical: 90 // %
+      critical: 90, // %
     },
     responseTime: {
       warning: 10000, // ms - Very lenient in tests
-      critical: 30000 // ms
+      critical: 30000, // ms
     },
     wasmMemory: {
       warning: 1000, // MB
-      critical: 2000 // MB
-    }
+      critical: 2000, // MB
+    },
   },
   enabledFeatures: {
     errorReporting: false,
     performanceMonitoring: false,
     healthChecks: false,
     userAnalytics: false,
-    retryHandling: true // Keep retry handling for test reliability
-  }
+    retryHandling: true, // Keep retry handling for test reliability
+  },
 };
 
 /**
@@ -248,28 +248,31 @@ export function configureSentry(dsn: string): Partial<MonitoringSystemConfig> {
         endpoint: 'https://sentry.io/api/hooks/error/',
         apiKey: dsn,
         sampleRate: 1.0,
-        includeStackTrace: true
+        includeStackTrace: true,
       },
       performance: {
         enabled: false,
-        sampleRate: 0
+        sampleRate: 0,
       },
       userAnalytics: {
         enabled: false,
-        anonymize: true
+        anonymize: true,
       },
       logging: {
         level: 'error',
         console: true,
         remote: false,
-        structured: true
-      }
-    }
+        structured: true,
+      },
+    },
   };
 }
 
 // DataDog configuration
-export function configureDataDog(apiKey: string, site: string = 'datadoghq.com'): Partial<MonitoringSystemConfig> {
+export function configureDataDog(
+  apiKey: string,
+  site: string = 'datadoghq.com'
+): Partial<MonitoringSystemConfig> {
   return {
     monitoring: {
       errorReporting: {
@@ -277,24 +280,24 @@ export function configureDataDog(apiKey: string, site: string = 'datadoghq.com')
         endpoint: `https://browser-http-intake.logs.${site}/v1/input/${apiKey}`,
         apiKey,
         sampleRate: 1.0,
-        includeStackTrace: true
+        includeStackTrace: true,
       },
       performance: {
         enabled: true,
         endpoint: `https://browser-http-intake.logs.${site}/v1/input/${apiKey}`,
-        sampleRate: 1.0
+        sampleRate: 1.0,
       },
       userAnalytics: {
         enabled: false,
-        anonymize: true
+        anonymize: true,
       },
       logging: {
         level: 'info',
         console: true,
         remote: true,
-        structured: true
-      }
-    }
+        structured: true,
+      },
+    },
   };
 }
 
@@ -305,24 +308,24 @@ export function configureLogRocket(appId: string): Partial<MonitoringSystemConfi
       errorReporting: {
         enabled: false,
         sampleRate: 0,
-        includeStackTrace: false
+        includeStackTrace: false,
       },
       performance: {
         enabled: false,
-        sampleRate: 0
+        sampleRate: 0,
       },
       userAnalytics: {
         enabled: true,
         endpoint: `https://r.lr-ingest.io/${appId}/init`,
-        anonymize: false // LogRocket handles privacy
+        anonymize: false, // LogRocket handles privacy
       },
       logging: {
         level: 'info',
         console: true,
         remote: true,
-        structured: true
-      }
-    }
+        structured: true,
+      },
+    },
   };
 }
 
@@ -340,24 +343,24 @@ export function configureCustomWebhook(
         endpoint: errorEndpoint,
         apiKey,
         sampleRate: 1.0,
-        includeStackTrace: true
+        includeStackTrace: true,
       },
       performance: {
         enabled: !!performanceEndpoint,
         endpoint: performanceEndpoint,
-        sampleRate: 1.0
+        sampleRate: 1.0,
       },
       userAnalytics: {
         enabled: !!analyticsEndpoint,
         endpoint: analyticsEndpoint,
-        anonymize: true
+        anonymize: true,
       },
       logging: {
         level: 'info',
         console: true,
         remote: !!errorEndpoint,
-        structured: true
-      }
-    }
+        structured: true,
+      },
+    },
   };
 }

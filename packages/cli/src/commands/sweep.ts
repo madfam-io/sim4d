@@ -5,7 +5,13 @@ import fs from 'fs-extra';
 import path from 'path';
 import type { GraphInstance } from '@brepflow/types';
 import { GeometryEvaluationError } from '@brepflow/engine-core';
-import { applyParameters, collectShapeHandles, exportFormat, resolveFormats, unwrapOperationResult } from './render';
+import {
+  applyParameters,
+  collectShapeHandles,
+  exportFormat,
+  resolveFormats,
+  unwrapOperationResult,
+} from './render';
 
 export const sweepCommand = new Command('sweep')
   .description('Sweep parameters over a graph to generate variants')
@@ -20,7 +26,7 @@ export const sweepCommand = new Command('sweep')
 
     try {
       // Check if graph exists
-      if (!await fs.pathExists(graphPath)) {
+      if (!(await fs.pathExists(graphPath))) {
         spinner.fail(`Graph file not found: ${graphPath}`);
         process.exit(1);
       }
@@ -30,7 +36,7 @@ export const sweepCommand = new Command('sweep')
 
       if (options.matrix) {
         // Load from CSV
-        if (!await fs.pathExists(options.matrix)) {
+        if (!(await fs.pathExists(options.matrix))) {
           spinner.fail(`Matrix file not found: ${options.matrix}`);
           process.exit(1);
         }
@@ -38,17 +44,15 @@ export const sweepCommand = new Command('sweep')
         const csvContent = await fs.readFile(options.matrix, 'utf-8');
         parameterSets = parseCSV(csvContent);
         spinner.succeed(`Loaded ${parameterSets.length} parameter sets from CSV`);
-
       } else if (options.params) {
         // Load from JSON
-        if (!await fs.pathExists(options.params)) {
+        if (!(await fs.pathExists(options.params))) {
           spinner.fail(`Params file not found: ${options.params}`);
           process.exit(1);
         }
 
         parameterSets = await fs.readJson(options.params);
         spinner.succeed(`Loaded ${parameterSets.length} parameter sets from JSON`);
-
       } else {
         // Generate default sweep
         parameterSets = generateDefaultSweep();
@@ -76,15 +80,19 @@ export const sweepCommand = new Command('sweep')
 
         const batchPromises = batch.map(async (params, j) => {
           const variantIndex = i + j;
-          const variantDir = path.join(outputDir, `variant_${variantIndex.toString().padStart(3, '0')}`);
+          const variantDir = path.join(
+            outputDir,
+            `variant_${variantIndex.toString().padStart(3, '0')}`
+          );
           await fs.ensureDir(variantDir);
 
-          console.log(chalk.gray(`[${variantIndex + 1}/${parameterSets.length}] Processing variant...`));
+          console.log(
+            chalk.gray(`[${variantIndex + 1}/${parameterSets.length}] Processing variant...`)
+          );
 
           try {
             // Convert params to --set format
-            const setParams = Object.entries(params)
-              .map(([key, value]) => `${key}=${value}`);
+            const setParams = Object.entries(params).map(([key, value]) => `${key}=${value}`);
 
             // Run render command
             await renderVariant(graphPath, variantDir, setParams, options);
@@ -99,11 +107,16 @@ export const sweepCommand = new Command('sweep')
             await fs.writeJson(path.join(variantDir, 'variant.json'), metadata, { spaces: 2 });
 
             results.push(metadata);
-            console.log(chalk.green(`[${variantIndex + 1}/${parameterSets.length}] ✓ Variant complete`));
-
+            console.log(
+              chalk.green(`[${variantIndex + 1}/${parameterSets.length}] ✓ Variant complete`)
+            );
           } catch (error) {
             const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-            console.log(chalk.red(`[${variantIndex + 1}/${parameterSets.length}] ✗ Variant failed: ${errorMessage}`));
+            console.log(
+              chalk.red(
+                `[${variantIndex + 1}/${parameterSets.length}] ✗ Variant failed: ${errorMessage}`
+              )
+            );
 
             if (error instanceof GeometryEvaluationError) {
               console.log(chalk.redBright('  Geometry failure details:'), {
@@ -130,8 +143,8 @@ export const sweepCommand = new Command('sweep')
       const summary = {
         graph: path.basename(graphPath),
         totalVariants: parameterSets.length,
-        successful: results.filter(r => r.success).length,
-        failed: results.filter(r => !r.success).length,
+        successful: results.filter((r) => r.success).length,
+        failed: results.filter((r) => !r.success).length,
         timestamp: new Date().toISOString(),
         results,
       };
@@ -146,7 +159,6 @@ export const sweepCommand = new Command('sweep')
         console.log(chalk.red(`Failed: ${summary.failed}`));
       }
       console.log(chalk.gray(`Output directory: ${outputDir}`));
-
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       spinner.fail(`Error: ${errorMessage}`);
@@ -168,11 +180,11 @@ function parseCSV(content: string): Record<string, unknown>[] {
   const lines = content.trim().split('\n');
   if (lines.length < 2) return [];
 
-  const headers = lines[0]?.split(',').map(h => h.trim()) || [];
+  const headers = lines[0]?.split(',').map((h) => h.trim()) || [];
   const paramSets = [];
 
   for (let i = 1; i < lines.length; i++) {
-    const values = lines[i]?.split(',').map(v => v.trim()) || [];
+    const values = lines[i]?.split(',').map((v) => v.trim()) || [];
     const params: Record<string, unknown> = {};
 
     for (let j = 0; j < Math.min(headers.length, values.length); j++) {

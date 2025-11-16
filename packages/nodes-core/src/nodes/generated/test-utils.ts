@@ -50,12 +50,12 @@ export async function createTestContext(): Promise<EvaluationContext> {
     logger: {
       info: (msg: string) => console.log(`[INFO] ${msg}`),
       warn: (msg: string) => console.warn(`[WARN] ${msg}`),
-      error: (msg: string) => console.error(`[ERROR] ${msg}`)
+      error: (msg: string) => console.error(`[ERROR] ${msg}`),
     },
     session: {
       id: 'test-session',
-      timestamp: Date.now()
-    }
+      timestamp: Date.now(),
+    },
   };
 }
 
@@ -77,13 +77,13 @@ export async function createGeometry(type: 'box' | 'sphere' | 'cylinder', params
         width: 100,
         height: 100,
         depth: 100,
-        ...params
+        ...params,
       });
     case 'sphere':
       return await geometryAPI.invoke('MAKE_SPHERE', {
         center: { x: 0, y: 0, z: 0 },
         radius: 50,
-        ...params
+        ...params,
       });
     case 'cylinder':
       return await geometryAPI.invoke('MAKE_CYLINDER', {
@@ -91,7 +91,7 @@ export async function createGeometry(type: 'box' | 'sphere' | 'cylinder', params
         axis: { x: 0, y: 0, z: 1 },
         radius: 50,
         height: 100,
-        ...params
+        ...params,
       });
     default:
       throw new Error(`Unsupported geometry type: ${type}`);

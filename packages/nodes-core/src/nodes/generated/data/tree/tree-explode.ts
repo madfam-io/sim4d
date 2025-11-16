@@ -10,7 +10,11 @@ interface TreeExplodeOutputs {
   branches: unknown;
 }
 
-export const DataTreeTreeExplodeNode: NodeDefinition<TreeExplodeInputs, TreeExplodeOutputs, TreeExplodeParams> = {
+export const DataTreeTreeExplodeNode: NodeDefinition<
+  TreeExplodeInputs,
+  TreeExplodeOutputs,
+  TreeExplodeParams
+> = {
   id: 'Data::TreeExplode',
   type: 'Data::TreeExplode',
   category: 'Data',
@@ -20,26 +24,26 @@ export const DataTreeTreeExplodeNode: NodeDefinition<TreeExplodeInputs, TreeExpl
     tree: {
       type: 'DataTree',
       label: 'Tree',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     branches: {
       type: 'Data[][]',
-      label: 'Branches'
-    }
+      label: 'Branches',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'treeExplode',
       params: {
-        tree: inputs.tree
-      }
+        tree: inputs.tree,
+      },
     });
-    
+
     return {
-      branches: result
+      branches: result,
     };
   },
 };

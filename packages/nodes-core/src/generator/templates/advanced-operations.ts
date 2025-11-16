@@ -17,19 +17,31 @@ export const sweepLoftTemplates: NodeTemplate[] = [
     operation: 'SWEEP',
     occtBinding: 'sweep',
     parameters: [
-      { name: 'twistAngle', type: 'number', default: 0, min: -360, max: 360, description: 'Twist along path' },
-      { name: 'scaleFactor', type: 'number', default: 1, min: 0.01, max: 100, description: 'Scale at end' },
+      {
+        name: 'twistAngle',
+        type: 'number',
+        default: 0,
+        min: -360,
+        max: 360,
+        description: 'Twist along path',
+      },
+      {
+        name: 'scaleFactor',
+        type: 'number',
+        default: 1,
+        min: 0.01,
+        max: 100,
+        description: 'Scale at end',
+      },
       { name: 'keepOrientation', type: 'boolean', default: false },
-      { name: 'solid', type: 'boolean', default: true, description: 'Create solid or surface' }
+      { name: 'solid', type: 'boolean', default: true, description: 'Create solid or surface' },
     ],
     inputs: [
       { name: 'profile', type: 'Wire', required: true },
       { name: 'path', type: 'Wire', required: true },
-      { name: 'auxiliarySpine', type: 'Wire', required: false }
+      { name: 'auxiliarySpine', type: 'Wire', required: false },
     ],
-    outputs: [
-      { name: 'shape', type: 'Shape' }
-    ]
+    outputs: [{ name: 'shape', type: 'Shape' }],
   },
 
   {
@@ -45,15 +57,13 @@ export const sweepLoftTemplates: NodeTemplate[] = [
       { name: 'turns', type: 'number', default: 5, min: 0.1, max: 1000 },
       { name: 'radius', type: 'number', default: 20, min: 0.1, max: 10000 },
       { name: 'leftHanded', type: 'boolean', default: false },
-      { name: 'taper', type: 'number', default: 0, min: -45, max: 45 }
+      { name: 'taper', type: 'number', default: 0, min: -45, max: 45 },
     ],
     inputs: [
       { name: 'profile', type: 'Wire', required: true },
-      { name: 'axis', type: 'Axis', required: false }
+      { name: 'axis', type: 'Axis', required: false },
     ],
-    outputs: [
-      { name: 'shape', type: 'Shape' }
-    ]
+    outputs: [{ name: 'shape', type: 'Shape' }],
   },
 
   {
@@ -64,19 +74,27 @@ export const sweepLoftTemplates: NodeTemplate[] = [
     operation: 'LOFT',
     occtBinding: 'loft',
     parameters: [
-      { name: 'ruled', type: 'boolean', default: false, description: 'Straight sections between profiles' },
-      { name: 'closed', type: 'boolean', default: false, description: 'Close loft to first profile' },
+      {
+        name: 'ruled',
+        type: 'boolean',
+        default: false,
+        description: 'Straight sections between profiles',
+      },
+      {
+        name: 'closed',
+        type: 'boolean',
+        default: false,
+        description: 'Close loft to first profile',
+      },
       { name: 'solid', type: 'boolean', default: true },
-      { name: 'maxDegree', type: 'number', default: 3, min: 1, max: 10 }
+      { name: 'maxDegree', type: 'number', default: 3, min: 1, max: 10 },
     ],
     inputs: [
       { name: 'profiles', type: 'Wire[]', required: true },
       { name: 'guides', type: 'Wire[]', required: false },
-      { name: 'centerLine', type: 'Wire', required: false }
+      { name: 'centerLine', type: 'Wire', required: false },
     ],
-    outputs: [
-      { name: 'shape', type: 'Shape' }
-    ]
+    outputs: [{ name: 'shape', type: 'Shape' }],
   },
 
   {
@@ -88,17 +106,15 @@ export const sweepLoftTemplates: NodeTemplate[] = [
     occtBinding: 'blendSurface',
     parameters: [
       { name: 'continuity', type: 'enum', options: ['G0', 'G1', 'G2'], default: 'G1' },
-      { name: 'blendFactor', type: 'number', default: 0.5, min: 0, max: 1 }
+      { name: 'blendFactor', type: 'number', default: 0.5, min: 0, max: 1 },
     ],
     inputs: [
       { name: 'surface1', type: 'Face', required: true },
       { name: 'surface2', type: 'Face', required: true },
       { name: 'edge1', type: 'Edge', required: false },
-      { name: 'edge2', type: 'Edge', required: false }
+      { name: 'edge2', type: 'Edge', required: false },
     ],
-    outputs: [
-      { name: 'blendSurface', type: 'Shape' }
-    ]
+    outputs: [{ name: 'blendSurface', type: 'Shape' }],
   },
 
   {
@@ -110,16 +126,19 @@ export const sweepLoftTemplates: NodeTemplate[] = [
     occtBinding: 'boundary',
     parameters: [
       { name: 'type', type: 'enum', options: ['surface', 'solid'], default: 'surface' },
-      { name: 'tangencyType', type: 'enum', options: ['none', 'tangent', 'curvature'], default: 'none' }
+      {
+        name: 'tangencyType',
+        type: 'enum',
+        options: ['none', 'tangent', 'curvature'],
+        default: 'none',
+      },
     ],
     inputs: [
       { name: 'curves', type: 'Wire[]', required: true },
-      { name: 'tangentFaces', type: 'Face[]', required: false }
+      { name: 'tangentFaces', type: 'Face[]', required: false },
     ],
-    outputs: [
-      { name: 'shape', type: 'Shape' }
-    ]
-  }
+    outputs: [{ name: 'shape', type: 'Shape' }],
+  },
 ];
 
 /**
@@ -134,17 +153,27 @@ export const shellThicknessTemplates: NodeTemplate[] = [
     operation: 'SHELL',
     occtBinding: 'shell',
     parameters: [
-      { name: 'thickness', type: 'number', default: 2, min: 0.01, max: 1000, description: 'Wall thickness' },
-      { name: 'direction', type: 'enum', options: ['inward', 'outward', 'both'], default: 'inward' },
-      { name: 'tolerance', type: 'number', default: 0.01, min: 0.0001, max: 1 }
+      {
+        name: 'thickness',
+        type: 'number',
+        default: 2,
+        min: 0.01,
+        max: 1000,
+        description: 'Wall thickness',
+      },
+      {
+        name: 'direction',
+        type: 'enum',
+        options: ['inward', 'outward', 'both'],
+        default: 'inward',
+      },
+      { name: 'tolerance', type: 'number', default: 0.01, min: 0.0001, max: 1 },
     ],
     inputs: [
       { name: 'solid', type: 'Shape', required: true },
-      { name: 'facesToRemove', type: 'Face[]', required: true }
+      { name: 'facesToRemove', type: 'Face[]', required: true },
     ],
-    outputs: [
-      { name: 'shell', type: 'Shape' }
-    ]
+    outputs: [{ name: 'shell', type: 'Shape' }],
   },
 
   {
@@ -158,11 +187,14 @@ export const shellThicknessTemplates: NodeTemplate[] = [
     inputs: [
       { name: 'solid', type: 'Shape', required: true },
       { name: 'facesToRemove', type: 'Face[]', required: true },
-      { name: 'thicknessMap', type: 'Data', required: true, description: 'Face to thickness mapping' }
+      {
+        name: 'thicknessMap',
+        type: 'Data',
+        required: true,
+        description: 'Face to thickness mapping',
+      },
     ],
-    outputs: [
-      { name: 'shell', type: 'Shape' }
-    ]
+    outputs: [{ name: 'shell', type: 'Shape' }],
   },
 
   {
@@ -174,15 +206,16 @@ export const shellThicknessTemplates: NodeTemplate[] = [
     occtBinding: 'thicken',
     parameters: [
       { name: 'thickness', type: 'number', default: 5, min: 0.01, max: 1000 },
-      { name: 'direction', type: 'enum', options: ['normal', 'reverse', 'both'], default: 'normal' },
-      { name: 'autoClose', type: 'boolean', default: true }
+      {
+        name: 'direction',
+        type: 'enum',
+        options: ['normal', 'reverse', 'both'],
+        default: 'normal',
+      },
+      { name: 'autoClose', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'surface', type: 'Face', required: true }
-    ],
-    outputs: [
-      { name: 'solid', type: 'Shape' }
-    ]
+    inputs: [{ name: 'surface', type: 'Face', required: true }],
+    outputs: [{ name: 'solid', type: 'Shape' }],
   },
 
   {
@@ -195,15 +228,11 @@ export const shellThicknessTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'offset', type: 'number', default: 5, min: -1000, max: 1000 },
       { name: 'fillGaps', type: 'boolean', default: true },
-      { name: 'extend', type: 'boolean', default: false }
+      { name: 'extend', type: 'boolean', default: false },
     ],
-    inputs: [
-      { name: 'shape', type: 'Shape', required: true }
-    ],
-    outputs: [
-      { name: 'offsetShape', type: 'Shape' }
-    ]
-  }
+    inputs: [{ name: 'shape', type: 'Shape', required: true }],
+    outputs: [{ name: 'offsetShape', type: 'Shape' }],
+  },
 ];
 
 /**
@@ -218,17 +247,22 @@ export const draftTemplates: NodeTemplate[] = [
     operation: 'DRAFT',
     occtBinding: 'draft',
     parameters: [
-      { name: 'angle', type: 'number', default: 3, min: -30, max: 30, description: 'Draft angle in degrees' },
+      {
+        name: 'angle',
+        type: 'number',
+        default: 3,
+        min: -30,
+        max: 30,
+        description: 'Draft angle in degrees',
+      },
       { name: 'pullDirection', type: 'vector3', default: [0, 0, 1] },
-      { name: 'neutralPlane', type: 'vector3', default: [0, 0, 0] }
+      { name: 'neutralPlane', type: 'vector3', default: [0, 0, 0] },
     ],
     inputs: [
       { name: 'solid', type: 'Shape', required: true },
-      { name: 'facesToDraft', type: 'Face[]', required: true }
+      { name: 'facesToDraft', type: 'Face[]', required: true },
     ],
-    outputs: [
-      { name: 'drafted', type: 'Shape' }
-    ]
+    outputs: [{ name: 'drafted', type: 'Shape' }],
   },
 
   {
@@ -241,15 +275,13 @@ export const draftTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'upperAngle', type: 'number', default: 3, min: 0, max: 30 },
       { name: 'lowerAngle', type: 'number', default: 3, min: 0, max: 30 },
-      { name: 'pullDirection', type: 'vector3', default: [0, 0, 1] }
+      { name: 'pullDirection', type: 'vector3', default: [0, 0, 1] },
     ],
     inputs: [
       { name: 'solid', type: 'Shape', required: true },
-      { name: 'partingEdges', type: 'Edge[]', required: true }
+      { name: 'partingEdges', type: 'Edge[]', required: true },
     ],
-    outputs: [
-      { name: 'drafted', type: 'Shape' }
-    ]
+    outputs: [{ name: 'drafted', type: 'Shape' }],
   },
 
   {
@@ -259,17 +291,13 @@ export const draftTemplates: NodeTemplate[] = [
     description: 'Multi-step draft',
     operation: 'STEP_DRAFT',
     occtBinding: 'stepDraft',
-    parameters: [
-      { name: 'steps', type: 'number', default: 2, min: 1, max: 10, step: 1 }
-    ],
+    parameters: [{ name: 'steps', type: 'number', default: 2, min: 1, max: 10, step: 1 }],
     inputs: [
       { name: 'solid', type: 'Shape', required: true },
-      { name: 'draftData', type: 'Data', required: true, description: 'Step heights and angles' }
+      { name: 'draftData', type: 'Data', required: true, description: 'Step heights and angles' },
     ],
-    outputs: [
-      { name: 'drafted', type: 'Shape' }
-    ]
-  }
+    outputs: [{ name: 'drafted', type: 'Shape' }],
+  },
 ];
 
 /**
@@ -285,15 +313,13 @@ export const surfaceOperationTemplates: NodeTemplate[] = [
     occtBinding: 'trimSurface',
     parameters: [
       { name: 'keepRegion', type: 'enum', options: ['inside', 'outside'], default: 'inside' },
-      { name: 'projectCurves', type: 'boolean', default: true }
+      { name: 'projectCurves', type: 'boolean', default: true },
     ],
     inputs: [
       { name: 'surface', type: 'Face', required: true },
-      { name: 'trimmingCurves', type: 'Wire[]', required: true }
+      { name: 'trimmingCurves', type: 'Wire[]', required: true },
     ],
-    outputs: [
-      { name: 'trimmedSurface', type: 'Face' }
-    ]
+    outputs: [{ name: 'trimmedSurface', type: 'Face' }],
   },
 
   {
@@ -305,15 +331,18 @@ export const surfaceOperationTemplates: NodeTemplate[] = [
     occtBinding: 'extendSurface',
     parameters: [
       { name: 'extensionLength', type: 'number', default: 10, min: 0.1, max: 1000 },
-      { name: 'extensionType', type: 'enum', options: ['linear', 'natural', 'reflective'], default: 'natural' }
+      {
+        name: 'extensionType',
+        type: 'enum',
+        options: ['linear', 'natural', 'reflective'],
+        default: 'natural',
+      },
     ],
     inputs: [
       { name: 'surface', type: 'Face', required: true },
-      { name: 'edges', type: 'Edge[]', required: true }
+      { name: 'edges', type: 'Edge[]', required: true },
     ],
-    outputs: [
-      { name: 'extendedSurface', type: 'Face' }
-    ]
+    outputs: [{ name: 'extendedSurface', type: 'Face' }],
   },
 
   {
@@ -323,15 +352,9 @@ export const surfaceOperationTemplates: NodeTemplate[] = [
     description: 'Remove trimming from surface',
     operation: 'UNTRIM_SURFACE',
     occtBinding: 'untrimSurface',
-    parameters: [
-      { name: 'keepHoles', type: 'boolean', default: false }
-    ],
-    inputs: [
-      { name: 'trimmedSurface', type: 'Face', required: true }
-    ],
-    outputs: [
-      { name: 'untrimmedSurface', type: 'Face' }
-    ]
+    parameters: [{ name: 'keepHoles', type: 'boolean', default: false }],
+    inputs: [{ name: 'trimmedSurface', type: 'Face', required: true }],
+    outputs: [{ name: 'untrimmedSurface', type: 'Face' }],
   },
 
   {
@@ -343,14 +366,10 @@ export const surfaceOperationTemplates: NodeTemplate[] = [
     occtBinding: 'knitSurfaces',
     parameters: [
       { name: 'tolerance', type: 'number', default: 0.01, min: 0.0001, max: 1 },
-      { name: 'createSolid', type: 'boolean', default: false }
+      { name: 'createSolid', type: 'boolean', default: false },
     ],
-    inputs: [
-      { name: 'surfaces', type: 'Face[]', required: true }
-    ],
-    outputs: [
-      { name: 'knittedShape', type: 'Shape' }
-    ]
+    inputs: [{ name: 'surfaces', type: 'Face[]', required: true }],
+    outputs: [{ name: 'knittedShape', type: 'Shape' }],
   },
 
   {
@@ -362,16 +381,19 @@ export const surfaceOperationTemplates: NodeTemplate[] = [
     occtBinding: 'patchSurface',
     parameters: [
       { name: 'continuity', type: 'enum', options: ['G0', 'G1', 'G2'], default: 'G1' },
-      { name: 'constraintType', type: 'enum', options: ['none', 'tangent', 'curvature'], default: 'tangent' }
+      {
+        name: 'constraintType',
+        type: 'enum',
+        options: ['none', 'tangent', 'curvature'],
+        default: 'tangent',
+      },
     ],
     inputs: [
       { name: 'boundaryEdges', type: 'Edge[]', required: true },
-      { name: 'guideWires', type: 'Wire[]', required: false }
+      { name: 'guideWires', type: 'Wire[]', required: false },
     ],
-    outputs: [
-      { name: 'patch', type: 'Face' }
-    ]
-  }
+    outputs: [{ name: 'patch', type: 'Face' }],
+  },
 ];
 
 /**
@@ -386,17 +408,20 @@ export const advancedFeatureTemplates: NodeTemplate[] = [
     operation: 'WRAP',
     occtBinding: 'wrap',
     parameters: [
-      { name: 'wrapType', type: 'enum', options: ['scribe', 'emboss', 'deboss'], default: 'emboss' },
-      { name: 'depth', type: 'number', default: 1, min: 0.01, max: 100 }
+      {
+        name: 'wrapType',
+        type: 'enum',
+        options: ['scribe', 'emboss', 'deboss'],
+        default: 'emboss',
+      },
+      { name: 'depth', type: 'number', default: 1, min: 0.01, max: 100 },
     ],
     inputs: [
       { name: 'targetSurface', type: 'Face', required: true },
       { name: 'sketch', type: 'Wire', required: true },
-      { name: 'projectionDirection', type: 'Vector', required: false }
+      { name: 'projectionDirection', type: 'Vector', required: false },
     ],
-    outputs: [
-      { name: 'wrappedShape', type: 'Shape' }
-    ]
+    outputs: [{ name: 'wrappedShape', type: 'Shape' }],
   },
 
   {
@@ -408,14 +433,15 @@ export const advancedFeatureTemplates: NodeTemplate[] = [
     occtBinding: 'dome',
     parameters: [
       { name: 'height', type: 'number', default: 10, min: 0.1, max: 1000 },
-      { name: 'constraintType', type: 'enum', options: ['none', 'tangent', 'elliptical'], default: 'tangent' }
+      {
+        name: 'constraintType',
+        type: 'enum',
+        options: ['none', 'tangent', 'elliptical'],
+        default: 'tangent',
+      },
     ],
-    inputs: [
-      { name: 'face', type: 'Face', required: true }
-    ],
-    outputs: [
-      { name: 'dome', type: 'Shape' }
-    ]
+    inputs: [{ name: 'face', type: 'Face', required: true }],
+    outputs: [{ name: 'dome', type: 'Shape' }],
   },
 
   {
@@ -428,16 +454,14 @@ export const advancedFeatureTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'bendAngle', type: 'number', default: 90, min: 0, max: 180 },
       { name: 'bendRadius', type: 'number', default: 10, min: 0.1, max: 1000 },
-      { name: 'accuracy', type: 'number', default: 1, min: 0.1, max: 10 }
+      { name: 'accuracy', type: 'number', default: 1, min: 0.1, max: 10 },
     ],
     inputs: [
       { name: 'solid', type: 'Shape', required: true },
       { name: 'bendPlane', type: 'Plane', required: true },
-      { name: 'trimPlanes', type: 'Plane[]', required: false }
+      { name: 'trimPlanes', type: 'Plane[]', required: false },
     ],
-    outputs: [
-      { name: 'flexed', type: 'Shape' }
-    ]
+    outputs: [{ name: 'flexed', type: 'Shape' }],
   },
 
   {
@@ -449,15 +473,13 @@ export const advancedFeatureTemplates: NodeTemplate[] = [
     occtBinding: 'indent',
     parameters: [
       { name: 'offset', type: 'number', default: 0.5, min: 0, max: 100 },
-      { name: 'flipDirection', type: 'boolean', default: false }
+      { name: 'flipDirection', type: 'boolean', default: false },
     ],
     inputs: [
       { name: 'targetBody', type: 'Shape', required: true },
-      { name: 'toolBody', type: 'Shape', required: true }
+      { name: 'toolBody', type: 'Shape', required: true },
     ],
-    outputs: [
-      { name: 'indented', type: 'Shape' }
-    ]
+    outputs: [{ name: 'indented', type: 'Shape' }],
   },
 
   {
@@ -468,19 +490,22 @@ export const advancedFeatureTemplates: NodeTemplate[] = [
     operation: 'DEFORM',
     occtBinding: 'deform',
     parameters: [
-      { name: 'deformType', type: 'enum', options: ['point', 'curve', 'surface'], default: 'point' },
+      {
+        name: 'deformType',
+        type: 'enum',
+        options: ['point', 'curve', 'surface'],
+        default: 'point',
+      },
       { name: 'radius', type: 'number', default: 50, min: 0.1, max: 1000 },
-      { name: 'stiffness', type: 'number', default: 0.5, min: 0, max: 1 }
+      { name: 'stiffness', type: 'number', default: 0.5, min: 0, max: 1 },
     ],
     inputs: [
       { name: 'shape', type: 'Shape', required: true },
       { name: 'controlPoints', type: 'Point[]', required: true },
-      { name: 'targetPoints', type: 'Point[]', required: true }
+      { name: 'targetPoints', type: 'Point[]', required: true },
     ],
-    outputs: [
-      { name: 'deformed', type: 'Shape' }
-    ]
-  }
+    outputs: [{ name: 'deformed', type: 'Shape' }],
+  },
 ];
 
 /**
@@ -499,15 +524,13 @@ export const healingTemplates: NodeTemplate[] = [
       { name: 'fixSmallEdges', type: 'boolean', default: true },
       { name: 'fixSmallFaces', type: 'boolean', default: true },
       { name: 'sewFaces', type: 'boolean', default: true },
-      { name: 'makeManifold', type: 'boolean', default: false }
+      { name: 'makeManifold', type: 'boolean', default: false },
     ],
-    inputs: [
-      { name: 'shape', type: 'Shape', required: true }
-    ],
+    inputs: [{ name: 'shape', type: 'Shape', required: true }],
     outputs: [
       { name: 'healed', type: 'Shape' },
-      { name: 'report', type: 'Data' }
-    ]
+      { name: 'report', type: 'Data' },
+    ],
   },
 
   {
@@ -521,14 +544,10 @@ export const healingTemplates: NodeTemplate[] = [
       { name: 'minSize', type: 'number', default: 0.5, min: 0.01, max: 100 },
       { name: 'removeHoles', type: 'boolean', default: true },
       { name: 'removeFillets', type: 'boolean', default: false },
-      { name: 'removeChamfers', type: 'boolean', default: false }
+      { name: 'removeChamfers', type: 'boolean', default: false },
     ],
-    inputs: [
-      { name: 'shape', type: 'Shape', required: true }
-    ],
-    outputs: [
-      { name: 'simplified', type: 'Shape' }
-    ]
+    inputs: [{ name: 'shape', type: 'Shape', required: true }],
+    outputs: [{ name: 'simplified', type: 'Shape' }],
   },
 
   {
@@ -539,15 +558,13 @@ export const healingTemplates: NodeTemplate[] = [
     operation: 'DELETE_FACE',
     occtBinding: 'deleteFace',
     parameters: [
-      { name: 'healingType', type: 'enum', options: ['cap', 'extend', 'none'], default: 'extend' }
+      { name: 'healingType', type: 'enum', options: ['cap', 'extend', 'none'], default: 'extend' },
     ],
     inputs: [
       { name: 'shape', type: 'Shape', required: true },
-      { name: 'facesToDelete', type: 'Face[]', required: true }
+      { name: 'facesToDelete', type: 'Face[]', required: true },
     ],
-    outputs: [
-      { name: 'result', type: 'Shape' }
-    ]
+    outputs: [{ name: 'result', type: 'Shape' }],
   },
 
   {
@@ -558,16 +575,17 @@ export const healingTemplates: NodeTemplate[] = [
     operation: 'SIMPLIFY_SHAPE',
     occtBinding: 'simplifyShape',
     parameters: [
-      { name: 'simplifyMethod', type: 'enum', options: ['merge-faces', 'remove-details', 'defeaturing'], default: 'merge-faces' },
+      {
+        name: 'simplifyMethod',
+        type: 'enum',
+        options: ['merge-faces', 'remove-details', 'defeaturing'],
+        default: 'merge-faces',
+      },
       { name: 'tolerance', type: 'number', default: 0.01, min: 0.0001, max: 1 },
-      { name: 'preserveTopology', type: 'boolean', default: true }
+      { name: 'preserveTopology', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'shape', type: 'Shape', required: true }
-    ],
-    outputs: [
-      { name: 'simplified', type: 'Shape' }
-    ]
+    inputs: [{ name: 'shape', type: 'Shape', required: true }],
+    outputs: [{ name: 'simplified', type: 'Shape' }],
   },
 
   {
@@ -578,16 +596,19 @@ export const healingTemplates: NodeTemplate[] = [
     operation: 'CHECK_GEOMETRY',
     occtBinding: 'checkGeometry',
     parameters: [
-      { name: 'checkLevel', type: 'enum', options: ['basic', 'standard', 'advanced'], default: 'standard' }
+      {
+        name: 'checkLevel',
+        type: 'enum',
+        options: ['basic', 'standard', 'advanced'],
+        default: 'standard',
+      },
     ],
-    inputs: [
-      { name: 'shape', type: 'Shape', required: true }
-    ],
+    inputs: [{ name: 'shape', type: 'Shape', required: true }],
     outputs: [
       { name: 'isValid', type: 'boolean' },
-      { name: 'errors', type: 'Data' }
-    ]
-  }
+      { name: 'errors', type: 'Data' },
+    ],
+  },
 ];
 
 // Export all templates
@@ -597,5 +618,5 @@ export const allAdvancedOperationTemplates = [
   ...draftTemplates,
   ...surfaceOperationTemplates,
   ...advancedFeatureTemplates,
-  ...healingTemplates
+  ...healingTemplates,
 ];

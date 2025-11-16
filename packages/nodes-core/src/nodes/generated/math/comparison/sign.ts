@@ -20,26 +20,26 @@ export const MathComparisonSignNode: NodeDefinition<SignInputs, SignOutputs, Sig
     value: {
       type: 'number',
       label: 'Value',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     sign: {
       type: 'number',
-      label: 'Sign'
-    }
+      label: 'Sign',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathSign',
       params: {
-        value: inputs.value
-      }
+        value: inputs.value,
+      },
     });
-    
+
     return {
-      sign: result
+      sign: result,
     };
   },
 };

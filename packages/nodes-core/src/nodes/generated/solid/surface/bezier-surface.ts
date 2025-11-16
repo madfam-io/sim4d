@@ -13,7 +13,11 @@ interface BezierSurfaceOutputs {
   surface: unknown;
 }
 
-export const SolidSurfaceBezierSurfaceNode: NodeDefinition<BezierSurfaceInputs, BezierSurfaceOutputs, BezierSurfaceParams> = {
+export const SolidSurfaceBezierSurfaceNode: NodeDefinition<
+  BezierSurfaceInputs,
+  BezierSurfaceOutputs,
+  BezierSurfaceParams
+> = {
   id: 'Solid::BezierSurface',
   type: 'Solid::BezierSurface',
   category: 'Solid',
@@ -23,14 +27,14 @@ export const SolidSurfaceBezierSurfaceNode: NodeDefinition<BezierSurfaceInputs, 
     controlPoints: {
       type: 'Point[][]',
       label: 'Control Points',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     surface: {
       type: 'Face',
-      label: 'Surface'
-    }
+      label: 'Surface',
+    },
   },
   params: {
     uDegree: {
@@ -38,15 +42,15 @@ export const SolidSurfaceBezierSurfaceNode: NodeDefinition<BezierSurfaceInputs, 
       label: 'U Degree',
       default: 3,
       min: 1,
-      max: 10
+      max: 10,
     },
     vDegree: {
       type: 'number',
       label: 'V Degree',
       default: 3,
       min: 1,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -54,12 +58,12 @@ export const SolidSurfaceBezierSurfaceNode: NodeDefinition<BezierSurfaceInputs, 
       params: {
         controlPoints: inputs.controlPoints,
         uDegree: params.uDegree,
-        vDegree: params.vDegree
-      }
+        vDegree: params.vDegree,
+      },
     });
-    
+
     return {
-      surface: result
+      surface: result,
     };
   },
 };

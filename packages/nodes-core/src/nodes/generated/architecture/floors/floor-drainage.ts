@@ -15,7 +15,11 @@ interface FloorDrainageOutputs {
   drains: unknown;
 }
 
-export const ArchitectureFloorsFloorDrainageNode: NodeDefinition<FloorDrainageInputs, FloorDrainageOutputs, FloorDrainageParams> = {
+export const ArchitectureFloorsFloorDrainageNode: NodeDefinition<
+  FloorDrainageInputs,
+  FloorDrainageOutputs,
+  FloorDrainageParams
+> = {
   id: 'Architecture::FloorDrainage',
   type: 'Architecture::FloorDrainage',
   category: 'Architecture',
@@ -25,23 +29,23 @@ export const ArchitectureFloorsFloorDrainageNode: NodeDefinition<FloorDrainageIn
     floorBoundary: {
       type: 'Wire',
       label: 'Floor Boundary',
-      required: true
+      required: true,
     },
     drainLocations: {
       type: 'Point[]',
       label: 'Drain Locations',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     slopedFloor: {
       type: 'Shape',
-      label: 'Sloped Floor'
+      label: 'Sloped Floor',
     },
     drains: {
       type: 'Shape[]',
-      label: 'Drains'
-    }
+      label: 'Drains',
+    },
   },
   params: {
     slope: {
@@ -49,14 +53,14 @@ export const ArchitectureFloorsFloorDrainageNode: NodeDefinition<FloorDrainageIn
       label: 'Slope',
       default: 0.01,
       min: 0.005,
-      max: 0.02
+      max: 0.02,
     },
     drainType: {
       type: 'enum',
       label: 'Drain Type',
-      default: "point",
-      options: ["point","linear","area"]
-    }
+      default: 'point',
+      options: ['point', 'linear', 'area'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -65,13 +69,13 @@ export const ArchitectureFloorsFloorDrainageNode: NodeDefinition<FloorDrainageIn
         floorBoundary: inputs.floorBoundary,
         drainLocations: inputs.drainLocations,
         slope: params.slope,
-        drainType: params.drainType
-      }
+        drainType: params.drainType,
+      },
     });
-    
+
     return {
       slopedFloor: results.slopedFloor,
-      drains: results.drains
+      drains: results.drains,
     };
   },
 };

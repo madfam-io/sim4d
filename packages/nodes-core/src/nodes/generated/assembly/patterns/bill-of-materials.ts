@@ -13,7 +13,11 @@ interface BillOfMaterialsOutputs {
   bom: unknown;
 }
 
-export const AssemblyPatternsBillOfMaterialsNode: NodeDefinition<BillOfMaterialsInputs, BillOfMaterialsOutputs, BillOfMaterialsParams> = {
+export const AssemblyPatternsBillOfMaterialsNode: NodeDefinition<
+  BillOfMaterialsInputs,
+  BillOfMaterialsOutputs,
+  BillOfMaterialsParams
+> = {
   id: 'Assembly::BillOfMaterials',
   type: 'Assembly::BillOfMaterials',
   category: 'Assembly',
@@ -23,26 +27,26 @@ export const AssemblyPatternsBillOfMaterialsNode: NodeDefinition<BillOfMaterials
     assembly: {
       type: 'Assembly',
       label: 'Assembly',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     bom: {
       type: 'BOM',
-      label: 'Bom'
-    }
+      label: 'Bom',
+    },
   },
   params: {
     includeSubAssemblies: {
       type: 'boolean',
       label: 'Include Sub Assemblies',
-      default: true
+      default: true,
     },
     groupIdentical: {
       type: 'boolean',
       label: 'Group Identical',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -50,12 +54,12 @@ export const AssemblyPatternsBillOfMaterialsNode: NodeDefinition<BillOfMaterials
       params: {
         assembly: inputs.assembly,
         includeSubAssemblies: params.includeSubAssemblies,
-        groupIdentical: params.groupIdentical
-      }
+        groupIdentical: params.groupIdentical,
+      },
     });
-    
+
     return {
-      bom: result
+      bom: result,
     };
   },
 };

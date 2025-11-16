@@ -16,7 +16,11 @@ interface CurveEndpointsOutputs {
   endTangent: [number, number, number];
 }
 
-export const AnalysisCurvesCurveEndpointsNode: NodeDefinition<CurveEndpointsInputs, CurveEndpointsOutputs, CurveEndpointsParams> = {
+export const AnalysisCurvesCurveEndpointsNode: NodeDefinition<
+  CurveEndpointsInputs,
+  CurveEndpointsOutputs,
+  CurveEndpointsParams
+> = {
   id: 'Analysis::CurveEndpoints',
   category: 'Analysis',
   label: 'CurveEndpoints',
@@ -25,26 +29,26 @@ export const AnalysisCurvesCurveEndpointsNode: NodeDefinition<CurveEndpointsInpu
     curve: {
       type: 'Wire',
       label: 'Curve',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     startPoint: {
       type: 'Point',
-      label: 'Start Point'
+      label: 'Start Point',
     },
     endPoint: {
       type: 'Point',
-      label: 'End Point'
+      label: 'End Point',
     },
     startTangent: {
       type: 'Vector',
-      label: 'Start Tangent'
+      label: 'Start Tangent',
     },
     endTangent: {
       type: 'Vector',
-      label: 'End Tangent'
-    }
+      label: 'End Tangent',
+    },
   },
   params: {
     tangentLength: {
@@ -52,13 +56,13 @@ export const AnalysisCurvesCurveEndpointsNode: NodeDefinition<CurveEndpointsInpu
       label: 'Tangent Length',
       default: 10,
       min: 1,
-      max: 100
+      max: 100,
     },
     showTangents: {
       type: 'boolean',
       label: 'Show Tangents',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -66,15 +70,15 @@ export const AnalysisCurvesCurveEndpointsNode: NodeDefinition<CurveEndpointsInpu
       params: {
         curve: inputs.curve,
         tangentLength: params.tangentLength,
-        showTangents: params.showTangents
-      }
+        showTangents: params.showTangents,
+      },
     });
-    
+
     return {
       startPoint: results.startPoint,
       endPoint: results.endPoint,
       startTangent: results.startTangent,
-      endTangent: results.endTangent
+      endTangent: results.endTangent,
     };
   },
 };

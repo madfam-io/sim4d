@@ -14,7 +14,11 @@ interface SpherePackingOutputs {
   spheres: unknown;
 }
 
-export const PatternsPackingSpherePackingNode: NodeDefinition<SpherePackingInputs, SpherePackingOutputs, SpherePackingParams> = {
+export const PatternsPackingSpherePackingNode: NodeDefinition<
+  SpherePackingInputs,
+  SpherePackingOutputs,
+  SpherePackingParams
+> = {
   id: 'Patterns::SpherePacking',
   category: 'Patterns',
   label: 'SpherePacking',
@@ -23,31 +27,31 @@ export const PatternsPackingSpherePackingNode: NodeDefinition<SpherePackingInput
     container: {
       type: 'Shape',
       label: 'Container',
-      required: true
+      required: true,
     },
     radius: {
       type: 'number',
       label: 'Radius',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     centers: {
       type: 'Point[]',
-      label: 'Centers'
+      label: 'Centers',
     },
     spheres: {
       type: 'Shape[]',
-      label: 'Spheres'
-    }
+      label: 'Spheres',
+    },
   },
   params: {
     packingType: {
       type: 'enum',
       label: 'Packing Type',
-      default: "hexagonal",
-      options: ["cubic","hexagonal","random","optimal"]
-    }
+      default: 'hexagonal',
+      options: ['cubic', 'hexagonal', 'random', 'optimal'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -55,13 +59,13 @@ export const PatternsPackingSpherePackingNode: NodeDefinition<SpherePackingInput
       params: {
         container: inputs.container,
         radius: inputs.radius,
-        packingType: params.packingType
-      }
+        packingType: params.packingType,
+      },
     });
-    
+
     return {
       centers: results.centers,
-      spheres: results.spheres
+      spheres: results.spheres,
     };
   },
 };

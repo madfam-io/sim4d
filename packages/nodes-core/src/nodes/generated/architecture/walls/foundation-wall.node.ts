@@ -14,7 +14,11 @@ interface FoundationWallOutputs {
   footing: unknown;
 }
 
-export const ArchitectureWallsFoundationWallNode: NodeDefinition<FoundationWallInputs, FoundationWallOutputs, FoundationWallParams> = {
+export const ArchitectureWallsFoundationWallNode: NodeDefinition<
+  FoundationWallInputs,
+  FoundationWallOutputs,
+  FoundationWallParams
+> = {
   id: 'Architecture::FoundationWall',
   category: 'Architecture',
   label: 'FoundationWall',
@@ -23,18 +27,18 @@ export const ArchitectureWallsFoundationWallNode: NodeDefinition<FoundationWallI
     foundationLine: {
       type: 'Wire',
       label: 'Foundation Line',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     foundationWall: {
       type: 'Shape',
-      label: 'Foundation Wall'
+      label: 'Foundation Wall',
     },
     footing: {
       type: 'Shape',
-      label: 'Footing'
-    }
+      label: 'Footing',
+    },
   },
   params: {
     depth: {
@@ -42,15 +46,15 @@ export const ArchitectureWallsFoundationWallNode: NodeDefinition<FoundationWallI
       label: 'Depth',
       default: 1500,
       min: 1000,
-      max: 3000
+      max: 3000,
     },
     footingWidth: {
       type: 'number',
       label: 'Footing Width',
       default: 600,
       min: 400,
-      max: 1200
-    }
+      max: 1200,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -58,13 +62,13 @@ export const ArchitectureWallsFoundationWallNode: NodeDefinition<FoundationWallI
       params: {
         foundationLine: inputs.foundationLine,
         depth: params.depth,
-        footingWidth: params.footingWidth
-      }
+        footingWidth: params.footingWidth,
+      },
     });
-    
+
     return {
       foundationWall: results.foundationWall,
-      footing: results.footing
+      footing: results.footing,
     };
   },
 };

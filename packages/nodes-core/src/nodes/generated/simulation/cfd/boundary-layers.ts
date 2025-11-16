@@ -16,7 +16,11 @@ interface BoundaryLayersOutputs {
   layeredMesh: unknown;
 }
 
-export const SimulationCFDBoundaryLayersNode: NodeDefinition<BoundaryLayersInputs, BoundaryLayersOutputs, BoundaryLayersParams> = {
+export const SimulationCFDBoundaryLayersNode: NodeDefinition<
+  BoundaryLayersInputs,
+  BoundaryLayersOutputs,
+  BoundaryLayersParams
+> = {
   id: 'Simulation::BoundaryLayers',
   type: 'Simulation::BoundaryLayers',
   category: 'Simulation',
@@ -26,19 +30,19 @@ export const SimulationCFDBoundaryLayersNode: NodeDefinition<BoundaryLayersInput
     mesh: {
       type: 'Mesh',
       label: 'Mesh',
-      required: true
+      required: true,
     },
     wallFaces: {
       type: 'Face[]',
       label: 'Wall Faces',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     layeredMesh: {
       type: 'Mesh',
-      label: 'Layered Mesh'
-    }
+      label: 'Layered Mesh',
+    },
   },
   params: {
     firstLayerHeight: {
@@ -46,14 +50,14 @@ export const SimulationCFDBoundaryLayersNode: NodeDefinition<BoundaryLayersInput
       label: 'First Layer Height',
       default: 0.01,
       min: 0.0001,
-      max: 1
+      max: 1,
     },
     growthRate: {
       type: 'number',
       label: 'Growth Rate',
       default: 1.2,
       min: 1,
-      max: 2
+      max: 2,
     },
     numberOfLayers: {
       type: 'number',
@@ -61,15 +65,15 @@ export const SimulationCFDBoundaryLayersNode: NodeDefinition<BoundaryLayersInput
       default: 5,
       min: 1,
       max: 20,
-      step: 1
+      step: 1,
     },
     transitionRatio: {
       type: 'number',
       label: 'Transition Ratio',
       default: 0.5,
       min: 0.1,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -80,12 +84,12 @@ export const SimulationCFDBoundaryLayersNode: NodeDefinition<BoundaryLayersInput
         firstLayerHeight: params.firstLayerHeight,
         growthRate: params.growthRate,
         numberOfLayers: params.numberOfLayers,
-        transitionRatio: params.transitionRatio
-      }
+        transitionRatio: params.transitionRatio,
+      },
     });
-    
+
     return {
-      layeredMesh: result
+      layeredMesh: result,
     };
   },
 };

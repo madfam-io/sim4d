@@ -5,6 +5,7 @@ Built-in node library for BrepFlow - comprehensive set of parametric CAD operati
 ## Overview
 
 The nodes-core package provides the standard node library for BrepFlow, including:
+
 - **Sketch nodes**: 2D primitives and curves
 - **Solid nodes**: 3D primitives and operations
 - **Boolean nodes**: Union, subtract, intersect operations
@@ -25,6 +26,7 @@ pnpm add @brepflow/nodes-core
 2D geometry creation for profiles and paths.
 
 #### Line
+
 ```typescript
 {
   type: 'Sketch::Line',
@@ -43,6 +45,7 @@ pnpm add @brepflow/nodes-core
 ```
 
 #### Circle
+
 ```typescript
 {
   type: 'Sketch::Circle',
@@ -62,6 +65,7 @@ pnpm add @brepflow/nodes-core
 ```
 
 #### Arc
+
 ```typescript
 {
   type: 'Sketch::Arc',
@@ -83,6 +87,7 @@ pnpm add @brepflow/nodes-core
 ```
 
 #### Rectangle
+
 ```typescript
 {
   type: 'Sketch::Rectangle',
@@ -99,6 +104,7 @@ pnpm add @brepflow/nodes-core
 ```
 
 #### Polygon
+
 ```typescript
 {
   type: 'Sketch::Polygon',
@@ -119,6 +125,7 @@ pnpm add @brepflow/nodes-core
 3D primitive creation and solid operations.
 
 #### Box
+
 ```typescript
 {
   type: 'Solid::Box',
@@ -137,6 +144,7 @@ pnpm add @brepflow/nodes-core
 ```
 
 #### Cylinder
+
 ```typescript
 {
   type: 'Solid::Cylinder',
@@ -157,6 +165,7 @@ pnpm add @brepflow/nodes-core
 ```
 
 #### Sphere
+
 ```typescript
 {
   type: 'Solid::Sphere',
@@ -173,6 +182,7 @@ pnpm add @brepflow/nodes-core
 ```
 
 #### Cone
+
 ```typescript
 {
   type: 'Solid::Cone',
@@ -194,6 +204,7 @@ pnpm add @brepflow/nodes-core
 ```
 
 #### Torus
+
 ```typescript
 {
   type: 'Solid::Torus',
@@ -214,6 +225,7 @@ pnpm add @brepflow/nodes-core
 ```
 
 #### Extrude
+
 ```typescript
 {
   type: 'Solid::Extrude',
@@ -234,6 +246,7 @@ pnpm add @brepflow/nodes-core
 ```
 
 #### Revolve
+
 ```typescript
 {
   type: 'Solid::Revolve',
@@ -256,6 +269,7 @@ pnpm add @brepflow/nodes-core
 ```
 
 #### Sweep
+
 ```typescript
 {
   type: 'Solid::Sweep',
@@ -274,6 +288,7 @@ pnpm add @brepflow/nodes-core
 ```
 
 #### Loft
+
 ```typescript
 {
   type: 'Solid::Loft',
@@ -295,6 +310,7 @@ pnpm add @brepflow/nodes-core
 Boolean operations for combining and modifying shapes.
 
 #### Union
+
 ```typescript
 {
   type: 'Boolean::Union',
@@ -311,6 +327,7 @@ Boolean operations for combining and modifying shapes.
 ```
 
 #### Subtract
+
 ```typescript
 {
   type: 'Boolean::Subtract',
@@ -328,6 +345,7 @@ Boolean operations for combining and modifying shapes.
 ```
 
 #### Intersect
+
 ```typescript
 {
   type: 'Boolean::Intersect',
@@ -348,6 +366,7 @@ Boolean operations for combining and modifying shapes.
 Advanced modeling features for refining geometry.
 
 #### Fillet
+
 ```typescript
 {
   type: 'Features::Fillet',
@@ -366,6 +385,7 @@ Advanced modeling features for refining geometry.
 ```
 
 #### Chamfer
+
 ```typescript
 {
   type: 'Features::Chamfer',
@@ -384,6 +404,7 @@ Advanced modeling features for refining geometry.
 ```
 
 #### Shell
+
 ```typescript
 {
   type: 'Features::Shell',
@@ -403,6 +424,7 @@ Advanced modeling features for refining geometry.
 ```
 
 #### Draft
+
 ```typescript
 {
   type: 'Features::Draft',
@@ -424,6 +446,7 @@ Advanced modeling features for refining geometry.
 ```
 
 #### Thickness
+
 ```typescript
 {
   type: 'Features::Thickness',
@@ -446,6 +469,7 @@ Advanced modeling features for refining geometry.
 Spatial transformations and patterns.
 
 #### Move
+
 ```typescript
 {
   type: 'Transform::Move',
@@ -464,6 +488,7 @@ Spatial transformations and patterns.
 ```
 
 #### Rotate
+
 ```typescript
 {
   type: 'Transform::Rotate',
@@ -486,6 +511,7 @@ Spatial transformations and patterns.
 ```
 
 #### Scale
+
 ```typescript
 {
   type: 'Transform::Scale',
@@ -508,6 +534,7 @@ Spatial transformations and patterns.
 ```
 
 #### Mirror
+
 ```typescript
 {
   type: 'Transform::Mirror',
@@ -529,6 +556,7 @@ Spatial transformations and patterns.
 ```
 
 #### LinearArray
+
 ```typescript
 {
   type: 'Transform::LinearArray',
@@ -549,6 +577,7 @@ Spatial transformations and patterns.
 ```
 
 #### CircularArray
+
 ```typescript
 {
   type: 'Transform::CircularArray',
@@ -578,6 +607,7 @@ Spatial transformations and patterns.
 Import and export operations for file formats.
 
 #### ImportSTEP
+
 ```typescript
 {
   type: 'IO::ImportSTEP',
@@ -594,6 +624,7 @@ Import and export operations for file formats.
 ```
 
 #### ExportSTEP
+
 ```typescript
 {
   type: 'IO::ExportSTEP',
@@ -613,6 +644,7 @@ Import and export operations for file formats.
 ```
 
 #### ImportIGES
+
 ```typescript
 {
   type: 'IO::ImportIGES',
@@ -628,6 +660,7 @@ Import and export operations for file formats.
 ```
 
 #### ExportSTL
+
 ```typescript
 {
   type: 'IO::ExportSTL',
@@ -662,86 +695,92 @@ registerNode({
       default: 100,
       min: 0,
       max: 1000,
-      step: 10
+      step: 10,
     }),
     name: StringParam({
-      default: 'MyShape'
-    })
+      default: 'MyShape',
+    }),
   },
   inputs: {
-    input: 'Shape'
+    input: 'Shape',
   },
   outputs: {
-    output: 'Shape'
+    output: 'Shape',
   },
   evaluate: async (ctx, inputs, params) => {
     // Your custom logic here
     const modified = await ctx.worker.invoke('CUSTOM_OP', {
       shape: inputs.input,
-      value: params.value
+      value: params.value,
     });
 
     return {
-      output: modified
+      output: modified,
     };
-  }
+  },
 });
 ```
 
 ## Parameter Types
 
 ### NumberParam
+
 ```typescript
 NumberParam({
   default: 0,
   min: -Infinity,
   max: Infinity,
   step: 1,
-  unit: 'mm'
-})
+  unit: 'mm',
+});
 ```
 
 ### StringParam
+
 ```typescript
 StringParam({
   default: '',
   maxLength: 255,
-  pattern: '^[A-Za-z0-9]+$'
-})
+  pattern: '^[A-Za-z0-9]+$',
+});
 ```
 
 ### BooleanParam
+
 ```typescript
 BooleanParam({
-  default: false
-})
+  default: false,
+});
 ```
 
 ### SelectParam
+
 ```typescript
 SelectParam({
   default: 'option1',
   options: [
     { value: 'option1', label: 'Option 1' },
-    { value: 'option2', label: 'Option 2' }
-  ]
-})
+    { value: 'option2', label: 'Option 2' },
+  ],
+});
 ```
 
 ### VectorParam
+
 ```typescript
 VectorParam({
   default: { x: 0, y: 0, z: 1 },
-  normalize: true
-})
+  normalize: true,
+});
 ```
 
 ### ColorParam
+
 ```typescript
 ColorParam({
   default: '#ff0000',
-  alpha: true
-})
+  alpha: true,
+});
 ```
 
 ## Node Registration
@@ -765,7 +804,7 @@ describe('Custom::MyNode', () => {
   it('should process input correctly', async () => {
     const result = await testNode('Custom::MyNode', {
       inputs: { input: mockShape },
-      params: { value: 100 }
+      params: { value: 100 },
     });
 
     expect(result.output).toBeDefined();

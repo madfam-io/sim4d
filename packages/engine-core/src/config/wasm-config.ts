@@ -35,7 +35,7 @@ export function getWASMConfig(): WASMConfig {
     enableSharedArrayBuffer:
       typeof SharedArrayBuffer !== 'undefined' &&
       typeof crossOriginIsolated !== 'undefined' &&
-      crossOriginIsolated === true
+      crossOriginIsolated === true,
   };
 }
 

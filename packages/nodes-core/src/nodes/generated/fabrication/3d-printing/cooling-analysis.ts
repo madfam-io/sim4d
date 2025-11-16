@@ -14,7 +14,11 @@ interface CoolingAnalysisOutputs {
   fanProfile: unknown;
 }
 
-export const Fabrication3DPrintingCoolingAnalysisNode: NodeDefinition<CoolingAnalysisInputs, CoolingAnalysisOutputs, CoolingAnalysisParams> = {
+export const Fabrication3DPrintingCoolingAnalysisNode: NodeDefinition<
+  CoolingAnalysisInputs,
+  CoolingAnalysisOutputs,
+  CoolingAnalysisParams
+> = {
   id: 'Fabrication::CoolingAnalysis',
   type: 'Fabrication::CoolingAnalysis',
   category: 'Fabrication',
@@ -24,18 +28,18 @@ export const Fabrication3DPrintingCoolingAnalysisNode: NodeDefinition<CoolingAna
     slices: {
       type: 'Wire[]',
       label: 'Slices',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     coolingZones: {
       type: 'Wire[]',
-      label: 'Cooling Zones'
+      label: 'Cooling Zones',
     },
     fanProfile: {
       type: 'Data',
-      label: 'Fan Profile'
-    }
+      label: 'Fan Profile',
+    },
   },
   params: {
     fanSpeed: {
@@ -43,14 +47,14 @@ export const Fabrication3DPrintingCoolingAnalysisNode: NodeDefinition<CoolingAna
       label: 'Fan Speed',
       default: 100,
       min: 0,
-      max: 100
+      max: 100,
     },
     layerTime: {
       type: 'number',
       label: 'Layer Time',
       default: 10,
-      min: 1
-    }
+      min: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -58,13 +62,13 @@ export const Fabrication3DPrintingCoolingAnalysisNode: NodeDefinition<CoolingAna
       params: {
         slices: inputs.slices,
         fanSpeed: params.fanSpeed,
-        layerTime: params.layerTime
-      }
+        layerTime: params.layerTime,
+      },
     });
-    
+
     return {
       coolingZones: results.coolingZones,
-      fanProfile: results.fanProfile
+      fanProfile: results.fanProfile,
     };
   },
 };

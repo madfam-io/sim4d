@@ -16,7 +16,11 @@ interface ThrustBearingOutputs {
   raceways: unknown;
 }
 
-export const MechanicalEngineeringBearingsThrustBearingNode: NodeDefinition<ThrustBearingInputs, ThrustBearingOutputs, ThrustBearingParams> = {
+export const MechanicalEngineeringBearingsThrustBearingNode: NodeDefinition<
+  ThrustBearingInputs,
+  ThrustBearingOutputs,
+  ThrustBearingParams
+> = {
   id: 'MechanicalEngineering::ThrustBearing',
   type: 'MechanicalEngineering::ThrustBearing',
   category: 'MechanicalEngineering',
@@ -26,18 +30,18 @@ export const MechanicalEngineeringBearingsThrustBearingNode: NodeDefinition<Thru
     center: {
       type: 'Point',
       label: 'Center',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     bearing: {
       type: 'Shape',
-      label: 'Bearing'
+      label: 'Bearing',
     },
     raceways: {
       type: 'Shape[]',
-      label: 'Raceways'
-    }
+      label: 'Raceways',
+    },
   },
   params: {
     innerDiameter: {
@@ -45,28 +49,28 @@ export const MechanicalEngineeringBearingsThrustBearingNode: NodeDefinition<Thru
       label: 'Inner Diameter',
       default: 20,
       min: 5,
-      max: 150
+      max: 150,
     },
     outerDiameter: {
       type: 'number',
       label: 'Outer Diameter',
       default: 40,
       min: 15,
-      max: 300
+      max: 300,
     },
     height: {
       type: 'number',
       label: 'Height',
       default: 10,
       min: 3,
-      max: 50
+      max: 50,
     },
     type: {
       type: 'enum',
       label: 'Type',
-      default: "ball",
-      options: ["ball","roller","needle"]
-    }
+      default: 'ball',
+      options: ['ball', 'roller', 'needle'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -76,13 +80,13 @@ export const MechanicalEngineeringBearingsThrustBearingNode: NodeDefinition<Thru
         innerDiameter: params.innerDiameter,
         outerDiameter: params.outerDiameter,
         height: params.height,
-        type: params.type
-      }
+        type: params.type,
+      },
     });
-    
+
     return {
       bearing: results.bearing,
-      raceways: results.raceways
+      raceways: results.raceways,
     };
   },
 };

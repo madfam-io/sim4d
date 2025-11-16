@@ -13,7 +13,11 @@ interface EndEffectorSetupOutputs {
   toolConfiguration: unknown;
 }
 
-export const FabricationRoboticsEndEffectorSetupNode: NodeDefinition<EndEffectorSetupInputs, EndEffectorSetupOutputs, EndEffectorSetupParams> = {
+export const FabricationRoboticsEndEffectorSetupNode: NodeDefinition<
+  EndEffectorSetupInputs,
+  EndEffectorSetupOutputs,
+  EndEffectorSetupParams
+> = {
   id: 'Fabrication::EndEffectorSetup',
   type: 'Fabrication::EndEffectorSetup',
   category: 'Fabrication',
@@ -23,27 +27,27 @@ export const FabricationRoboticsEndEffectorSetupNode: NodeDefinition<EndEffector
     toolGeometry: {
       type: 'Shape',
       label: 'Tool Geometry',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     toolConfiguration: {
       type: 'Data',
-      label: 'Tool Configuration'
-    }
+      label: 'Tool Configuration',
+    },
   },
   params: {
     toolType: {
       type: 'enum',
       label: 'Tool Type',
-      default: "gripper",
-      options: ["gripper","welder","extruder","mill","laser"]
+      default: 'gripper',
+      options: ['gripper', 'welder', 'extruder', 'mill', 'laser'],
     },
     tcpOffset: {
       type: 'vec3',
       label: 'Tcp Offset',
-      default: "[0, 0, 100]"
-    }
+      default: '[0, 0, 100]',
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -51,12 +55,12 @@ export const FabricationRoboticsEndEffectorSetupNode: NodeDefinition<EndEffector
       params: {
         toolGeometry: inputs.toolGeometry,
         toolType: params.toolType,
-        tcpOffset: params.tcpOffset
-      }
+        tcpOffset: params.tcpOffset,
+      },
     });
-    
+
     return {
-      toolConfiguration: result
+      toolConfiguration: result,
     };
   },
 };

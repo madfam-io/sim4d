@@ -14,7 +14,11 @@ interface PolygonOutputs {
   polygon: unknown;
 }
 
-export const SketchPatternsPolygonNode: NodeDefinition<PolygonInputs, PolygonOutputs, PolygonParams> = {
+export const SketchPatternsPolygonNode: NodeDefinition<
+  PolygonInputs,
+  PolygonOutputs,
+  PolygonParams
+> = {
   id: 'Sketch::Polygon',
   type: 'Sketch::Polygon',
   category: 'Sketch',
@@ -24,14 +28,14 @@ export const SketchPatternsPolygonNode: NodeDefinition<PolygonInputs, PolygonOut
     center: {
       type: 'Point',
       label: 'Center',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     polygon: {
       type: 'Wire',
-      label: 'Polygon'
-    }
+      label: 'Polygon',
+    },
   },
   params: {
     sides: {
@@ -40,20 +44,20 @@ export const SketchPatternsPolygonNode: NodeDefinition<PolygonInputs, PolygonOut
       default: 6,
       min: 3,
       max: 100,
-      step: 1
+      step: 1,
     },
     radius: {
       type: 'number',
       label: 'Radius',
       default: 50,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     inscribed: {
       type: 'boolean',
       label: 'Inscribed',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -62,12 +66,12 @@ export const SketchPatternsPolygonNode: NodeDefinition<PolygonInputs, PolygonOut
         center: inputs.center,
         sides: params.sides,
         radius: params.radius,
-        inscribed: params.inscribed
-      }
+        inscribed: params.inscribed,
+      },
     });
-    
+
     return {
-      polygon: result
+      polygon: result,
     };
   },
 };

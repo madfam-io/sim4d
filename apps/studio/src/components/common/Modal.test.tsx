@@ -112,7 +112,7 @@ describe('Modal', () => {
   it('supports different sizes', () => {
     const sizes = ['sm', 'md', 'lg', 'xl'] as const;
 
-    sizes.forEach(size => {
+    sizes.forEach((size) => {
       const { unmount } = render(
         <Modal isOpen={true} onClose={() => {}} title="Test" size={size}>
           <div>Content</div>
@@ -120,7 +120,9 @@ describe('Modal', () => {
       );
 
       const modal = document.querySelector('.modal-content');
-      expect(modal).toHaveClass(`max-w-${size === 'sm' ? 'md' : size === 'md' ? 'lg' : size === 'lg' ? '2xl' : '4xl'}`);
+      expect(modal).toHaveClass(
+        `max-w-${size === 'sm' ? 'md' : size === 'md' ? 'lg' : size === 'lg' ? '2xl' : '4xl'}`
+      );
       unmount();
     });
   });

@@ -63,7 +63,11 @@ describe('UI Components Tests', () => {
     });
 
     it('renders panel with subtitle', () => {
-      render(<Panel title="Test Panel" subtitle="Test Subtitle">Content</Panel>);
+      render(
+        <Panel title="Test Panel" subtitle="Test Subtitle">
+          Content
+        </Panel>
+      );
       expect(screen.getByText('Test Subtitle')).toBeInTheDocument();
     });
   });
@@ -131,14 +135,7 @@ describe('UI Components Tests', () => {
 
     it('clamps values to min/max', () => {
       const onValueChange = vi.fn();
-      render(
-        <NumberInput
-          value={50}
-          min={0}
-          max={100}
-          onValueChange={onValueChange}
-        />
-      );
+      render(<NumberInput value={50} min={0} max={100} onValueChange={onValueChange} />);
 
       const input = screen.getByRole('spinbutton');
       fireEvent.change(input, { target: { value: '150' } });
@@ -157,12 +154,7 @@ describe('UI Components Tests', () => {
 
     it('handles coordinate changes', () => {
       const onChange = vi.fn();
-      render(
-        <CoordinateInput
-          value={{ x: 10, y: 20, z: 30 }}
-          onChange={onChange}
-        />
-      );
+      render(<CoordinateInput value={{ x: 10, y: 20, z: 30 }} onChange={onChange} />);
 
       const inputs = screen.getAllByRole('spinbutton');
       fireEvent.change(inputs[0], { target: { value: '15' } });

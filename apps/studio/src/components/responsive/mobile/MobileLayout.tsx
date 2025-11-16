@@ -24,11 +24,13 @@ export const MobileLayout: React.FC<MobileLayoutProps> = ({
   isFullscreen,
   onFullscreenToggle,
   dimensions,
-  capabilities
+  capabilities,
 }) => {
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [fabExpanded, setFabExpanded] = useState(false);
-  const [splitMode, setSplitMode] = useState<'single' | 'split-horizontal' | 'split-vertical' | 'overlay'>('single');
+  const [splitMode, setSplitMode] = useState<
+    'single' | 'split-horizontal' | 'split-vertical' | 'overlay'
+  >('single');
   const [primaryPanel, setPrimaryPanel] = useState('nodeEditor');
   const [secondaryPanel, setSecondaryPanel] = useState('viewport');
   const panelContentRef = useRef<HTMLDivElement>(null);
@@ -93,7 +95,7 @@ export const MobileLayout: React.FC<MobileLayoutProps> = ({
     { id: 'add-node', icon: '➕', label: 'Add Node', action: () => setBottomSheetOpen(true) },
     { id: 'connect', icon: '🔗', label: 'Connect', action: () => {} },
     { id: 'save', icon: '💾', label: 'Save', action: () => {} },
-    { id: 'evaluate', icon: '▶️', label: 'Run', action: () => {} }
+    { id: 'evaluate', icon: '▶️', label: 'Run', action: () => {} },
   ];
 
   // Determine optimal split mode based on orientation and screen size
@@ -132,11 +134,7 @@ export const MobileLayout: React.FC<MobileLayoutProps> = ({
           />
         ) : (
           // Fallback to single panel if split view can't work
-          currentPanel && (
-            <div className="panel-container">
-              {currentPanel.content}
-            </div>
-          )
+          currentPanel && <div className="panel-container">{currentPanel.content}</div>
         )}
       </div>
 
@@ -160,39 +158,43 @@ export const MobileLayout: React.FC<MobileLayoutProps> = ({
             icon: splitMode === 'single' ? '⊞' : '⊡',
             label: 'Split View',
             onClick: () => {
-              const modes: Array<'single' | 'split-horizontal' | 'split-vertical' | 'overlay'> =
-                ['single', 'split-horizontal', 'split-vertical', 'overlay'];
+              const modes: Array<'single' | 'split-horizontal' | 'split-vertical' | 'overlay'> = [
+                'single',
+                'split-horizontal',
+                'split-vertical',
+                'overlay',
+              ];
               const currentIndex = modes.indexOf(splitMode);
               setSplitMode(modes[(currentIndex + 1) % modes.length]);
-            }
+            },
           },
           {
             id: 'nodeEditor',
             icon: '📝',
             label: 'Editor',
             active: primaryPanel === 'nodeEditor',
-            onClick: () => setPrimaryPanel('nodeEditor')
+            onClick: () => setPrimaryPanel('nodeEditor'),
           },
           {
             id: 'viewport',
             icon: '🎨',
             label: 'Viewport',
             active: primaryPanel === 'viewport',
-            onClick: () => setPrimaryPanel('viewport')
+            onClick: () => setPrimaryPanel('viewport'),
           },
           {
             id: 'inspector',
             icon: '🔍',
             label: 'Inspector',
             active: secondaryPanel === 'inspector',
-            onClick: () => setSecondaryPanel('inspector')
-          }
+            onClick: () => setSecondaryPanel('inspector'),
+          },
         ]}
         secondaryActions={[
           { id: 'undo', icon: '↶', label: 'Undo', onClick: () => {} },
           { id: 'redo', icon: '↷', label: 'Redo', onClick: () => {} },
           { id: 'settings', icon: '⚙️', label: 'Settings', onClick: () => {} },
-          { id: 'help', icon: '❓', label: 'Help', onClick: () => {} }
+          { id: 'help', icon: '❓', label: 'Help', onClick: () => {} },
         ]}
         compact={dimensions.width < 360}
       />

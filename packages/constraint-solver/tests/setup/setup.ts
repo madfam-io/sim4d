@@ -36,7 +36,7 @@ const originalMath = global.Math;
 global.Math = {
   ...originalMath,
   // Ensure consistent floating point precision for tests
-  abs: (x: number) => x < 0 ? -x : x,
+  abs: (x: number) => (x < 0 ? -x : x),
   sqrt: (x: number) => originalMath.sqrt(x),
   sin: (x: number) => originalMath.sin(x),
   cos: (x: number) => originalMath.cos(x),

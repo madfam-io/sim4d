@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { FieldDeformFieldDisplaceNode } from './field-displace.node';
 import { createTestContext } from '../test-utils';
@@ -8,10 +7,10 @@ describe('FieldDeformFieldDisplaceNode', () => {
     const context = createTestContext();
     const inputs = {
       surface: undefined,
-      field: undefined
+      field: undefined,
     } as any;
     const params = {
-      strength: 10
+      strength: 10,
     } as any;
 
     const result = await FieldDeformFieldDisplaceNode.evaluate(context, inputs, params);

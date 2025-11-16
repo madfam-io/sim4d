@@ -13,7 +13,11 @@ interface BridgeGenerationOutputs {
   bridgedPath: unknown;
 }
 
-export const FabricationLaserBridgeGenerationNode: NodeDefinition<BridgeGenerationInputs, BridgeGenerationOutputs, BridgeGenerationParams> = {
+export const FabricationLaserBridgeGenerationNode: NodeDefinition<
+  BridgeGenerationInputs,
+  BridgeGenerationOutputs,
+  BridgeGenerationParams
+> = {
   id: 'Fabrication::BridgeGeneration',
   type: 'Fabrication::BridgeGeneration',
   category: 'Fabrication',
@@ -23,14 +27,14 @@ export const FabricationLaserBridgeGenerationNode: NodeDefinition<BridgeGenerati
     cutPath: {
       type: 'Wire',
       label: 'Cut Path',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     bridgedPath: {
       type: 'Wire[]',
-      label: 'Bridged Path'
-    }
+      label: 'Bridged Path',
+    },
   },
   params: {
     bridgeWidth: {
@@ -38,7 +42,7 @@ export const FabricationLaserBridgeGenerationNode: NodeDefinition<BridgeGenerati
       label: 'Bridge Width',
       default: 2,
       min: 0.5,
-      max: 10
+      max: 10,
     },
     bridgeCount: {
       type: 'number',
@@ -46,8 +50,8 @@ export const FabricationLaserBridgeGenerationNode: NodeDefinition<BridgeGenerati
       default: 4,
       min: 1,
       max: 20,
-      step: 1
-    }
+      step: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -55,12 +59,12 @@ export const FabricationLaserBridgeGenerationNode: NodeDefinition<BridgeGenerati
       params: {
         cutPath: inputs.cutPath,
         bridgeWidth: params.bridgeWidth,
-        bridgeCount: params.bridgeCount
-      }
+        bridgeCount: params.bridgeCount,
+      },
     });
-    
+
     return {
-      bridgedPath: result
+      bridgedPath: result,
     };
   },
 };

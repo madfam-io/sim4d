@@ -8,21 +8,24 @@ const getTourSteps = (skillLevel: SkillLevel): TourStep[] => {
     {
       target: '.node-panel',
       title: '🧰 Your Toolkit',
-      content: 'Drag these building blocks to create shapes. Start with simple ones like boxes and circles!',
+      content:
+        'Drag these building blocks to create shapes. Start with simple ones like boxes and circles!',
       placement: 'right',
       spotlightPadding: 20,
     },
     {
       target: '.main-content .node-editor',
       title: '🔗 Visual Programming Canvas',
-      content: 'Connect blocks together like LEGO pieces. No coding required - just drag and connect!',
+      content:
+        'Connect blocks together like LEGO pieces. No coding required - just drag and connect!',
       placement: 'top',
       spotlightPadding: 15,
     },
     {
       target: '.viewport-3d',
       title: '👁️ 3D Preview',
-      content: 'Watch your creations come to life! Rotate, zoom, and inspect your 3D models in real-time.',
+      content:
+        'Watch your creations come to life! Rotate, zoom, and inspect your 3D models in real-time.',
       placement: 'left',
       spotlightPadding: 10,
     },
@@ -40,15 +43,17 @@ const getTourSteps = (skillLevel: SkillLevel): TourStep[] => {
       {
         target: 'body',
         title: '👋 Welcome to BrepFlow Studio!',
-        content: 'Let me show you around this powerful 3D modeling studio. Don\'t worry - it\'s easier than it looks!',
+        content:
+          "Let me show you around this powerful 3D modeling studio. Don't worry - it's easier than it looks!",
         placement: 'bottom',
         disableBeacon: true,
       },
       ...baseSteps,
       {
         target: '.logo',
-        title: '🎯 You\'re Ready to Create!',
-        content: 'Now let\'s try building your first 3D shape together. I\'ll guide you through each step!',
+        title: "🎯 You're Ready to Create!",
+        content:
+          "Now let's try building your first 3D shape together. I'll guide you through each step!",
         placement: 'bottom',
         spotlightPadding: 10,
       },
@@ -60,7 +65,8 @@ const getTourSteps = (skillLevel: SkillLevel): TourStep[] => {
       {
         target: 'body',
         title: '🚀 Quick BrepFlow Tour',
-        content: 'Since you have some 3D experience, let me quickly show you BrepFlow\'s unique features.',
+        content:
+          "Since you have some 3D experience, let me quickly show you BrepFlow's unique features.",
         placement: 'bottom',
         disableBeacon: true,
       },
@@ -125,10 +131,7 @@ const joyrideStyles = {
 export const GuidedTour: React.FC = () => {
   const { state, completeStep, exitOnboarding, trackEvent } = useOnboardingStore();
 
-  const tourSteps = useMemo(
-    () => getTourSteps(state.userSkillLevel),
-    [state.userSkillLevel]
-  );
+  const tourSteps = useMemo(() => getTourSteps(state.userSkillLevel), [state.userSkillLevel]);
 
   const handleTourCallback = useCallback(
     (data: CallBackProps) => {

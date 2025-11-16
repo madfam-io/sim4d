@@ -9,6 +9,7 @@ This document outlines best practices for managing `pnpm-lock.yaml` to prevent d
 **Error**: `ERR_PNPM_OUTDATED_LOCKFILE Cannot install with "frozen-lockfile"`
 
 This occurs when:
+
 - `package.json` has dependencies that don't match `pnpm-lock.yaml` entries
 - Common in monorepos where workspace packages are modified independently
 - Vercel and other CI/CD platforms use `--frozen-lockfile` for security and reproducibility
@@ -18,6 +19,7 @@ This occurs when:
 ### 1. Pre-commit Hook (Recommended)
 
 The `.husky/pre-commit` hook automatically:
+
 - Detects package.json changes
 - Validates lockfile synchronization
 - Auto-commits updated lockfile if needed
@@ -100,6 +102,7 @@ When lockfile issues occur:
 ## Monitoring
 
 The monitoring system now includes UUID dependencies:
+
 - `uuid@^9.0.0` for unique metric identifiers
 - `@types/uuid@^9.0.0` for TypeScript support
 

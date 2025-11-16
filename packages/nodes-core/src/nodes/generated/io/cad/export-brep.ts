@@ -12,7 +12,11 @@ interface ExportBREPOutputs {
   brepData: unknown;
 }
 
-export const IOCADExportBREPNode: NodeDefinition<ExportBREPInputs, ExportBREPOutputs, ExportBREPParams> = {
+export const IOCADExportBREPNode: NodeDefinition<
+  ExportBREPInputs,
+  ExportBREPOutputs,
+  ExportBREPParams
+> = {
   id: 'IO::ExportBREP',
   type: 'IO::ExportBREP',
   category: 'IO',
@@ -22,33 +26,33 @@ export const IOCADExportBREPNode: NodeDefinition<ExportBREPInputs, ExportBREPOut
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     brepData: {
       type: 'Data',
-      label: 'Brep Data'
-    }
+      label: 'Brep Data',
+    },
   },
   params: {
     binary: {
       type: 'boolean',
       label: 'Binary',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'exportBREP',
       params: {
         shape: inputs.shape,
-        binary: params.binary
-      }
+        binary: params.binary,
+      },
     });
-    
+
     return {
-      brepData: result
+      brepData: result,
     };
   },
 };

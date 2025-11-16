@@ -49,10 +49,9 @@ export class GeometryProxy {
       else if (this.worker.execute) {
         return await this.worker.execute({
           ...operation,
-          type: actualMethod
+          type: actualMethod,
         });
-      }
-      else {
+      } else {
         throw new Error(`Worker does not support operation: ${actualMethod}`);
       }
     } catch (error) {
@@ -149,7 +148,7 @@ export function createEnhancedContext(context: EvalContext): EnhancedEvalContext
   // Return enhanced context with both worker and geometry
   return {
     ...context,
-    geometry
+    geometry,
   };
 }
 
@@ -161,7 +160,7 @@ export function createEnhancedContext(context: EvalContext): EnhancedEvalContext
 export function patchDAGEngine(DAGEngineClass: any): void {
   const originalEvaluateNode = DAGEngineClass.prototype.evaluateNode;
 
-  DAGEngineClass.prototype.evaluateNode = async function(graph: any, nodeId: string) {
+  DAGEngineClass.prototype.evaluateNode = async function (graph: any, nodeId: string) {
     // Store original context creation
     const originalContextCreation = this.createContext;
 
@@ -201,7 +200,7 @@ export async function initializeNodeAdapter(): Promise<void> {
     try {
       const testBox = await api.execute?.({
         type: 'makeBox',
-        params: { width: 10, depth: 10, height: 10 }
+        params: { width: 10, depth: 10, height: 10 },
       });
       console.log('✅ Test geometry operation successful');
     } catch (error) {
@@ -243,9 +242,29 @@ export function getOperationStats(): {
   for (const op of Object.keys(OPERATION_MAP)) {
     if (op.startsWith('make') && !op.includes('Surface')) categories.primitives++;
     else if (op.startsWith('perform')) categories.boolean++;
-    else if (['translate', 'rotate', 'scale', 'mirror', 'transform', 'move', 'orient'].includes(op)) categories.transform++;
-    else if (['fillet', 'chamfer', 'shell', 'offset', 'draft', 'extrude', 'revolve', 'sweep', 'loft'].includes(op)) categories.features++;
-    else if (op.includes('Circle') || op.includes('Rectangle') || op.includes('Line') || op.includes('Arc')) categories.sketch++;
+    else if (['translate', 'rotate', 'scale', 'mirror', 'transform', 'move', 'orient'].includes(op))
+      categories.transform++;
+    else if (
+      [
+        'fillet',
+        'chamfer',
+        'shell',
+        'offset',
+        'draft',
+        'extrude',
+        'revolve',
+        'sweep',
+        'loft',
+      ].includes(op)
+    )
+      categories.features++;
+    else if (
+      op.includes('Circle') ||
+      op.includes('Rectangle') ||
+      op.includes('Line') ||
+      op.includes('Arc')
+    )
+      categories.sketch++;
     else if (op.includes('Surface')) categories.surface++;
     else if (op.includes('calculate') || op.includes('analyze')) categories.analysis++;
     else if (op.includes('Mesh') || op.includes('tessellate')) categories.mesh++;
@@ -255,6 +274,6 @@ export function getOperationStats(): {
 
   return {
     totalOperations: Object.keys(OPERATION_MAP).length,
-    categories
+    categories,
   };
 }

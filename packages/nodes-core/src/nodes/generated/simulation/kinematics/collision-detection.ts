@@ -14,7 +14,11 @@ interface CollisionDetectionOutputs {
   collisionPairs: unknown;
 }
 
-export const SimulationKinematicsCollisionDetectionNode: NodeDefinition<CollisionDetectionInputs, CollisionDetectionOutputs, CollisionDetectionParams> = {
+export const SimulationKinematicsCollisionDetectionNode: NodeDefinition<
+  CollisionDetectionInputs,
+  CollisionDetectionOutputs,
+  CollisionDetectionParams
+> = {
   id: 'Simulation::CollisionDetection',
   type: 'Simulation::CollisionDetection',
   category: 'Simulation',
@@ -24,34 +28,34 @@ export const SimulationKinematicsCollisionDetectionNode: NodeDefinition<Collisio
     bodies: {
       type: 'Shape[]',
       label: 'Bodies',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     collisionPairs: {
       type: 'Data',
-      label: 'Collision Pairs'
-    }
+      label: 'Collision Pairs',
+    },
   },
   params: {
     detectionType: {
       type: 'enum',
       label: 'Detection Type',
-      default: "discrete",
-      options: ["discrete","continuous"]
+      default: 'discrete',
+      options: ['discrete', 'continuous'],
     },
     tolerance: {
       type: 'number',
       label: 'Tolerance',
       default: 0.1,
       min: 0.001,
-      max: 10
+      max: 10,
     },
     includeSelfCollision: {
       type: 'boolean',
       label: 'Include Self Collision',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -60,12 +64,12 @@ export const SimulationKinematicsCollisionDetectionNode: NodeDefinition<Collisio
         bodies: inputs.bodies,
         detectionType: params.detectionType,
         tolerance: params.tolerance,
-        includeSelfCollision: params.includeSelfCollision
-      }
+        includeSelfCollision: params.includeSelfCollision,
+      },
     });
-    
+
     return {
-      collisionPairs: result
+      collisionPairs: result,
     };
   },
 };

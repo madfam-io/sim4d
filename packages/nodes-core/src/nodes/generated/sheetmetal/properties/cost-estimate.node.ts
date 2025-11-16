@@ -17,7 +17,11 @@ interface CostEstimateOutputs {
   breakdown: unknown;
 }
 
-export const SheetMetalPropertiesCostEstimateNode: NodeDefinition<CostEstimateInputs, CostEstimateOutputs, CostEstimateParams> = {
+export const SheetMetalPropertiesCostEstimateNode: NodeDefinition<
+  CostEstimateInputs,
+  CostEstimateOutputs,
+  CostEstimateParams
+> = {
   id: 'SheetMetal::CostEstimate',
   category: 'SheetMetal',
   label: 'CostEstimate',
@@ -26,23 +30,23 @@ export const SheetMetalPropertiesCostEstimateNode: NodeDefinition<CostEstimateIn
     sheet: {
       type: 'Shape',
       label: 'Sheet',
-      required: true
+      required: true,
     },
     quantity: {
       type: 'number',
       label: 'Quantity',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     cost: {
       type: 'number',
-      label: 'Cost'
+      label: 'Cost',
     },
     breakdown: {
       type: 'Data',
-      label: 'Breakdown'
-    }
+      label: 'Breakdown',
+    },
   },
   params: {
     materialCostPerKg: {
@@ -50,29 +54,29 @@ export const SheetMetalPropertiesCostEstimateNode: NodeDefinition<CostEstimateIn
       label: 'Material Cost Per Kg',
       default: 2,
       min: 0.1,
-      max: 1000
+      max: 1000,
     },
     setupCost: {
       type: 'number',
       label: 'Setup Cost',
       default: 50,
       min: 0,
-      max: 10000
+      max: 10000,
     },
     bendCost: {
       type: 'number',
       label: 'Bend Cost',
       default: 0.5,
       min: 0,
-      max: 100
+      max: 100,
     },
     cutCostPerMeter: {
       type: 'number',
       label: 'Cut Cost Per Meter',
       default: 1,
       min: 0,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -83,13 +87,13 @@ export const SheetMetalPropertiesCostEstimateNode: NodeDefinition<CostEstimateIn
         materialCostPerKg: params.materialCostPerKg,
         setupCost: params.setupCost,
         bendCost: params.bendCost,
-        cutCostPerMeter: params.cutCostPerMeter
-      }
+        cutCostPerMeter: params.cutCostPerMeter,
+      },
     });
-    
+
     return {
       cost: results.cost,
-      breakdown: results.breakdown
+      breakdown: results.breakdown,
     };
   },
 };

@@ -11,7 +11,11 @@ interface VerticalOutputs {
   constraint: unknown;
 }
 
-export const AssemblyConstraintsVerticalNode: NodeDefinition<VerticalInputs, VerticalOutputs, VerticalParams> = {
+export const AssemblyConstraintsVerticalNode: NodeDefinition<
+  VerticalInputs,
+  VerticalOutputs,
+  VerticalParams
+> = {
   id: 'Assembly::Vertical',
   type: 'Assembly::Vertical',
   category: 'Assembly',
@@ -21,31 +25,31 @@ export const AssemblyConstraintsVerticalNode: NodeDefinition<VerticalInputs, Ver
     entity: {
       type: 'Shape',
       label: 'Entity',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     constrained: {
       type: 'Shape',
-      label: 'Constrained'
+      label: 'Constrained',
     },
     constraint: {
       type: 'Constraint',
-      label: 'Constraint'
-    }
+      label: 'Constraint',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
       type: 'constraintVertical',
       params: {
-        entity: inputs.entity
-      }
+        entity: inputs.entity,
+      },
     });
-    
+
     return {
       constrained: results.constrained,
-      constraint: results.constraint
+      constraint: results.constraint,
     };
   },
 };

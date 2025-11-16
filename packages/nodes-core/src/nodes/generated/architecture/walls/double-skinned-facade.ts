@@ -15,7 +15,11 @@ interface DoubleSkinnedFacadeOutputs {
   cavity: unknown;
 }
 
-export const ArchitectureWallsDoubleSkinnedFacadeNode: NodeDefinition<DoubleSkinnedFacadeInputs, DoubleSkinnedFacadeOutputs, DoubleSkinnedFacadeParams> = {
+export const ArchitectureWallsDoubleSkinnedFacadeNode: NodeDefinition<
+  DoubleSkinnedFacadeInputs,
+  DoubleSkinnedFacadeOutputs,
+  DoubleSkinnedFacadeParams
+> = {
   id: 'Architecture::DoubleSkinnedFacade',
   type: 'Architecture::DoubleSkinnedFacade',
   category: 'Architecture',
@@ -25,22 +29,22 @@ export const ArchitectureWallsDoubleSkinnedFacadeNode: NodeDefinition<DoubleSkin
     buildingFace: {
       type: 'Face',
       label: 'Building Face',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     innerSkin: {
       type: 'Shape',
-      label: 'Inner Skin'
+      label: 'Inner Skin',
     },
     outerSkin: {
       type: 'Shape',
-      label: 'Outer Skin'
+      label: 'Outer Skin',
     },
     cavity: {
       type: 'Shape',
-      label: 'Cavity'
-    }
+      label: 'Cavity',
+    },
   },
   params: {
     cavityWidth: {
@@ -48,14 +52,14 @@ export const ArchitectureWallsDoubleSkinnedFacadeNode: NodeDefinition<DoubleSkin
       label: 'Cavity Width',
       default: 600,
       min: 300,
-      max: 1500
+      max: 1500,
     },
     ventilationType: {
       type: 'enum',
       label: 'Ventilation Type',
-      default: "natural",
-      options: ["natural","mechanical","hybrid"]
-    }
+      default: 'natural',
+      options: ['natural', 'mechanical', 'hybrid'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -63,14 +67,14 @@ export const ArchitectureWallsDoubleSkinnedFacadeNode: NodeDefinition<DoubleSkin
       params: {
         buildingFace: inputs.buildingFace,
         cavityWidth: params.cavityWidth,
-        ventilationType: params.ventilationType
-      }
+        ventilationType: params.ventilationType,
+      },
     });
-    
+
     return {
       innerSkin: results.innerSkin,
       outerSkin: results.outerSkin,
-      cavity: results.cavity
+      cavity: results.cavity,
     };
   },
 };

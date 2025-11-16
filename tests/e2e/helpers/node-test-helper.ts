@@ -29,17 +29,17 @@ export class NodeTestHelper {
   async waitForWorkspaceReady(): Promise<void> {
     // Wait for the main app container
     await this.page.waitForSelector('[data-testid="app-ready"], .app-container', {
-      timeout: 30000
+      timeout: 30000,
     });
 
     // Wait for the node panel to be visible
     await this.page.waitForSelector('[data-testid="node-panel"], .node-panel', {
-      timeout: 10000
+      timeout: 10000,
     });
 
     // Wait for the workflow canvas
     await this.page.waitForSelector('[data-testid="workflow-canvas"], .workflow-canvas', {
-      timeout: 10000
+      timeout: 10000,
     });
 
     // Wait a bit for any initialization to complete
@@ -62,7 +62,7 @@ export class NodeTestHelper {
 
     // Perform drag and drop
     await nodeElement.dragTo(canvas, {
-      targetPosition: position
+      targetPosition: position,
     });
 
     // Wait for node to appear on canvas and return its ID
@@ -75,7 +75,11 @@ export class NodeTestHelper {
   /**
    * Create a specific node type with parameters
    */
-  async createNode(nodeType: string, parameters: NodeParameters, position?: NodePosition): Promise<string> {
+  async createNode(
+    nodeType: string,
+    parameters: NodeParameters,
+    position?: NodePosition
+  ): Promise<string> {
     const nodePosition = position || { x: 400, y: 300 };
 
     // Drag node from panel
@@ -92,22 +96,36 @@ export class NodeTestHelper {
   /**
    * Create a Box node (common operation)
    */
-  async createBoxNode(params: { width: number; height: number; depth: number }, position?: NodePosition): Promise<string> {
-    return await this.createNode('Solid::Box', {
-      width: params.width,
-      height: params.height,
-      depth: params.depth
-    }, position);
+  async createBoxNode(
+    params: { width: number; height: number; depth: number },
+    position?: NodePosition
+  ): Promise<string> {
+    return await this.createNode(
+      'Solid::Box',
+      {
+        width: params.width,
+        height: params.height,
+        depth: params.depth,
+      },
+      position
+    );
   }
 
   /**
    * Create a Cylinder node (common operation)
    */
-  async createCylinderNode(params: { radius: number; height: number }, position?: NodePosition): Promise<string> {
-    return await this.createNode('Solid::Cylinder', {
-      radius: params.radius,
-      height: params.height
-    }, position);
+  async createCylinderNode(
+    params: { radius: number; height: number },
+    position?: NodePosition
+  ): Promise<string> {
+    return await this.createNode(
+      'Solid::Cylinder',
+      {
+        radius: params.radius,
+        height: params.height,
+      },
+      position
+    );
   }
 
   /**
@@ -125,7 +143,11 @@ export class NodeTestHelper {
     }
 
     // If there's a create/apply button, click it
-    const applyButton = this.page.locator('[data-testid="apply-parameters"], [data-testid="create-node"], button:has-text("Apply"), button:has-text("Create")').first();
+    const applyButton = this.page
+      .locator(
+        '[data-testid="apply-parameters"], [data-testid="create-node"], button:has-text("Apply"), button:has-text("Create")'
+      )
+      .first();
     if (await applyButton.isVisible({ timeout: 2000 })) {
       await applyButton.click();
     }
@@ -139,9 +161,12 @@ export class NodeTestHelper {
     await this.page.click(nodeSelector);
 
     // Wait for selection to be visible
-    await this.page.waitForSelector(`${nodeSelector}.selected, ${nodeSelector}[data-selected="true"]`, {
-      timeout: 3000
-    });
+    await this.page.waitForSelector(
+      `${nodeSelector}.selected, ${nodeSelector}[data-selected="true"]`,
+      {
+        timeout: 3000,
+      }
+    );
   }
 
   /**
@@ -163,10 +188,18 @@ export class NodeTestHelper {
     const targetNode = `[data-node-id="${connection.targetId}"]`;
 
     // Find output handle on source node
-    const outputHandle = this.page.locator(`${sourceNode} [data-output="${connection.sourceOutput}"], ${sourceNode} .output-handle`).first();
+    const outputHandle = this.page
+      .locator(
+        `${sourceNode} [data-output="${connection.sourceOutput}"], ${sourceNode} .output-handle`
+      )
+      .first();
 
     // Find input handle on target node
-    const inputHandle = this.page.locator(`${targetNode} [data-input="${connection.targetInput}"], ${targetNode} .input-handle`).first();
+    const inputHandle = this.page
+      .locator(
+        `${targetNode} [data-input="${connection.targetInput}"], ${targetNode} .input-handle`
+      )
+      .first();
 
     // Drag from output to input
     await outputHandle.dragTo(inputHandle);
@@ -184,11 +217,12 @@ export class NodeTestHelper {
       if (!graph) return false;
 
       const edges = graph.getEdges?.() || [];
-      return edges.some((edge: any) =>
-        edge.source === conn.sourceId &&
-        edge.target === conn.targetId &&
-        edge.sourceHandle === conn.sourceOutput &&
-        edge.targetHandle === conn.targetInput
+      return edges.some(
+        (edge: any) =>
+          edge.source === conn.sourceId &&
+          edge.target === conn.targetId &&
+          edge.sourceHandle === conn.sourceOutput &&
+          edge.targetHandle === conn.targetInput
       );
     }, connection);
 
@@ -203,7 +237,9 @@ export class NodeTestHelper {
     await this.page.keyboard.press('Delete');
 
     // Wait for node to be removed
-    await expect(this.page.locator(`[data-node-id="${nodeId}"]`)).not.toBeVisible({ timeout: 3000 });
+    await expect(this.page.locator(`[data-node-id="${nodeId}"]`)).not.toBeVisible({
+      timeout: 3000,
+    });
   }
 
   /**
@@ -226,7 +262,9 @@ export class NodeTestHelper {
   async getAllNodeIds(): Promise<string[]> {
     return await this.page.evaluate(() => {
       const nodes = document.querySelectorAll('[data-node-id]');
-      return Array.from(nodes).map(node => node.getAttribute('data-node-id')).filter(Boolean) as string[];
+      return Array.from(nodes)
+        .map((node) => node.getAttribute('data-node-id'))
+        .filter(Boolean) as string[];
     });
   }
 
@@ -235,7 +273,10 @@ export class NodeTestHelper {
    */
   async waitForEvaluation(): Promise<void> {
     // Wait for any loading indicators to disappear
-    await this.page.waitForSelector('[data-testid="evaluating"], .evaluating', { state: 'hidden', timeout: 30000 });
+    await this.page.waitForSelector('[data-testid="evaluating"], .evaluating', {
+      state: 'hidden',
+      timeout: 30000,
+    });
 
     // Wait for evaluation complete indicator
     await this.page.waitForSelector('[data-testid="evaluation-complete"]', { timeout: 30000 });
@@ -248,7 +289,11 @@ export class NodeTestHelper {
    * Trigger graph evaluation
    */
   async evaluateGraph(): Promise<void> {
-    const evaluateButton = this.page.locator('[data-testid="evaluate"], [data-testid="evaluate-graph"], button:has-text("Evaluate")').first();
+    const evaluateButton = this.page
+      .locator(
+        '[data-testid="evaluate"], [data-testid="evaluate-graph"], button:has-text("Evaluate")'
+      )
+      .first();
 
     if (await evaluateButton.isVisible({ timeout: 2000 })) {
       await evaluateButton.click();
@@ -260,8 +305,11 @@ export class NodeTestHelper {
   /**
    * Create a complex workflow for testing
    */
-  async createComplexWorkflow(): Promise<{ nodes: string[], connections: NodeConnection[] }> {
-    const box1 = await this.createBoxNode({ width: 100, height: 50, depth: 25 }, { x: 200, y: 200 });
+  async createComplexWorkflow(): Promise<{ nodes: string[]; connections: NodeConnection[] }> {
+    const box1 = await this.createBoxNode(
+      { width: 100, height: 50, depth: 25 },
+      { x: 200, y: 200 }
+    );
     const box2 = await this.createBoxNode({ width: 80, height: 80, depth: 80 }, { x: 200, y: 350 });
     const cylinder = await this.createCylinderNode({ radius: 30, height: 100 }, { x: 200, y: 500 });
 
@@ -307,7 +355,9 @@ export class NodeTestHelper {
    */
   async getNodeError(nodeId: string): Promise<string | null> {
     try {
-      const errorElement = this.page.locator(`[data-node-id="${nodeId}"] .error-message, [data-node-id="${nodeId}"] [data-testid="error-message"]`);
+      const errorElement = this.page.locator(
+        `[data-node-id="${nodeId}"] .error-message, [data-node-id="${nodeId}"] [data-testid="error-message"]`
+      );
       if (await errorElement.isVisible({ timeout: 1000 })) {
         return await errorElement.textContent();
       }

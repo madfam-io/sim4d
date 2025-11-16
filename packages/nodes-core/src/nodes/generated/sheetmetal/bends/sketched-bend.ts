@@ -16,7 +16,11 @@ interface SketchedBendOutputs {
   result: unknown;
 }
 
-export const SheetMetalBendsSketchedBendNode: NodeDefinition<SketchedBendInputs, SketchedBendOutputs, SketchedBendParams> = {
+export const SheetMetalBendsSketchedBendNode: NodeDefinition<
+  SketchedBendInputs,
+  SketchedBendOutputs,
+  SketchedBendParams
+> = {
   id: 'SheetMetal::SketchedBend',
   type: 'SheetMetal::SketchedBend',
   category: 'SheetMetal',
@@ -26,19 +30,19 @@ export const SheetMetalBendsSketchedBendNode: NodeDefinition<SketchedBendInputs,
     sheet: {
       type: 'Shape',
       label: 'Sheet',
-      required: true
+      required: true,
     },
     bendLine: {
       type: 'Edge',
       label: 'Bend Line',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'Shape',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {
     angle: {
@@ -46,28 +50,28 @@ export const SheetMetalBendsSketchedBendNode: NodeDefinition<SketchedBendInputs,
       label: 'Angle',
       default: 90,
       min: -180,
-      max: 180
+      max: 180,
     },
     bendRadius: {
       type: 'number',
       label: 'Bend Radius',
       default: 3,
       min: 0.1,
-      max: 100
+      max: 100,
     },
     bendDirection: {
       type: 'enum',
       label: 'Bend Direction',
-      default: "up",
-      options: ["up","down"]
+      default: 'up',
+      options: ['up', 'down'],
     },
     bendAllowance: {
       type: 'number',
       label: 'Bend Allowance',
       default: 0,
       min: -10,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -78,12 +82,12 @@ export const SheetMetalBendsSketchedBendNode: NodeDefinition<SketchedBendInputs,
         angle: params.angle,
         bendRadius: params.bendRadius,
         bendDirection: params.bendDirection,
-        bendAllowance: params.bendAllowance
-      }
+        bendAllowance: params.bendAllowance,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

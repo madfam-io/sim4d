@@ -13,7 +13,11 @@ interface RaftGenerationOutputs {
   raft: unknown;
 }
 
-export const Fabrication3DPrintingRaftGenerationNode: NodeDefinition<RaftGenerationInputs, RaftGenerationOutputs, RaftGenerationParams> = {
+export const Fabrication3DPrintingRaftGenerationNode: NodeDefinition<
+  RaftGenerationInputs,
+  RaftGenerationOutputs,
+  RaftGenerationParams
+> = {
   id: 'Fabrication::RaftGeneration',
   category: 'Fabrication',
   label: 'RaftGeneration',
@@ -22,14 +26,14 @@ export const Fabrication3DPrintingRaftGenerationNode: NodeDefinition<RaftGenerat
     model: {
       type: 'Shape',
       label: 'Model',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     raft: {
       type: 'Shape',
-      label: 'Raft'
-    }
+      label: 'Raft',
+    },
   },
   params: {
     raftLayers: {
@@ -38,15 +42,15 @@ export const Fabrication3DPrintingRaftGenerationNode: NodeDefinition<RaftGenerat
       default: 3,
       min: 1,
       max: 10,
-      step: 1
+      step: 1,
     },
     raftOffset: {
       type: 'number',
       label: 'Raft Offset',
       default: 5,
       min: 0,
-      max: 20
-    }
+      max: 20,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -54,12 +58,12 @@ export const Fabrication3DPrintingRaftGenerationNode: NodeDefinition<RaftGenerat
       params: {
         model: inputs.model,
         raftLayers: params.raftLayers,
-        raftOffset: params.raftOffset
-      }
+        raftOffset: params.raftOffset,
+      },
     });
-    
+
     return {
-      raft: result
+      raft: result,
     };
   },
 };

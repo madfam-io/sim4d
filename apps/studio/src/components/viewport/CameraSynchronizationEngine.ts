@@ -6,7 +6,11 @@
  * CAD-style coordination behaviors.
  */
 
-import type { ViewportCameraState, ViewportViewType, ViewportInstance } from './multi-viewport-interfaces';
+import type {
+  ViewportCameraState,
+  ViewportViewType,
+  ViewportInstance,
+} from './multi-viewport-interfaces';
 
 // Synchronization modes for different professional workflows
 export type SyncMode = 'none' | 'rotation' | 'pan' | 'zoom' | 'full' | 'orthographic-lock';
@@ -50,11 +54,14 @@ export interface CameraSyncState {
 }
 
 // Standard view type constraints for orthographic preservation
-const ORTHOGRAPHIC_CONSTRAINTS: Record<ViewportViewType, {
-  position: [number, number, number];
-  up: [number, number, number];
-  lockAxis: 'x' | 'y' | 'z';
-}> = {
+const ORTHOGRAPHIC_CONSTRAINTS: Record<
+  ViewportViewType,
+  {
+    position: [number, number, number];
+    up: [number, number, number];
+    lockAxis: 'x' | 'y' | 'z';
+  }
+> = {
   front: { position: [0, -1, 0], up: [0, 0, 1], lockAxis: 'y' },
   back: { position: [0, 1, 0], up: [0, 0, 1], lockAxis: 'y' },
   left: { position: [-1, 0, 0], up: [0, 0, 1], lockAxis: 'x' },
@@ -62,7 +69,7 @@ const ORTHOGRAPHIC_CONSTRAINTS: Record<ViewportViewType, {
   top: { position: [0, 0, 1], up: [0, 1, 0], lockAxis: 'z' },
   bottom: { position: [0, 0, -1], up: [0, 1, 0], lockAxis: 'z' },
   perspective: { position: [1, -1, 1], up: [0, 0, 1], lockAxis: 'z' },
-  iso: { position: [1, -1, 1], up: [0, 0, 1], lockAxis: 'z' }
+  iso: { position: [1, -1, 1], up: [0, 0, 1], lockAxis: 'z' },
 };
 
 /**
@@ -85,8 +92,8 @@ export class CameraSynchronizationEngine {
       performanceMetrics: {
         syncLatency: 0,
         updatesPerSecond: 0,
-        droppedFrames: 0
-      }
+        droppedFrames: 0,
+      },
     };
 
     this.startPerformanceMonitoring();
@@ -109,13 +116,13 @@ export class CameraSynchronizationEngine {
         preserveOrthographic: true,
         interpolationSpeed: 0.8,
         threshold: 0.001,
-        debounceMs: 16 // ~60fps
-      }
+        debounceMs: 16, // ~60fps
+      },
     };
 
     this.syncSettings.set(viewport.id, {
       ...defaultSettings,
-      ...syncSettings
+      ...syncSettings,
     });
   }
 
@@ -176,7 +183,7 @@ export class CameraSynchronizationEngine {
       sourceViewportId,
       timestamp: performance.now(),
       deltaCamera,
-      syncMode: sourceSettings.syncConfig.mode
+      syncMode: sourceSettings.syncConfig.mode,
     };
 
     this.broadcastSyncEvent(syncEvent);
@@ -194,9 +201,11 @@ export class CameraSynchronizationEngine {
         if (id === event.sourceViewportId) return false;
 
         const settings = this.syncSettings.get(id);
-        return settings?.participateInSync &&
-               settings.receivesUpdates &&
-               settings.syncConfig.mode !== 'none';
+        return (
+          settings?.participateInSync &&
+          settings.receivesUpdates &&
+          settings.syncConfig.mode !== 'none'
+        );
       })
       .sort(([, a], [, b]) => {
         const settingsA = this.syncSettings.get(a.id)!;
@@ -253,13 +262,19 @@ export class CameraSynchronizationEngine {
     switch (syncMode) {
       case 'rotation':
         transformedCamera = this.transformRotation(
-          sourceViewport, targetViewport, deltaCamera, targetConstraints
+          sourceViewport,
+          targetViewport,
+          deltaCamera,
+          targetConstraints
         );
         break;
 
       case 'pan':
         transformedCamera = this.transformPan(
-          sourceViewport, targetViewport, deltaCamera, targetConstraints
+          sourceViewport,
+          targetViewport,
+          deltaCamera,
+          targetConstraints
         );
         break;
 
@@ -269,13 +284,19 @@ export class CameraSynchronizationEngine {
 
       case 'full':
         transformedCamera = this.transformFull(
-          sourceViewport, targetViewport, deltaCamera, targetConstraints
+          sourceViewport,
+          targetViewport,
+          deltaCamera,
+          targetConstraints
         );
         break;
 
       case 'orthographic-lock':
         transformedCamera = this.transformOrthographicLock(
-          sourceViewport, targetViewport, deltaCamera, targetConstraints
+          sourceViewport,
+          targetViewport,
+          deltaCamera,
+          targetConstraints
         );
         break;
     }
@@ -290,7 +311,7 @@ export class CameraSynchronizationEngine {
     sourceViewport: ViewportInstance,
     targetViewport: ViewportInstance,
     deltaCamera: Partial<ViewportCameraState>,
-    constraints: typeof ORTHOGRAPHIC_CONSTRAINTS[ViewportViewType]
+    constraints: (typeof ORTHOGRAPHIC_CONSTRAINTS)[ViewportViewType]
   ): Partial<ViewportCameraState> {
     if (!deltaCamera.position || !deltaCamera.target) {
       return {};
@@ -304,7 +325,7 @@ export class CameraSynchronizationEngine {
     // For perspective views, apply rotation transformation
     return {
       position: this.rotateVector3(deltaCamera.position, targetViewport.camera.target),
-      target: deltaCamera.target
+      target: deltaCamera.target,
     };
   }
 
@@ -315,7 +336,7 @@ export class CameraSynchronizationEngine {
     sourceViewport: ViewportInstance,
     targetViewport: ViewportInstance,
     deltaCamera: Partial<ViewportCameraState>,
-    constraints: typeof ORTHOGRAPHIC_CONSTRAINTS[ViewportViewType]
+    constraints: (typeof ORTHOGRAPHIC_CONSTRAINTS)[ViewportViewType]
   ): Partial<ViewportCameraState> {
     if (!deltaCamera.target) return {};
 
@@ -328,7 +349,7 @@ export class CameraSynchronizationEngine {
 
     return {
       target: panDelta,
-      position: this.adjustPositionForPan(targetViewport.camera.position, panDelta)
+      position: this.adjustPositionForPan(targetViewport.camera.position, panDelta),
     };
   }
 
@@ -339,10 +360,15 @@ export class CameraSynchronizationEngine {
     sourceViewport: ViewportInstance,
     targetViewport: ViewportInstance,
     deltaCamera: Partial<ViewportCameraState>,
-    constraints: typeof ORTHOGRAPHIC_CONSTRAINTS[ViewportViewType]
+    constraints: (typeof ORTHOGRAPHIC_CONSTRAINTS)[ViewportViewType]
   ): Partial<ViewportCameraState> {
     // Combine rotation, pan, and zoom transformations
-    const rotation = this.transformRotation(sourceViewport, targetViewport, deltaCamera, constraints);
+    const rotation = this.transformRotation(
+      sourceViewport,
+      targetViewport,
+      deltaCamera,
+      constraints
+    );
     const pan = this.transformPan(sourceViewport, targetViewport, deltaCamera, constraints);
     const zoom = deltaCamera.zoom ? { zoom: deltaCamera.zoom } : {};
 
@@ -356,7 +382,7 @@ export class CameraSynchronizationEngine {
     sourceViewport: ViewportInstance,
     targetViewport: ViewportInstance,
     deltaCamera: Partial<ViewportCameraState>,
-    constraints: typeof ORTHOGRAPHIC_CONSTRAINTS[ViewportViewType]
+    constraints: (typeof ORTHOGRAPHIC_CONSTRAINTS)[ViewportViewType]
   ): Partial<ViewportCameraState> {
     if (!targetViewport.camera.isOrthographic) {
       // Non-orthographic views get normal transformation
@@ -376,13 +402,13 @@ export class CameraSynchronizationEngine {
   private preserveOrthographicRotation(
     targetViewport: ViewportInstance,
     deltaCamera: Partial<ViewportCameraState>,
-    constraints: typeof ORTHOGRAPHIC_CONSTRAINTS[ViewportViewType]
+    constraints: (typeof ORTHOGRAPHIC_CONSTRAINTS)[ViewportViewType]
   ): Partial<ViewportCameraState> {
     // Maintain the orthographic view direction but allow target changes
     return {
       target: deltaCamera.target,
       // Position maintains the orthographic constraint
-      position: this.scaleVector3(constraints.position, this.getViewDistance(targetViewport))
+      position: this.scaleVector3(constraints.position, this.getViewDistance(targetViewport)),
     };
   }
 
@@ -437,8 +463,10 @@ export class CameraSynchronizationEngine {
    * Check if camera delta is significant enough to warrant sync
    */
   private isDeltaSignificant(delta: Partial<ViewportCameraState>, threshold: number): boolean {
-    return Object.keys(delta).length > 0 &&
-           (delta.position || delta.target || delta.zoom || delta.fov) !== undefined;
+    return (
+      Object.keys(delta).length > 0 &&
+      (delta.position || delta.target || delta.zoom || delta.fov) !== undefined
+    );
   }
 
   /**
@@ -480,7 +508,7 @@ export class CameraSynchronizationEngine {
     // Apply the batched update
     const updatedViewport: ViewportInstance = {
       ...viewport,
-      camera: { ...viewport.camera, ...batchedCamera }
+      camera: { ...viewport.camera, ...batchedCamera },
     };
 
     this.viewports.set(viewportId, updatedViewport);
@@ -490,7 +518,7 @@ export class CameraSynchronizationEngine {
       sourceViewportId: 'sync-engine',
       timestamp: performance.now(),
       deltaCamera: batchedCamera,
-      syncMode: 'full'
+      syncMode: 'full',
     });
 
     // Clean up
@@ -527,7 +555,7 @@ export class CameraSynchronizationEngine {
    */
   private notifyListeners(viewportId: string, event: SyncEvent): void {
     const listeners = this.eventListeners.get(viewportId) || [];
-    listeners.forEach(listener => {
+    listeners.forEach((listener) => {
       try {
         listener(event);
       } catch (error) {
@@ -549,8 +577,7 @@ export class CameraSynchronizationEngine {
 
       if (now - lastTime >= 1000) {
         this.syncState.performanceMetrics.updatesPerSecond = frameCount;
-        this.syncState.performanceMetrics.syncLatency =
-          now - this.syncState.lastUpdateTimestamp;
+        this.syncState.performanceMetrics.syncLatency = now - this.syncState.lastUpdateTimestamp;
 
         frameCount = 0;
         lastTime = now;
@@ -578,7 +605,7 @@ export class CameraSynchronizationEngine {
     }
 
     // Clear all timeouts
-    this.syncState.activeTransitions.forEach(timeout => clearTimeout(timeout));
+    this.syncState.activeTransitions.forEach((timeout) => clearTimeout(timeout));
     this.syncState.activeTransitions.clear();
 
     // Clear state
@@ -589,13 +616,22 @@ export class CameraSynchronizationEngine {
   }
 
   // Utility methods for vector math
-  private vectorsEqual(a: [number, number, number], b: [number, number, number], epsilon = 0.001): boolean {
-    return Math.abs(a[0] - b[0]) < epsilon &&
-           Math.abs(a[1] - b[1]) < epsilon &&
-           Math.abs(a[2] - b[2]) < epsilon;
+  private vectorsEqual(
+    a: [number, number, number],
+    b: [number, number, number],
+    epsilon = 0.001
+  ): boolean {
+    return (
+      Math.abs(a[0] - b[0]) < epsilon &&
+      Math.abs(a[1] - b[1]) < epsilon &&
+      Math.abs(a[2] - b[2]) < epsilon
+    );
   }
 
-  private rotateVector3(vector: [number, number, number], center: [number, number, number]): [number, number, number] {
+  private rotateVector3(
+    vector: [number, number, number],
+    center: [number, number, number]
+  ): [number, number, number] {
     // Simplified rotation - in real implementation, use proper 3D rotation matrices
     return [vector[0], vector[1], vector[2]];
   }
@@ -614,17 +650,13 @@ export class CameraSynchronizationEngine {
     position: [number, number, number],
     panDelta: [number, number, number]
   ): [number, number, number] {
-    return [
-      position[0] + panDelta[0],
-      position[1] + panDelta[1],
-      position[2] + panDelta[2]
-    ];
+    return [position[0] + panDelta[0], position[1] + panDelta[1], position[2] + panDelta[2]];
   }
 
   private transformVector3BetweenViews(
     vector: [number, number, number],
-    sourceConstraints: typeof ORTHOGRAPHIC_CONSTRAINTS[ViewportViewType],
-    targetConstraints: typeof ORTHOGRAPHIC_CONSTRAINTS[ViewportViewType]
+    sourceConstraints: (typeof ORTHOGRAPHIC_CONSTRAINTS)[ViewportViewType],
+    targetConstraints: (typeof ORTHOGRAPHIC_CONSTRAINTS)[ViewportViewType]
   ): [number, number, number] {
     // Simplified transformation - in real implementation, use proper transformation matrices
     return vector;
@@ -636,7 +668,14 @@ export class CameraSynchronizationEngine {
     if (sourceMode === 'none') return 'none';
 
     // Use the more restrictive mode
-    const modeHierarchy: SyncMode[] = ['none', 'zoom', 'pan', 'rotation', 'full', 'orthographic-lock'];
+    const modeHierarchy: SyncMode[] = [
+      'none',
+      'zoom',
+      'pan',
+      'rotation',
+      'full',
+      'orthographic-lock',
+    ];
     const targetIndex = modeHierarchy.indexOf(targetMode);
     const sourceIndex = modeHierarchy.indexOf(sourceMode);
 

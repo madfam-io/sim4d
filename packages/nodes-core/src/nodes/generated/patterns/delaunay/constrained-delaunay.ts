@@ -15,7 +15,11 @@ interface ConstrainedDelaunayOutputs {
   triangulation: unknown;
 }
 
-export const PatternsDelaunayConstrainedDelaunayNode: NodeDefinition<ConstrainedDelaunayInputs, ConstrainedDelaunayOutputs, ConstrainedDelaunayParams> = {
+export const PatternsDelaunayConstrainedDelaunayNode: NodeDefinition<
+  ConstrainedDelaunayInputs,
+  ConstrainedDelaunayOutputs,
+  ConstrainedDelaunayParams
+> = {
   id: 'Patterns::ConstrainedDelaunay',
   type: 'Patterns::ConstrainedDelaunay',
   category: 'Patterns',
@@ -25,37 +29,37 @@ export const PatternsDelaunayConstrainedDelaunayNode: NodeDefinition<Constrained
     points: {
       type: 'Point[]',
       label: 'Points',
-      required: true
+      required: true,
     },
     boundary: {
       type: 'Wire',
       label: 'Boundary',
-      required: true
+      required: true,
     },
     holes: {
       type: 'Wire[]',
       label: 'Holes',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     triangulation: {
       type: 'Mesh',
-      label: 'Triangulation'
-    }
+      label: 'Triangulation',
+    },
   },
   params: {
     refinement: {
       type: 'boolean',
       label: 'Refinement',
-      default: true
+      default: true,
     },
     maxArea: {
       type: 'number',
       label: 'Max Area',
       default: 100,
-      min: 0.1
-    }
+      min: 0.1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -65,12 +69,12 @@ export const PatternsDelaunayConstrainedDelaunayNode: NodeDefinition<Constrained
         boundary: inputs.boundary,
         holes: inputs.holes,
         refinement: params.refinement,
-        maxArea: params.maxArea
-      }
+        maxArea: params.maxArea,
+      },
     });
-    
+
     return {
-      triangulation: result
+      triangulation: result,
     };
   },
 };

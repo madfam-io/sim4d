@@ -32,12 +32,13 @@ export function GlowButton({
       'px-4 py-2 text-sm': size === 'small',
       'px-6 py-3 text-base': size === 'medium',
       'px-8 py-4 text-lg': size === 'large',
-      
+
       // Style variants
       'bg-gradient-to-r from-blue-500 to-purple-500 text-white': variant === 'primary',
-      'bg-gray-800/50 backdrop-blur-sm border border-gray-700 text-gray-200': variant === 'secondary',
+      'bg-gray-800/50 backdrop-blur-sm border border-gray-700 text-gray-200':
+        variant === 'secondary',
       'bg-transparent text-gray-300 hover:text-white': variant === 'ghost',
-      
+
       // Glow effects
       'before:bg-gradient-to-r before:from-blue-500/50 before:to-purple-500/50 before:blur-xl before:opacity-0 hover:before:opacity-100':
         variant === 'primary',
@@ -64,7 +65,7 @@ export function GlowButton({
         rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
       >
         <span className="relative z-10">{children}</span>
-        
+
         {/* Animated gradient border */}
         {variant === 'primary' && (
           <motion.div

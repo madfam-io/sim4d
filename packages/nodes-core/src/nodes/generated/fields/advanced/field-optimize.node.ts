@@ -16,7 +16,11 @@ interface FieldOptimizeOutputs {
   convergence: unknown;
 }
 
-export const FieldsAdvancedFieldOptimizeNode: NodeDefinition<FieldOptimizeInputs, FieldOptimizeOutputs, FieldOptimizeParams> = {
+export const FieldsAdvancedFieldOptimizeNode: NodeDefinition<
+  FieldOptimizeInputs,
+  FieldOptimizeOutputs,
+  FieldOptimizeParams
+> = {
   id: 'Fields::FieldOptimize',
   category: 'Fields',
   label: 'FieldOptimize',
@@ -25,23 +29,23 @@ export const FieldsAdvancedFieldOptimizeNode: NodeDefinition<FieldOptimizeInputs
     initialField: {
       type: 'Field',
       label: 'Initial Field',
-      optional: true
+      optional: true,
     },
     constraints: {
       type: 'Field',
       label: 'Constraints',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     optimizedField: {
       type: 'Field',
-      label: 'Optimized Field'
+      label: 'Optimized Field',
     },
     convergence: {
       type: 'NumberList',
-      label: 'Convergence'
-    }
+      label: 'Convergence',
+    },
   },
   params: {
     iterations: {
@@ -49,21 +53,21 @@ export const FieldsAdvancedFieldOptimizeNode: NodeDefinition<FieldOptimizeInputs
       label: 'Iterations',
       default: 100,
       min: 10,
-      max: 1000
+      max: 1000,
     },
     objective: {
       type: 'enum',
       label: 'Objective',
-      default: "\"minimize\"",
-      options: ["minimize","maximize","smooth","sharpen"]
+      default: '"minimize"',
+      options: ['minimize', 'maximize', 'smooth', 'sharpen'],
     },
     learningRate: {
       type: 'number',
       label: 'Learning Rate',
       default: 0.01,
       min: 0.001,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -73,13 +77,13 @@ export const FieldsAdvancedFieldOptimizeNode: NodeDefinition<FieldOptimizeInputs
         constraints: inputs.constraints,
         iterations: params.iterations,
         objective: params.objective,
-        learningRate: params.learningRate
-      }
+        learningRate: params.learningRate,
+      },
     });
-    
+
     return {
       optimizedField: results.optimizedField,
-      convergence: results.convergence
+      convergence: results.convergence,
     };
   },
 };

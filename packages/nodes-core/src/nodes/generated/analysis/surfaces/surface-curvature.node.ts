@@ -18,7 +18,11 @@ interface SurfaceCurvatureOutputs {
   averageCurvature: unknown;
 }
 
-export const AnalysisSurfacesSurfaceCurvatureNode: NodeDefinition<SurfaceCurvatureInputs, SurfaceCurvatureOutputs, SurfaceCurvatureParams> = {
+export const AnalysisSurfacesSurfaceCurvatureNode: NodeDefinition<
+  SurfaceCurvatureInputs,
+  SurfaceCurvatureOutputs,
+  SurfaceCurvatureParams
+> = {
   id: 'Analysis::SurfaceCurvature',
   category: 'Analysis',
   label: 'SurfaceCurvature',
@@ -27,26 +31,26 @@ export const AnalysisSurfacesSurfaceCurvatureNode: NodeDefinition<SurfaceCurvatu
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     curvatureMap: {
       type: 'Shape',
-      label: 'Curvature Map'
+      label: 'Curvature Map',
     },
     maxCurvature: {
       type: 'number',
-      label: 'Max Curvature'
+      label: 'Max Curvature',
     },
     minCurvature: {
       type: 'number',
-      label: 'Min Curvature'
+      label: 'Min Curvature',
     },
     averageCurvature: {
       type: 'number',
-      label: 'Average Curvature'
-    }
+      label: 'Average Curvature',
+    },
   },
   params: {
     uSamples: {
@@ -54,26 +58,26 @@ export const AnalysisSurfacesSurfaceCurvatureNode: NodeDefinition<SurfaceCurvatu
       label: 'U Samples',
       default: 50,
       min: 10,
-      max: 200
+      max: 200,
     },
     vSamples: {
       type: 'number',
       label: 'V Samples',
       default: 50,
       min: 10,
-      max: 200
+      max: 200,
     },
     curvatureType: {
       type: 'enum',
       label: 'Curvature Type',
-      default: "gaussian",
-      options: ["gaussian","mean","principal"]
+      default: 'gaussian',
+      options: ['gaussian', 'mean', 'principal'],
     },
     colorMap: {
       type: 'boolean',
       label: 'Color Map',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -83,15 +87,15 @@ export const AnalysisSurfacesSurfaceCurvatureNode: NodeDefinition<SurfaceCurvatu
         uSamples: params.uSamples,
         vSamples: params.vSamples,
         curvatureType: params.curvatureType,
-        colorMap: params.colorMap
-      }
+        colorMap: params.colorMap,
+      },
     });
-    
+
     return {
       curvatureMap: results.curvatureMap,
       maxCurvature: results.maxCurvature,
       minCurvature: results.minCurvature,
-      averageCurvature: results.averageCurvature
+      averageCurvature: results.averageCurvature,
     };
   },
 };

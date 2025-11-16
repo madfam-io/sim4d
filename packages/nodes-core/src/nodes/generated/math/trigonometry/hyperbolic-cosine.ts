@@ -10,7 +10,11 @@ interface HyperbolicCosineOutputs {
   result: unknown;
 }
 
-export const MathTrigonometryHyperbolicCosineNode: NodeDefinition<HyperbolicCosineInputs, HyperbolicCosineOutputs, HyperbolicCosineParams> = {
+export const MathTrigonometryHyperbolicCosineNode: NodeDefinition<
+  HyperbolicCosineInputs,
+  HyperbolicCosineOutputs,
+  HyperbolicCosineParams
+> = {
   id: 'Math::HyperbolicCosine',
   type: 'Math::HyperbolicCosine',
   category: 'Math',
@@ -20,26 +24,26 @@ export const MathTrigonometryHyperbolicCosineNode: NodeDefinition<HyperbolicCosi
     value: {
       type: 'number',
       label: 'Value',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'number',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathCosh',
       params: {
-        value: inputs.value
-      }
+        value: inputs.value,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

@@ -13,7 +13,11 @@ interface Chamfer2DOutputs {
   chamfered: unknown;
 }
 
-export const SketchCurvesChamfer2DNode: NodeDefinition<Chamfer2DInputs, Chamfer2DOutputs, Chamfer2DParams> = {
+export const SketchCurvesChamfer2DNode: NodeDefinition<
+  Chamfer2DInputs,
+  Chamfer2DOutputs,
+  Chamfer2DParams
+> = {
   id: 'Sketch::Chamfer2D',
   category: 'Sketch',
   label: 'Chamfer2D',
@@ -22,19 +26,19 @@ export const SketchCurvesChamfer2DNode: NodeDefinition<Chamfer2DInputs, Chamfer2
     wire: {
       type: 'Wire',
       label: 'Wire',
-      required: true
+      required: true,
     },
     vertices: {
       type: 'Vertex[]',
       label: 'Vertices',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     chamfered: {
       type: 'Wire',
-      label: 'Chamfered'
-    }
+      label: 'Chamfered',
+    },
   },
   params: {
     distance: {
@@ -42,8 +46,8 @@ export const SketchCurvesChamfer2DNode: NodeDefinition<Chamfer2DInputs, Chamfer2
       label: 'Distance',
       default: 5,
       min: 0.1,
-      max: 1000
-    }
+      max: 1000,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -51,12 +55,12 @@ export const SketchCurvesChamfer2DNode: NodeDefinition<Chamfer2DInputs, Chamfer2
       params: {
         wire: inputs.wire,
         vertices: inputs.vertices,
-        distance: params.distance
-      }
+        distance: params.distance,
+      },
     });
-    
+
     return {
-      chamfered: result
+      chamfered: result,
     };
   },
 };

@@ -11,7 +11,11 @@ interface ListPartitionOutputs {
   partitions: unknown;
 }
 
-export const DataListListPartitionNode: NodeDefinition<ListPartitionInputs, ListPartitionOutputs, ListPartitionParams> = {
+export const DataListListPartitionNode: NodeDefinition<
+  ListPartitionInputs,
+  ListPartitionOutputs,
+  ListPartitionParams
+> = {
   id: 'Data::ListPartition',
   type: 'Data::ListPartition',
   category: 'Data',
@@ -21,19 +25,19 @@ export const DataListListPartitionNode: NodeDefinition<ListPartitionInputs, List
     list: {
       type: 'Data[]',
       label: 'List',
-      required: true
+      required: true,
     },
     size: {
       type: 'number',
       label: 'Size',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     partitions: {
       type: 'Data[][]',
-      label: 'Partitions'
-    }
+      label: 'Partitions',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -41,12 +45,12 @@ export const DataListListPartitionNode: NodeDefinition<ListPartitionInputs, List
       type: 'listPartition',
       params: {
         list: inputs.list,
-        size: inputs.size
-      }
+        size: inputs.size,
+      },
     });
-    
+
     return {
-      partitions: result
+      partitions: result,
     };
   },
 };

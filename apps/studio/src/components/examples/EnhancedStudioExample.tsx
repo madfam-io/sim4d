@@ -8,7 +8,7 @@ import {
   NumberInput,
   CoordinateInput,
   Enhanced3DViewport,
-  DESIGN_TOKENS
+  DESIGN_TOKENS,
 } from '../ui';
 
 /**
@@ -23,53 +23,61 @@ export const EnhancedStudioExample: React.FC = () => {
     depth: 25,
     position: { x: 0, y: 0, z: 0 },
     material: 'aluminum',
-    units: 'mm'
+    units: 'mm',
   });
 
-  const [measurements, setMeasurements] = useState<Array<{
-    id: string;
-    type: string;
-    value: number;
-    unit: string;
-  }>>([
+  const [measurements, setMeasurements] = useState<
+    Array<{
+      id: string;
+      type: string;
+      value: number;
+      unit: string;
+    }>
+  >([
     { id: '1', type: 'Distance', value: 125.4, unit: 'mm' },
     { id: '2', type: 'Angle', value: 45.0, unit: '°' },
-    { id: '3', type: 'Radius', value: 12.7, unit: 'mm' }
+    { id: '3', type: 'Radius', value: 12.7, unit: 'mm' },
   ]);
 
   return (
-    <div className="enhanced-studio-example" style={{
-      display: 'grid',
-      gridTemplateColumns: '280px 1fr 320px',
-      gridTemplateRows: '60px 1fr 150px',
-      gridTemplateAreas: `
+    <div
+      className="enhanced-studio-example"
+      style={{
+        display: 'grid',
+        gridTemplateColumns: '280px 1fr 320px',
+        gridTemplateRows: '60px 1fr 150px',
+        gridTemplateAreas: `
         "toolbar toolbar toolbar"
         "sidebar viewport inspector"
         "sidebar console inspector"
       `,
-      height: '100vh',
-      gap: '1px',
-      background: DESIGN_TOKENS.colors.technical[200]
-    }}>
-
+        height: '100vh',
+        gap: '1px',
+        background: DESIGN_TOKENS.colors.technical[200],
+      }}
+    >
       {/* Professional Toolbar */}
-      <div style={{
-        gridArea: 'toolbar',
-        background: DESIGN_TOKENS.colors.engineering[50],
-        borderBottom: `1px solid ${DESIGN_TOKENS.colors.technical[200]}`,
-        display: 'flex',
-        alignItems: 'center',
-        padding: '0 16px',
-        gap: '12px'
-      }}>
+      <div
+        style={{
+          gridArea: 'toolbar',
+          background: DESIGN_TOKENS.colors.engineering[50],
+          borderBottom: `1px solid ${DESIGN_TOKENS.colors.technical[200]}`,
+          display: 'flex',
+          alignItems: 'center',
+          padding: '0 16px',
+          gap: '12px',
+        }}
+      >
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <IconButton icon="menu" aria-label="Menu" />
-          <h1 style={{
-            fontSize: DESIGN_TOKENS.fontSize.base,
-            fontWeight: 600,
-            color: DESIGN_TOKENS.colors.engineering[700],
-            margin: 0
-          }}>
+          <h1
+            style={{
+              fontSize: DESIGN_TOKENS.fontSize.base,
+              fontWeight: 600,
+              color: DESIGN_TOKENS.colors.engineering[700],
+              margin: 0,
+            }}
+          >
             BrepFlow Studio
           </h1>
         </div>
@@ -91,12 +99,14 @@ export const EnhancedStudioExample: React.FC = () => {
       <div style={{ gridArea: 'sidebar', background: 'white' }}>
         <Panel title="Node Library" subtitle="Drag to add to canvas">
           <PanelSection title="Geometry" collapsible defaultCollapsed={false}>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(2, 1fr)',
-              gap: '8px',
-              marginBottom: '16px'
-            }}>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gap: '8px',
+                marginBottom: '16px',
+              }}
+            >
               {['Box', 'Cylinder', 'Sphere', 'Extrude'].map((nodeName) => (
                 <Button
                   key={nodeName}
@@ -106,7 +116,7 @@ export const EnhancedStudioExample: React.FC = () => {
                     aspectRatio: '1',
                     flexDirection: 'column',
                     gap: '4px',
-                    fontSize: '11px'
+                    fontSize: '11px',
                   }}
                 >
                   {nodeName}
@@ -116,11 +126,13 @@ export const EnhancedStudioExample: React.FC = () => {
           </PanelSection>
 
           <PanelSection title="Operations" collapsible defaultCollapsed={true}>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(2, 1fr)',
-              gap: '8px'
-            }}>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gap: '8px',
+              }}
+            >
               {['Union', 'Subtract', 'Intersect', 'Fillet'].map((nodeName) => (
                 <Button
                   key={nodeName}
@@ -130,7 +142,7 @@ export const EnhancedStudioExample: React.FC = () => {
                     aspectRatio: '1',
                     flexDirection: 'column',
                     gap: '4px',
-                    fontSize: '11px'
+                    fontSize: '11px',
                   }}
                 >
                   {nodeName}
@@ -140,11 +152,13 @@ export const EnhancedStudioExample: React.FC = () => {
           </PanelSection>
 
           <PanelSection title="Transform" collapsible defaultCollapsed={true}>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(2, 1fr)',
-              gap: '8px'
-            }}>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gap: '8px',
+              }}
+            >
               {['Move', 'Rotate', 'Scale', 'Mirror'].map((nodeName) => (
                 <Button
                   key={nodeName}
@@ -154,7 +168,7 @@ export const EnhancedStudioExample: React.FC = () => {
                     aspectRatio: '1',
                     flexDirection: 'column',
                     gap: '4px',
-                    fontSize: '11px'
+                    fontSize: '11px',
                   }}
                 >
                   {nodeName}
@@ -172,7 +186,7 @@ export const EnhancedStudioExample: React.FC = () => {
           onViewChange={(view) => console.log('View changed to:', view)}
           onMeasurement={(type, data) => {
             console.log('Measurement added:', type, data);
-            setMeasurements(prev => [...prev, data]);
+            setMeasurements((prev) => [...prev, data]);
           }}
         />
       </div>
@@ -185,7 +199,9 @@ export const EnhancedStudioExample: React.FC = () => {
               <NumberInput
                 label="Width"
                 value={nodeParameters.width}
-                onValueChange={(value) => setNodeParameters(prev => ({ ...prev, width: value || 0 }))}
+                onValueChange={(value) =>
+                  setNodeParameters((prev) => ({ ...prev, width: value || 0 }))
+                }
                 unit="mm"
                 precision={1}
                 variant="measurement"
@@ -195,7 +211,9 @@ export const EnhancedStudioExample: React.FC = () => {
               <NumberInput
                 label="Height"
                 value={nodeParameters.height}
-                onValueChange={(value) => setNodeParameters(prev => ({ ...prev, height: value || 0 }))}
+                onValueChange={(value) =>
+                  setNodeParameters((prev) => ({ ...prev, height: value || 0 }))
+                }
                 unit="mm"
                 precision={1}
                 variant="measurement"
@@ -205,7 +223,9 @@ export const EnhancedStudioExample: React.FC = () => {
               <NumberInput
                 label="Depth"
                 value={nodeParameters.depth}
-                onValueChange={(value) => setNodeParameters(prev => ({ ...prev, depth: value || 0 }))}
+                onValueChange={(value) =>
+                  setNodeParameters((prev) => ({ ...prev, depth: value || 0 }))
+                }
                 unit="mm"
                 precision={1}
                 variant="measurement"
@@ -217,7 +237,12 @@ export const EnhancedStudioExample: React.FC = () => {
           <PanelSection title="Position">
             <CoordinateInput
               value={nodeParameters.position}
-              onChange={(value) => setNodeParameters(prev => ({ ...prev, position: { x: value.x ?? 0, y: value.y ?? 0, z: value.z ?? 0 } }))}
+              onChange={(value) =>
+                setNodeParameters((prev) => ({
+                  ...prev,
+                  position: { x: value.x ?? 0, y: value.y ?? 0, z: value.z ?? 0 },
+                }))
+              }
               unit="mm"
               precision={1}
               size="sm"
@@ -228,7 +253,7 @@ export const EnhancedStudioExample: React.FC = () => {
             <Input
               label="Material"
               value={nodeParameters.material}
-              onChange={(e) => setNodeParameters(prev => ({ ...prev, material: e.target.value }))}
+              onChange={(e) => setNodeParameters((prev) => ({ ...prev, material: e.target.value }))}
               placeholder="Enter material name"
               size="sm"
             />
@@ -246,40 +271,45 @@ export const EnhancedStudioExample: React.FC = () => {
                     padding: '8px',
                     background: DESIGN_TOKENS.colors.technical[50],
                     borderRadius: DESIGN_TOKENS.borderRadius.sm,
-                    fontSize: DESIGN_TOKENS.fontSize.xs
+                    fontSize: DESIGN_TOKENS.fontSize.xs,
                   }}
                 >
                   <div>
                     <div style={{ color: DESIGN_TOKENS.colors.technical[600] }}>
                       {measurement.type}
                     </div>
-                    <div style={{
-                      fontFamily: 'var(--font-family-mono)',
-                      color: DESIGN_TOKENS.colors.technical[900],
-                      fontWeight: 600
-                    }}>
-                      {measurement.value.toFixed(1)}{measurement.unit}
+                    <div
+                      style={{
+                        fontFamily: 'var(--font-family-mono)',
+                        color: DESIGN_TOKENS.colors.technical[900],
+                        fontWeight: 600,
+                      }}
+                    >
+                      {measurement.value.toFixed(1)}
+                      {measurement.unit}
                     </div>
                   </div>
                   <IconButton
                     icon="trash-2"
                     size="sm"
                     variant="ghost"
-                    onClick={() => setMeasurements(prev =>
-                      prev.filter(m => m.id !== measurement.id)
-                    )}
+                    onClick={() =>
+                      setMeasurements((prev) => prev.filter((m) => m.id !== measurement.id))
+                    }
                     aria-label="Delete measurement"
                   />
                 </div>
               ))}
 
               {measurements.length === 0 && (
-                <div style={{
-                  padding: '16px',
-                  textAlign: 'center',
-                  color: DESIGN_TOKENS.colors.technical[500],
-                  fontSize: DESIGN_TOKENS.fontSize.xs
-                }}>
+                <div
+                  style={{
+                    padding: '16px',
+                    textAlign: 'center',
+                    color: DESIGN_TOKENS.colors.technical[500],
+                    fontSize: DESIGN_TOKENS.fontSize.xs,
+                  }}
+                >
                   No measurements
                 </div>
               )}
@@ -291,12 +321,14 @@ export const EnhancedStudioExample: React.FC = () => {
       {/* Enhanced Console */}
       <div style={{ gridArea: 'console', background: 'white' }}>
         <Panel title="Console" subtitle="System messages and logs" variant="compact">
-          <div style={{
-            fontFamily: 'var(--font-family-mono)',
-            fontSize: DESIGN_TOKENS.fontSize.xs,
-            lineHeight: '1.4',
-            color: DESIGN_TOKENS.colors.technical[700]
-          }}>
+          <div
+            style={{
+              fontFamily: 'var(--font-family-mono)',
+              fontSize: DESIGN_TOKENS.fontSize.xs,
+              lineHeight: '1.4',
+              color: DESIGN_TOKENS.colors.technical[700],
+            }}
+          >
             <div style={{ color: DESIGN_TOKENS.colors.engineering[600] }}>
               [INFO] BrepFlow Studio initialized
             </div>

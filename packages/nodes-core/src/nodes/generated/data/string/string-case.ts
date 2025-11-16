@@ -12,7 +12,11 @@ interface StringCaseOutputs {
   result: unknown;
 }
 
-export const DataStringStringCaseNode: NodeDefinition<StringCaseInputs, StringCaseOutputs, StringCaseParams> = {
+export const DataStringStringCaseNode: NodeDefinition<
+  StringCaseInputs,
+  StringCaseOutputs,
+  StringCaseParams
+> = {
   id: 'Data::StringCase',
   type: 'Data::StringCase',
   category: 'Data',
@@ -22,34 +26,34 @@ export const DataStringStringCaseNode: NodeDefinition<StringCaseInputs, StringCa
     string: {
       type: 'string',
       label: 'String',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'string',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {
     case: {
       type: 'enum',
       label: 'Case',
-      default: "lower",
-      options: ["upper","lower","title","camel","snake"]
-    }
+      default: 'lower',
+      options: ['upper', 'lower', 'title', 'camel', 'snake'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'stringCase',
       params: {
         string: inputs.string,
-        case: params.case
-      }
+        case: params.case,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

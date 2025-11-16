@@ -15,7 +15,11 @@ interface FieldLineOutputs {
   lines: unknown;
 }
 
-export const FieldSampleFieldLineNode: NodeDefinition<FieldLineInputs, FieldLineOutputs, FieldLineParams> = {
+export const FieldSampleFieldLineNode: NodeDefinition<
+  FieldLineInputs,
+  FieldLineOutputs,
+  FieldLineParams
+> = {
   id: 'Field::FieldLine',
   type: 'Field::FieldLine',
   category: 'Field',
@@ -25,26 +29,26 @@ export const FieldSampleFieldLineNode: NodeDefinition<FieldLineInputs, FieldLine
     field: {
       type: 'VectorField',
       label: 'Field',
-      required: true
+      required: true,
     },
     seeds: {
       type: 'Point[]',
       label: 'Seeds',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     lines: {
       type: 'Wire[]',
-      label: 'Lines'
-    }
+      label: 'Lines',
+    },
   },
   params: {
     stepSize: {
       type: 'number',
       label: 'Step Size',
       default: 1,
-      min: 0.01
+      min: 0.01,
     },
     maxSteps: {
       type: 'number',
@@ -52,14 +56,14 @@ export const FieldSampleFieldLineNode: NodeDefinition<FieldLineInputs, FieldLine
       default: 1000,
       min: 10,
       max: 10000,
-      step: 10
+      step: 10,
     },
     direction: {
       type: 'enum',
       label: 'Direction',
-      default: "forward",
-      options: ["forward","backward","both"]
-    }
+      default: 'forward',
+      options: ['forward', 'backward', 'both'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -69,12 +73,12 @@ export const FieldSampleFieldLineNode: NodeDefinition<FieldLineInputs, FieldLine
         seeds: inputs.seeds,
         stepSize: params.stepSize,
         maxSteps: params.maxSteps,
-        direction: params.direction
-      }
+        direction: params.direction,
+      },
     });
-    
+
     return {
-      lines: result
+      lines: result,
     };
   },
 };

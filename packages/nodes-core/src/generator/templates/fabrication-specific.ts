@@ -17,17 +17,20 @@ export const printing3DTemplates: NodeTemplate[] = [
     operation: 'SUPPORT_GENERATION',
     occtBinding: 'supportGeneration',
     parameters: [
-      { name: 'type', type: 'enum', options: ['tree', 'linear', 'grid', 'organic'], default: 'tree' },
+      {
+        name: 'type',
+        type: 'enum',
+        options: ['tree', 'linear', 'grid', 'organic'],
+        default: 'tree',
+      },
       { name: 'angle', type: 'number', default: 45, min: 0, max: 90 },
-      { name: 'density', type: 'number', default: 0.2, min: 0.1, max: 1 }
+      { name: 'density', type: 'number', default: 0.2, min: 0.1, max: 1 },
     ],
-    inputs: [
-      { name: 'model', type: 'Shape', required: true }
-    ],
+    inputs: [{ name: 'model', type: 'Shape', required: true }],
     outputs: [
       { name: 'supports', type: 'Shape' },
-      { name: 'supportedModel', type: 'Shape' }
-    ]
+      { name: 'supportedModel', type: 'Shape' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -37,16 +40,19 @@ export const printing3DTemplates: NodeTemplate[] = [
     operation: 'PRINT_ORIENTATION',
     occtBinding: 'printOrientation',
     parameters: [
-      { name: 'optimize', type: 'enum', options: ['support', 'strength', 'time', 'quality'], default: 'support' },
-      { name: 'constraints', type: 'boolean', default: false }
+      {
+        name: 'optimize',
+        type: 'enum',
+        options: ['support', 'strength', 'time', 'quality'],
+        default: 'support',
+      },
+      { name: 'constraints', type: 'boolean', default: false },
     ],
-    inputs: [
-      { name: 'model', type: 'Shape', required: true }
-    ],
+    inputs: [{ name: 'model', type: 'Shape', required: true }],
     outputs: [
       { name: 'orientation', type: 'Transform' },
-      { name: 'orientedModel', type: 'Shape' }
-    ]
+      { name: 'orientedModel', type: 'Shape' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -58,15 +64,18 @@ export const printing3DTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'layerHeight', type: 'number', default: 0.2, min: 0.05, max: 1 },
       { name: 'infillDensity', type: 'number', default: 0.2, min: 0, max: 1 },
-      { name: 'infillPattern', type: 'enum', options: ['grid', 'honeycomb', 'gyroid', 'cubic'], default: 'grid' }
+      {
+        name: 'infillPattern',
+        type: 'enum',
+        options: ['grid', 'honeycomb', 'gyroid', 'cubic'],
+        default: 'grid',
+      },
     ],
-    inputs: [
-      { name: 'model', type: 'Shape', required: true }
-    ],
+    inputs: [{ name: 'model', type: 'Shape', required: true }],
     outputs: [
       { name: 'slices', type: 'Wire[]' },
-      { name: 'infill', type: 'Wire[]' }
-    ]
+      { name: 'infill', type: 'Wire[]' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -77,15 +86,13 @@ export const printing3DTemplates: NodeTemplate[] = [
     occtBinding: 'bridgeDetection',
     parameters: [
       { name: 'maxBridge', type: 'number', default: 5, min: 0, max: 50 },
-      { name: 'overhangAngle', type: 'number', default: 45, min: 0, max: 90 }
+      { name: 'overhangAngle', type: 'number', default: 45, min: 0, max: 90 },
     ],
-    inputs: [
-      { name: 'model', type: 'Shape', required: true }
-    ],
+    inputs: [{ name: 'model', type: 'Shape', required: true }],
     outputs: [
       { name: 'bridges', type: 'Face[]' },
-      { name: 'overhangs', type: 'Face[]' }
-    ]
+      { name: 'overhangs', type: 'Face[]' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -96,15 +103,13 @@ export const printing3DTemplates: NodeTemplate[] = [
     occtBinding: 'wallThickness',
     parameters: [
       { name: 'minThickness', type: 'number', default: 1, min: 0.1 },
-      { name: 'maxThickness', type: 'number', default: 10, min: 1 }
+      { name: 'maxThickness', type: 'number', default: 10, min: 1 },
     ],
-    inputs: [
-      { name: 'model', type: 'Shape', required: true }
-    ],
+    inputs: [{ name: 'model', type: 'Shape', required: true }],
     outputs: [
       { name: 'analysis', type: 'Data' },
-      { name: 'thinAreas', type: 'Face[]' }
-    ]
+      { name: 'thinAreas', type: 'Face[]' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -116,15 +121,13 @@ export const printing3DTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'printSpeed', type: 'number', default: 60, min: 10, max: 300 },
       { name: 'travelSpeed', type: 'number', default: 120, min: 50, max: 500 },
-      { name: 'layerHeight', type: 'number', default: 0.2, min: 0.05, max: 1 }
+      { name: 'layerHeight', type: 'number', default: 0.2, min: 0.05, max: 1 },
     ],
-    inputs: [
-      { name: 'model', type: 'Shape', required: true }
-    ],
+    inputs: [{ name: 'model', type: 'Shape', required: true }],
     outputs: [
       { name: 'timeHours', type: 'Number' },
-      { name: 'filamentMeters', type: 'Number' }
-    ]
+      { name: 'filamentMeters', type: 'Number' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -135,14 +138,10 @@ export const printing3DTemplates: NodeTemplate[] = [
     occtBinding: 'raftGeneration',
     parameters: [
       { name: 'raftLayers', type: 'number', default: 3, min: 1, max: 10, step: 1 },
-      { name: 'raftOffset', type: 'number', default: 5, min: 0, max: 20 }
+      { name: 'raftOffset', type: 'number', default: 5, min: 0, max: 20 },
     ],
-    inputs: [
-      { name: 'model', type: 'Shape', required: true }
-    ],
-    outputs: [
-      { name: 'raft', type: 'Shape' }
-    ]
+    inputs: [{ name: 'model', type: 'Shape', required: true }],
+    outputs: [{ name: 'raft', type: 'Shape' }],
   },
   {
     category: 'Fabrication',
@@ -153,14 +152,10 @@ export const printing3DTemplates: NodeTemplate[] = [
     occtBinding: 'brimGeneration',
     parameters: [
       { name: 'brimWidth', type: 'number', default: 10, min: 1, max: 50 },
-      { name: 'brimLines', type: 'number', default: 20, min: 1, max: 100, step: 1 }
+      { name: 'brimLines', type: 'number', default: 20, min: 1, max: 100, step: 1 },
     ],
-    inputs: [
-      { name: 'model', type: 'Shape', required: true }
-    ],
-    outputs: [
-      { name: 'brim', type: 'Wire[]' }
-    ]
+    inputs: [{ name: 'model', type: 'Shape', required: true }],
+    outputs: [{ name: 'brim', type: 'Wire[]' }],
   },
   {
     category: 'Fabrication',
@@ -170,15 +165,18 @@ export const printing3DTemplates: NodeTemplate[] = [
     operation: 'SEAM_OPTIMIZATION',
     occtBinding: 'seamOptimization',
     parameters: [
-      { name: 'strategy', type: 'enum', options: ['hidden', 'aligned', 'random', 'shortest'], default: 'hidden' }
+      {
+        name: 'strategy',
+        type: 'enum',
+        options: ['hidden', 'aligned', 'random', 'shortest'],
+        default: 'hidden',
+      },
     ],
-    inputs: [
-      { name: 'slices', type: 'Wire[]', required: true }
-    ],
+    inputs: [{ name: 'slices', type: 'Wire[]', required: true }],
     outputs: [
       { name: 'optimizedSlices', type: 'Wire[]' },
-      { name: 'seamPoints', type: 'Point[]' }
-    ]
+      { name: 'seamPoints', type: 'Point[]' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -190,15 +188,13 @@ export const printing3DTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'minDensity', type: 'number', default: 0.1, min: 0, max: 1 },
       { name: 'maxDensity', type: 'number', default: 0.5, min: 0, max: 1 },
-      { name: 'gradientDistance', type: 'number', default: 5, min: 1, max: 20 }
+      { name: 'gradientDistance', type: 'number', default: 5, min: 1, max: 20 },
     ],
     inputs: [
       { name: 'model', type: 'Shape', required: true },
-      { name: 'stressMap', type: 'Data', required: false }
+      { name: 'stressMap', type: 'Data', required: false },
     ],
-    outputs: [
-      { name: 'adaptiveInfill', type: 'Wire[]' }
-    ]
+    outputs: [{ name: 'adaptiveInfill', type: 'Wire[]' }],
   },
   {
     category: 'Fabrication',
@@ -209,15 +205,13 @@ export const printing3DTemplates: NodeTemplate[] = [
     occtBinding: 'coolingAnalysis',
     parameters: [
       { name: 'fanSpeed', type: 'number', default: 100, min: 0, max: 100 },
-      { name: 'layerTime', type: 'number', default: 10, min: 1 }
+      { name: 'layerTime', type: 'number', default: 10, min: 1 },
     ],
-    inputs: [
-      { name: 'slices', type: 'Wire[]', required: true }
-    ],
+    inputs: [{ name: 'slices', type: 'Wire[]', required: true }],
     outputs: [
       { name: 'coolingZones', type: 'Wire[]' },
-      { name: 'fanProfile', type: 'Data' }
-    ]
+      { name: 'fanProfile', type: 'Data' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -228,14 +222,10 @@ export const printing3DTemplates: NodeTemplate[] = [
     occtBinding: 'retractionOptimization',
     parameters: [
       { name: 'retractionDistance', type: 'number', default: 1, min: 0, max: 10 },
-      { name: 'minTravelDistance', type: 'number', default: 2, min: 0.5, max: 10 }
+      { name: 'minTravelDistance', type: 'number', default: 2, min: 0.5, max: 10 },
     ],
-    inputs: [
-      { name: 'toolpath', type: 'Wire[]', required: true }
-    ],
-    outputs: [
-      { name: 'retractionPoints', type: 'Point[]' }
-    ]
+    inputs: [{ name: 'toolpath', type: 'Wire[]', required: true }],
+    outputs: [{ name: 'retractionPoints', type: 'Point[]' }],
   },
   {
     category: 'Fabrication',
@@ -244,15 +234,9 @@ export const printing3DTemplates: NodeTemplate[] = [
     description: 'Generate vase mode spiral',
     operation: 'VASE_MODE',
     occtBinding: 'vaseMode',
-    parameters: [
-      { name: 'bottomLayers', type: 'number', default: 3, min: 0, max: 10, step: 1 }
-    ],
-    inputs: [
-      { name: 'model', type: 'Shape', required: true }
-    ],
-    outputs: [
-      { name: 'spiralPath', type: 'Wire' }
-    ]
+    parameters: [{ name: 'bottomLayers', type: 'number', default: 3, min: 0, max: 10, step: 1 }],
+    inputs: [{ name: 'model', type: 'Shape', required: true }],
+    outputs: [{ name: 'spiralPath', type: 'Wire' }],
   },
   {
     category: 'Fabrication',
@@ -263,15 +247,13 @@ export const printing3DTemplates: NodeTemplate[] = [
     occtBinding: 'multiMaterialSetup',
     parameters: [
       { name: 'materials', type: 'number', default: 2, min: 2, max: 5, step: 1 },
-      { name: 'purgeVolume', type: 'number', default: 50, min: 0, max: 200 }
+      { name: 'purgeVolume', type: 'number', default: 50, min: 0, max: 200 },
     ],
-    inputs: [
-      { name: 'regions', type: 'Shape[]', required: true }
-    ],
+    inputs: [{ name: 'regions', type: 'Shape[]', required: true }],
     outputs: [
       { name: 'materialAssignment', type: 'Data' },
-      { name: 'purgeBlock', type: 'Shape' }
-    ]
+      { name: 'purgeBlock', type: 'Shape' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -283,14 +265,10 @@ export const printing3DTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'branchAngle', type: 'number', default: 40, min: 20, max: 60 },
       { name: 'trunkDiameter', type: 'number', default: 5, min: 1, max: 20 },
-      { name: 'branchDiameter', type: 'number', default: 2, min: 0.5, max: 10 }
+      { name: 'branchDiameter', type: 'number', default: 2, min: 0.5, max: 10 },
     ],
-    inputs: [
-      { name: 'model', type: 'Shape', required: true }
-    ],
-    outputs: [
-      { name: 'treeSupports', type: 'Shape' }
-    ]
+    inputs: [{ name: 'model', type: 'Shape', required: true }],
+    outputs: [{ name: 'treeSupports', type: 'Shape' }],
   },
   {
     category: 'Fabrication',
@@ -301,14 +279,10 @@ export const printing3DTemplates: NodeTemplate[] = [
     occtBinding: 'ironingPass',
     parameters: [
       { name: 'ironingSpeed', type: 'number', default: 20, min: 5, max: 50 },
-      { name: 'flowRate', type: 'number', default: 0.1, min: 0, max: 0.3 }
+      { name: 'flowRate', type: 'number', default: 0.1, min: 0, max: 0.3 },
     ],
-    inputs: [
-      { name: 'topSurfaces', type: 'Face[]', required: true }
-    ],
-    outputs: [
-      { name: 'ironingPaths', type: 'Wire[]' }
-    ]
+    inputs: [{ name: 'topSurfaces', type: 'Face[]', required: true }],
+    outputs: [{ name: 'ironingPaths', type: 'Wire[]' }],
   },
   {
     category: 'Fabrication',
@@ -319,14 +293,10 @@ export const printing3DTemplates: NodeTemplate[] = [
     occtBinding: 'fuzzySkin',
     parameters: [
       { name: 'thickness', type: 'number', default: 0.3, min: 0.1, max: 1 },
-      { name: 'pointDistance', type: 'number', default: 0.75, min: 0.1, max: 2 }
+      { name: 'pointDistance', type: 'number', default: 0.75, min: 0.1, max: 2 },
     ],
-    inputs: [
-      { name: 'perimeters', type: 'Wire[]', required: true }
-    ],
-    outputs: [
-      { name: 'fuzzyPerimeters', type: 'Wire[]' }
-    ]
+    inputs: [{ name: 'perimeters', type: 'Wire[]', required: true }],
+    outputs: [{ name: 'fuzzyPerimeters', type: 'Wire[]' }],
   },
   {
     category: 'Fabrication',
@@ -337,14 +307,10 @@ export const printing3DTemplates: NodeTemplate[] = [
     occtBinding: 'coastingSetup',
     parameters: [
       { name: 'coastVolume', type: 'number', default: 0.064, min: 0, max: 1 },
-      { name: 'minVolume', type: 'number', default: 0.8, min: 0.1, max: 5 }
+      { name: 'minVolume', type: 'number', default: 0.8, min: 0.1, max: 5 },
     ],
-    inputs: [
-      { name: 'extrusions', type: 'Wire[]', required: true }
-    ],
-    outputs: [
-      { name: 'coastingPoints', type: 'Point[]' }
-    ]
+    inputs: [{ name: 'extrusions', type: 'Wire[]', required: true }],
+    outputs: [{ name: 'coastingPoints', type: 'Point[]' }],
   },
   {
     category: 'Fabrication',
@@ -355,14 +321,10 @@ export const printing3DTemplates: NodeTemplate[] = [
     occtBinding: 'wipeTower',
     parameters: [
       { name: 'towerWidth', type: 'number', default: 60, min: 20, max: 100 },
-      { name: 'wipeVolume', type: 'number', default: 15, min: 5, max: 50 }
+      { name: 'wipeVolume', type: 'number', default: 15, min: 5, max: 50 },
     ],
-    inputs: [
-      { name: 'printHeight', type: 'Number', required: true }
-    ],
-    outputs: [
-      { name: 'tower', type: 'Shape' }
-    ]
+    inputs: [{ name: 'printHeight', type: 'Number', required: true }],
+    outputs: [{ name: 'tower', type: 'Shape' }],
   },
   {
     category: 'Fabrication',
@@ -374,14 +336,10 @@ export const printing3DTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'minHeight', type: 'number', default: 0.1, min: 0.05, max: 0.5 },
       { name: 'maxHeight', type: 'number', default: 0.3, min: 0.1, max: 1 },
-      { name: 'quality', type: 'number', default: 0.5, min: 0, max: 1 }
+      { name: 'quality', type: 'number', default: 0.5, min: 0, max: 1 },
     ],
-    inputs: [
-      { name: 'model', type: 'Shape', required: true }
-    ],
-    outputs: [
-      { name: 'layerHeights', type: 'Number[]' }
-    ]
+    inputs: [{ name: 'model', type: 'Shape', required: true }],
+    outputs: [{ name: 'layerHeights', type: 'Number[]' }],
   },
   {
     category: 'Fabrication',
@@ -392,14 +350,10 @@ export const printing3DTemplates: NodeTemplate[] = [
     occtBinding: 'perimeterGenerator',
     parameters: [
       { name: 'perimeters', type: 'number', default: 3, min: 1, max: 10, step: 1 },
-      { name: 'extrusionWidth', type: 'number', default: 0.4, min: 0.1, max: 2 }
+      { name: 'extrusionWidth', type: 'number', default: 0.4, min: 0.1, max: 2 },
     ],
-    inputs: [
-      { name: 'slice', type: 'Wire', required: true }
-    ],
-    outputs: [
-      { name: 'perimeters', type: 'Wire[]' }
-    ]
+    inputs: [{ name: 'slice', type: 'Wire', required: true }],
+    outputs: [{ name: 'perimeters', type: 'Wire[]' }],
   },
   {
     category: 'Fabrication',
@@ -409,15 +363,16 @@ export const printing3DTemplates: NodeTemplate[] = [
     operation: 'GCODE_POST_PROCESSOR',
     occtBinding: 'gcodePostProcessor',
     parameters: [
-      { name: 'flavor', type: 'enum', options: ['marlin', 'reprap', 'klipper', 'smoothie'], default: 'marlin' },
-      { name: 'optimize', type: 'boolean', default: true }
+      {
+        name: 'flavor',
+        type: 'enum',
+        options: ['marlin', 'reprap', 'klipper', 'smoothie'],
+        default: 'marlin',
+      },
+      { name: 'optimize', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'toolpaths', type: 'Wire[]', required: true }
-    ],
-    outputs: [
-      { name: 'gcode', type: 'Data' }
-    ]
+    inputs: [{ name: 'toolpaths', type: 'Wire[]', required: true }],
+    outputs: [{ name: 'gcode', type: 'Data' }],
   },
   {
     category: 'Fabrication',
@@ -426,15 +381,9 @@ export const printing3DTemplates: NodeTemplate[] = [
     description: 'Non-planar slicing paths',
     operation: 'NON_PLANAR_SLICING',
     occtBinding: 'nonPlanarSlicing',
-    parameters: [
-      { name: 'maxAngle', type: 'number', default: 30, min: 0, max: 60 }
-    ],
-    inputs: [
-      { name: 'model', type: 'Shape', required: true }
-    ],
-    outputs: [
-      { name: 'nonPlanarSlices', type: 'Wire[]' }
-    ]
+    parameters: [{ name: 'maxAngle', type: 'number', default: 30, min: 0, max: 60 }],
+    inputs: [{ name: 'model', type: 'Shape', required: true }],
+    outputs: [{ name: 'nonPlanarSlices', type: 'Wire[]' }],
   },
   {
     category: 'Fabrication',
@@ -443,15 +392,9 @@ export const printing3DTemplates: NodeTemplate[] = [
     description: 'Conical/cylindrical slicing',
     operation: 'CONICAL_SLICING',
     occtBinding: 'conicalSlicing',
-    parameters: [
-      { name: 'axis', type: 'vector3', default: '[0, 0, 1]' }
-    ],
-    inputs: [
-      { name: 'model', type: 'Shape', required: true }
-    ],
-    outputs: [
-      { name: 'conicalSlices', type: 'Wire[]' }
-    ]
+    parameters: [{ name: 'axis', type: 'vector3', default: '[0, 0, 1]' }],
+    inputs: [{ name: 'model', type: 'Shape', required: true }],
+    outputs: [{ name: 'conicalSlices', type: 'Wire[]' }],
   },
   {
     category: 'Fabrication',
@@ -462,15 +405,11 @@ export const printing3DTemplates: NodeTemplate[] = [
     occtBinding: 'solubleSupportInterface',
     parameters: [
       { name: 'interfaceLayers', type: 'number', default: 2, min: 1, max: 5, step: 1 },
-      { name: 'interfaceDensity', type: 'number', default: 0.9, min: 0.5, max: 1 }
+      { name: 'interfaceDensity', type: 'number', default: 0.9, min: 0.5, max: 1 },
     ],
-    inputs: [
-      { name: 'supports', type: 'Shape', required: true }
-    ],
-    outputs: [
-      { name: 'interface', type: 'Shape' }
-    ]
-  }
+    inputs: [{ name: 'supports', type: 'Shape', required: true }],
+    outputs: [{ name: 'interface', type: 'Shape' }],
+  },
 ];
 
 /**
@@ -485,18 +424,23 @@ export const cncMachiningTemplates: NodeTemplate[] = [
     operation: 'TOOLPATH_GENERATION',
     occtBinding: 'toolpathGeneration',
     parameters: [
-      { name: 'strategy', type: 'enum', options: ['parallel', 'contour', 'pocket', 'adaptive'], default: 'parallel' },
+      {
+        name: 'strategy',
+        type: 'enum',
+        options: ['parallel', 'contour', 'pocket', 'adaptive'],
+        default: 'parallel',
+      },
       { name: 'toolDiameter', type: 'number', default: 6, min: 0.1, max: 50 },
-      { name: 'stepover', type: 'number', default: 0.5, min: 0.1, max: 1 }
+      { name: 'stepover', type: 'number', default: 0.5, min: 0.1, max: 1 },
     ],
     inputs: [
       { name: 'model', type: 'Shape', required: true },
-      { name: 'stock', type: 'Shape', required: false }
+      { name: 'stock', type: 'Shape', required: false },
     ],
     outputs: [
       { name: 'toolpath', type: 'Wire[]' },
-      { name: 'rapids', type: 'Wire[]' }
-    ]
+      { name: 'rapids', type: 'Wire[]' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -506,18 +450,23 @@ export const cncMachiningTemplates: NodeTemplate[] = [
     operation: 'POCKETING_STRATEGY',
     occtBinding: 'pocketingStrategy',
     parameters: [
-      { name: 'pattern', type: 'enum', options: ['spiral', 'zigzag', 'contour', 'trochoidal'], default: 'spiral' },
+      {
+        name: 'pattern',
+        type: 'enum',
+        options: ['spiral', 'zigzag', 'contour', 'trochoidal'],
+        default: 'spiral',
+      },
       { name: 'stepdown', type: 'number', default: 2, min: 0.1, max: 10 },
-      { name: 'finishPass', type: 'boolean', default: true }
+      { name: 'finishPass', type: 'boolean', default: true },
     ],
     inputs: [
       { name: 'pocket', type: 'Wire', required: true },
-      { name: 'depth', type: 'Number', required: true }
+      { name: 'depth', type: 'Number', required: true },
     ],
     outputs: [
       { name: 'roughing', type: 'Wire[]' },
-      { name: 'finishing', type: 'Wire[]' }
-    ]
+      { name: 'finishing', type: 'Wire[]' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -529,14 +478,15 @@ export const cncMachiningTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'levels', type: 'number', default: 10, min: 1, max: 100, step: 1 },
       { name: 'climb', type: 'boolean', default: true },
-      { name: 'compensation', type: 'enum', options: ['left', 'right', 'center'], default: 'right' }
+      {
+        name: 'compensation',
+        type: 'enum',
+        options: ['left', 'right', 'center'],
+        default: 'right',
+      },
     ],
-    inputs: [
-      { name: 'surface', type: 'Face', required: true }
-    ],
-    outputs: [
-      { name: 'contours', type: 'Wire[]' }
-    ]
+    inputs: [{ name: 'surface', type: 'Face', required: true }],
+    outputs: [{ name: 'contours', type: 'Wire[]' }],
   },
   {
     category: 'Fabrication',
@@ -548,15 +498,13 @@ export const cncMachiningTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'drillDiameter', type: 'number', default: 8, min: 0.1, max: 50 },
       { name: 'peckDepth', type: 'number', default: 5, min: 0, max: 20 },
-      { name: 'dwellTime', type: 'number', default: 0, min: 0, max: 10 }
+      { name: 'dwellTime', type: 'number', default: 0, min: 0, max: 10 },
     ],
     inputs: [
       { name: 'holes', type: 'Point[]', required: true },
-      { name: 'depths', type: 'number[]', required: true }
+      { name: 'depths', type: 'number[]', required: true },
     ],
-    outputs: [
-      { name: 'drillCycles', type: 'Data' }
-    ]
+    outputs: [{ name: 'drillCycles', type: 'Data' }],
   },
   {
     category: 'Fabrication',
@@ -568,14 +516,10 @@ export const cncMachiningTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'threadPitch', type: 'number', default: 1.5, min: 0.1, max: 10 },
       { name: 'threadDepth', type: 'number', default: 1, min: 0.1, max: 5 },
-      { name: 'passes', type: 'number', default: 3, min: 1, max: 10, step: 1 }
+      { name: 'passes', type: 'number', default: 3, min: 1, max: 10, step: 1 },
     ],
-    inputs: [
-      { name: 'holes', type: 'Wire[]', required: true }
-    ],
-    outputs: [
-      { name: 'threadPaths', type: 'Wire[]' }
-    ]
+    inputs: [{ name: 'holes', type: 'Wire[]', required: true }],
+    outputs: [{ name: 'threadPaths', type: 'Wire[]' }],
   },
   {
     category: 'Fabrication',
@@ -586,15 +530,13 @@ export const cncMachiningTemplates: NodeTemplate[] = [
     occtBinding: 'adaptiveClearing',
     parameters: [
       { name: 'optimalLoad', type: 'number', default: 0.4, min: 0.1, max: 1 },
-      { name: 'helixAngle', type: 'number', default: 3, min: 0, max: 10 }
+      { name: 'helixAngle', type: 'number', default: 3, min: 0, max: 10 },
     ],
     inputs: [
       { name: 'region', type: 'Face', required: true },
-      { name: 'depth', type: 'Number', required: true }
+      { name: 'depth', type: 'Number', required: true },
     ],
-    outputs: [
-      { name: 'adaptivePath', type: 'Wire' }
-    ]
+    outputs: [{ name: 'adaptivePath', type: 'Wire' }],
   },
   {
     category: 'Fabrication',
@@ -605,14 +547,10 @@ export const cncMachiningTemplates: NodeTemplate[] = [
     occtBinding: 'trochoidalMilling',
     parameters: [
       { name: 'trochoidWidth', type: 'number', default: 2, min: 0.5, max: 10 },
-      { name: 'stepover', type: 'number', default: 0.3, min: 0.1, max: 1 }
+      { name: 'stepover', type: 'number', default: 0.3, min: 0.1, max: 1 },
     ],
-    inputs: [
-      { name: 'slot', type: 'Wire', required: true }
-    ],
-    outputs: [
-      { name: 'trochoidalPath', type: 'Wire' }
-    ]
+    inputs: [{ name: 'slot', type: 'Wire', required: true }],
+    outputs: [{ name: 'trochoidalPath', type: 'Wire' }],
   },
   {
     category: 'Fabrication',
@@ -623,16 +561,16 @@ export const cncMachiningTemplates: NodeTemplate[] = [
     occtBinding: 'restMachining',
     parameters: [
       { name: 'previousTool', type: 'number', default: 10, min: 1, max: 50 },
-      { name: 'currentTool', type: 'number', default: 3, min: 0.1, max: 50 }
+      { name: 'currentTool', type: 'number', default: 3, min: 0.1, max: 50 },
     ],
     inputs: [
       { name: 'model', type: 'Shape', required: true },
-      { name: 'previousPaths', type: 'Wire[]', required: true }
+      { name: 'previousPaths', type: 'Wire[]', required: true },
     ],
     outputs: [
       { name: 'restAreas', type: 'Face[]' },
-      { name: 'restPaths', type: 'Wire[]' }
-    ]
+      { name: 'restPaths', type: 'Wire[]' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -643,14 +581,10 @@ export const cncMachiningTemplates: NodeTemplate[] = [
     occtBinding: 'toolCompensation',
     parameters: [
       { name: 'toolRadius', type: 'number', default: 3, min: 0.1, max: 25 },
-      { name: 'wearOffset', type: 'number', default: 0, min: -1, max: 1 }
+      { name: 'wearOffset', type: 'number', default: 0, min: -1, max: 1 },
     ],
-    inputs: [
-      { name: 'path', type: 'Wire', required: true }
-    ],
-    outputs: [
-      { name: 'compensatedPath', type: 'Wire' }
-    ]
+    inputs: [{ name: 'path', type: 'Wire', required: true }],
+    outputs: [{ name: 'compensatedPath', type: 'Wire' }],
   },
   {
     category: 'Fabrication',
@@ -661,15 +595,13 @@ export const cncMachiningTemplates: NodeTemplate[] = [
     occtBinding: 'helicalEntry',
     parameters: [
       { name: 'helixDiameter', type: 'number', default: 10, min: 1, max: 50 },
-      { name: 'helixAngle', type: 'number', default: 3, min: 1, max: 10 }
+      { name: 'helixAngle', type: 'number', default: 3, min: 1, max: 10 },
     ],
     inputs: [
       { name: 'entryPoint', type: 'Point', required: true },
-      { name: 'depth', type: 'Number', required: true }
+      { name: 'depth', type: 'Number', required: true },
     ],
-    outputs: [
-      { name: 'helixPath', type: 'Wire' }
-    ]
+    outputs: [{ name: 'helixPath', type: 'Wire' }],
   },
   {
     category: 'Fabrication',
@@ -680,15 +612,13 @@ export const cncMachiningTemplates: NodeTemplate[] = [
     occtBinding: 'rampEntry',
     parameters: [
       { name: 'rampAngle', type: 'number', default: 5, min: 1, max: 30 },
-      { name: 'rampLength', type: 'number', default: 20, min: 5, max: 100 }
+      { name: 'rampLength', type: 'number', default: 20, min: 5, max: 100 },
     ],
     inputs: [
       { name: 'entryEdge', type: 'Edge', required: true },
-      { name: 'depth', type: 'Number', required: true }
+      { name: 'depth', type: 'Number', required: true },
     ],
-    outputs: [
-      { name: 'rampPath', type: 'Wire' }
-    ]
+    outputs: [{ name: 'rampPath', type: 'Wire' }],
   },
   {
     category: 'Fabrication',
@@ -699,14 +629,10 @@ export const cncMachiningTemplates: NodeTemplate[] = [
     occtBinding: 'highSpeedMachining',
     parameters: [
       { name: 'cornerRadius', type: 'number', default: 2, min: 0.1, max: 10 },
-      { name: 'entrySpeed', type: 'number', default: 0.5, min: 0.1, max: 1 }
+      { name: 'entrySpeed', type: 'number', default: 0.5, min: 0.1, max: 1 },
     ],
-    inputs: [
-      { name: 'toolpath', type: 'Wire[]', required: true }
-    ],
-    outputs: [
-      { name: 'hsmPath', type: 'Wire[]' }
-    ]
+    inputs: [{ name: 'toolpath', type: 'Wire[]', required: true }],
+    outputs: [{ name: 'hsmPath', type: 'Wire[]' }],
   },
   {
     category: 'Fabrication',
@@ -717,15 +643,13 @@ export const cncMachiningTemplates: NodeTemplate[] = [
     occtBinding: 'scallopHeight',
     parameters: [
       { name: 'ballRadius', type: 'number', default: 3, min: 0.5, max: 25 },
-      { name: 'stepover', type: 'number', default: 1, min: 0.1, max: 10 }
+      { name: 'stepover', type: 'number', default: 1, min: 0.1, max: 10 },
     ],
-    inputs: [
-      { name: 'surface', type: 'Face', required: true }
-    ],
+    inputs: [{ name: 'surface', type: 'Face', required: true }],
     outputs: [
       { name: 'scallopMap', type: 'Data' },
-      { name: 'maxScallop', type: 'Number' }
-    ]
+      { name: 'maxScallop', type: 'Number' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -736,16 +660,16 @@ export const cncMachiningTemplates: NodeTemplate[] = [
     occtBinding: 'collisionDetection',
     parameters: [
       { name: 'toolLength', type: 'number', default: 50, min: 10, max: 200 },
-      { name: 'holderDiameter', type: 'number', default: 20, min: 5, max: 100 }
+      { name: 'holderDiameter', type: 'number', default: 20, min: 5, max: 100 },
     ],
     inputs: [
       { name: 'toolpath', type: 'Wire[]', required: true },
-      { name: 'model', type: 'Shape', required: true }
+      { name: 'model', type: 'Shape', required: true },
     ],
     outputs: [
       { name: 'collisions', type: 'Point[]' },
-      { name: 'safePath', type: 'Wire[]' }
-    ]
+      { name: 'safePath', type: 'Wire[]' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -755,16 +679,26 @@ export const cncMachiningTemplates: NodeTemplate[] = [
     operation: 'FEEDS_AND_SPEEDS',
     occtBinding: 'feedsAndSpeeds',
     parameters: [
-      { name: 'material', type: 'enum', options: ['aluminum', 'steel', 'stainless', 'titanium', 'plastic', 'wood'], default: 'aluminum' },
-      { name: 'toolMaterial', type: 'enum', options: ['hss', 'carbide', 'ceramic', 'diamond'], default: 'carbide' },
-      { name: 'toolDiameter', type: 'number', default: 6, min: 0.1, max: 50 }
+      {
+        name: 'material',
+        type: 'enum',
+        options: ['aluminum', 'steel', 'stainless', 'titanium', 'plastic', 'wood'],
+        default: 'aluminum',
+      },
+      {
+        name: 'toolMaterial',
+        type: 'enum',
+        options: ['hss', 'carbide', 'ceramic', 'diamond'],
+        default: 'carbide',
+      },
+      { name: 'toolDiameter', type: 'number', default: 6, min: 0.1, max: 50 },
     ],
     inputs: [],
     outputs: [
       { name: 'spindleSpeed', type: 'Number' },
       { name: 'feedRate', type: 'Number' },
-      { name: 'chipLoad', type: 'Number' }
-    ]
+      { name: 'chipLoad', type: 'Number' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -775,15 +709,13 @@ export const cncMachiningTemplates: NodeTemplate[] = [
     occtBinding: 'fiveAxisPositioning',
     parameters: [
       { name: 'leadAngle', type: 'number', default: 10, min: 0, max: 45 },
-      { name: 'tiltAngle', type: 'number', default: 0, min: -90, max: 90 }
+      { name: 'tiltAngle', type: 'number', default: 0, min: -90, max: 90 },
     ],
     inputs: [
       { name: 'surface', type: 'Face', required: true },
-      { name: 'toolAxis', type: 'Vector', required: false }
+      { name: 'toolAxis', type: 'Vector', required: false },
     ],
-    outputs: [
-      { name: 'toolOrientations', type: 'Transform[]' }
-    ]
+    outputs: [{ name: 'toolOrientations', type: 'Transform[]' }],
   },
   {
     category: 'Fabrication',
@@ -794,14 +726,10 @@ export const cncMachiningTemplates: NodeTemplate[] = [
     occtBinding: 'swarmMilling',
     parameters: [
       { name: 'passCount', type: 'number', default: 5, min: 1, max: 20, step: 1 },
-      { name: 'overlap', type: 'number', default: 0.1, min: 0, max: 0.5 }
+      { name: 'overlap', type: 'number', default: 0.1, min: 0, max: 0.5 },
     ],
-    inputs: [
-      { name: 'surface', type: 'Face', required: true }
-    ],
-    outputs: [
-      { name: 'swarmPaths', type: 'Wire[]' }
-    ]
+    inputs: [{ name: 'surface', type: 'Face', required: true }],
+    outputs: [{ name: 'swarmPaths', type: 'Wire[]' }],
   },
   {
     category: 'Fabrication',
@@ -812,12 +740,15 @@ export const cncMachiningTemplates: NodeTemplate[] = [
     occtBinding: 'toolLibrary',
     parameters: [
       { name: 'toolNumber', type: 'number', default: 1, min: 1, max: 999, step: 1 },
-      { name: 'toolType', type: 'enum', options: ['endmill', 'ballmill', 'drill', 'tap', 'reamer', 'boring'], default: 'endmill' }
+      {
+        name: 'toolType',
+        type: 'enum',
+        options: ['endmill', 'ballmill', 'drill', 'tap', 'reamer', 'boring'],
+        default: 'endmill',
+      },
     ],
     inputs: [],
-    outputs: [
-      { name: 'toolData', type: 'Data' }
-    ]
+    outputs: [{ name: 'toolData', type: 'Data' }],
   },
   {
     category: 'Fabrication',
@@ -827,15 +758,18 @@ export const cncMachiningTemplates: NodeTemplate[] = [
     operation: 'WORK_COORDINATE',
     occtBinding: 'workCoordinate',
     parameters: [
-      { name: 'wcs', type: 'enum', options: ['G54', 'G55', 'G56', 'G57', 'G58', 'G59'], default: 'G54' }
+      {
+        name: 'wcs',
+        type: 'enum',
+        options: ['G54', 'G55', 'G56', 'G57', 'G58', 'G59'],
+        default: 'G54',
+      },
     ],
     inputs: [
       { name: 'origin', type: 'Point', required: true },
-      { name: 'orientation', type: 'Transform', required: false }
+      { name: 'orientation', type: 'Transform', required: false },
     ],
-    outputs: [
-      { name: 'coordinate', type: 'Transform' }
-    ]
+    outputs: [{ name: 'coordinate', type: 'Transform' }],
   },
   {
     category: 'Fabrication',
@@ -845,15 +779,16 @@ export const cncMachiningTemplates: NodeTemplate[] = [
     operation: 'POST_PROCESSOR',
     occtBinding: 'postProcessor',
     parameters: [
-      { name: 'machine', type: 'enum', options: ['haas', 'fanuc', 'siemens', 'heidenhain', 'mazak'], default: 'haas' },
-      { name: 'axes', type: 'enum', options: ['3-axis', '4-axis', '5-axis'], default: '3-axis' }
+      {
+        name: 'machine',
+        type: 'enum',
+        options: ['haas', 'fanuc', 'siemens', 'heidenhain', 'mazak'],
+        default: 'haas',
+      },
+      { name: 'axes', type: 'enum', options: ['3-axis', '4-axis', '5-axis'], default: '3-axis' },
     ],
-    inputs: [
-      { name: 'toolpaths', type: 'Wire[]', required: true }
-    ],
-    outputs: [
-      { name: 'ncCode', type: 'Data' }
-    ]
+    inputs: [{ name: 'toolpaths', type: 'Wire[]', required: true }],
+    outputs: [{ name: 'ncCode', type: 'Data' }],
   },
   {
     category: 'Fabrication',
@@ -864,14 +799,10 @@ export const cncMachiningTemplates: NodeTemplate[] = [
     occtBinding: 'chipEvacuation',
     parameters: [
       { name: 'flutes', type: 'number', default: 2, min: 1, max: 8, step: 1 },
-      { name: 'helixAngle', type: 'number', default: 30, min: 0, max: 60 }
+      { name: 'helixAngle', type: 'number', default: 30, min: 0, max: 60 },
     ],
-    inputs: [
-      { name: 'pocket', type: 'Face', required: true }
-    ],
-    outputs: [
-      { name: 'evacuationScore', type: 'Number' }
-    ]
+    inputs: [{ name: 'pocket', type: 'Face', required: true }],
+    outputs: [{ name: 'evacuationScore', type: 'Number' }],
   },
   {
     category: 'Fabrication',
@@ -880,16 +811,12 @@ export const cncMachiningTemplates: NodeTemplate[] = [
     description: 'Analyze cutter engagement',
     operation: 'CUTTER_ENGAGEMENT',
     occtBinding: 'cutterEngagement',
-    parameters: [
-      { name: 'toolDiameter', type: 'number', default: 10, min: 1, max: 50 }
-    ],
+    parameters: [{ name: 'toolDiameter', type: 'number', default: 10, min: 1, max: 50 }],
     inputs: [
       { name: 'toolpath', type: 'Wire', required: true },
-      { name: 'stock', type: 'Shape', required: true }
+      { name: 'stock', type: 'Shape', required: true },
     ],
-    outputs: [
-      { name: 'engagementAngle', type: 'Number[]' }
-    ]
+    outputs: [{ name: 'engagementAngle', type: 'Number[]' }],
   },
   {
     category: 'Fabrication',
@@ -899,16 +826,19 @@ export const cncMachiningTemplates: NodeTemplate[] = [
     operation: 'TOOL_WEAR',
     occtBinding: 'toolWear',
     parameters: [
-      { name: 'material', type: 'enum', options: ['aluminum', 'steel', 'titanium', 'inconel'], default: 'steel' },
-      { name: 'cuttingTime', type: 'number', default: 60, min: 1, max: 1000 }
+      {
+        name: 'material',
+        type: 'enum',
+        options: ['aluminum', 'steel', 'titanium', 'inconel'],
+        default: 'steel',
+      },
+      { name: 'cuttingTime', type: 'number', default: 60, min: 1, max: 1000 },
     ],
-    inputs: [
-      { name: 'toolpath', type: 'Wire[]', required: true }
-    ],
+    inputs: [{ name: 'toolpath', type: 'Wire[]', required: true }],
     outputs: [
       { name: 'wearRate', type: 'Number' },
-      { name: 'toolLife', type: 'Number' }
-    ]
+      { name: 'toolLife', type: 'Number' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -919,14 +849,10 @@ export const cncMachiningTemplates: NodeTemplate[] = [
     occtBinding: 'setupSheets',
     parameters: [
       { name: 'includeToolList', type: 'boolean', default: true },
-      { name: 'includeFixtures', type: 'boolean', default: true }
+      { name: 'includeFixtures', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'operations', type: 'Data', required: true }
-    ],
-    outputs: [
-      { name: 'setupDocument', type: 'Data' }
-    ]
+    inputs: [{ name: 'operations', type: 'Data', required: true }],
+    outputs: [{ name: 'setupDocument', type: 'Data' }],
   },
   {
     category: 'Fabrication',
@@ -936,16 +862,19 @@ export const cncMachiningTemplates: NodeTemplate[] = [
     operation: 'PROBE_ROUTINE',
     occtBinding: 'probeRoutine',
     parameters: [
-      { name: 'probeType', type: 'enum', options: ['corner', 'bore', 'boss', 'plane', 'edge'], default: 'corner' }
+      {
+        name: 'probeType',
+        type: 'enum',
+        options: ['corner', 'bore', 'boss', 'plane', 'edge'],
+        default: 'corner',
+      },
     ],
-    inputs: [
-      { name: 'feature', type: 'Shape', required: true }
-    ],
+    inputs: [{ name: 'feature', type: 'Shape', required: true }],
     outputs: [
       { name: 'probePoints', type: 'Point[]' },
-      { name: 'probeCycle', type: 'Data' }
-    ]
-  }
+      { name: 'probeCycle', type: 'Data' },
+    ],
+  },
 ];
 
 /**
@@ -961,14 +890,10 @@ export const laserCuttingTemplates: NodeTemplate[] = [
     occtBinding: 'laserPath',
     parameters: [
       { name: 'kerf', type: 'number', default: 0.15, min: 0, max: 1 },
-      { name: 'cornerRadius', type: 'number', default: 0, min: 0, max: 5 }
+      { name: 'cornerRadius', type: 'number', default: 0, min: 0, max: 5 },
     ],
-    inputs: [
-      { name: 'profiles', type: 'Wire[]', required: true }
-    ],
-    outputs: [
-      { name: 'cuttingPath', type: 'Wire[]' }
-    ]
+    inputs: [{ name: 'profiles', type: 'Wire[]', required: true }],
+    outputs: [{ name: 'cuttingPath', type: 'Wire[]' }],
   },
   {
     category: 'Fabrication',
@@ -980,14 +905,10 @@ export const laserCuttingTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'tabWidth', type: 'number', default: 10, min: 1, max: 50 },
       { name: 'tabDepth', type: 'number', default: 5, min: 1, max: 20 },
-      { name: 'clearance', type: 'number', default: 0.1, min: 0, max: 1 }
+      { name: 'clearance', type: 'number', default: 0.1, min: 0, max: 1 },
     ],
-    inputs: [
-      { name: 'edges', type: 'Edge[]', required: true }
-    ],
-    outputs: [
-      { name: 'tabbedEdges', type: 'Wire[]' }
-    ]
+    inputs: [{ name: 'edges', type: 'Edge[]', required: true }],
+    outputs: [{ name: 'tabbedEdges', type: 'Wire[]' }],
   },
   {
     category: 'Fabrication',
@@ -997,16 +918,17 @@ export const laserCuttingTemplates: NodeTemplate[] = [
     operation: 'LIVING_HINGE',
     occtBinding: 'livingHinge',
     parameters: [
-      { name: 'pattern', type: 'enum', options: ['straight', 'wave', 'diamond', 'honeycomb'], default: 'straight' },
+      {
+        name: 'pattern',
+        type: 'enum',
+        options: ['straight', 'wave', 'diamond', 'honeycomb'],
+        default: 'straight',
+      },
       { name: 'spacing', type: 'number', default: 2, min: 0.5, max: 10 },
-      { name: 'cutLength', type: 'number', default: 10, min: 1, max: 50 }
+      { name: 'cutLength', type: 'number', default: 10, min: 1, max: 50 },
     ],
-    inputs: [
-      { name: 'hingeArea', type: 'Face', required: true }
-    ],
-    outputs: [
-      { name: 'hingePattern', type: 'Wire[]' }
-    ]
+    inputs: [{ name: 'hingeArea', type: 'Face', required: true }],
+    outputs: [{ name: 'hingePattern', type: 'Wire[]' }],
   },
   {
     category: 'Fabrication',
@@ -1018,14 +940,10 @@ export const laserCuttingTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'bendRadius', type: 'number', default: 50, min: 10, max: 500 },
       { name: 'materialThickness', type: 'number', default: 3, min: 0.5, max: 20 },
-      { name: 'kerfWidth', type: 'number', default: 0.15, min: 0.05, max: 1 }
+      { name: 'kerfWidth', type: 'number', default: 0.15, min: 0.05, max: 1 },
     ],
-    inputs: [
-      { name: 'bendZone', type: 'Face', required: true }
-    ],
-    outputs: [
-      { name: 'kerfPattern', type: 'Wire[]' }
-    ]
+    inputs: [{ name: 'bendZone', type: 'Face', required: true }],
+    outputs: [{ name: 'kerfPattern', type: 'Wire[]' }],
   },
   {
     category: 'Fabrication',
@@ -1035,16 +953,17 @@ export const laserCuttingTemplates: NodeTemplate[] = [
     operation: 'POWER_MAPPING',
     occtBinding: 'powerMapping',
     parameters: [
-      { name: 'material', type: 'enum', options: ['acrylic', 'wood', 'mdf', 'cardboard', 'leather', 'fabric'], default: 'acrylic' },
+      {
+        name: 'material',
+        type: 'enum',
+        options: ['acrylic', 'wood', 'mdf', 'cardboard', 'leather', 'fabric'],
+        default: 'acrylic',
+      },
       { name: 'thickness', type: 'number', default: 3, min: 0.1, max: 50 },
-      { name: 'wattage', type: 'number', default: 60, min: 10, max: 500 }
+      { name: 'wattage', type: 'number', default: 60, min: 10, max: 500 },
     ],
-    inputs: [
-      { name: 'geometry', type: 'Wire[]', required: true }
-    ],
-    outputs: [
-      { name: 'powerSettings', type: 'Data' }
-    ]
+    inputs: [{ name: 'geometry', type: 'Wire[]', required: true }],
+    outputs: [{ name: 'powerSettings', type: 'Data' }],
   },
   {
     category: 'Fabrication',
@@ -1055,15 +974,18 @@ export const laserCuttingTemplates: NodeTemplate[] = [
     occtBinding: 'engraveRaster',
     parameters: [
       { name: 'resolution', type: 'number', default: 300, min: 100, max: 1200 },
-      { name: 'dithering', type: 'enum', options: ['none', 'floyd-steinberg', 'ordered', 'random'], default: 'floyd-steinberg' }
+      {
+        name: 'dithering',
+        type: 'enum',
+        options: ['none', 'floyd-steinberg', 'ordered', 'random'],
+        default: 'floyd-steinberg',
+      },
     ],
     inputs: [
       { name: 'image', type: 'Data', required: true },
-      { name: 'boundary', type: 'Wire', required: true }
+      { name: 'boundary', type: 'Wire', required: true },
     ],
-    outputs: [
-      { name: 'rasterData', type: 'Data' }
-    ]
+    outputs: [{ name: 'rasterData', type: 'Data' }],
   },
   {
     category: 'Fabrication',
@@ -1074,14 +996,10 @@ export const laserCuttingTemplates: NodeTemplate[] = [
     occtBinding: 'vectorEngrave',
     parameters: [
       { name: 'depth', type: 'number', default: 0.5, min: 0.1, max: 5 },
-      { name: 'passes', type: 'number', default: 1, min: 1, max: 10, step: 1 }
+      { name: 'passes', type: 'number', default: 1, min: 1, max: 10, step: 1 },
     ],
-    inputs: [
-      { name: 'vectors', type: 'Wire[]', required: true }
-    ],
-    outputs: [
-      { name: 'engravePaths', type: 'Wire[]' }
-    ]
+    inputs: [{ name: 'vectors', type: 'Wire[]', required: true }],
+    outputs: [{ name: 'engravePaths', type: 'Wire[]' }],
   },
   {
     category: 'Fabrication',
@@ -1093,16 +1011,16 @@ export const laserCuttingTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'spacing', type: 'number', default: 2, min: 0, max: 10 },
       { name: 'rotations', type: 'boolean', default: true },
-      { name: 'grainDirection', type: 'boolean', default: false }
+      { name: 'grainDirection', type: 'boolean', default: false },
     ],
     inputs: [
       { name: 'parts', type: 'Face[]', required: true },
-      { name: 'sheet', type: 'Face', required: true }
+      { name: 'sheet', type: 'Face', required: true },
     ],
     outputs: [
       { name: 'nestedParts', type: 'Face[]' },
-      { name: 'utilization', type: 'Number' }
-    ]
+      { name: 'utilization', type: 'Number' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -1113,15 +1031,13 @@ export const laserCuttingTemplates: NodeTemplate[] = [
     occtBinding: 'cutOrderOptimization',
     parameters: [
       { name: 'innerFirst', type: 'boolean', default: true },
-      { name: 'minimizeTravel', type: 'boolean', default: true }
+      { name: 'minimizeTravel', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'paths', type: 'Wire[]', required: true }
-    ],
+    inputs: [{ name: 'paths', type: 'Wire[]', required: true }],
     outputs: [
       { name: 'orderedPaths', type: 'Wire[]' },
-      { name: 'travelPath', type: 'Wire' }
-    ]
+      { name: 'travelPath', type: 'Wire' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -1132,14 +1048,10 @@ export const laserCuttingTemplates: NodeTemplate[] = [
     occtBinding: 'leadInOut',
     parameters: [
       { name: 'leadLength', type: 'number', default: 2, min: 0.5, max: 10 },
-      { name: 'leadType', type: 'enum', options: ['line', 'arc', 'none'], default: 'line' }
+      { name: 'leadType', type: 'enum', options: ['line', 'arc', 'none'], default: 'line' },
     ],
-    inputs: [
-      { name: 'paths', type: 'Wire[]', required: true }
-    ],
-    outputs: [
-      { name: 'pathsWithLeads', type: 'Wire[]' }
-    ]
+    inputs: [{ name: 'paths', type: 'Wire[]', required: true }],
+    outputs: [{ name: 'pathsWithLeads', type: 'Wire[]' }],
   },
   {
     category: 'Fabrication',
@@ -1150,14 +1062,10 @@ export const laserCuttingTemplates: NodeTemplate[] = [
     occtBinding: 'bridgeGeneration',
     parameters: [
       { name: 'bridgeWidth', type: 'number', default: 2, min: 0.5, max: 10 },
-      { name: 'bridgeCount', type: 'number', default: 4, min: 1, max: 20, step: 1 }
+      { name: 'bridgeCount', type: 'number', default: 4, min: 1, max: 20, step: 1 },
     ],
-    inputs: [
-      { name: 'cutPath', type: 'Wire', required: true }
-    ],
-    outputs: [
-      { name: 'bridgedPath', type: 'Wire[]' }
-    ]
+    inputs: [{ name: 'cutPath', type: 'Wire', required: true }],
+    outputs: [{ name: 'bridgedPath', type: 'Wire[]' }],
   },
   {
     category: 'Fabrication',
@@ -1168,14 +1076,10 @@ export const laserCuttingTemplates: NodeTemplate[] = [
     occtBinding: 'focusCompensation',
     parameters: [
       { name: 'focalLength', type: 'number', default: 50, min: 20, max: 200 },
-      { name: 'beamDivergence', type: 'number', default: 2, min: 0.5, max: 5 }
+      { name: 'beamDivergence', type: 'number', default: 2, min: 0.5, max: 5 },
     ],
-    inputs: [
-      { name: 'surface', type: 'Face', required: true }
-    ],
-    outputs: [
-      { name: 'focusMap', type: 'Data' }
-    ]
+    inputs: [{ name: 'surface', type: 'Face', required: true }],
+    outputs: [{ name: 'focusMap', type: 'Data' }],
   },
   {
     category: 'Fabrication',
@@ -1187,14 +1091,10 @@ export const laserCuttingTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'angle', type: 'number', default: 45, min: 0, max: 180 },
       { name: 'spacing', type: 'number', default: 1, min: 0.1, max: 10 },
-      { name: 'crosshatch', type: 'boolean', default: false }
+      { name: 'crosshatch', type: 'boolean', default: false },
     ],
-    inputs: [
-      { name: 'region', type: 'Face', required: true }
-    ],
-    outputs: [
-      { name: 'hatchLines', type: 'Wire[]' }
-    ]
+    inputs: [{ name: 'region', type: 'Face', required: true }],
+    outputs: [{ name: 'hatchLines', type: 'Wire[]' }],
   },
   {
     category: 'Fabrication',
@@ -1204,16 +1104,19 @@ export const laserCuttingTemplates: NodeTemplate[] = [
     operation: 'TEXT_ENGRAVING',
     occtBinding: 'textEngraving',
     parameters: [
-      { name: 'font', type: 'enum', options: ['single-line', 'outline', 'filled'], default: 'single-line' },
-      { name: 'height', type: 'number', default: 10, min: 1, max: 100 }
+      {
+        name: 'font',
+        type: 'enum',
+        options: ['single-line', 'outline', 'filled'],
+        default: 'single-line',
+      },
+      { name: 'height', type: 'number', default: 10, min: 1, max: 100 },
     ],
     inputs: [
       { name: 'text', type: 'Data', required: true },
-      { name: 'position', type: 'Point', required: true }
+      { name: 'position', type: 'Point', required: true },
     ],
-    outputs: [
-      { name: 'textPaths', type: 'Wire[]' }
-    ]
+    outputs: [{ name: 'textPaths', type: 'Wire[]' }],
   },
   {
     category: 'Fabrication',
@@ -1223,15 +1126,20 @@ export const laserCuttingTemplates: NodeTemplate[] = [
     operation: 'MATERIAL_DATABASE',
     occtBinding: 'materialDatabase',
     parameters: [
-      { name: 'material', type: 'enum', options: ['acrylic', 'plywood', 'mdf', 'leather', 'paper', 'fabric'], default: 'acrylic' },
-      { name: 'thickness', type: 'number', default: 3, min: 0.1, max: 50 }
+      {
+        name: 'material',
+        type: 'enum',
+        options: ['acrylic', 'plywood', 'mdf', 'leather', 'paper', 'fabric'],
+        default: 'acrylic',
+      },
+      { name: 'thickness', type: 'number', default: 3, min: 0.1, max: 50 },
     ],
     inputs: [],
     outputs: [
       { name: 'cuttingSpeed', type: 'Number' },
       { name: 'power', type: 'Number' },
-      { name: 'frequency', type: 'Number' }
-    ]
+      { name: 'frequency', type: 'Number' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -1241,14 +1149,15 @@ export const laserCuttingTemplates: NodeTemplate[] = [
     operation: 'LAYER_SEPARATION',
     occtBinding: 'layerSeparation',
     parameters: [
-      { name: 'separateBy', type: 'enum', options: ['color', 'layer', 'lineweight'], default: 'color' }
+      {
+        name: 'separateBy',
+        type: 'enum',
+        options: ['color', 'layer', 'lineweight'],
+        default: 'color',
+      },
     ],
-    inputs: [
-      { name: 'drawing', type: 'Wire[]', required: true }
-    ],
-    outputs: [
-      { name: 'layers', type: 'Wire[][]' }
-    ]
+    inputs: [{ name: 'drawing', type: 'Wire[]', required: true }],
+    outputs: [{ name: 'layers', type: 'Wire[][]' }],
   },
   {
     category: 'Fabrication',
@@ -1260,14 +1169,10 @@ export const laserCuttingTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'passes', type: 'number', default: 2, min: 1, max: 10, step: 1 },
       { name: 'powerRamp', type: 'boolean', default: false },
-      { name: 'zStep', type: 'number', default: 0, min: 0, max: 5 }
+      { name: 'zStep', type: 'number', default: 0, min: 0, max: 5 },
     ],
-    inputs: [
-      { name: 'paths', type: 'Wire[]', required: true }
-    ],
-    outputs: [
-      { name: 'multipassPaths', type: 'Wire[][]' }
-    ]
+    inputs: [{ name: 'paths', type: 'Wire[]', required: true }],
+    outputs: [{ name: 'multipassPaths', type: 'Wire[][]' }],
   },
   {
     category: 'Fabrication',
@@ -1278,14 +1183,10 @@ export const laserCuttingTemplates: NodeTemplate[] = [
     occtBinding: 'cleanupPaths',
     parameters: [
       { name: 'tolerance', type: 'number', default: 0.01, min: 0.001, max: 0.1 },
-      { name: 'removeDoubles', type: 'boolean', default: true }
+      { name: 'removeDoubles', type: 'boolean', default: true },
     ],
-    inputs: [
-      { name: 'paths', type: 'Wire[]', required: true }
-    ],
-    outputs: [
-      { name: 'cleanPaths', type: 'Wire[]' }
-    ]
+    inputs: [{ name: 'paths', type: 'Wire[]', required: true }],
+    outputs: [{ name: 'cleanPaths', type: 'Wire[]' }],
   },
   {
     category: 'Fabrication',
@@ -1296,14 +1197,10 @@ export const laserCuttingTemplates: NodeTemplate[] = [
     occtBinding: 'pierceOptimization',
     parameters: [
       { name: 'preferCorners', type: 'boolean', default: true },
-      { name: 'minEdgeDistance', type: 'number', default: 2, min: 0, max: 10 }
+      { name: 'minEdgeDistance', type: 'number', default: 2, min: 0, max: 10 },
     ],
-    inputs: [
-      { name: 'closedPaths', type: 'Wire[]', required: true }
-    ],
-    outputs: [
-      { name: 'piercePoints', type: 'Point[]' }
-    ]
+    inputs: [{ name: 'closedPaths', type: 'Wire[]', required: true }],
+    outputs: [{ name: 'piercePoints', type: 'Point[]' }],
   },
   {
     category: 'Fabrication',
@@ -1314,14 +1211,10 @@ export const laserCuttingTemplates: NodeTemplate[] = [
     occtBinding: 'microJoints',
     parameters: [
       { name: 'jointWidth', type: 'number', default: 0.2, min: 0.1, max: 2 },
-      { name: 'jointSpacing', type: 'number', default: 30, min: 10, max: 100 }
+      { name: 'jointSpacing', type: 'number', default: 30, min: 10, max: 100 },
     ],
-    inputs: [
-      { name: 'cutPath', type: 'Wire', required: true }
-    ],
-    outputs: [
-      { name: 'jointedPath', type: 'Wire[]' }
-    ]
+    inputs: [{ name: 'cutPath', type: 'Wire', required: true }],
+    outputs: [{ name: 'jointedPath', type: 'Wire[]' }],
   },
   {
     category: 'Fabrication',
@@ -1332,15 +1225,13 @@ export const laserCuttingTemplates: NodeTemplate[] = [
     occtBinding: 'cutQuality',
     parameters: [
       { name: 'speed', type: 'number', default: 20, min: 1, max: 100 },
-      { name: 'power', type: 'number', default: 80, min: 10, max: 100 }
+      { name: 'power', type: 'number', default: 80, min: 10, max: 100 },
     ],
-    inputs: [
-      { name: 'material', type: 'Data', required: true }
-    ],
+    inputs: [{ name: 'material', type: 'Data', required: true }],
     outputs: [
       { name: 'edgeQuality', type: 'Data' },
-      { name: 'heatAffectedZone', type: 'Number' }
-    ]
+      { name: 'heatAffectedZone', type: 'Number' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -1351,14 +1242,10 @@ export const laserCuttingTemplates: NodeTemplate[] = [
     occtBinding: 'rotaryAttachment',
     parameters: [
       { name: 'diameter', type: 'number', default: 100, min: 10, max: 500 },
-      { name: 'stepsPerRotation', type: 'number', default: 10000, min: 100, max: 100000 }
+      { name: 'stepsPerRotation', type: 'number', default: 10000, min: 100, max: 100000 },
     ],
-    inputs: [
-      { name: 'cylindricalPattern', type: 'Wire[]', required: true }
-    ],
-    outputs: [
-      { name: 'unwrappedPattern', type: 'Wire[]' }
-    ]
+    inputs: [{ name: 'cylindricalPattern', type: 'Wire[]', required: true }],
+    outputs: [{ name: 'unwrappedPattern', type: 'Wire[]' }],
   },
   {
     category: 'Fabrication',
@@ -1369,14 +1256,15 @@ export const laserCuttingTemplates: NodeTemplate[] = [
     occtBinding: 'airAssist',
     parameters: [
       { name: 'pressure', type: 'number', default: 20, min: 0, max: 100 },
-      { name: 'nozzleType', type: 'enum', options: ['standard', 'high-pressure', 'wide', 'focused'], default: 'standard' }
+      {
+        name: 'nozzleType',
+        type: 'enum',
+        options: ['standard', 'high-pressure', 'wide', 'focused'],
+        default: 'standard',
+      },
     ],
-    inputs: [
-      { name: 'material', type: 'Data', required: true }
-    ],
-    outputs: [
-      { name: 'airSettings', type: 'Data' }
-    ]
+    inputs: [{ name: 'material', type: 'Data', required: true }],
+    outputs: [{ name: 'airSettings', type: 'Data' }],
   },
   {
     category: 'Fabrication',
@@ -1385,16 +1273,12 @@ export const laserCuttingTemplates: NodeTemplate[] = [
     description: 'Define safety zones',
     operation: 'SAFETY_ZONES',
     occtBinding: 'safetyZones',
-    parameters: [
-      { name: 'margin', type: 'number', default: 5, min: 0, max: 50 }
-    ],
-    inputs: [
-      { name: 'workArea', type: 'Face', required: true }
-    ],
+    parameters: [{ name: 'margin', type: 'number', default: 5, min: 0, max: 50 }],
+    inputs: [{ name: 'workArea', type: 'Face', required: true }],
     outputs: [
       { name: 'safeArea', type: 'Face' },
-      { name: 'noGoZones', type: 'Face[]' }
-    ]
+      { name: 'noGoZones', type: 'Face[]' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -1403,19 +1287,17 @@ export const laserCuttingTemplates: NodeTemplate[] = [
     description: 'Estimate job time',
     operation: 'JOB_TIME_ESTIMATE',
     occtBinding: 'jobTimeEstimate',
-    parameters: [
-      { name: 'rapidSpeed', type: 'number', default: 500, min: 100, max: 1000 }
-    ],
+    parameters: [{ name: 'rapidSpeed', type: 'number', default: 500, min: 100, max: 1000 }],
     inputs: [
       { name: 'cuttingPaths', type: 'Wire[]', required: true },
-      { name: 'engravingPaths', type: 'Wire[]', required: false }
+      { name: 'engravingPaths', type: 'Wire[]', required: false },
     ],
     outputs: [
       { name: 'totalTime', type: 'Number' },
       { name: 'cuttingTime', type: 'Number' },
-      { name: 'engravingTime', type: 'Number' }
-    ]
-  }
+      { name: 'engravingTime', type: 'Number' },
+    ],
+  },
 ];
 
 /**
@@ -1430,17 +1312,22 @@ export const roboticFabricationTemplates: NodeTemplate[] = [
     operation: 'ROBOT_KINEMATICS',
     occtBinding: 'robotKinematics',
     parameters: [
-      { name: 'robotType', type: 'enum', options: ['6-axis', 'scara', 'delta', 'cartesian'], default: '6-axis' },
-      { name: 'solver', type: 'enum', options: ['forward', 'inverse'], default: 'inverse' }
+      {
+        name: 'robotType',
+        type: 'enum',
+        options: ['6-axis', 'scara', 'delta', 'cartesian'],
+        default: '6-axis',
+      },
+      { name: 'solver', type: 'enum', options: ['forward', 'inverse'], default: 'inverse' },
     ],
     inputs: [
       { name: 'target', type: 'Transform', required: true },
-      { name: 'jointLimits', type: 'Data', required: false }
+      { name: 'jointLimits', type: 'Data', required: false },
     ],
     outputs: [
       { name: 'jointAngles', type: 'Number[]' },
-      { name: 'reachable', type: 'Boolean' }
-    ]
+      { name: 'reachable', type: 'Boolean' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -1450,17 +1337,22 @@ export const roboticFabricationTemplates: NodeTemplate[] = [
     operation: 'PATH_PLANNING',
     occtBinding: 'pathPlanning',
     parameters: [
-      { name: 'algorithm', type: 'enum', options: ['rrt', 'prm', 'a-star', 'potential-field'], default: 'rrt' },
-      { name: 'smoothing', type: 'boolean', default: true }
+      {
+        name: 'algorithm',
+        type: 'enum',
+        options: ['rrt', 'prm', 'a-star', 'potential-field'],
+        default: 'rrt',
+      },
+      { name: 'smoothing', type: 'boolean', default: true },
     ],
     inputs: [
       { name: 'waypoints', type: 'Transform[]', required: true },
-      { name: 'obstacles', type: 'Shape[]', required: false }
+      { name: 'obstacles', type: 'Shape[]', required: false },
     ],
     outputs: [
       { name: 'trajectory', type: 'Transform[]' },
-      { name: 'jointTrajectory', type: 'Data' }
-    ]
+      { name: 'jointTrajectory', type: 'Data' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -1469,17 +1361,15 @@ export const roboticFabricationTemplates: NodeTemplate[] = [
     description: 'Collision detection and avoidance',
     operation: 'COLLISION_AVOIDANCE',
     occtBinding: 'collisionAvoidance',
-    parameters: [
-      { name: 'safetyMargin', type: 'number', default: 10, min: 0, max: 50 }
-    ],
+    parameters: [{ name: 'safetyMargin', type: 'number', default: 10, min: 0, max: 50 }],
     inputs: [
       { name: 'robotPath', type: 'Transform[]', required: true },
-      { name: 'environment', type: 'Shape[]', required: true }
+      { name: 'environment', type: 'Shape[]', required: true },
     ],
     outputs: [
       { name: 'safePath', type: 'Transform[]' },
-      { name: 'collisionPoints', type: 'Point[]' }
-    ]
+      { name: 'collisionPoints', type: 'Point[]' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -1489,15 +1379,16 @@ export const roboticFabricationTemplates: NodeTemplate[] = [
     operation: 'END_EFFECTOR_SETUP',
     occtBinding: 'endEffectorSetup',
     parameters: [
-      { name: 'toolType', type: 'enum', options: ['gripper', 'welder', 'extruder', 'mill', 'laser'], default: 'gripper' },
-      { name: 'tcpOffset', type: 'vector3', default: '[0, 0, 100]' }
+      {
+        name: 'toolType',
+        type: 'enum',
+        options: ['gripper', 'welder', 'extruder', 'mill', 'laser'],
+        default: 'gripper',
+      },
+      { name: 'tcpOffset', type: 'vector3', default: '[0, 0, 100]' },
     ],
-    inputs: [
-      { name: 'toolGeometry', type: 'Shape', required: false }
-    ],
-    outputs: [
-      { name: 'toolConfiguration', type: 'Data' }
-    ]
+    inputs: [{ name: 'toolGeometry', type: 'Shape', required: false }],
+    outputs: [{ name: 'toolConfiguration', type: 'Data' }],
   },
   {
     category: 'Fabrication',
@@ -1506,16 +1397,12 @@ export const roboticFabricationTemplates: NodeTemplate[] = [
     description: 'Setup robotic work cell',
     operation: 'WORK_CELL_SETUP',
     occtBinding: 'workCellSetup',
-    parameters: [
-      { name: 'robotCount', type: 'number', default: 1, min: 1, max: 4, step: 1 }
-    ],
+    parameters: [{ name: 'robotCount', type: 'number', default: 1, min: 1, max: 4, step: 1 }],
     inputs: [
       { name: 'cellBoundary', type: 'Box', required: true },
-      { name: 'fixtures', type: 'Shape[]', required: false }
+      { name: 'fixtures', type: 'Shape[]', required: false },
     ],
-    outputs: [
-      { name: 'workCell', type: 'Data' }
-    ]
+    outputs: [{ name: 'workCell', type: 'Data' }],
   },
   {
     category: 'Fabrication',
@@ -1525,17 +1412,20 @@ export const roboticFabricationTemplates: NodeTemplate[] = [
     operation: 'TRAJECTORY_OPTIMIZATION',
     occtBinding: 'trajectoryOptimization',
     parameters: [
-      { name: 'objective', type: 'enum', options: ['time', 'energy', 'smooth', 'accuracy'], default: 'time' },
+      {
+        name: 'objective',
+        type: 'enum',
+        options: ['time', 'energy', 'smooth', 'accuracy'],
+        default: 'time',
+      },
       { name: 'maxVelocity', type: 'number', default: 1000, min: 10, max: 5000 },
-      { name: 'maxAcceleration', type: 'number', default: 5000, min: 100, max: 20000 }
+      { name: 'maxAcceleration', type: 'number', default: 5000, min: 100, max: 20000 },
     ],
-    inputs: [
-      { name: 'trajectory', type: 'Transform[]', required: true }
-    ],
+    inputs: [{ name: 'trajectory', type: 'Transform[]', required: true }],
     outputs: [
       { name: 'optimizedTrajectory', type: 'Transform[]' },
-      { name: 'velocityProfile', type: 'Data' }
-    ]
+      { name: 'velocityProfile', type: 'Data' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -1544,16 +1434,12 @@ export const roboticFabricationTemplates: NodeTemplate[] = [
     description: 'Avoid robot singularities',
     operation: 'SINGULARITY_AVOIDANCE',
     occtBinding: 'singularityAvoidance',
-    parameters: [
-      { name: 'threshold', type: 'number', default: 0.1, min: 0.01, max: 1 }
-    ],
-    inputs: [
-      { name: 'jointTrajectory', type: 'Data', required: true }
-    ],
+    parameters: [{ name: 'threshold', type: 'number', default: 0.1, min: 0.01, max: 1 }],
+    inputs: [{ name: 'jointTrajectory', type: 'Data', required: true }],
     outputs: [
       { name: 'safeTrajectory', type: 'Data' },
-      { name: 'singularityPoints', type: 'Number[]' }
-    ]
+      { name: 'singularityPoints', type: 'Number[]' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -1563,15 +1449,18 @@ export const roboticFabricationTemplates: NodeTemplate[] = [
     operation: 'ROBOT_CALIBRATION',
     occtBinding: 'robotCalibration',
     parameters: [
-      { name: 'method', type: 'enum', options: ['dh-parameters', 'circle-point', 'plane', 'hand-eye'], default: 'dh-parameters' }
+      {
+        name: 'method',
+        type: 'enum',
+        options: ['dh-parameters', 'circle-point', 'plane', 'hand-eye'],
+        default: 'dh-parameters',
+      },
     ],
-    inputs: [
-      { name: 'measurementPoints', type: 'Point[]', required: true }
-    ],
+    inputs: [{ name: 'measurementPoints', type: 'Point[]', required: true }],
     outputs: [
       { name: 'calibrationMatrix', type: 'Transform' },
-      { name: 'accuracy', type: 'Number' }
-    ]
+      { name: 'accuracy', type: 'Number' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -1582,14 +1471,10 @@ export const roboticFabricationTemplates: NodeTemplate[] = [
     occtBinding: 'forceControl',
     parameters: [
       { name: 'forceLimit', type: 'number', default: 100, min: 1, max: 1000 },
-      { name: 'compliance', type: 'number', default: 0.5, min: 0, max: 1 }
+      { name: 'compliance', type: 'number', default: 0.5, min: 0, max: 1 },
     ],
-    inputs: [
-      { name: 'contactSurface', type: 'Face', required: true }
-    ],
-    outputs: [
-      { name: 'forceProfile', type: 'Data' }
-    ]
+    inputs: [{ name: 'contactSurface', type: 'Face', required: true }],
+    outputs: [{ name: 'forceProfile', type: 'Data' }],
   },
   {
     category: 'Fabrication',
@@ -1600,16 +1485,19 @@ export const roboticFabricationTemplates: NodeTemplate[] = [
     occtBinding: 'weldingPath',
     parameters: [
       { name: 'weldType', type: 'enum', options: ['mig', 'tig', 'spot', 'laser'], default: 'mig' },
-      { name: 'weavePattern', type: 'enum', options: ['none', 'zigzag', 'circular', 'triangular'], default: 'none' },
-      { name: 'travelSpeed', type: 'number', default: 10, min: 1, max: 50 }
+      {
+        name: 'weavePattern',
+        type: 'enum',
+        options: ['none', 'zigzag', 'circular', 'triangular'],
+        default: 'none',
+      },
+      { name: 'travelSpeed', type: 'number', default: 10, min: 1, max: 50 },
     ],
-    inputs: [
-      { name: 'seamPath', type: 'Wire', required: true }
-    ],
+    inputs: [{ name: 'seamPath', type: 'Wire', required: true }],
     outputs: [
       { name: 'weldPath', type: 'Transform[]' },
-      { name: 'weldParameters', type: 'Data' }
-    ]
+      { name: 'weldParameters', type: 'Data' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -1619,16 +1507,19 @@ export const roboticFabricationTemplates: NodeTemplate[] = [
     operation: 'PICK_AND_PLACE',
     occtBinding: 'pickAndPlace',
     parameters: [
-      { name: 'gripperType', type: 'enum', options: ['vacuum', 'parallel', 'angular', 'magnetic'], default: 'parallel' },
-      { name: 'approachAngle', type: 'number', default: 0, min: -90, max: 90 }
+      {
+        name: 'gripperType',
+        type: 'enum',
+        options: ['vacuum', 'parallel', 'angular', 'magnetic'],
+        default: 'parallel',
+      },
+      { name: 'approachAngle', type: 'number', default: 0, min: -90, max: 90 },
     ],
     inputs: [
       { name: 'pickPoints', type: 'Transform[]', required: true },
-      { name: 'placePoints', type: 'Transform[]', required: true }
+      { name: 'placePoints', type: 'Transform[]', required: true },
     ],
-    outputs: [
-      { name: 'pickPlaceSequence', type: 'Transform[]' }
-    ]
+    outputs: [{ name: 'pickPlaceSequence', type: 'Transform[]' }],
   },
   {
     category: 'Fabrication',
@@ -1638,16 +1529,19 @@ export const roboticFabricationTemplates: NodeTemplate[] = [
     operation: 'PALLETIZING_PATTERN',
     occtBinding: 'palletizingPattern',
     parameters: [
-      { name: 'pattern', type: 'enum', options: ['column', 'interlocked', 'pinwheel', 'split-row'], default: 'interlocked' },
-      { name: 'layersCount', type: 'number', default: 10, min: 1, max: 50, step: 1 }
+      {
+        name: 'pattern',
+        type: 'enum',
+        options: ['column', 'interlocked', 'pinwheel', 'split-row'],
+        default: 'interlocked',
+      },
+      { name: 'layersCount', type: 'number', default: 10, min: 1, max: 50, step: 1 },
     ],
     inputs: [
       { name: 'boxSize', type: 'Vector', required: true },
-      { name: 'palletSize', type: 'Vector', required: true }
+      { name: 'palletSize', type: 'Vector', required: true },
     ],
-    outputs: [
-      { name: 'placementPoints', type: 'Transform[]' }
-    ]
+    outputs: [{ name: 'placementPoints', type: 'Transform[]' }],
   },
   {
     category: 'Fabrication',
@@ -1658,15 +1552,13 @@ export const roboticFabricationTemplates: NodeTemplate[] = [
     occtBinding: 'roboticMilling',
     parameters: [
       { name: 'spindleSpeed', type: 'number', default: 10000, min: 1000, max: 30000 },
-      { name: 'feedRate', type: 'number', default: 1000, min: 10, max: 5000 }
+      { name: 'feedRate', type: 'number', default: 1000, min: 10, max: 5000 },
     ],
     inputs: [
       { name: 'millingPaths', type: 'Wire[]', required: true },
-      { name: 'toolOrientation', type: 'Vector', required: false }
+      { name: 'toolOrientation', type: 'Vector', required: false },
     ],
-    outputs: [
-      { name: 'robotProgram', type: 'Data' }
-    ]
+    outputs: [{ name: 'robotProgram', type: 'Data' }],
   },
   {
     category: 'Fabrication',
@@ -1678,14 +1570,10 @@ export const roboticFabricationTemplates: NodeTemplate[] = [
     parameters: [
       { name: 'sprayWidth', type: 'number', default: 100, min: 10, max: 500 },
       { name: 'overlap', type: 'number', default: 0.5, min: 0, max: 0.9 },
-      { name: 'standoffDistance', type: 'number', default: 200, min: 50, max: 500 }
+      { name: 'standoffDistance', type: 'number', default: 200, min: 50, max: 500 },
     ],
-    inputs: [
-      { name: 'surface', type: 'Face', required: true }
-    ],
-    outputs: [
-      { name: 'sprayPath', type: 'Transform[]' }
-    ]
+    inputs: [{ name: 'surface', type: 'Face', required: true }],
+    outputs: [{ name: 'sprayPath', type: 'Transform[]' }],
   },
   {
     category: 'Fabrication',
@@ -1696,14 +1584,10 @@ export const roboticFabricationTemplates: NodeTemplate[] = [
     occtBinding: 'additiveManufacturing',
     parameters: [
       { name: 'nozzleSize', type: 'number', default: 4, min: 0.4, max: 10 },
-      { name: 'layerHeight', type: 'number', default: 2, min: 0.1, max: 5 }
+      { name: 'layerHeight', type: 'number', default: 2, min: 0.1, max: 5 },
     ],
-    inputs: [
-      { name: 'printPaths', type: 'Wire[]', required: true }
-    ],
-    outputs: [
-      { name: 'roboticPrintPath', type: 'Transform[]' }
-    ]
+    inputs: [{ name: 'printPaths', type: 'Wire[]', required: true }],
+    outputs: [{ name: 'roboticPrintPath', type: 'Transform[]' }],
   },
   {
     category: 'Fabrication',
@@ -1714,14 +1598,15 @@ export const roboticFabricationTemplates: NodeTemplate[] = [
     occtBinding: 'visionGuidance',
     parameters: [
       { name: 'cameraType', type: 'enum', options: ['2d', '3d', 'stereo'], default: '3d' },
-      { name: 'patternType', type: 'enum', options: ['checkerboard', 'aruco', 'feature'], default: 'aruco' }
+      {
+        name: 'patternType',
+        type: 'enum',
+        options: ['checkerboard', 'aruco', 'feature'],
+        default: 'aruco',
+      },
     ],
-    inputs: [
-      { name: 'targetFeatures', type: 'Shape[]', required: true }
-    ],
-    outputs: [
-      { name: 'detectedPoses', type: 'Transform[]' }
-    ]
+    inputs: [{ name: 'targetFeatures', type: 'Shape[]', required: true }],
+    outputs: [{ name: 'detectedPoses', type: 'Transform[]' }],
   },
   {
     category: 'Fabrication',
@@ -1731,14 +1616,15 @@ export const roboticFabricationTemplates: NodeTemplate[] = [
     operation: 'MULTI_ROBOT_COORDINATION',
     occtBinding: 'multiRobotCoordination',
     parameters: [
-      { name: 'syncMethod', type: 'enum', options: ['time', 'position', 'event'], default: 'position' }
+      {
+        name: 'syncMethod',
+        type: 'enum',
+        options: ['time', 'position', 'event'],
+        default: 'position',
+      },
     ],
-    inputs: [
-      { name: 'robotPaths', type: 'Transform[][]', required: true }
-    ],
-    outputs: [
-      { name: 'synchronizedPaths', type: 'Transform[][]' }
-    ]
+    inputs: [{ name: 'robotPaths', type: 'Transform[][]', required: true }],
+    outputs: [{ name: 'synchronizedPaths', type: 'Transform[][]' }],
   },
   {
     category: 'Fabrication',
@@ -1749,14 +1635,10 @@ export const roboticFabricationTemplates: NodeTemplate[] = [
     occtBinding: 'conveyorTracking',
     parameters: [
       { name: 'conveyorSpeed', type: 'number', default: 100, min: 1, max: 1000 },
-      { name: 'trackingWindow', type: 'number', default: 500, min: 100, max: 2000 }
+      { name: 'trackingWindow', type: 'number', default: 500, min: 100, max: 2000 },
     ],
-    inputs: [
-      { name: 'objectPositions', type: 'Point[]', required: true }
-    ],
-    outputs: [
-      { name: 'trackingTrajectory', type: 'Transform[]' }
-    ]
+    inputs: [{ name: 'objectPositions', type: 'Point[]', required: true }],
+    outputs: [{ name: 'trackingTrajectory', type: 'Transform[]' }],
   },
   {
     category: 'Fabrication',
@@ -1767,14 +1649,10 @@ export const roboticFabricationTemplates: NodeTemplate[] = [
     occtBinding: 'safetyZoneSetup',
     parameters: [
       { name: 'zoneType', type: 'enum', options: ['stop', 'slow', 'warning'], default: 'slow' },
-      { name: 'responseTime', type: 'number', default: 0.5, min: 0.1, max: 2 }
+      { name: 'responseTime', type: 'number', default: 0.5, min: 0.1, max: 2 },
     ],
-    inputs: [
-      { name: 'zones', type: 'Box[]', required: true }
-    ],
-    outputs: [
-      { name: 'safetyConfiguration', type: 'Data' }
-    ]
+    inputs: [{ name: 'zones', type: 'Box[]', required: true }],
+    outputs: [{ name: 'safetyConfiguration', type: 'Data' }],
   },
   {
     category: 'Fabrication',
@@ -1785,15 +1663,13 @@ export const roboticFabricationTemplates: NodeTemplate[] = [
     occtBinding: 'robotSimulation',
     parameters: [
       { name: 'timeStep', type: 'number', default: 0.01, min: 0.001, max: 0.1 },
-      { name: 'dynamics', type: 'boolean', default: false }
+      { name: 'dynamics', type: 'boolean', default: false },
     ],
-    inputs: [
-      { name: 'program', type: 'Data', required: true }
-    ],
+    inputs: [{ name: 'program', type: 'Data', required: true }],
     outputs: [
       { name: 'simulation', type: 'Data' },
-      { name: 'cycleTime', type: 'Number' }
-    ]
+      { name: 'cycleTime', type: 'Number' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -1803,14 +1679,15 @@ export const roboticFabricationTemplates: NodeTemplate[] = [
     operation: 'POST_PROCESSOR_ROBOT',
     occtBinding: 'postProcessorRobot',
     parameters: [
-      { name: 'robotBrand', type: 'enum', options: ['abb', 'kuka', 'fanuc', 'yaskawa', 'ur'], default: 'abb' }
+      {
+        name: 'robotBrand',
+        type: 'enum',
+        options: ['abb', 'kuka', 'fanuc', 'yaskawa', 'ur'],
+        default: 'abb',
+      },
     ],
-    inputs: [
-      { name: 'trajectory', type: 'Transform[]', required: true }
-    ],
-    outputs: [
-      { name: 'robotCode', type: 'Data' }
-    ]
+    inputs: [{ name: 'trajectory', type: 'Transform[]', required: true }],
+    outputs: [{ name: 'robotCode', type: 'Data' }],
   },
   {
     category: 'Fabrication',
@@ -1819,17 +1696,15 @@ export const roboticFabricationTemplates: NodeTemplate[] = [
     description: 'Analyze robot reach',
     operation: 'REACH_ANALYSIS',
     occtBinding: 'reachAnalysis',
-    parameters: [
-      { name: 'resolution', type: 'number', default: 50, min: 10, max: 200, step: 10 }
-    ],
+    parameters: [{ name: 'resolution', type: 'number', default: 50, min: 10, max: 200, step: 10 }],
     inputs: [
       { name: 'robotModel', type: 'Data', required: true },
-      { name: 'workspace', type: 'Box', required: true }
+      { name: 'workspace', type: 'Box', required: true },
     ],
     outputs: [
       { name: 'reachableVolume', type: 'Shape' },
-      { name: 'coverage', type: 'Number' }
-    ]
+      { name: 'coverage', type: 'Number' },
+    ],
   },
   {
     category: 'Fabrication',
@@ -1838,15 +1713,9 @@ export const roboticFabricationTemplates: NodeTemplate[] = [
     description: 'Avoid joint limits',
     operation: 'JOINT_LIMIT_AVOIDANCE',
     occtBinding: 'jointLimitAvoidance',
-    parameters: [
-      { name: 'margin', type: 'number', default: 5, min: 0, max: 30 }
-    ],
-    inputs: [
-      { name: 'jointTrajectory', type: 'Data', required: true }
-    ],
-    outputs: [
-      { name: 'safeTrajectory', type: 'Data' }
-    ]
+    parameters: [{ name: 'margin', type: 'number', default: 5, min: 0, max: 30 }],
+    inputs: [{ name: 'jointTrajectory', type: 'Data', required: true }],
+    outputs: [{ name: 'safeTrajectory', type: 'Data' }],
   },
   {
     category: 'Fabrication',
@@ -1855,15 +1724,9 @@ export const roboticFabricationTemplates: NodeTemplate[] = [
     description: 'Automatic tool changer',
     operation: 'TOOL_CHANGER_SETUP',
     occtBinding: 'toolChangerSetup',
-    parameters: [
-      { name: 'toolCount', type: 'number', default: 6, min: 1, max: 20, step: 1 }
-    ],
-    inputs: [
-      { name: 'toolRack', type: 'Transform', required: true }
-    ],
-    outputs: [
-      { name: 'toolChangeSequence', type: 'Transform[]' }
-    ]
+    parameters: [{ name: 'toolCount', type: 'number', default: 6, min: 1, max: 20, step: 1 }],
+    inputs: [{ name: 'toolRack', type: 'Transform', required: true }],
+    outputs: [{ name: 'toolChangeSequence', type: 'Transform[]' }],
   },
   {
     category: 'Fabrication',
@@ -1872,16 +1735,10 @@ export const roboticFabricationTemplates: NodeTemplate[] = [
     description: 'Maintenance scheduling',
     operation: 'ROBOT_MAINTENANCE',
     occtBinding: 'robotMaintenance',
-    parameters: [
-      { name: 'operatingHours', type: 'number', default: 1000, min: 0, max: 50000 }
-    ],
-    inputs: [
-      { name: 'robotData', type: 'Data', required: true }
-    ],
-    outputs: [
-      { name: 'maintenanceSchedule', type: 'Data' }
-    ]
-  }
+    parameters: [{ name: 'operatingHours', type: 'number', default: 1000, min: 0, max: 50000 }],
+    inputs: [{ name: 'robotData', type: 'Data', required: true }],
+    outputs: [{ name: 'maintenanceSchedule', type: 'Data' }],
+  },
 ];
 
 // Export all fabrication templates
@@ -1889,5 +1746,5 @@ export const allFabricationTemplates = [
   ...printing3DTemplates,
   ...cncMachiningTemplates,
   ...laserCuttingTemplates,
-  ...roboticFabricationTemplates
+  ...roboticFabricationTemplates,
 ];

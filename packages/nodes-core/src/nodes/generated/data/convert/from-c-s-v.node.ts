@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -21,42 +20,39 @@ export const FromCSVNode: NodeDefinition<FromCSVInputs, FromCSVOutputs, FromCSVP
   metadata: {
     label: 'FromCSV',
     description: 'Parse CSV',
-    
-    
   },
 
   params: {
-        delimiter: {
-      "default": ","
+    delimiter: {
+      default: ',',
     },
     headers: {
-      "default": true
-    }
+      default: true,
+    },
   },
 
   inputs: {
-        csv: 'string'
+    csv: 'string',
   },
 
   outputs: {
-        data: 'Data[][]',
-    headers: 'string[]'
+    data: 'Data[][]',
+    headers: 'string[]',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'convertFromCSV',
       params: {
         csv: inputs.csv,
         delimiter: params.delimiter,
-        headers: params.headers
-      }
+        headers: params.headers,
+      },
     });
 
     return {
       data: result,
-      headers: result
+      headers: result,
     };
-  }
+  },
 };

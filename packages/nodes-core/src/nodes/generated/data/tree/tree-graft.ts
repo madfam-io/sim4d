@@ -10,7 +10,11 @@ interface TreeGraftOutputs {
   grafted: unknown;
 }
 
-export const DataTreeTreeGraftNode: NodeDefinition<TreeGraftInputs, TreeGraftOutputs, TreeGraftParams> = {
+export const DataTreeTreeGraftNode: NodeDefinition<
+  TreeGraftInputs,
+  TreeGraftOutputs,
+  TreeGraftParams
+> = {
   id: 'Data::TreeGraft',
   type: 'Data::TreeGraft',
   category: 'Data',
@@ -20,26 +24,26 @@ export const DataTreeTreeGraftNode: NodeDefinition<TreeGraftInputs, TreeGraftOut
     tree: {
       type: 'DataTree',
       label: 'Tree',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     grafted: {
       type: 'DataTree',
-      label: 'Grafted'
-    }
+      label: 'Grafted',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'treeGraft',
       params: {
-        tree: inputs.tree
-      }
+        tree: inputs.tree,
+      },
     });
-    
+
     return {
-      grafted: result
+      grafted: result,
     };
   },
 };

@@ -13,7 +13,11 @@ interface VoronoiOffsetOutputs {
   offsetCells: unknown;
 }
 
-export const PatternsVoronoiVoronoiOffsetNode: NodeDefinition<VoronoiOffsetInputs, VoronoiOffsetOutputs, VoronoiOffsetParams> = {
+export const PatternsVoronoiVoronoiOffsetNode: NodeDefinition<
+  VoronoiOffsetInputs,
+  VoronoiOffsetOutputs,
+  VoronoiOffsetParams
+> = {
   id: 'Patterns::VoronoiOffset',
   type: 'Patterns::VoronoiOffset',
   category: 'Patterns',
@@ -23,14 +27,14 @@ export const PatternsVoronoiVoronoiOffsetNode: NodeDefinition<VoronoiOffsetInput
     cells: {
       type: 'Wire[]',
       label: 'Cells',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     offsetCells: {
       type: 'Wire[]',
-      label: 'Offset Cells'
-    }
+      label: 'Offset Cells',
+    },
   },
   params: {
     offset: {
@@ -38,13 +42,13 @@ export const PatternsVoronoiVoronoiOffsetNode: NodeDefinition<VoronoiOffsetInput
       label: 'Offset',
       default: 1,
       min: -10,
-      max: 10
+      max: 10,
     },
     roundCorners: {
       type: 'boolean',
       label: 'Round Corners',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -52,12 +56,12 @@ export const PatternsVoronoiVoronoiOffsetNode: NodeDefinition<VoronoiOffsetInput
       params: {
         cells: inputs.cells,
         offset: params.offset,
-        roundCorners: params.roundCorners
-      }
+        roundCorners: params.roundCorners,
+      },
     });
-    
+
     return {
-      offsetCells: result
+      offsetCells: result,
     };
   },
 };

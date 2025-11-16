@@ -19,7 +19,12 @@ export * from './production-safety'; // CRITICAL: Production safety utilities
 export type { WorkerAPI } from '@brepflow/types';
 
 // Default export is the new IntegratedGeometryAPI
-export { IntegratedGeometryAPI as default, getGeometryAPI, createGeometryAPI, DEFAULT_API_CONFIG } from './integrated-geometry-api';
+export {
+  IntegratedGeometryAPI as default,
+  getGeometryAPI,
+  createGeometryAPI,
+  DEFAULT_API_CONFIG,
+} from './integrated-geometry-api';
 
 // Legacy exports for backward compatibility
 export { GeometryAPI } from './geometry-api';

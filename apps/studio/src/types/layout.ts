@@ -1,4 +1,10 @@
-export type PanelId = 'nodePanel' | 'nodeEditor' | 'viewport3d' | 'inspector' | 'console' | 'toolbar';
+export type PanelId =
+  | 'nodePanel'
+  | 'nodeEditor'
+  | 'viewport3d'
+  | 'inspector'
+  | 'console'
+  | 'toolbar';
 
 export type LayoutPresetId = 'guided' | 'professional' | 'modeling' | 'nodeFocused' | 'custom';
 

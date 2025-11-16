@@ -14,7 +14,11 @@ interface ImportSTLOutputs {
   isValid: unknown;
 }
 
-export const MeshFilesImportSTLNode: NodeDefinition<ImportSTLInputs, ImportSTLOutputs, ImportSTLParams> = {
+export const MeshFilesImportSTLNode: NodeDefinition<
+  ImportSTLInputs,
+  ImportSTLOutputs,
+  ImportSTLParams
+> = {
   id: 'Mesh::ImportSTL',
   category: 'Mesh',
   label: 'ImportSTL',
@@ -23,31 +27,31 @@ export const MeshFilesImportSTLNode: NodeDefinition<ImportSTLInputs, ImportSTLOu
     fileData: {
       type: 'Data',
       label: 'File Data',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     mesh: {
       type: 'Mesh',
-      label: 'Mesh'
+      label: 'Mesh',
     },
     isValid: {
       type: 'boolean',
-      label: 'Is Valid'
-    }
+      label: 'Is Valid',
+    },
   },
   params: {
     units: {
       type: 'enum',
       label: 'Units',
-      default: "mm",
-      options: ["mm","cm","m","inch","foot"]
+      default: 'mm',
+      options: ['mm', 'cm', 'm', 'inch', 'foot'],
     },
     validate: {
       type: 'boolean',
       label: 'Validate',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -55,13 +59,13 @@ export const MeshFilesImportSTLNode: NodeDefinition<ImportSTLInputs, ImportSTLOu
       params: {
         fileData: inputs.fileData,
         units: params.units,
-        validate: params.validate
-      }
+        validate: params.validate,
+      },
     });
-    
+
     return {
       mesh: results.mesh,
-      isValid: results.isValid
+      isValid: results.isValid,
     };
   },
 };

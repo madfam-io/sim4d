@@ -59,10 +59,7 @@ export class MonitoringSystem {
 
     try {
       // Initialize logger first
-      this.logger = Logger.getInstance(
-        this.config.monitoring.logging,
-        this.sessionId
-      );
+      this.logger = Logger.getInstance(this.config.monitoring.logging, this.sessionId);
 
       // Initialize error manager
       this.errorManager = ErrorManager.getInstance(this.config.monitoring);
@@ -96,12 +93,11 @@ export class MonitoringSystem {
       this.logger.info('Monitoring system initialized successfully', {
         sessionId: this.sessionId,
         enabledFeatures: this.config.enabledFeatures,
-        version: import.meta.env.VITE_BUILD_VERSION || 'development'
+        version: import.meta.env.VITE_BUILD_VERSION || 'development',
       });
 
       this.initialized = true;
       console.log('✅ Monitoring System Ready');
-
     } catch (error) {
       console.error('❌ Failed to initialize monitoring system:', error);
       throw error;
@@ -132,7 +128,7 @@ export class MonitoringSystem {
     this.logger.info('Starting monitored operation', {
       operationName,
       operationId,
-      options
+      options,
     });
 
     // Start timing
@@ -143,14 +139,11 @@ export class MonitoringSystem {
 
       if (options.enableRetry) {
         // Execute with retry logic
-        const retryResult = await this.retryHandler.retryWithExponentialBackoff(
-          operation,
-          {
-            maxAttempts: options.retryConfig?.maxAttempts || 3,
-            baseDelay: options.retryConfig?.baseDelay || 1000,
-            operationName
-          }
-        );
+        const retryResult = await this.retryHandler.retryWithExponentialBackoff(operation, {
+          maxAttempts: options.retryConfig?.maxAttempts || 3,
+          baseDelay: options.retryConfig?.baseDelay || 1000,
+          operationName,
+        });
 
         if (!retryResult.success) {
           throw retryResult.error!;
@@ -164,7 +157,7 @@ export class MonitoringSystem {
             operationName,
             operationId,
             attempts: retryResult.attempts,
-            totalTime: retryResult.totalTime
+            totalTime: retryResult.totalTime,
           });
         }
       } else {
@@ -182,17 +175,16 @@ export class MonitoringSystem {
 
       this.metricsCollector.incrementCounter('operations_total', {
         operation: operationName,
-        status: 'success'
+        status: 'success',
       });
 
       this.logger.info('Operation completed successfully', {
         operationName,
         operationId,
-        duration
+        duration,
       });
 
       return result;
-
     } catch (error) {
       // Record failure metrics
       const duration = Date.now() - startTime;
@@ -200,7 +192,7 @@ export class MonitoringSystem {
 
       this.metricsCollector.incrementCounter('operations_total', {
         operation: operationName,
-        status: 'error'
+        status: 'error',
       });
 
       // Create error through error manager
@@ -212,8 +204,8 @@ export class MonitoringSystem {
           operationName,
           operationId,
           duration,
-          expectedErrors: options.expectedErrors
-        }
+          expectedErrors: options.expectedErrors,
+        },
       });
 
       this.logger.error('Operation failed', {
@@ -221,7 +213,7 @@ export class MonitoringSystem {
         operationId,
         duration,
         error: jsError.message,
-        stack: jsError.stack
+        stack: jsError.stack,
       });
 
       throw error;
@@ -239,13 +231,10 @@ export class MonitoringSystem {
       enableRetry: true,
       retryConfig: {
         maxAttempts: 2,
-        baseDelay: 500
+        baseDelay: 500,
       },
-      expectedErrors: [
-        ErrorCode.WASM_EXECUTION_ERROR,
-        ErrorCode.GEOMETRY_COMPUTATION_FAILED
-      ],
-      timeout: 30000 // 30 second timeout for WASM operations
+      expectedErrors: [ErrorCode.WASM_EXECUTION_ERROR, ErrorCode.GEOMETRY_COMPUTATION_FAILED],
+      timeout: 30000, // 30 second timeout for WASM operations
     });
   }
 
@@ -261,14 +250,14 @@ export class MonitoringSystem {
       retryConfig: {
         maxAttempts: 5,
         backoffStrategy: 'exponential',
-        baseDelay: 1000
+        baseDelay: 1000,
       },
       expectedErrors: [
         ErrorCode.NETWORK_TIMEOUT,
         ErrorCode.API_REQUEST_FAILED,
-        ErrorCode.CONNECTION_LOST
+        ErrorCode.CONNECTION_LOST,
       ],
-      timeout: 10000 // 10 second timeout
+      timeout: 10000, // 10 second timeout
     });
   }
 
@@ -287,7 +276,7 @@ export class MonitoringSystem {
       activeErrors: this.errorManager.getActiveErrors(),
       activeAlerts: this.healthMonitor.getActiveAlerts(),
       metrics: this.metricsCollector.exportMetrics(),
-      retryStats: this.retryHandler.getRetryStats()
+      retryStats: this.retryHandler.getRetryStats(),
     };
   }
 
@@ -305,7 +294,7 @@ export class MonitoringSystem {
 
     this.metricsCollector.recordUserEvent({
       ...interaction,
-      sessionId: this.sessionId
+      sessionId: this.sessionId,
     });
   }
 
@@ -324,7 +313,7 @@ export class MonitoringSystem {
       sessionId: this.sessionId,
       buildVersion: import.meta.env.VITE_BUILD_VERSION || 'development',
       dashboard: this.getMonitoringDashboard(),
-      config: this.config
+      config: this.config,
     };
   }
 
@@ -354,24 +343,22 @@ export class MonitoringSystem {
 
     // Create error for critical alerts
     if (alert.severity === 'critical') {
-      this.errorManager.createError(
-        this.getErrorCodeForAlertType(alert.type),
-        alert.message,
-        {
-          severity: ErrorSeverity.HIGH,
-          userMessage: this.getUserMessageForAlert(alert),
-          context: {
-            alertType: alert.type,
-            alertId: alert.id
-          }
-        }
-      );
+      this.errorManager.createError(this.getErrorCodeForAlertType(alert.type), alert.message, {
+        severity: ErrorSeverity.HIGH,
+        userMessage: this.getUserMessageForAlert(alert),
+        context: {
+          alertType: alert.type,
+          alertId: alert.id,
+        },
+      });
     }
 
     // Emit event for UI components to handle
-    window.dispatchEvent(new CustomEvent('brepflow:health-alert', {
-      detail: alert
-    }));
+    window.dispatchEvent(
+      new CustomEvent('brepflow:health-alert', {
+        detail: alert,
+      })
+    );
   }
 
   /**
@@ -410,7 +397,7 @@ export class MonitoringSystem {
     // Monitor page visibility changes
     document.addEventListener('visibilitychange', () => {
       this.metricsCollector.incrementCounter('page_visibility_changes', {
-        state: document.hidden ? 'hidden' : 'visible'
+        state: document.hidden ? 'hidden' : 'visible',
       });
     });
   }
@@ -423,7 +410,8 @@ export class MonitoringSystem {
     let lastMouseEvent = 0;
     document.addEventListener('mousemove', () => {
       const now = Date.now();
-      if (now - lastMouseEvent > 5000) { // Sample every 5 seconds
+      if (now - lastMouseEvent > 5000) {
+        // Sample every 5 seconds
         this.metricsCollector.incrementCounter('user_mouse_movements');
         lastMouseEvent = now;
       }
@@ -436,8 +424,8 @@ export class MonitoringSystem {
         target: (event.target as Element)?.tagName?.toLowerCase(),
         data: {
           x: event.clientX,
-          y: event.clientY
-        }
+          y: event.clientY,
+        },
       });
     });
 
@@ -451,8 +439,8 @@ export class MonitoringSystem {
             ctrlKey: event.ctrlKey,
             metaKey: event.metaKey,
             altKey: event.altKey,
-            shiftKey: event.shiftKey
-          }
+            shiftKey: event.shiftKey,
+          },
         });
       }
     });
@@ -461,21 +449,18 @@ export class MonitoringSystem {
   /**
    * Execute operation with timeout
    */
-  private async executeWithTimeout<T>(
-    operation: () => Promise<T>,
-    timeoutMs: number
-  ): Promise<T> {
+  private async executeWithTimeout<T>(operation: () => Promise<T>, timeoutMs: number): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       const timer = setTimeout(() => {
         reject(new Error(`Operation timed out after ${timeoutMs}ms`));
       }, timeoutMs);
 
       operation()
-        .then(result => {
+        .then((result) => {
           clearTimeout(timer);
           resolve(result);
         })
-        .catch(error => {
+        .catch((error) => {
           clearTimeout(timer);
           reject(error);
         });
@@ -510,12 +495,18 @@ export class MonitoringSystem {
    */
   private getErrorCodeForAlertType(alertType: HealthAlert['type']): ErrorCode {
     switch (alertType) {
-      case 'memory': return ErrorCode.MEMORY_LIMIT_EXCEEDED;
-      case 'wasm': return ErrorCode.WASM_EXECUTION_ERROR;
-      case 'network': return ErrorCode.CONNECTION_LOST;
-      case 'error_rate': return ErrorCode.RUNTIME;
-      case 'performance': return ErrorCode.EVALUATION_TIMEOUT;
-      default: return ErrorCode.SYSTEM;
+      case 'memory':
+        return ErrorCode.MEMORY_LIMIT_EXCEEDED;
+      case 'wasm':
+        return ErrorCode.WASM_EXECUTION_ERROR;
+      case 'network':
+        return ErrorCode.CONNECTION_LOST;
+      case 'error_rate':
+        return ErrorCode.RUNTIME;
+      case 'performance':
+        return ErrorCode.EVALUATION_TIMEOUT;
+      default:
+        return ErrorCode.SYSTEM;
     }
   }
 

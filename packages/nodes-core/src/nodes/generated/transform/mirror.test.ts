@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { TransformMirrorNode } from './mirror.node';
 import { createTestContext } from '../test-utils';
@@ -7,7 +6,7 @@ describe('TransformMirrorNode', () => {
   it('should evaluate without throwing', async () => {
     const context = createTestContext();
     const inputs = {
-      shape: undefined
+      shape: undefined,
     } as any;
     const params = {
       planeOriginX: 0,
@@ -16,7 +15,7 @@ describe('TransformMirrorNode', () => {
       planeNormalX: 1,
       planeNormalY: 0,
       planeNormalZ: 0,
-      copy: true
+      copy: true,
     } as any;
 
     const result = await TransformMirrorNode.evaluate(context, inputs, params);

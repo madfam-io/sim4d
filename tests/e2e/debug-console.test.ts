@@ -5,7 +5,7 @@ test('debug console errors', async ({ page }) => {
   const logs: string[] = [];
 
   // Capture console messages
-  page.on('console', msg => {
+  page.on('console', (msg) => {
     const type = msg.type();
     const text = msg.text();
     if (type === 'error') {
@@ -17,7 +17,7 @@ test('debug console errors', async ({ page }) => {
   });
 
   // Capture page errors
-  page.on('pageerror', error => {
+  page.on('pageerror', (error) => {
     console.log(`[PAGE ERROR]: ${error.message}`);
     errors.push(error.message);
   });
@@ -30,7 +30,10 @@ test('debug console errors', async ({ page }) => {
 
   // Get page content
   const html = await page.content();
-  const rootHtml = await page.locator('#root').innerHTML().catch(() => 'NOT FOUND');
+  const rootHtml = await page
+    .locator('#root')
+    .innerHTML()
+    .catch(() => 'NOT FOUND');
 
   console.log('=== PAGE HTML ===');
   console.log(html.substring(0, 500));

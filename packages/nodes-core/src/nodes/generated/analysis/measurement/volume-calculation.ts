@@ -16,7 +16,11 @@ interface VolumeCalculationOutputs {
   inertiaMatrix: unknown;
 }
 
-export const AnalysisMeasurementVolumeCalculationNode: NodeDefinition<VolumeCalculationInputs, VolumeCalculationOutputs, VolumeCalculationParams> = {
+export const AnalysisMeasurementVolumeCalculationNode: NodeDefinition<
+  VolumeCalculationInputs,
+  VolumeCalculationOutputs,
+  VolumeCalculationParams
+> = {
   id: 'Analysis::VolumeCalculation',
   type: 'Analysis::VolumeCalculation',
   category: 'Analysis',
@@ -26,26 +30,26 @@ export const AnalysisMeasurementVolumeCalculationNode: NodeDefinition<VolumeCalc
     solid: {
       type: 'Shape',
       label: 'Solid',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     volume: {
       type: 'number',
-      label: 'Volume'
+      label: 'Volume',
     },
     mass: {
       type: 'number',
-      label: 'Mass'
+      label: 'Mass',
     },
     centerOfMass: {
       type: 'Point',
-      label: 'Center Of Mass'
+      label: 'Center Of Mass',
     },
     inertiaMatrix: {
       type: 'number[]',
-      label: 'Inertia Matrix'
-    }
+      label: 'Inertia Matrix',
+    },
   },
   params: {
     precision: {
@@ -53,15 +57,15 @@ export const AnalysisMeasurementVolumeCalculationNode: NodeDefinition<VolumeCalc
       label: 'Precision',
       default: 0.01,
       min: 0.001,
-      max: 1
+      max: 1,
     },
     density: {
       type: 'number',
       label: 'Density',
       default: 1,
       min: 0.001,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -69,15 +73,15 @@ export const AnalysisMeasurementVolumeCalculationNode: NodeDefinition<VolumeCalc
       params: {
         solid: inputs.solid,
         precision: params.precision,
-        density: params.density
-      }
+        density: params.density,
+      },
     });
-    
+
     return {
       volume: results.volume,
       mass: results.mass,
       centerOfMass: results.centerOfMass,
-      inertiaMatrix: results.inertiaMatrix
+      inertiaMatrix: results.inertiaMatrix,
     };
   },
 };

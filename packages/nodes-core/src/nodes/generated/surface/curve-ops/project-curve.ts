@@ -14,7 +14,11 @@ interface ProjectCurveOutputs {
   projectedCurve: unknown;
 }
 
-export const SurfaceCurveOpsProjectCurveNode: NodeDefinition<ProjectCurveInputs, ProjectCurveOutputs, ProjectCurveParams> = {
+export const SurfaceCurveOpsProjectCurveNode: NodeDefinition<
+  ProjectCurveInputs,
+  ProjectCurveOutputs,
+  ProjectCurveParams
+> = {
   id: 'Surface::ProjectCurve',
   type: 'Surface::ProjectCurve',
   category: 'Surface',
@@ -24,31 +28,31 @@ export const SurfaceCurveOpsProjectCurveNode: NodeDefinition<ProjectCurveInputs,
     curve: {
       type: 'Wire',
       label: 'Curve',
-      required: true
+      required: true,
     },
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     projectedCurve: {
       type: 'Wire',
-      label: 'Projected Curve'
-    }
+      label: 'Projected Curve',
+    },
   },
   params: {
     projectionDirection: {
       type: 'vec3',
       label: 'Projection Direction',
-      default: [0,0,-1]
+      default: [0, 0, -1],
     },
     projectBoth: {
       type: 'boolean',
       label: 'Project Both',
-      default: false
-    }
+      default: false,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -57,12 +61,12 @@ export const SurfaceCurveOpsProjectCurveNode: NodeDefinition<ProjectCurveInputs,
         curve: inputs.curve,
         surface: inputs.surface,
         projectionDirection: params.projectionDirection,
-        projectBoth: params.projectBoth
-      }
+        projectBoth: params.projectBoth,
+      },
     });
-    
+
     return {
-      projectedCurve: result
+      projectedCurve: result,
     };
   },
 };

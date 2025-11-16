@@ -23,19 +23,19 @@ export const AssemblyJointsBeltNode: NodeDefinition<BeltInputs, BeltOutputs, Bel
     pulley1: {
       type: 'Shape',
       label: 'Pulley1',
-      required: true
+      required: true,
     },
     pulley2: {
       type: 'Shape',
       label: 'Pulley2',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     joint: {
       type: 'Joint',
-      label: 'Joint'
-    }
+      label: 'Joint',
+    },
   },
   params: {
     ratio: {
@@ -43,8 +43,8 @@ export const AssemblyJointsBeltNode: NodeDefinition<BeltInputs, BeltOutputs, Bel
       label: 'Ratio',
       default: 1,
       min: 0.1,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -52,12 +52,12 @@ export const AssemblyJointsBeltNode: NodeDefinition<BeltInputs, BeltOutputs, Bel
       params: {
         pulley1: inputs.pulley1,
         pulley2: inputs.pulley2,
-        ratio: params.ratio
-      }
+        ratio: params.ratio,
+      },
     });
-    
+
     return {
-      joint: result
+      joint: result,
     };
   },
 };

@@ -6,11 +6,7 @@ export class SessionManager {
   private connectionToSession: Map<string, string> = new Map();
   private userSessions: Map<string, Set<string>> = new Map();
 
-  createSession(params: {
-    userId: string;
-    documentId: string;
-    connectionId: string;
-  }): Session {
+  createSession(params: { userId: string; documentId: string; connectionId: string }): Session {
     const session: Session = {
       id: uuidv4(),
       userId: params.userId,

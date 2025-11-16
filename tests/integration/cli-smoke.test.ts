@@ -61,7 +61,7 @@ describe('Headless CLI smoke', () => {
         outputDir,
         '--export',
         'step,stl',
-        '--manifest'
+        '--manifest',
       ],
       repoRoot
     );

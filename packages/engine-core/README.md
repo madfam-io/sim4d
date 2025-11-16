@@ -5,6 +5,7 @@ Core execution engine for BrepFlow - handles DAG evaluation, caching, and node o
 ## Overview
 
 The engine-core package provides the fundamental graph execution runtime for BrepFlow. It manages:
+
 - Directed Acyclic Graph (DAG) evaluation with topological sorting
 - Dirty propagation for efficient re-computation
 - Content-addressed caching with deterministic hashing
@@ -31,7 +32,7 @@ import { WorkerAPI } from '@brepflow/types';
 const engine = new DAGEngine({
   worker: workerAPI,
   cache: new ComputeCache(),
-  registry: NodeRegistry.getInstance()
+  registry: NodeRegistry.getInstance(),
 });
 
 // Evaluate a graph with dirty nodes
@@ -58,17 +59,17 @@ const registry = NodeRegistry.getInstance();
 registry.registerNode({
   type: 'Custom::MyNode',
   params: {
-    value: { type: 'number', default: 0 }
+    value: { type: 'number', default: 0 },
   },
   inputs: {
-    input: 'number'
+    input: 'number',
   },
   outputs: {
-    output: 'number'
+    output: 'number',
   },
   evaluate: async (ctx, inputs, params) => {
     return { output: inputs.input + params.value };
-  }
+  },
 });
 
 // Get node definition
@@ -223,6 +224,7 @@ The DAGEngine follows this evaluation sequence:
 ## Caching Strategy
 
 The cache uses a multi-level key system:
+
 - **Primary Key**: Hash of (nodeId, inputHashes, paramHash)
 - **LRU Eviction**: Least recently used items removed when cache is full
 - **Statistics**: Track hit/miss rates for optimization

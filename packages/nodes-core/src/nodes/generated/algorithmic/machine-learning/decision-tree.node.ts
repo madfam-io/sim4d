@@ -18,7 +18,11 @@ interface DecisionTreeOutputs {
   featureImportance: unknown;
 }
 
-export const AlgorithmicMachineLearningDecisionTreeNode: NodeDefinition<DecisionTreeInputs, DecisionTreeOutputs, DecisionTreeParams> = {
+export const AlgorithmicMachineLearningDecisionTreeNode: NodeDefinition<
+  DecisionTreeInputs,
+  DecisionTreeOutputs,
+  DecisionTreeParams
+> = {
   id: 'Algorithmic::DecisionTree',
   category: 'Algorithmic',
   label: 'DecisionTree',
@@ -27,32 +31,32 @@ export const AlgorithmicMachineLearningDecisionTreeNode: NodeDefinition<Decision
     trainingData: {
       type: 'Properties[]',
       label: 'Training Data',
-      required: true
+      required: true,
     },
     features: {
       type: 'string[]',
       label: 'Features',
-      required: true
+      required: true,
     },
     target: {
       type: 'string',
       label: 'Target',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     tree: {
       type: 'Properties',
-      label: 'Tree'
+      label: 'Tree',
     },
     accuracy: {
       type: 'number',
-      label: 'Accuracy'
+      label: 'Accuracy',
     },
     featureImportance: {
       type: 'Properties',
-      label: 'Feature Importance'
-    }
+      label: 'Feature Importance',
+    },
   },
   params: {
     maxDepth: {
@@ -60,21 +64,21 @@ export const AlgorithmicMachineLearningDecisionTreeNode: NodeDefinition<Decision
       label: 'Max Depth',
       default: 5,
       min: 1,
-      max: 20
+      max: 20,
     },
     minSamplesSplit: {
       type: 'number',
       label: 'Min Samples Split',
       default: 2,
       min: 2,
-      max: 50
+      max: 50,
     },
     criterion: {
       type: 'enum',
       label: 'Criterion',
-      default: "gini",
-      options: ["gini","entropy"]
-    }
+      default: 'gini',
+      options: ['gini', 'entropy'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -85,14 +89,14 @@ export const AlgorithmicMachineLearningDecisionTreeNode: NodeDefinition<Decision
         target: inputs.target,
         maxDepth: params.maxDepth,
         minSamplesSplit: params.minSamplesSplit,
-        criterion: params.criterion
-      }
+        criterion: params.criterion,
+      },
     });
-    
+
     return {
       tree: results.tree,
       accuracy: results.accuracy,
-      featureImportance: results.featureImportance
+      featureImportance: results.featureImportance,
     };
   },
 };

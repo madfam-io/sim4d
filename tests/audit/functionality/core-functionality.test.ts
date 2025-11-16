@@ -57,14 +57,16 @@ test.describe('Studio Core Functionality', () => {
     await searchInput.fill('box');
     await page.waitForTimeout(300);
 
-    const visibleCards = await page.locator('.nodes-container [data-node-type], .nodes-container .node-card').evaluateAll((elements) =>
-      elements
-        .filter((element) => {
-          const style = window.getComputedStyle(element as HTMLElement);
-          return style.display !== 'none' && style.visibility !== 'hidden';
-        })
-        .map((element) => (element as HTMLElement).innerText.toLowerCase())
-    );
+    const visibleCards = await page
+      .locator('.nodes-container [data-node-type], .nodes-container .node-card')
+      .evaluateAll((elements) =>
+        elements
+          .filter((element) => {
+            const style = window.getComputedStyle(element as HTMLElement);
+            return style.display !== 'none' && style.visibility !== 'hidden';
+          })
+          .map((element) => (element as HTMLElement).innerText.toLowerCase())
+      );
 
     expect(visibleCards.length).toBeGreaterThan(0);
     for (const label of visibleCards) {

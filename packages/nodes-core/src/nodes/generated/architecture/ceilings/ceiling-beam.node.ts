@@ -14,7 +14,11 @@ interface CeilingBeamOutputs {
   beams: unknown;
 }
 
-export const ArchitectureCeilingsCeilingBeamNode: NodeDefinition<CeilingBeamInputs, CeilingBeamOutputs, CeilingBeamParams> = {
+export const ArchitectureCeilingsCeilingBeamNode: NodeDefinition<
+  CeilingBeamInputs,
+  CeilingBeamOutputs,
+  CeilingBeamParams
+> = {
   id: 'Architecture::CeilingBeam',
   category: 'Architecture',
   label: 'CeilingBeam',
@@ -23,14 +27,14 @@ export const ArchitectureCeilingsCeilingBeamNode: NodeDefinition<CeilingBeamInpu
     ceilingArea: {
       type: 'Face',
       label: 'Ceiling Area',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     beams: {
       type: 'Shape[]',
-      label: 'Beams'
-    }
+      label: 'Beams',
+    },
   },
   params: {
     beamDepth: {
@@ -38,22 +42,22 @@ export const ArchitectureCeilingsCeilingBeamNode: NodeDefinition<CeilingBeamInpu
       label: 'Beam Depth',
       default: 300,
       min: 200,
-      max: 600
+      max: 600,
     },
     beamWidth: {
       type: 'number',
       label: 'Beam Width',
       default: 150,
       min: 100,
-      max: 300
+      max: 300,
     },
     spacing: {
       type: 'number',
       label: 'Spacing',
       default: 1200,
       min: 600,
-      max: 2400
-    }
+      max: 2400,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -62,12 +66,12 @@ export const ArchitectureCeilingsCeilingBeamNode: NodeDefinition<CeilingBeamInpu
         ceilingArea: inputs.ceilingArea,
         beamDepth: params.beamDepth,
         beamWidth: params.beamWidth,
-        spacing: params.spacing
-      }
+        spacing: params.spacing,
+      },
     });
-    
+
     return {
-      beams: result
+      beams: result,
     };
   },
 };

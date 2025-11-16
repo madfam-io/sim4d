@@ -13,7 +13,11 @@ interface SecurityDoorOutputs {
   securityDoor: unknown;
 }
 
-export const ArchitectureDoorsSecurityDoorNode: NodeDefinition<SecurityDoorInputs, SecurityDoorOutputs, SecurityDoorParams> = {
+export const ArchitectureDoorsSecurityDoorNode: NodeDefinition<
+  SecurityDoorInputs,
+  SecurityDoorOutputs,
+  SecurityDoorParams
+> = {
   id: 'Architecture::SecurityDoor',
   type: 'Architecture::SecurityDoor',
   category: 'Architecture',
@@ -23,28 +27,28 @@ export const ArchitectureDoorsSecurityDoorNode: NodeDefinition<SecurityDoorInput
     opening: {
       type: 'Wire',
       label: 'Opening',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     securityDoor: {
       type: 'Shape',
-      label: 'Security Door'
-    }
+      label: 'Security Door',
+    },
   },
   params: {
     level: {
       type: 'enum',
       label: 'Level',
-      default: "high",
-      options: ["standard","high","maximum"]
+      default: 'high',
+      options: ['standard', 'high', 'maximum'],
     },
     accessControl: {
       type: 'enum',
       label: 'Access Control',
-      default: "card",
-      options: ["key","code","card","biometric"]
-    }
+      default: 'card',
+      options: ['key', 'code', 'card', 'biometric'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -52,12 +56,12 @@ export const ArchitectureDoorsSecurityDoorNode: NodeDefinition<SecurityDoorInput
       params: {
         opening: inputs.opening,
         level: params.level,
-        accessControl: params.accessControl
-      }
+        accessControl: params.accessControl,
+      },
     });
-    
+
     return {
-      securityDoor: result
+      securityDoor: result,
     };
   },
 };

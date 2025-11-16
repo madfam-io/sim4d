@@ -14,7 +14,11 @@ interface ImportIGESOutputs {
   shape: unknown;
 }
 
-export const IOCADImportIGESNode: NodeDefinition<ImportIGESInputs, ImportIGESOutputs, ImportIGESParams> = {
+export const IOCADImportIGESNode: NodeDefinition<
+  ImportIGESInputs,
+  ImportIGESOutputs,
+  ImportIGESParams
+> = {
   id: 'IO::ImportIGES',
   type: 'IO::ImportIGES',
   category: 'IO',
@@ -24,31 +28,31 @@ export const IOCADImportIGESNode: NodeDefinition<ImportIGESInputs, ImportIGESOut
     fileData: {
       type: 'Data',
       label: 'File Data',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     shape: {
       type: 'Shape',
-      label: 'Shape'
-    }
+      label: 'Shape',
+    },
   },
   params: {
     readSurfaces: {
       type: 'boolean',
       label: 'Read Surfaces',
-      default: true
+      default: true,
     },
     readCurves: {
       type: 'boolean',
       label: 'Read Curves',
-      default: true
+      default: true,
     },
     sequence: {
       type: 'boolean',
       label: 'Sequence',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -57,12 +61,12 @@ export const IOCADImportIGESNode: NodeDefinition<ImportIGESInputs, ImportIGESOut
         fileData: inputs.fileData,
         readSurfaces: params.readSurfaces,
         readCurves: params.readCurves,
-        sequence: params.sequence
-      }
+        sequence: params.sequence,
+      },
     });
-    
+
     return {
-      shape: result
+      shape: result,
     };
   },
 };

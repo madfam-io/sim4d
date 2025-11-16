@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { InteroperabilityExportIGESExportNode } from './igesexport.node';
 import { createTestContext } from '../test-utils';
@@ -8,12 +7,12 @@ describe('InteroperabilityExportIGESExportNode', () => {
     const context = createTestContext();
     const inputs = {
       shapes: undefined,
-      filePath: undefined
+      filePath: undefined,
     } as any;
     const params = {
-      units: "mm",
+      units: 'mm',
       precision: 0.01,
-      writeMode: "brep"
+      writeMode: 'brep',
     } as any;
 
     const result = await InteroperabilityExportIGESExportNode.evaluate(context, inputs, params);

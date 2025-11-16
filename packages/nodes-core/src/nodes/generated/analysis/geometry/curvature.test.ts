@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { CurvatureNode } from './curvature.node';
 import { createTestContext } from './../../test-utils';
@@ -7,10 +6,10 @@ describe('CurvatureNode', () => {
   it('should create Curvature', async () => {
     const context = createTestContext();
     const inputs = {
-      curve: null
+      curve: null,
     };
     const params = {
-      parameter: 0.5
+      parameter: 0.5,
     };
 
     const result = await CurvatureNode.evaluate(context, inputs, params);
@@ -21,6 +20,4 @@ describe('CurvatureNode', () => {
     expect(result.center).toBeDefined();
     expect(result.normal).toBeDefined();
   });
-
-  
 });

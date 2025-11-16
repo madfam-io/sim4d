@@ -16,7 +16,11 @@ interface MedialAxisOutputs {
   endpoints: Array<[number, number, number]>;
 }
 
-export const AlgorithmicGeometryMedialAxisNode: NodeDefinition<MedialAxisInputs, MedialAxisOutputs, MedialAxisParams> = {
+export const AlgorithmicGeometryMedialAxisNode: NodeDefinition<
+  MedialAxisInputs,
+  MedialAxisOutputs,
+  MedialAxisParams
+> = {
   id: 'Algorithmic::MedialAxis',
   category: 'Algorithmic',
   label: 'MedialAxis',
@@ -25,22 +29,22 @@ export const AlgorithmicGeometryMedialAxisNode: NodeDefinition<MedialAxisInputs,
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     skeleton: {
       type: 'Wire[]',
-      label: 'Skeleton'
+      label: 'Skeleton',
     },
     branchPoints: {
       type: 'Point[]',
-      label: 'Branch Points'
+      label: 'Branch Points',
     },
     endpoints: {
       type: 'Point[]',
-      label: 'Endpoints'
-    }
+      label: 'Endpoints',
+    },
   },
   params: {
     resolution: {
@@ -48,20 +52,20 @@ export const AlgorithmicGeometryMedialAxisNode: NodeDefinition<MedialAxisInputs,
       label: 'Resolution',
       default: 0.1,
       min: 0.01,
-      max: 1
+      max: 1,
     },
     pruning: {
       type: 'number',
       label: 'Pruning',
       default: 0.1,
       min: 0,
-      max: 1
+      max: 1,
     },
     simplify: {
       type: 'boolean',
       label: 'Simplify',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -70,14 +74,14 @@ export const AlgorithmicGeometryMedialAxisNode: NodeDefinition<MedialAxisInputs,
         shape: inputs.shape,
         resolution: params.resolution,
         pruning: params.pruning,
-        simplify: params.simplify
-      }
+        simplify: params.simplify,
+      },
     });
-    
+
     return {
       skeleton: results.skeleton,
       branchPoints: results.branchPoints,
-      endpoints: results.endpoints
+      endpoints: results.endpoints,
     };
   },
 };

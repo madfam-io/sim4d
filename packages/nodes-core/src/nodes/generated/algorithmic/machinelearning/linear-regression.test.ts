@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { LinearRegressionNode } from './linearregression.node';
 import { createTestContext } from './../../test-utils';
@@ -9,12 +8,12 @@ describe('LinearRegressionNode', () => {
     const inputs = {
       trainingData: null,
       features: null,
-      target: null
+      target: null,
     };
     const params = {
-      regularization: "none",
+      regularization: 'none',
       alpha: 1,
-      normalize: true
+      normalize: true,
     };
 
     const result = await LinearRegressionNode.evaluate(context, inputs, params);
@@ -25,6 +24,4 @@ describe('LinearRegressionNode', () => {
     expect(result.rSquared).toBeDefined();
     expect(result.predictions).toBeDefined();
   });
-
-  
 });

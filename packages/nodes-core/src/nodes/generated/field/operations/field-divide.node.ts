@@ -13,7 +13,11 @@ interface FieldDivideOutputs {
   field: unknown;
 }
 
-export const FieldOperationsFieldDivideNode: NodeDefinition<FieldDivideInputs, FieldDivideOutputs, FieldDivideParams> = {
+export const FieldOperationsFieldDivideNode: NodeDefinition<
+  FieldDivideInputs,
+  FieldDivideOutputs,
+  FieldDivideParams
+> = {
   id: 'Field::FieldDivide',
   category: 'Field',
   label: 'FieldDivide',
@@ -22,27 +26,27 @@ export const FieldOperationsFieldDivideNode: NodeDefinition<FieldDivideInputs, F
     fieldA: {
       type: 'ScalarField',
       label: 'Field A',
-      required: true
+      required: true,
     },
     fieldB: {
       type: 'ScalarField',
       label: 'Field B',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     field: {
       type: 'ScalarField',
-      label: 'Field'
-    }
+      label: 'Field',
+    },
   },
   params: {
     epsilon: {
       type: 'number',
       label: 'Epsilon',
       default: 0.001,
-      min: 0
-    }
+      min: 0,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -50,12 +54,12 @@ export const FieldOperationsFieldDivideNode: NodeDefinition<FieldDivideInputs, F
       params: {
         fieldA: inputs.fieldA,
         fieldB: inputs.fieldB,
-        epsilon: params.epsilon
-      }
+        epsilon: params.epsilon,
+      },
     });
-    
+
     return {
-      field: result
+      field: result,
     };
   },
 };

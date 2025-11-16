@@ -20,7 +20,7 @@ export interface CollaborationServerOptions {
   maxConnectionsPerDocument?: number;
   operationHistoryLimit?: number;
   presenceTimeout?: number;
-  
+
   // SECURITY: New options for CSRF protection
   csrfTokenSecret?: string; // Secret for HMAC-based CSRF tokens
   enableRateLimiting?: boolean; // Enable per-IP rate limiting
@@ -40,7 +40,7 @@ export class CollaborationServer {
   private documentStore: DocumentStore;
   private presenceManager: PresenceManager;
   private ot: OperationalTransform;
-  
+
   // SECURITY: CSRF and rate limiting
   private csrfTokenSecret: string;
   private connectionLimits: Map<string, RateLimitTracker> = new Map();
@@ -61,7 +61,9 @@ export class CollaborationServer {
 
     // Validate no wildcard origins
     if (this.allowedOrigins.has('*')) {
-      throw new Error('CRITICAL SECURITY: Wildcard CORS (*) is not allowed. Specify explicit origins.');
+      throw new Error(
+        'CRITICAL SECURITY: Wildcard CORS (*) is not allowed. Specify explicit origins.'
+      );
     }
 
     this.csrfTokenSecret = options.csrfTokenSecret || this.generateSecret();
@@ -109,7 +111,10 @@ export class CollaborationServer {
   /**
    * SECURITY: Custom origin validator
    */
-  private validateOrigin(origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void): void {
+  private validateOrigin(
+    origin: string | undefined,
+    callback: (err: Error | null, allow?: boolean) => void
+  ): void {
     // Allow requests with no origin (like Postman, curl for development)
     // In production, you might want to block these
     if (!origin) {
@@ -234,7 +239,7 @@ export class CollaborationServer {
     const hmac = crypto.createHmac('sha256', this.csrfTokenSecret);
     hmac.update(data);
     const signature = hmac.digest('base64');
-    
+
     // Token format: sessionId:timestamp:signature
     return `${sessionId}:${timestamp}:${signature}`;
   }
@@ -282,16 +287,19 @@ export class CollaborationServer {
   private startRateLimitCleanup(): void {
     if (!this.enableRateLimiting) return;
 
-    setInterval(() => {
-      const now = Date.now();
-      const CLEANUP_AGE = 2 * 60 * 60 * 1000; // 2 hours
+    setInterval(
+      () => {
+        const now = Date.now();
+        const CLEANUP_AGE = 2 * 60 * 60 * 1000; // 2 hours
 
-      for (const [ip, tracker] of this.connectionLimits.entries()) {
-        if (now - tracker.lastReset > CLEANUP_AGE && !tracker.blacklisted) {
-          this.connectionLimits.delete(ip);
+        for (const [ip, tracker] of this.connectionLimits.entries()) {
+          if (now - tracker.lastReset > CLEANUP_AGE && !tracker.blacklisted) {
+            this.connectionLimits.delete(ip);
+          }
         }
-      }
-    }, 60 * 60 * 1000); // Run every hour
+      },
+      60 * 60 * 1000
+    ); // Run every hour
   }
 
   private setupHandlers(): void {
@@ -394,7 +402,7 @@ export class CollaborationServer {
   private isValidOperation(operation: unknown): operation is Operation {
     if (typeof operation !== 'object' || operation === null) return false;
     const op = operation as any;
-    
+
     // Basic validation - extend based on Operation type definition
     return (
       typeof op.type === 'string' &&
@@ -405,11 +413,7 @@ export class CollaborationServer {
     );
   }
 
-  private async handleJoinDocument(
-    socket: Socket,
-    documentId: string,
-    user: User
-  ): Promise<void> {
+  private async handleJoinDocument(socket: Socket, documentId: string, user: User): Promise<void> {
     // Create session
     const session = this.sessionManager.createSession({
       userId: user.id,
@@ -470,10 +474,7 @@ export class CollaborationServer {
     console.log(`User ${userId} left document ${documentId}`);
   }
 
-  private async handleOperation(
-    socket: Socket,
-    operation: Operation
-  ): Promise<void> {
+  private async handleOperation(socket: Socket, operation: Operation): Promise<void> {
     const session = this.sessionManager.getSessionByConnectionId(socket.id);
     if (!session) return;
 
@@ -482,10 +483,7 @@ export class CollaborationServer {
     if (!document) return;
 
     // Apply operational transformation
-    const transformedOperation = this.ot.transform(
-      operation,
-      document.operations
-    );
+    const transformedOperation = this.ot.transform(operation, document.operations);
 
     // Apply operation to document
     const updatedDocument = await this.documentStore.applyOperation(
@@ -497,10 +495,7 @@ export class CollaborationServer {
     this.io.to(documentId).emit('operation:broadcast', transformedOperation);
 
     // Check for conflicts
-    const conflicts = this.ot.detectConflicts(
-      transformedOperation,
-      document.operations
-    );
+    const conflicts = this.ot.detectConflicts(transformedOperation, document.operations);
     if (conflicts.length > 0) {
       conflicts.forEach((conflict) => {
         socket.emit('conflict:detected', conflict);
@@ -517,12 +512,7 @@ export class CollaborationServer {
     if (!session) return;
 
     const { userId, documentId } = session;
-    const presence = this.presenceManager.updatePresence(
-      documentId,
-      userId,
-      type,
-      data
-    );
+    const presence = this.presenceManager.updatePresence(documentId, userId, type, data);
 
     if (presence) {
       // Broadcast presence update to other users

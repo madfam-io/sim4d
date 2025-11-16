@@ -15,7 +15,11 @@ interface SurfaceAreaOutputs {
   boundaryLength: unknown;
 }
 
-export const AnalysisSurfacesSurfaceAreaNode: NodeDefinition<SurfaceAreaInputs, SurfaceAreaOutputs, SurfaceAreaParams> = {
+export const AnalysisSurfacesSurfaceAreaNode: NodeDefinition<
+  SurfaceAreaInputs,
+  SurfaceAreaOutputs,
+  SurfaceAreaParams
+> = {
   id: 'Analysis::SurfaceArea',
   category: 'Analysis',
   label: 'SurfaceArea',
@@ -24,22 +28,22 @@ export const AnalysisSurfacesSurfaceAreaNode: NodeDefinition<SurfaceAreaInputs, 
     surface: {
       type: 'Face',
       label: 'Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     area: {
       type: 'number',
-      label: 'Area'
+      label: 'Area',
     },
     centroid: {
       type: 'Point',
-      label: 'Centroid'
+      label: 'Centroid',
     },
     boundaryLength: {
       type: 'number',
-      label: 'Boundary Length'
-    }
+      label: 'Boundary Length',
+    },
   },
   params: {
     precision: {
@@ -47,13 +51,13 @@ export const AnalysisSurfacesSurfaceAreaNode: NodeDefinition<SurfaceAreaInputs, 
       label: 'Precision',
       default: 0.01,
       min: 0.001,
-      max: 1
+      max: 1,
     },
     showCentroid: {
       type: 'boolean',
       label: 'Show Centroid',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -61,14 +65,14 @@ export const AnalysisSurfacesSurfaceAreaNode: NodeDefinition<SurfaceAreaInputs, 
       params: {
         surface: inputs.surface,
         precision: params.precision,
-        showCentroid: params.showCentroid
-      }
+        showCentroid: params.showCentroid,
+      },
     });
-    
+
     return {
       area: results.area,
       centroid: results.centroid,
-      boundaryLength: results.boundaryLength
+      boundaryLength: results.boundaryLength,
     };
   },
 };

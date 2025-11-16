@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { FabricationRoboticsPickAndPlaceNode } from './pick-and-place.node';
 import { createTestContext } from '../test-utils';
@@ -8,11 +7,11 @@ describe('FabricationRoboticsPickAndPlaceNode', () => {
     const context = createTestContext();
     const inputs = {
       pickPoints: undefined,
-      placePoints: undefined
+      placePoints: undefined,
     } as any;
     const params = {
-      gripperType: "parallel",
-      approachAngle: 0
+      gripperType: 'parallel',
+      approachAngle: 0,
     } as any;
 
     const result = await FabricationRoboticsPickAndPlaceNode.evaluate(context, inputs, params);

@@ -12,7 +12,7 @@ test.describe('Plugin Security and Sandboxing', () => {
 
     // Initialize with security test configuration
     await mockServices.initialize({
-      marketplace: TEST_PLUGIN_CONFIGS.SECURITY_TEST
+      marketplace: TEST_PLUGIN_CONFIGS.SECURITY_TEST,
     });
 
     await page.goto('/');
@@ -78,7 +78,10 @@ test.describe('Plugin Security and Sandboxing', () => {
 
     // Test that plugin cannot access denied permissions
     const deniedPermissions = ['native:code', 'system:info'];
-    const isRestricted = await pluginHelper.validatePermissionEnforcement(pluginId, deniedPermissions);
+    const isRestricted = await pluginHelper.validatePermissionEnforcement(
+      pluginId,
+      deniedPermissions
+    );
 
     expect(isRestricted).toBe(true);
   });
@@ -144,15 +147,17 @@ test.describe('Plugin Security and Sandboxing', () => {
           commands: [],
           panels: [],
           permissions: ['read:graph', 'write:graph'],
-          engines: { brepflow: '>=0.1.0' }
-        }
-      }
+          engines: { brepflow: '>=0.1.0' },
+        },
+      },
     ]);
 
     await pluginHelper.installPlugin(pluginId2);
 
     // Try to have plugin1 interfere with plugin2
-    const result = await pluginHelper.executePluginFunction(pluginId1, 'interferewithOtherPlugin', [pluginId2]);
+    const result = await pluginHelper.executePluginFunction(pluginId1, 'interferewithOtherPlugin', [
+      pluginId2,
+    ]);
 
     // Should fail due to isolation
     expect(result.success).toBe(false);
@@ -167,7 +172,7 @@ test.describe('Plugin Security and Sandboxing', () => {
     // Monitor for security violations
     const securityViolations: string[] = [];
 
-    page.on('console', msg => {
+    page.on('console', (msg) => {
       if (msg.type() === 'error' && msg.text().includes('security violation')) {
         securityViolations.push(msg.text());
       }
@@ -254,7 +259,11 @@ test.describe('Plugin Security and Sandboxing', () => {
     await pluginHelper.installPlugin(pluginId1, { allowUnsigned: true });
 
     // Test that plugin can only communicate through approved channels
-    const result = await pluginHelper.executePluginFunction(pluginId1, 'testCommunicationChannels', []);
+    const result = await pluginHelper.executePluginFunction(
+      pluginId1,
+      'testCommunicationChannels',
+      []
+    );
 
     expect(result.success).toBe(true);
     expect(result.result.approvedChannelsOnly).toBe(true);

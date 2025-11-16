@@ -67,7 +67,7 @@ export const WelcomeScreen: React.FC = () => {
             }}
             transition={{
               duration: 2,
-              ease: "easeInOut",
+              ease: 'easeInOut',
               repeat: Infinity,
               repeatDelay: 3,
             }}
@@ -129,7 +129,6 @@ export const WelcomeScreen: React.FC = () => {
           </p>
         </motion.div>
       </div>
-
     </motion.div>
   );
 };

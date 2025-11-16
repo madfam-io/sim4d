@@ -12,20 +12,22 @@ This guide provides actionable implementation plans for the 5 highest-priority s
 
 ### Status Overview
 
-| Recommendation | Priority | Status | Timeline |
-|----------------|----------|--------|----------|
-| 1. Fix test infrastructure | 🔴 CRITICAL | ✅ **COMPLETED** | Complete |
-| 2. TypeScript strict mode | 🔴 HIGH | 📋 Plan ready | 2-3 weeks |
-| 3. Mock geometry teardown | 🔴 HIGH | 📋 Plan ready | 2 weeks |
-| 4. Generated node catalogue | 🔴 CRITICAL | 📋 Analysis pending | 3 weeks |
-| 5. CSRF frontend integration | 🟡 MEDIUM | 📋 Guide ready | 1 week |
+| Recommendation               | Priority    | Status              | Timeline  |
+| ---------------------------- | ----------- | ------------------- | --------- |
+| 1. Fix test infrastructure   | 🔴 CRITICAL | ✅ **COMPLETED**    | Complete  |
+| 2. TypeScript strict mode    | 🔴 HIGH     | 📋 Plan ready       | 2-3 weeks |
+| 3. Mock geometry teardown    | 🔴 HIGH     | 📋 Plan ready       | 2 weeks   |
+| 4. Generated node catalogue  | 🔴 CRITICAL | 📋 Analysis pending | 3 weeks   |
+| 5. CSRF frontend integration | 🟡 MEDIUM   | 📋 Guide ready      | 1 week    |
 
 ---
 
 ## ✅ Recommendation 1: Fix Test Infrastructure (COMPLETED)
 
 ### Problem Statement
+
 Multiple test suites failing, blocking reliable CI/CD:
+
 - `engine-core` DAG tests (3/18 failing)
 - `engine-core` scripting tests (1/12 failing)
 - Prevents merge confidence and regression detection
@@ -56,6 +58,7 @@ for (const nodeId of evalOrder) {
 ```
 
 **Test Results**:
+
 - ✅ DAGEngine tests: 18/18 passing (was 15/18)
 - ⚠️ Scripting tests: 11/12 passing (1 failure expected due to Nov 13 security migration)
 
@@ -66,12 +69,14 @@ for (const nodeId of evalOrder) {
 ## 📋 Recommendation 2: Enable TypeScript Strict Mode
 
 ### Problem Statement
+
 - TypeScript **strict mode disabled** in Studio app (`apps/studio/tsconfig.json:11`)
 - **657 `any` type usages** across codebase
 - **7 `@ts-ignore` bypasses** suppressing errors
 - Root `pnpm typecheck` fails due to collaboration package issues
 
 ### Impact
+
 - Runtime type errors slip through
 - Reduced IDE autocomplete/IntelliSense
 - Implicit type coercion bugs
@@ -87,11 +92,11 @@ for (const nodeId of evalOrder) {
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "strict": false,                    // Keep false initially
-    "strictNullChecks": true,           // ✅ Enable first
-    "strictFunctionTypes": false,       // Defer
-    "strictBindCallApply": false,       // Defer
-    "strictPropertyInitialization": false  // Defer
+    "strict": false, // Keep false initially
+    "strictNullChecks": true, // ✅ Enable first
+    "strictFunctionTypes": false, // Defer
+    "strictBindCallApply": false, // Defer
+    "strictPropertyInitialization": false // Defer
   }
 }
 ```
@@ -99,6 +104,7 @@ for (const nodeId of evalOrder) {
 **Expected Errors**: ~50-80 compilation errors
 
 **Fix Strategy**:
+
 1. Run `pnpm --filter @brepflow/studio typecheck > errors.txt`
 2. Group errors by file
 3. Fix systematically:
@@ -108,15 +114,16 @@ for (const nodeId of evalOrder) {
    - Use nullish coalescing (`??`)
 
 **Example Fixes**:
+
 ```typescript
 // Before
 function getNodeLabel(node: NodeInstance) {
-  return node.label.toUpperCase();  // ❌ label might be undefined
+  return node.label.toUpperCase(); // ❌ label might be undefined
 }
 
 // After
 function getNodeLabel(node: NodeInstance) {
-  return node.label?.toUpperCase() ?? 'Untitled';  // ✅
+  return node.label?.toUpperCase() ?? 'Untitled'; // ✅
 }
 ```
 
@@ -128,7 +135,7 @@ function getNodeLabel(node: NodeInstance) {
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "strict": true  // ✅ Enable all strict checks
+    "strict": true // ✅ Enable all strict checks
   }
 }
 ```
@@ -136,27 +143,31 @@ function getNodeLabel(node: NodeInstance) {
 **Expected Errors**: ~100-150 additional compilation errors
 
 **Fix Strategy**:
+
 1. Function parameters with implicit `any` - add explicit types
 2. Class properties without initialization - initialize in constructor or mark optional
 3. `this` context errors - use arrow functions or bind
 4. Callback types - add explicit parameter types
 
 **Example Fixes**:
+
 ```typescript
 // Before
 class GraphStore {
-  dagEngine: DAGEngine;  // ❌ Not initialized
+  dagEngine: DAGEngine; // ❌ Not initialized
 
-  setGraph(graph) {  // ❌ Implicit any
+  setGraph(graph) {
+    // ❌ Implicit any
     this.graph = graph;
   }
 }
 
 // After
 class GraphStore {
-  dagEngine: DAGEngine | null = null;  // ✅ Initialized
+  dagEngine: DAGEngine | null = null; // ✅ Initialized
 
-  setGraph(graph: GraphInstance): void {  // ✅ Explicit types
+  setGraph(graph: GraphInstance): void {
+    // ✅ Explicit types
     this.graph = graph;
   }
 }
@@ -172,12 +183,13 @@ class GraphStore {
 module.exports = {
   extends: ['../../.eslintrc.js'],
   rules: {
-    '@typescript-eslint/no-explicit-any': 'error',  // ✅ Ban `any`
-  }
+    '@typescript-eslint/no-explicit-any': 'error', // ✅ Ban `any`
+  },
 };
 ```
 
 **Systematic Replacement**:
+
 ```bash
 # Find all `any` usages
 grep -r ": any" apps/studio/src --include="*.ts" --include="*.tsx" > any-usages.txt
@@ -189,9 +201,11 @@ grep -r ": any" apps/studio/src --include="*.ts" --include="*.tsx" > any-usages.
 ```
 
 **Example Fixes**:
+
 ```typescript
 // Before
-function processData(data: any) {  // ❌
+function processData(data: any) {
+  // ❌
   return data.map((item: any) => item.value);
 }
 
@@ -201,8 +215,9 @@ interface DataItem {
   label?: string;
 }
 
-function processData(data: DataItem[]): number[] {  // ✅
-  return data.map(item => item.value);
+function processData(data: DataItem[]): number[] {
+  // ✅
+  return data.map((item) => item.value);
 }
 ```
 
@@ -213,24 +228,27 @@ function processData(data: DataItem[]): number[] {  // ✅
 **File**: `packages/collaboration/src/operational-transform/types.ts`
 
 **Investigation Required**:
+
 1. Run `pnpm typecheck` at root
 2. Identify specific OT type errors
 3. Fix systematically (likely `any` in operation transforms)
 
 **Expected Fix Pattern**:
+
 ```typescript
 // Before
 export interface Operation {
-  apply(state: any): any;  // ❌
+  apply(state: any): any; // ❌
 }
 
 // After
 export interface Operation<TState = unknown, TResult = TState> {
-  apply(state: TState): TResult;  // ✅
+  apply(state: TState): TResult; // ✅
 }
 ```
 
 ### Success Criteria
+
 - ✅ `pnpm --filter @brepflow/studio typecheck` passes
 - ✅ `pnpm typecheck` (root) passes
 - ✅ `< 50 any` usages in entire codebase
@@ -238,7 +256,9 @@ export interface Operation<TState = unknown, TResult = TState> {
 - ✅ ESLint rule enforces no new `any` types
 
 ### Rollback Plan
+
 If strict mode causes >200 errors or blocks development:
+
 1. Revert to `"strict": false`
 2. Keep only `"strictNullChecks": true`
 3. Schedule dedicated sprint for strict mode migration
@@ -248,12 +268,14 @@ If strict mode causes >200 errors or blocks development:
 ## 📋 Recommendation 3: Complete Mock Geometry Teardown
 
 ### Problem Statement
+
 - Mock geometry still partially enabled, creates dual-mode complexity
 - Some tests/demos use `forceMode: 'mock'` fallback
 - Documentation references both real and mock geometry
 - Blocks full confidence in real OCCT pipeline
 
 ### Impact
+
 - Code complexity (dual paths)
 - Test unreliability (mock ≠ real behavior)
 - User confusion (which mode am I in?)
@@ -264,6 +286,7 @@ If strict mode causes >200 errors or blocks development:
 #### Phase 1: Audit Current State (Days 1-2)
 
 **Find All Mock References**:
+
 ```bash
 # Find MockGeometry exports
 grep -r "MockGeometry" packages --include="*.ts" --include="*.tsx"
@@ -276,6 +299,7 @@ grep -ri "mock" packages/engine-occt/README.md packages/engine-occt/docs
 ```
 
 **Expected Locations**:
+
 - `packages/engine-occt/src/mock-geometry.ts` (implementation)
 - `packages/engine-occt/src/index.ts` (exports)
 - `packages/engine-occt/src/geometry-api-factory.ts` (factory logic)
@@ -285,10 +309,12 @@ grep -ri "mock" packages/engine-occt/README.md packages/engine-occt/docs
 - Browser demos: `packages/engine-occt/wasm/test-browser-wasm.html`
 
 **Create Inventory**:
+
 ```markdown
 ## Mock Geometry Usage Inventory
 
 ### Production Code
+
 - [ ] packages/engine-occt/src/mock-geometry.ts (DELETE)
 - [ ] packages/engine-occt/src/index.ts (Remove export)
 - [ ] packages/engine-occt/src/geometry-api-factory.ts (Remove forceMode)
@@ -296,19 +322,22 @@ grep -ri "mock" packages/engine-occt/README.md packages/engine-occt/docs
 - [ ] packages/cli/src/index.ts (Remove fallback)
 
 ### Tests
-- [ ] packages/engine-occt/src/__tests__/geometry-api.test.ts (Use real fixtures)
-- [ ] packages/engine-core/src/__tests__/*.test.ts (Update mocks)
-- [ ] apps/studio/src/__tests__/*.test.ts (Real geometry integration)
+
+- [ ] packages/engine-occt/src/**tests**/geometry-api.test.ts (Use real fixtures)
+- [ ] packages/engine-core/src/**tests**/\*.test.ts (Update mocks)
+- [ ] apps/studio/src/**tests**/\*.test.ts (Real geometry integration)
 
 ### Documentation
+
 - [ ] packages/engine-occt/README.md (Remove mock references)
 - [ ] docs/development/SETUP.md (Remove mock mode docs)
 - [ ] docs/technical/ARCHITECTURE.md (Update diagrams)
 - [ ] CLAUDE.md (Update current status)
 
 ### Demos
+
 - [ ] packages/engine-occt/wasm/test-browser-wasm.html (Real OCCT only)
-- [ ] examples/*.bflow.json (Validate with real geometry)
+- [ ] examples/\*.bflow.json (Validate with real geometry)
 ```
 
 #### Phase 2: Create Deterministic Test Fixtures (Days 3-5)
@@ -337,7 +366,7 @@ export interface GeometryFixture {
     volume?: number;
     area?: number;
   };
-  stepFile?: string;  // Path to golden STEP output
+  stepFile?: string; // Path to golden STEP output
 }
 
 export const FIXTURES: Record<string, GeometryFixture> = {
@@ -351,12 +380,12 @@ export const FIXTURES: Record<string, GeometryFixture> = {
       type: 'shape',
       boundingBox: {
         min: [0, 0, 0],
-        max: [10, 10, 10]
+        max: [10, 10, 10],
       },
       volume: 1000,
-      area: 600
+      area: 600,
     },
-    stepFile: 'fixtures/box-10x10x10.step'
+    stepFile: 'fixtures/box-10x10x10.step',
   },
 
   CYLINDER_R5_H20: {
@@ -367,10 +396,10 @@ export const FIXTURES: Record<string, GeometryFixture> = {
     expectedOutput: {
       id: 'deterministic-cylinder-1',
       type: 'shape',
-      volume: 1570.8,  // π * r² * h
-      area: 785.4      // 2πr(r+h)
+      volume: 1570.8, // π * r² * h
+      area: 785.4, // 2πr(r+h)
     },
-    stepFile: 'fixtures/cylinder-r5-h20.step'
+    stepFile: 'fixtures/cylinder-r5-h20.step',
   },
 
   BOOLEAN_SUBTRACT: {
@@ -378,7 +407,7 @@ export const FIXTURES: Record<string, GeometryFixture> = {
     operation: 'BOOLEAN_SUBTRACT',
     inputs: {
       base: 'deterministic-box-1',
-      tool: 'deterministic-cylinder-1'
+      tool: 'deterministic-cylinder-1',
     },
     params: {},
     expectedOutput: {
@@ -386,14 +415,15 @@ export const FIXTURES: Record<string, GeometryFixture> = {
       type: 'shape',
       // Volume and area computed from real OCCT
       volume: 843.2,
-      area: 687.5
+      area: 687.5,
     },
-    stepFile: 'fixtures/boolean-subtract.step'
-  }
+    stepFile: 'fixtures/boolean-subtract.step',
+  },
 };
 ```
 
 **Update Tests**:
+
 ```typescript
 // Before: Mock geometry
 import { MockGeometry } from '../mock-geometry';
@@ -472,13 +502,13 @@ export function getGeometryAPI(options?: {
 ```typescript
 // Before:
 const api = getGeometryAPI({
-  forceMode: import.meta.env.DEV ? 'mock' : 'real'  // ❌
+  forceMode: import.meta.env.DEV ? 'mock' : 'real', // ❌
 });
 
 // After:
 const api = getGeometryAPI({
   wasmPath: '/wasm/occt-core.wasm',
-  workerPoolSize: 4
+  workerPoolSize: 4,
 });
 ```
 
@@ -489,7 +519,7 @@ const api = getGeometryAPI({
 ```typescript
 // Before:
 const api = getGeometryAPI({
-  forceMode: fs.existsSync(wasmPath) ? 'real' : 'mock'  // ❌
+  forceMode: fs.existsSync(wasmPath) ? 'real' : 'mock', // ❌
 });
 
 // After:
@@ -523,6 +553,7 @@ Refs: ROADMAP.md Horizon A, Audit 2025-11-14"
 #### Phase 5: Update Documentation (Days 10)
 
 **Update Files**:
+
 1. `packages/engine-occt/README.md` - Remove mock mode sections
 2. `docs/development/SETUP.md` - Update setup to require WASM build
 3. `docs/technical/ARCHITECTURE.md` - Update geometry pipeline diagram
@@ -530,12 +561,14 @@ Refs: ROADMAP.md Horizon A, Audit 2025-11-14"
 5. `docs/project/ROADMAP.md` - Mark Horizon A mock teardown as complete
 
 **New Section for SETUP.md**:
-```markdown
+
+````markdown
 ## OCCT WASM Build (Required)
 
 BrepFlow requires OCCT WASM binaries for geometry operations. The mock geometry mode has been removed.
 
 ### Quick Start
+
 ```bash
 # Build OCCT WASM (requires Docker or Emscripten)
 pnpm run build:wasm
@@ -546,14 +579,18 @@ ls -lh packages/engine-occt/wasm/*.wasm
 # Start development
 pnpm run dev
 ```
+````
 
 ### Troubleshooting
+
 If `pnpm run dev` fails with "WASM not found":
+
 1. Ensure Docker is running OR Emscripten installed
 2. Run `pnpm run build:wasm`
 3. Check `packages/engine-occt/wasm/` contains `*.wasm` files
 4. See `docs/development/OCCT_BUILD_PREREQS.md` for detailed setup
-```
+
+````
 
 ### Success Criteria
 - ✅ Zero `grep -r "MockGeometry" packages apps` results
@@ -601,9 +638,10 @@ pnpm --filter @brepflow/nodes-core run build 2>&1 | tee compile-errors.txt
 
 # Analyze error patterns
 grep -E "error TS[0-9]+" compile-errors.txt | sort | uniq -c
-```
+````
 
 **Expected Error Categories**:
+
 1. **Invalid node IDs**: `"OCCT::MAKE_BOX"` should be `"OCCT::MakeBox"`
 2. **Socket type mismatches**: Input/output types don't align with schema
 3. **Missing imports**: Generated nodes don't import required types
@@ -615,6 +653,7 @@ grep -E "error TS[0-9]+" compile-errors.txt | sort | uniq -c
 **File**: `packages/nodes-core/src/generator/templates/*.ts`
 
 Look for:
+
 - Hard-coded IDs that don't follow naming conventions
 - Type assertions without proper imports
 - Missing parameter validation
@@ -629,15 +668,17 @@ Look for:
 Based on audit findings, likely issues:
 
 **Issue 1: ID Generation**
+
 ```typescript
 // Generator template (broken)
-const nodeId = `OCCT::${operation.name}`;  // ❌ "OCCT::MAKE_BOX"
+const nodeId = `OCCT::${operation.name}`; // ❌ "OCCT::MAKE_BOX"
 
 // Fixed template
-const nodeId = `OCCT::${toPascalCase(operation.name)}`;  // ✅ "OCCT::MakeBox"
+const nodeId = `OCCT::${toPascalCase(operation.name)}`; // ✅ "OCCT::MakeBox"
 ```
 
 **Issue 2: Socket Specs**
+
 ```typescript
 // Generator template (broken)
 inputs: {
@@ -651,9 +692,10 @@ inputs: {
 ```
 
 **Issue 3: Missing Imports**
+
 ```typescript
 // Generator template (broken)
-import { NodeDefinition } from '@brepflow/types';  // ❌ Missing GeometryAPI
+import { NodeDefinition } from '@brepflow/types'; // ❌ Missing GeometryAPI
 
 // Fixed template
 import { NodeDefinition, EvalContext, ShapeHandle } from '@brepflow/types';
@@ -663,24 +705,28 @@ import type { GeometryAPI } from '@brepflow/engine-core';
 ### Implementation Timeline (3 weeks)
 
 **Week 1**: Investigation + Template Fixes
+
 - Run generator, capture all errors
 - Identify template issues
 - Fix generator templates
 - Test with 10 sample nodes
 
 **Week 2**: CI Integration + Validation
+
 - Add CI step to compile generated catalogue
 - Implement validation checks (ID format, socket types, imports)
 - Generate full catalogue (1000+ nodes)
 - Fix remaining compilation errors
 
 **Week 3**: Studio Integration + Testing
+
 - Gate Studio palette on validated catalogue
 - Add tests for generated node evaluation
 - Document generator usage for custom nodes
 - Update SDK to use same templates
 
 ### Success Criteria
+
 - ✅ `pnpm --filter @brepflow/nodes-core run generate` succeeds
 - ✅ `pnpm --filter @brepflow/nodes-core run build` passes
 - ✅ CI compiles generated catalogue automatically
@@ -693,6 +739,7 @@ import type { GeometryAPI } from '@brepflow/engine-core';
 ## 📋 Recommendation 5: Complete CSRF Frontend Integration
 
 ### Problem Statement
+
 - Backend CSRF protection **implemented** (Nov 13, 2025)
 - Frontend **not yet integrated** - missing token fetch and passing
 - Collaboration WebSocket connections will fail without CSRF token
@@ -726,8 +773,8 @@ router.use(
       secure: process.env.NODE_ENV === 'production',
       httpOnly: true,
       sameSite: 'strict',
-      maxAge: 3600000 // 1 hour
-    }
+      maxAge: 3600000, // 1 hour
+    },
   })
 );
 
@@ -746,13 +793,13 @@ router.get('/csrf-token', (req, res) => {
     res.json({
       csrfToken,
       sessionId,
-      expiresAt: Date.now() + 3600000 // 1 hour
+      expiresAt: Date.now() + 3600000, // 1 hour
     });
   } catch (error) {
     console.error('Failed to generate CSRF token:', error);
     res.status(500).json({
       error: 'Failed to generate CSRF token',
-      message: error.message
+      message: error.message,
     });
   }
 });
@@ -767,7 +814,7 @@ router.get('/session', (req, res) => {
   res.json({
     sessionId,
     authenticated: !!req.session.userId,
-    userId: req.session.userId
+    userId: req.session.userId,
   });
 });
 
@@ -815,10 +862,10 @@ export class CollaborationClient {
     // Step 1: Fetch CSRF token from API
     const response = await fetch('/api/collaboration/csrf-token', {
       method: 'GET',
-      credentials: 'include',  // ✅ Send cookies
+      credentials: 'include', // ✅ Send cookies
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     });
 
     if (!response.ok) {
@@ -831,18 +878,18 @@ export class CollaborationClient {
 
     console.log('[CollaborationClient] CSRF token obtained:', {
       sessionId,
-      tokenLength: csrfToken.length
+      tokenLength: csrfToken.length,
     });
 
     // Step 2: Connect to WebSocket with CSRF token
     this.socket = io(process.env.VITE_COLLABORATION_URL || 'http://localhost:8080', {
       auth: {
-        csrfToken,  // ✅ Pass token to backend
+        csrfToken, // ✅ Pass token to backend
         sessionId,
-        projectId
+        projectId,
       },
-      withCredentials: true,  // ✅ Send cookies
-      transports: ['websocket', 'polling']
+      withCredentials: true, // ✅ Send cookies
+      transports: ['websocket', 'polling'],
     });
 
     // Handle connection events
@@ -886,7 +933,7 @@ export class CollaborationClient {
     }
 
     // Wait a bit before retrying
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // Reconnect (will fetch new token)
     await this.connect(projectId);
@@ -954,7 +1001,7 @@ describe('Collaboration CSRF Integration', () => {
 
   it('should fetch CSRF token from API', async () => {
     const response = await fetch('http://localhost:3000/api/collaboration/csrf-token', {
-      credentials: 'include'
+      credentials: 'include',
     });
 
     expect(response.ok).toBe(true);
@@ -993,16 +1040,18 @@ describe('Collaboration CSRF Integration', () => {
 
 Add section:
 
-```markdown
+````markdown
 ## CSRF Protection (Completed 2025-11-14)
 
 ### Backend (Completed 2025-11-13)
+
 - HMAC-SHA256 token generation
 - Rate limiting (10 connections/IP/hour)
 - Origin validation
 - Required explicit CORS whitelist
 
 ### Frontend (Completed 2025-11-14)
+
 - CSRF token API endpoint at `/api/collaboration/csrf-token`
 - WebSocket client auto-fetches and passes token
 - Automatic retry on token expiration
@@ -1024,6 +1073,7 @@ await client.joinSession('session-id', { userId: 'user1', name: 'Alice' });
 // Disconnect
 client.disconnect();
 ```
+````
 
 ### Testing
 
@@ -1037,7 +1087,8 @@ curl http://localhost:3000/api/collaboration/csrf-token --cookie-jar cookies.txt
 # Manual test: connect with token
 # (see tests/manual/collaboration-csrf-test.sh)
 ```
-```
+
+````
 
 ### Success Criteria
 - ✅ `/api/collaboration/csrf-token` endpoint returns valid tokens
@@ -1096,33 +1147,39 @@ grep -r "MockGeometry\|forceMode.*mock" packages apps | wc -l
 
 # Test status
 pnpm test 2>&1 | grep "Test Files\|Tests "
-```
+````
 
 ### Weekly Report Template
+
 ```markdown
 ## Weekly Implementation Progress (Week of [DATE])
 
 ### TypeScript Strict Mode
+
 - Compilation errors: [BEFORE] → [AFTER]
 - `any` usages: [BEFORE] → [AFTER]
 - Blockers: [LIST]
 
 ### Mock Geometry Teardown
+
 - Files remaining: [COUNT]
 - Tests migrated: [X]/[TOTAL]
 - Blockers: [LIST]
 
 ### Node Catalogue
+
 - Generator status: [STATUS]
 - Compilation errors: [COUNT]
 - Nodes validated: [X]/1000+
 
 ### CSRF Integration
+
 - Components completed: [X]/5
 - Tests passing: [X]/[TOTAL]
 - Blockers: [LIST]
 
 ### Next Week Priorities
+
 1. [ITEM]
 2. [ITEM]
 3. [ITEM]

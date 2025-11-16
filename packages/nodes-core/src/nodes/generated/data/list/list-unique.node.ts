@@ -10,7 +10,11 @@ interface ListUniqueOutputs {
   unique: unknown;
 }
 
-export const DataListListUniqueNode: NodeDefinition<ListUniqueInputs, ListUniqueOutputs, ListUniqueParams> = {
+export const DataListListUniqueNode: NodeDefinition<
+  ListUniqueInputs,
+  ListUniqueOutputs,
+  ListUniqueParams
+> = {
   id: 'Data::ListUnique',
   category: 'Data',
   label: 'ListUnique',
@@ -19,26 +23,26 @@ export const DataListListUniqueNode: NodeDefinition<ListUniqueInputs, ListUnique
     list: {
       type: 'Data[]',
       label: 'List',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     unique: {
       type: 'Data[]',
-      label: 'Unique'
-    }
+      label: 'Unique',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'listUnique',
       params: {
-        list: inputs.list
-      }
+        list: inputs.list,
+      },
     });
-    
+
     return {
-      unique: result
+      unique: result,
     };
   },
 };

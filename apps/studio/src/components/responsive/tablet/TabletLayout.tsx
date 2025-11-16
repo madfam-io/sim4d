@@ -23,7 +23,7 @@ export const TabletLayout: React.FC<TabletLayoutProps> = ({
   dimensions,
   capabilities,
   splitRatio,
-  onSplitRatioChange
+  onSplitRatioChange,
 }) => {
   const [primaryPanel, setPrimaryPanel] = useState('nodeEditor');
   const [secondaryPanel, setSecondaryPanel] = useState('viewport');
@@ -36,15 +36,18 @@ export const TabletLayout: React.FC<TabletLayoutProps> = ({
     e.preventDefault();
   }, []);
 
-  const handleSplitDrag = useCallback((e: MouseEvent | TouchEvent) => {
-    if (!isDragging || !splitRef.current) return;
+  const handleSplitDrag = useCallback(
+    (e: MouseEvent | TouchEvent) => {
+      if (!isDragging || !splitRef.current) return;
 
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const rect = splitRef.current.getBoundingClientRect();
-    const newRatio = (clientX - rect.left) / rect.width;
+      const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+      const rect = splitRef.current.getBoundingClientRect();
+      const newRatio = (clientX - rect.left) / rect.width;
 
-    onSplitRatioChange(Math.max(0.2, Math.min(0.8, newRatio)));
-  }, [isDragging, onSplitRatioChange]);
+      onSplitRatioChange(Math.max(0.2, Math.min(0.8, newRatio)));
+    },
+    [isDragging, onSplitRatioChange]
+  );
 
   const handleSplitDragEnd = useCallback(() => {
     setIsDragging(false);
@@ -104,7 +107,7 @@ export const TabletLayout: React.FC<TabletLayoutProps> = ({
         ref={splitRef}
         className="tablet-split-view"
         style={{
-          gridTemplateColumns: `${splitRatio * 100}% ${(1 - splitRatio) * 100}%`
+          gridTemplateColumns: `${splitRatio * 100}% ${(1 - splitRatio) * 100}%`,
         }}
       >
         <div className="split-panel primary">

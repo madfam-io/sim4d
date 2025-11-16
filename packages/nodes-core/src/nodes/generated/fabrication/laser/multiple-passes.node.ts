@@ -14,7 +14,11 @@ interface MultiplePassesOutputs {
   multipassPaths: unknown;
 }
 
-export const FabricationLaserMultiplePassesNode: NodeDefinition<MultiplePassesInputs, MultiplePassesOutputs, MultiplePassesParams> = {
+export const FabricationLaserMultiplePassesNode: NodeDefinition<
+  MultiplePassesInputs,
+  MultiplePassesOutputs,
+  MultiplePassesParams
+> = {
   id: 'Fabrication::MultiplePasses',
   category: 'Fabrication',
   label: 'MultiplePasses',
@@ -23,14 +27,14 @@ export const FabricationLaserMultiplePassesNode: NodeDefinition<MultiplePassesIn
     paths: {
       type: 'Wire[]',
       label: 'Paths',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     multipassPaths: {
       type: 'Wire[][]',
-      label: 'Multipass Paths'
-    }
+      label: 'Multipass Paths',
+    },
   },
   params: {
     passes: {
@@ -39,20 +43,20 @@ export const FabricationLaserMultiplePassesNode: NodeDefinition<MultiplePassesIn
       default: 2,
       min: 1,
       max: 10,
-      step: 1
+      step: 1,
     },
     powerRamp: {
       type: 'boolean',
       label: 'Power Ramp',
-      default: false
+      default: false,
     },
     zStep: {
       type: 'number',
       label: 'Z Step',
       default: 0,
       min: 0,
-      max: 5
-    }
+      max: 5,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -61,12 +65,12 @@ export const FabricationLaserMultiplePassesNode: NodeDefinition<MultiplePassesIn
         paths: inputs.paths,
         passes: params.passes,
         powerRamp: params.powerRamp,
-        zStep: params.zStep
-      }
+        zStep: params.zStep,
+      },
     });
-    
+
     return {
-      multipassPaths: result
+      multipassPaths: result,
     };
   },
 };

@@ -7,11 +7,7 @@ export interface SelectionHighlightProps {
   className?: string;
 }
 
-export function SelectionHighlight({
-  nodeId,
-  edgeId,
-  className = '',
-}: SelectionHighlightProps) {
+export function SelectionHighlight({ nodeId, edgeId, className = '' }: SelectionHighlightProps) {
   const { otherSelections } = useSelection();
 
   // Find if any other user has selected this node or edge

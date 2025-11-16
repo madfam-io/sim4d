@@ -15,7 +15,11 @@ interface CornerReliefOutputs {
   result: unknown;
 }
 
-export const SheetMetalCornersCornerReliefNode: NodeDefinition<CornerReliefInputs, CornerReliefOutputs, CornerReliefParams> = {
+export const SheetMetalCornersCornerReliefNode: NodeDefinition<
+  CornerReliefInputs,
+  CornerReliefOutputs,
+  CornerReliefParams
+> = {
   id: 'SheetMetal::CornerRelief',
   type: 'SheetMetal::CornerRelief',
   category: 'SheetMetal',
@@ -25,41 +29,41 @@ export const SheetMetalCornersCornerReliefNode: NodeDefinition<CornerReliefInput
     sheet: {
       type: 'Shape',
       label: 'Sheet',
-      required: true
+      required: true,
     },
     corners: {
       type: 'Vertex[]',
       label: 'Corners',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     result: {
       type: 'Shape',
-      label: 'Result'
-    }
+      label: 'Result',
+    },
   },
   params: {
     reliefType: {
       type: 'enum',
       label: 'Relief Type',
-      default: "circular",
-      options: ["circular","square","obround","tear"]
+      default: 'circular',
+      options: ['circular', 'square', 'obround', 'tear'],
     },
     reliefSize: {
       type: 'number',
       label: 'Relief Size',
       default: 5,
       min: 0.1,
-      max: 100
+      max: 100,
     },
     reliefRatio: {
       type: 'number',
       label: 'Relief Ratio',
       default: 0.5,
       min: 0.1,
-      max: 1
-    }
+      max: 1,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -69,12 +73,12 @@ export const SheetMetalCornersCornerReliefNode: NodeDefinition<CornerReliefInput
         corners: inputs.corners,
         reliefType: params.reliefType,
         reliefSize: params.reliefSize,
-        reliefRatio: params.reliefRatio
-      }
+        reliefRatio: params.reliefRatio,
+      },
     });
-    
+
     return {
-      result: result
+      result: result,
     };
   },
 };

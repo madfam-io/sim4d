@@ -15,7 +15,11 @@ interface Voronoi2DOutputs {
   edges: unknown;
 }
 
-export const PatternsVoronoiVoronoi2DNode: NodeDefinition<Voronoi2DInputs, Voronoi2DOutputs, Voronoi2DParams> = {
+export const PatternsVoronoiVoronoi2DNode: NodeDefinition<
+  Voronoi2DInputs,
+  Voronoi2DOutputs,
+  Voronoi2DParams
+> = {
   id: 'Patterns::Voronoi2D',
   category: 'Patterns',
   label: 'Voronoi2D',
@@ -24,36 +28,36 @@ export const PatternsVoronoiVoronoi2DNode: NodeDefinition<Voronoi2DInputs, Voron
     points: {
       type: 'Point[]',
       label: 'Points',
-      required: true
+      required: true,
     },
     plane: {
       type: 'Plane',
       label: 'Plane',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     cells: {
       type: 'Wire[]',
-      label: 'Cells'
+      label: 'Cells',
     },
     edges: {
       type: 'Edge[]',
-      label: 'Edges'
-    }
+      label: 'Edges',
+    },
   },
   params: {
     boundary: {
       type: 'enum',
       label: 'Boundary',
-      default: "box",
-      options: ["box","circle","polygon"]
+      default: 'box',
+      options: ['box', 'circle', 'polygon'],
     },
     clipToBoundary: {
       type: 'boolean',
       label: 'Clip To Boundary',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -62,13 +66,13 @@ export const PatternsVoronoiVoronoi2DNode: NodeDefinition<Voronoi2DInputs, Voron
         points: inputs.points,
         plane: inputs.plane,
         boundary: params.boundary,
-        clipToBoundary: params.clipToBoundary
-      }
+        clipToBoundary: params.clipToBoundary,
+      },
     });
-    
+
     return {
       cells: results.cells,
-      edges: results.edges
+      edges: results.edges,
     };
   },
 };

@@ -14,7 +14,11 @@ interface MultiMaterialSetupOutputs {
   purgeBlock: unknown;
 }
 
-export const Fabrication3DPrintingMultiMaterialSetupNode: NodeDefinition<MultiMaterialSetupInputs, MultiMaterialSetupOutputs, MultiMaterialSetupParams> = {
+export const Fabrication3DPrintingMultiMaterialSetupNode: NodeDefinition<
+  MultiMaterialSetupInputs,
+  MultiMaterialSetupOutputs,
+  MultiMaterialSetupParams
+> = {
   id: 'Fabrication::MultiMaterialSetup',
   category: 'Fabrication',
   label: 'MultiMaterialSetup',
@@ -23,18 +27,18 @@ export const Fabrication3DPrintingMultiMaterialSetupNode: NodeDefinition<MultiMa
     regions: {
       type: 'Shape[]',
       label: 'Regions',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     materialAssignment: {
       type: 'Data',
-      label: 'Material Assignment'
+      label: 'Material Assignment',
     },
     purgeBlock: {
       type: 'Shape',
-      label: 'Purge Block'
-    }
+      label: 'Purge Block',
+    },
   },
   params: {
     materials: {
@@ -43,15 +47,15 @@ export const Fabrication3DPrintingMultiMaterialSetupNode: NodeDefinition<MultiMa
       default: 2,
       min: 2,
       max: 5,
-      step: 1
+      step: 1,
     },
     purgeVolume: {
       type: 'number',
       label: 'Purge Volume',
       default: 50,
       min: 0,
-      max: 200
-    }
+      max: 200,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -59,13 +63,13 @@ export const Fabrication3DPrintingMultiMaterialSetupNode: NodeDefinition<MultiMa
       params: {
         regions: inputs.regions,
         materials: params.materials,
-        purgeVolume: params.purgeVolume
-      }
+        purgeVolume: params.purgeVolume,
+      },
     });
-    
+
     return {
       materialAssignment: results.materialAssignment,
-      purgeBlock: results.purgeBlock
+      purgeBlock: results.purgeBlock,
     };
   },
 };

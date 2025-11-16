@@ -16,7 +16,11 @@ interface InverseKinematicsOutputs {
   reachable: unknown;
 }
 
-export const SimulationKinematicsInverseKinematicsNode: NodeDefinition<InverseKinematicsInputs, InverseKinematicsOutputs, InverseKinematicsParams> = {
+export const SimulationKinematicsInverseKinematicsNode: NodeDefinition<
+  InverseKinematicsInputs,
+  InverseKinematicsOutputs,
+  InverseKinematicsParams
+> = {
   id: 'Simulation::InverseKinematics',
   type: 'Simulation::InverseKinematics',
   category: 'Simulation',
@@ -26,30 +30,30 @@ export const SimulationKinematicsInverseKinematicsNode: NodeDefinition<InverseKi
     mechanism: {
       type: 'Data',
       label: 'Mechanism',
-      required: true
+      required: true,
     },
     targetPose: {
       type: 'Data',
       label: 'Target Pose',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     jointValues: {
       type: 'number[]',
-      label: 'Joint Values'
+      label: 'Joint Values',
     },
     reachable: {
       type: 'boolean',
-      label: 'Reachable'
-    }
+      label: 'Reachable',
+    },
   },
   params: {
     solver: {
       type: 'enum',
       label: 'Solver',
-      default: "jacobian",
-      options: ["jacobian","ccd","fabrik"]
+      default: 'jacobian',
+      options: ['jacobian', 'ccd', 'fabrik'],
     },
     maxIterations: {
       type: 'number',
@@ -57,15 +61,15 @@ export const SimulationKinematicsInverseKinematicsNode: NodeDefinition<InverseKi
       default: 100,
       min: 10,
       max: 1000,
-      step: 10
+      step: 10,
     },
     tolerance: {
       type: 'number',
       label: 'Tolerance',
       default: 0.001,
       min: 0.0001,
-      max: 0.1
-    }
+      max: 0.1,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -75,13 +79,13 @@ export const SimulationKinematicsInverseKinematicsNode: NodeDefinition<InverseKi
         targetPose: inputs.targetPose,
         solver: params.solver,
         maxIterations: params.maxIterations,
-        tolerance: params.tolerance
-      }
+        tolerance: params.tolerance,
+      },
     });
-    
+
     return {
       jointValues: results.jointValues,
-      reachable: results.reachable
+      reachable: results.reachable,
     };
   },
 };

@@ -13,7 +13,11 @@ interface CurveConvexHullOutputs {
   hullPoints: Array<[number, number, number]>;
 }
 
-export const AnalysisCurvesCurveConvexHullNode: NodeDefinition<CurveConvexHullInputs, CurveConvexHullOutputs, CurveConvexHullParams> = {
+export const AnalysisCurvesCurveConvexHullNode: NodeDefinition<
+  CurveConvexHullInputs,
+  CurveConvexHullOutputs,
+  CurveConvexHullParams
+> = {
   id: 'Analysis::CurveConvexHull',
   type: 'Analysis::CurveConvexHull',
   category: 'Analysis',
@@ -23,18 +27,18 @@ export const AnalysisCurvesCurveConvexHullNode: NodeDefinition<CurveConvexHullIn
     curve: {
       type: 'Wire',
       label: 'Curve',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     convexHull: {
       type: 'Wire',
-      label: 'Convex Hull'
+      label: 'Convex Hull',
     },
     hullPoints: {
       type: 'Point[]',
-      label: 'Hull Points'
-    }
+      label: 'Hull Points',
+    },
   },
   params: {
     samples: {
@@ -42,21 +46,21 @@ export const AnalysisCurvesCurveConvexHullNode: NodeDefinition<CurveConvexHullIn
       label: 'Samples',
       default: 100,
       min: 20,
-      max: 500
-    }
+      max: 500,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
       type: 'curveConvexHull',
       params: {
         curve: inputs.curve,
-        samples: params.samples
-      }
+        samples: params.samples,
+      },
     });
-    
+
     return {
       convexHull: results.convexHull,
-      hullPoints: results.hullPoints
+      hullPoints: results.hullPoints,
     };
   },
 };

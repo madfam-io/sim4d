@@ -14,7 +14,11 @@ interface FloorFinishOutputs {
   pattern: unknown;
 }
 
-export const ArchitectureFloorsFloorFinishNode: NodeDefinition<FloorFinishInputs, FloorFinishOutputs, FloorFinishParams> = {
+export const ArchitectureFloorsFloorFinishNode: NodeDefinition<
+  FloorFinishInputs,
+  FloorFinishOutputs,
+  FloorFinishParams
+> = {
   id: 'Architecture::FloorFinish',
   category: 'Architecture',
   label: 'FloorFinish',
@@ -23,32 +27,32 @@ export const ArchitectureFloorsFloorFinishNode: NodeDefinition<FloorFinishInputs
     floorArea: {
       type: 'Face',
       label: 'Floor Area',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     finishedFloor: {
       type: 'Face',
-      label: 'Finished Floor'
+      label: 'Finished Floor',
     },
     pattern: {
       type: 'Wire[]',
-      label: 'Pattern'
-    }
+      label: 'Pattern',
+    },
   },
   params: {
     material: {
       type: 'enum',
       label: 'Material',
-      default: "tile",
-      options: ["tile","wood","carpet","vinyl","polished-concrete"]
+      default: 'tile',
+      options: ['tile', 'wood', 'carpet', 'vinyl', 'polished-concrete'],
     },
     pattern: {
       type: 'enum',
       label: 'Pattern',
-      default: "straight",
-      options: ["straight","diagonal","herringbone","random"]
-    }
+      default: 'straight',
+      options: ['straight', 'diagonal', 'herringbone', 'random'],
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -56,13 +60,13 @@ export const ArchitectureFloorsFloorFinishNode: NodeDefinition<FloorFinishInputs
       params: {
         floorArea: inputs.floorArea,
         material: params.material,
-        pattern: params.pattern
-      }
+        pattern: params.pattern,
+      },
     });
-    
+
     return {
       finishedFloor: results.finishedFloor,
-      pattern: results.pattern
+      pattern: results.pattern,
     };
   },
 };

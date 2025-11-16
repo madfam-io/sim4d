@@ -1,6 +1,11 @@
-
 import { NodeDefinition } from '@brepflow/types';
-import { NumberParam, BoolParam, StringParam, EnumParam, Vector3Param } from '../../../../utils/param-utils.js';
+import {
+  NumberParam,
+  BoolParam,
+  StringParam,
+  EnumParam,
+  Vector3Param,
+} from '../../../../utils/param-utils.js';
 
 type Params = {};
 interface Inputs {
@@ -12,46 +17,41 @@ interface Outputs {
   nonManifoldVertices: Vertex[];
 }
 
-export const IsManifoldNode: NodeDefinition<IsManifoldInputs, IsManifoldOutputs, IsManifoldParams> = {
-  type: 'Analysis::IsManifold',
-  category: 'Analysis',
-  subcategory: 'Topology',
+export const IsManifoldNode: NodeDefinition<IsManifoldInputs, IsManifoldOutputs, IsManifoldParams> =
+  {
+    type: 'Analysis::IsManifold',
+    category: 'Analysis',
+    subcategory: 'Topology',
 
-  metadata: {
-    label: 'IsManifold',
-    description: 'Check if shape is manifold',
-    
-    
-  },
+    metadata: {
+      label: 'IsManifold',
+      description: 'Check if shape is manifold',
+    },
 
-  params: {
-    
-  },
+    params: {},
 
-  inputs: {
-        shape: 'Shape'
-  },
+    inputs: {
+      shape: 'Shape',
+    },
 
-  outputs: {
-        isManifold: 'boolean',
-    nonManifoldEdges: 'Edge[]',
-    nonManifoldVertices: 'Vertex[]'
-  },
+    outputs: {
+      isManifold: 'boolean',
+      nonManifoldEdges: 'Edge[]',
+      nonManifoldVertices: 'Vertex[]',
+    },
 
-  async evaluate(context, inputs, params) {
-    
-    const result = await context.geometry.execute({
-      type: 'checkManifold',
-      params: {
-        shape: inputs.shape
-        
-      }
-    });
+    async evaluate(context, inputs, params) {
+      const result = await context.geometry.execute({
+        type: 'checkManifold',
+        params: {
+          shape: inputs.shape,
+        },
+      });
 
-    return {
-      isManifold: result,
-      nonManifoldEdges: result,
-      nonManifoldVertices: result
-    };
-  }
-};
+      return {
+        isManifold: result,
+        nonManifoldEdges: result,
+        nonManifoldVertices: result,
+      };
+    },
+  };

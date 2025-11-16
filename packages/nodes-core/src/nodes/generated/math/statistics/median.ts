@@ -20,26 +20,26 @@ export const MathStatisticsMedianNode: NodeDefinition<MedianInputs, MedianOutput
     values: {
       type: 'number[]',
       label: 'Values',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     median: {
       type: 'number',
-      label: 'Median'
-    }
+      label: 'Median',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'mathMedian',
       params: {
-        values: inputs.values
-      }
+        values: inputs.values,
+      },
     });
-    
+
     return {
-      median: result
+      median: result,
     };
   },
 };

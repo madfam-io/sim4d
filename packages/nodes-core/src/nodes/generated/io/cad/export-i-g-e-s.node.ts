@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -13,62 +12,52 @@ interface Outputs {
   igesData: Data;
 }
 
-export const ExportIGESNode: NodeDefinition<ExportIGESInputs, ExportIGESOutputs, ExportIGESParams> = {
-  type: 'IO::ExportIGES',
-  category: 'IO',
-  subcategory: 'CAD',
+export const ExportIGESNode: NodeDefinition<ExportIGESInputs, ExportIGESOutputs, ExportIGESParams> =
+  {
+    type: 'IO::ExportIGES',
+    category: 'IO',
+    subcategory: 'CAD',
 
-  metadata: {
-    label: 'ExportIGES',
-    description: 'Export to IGES format',
-    
-    
-  },
-
-  params: {
-        brepMode: {
-      "default": "faces",
-      "options": [
-        "faces",
-        "shells"
-      ]
+    metadata: {
+      label: 'ExportIGES',
+      description: 'Export to IGES format',
     },
-    units: {
-      "default": "mm",
-      "options": [
-        "mm",
-        "cm",
-        "m",
-        "inch"
-      ]
+
+    params: {
+      brepMode: {
+        default: 'faces',
+        options: ['faces', 'shells'],
+      },
+      units: {
+        default: 'mm',
+        options: ['mm', 'cm', 'm', 'inch'],
+      },
+      author: {
+        default: '',
+      },
     },
-    author: {
-      "default": ""
-    }
-  },
 
-  inputs: {
-        shape: 'Shape'
-  },
+    inputs: {
+      shape: 'Shape',
+    },
 
-  outputs: {
-        igesData: 'Data'
-  },
+    outputs: {
+      igesData: 'Data',
+    },
 
-  async evaluate(context, inputs, params) {
-    
-    const result = await context.geometry.execute({
-      type: 'exportIGES',
-      params: {
-        shape: inputs.shape,
-        brepMode: params.brepMode,
-        units: params.units,
-        author: params.author
-      }
-    });
+    async evaluate(context, inputs, params) {
+      const result = await context.geometry.execute({
+        type: 'exportIGES',
+        params: {
+          shape: inputs.shape,
+          brepMode: params.brepMode,
+          units: params.units,
+          author: params.author,
+        },
+      });
 
-    return {
-      igesData: result
-    };
-  }
-};
+      return {
+        igesData: result,
+      };
+    },
+  };

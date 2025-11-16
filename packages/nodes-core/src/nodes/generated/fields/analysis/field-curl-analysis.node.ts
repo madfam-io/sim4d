@@ -10,7 +10,11 @@ interface FieldCurlAnalysisOutputs {
   curlField: unknown;
 }
 
-export const FieldsAnalysisFieldCurlAnalysisNode: NodeDefinition<FieldCurlAnalysisInputs, FieldCurlAnalysisOutputs, FieldCurlAnalysisParams> = {
+export const FieldsAnalysisFieldCurlAnalysisNode: NodeDefinition<
+  FieldCurlAnalysisInputs,
+  FieldCurlAnalysisOutputs,
+  FieldCurlAnalysisParams
+> = {
   id: 'Fields::FieldCurlAnalysis',
   category: 'Fields',
   label: 'FieldCurlAnalysis',
@@ -19,26 +23,26 @@ export const FieldsAnalysisFieldCurlAnalysisNode: NodeDefinition<FieldCurlAnalys
     vectorField: {
       type: 'VectorField',
       label: 'Vector Field',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     curlField: {
       type: 'VectorField',
-      label: 'Curl Field'
-    }
+      label: 'Curl Field',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
       type: 'calculateCurlAnalysis',
       params: {
-        vectorField: inputs.vectorField
-      }
+        vectorField: inputs.vectorField,
+      },
     });
-    
+
     return {
-      curlField: result
+      curlField: result,
     };
   },
 };

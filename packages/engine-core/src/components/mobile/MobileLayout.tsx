@@ -22,7 +22,7 @@ export const MobileLayout: React.FC<MobileLayoutProps> = ({
   isFullscreen,
   onFullscreenToggle,
   dimensions,
-  capabilities
+  capabilities,
 }) => {
   const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [fabExpanded, setFabExpanded] = useState(false);
@@ -88,7 +88,7 @@ export const MobileLayout: React.FC<MobileLayoutProps> = ({
     { id: 'add-node', icon: '➕', label: 'Add Node', action: () => setBottomSheetOpen(true) },
     { id: 'connect', icon: '🔗', label: 'Connect', action: () => {} },
     { id: 'save', icon: '💾', label: 'Save', action: () => {} },
-    { id: 'evaluate', icon: '▶️', label: 'Run', action: () => {} }
+    { id: 'evaluate', icon: '▶️', label: 'Run', action: () => {} },
   ];
 
   return (
@@ -105,11 +105,7 @@ export const MobileLayout: React.FC<MobileLayoutProps> = ({
 
       {/* Main Content Area */}
       <div className="mobile-content" ref={panelContentRef}>
-        {currentPanel && (
-          <div className="panel-container">
-            {currentPanel.content}
-          </div>
-        )}
+        {currentPanel && <div className="panel-container">{currentPanel.content}</div>}
       </div>
 
       {/* Bottom Sheet for Node Palette */}

@@ -18,7 +18,11 @@ interface SurfaceDeviationOutputs {
   deviationPoints: Array<[number, number, number]>;
 }
 
-export const AnalysisSurfacesSurfaceDeviationNode: NodeDefinition<SurfaceDeviationInputs, SurfaceDeviationOutputs, SurfaceDeviationParams> = {
+export const AnalysisSurfacesSurfaceDeviationNode: NodeDefinition<
+  SurfaceDeviationInputs,
+  SurfaceDeviationOutputs,
+  SurfaceDeviationParams
+> = {
   id: 'Analysis::SurfaceDeviation',
   type: 'Analysis::SurfaceDeviation',
   category: 'Analysis',
@@ -28,31 +32,31 @@ export const AnalysisSurfacesSurfaceDeviationNode: NodeDefinition<SurfaceDeviati
     testSurface: {
       type: 'Face',
       label: 'Test Surface',
-      required: true
+      required: true,
     },
     referenceSurface: {
       type: 'Face',
       label: 'Reference Surface',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     deviationMap: {
       type: 'Shape',
-      label: 'Deviation Map'
+      label: 'Deviation Map',
     },
     maxDeviation: {
       type: 'number',
-      label: 'Max Deviation'
+      label: 'Max Deviation',
     },
     averageDeviation: {
       type: 'number',
-      label: 'Average Deviation'
+      label: 'Average Deviation',
     },
     deviationPoints: {
       type: 'Point[]',
-      label: 'Deviation Points'
-    }
+      label: 'Deviation Points',
+    },
   },
   params: {
     samples: {
@@ -60,20 +64,20 @@ export const AnalysisSurfacesSurfaceDeviationNode: NodeDefinition<SurfaceDeviati
       label: 'Samples',
       default: 100,
       min: 20,
-      max: 500
+      max: 500,
     },
     colorMap: {
       type: 'boolean',
       label: 'Color Map',
-      default: true
+      default: true,
     },
     tolerance: {
       type: 'number',
       label: 'Tolerance',
       default: 0.1,
       min: 0.001,
-      max: 10
-    }
+      max: 10,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -83,15 +87,15 @@ export const AnalysisSurfacesSurfaceDeviationNode: NodeDefinition<SurfaceDeviati
         referenceSurface: inputs.referenceSurface,
         samples: params.samples,
         colorMap: params.colorMap,
-        tolerance: params.tolerance
-      }
+        tolerance: params.tolerance,
+      },
     });
-    
+
     return {
       deviationMap: results.deviationMap,
       maxDeviation: results.maxDeviation,
       averageDeviation: results.averageDeviation,
-      deviationPoints: results.deviationPoints
+      deviationPoints: results.deviationPoints,
     };
   },
 };

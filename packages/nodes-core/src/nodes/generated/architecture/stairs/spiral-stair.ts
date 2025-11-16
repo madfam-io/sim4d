@@ -16,7 +16,11 @@ interface SpiralStairOutputs {
   centerPole: unknown;
 }
 
-export const ArchitectureStairsSpiralStairNode: NodeDefinition<SpiralStairInputs, SpiralStairOutputs, SpiralStairParams> = {
+export const ArchitectureStairsSpiralStairNode: NodeDefinition<
+  SpiralStairInputs,
+  SpiralStairOutputs,
+  SpiralStairParams
+> = {
   id: 'Architecture::SpiralStair',
   type: 'Architecture::SpiralStair',
   category: 'Architecture',
@@ -26,18 +30,18 @@ export const ArchitectureStairsSpiralStairNode: NodeDefinition<SpiralStairInputs
     centerPoint: {
       type: 'Point',
       label: 'Center Point',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     spiralStair: {
       type: 'Shape',
-      label: 'Spiral Stair'
+      label: 'Spiral Stair',
     },
     centerPole: {
       type: 'Shape',
-      label: 'Center Pole'
-    }
+      label: 'Center Pole',
+    },
   },
   params: {
     diameter: {
@@ -45,27 +49,27 @@ export const ArchitectureStairsSpiralStairNode: NodeDefinition<SpiralStairInputs
       label: 'Diameter',
       default: 2000,
       min: 1200,
-      max: 3000
+      max: 3000,
     },
     totalRise: {
       type: 'number',
       label: 'Total Rise',
       default: 3000,
       min: 1000,
-      max: 6000
+      max: 6000,
     },
     rotation: {
       type: 'number',
       label: 'Rotation',
       default: 360,
       min: 270,
-      max: 720
+      max: 720,
     },
     centerPole: {
       type: 'boolean',
       label: 'Center Pole',
-      default: true
-    }
+      default: true,
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
@@ -75,13 +79,13 @@ export const ArchitectureStairsSpiralStairNode: NodeDefinition<SpiralStairInputs
         diameter: params.diameter,
         totalRise: params.totalRise,
         rotation: params.rotation,
-        centerPole: params.centerPole
-      }
+        centerPole: params.centerPole,
+      },
     });
-    
+
     return {
       spiralStair: results.spiralStair,
-      centerPole: results.centerPole
+      centerPole: results.centerPole,
     };
   },
 };

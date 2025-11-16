@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -12,7 +11,11 @@ interface Outputs {
   isoCurve: Wire;
 }
 
-export const IsoparametricCurveNode: NodeDefinition<IsoparametricCurveInputs, IsoparametricCurveOutputs, IsoparametricCurveParams> = {
+export const IsoparametricCurveNode: NodeDefinition<
+  IsoparametricCurveInputs,
+  IsoparametricCurveOutputs,
+  IsoparametricCurveParams
+> = {
   type: 'Surface::IsoparametricCurve',
   category: 'Surface',
   subcategory: 'CurveOps',
@@ -20,46 +23,40 @@ export const IsoparametricCurveNode: NodeDefinition<IsoparametricCurveInputs, Is
   metadata: {
     label: 'IsoparametricCurve',
     description: 'Extract isoparametric curve',
-    
-    
   },
 
   params: {
-        direction: {
-      "default": "U",
-      "options": [
-        "U",
-        "V"
-      ]
+    direction: {
+      default: 'U',
+      options: ['U', 'V'],
     },
     parameter: {
-      "default": 0.5,
-      "min": 0,
-      "max": 1
-    }
+      default: 0.5,
+      min: 0,
+      max: 1,
+    },
   },
 
   inputs: {
-        surface: 'Face'
+    surface: 'Face',
   },
 
   outputs: {
-        isoCurve: 'Wire'
+    isoCurve: 'Wire',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'ISOPARAMETRIC_CURVE',
       params: {
         surface: inputs.surface,
         direction: params.direction,
-        parameter: params.parameter
-      }
+        parameter: params.parameter,
+      },
     });
 
     return {
-      isoCurve: result
+      isoCurve: result,
     };
-  }
+  },
 };

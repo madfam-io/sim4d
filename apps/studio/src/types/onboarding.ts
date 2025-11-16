@@ -16,9 +16,16 @@ export interface OnboardingState {
 }
 
 export interface OnboardingEvent {
-  type: 'onboarding_started' | 'step_completed' | 'playground_entered' |
-        'objective_completed' | 'hint_requested' | 'onboarding_abandoned' |
-        'onboarding_completed' | 'tour_started' | 'tour_skipped';
+  type:
+    | 'onboarding_started'
+    | 'step_completed'
+    | 'playground_entered'
+    | 'objective_completed'
+    | 'hint_requested'
+    | 'onboarding_abandoned'
+    | 'onboarding_completed'
+    | 'tour_started'
+    | 'tour_skipped';
   timestamp: number;
   metadata: Record<string, any>;
 }

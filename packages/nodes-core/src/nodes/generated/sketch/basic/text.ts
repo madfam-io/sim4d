@@ -26,51 +26,51 @@ export const SketchBasicTextNode: NodeDefinition<TextInputs, TextOutputs, TextPa
   outputs: {
     shape: {
       type: 'Shape',
-      label: 'Shape'
-    }
+      label: 'Shape',
+    },
   },
   params: {
     text: {
       type: 'string',
       label: 'Text',
-      default: "Text"
+      default: 'Text',
     },
     font: {
       type: 'string',
       label: 'Font',
-      default: "Arial"
+      default: 'Arial',
     },
     size: {
       type: 'number',
       label: 'Size',
       default: 20,
       min: 1,
-      max: 1000
+      max: 1000,
     },
     bold: {
       type: 'boolean',
       label: 'Bold',
-      default: false
+      default: false,
     },
     italic: {
       type: 'boolean',
       label: 'Italic',
-      default: false
+      default: false,
     },
     x: {
       type: 'number',
       label: 'X',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     y: {
       type: 'number',
       label: 'Y',
       default: 0,
       min: -10000,
-      max: 10000
-    }
+      max: 10000,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -82,12 +82,12 @@ export const SketchBasicTextNode: NodeDefinition<TextInputs, TextOutputs, TextPa
         bold: params.bold,
         italic: params.italic,
         x: params.x,
-        y: params.y
-      }
+        y: params.y,
+      },
     });
-    
+
     return {
-      shape: result
+      shape: result,
     };
   },
 };

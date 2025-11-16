@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { FabricationLaserTextEngravingNode } from './text-engraving.node';
 import { createTestContext } from '../test-utils';
@@ -8,11 +7,11 @@ describe('FabricationLaserTextEngravingNode', () => {
     const context = createTestContext();
     const inputs = {
       text: undefined,
-      position: undefined
+      position: undefined,
     } as any;
     const params = {
-      font: "single-line",
-      height: 10
+      font: 'single-line',
+      height: 10,
     } as any;
 
     const result = await FabricationLaserTextEngravingNode.evaluate(context, inputs, params);

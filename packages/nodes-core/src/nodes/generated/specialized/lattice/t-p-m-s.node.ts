@@ -1,4 +1,3 @@
-
 import { NodeDefinition } from '@brepflow/types';
 
 interface Params {
@@ -22,48 +21,39 @@ export const TPMSNode: NodeDefinition<TPMSInputs, TPMSOutputs, TPMSParams> = {
   metadata: {
     label: 'TPMS',
     description: 'Triply periodic minimal surface',
-    
-    
   },
 
   params: {
-        type: {
-      "default": "gyroid",
-      "options": [
-        "gyroid",
-        "schwarz-p",
-        "schwarz-d",
-        "neovius",
-        "lidinoid"
-      ]
+    type: {
+      default: 'gyroid',
+      options: ['gyroid', 'schwarz-p', 'schwarz-d', 'neovius', 'lidinoid'],
     },
     period: {
-      "default": 20,
-      "min": 1,
-      "max": 200
+      default: 20,
+      min: 1,
+      max: 200,
     },
     thickness: {
-      "default": 1,
-      "min": 0.1,
-      "max": 10
+      default: 1,
+      min: 0.1,
+      max: 10,
     },
     level: {
-      "default": 0,
-      "min": -1,
-      "max": 1
-    }
+      default: 0,
+      min: -1,
+      max: 1,
+    },
   },
 
   inputs: {
-        boundingBox: 'Shape'
+    boundingBox: 'Shape',
   },
 
   outputs: {
-        tpms: 'Shape'
+    tpms: 'Shape',
   },
 
   async evaluate(context, inputs, params) {
-    
     const result = await context.geometry.execute({
       type: 'tpms',
       params: {
@@ -71,12 +61,12 @@ export const TPMSNode: NodeDefinition<TPMSInputs, TPMSOutputs, TPMSParams> = {
         type: params.type,
         period: params.period,
         thickness: params.thickness,
-        level: params.level
-      }
+        level: params.level,
+      },
     });
 
     return {
-      tpms: result
+      tpms: result,
     };
-  }
+  },
 };

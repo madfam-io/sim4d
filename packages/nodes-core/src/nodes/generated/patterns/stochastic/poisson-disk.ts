@@ -13,7 +13,11 @@ interface PoissonDiskOutputs {
   points: Array<[number, number, number]>;
 }
 
-export const PatternsStochasticPoissonDiskNode: NodeDefinition<PoissonDiskInputs, PoissonDiskOutputs, PoissonDiskParams> = {
+export const PatternsStochasticPoissonDiskNode: NodeDefinition<
+  PoissonDiskInputs,
+  PoissonDiskOutputs,
+  PoissonDiskParams
+> = {
   id: 'Patterns::PoissonDisk',
   type: 'Patterns::PoissonDisk',
   category: 'Patterns',
@@ -23,29 +27,29 @@ export const PatternsStochasticPoissonDiskNode: NodeDefinition<PoissonDiskInputs
     boundary: {
       type: 'Wire',
       label: 'Boundary',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     points: {
       type: 'Point[]',
-      label: 'Points'
-    }
+      label: 'Points',
+    },
   },
   params: {
     radius: {
       type: 'number',
       label: 'Radius',
       default: 5,
-      min: 0.1
+      min: 0.1,
     },
     k: {
       type: 'number',
       label: 'K',
       default: 30,
       min: 3,
-      max: 100
-    }
+      max: 100,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -53,12 +57,12 @@ export const PatternsStochasticPoissonDiskNode: NodeDefinition<PoissonDiskInputs
       params: {
         boundary: inputs.boundary,
         radius: params.radius,
-        k: params.k
-      }
+        k: params.k,
+      },
     });
-    
+
     return {
-      points: result
+      points: result,
     };
   },
 };

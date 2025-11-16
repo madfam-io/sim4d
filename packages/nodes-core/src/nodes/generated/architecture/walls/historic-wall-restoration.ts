@@ -13,7 +13,11 @@ interface HistoricWallRestorationOutputs {
   restoredWall: unknown;
 }
 
-export const ArchitectureWallsHistoricWallRestorationNode: NodeDefinition<HistoricWallRestorationInputs, HistoricWallRestorationOutputs, HistoricWallRestorationParams> = {
+export const ArchitectureWallsHistoricWallRestorationNode: NodeDefinition<
+  HistoricWallRestorationInputs,
+  HistoricWallRestorationOutputs,
+  HistoricWallRestorationParams
+> = {
   id: 'Architecture::HistoricWallRestoration',
   type: 'Architecture::HistoricWallRestoration',
   category: 'Architecture',
@@ -23,28 +27,28 @@ export const ArchitectureWallsHistoricWallRestorationNode: NodeDefinition<Histor
     existingWall: {
       type: 'Shape',
       label: 'Existing Wall',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     restoredWall: {
       type: 'Shape',
-      label: 'Restored Wall'
-    }
+      label: 'Restored Wall',
+    },
   },
   params: {
     period: {
       type: 'enum',
       label: 'Period',
-      default: "victorian",
-      options: ["victorian","georgian","art-deco","modernist"]
+      default: 'victorian',
+      options: ['victorian', 'georgian', 'art-deco', 'modernist'],
     },
     preservationLevel: {
       type: 'enum',
       label: 'Preservation Level',
-      default: "preserve",
-      options: ["restore","rehabilitate","preserve"]
-    }
+      default: 'preserve',
+      options: ['restore', 'rehabilitate', 'preserve'],
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -52,12 +56,12 @@ export const ArchitectureWallsHistoricWallRestorationNode: NodeDefinition<Histor
       params: {
         existingWall: inputs.existingWall,
         period: params.period,
-        preservationLevel: params.preservationLevel
-      }
+        preservationLevel: params.preservationLevel,
+      },
     });
-    
+
     return {
-      restoredWall: result
+      restoredWall: result,
     };
   },
 };

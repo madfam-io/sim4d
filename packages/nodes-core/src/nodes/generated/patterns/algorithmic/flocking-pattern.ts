@@ -16,7 +16,11 @@ interface FlockingPatternOutputs {
   trails: unknown;
 }
 
-export const PatternsAlgorithmicFlockingPatternNode: NodeDefinition<FlockingPatternInputs, FlockingPatternOutputs, FlockingPatternParams> = {
+export const PatternsAlgorithmicFlockingPatternNode: NodeDefinition<
+  FlockingPatternInputs,
+  FlockingPatternOutputs,
+  FlockingPatternParams
+> = {
   id: 'Patterns::FlockingPattern',
   type: 'Patterns::FlockingPattern',
   category: 'Patterns',
@@ -26,14 +30,14 @@ export const PatternsAlgorithmicFlockingPatternNode: NodeDefinition<FlockingPatt
     boundary: {
       type: 'Box',
       label: 'Boundary',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     trails: {
       type: 'Wire[]',
-      label: 'Trails'
-    }
+      label: 'Trails',
+    },
   },
   params: {
     agents: {
@@ -42,7 +46,7 @@ export const PatternsAlgorithmicFlockingPatternNode: NodeDefinition<FlockingPatt
       default: 50,
       min: 10,
       max: 200,
-      step: 5
+      step: 5,
     },
     steps: {
       type: 'number',
@@ -50,29 +54,29 @@ export const PatternsAlgorithmicFlockingPatternNode: NodeDefinition<FlockingPatt
       default: 100,
       min: 10,
       max: 1000,
-      step: 10
+      step: 10,
     },
     cohesion: {
       type: 'number',
       label: 'Cohesion',
       default: 1,
       min: 0,
-      max: 2
+      max: 2,
     },
     separation: {
       type: 'number',
       label: 'Separation',
       default: 1,
       min: 0,
-      max: 2
+      max: 2,
     },
     alignment: {
       type: 'number',
       label: 'Alignment',
       default: 1,
       min: 0,
-      max: 2
-    }
+      max: 2,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -83,12 +87,12 @@ export const PatternsAlgorithmicFlockingPatternNode: NodeDefinition<FlockingPatt
         steps: params.steps,
         cohesion: params.cohesion,
         separation: params.separation,
-        alignment: params.alignment
-      }
+        alignment: params.alignment,
+      },
     });
-    
+
     return {
-      trails: result
+      trails: result,
     };
   },
 };

@@ -1,4 +1,3 @@
-
 import { describe, it, expect } from 'vitest';
 import { AnalysisCurvesCurveClosestPointNode } from './curve-closest-point.node';
 import { createTestContext } from '../test-utils';
@@ -8,11 +7,11 @@ describe('AnalysisCurvesCurveClosestPointNode', () => {
     const context = createTestContext();
     const inputs = {
       curve: undefined,
-      point: undefined
+      point: undefined,
     } as any;
     const params = {
       tolerance: 0.01,
-      showConnection: true
+      showConnection: true,
     } as any;
 
     const result = await AnalysisCurvesCurveClosestPointNode.evaluate(context, inputs, params);

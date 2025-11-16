@@ -12,7 +12,11 @@ interface TreeStatisticsOutputs {
   depth: unknown;
 }
 
-export const DataTreeTreeStatisticsNode: NodeDefinition<TreeStatisticsInputs, TreeStatisticsOutputs, TreeStatisticsParams> = {
+export const DataTreeTreeStatisticsNode: NodeDefinition<
+  TreeStatisticsInputs,
+  TreeStatisticsOutputs,
+  TreeStatisticsParams
+> = {
   id: 'Data::TreeStatistics',
   type: 'Data::TreeStatistics',
   category: 'Data',
@@ -22,36 +26,36 @@ export const DataTreeTreeStatisticsNode: NodeDefinition<TreeStatisticsInputs, Tr
     tree: {
       type: 'DataTree',
       label: 'Tree',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     branchCount: {
       type: 'number',
-      label: 'Branch Count'
+      label: 'Branch Count',
     },
     itemCount: {
       type: 'number',
-      label: 'Item Count'
+      label: 'Item Count',
     },
     depth: {
       type: 'number',
-      label: 'Depth'
-    }
+      label: 'Depth',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
       type: 'treeStatistics',
       params: {
-        tree: inputs.tree
-      }
+        tree: inputs.tree,
+      },
     });
-    
+
     return {
       branchCount: results.branchCount,
       itemCount: results.itemCount,
-      depth: results.depth
+      depth: results.depth,
     };
   },
 };

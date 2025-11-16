@@ -14,7 +14,11 @@ interface StairStringerOutputs {
   stringers: unknown;
 }
 
-export const ArchitectureStairsStairStringerNode: NodeDefinition<StairStringerInputs, StairStringerOutputs, StairStringerParams> = {
+export const ArchitectureStairsStairStringerNode: NodeDefinition<
+  StairStringerInputs,
+  StairStringerOutputs,
+  StairStringerParams
+> = {
   id: 'Architecture::StairStringer',
   type: 'Architecture::StairStringer',
   category: 'Architecture',
@@ -24,35 +28,35 @@ export const ArchitectureStairsStairStringerNode: NodeDefinition<StairStringerIn
     stairProfile: {
       type: 'Wire',
       label: 'Stair Profile',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     stringers: {
       type: 'Shape[]',
-      label: 'Stringers'
-    }
+      label: 'Stringers',
+    },
   },
   params: {
     type: {
       type: 'enum',
       label: 'Type',
-      default: "closed",
-      options: ["closed","open","mono"]
+      default: 'closed',
+      options: ['closed', 'open', 'mono'],
     },
     material: {
       type: 'enum',
       label: 'Material',
-      default: "steel",
-      options: ["steel","wood","concrete"]
+      default: 'steel',
+      options: ['steel', 'wood', 'concrete'],
     },
     depth: {
       type: 'number',
       label: 'Depth',
       default: 300,
       min: 200,
-      max: 500
-    }
+      max: 500,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -61,12 +65,12 @@ export const ArchitectureStairsStairStringerNode: NodeDefinition<StairStringerIn
         stairProfile: inputs.stairProfile,
         type: params.type,
         material: params.material,
-        depth: params.depth
-      }
+        depth: params.depth,
+      },
     });
-    
+
     return {
-      stringers: result
+      stringers: result,
     };
   },
 };

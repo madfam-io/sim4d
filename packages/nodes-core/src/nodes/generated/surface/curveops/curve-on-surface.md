@@ -1,4 +1,3 @@
-
 # CurveOnSurface Node
 
 **Category:** Surface / CurveOps
@@ -11,25 +10,18 @@ This node has no parameters.
 
 ## Inputs
 
-
 ### surface
+
 - **Type:** Face
 - **Required:** Yes
 
-
-
 ### uvPoints
+
 - **Type:** Point2D[]
 - **Required:** Yes
 
-
-
 ## Outputs
 
-
 ### curve
+
 - **Type:** Wire
-
-
-
-

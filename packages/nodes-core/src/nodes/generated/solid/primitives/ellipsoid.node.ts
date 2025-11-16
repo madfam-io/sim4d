@@ -15,7 +15,11 @@ interface EllipsoidOutputs {
   solid: unknown;
 }
 
-export const SolidPrimitivesEllipsoidNode: NodeDefinition<EllipsoidInputs, EllipsoidOutputs, EllipsoidParams> = {
+export const SolidPrimitivesEllipsoidNode: NodeDefinition<
+  EllipsoidInputs,
+  EllipsoidOutputs,
+  EllipsoidParams
+> = {
   id: 'Solid::Ellipsoid',
   category: 'Solid',
   label: 'Ellipsoid',
@@ -24,8 +28,8 @@ export const SolidPrimitivesEllipsoidNode: NodeDefinition<EllipsoidInputs, Ellip
   outputs: {
     solid: {
       type: 'Solid',
-      label: 'Solid'
-    }
+      label: 'Solid',
+    },
   },
   params: {
     radiusX: {
@@ -33,43 +37,43 @@ export const SolidPrimitivesEllipsoidNode: NodeDefinition<EllipsoidInputs, Ellip
       label: 'Radius X',
       default: 50,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     radiusY: {
       type: 'number',
       label: 'Radius Y',
       default: 40,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     radiusZ: {
       type: 'number',
       label: 'Radius Z',
       default: 30,
       min: 0.1,
-      max: 10000
+      max: 10000,
     },
     centerX: {
       type: 'number',
       label: 'Center X',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     centerY: {
       type: 'number',
       label: 'Center Y',
       default: 0,
       min: -10000,
-      max: 10000
+      max: 10000,
     },
     centerZ: {
       type: 'number',
       label: 'Center Z',
       default: 0,
       min: -10000,
-      max: 10000
-    }
+      max: 10000,
+    },
   },
   async evaluate(context, inputs, params) {
     const result = await context.geometry.execute({
@@ -80,12 +84,12 @@ export const SolidPrimitivesEllipsoidNode: NodeDefinition<EllipsoidInputs, Ellip
         radiusZ: params.radiusZ,
         centerX: params.centerX,
         centerY: params.centerY,
-        centerZ: params.centerZ
-      }
+        centerZ: params.centerZ,
+      },
     });
-    
+
     return {
-      solid: result
+      solid: result,
     };
   },
 };

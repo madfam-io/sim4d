@@ -1,9 +1,12 @@
 # BrepFlow Investor Pitch Deck
 
 ## Slide 1: Title
+
 # **BrepFlow**
+
 ### The Figma of CAD
-*Real-time collaborative parametric design in the browser*
+
+_Real-time collaborative parametric design in the browser_
 
 **Series A | Raising $20M**
 
@@ -45,6 +48,7 @@ Desktop only        →      Any device
 ### 🎥 **See It In Action**
 
 [60-second demo video showing:]
+
 1. Instant browser access (no install)
 2. Real-time multi-user editing
 3. Parametric node system
@@ -68,6 +72,7 @@ TAM (Total Addressable Market)
 ```
 
 **Growth Drivers:**
+
 - 40% YoY growth in cloud tools
 - 65% of teams now remote/hybrid
 - Gen Z expects browser-based tools
@@ -102,16 +107,19 @@ const revenueModel = {
 ### 🚀 **Viral Growth Strategy**
 
 **Phase 1: Students (Months 1-6)**
+
 - Free for universities
 - 1M student users target
 - Future workforce trained on BrepFlow
 
 **Phase 2: Developers (Months 6-12)**
+
 - $10M ecosystem fund
 - 1,000 plugins target
 - Developer success stories
 
 **Phase 3: Enterprise (Months 12-24)**
+
 - Land & expand
 - Bottom-up adoption
 - IT-approved cloud solution
@@ -132,6 +140,7 @@ Beta Results (3 months):
 ```
 
 **Key Wins:**
+
 - MIT adopting for fall semester
 - #1 on Product Hunt (coming)
 - First enterprise pilot (Fortune 500)
@@ -142,13 +151,13 @@ Beta Results (3 months):
 
 ### ⚔️ **Competitive Advantage**
 
-| | BrepFlow | Grasshopper | Fusion 360 | Onshape |
-|---|---|---|---|---|
-| **Platform** | ✅ Web | ❌ Desktop | ❌ Desktop | ⚠️ Web |
-| **Real-time Collab** | ✅ Yes | ❌ No | ❌ No | ⚠️ Basic |
-| **Price** | ✅ Free | ❌ $995 | ❌ $545/yr | ❌ $1,500/yr |
-| **Plugin Ecosystem** | ✅ Open | ⚠️ Limited | ⚠️ Limited | ❌ Closed |
-| **Node-based** | ✅ Yes | ✅ Yes | ❌ No | ❌ No |
+|                      | BrepFlow | Grasshopper | Fusion 360 | Onshape      |
+| -------------------- | -------- | ----------- | ---------- | ------------ |
+| **Platform**         | ✅ Web   | ❌ Desktop  | ❌ Desktop | ⚠️ Web       |
+| **Real-time Collab** | ✅ Yes   | ❌ No       | ❌ No      | ⚠️ Basic     |
+| **Price**            | ✅ Free  | ❌ $995     | ❌ $545/yr | ❌ $1,500/yr |
+| **Plugin Ecosystem** | ✅ Open  | ⚠️ Limited  | ⚠️ Limited | ❌ Closed    |
+| **Node-based**       | ✅ Yes   | ✅ Yes      | ❌ No      | ❌ No        |
 
 **Unique Position: Only web-native, collaborative, node-based CAD**
 
@@ -159,12 +168,14 @@ Beta Results (3 months):
 ### 🛡️ **Defensible Technology**
 
 **Core Innovations:**
+
 1. **WebAssembly Performance**: Native speed in browser
 2. **Operational Transform**: Conflict-free collaboration
 3. **Distributed Compute**: Cloud/edge hybrid architecture
 4. **AI-Ready**: Training on design patterns
 
 **Protected By:**
+
 - Network effects (collaboration)
 - Ecosystem lock-in (plugins)
 - Data moat (design patterns)
@@ -183,6 +194,7 @@ Beta Results (3 months):
 **VP Sales**: [Name] - Ex-Solidworks, enterprise
 
 **Advisors:**
+
 - Former CTO of Rhino
 - Grasshopper creator
 - Partner at Sequoia
@@ -193,15 +205,16 @@ Beta Results (3 months):
 
 ### 📊 **Path to $500M ARR**
 
-| Year | Users | Paying | ARR | Burn | Notes |
-|------|-------|--------|-----|------|-------|
-| Y1 | 10K | 100 | $500K | $2M | PMF |
-| Y2 | 100K | 5K | $5M | $15M | Scale |
-| Y3 | 1M | 50K | $50M | $30M | Profit |
-| Y4 | 5M | 200K | $200M | +$20M | IPO ready |
-| Y5 | 10M | 500K | $500M | +$100M | Category leader |
+| Year | Users | Paying | ARR   | Burn   | Notes           |
+| ---- | ----- | ------ | ----- | ------ | --------------- |
+| Y1   | 10K   | 100    | $500K | $2M    | PMF             |
+| Y2   | 100K  | 5K     | $5M   | $15M   | Scale           |
+| Y3   | 1M    | 50K    | $50M  | $30M   | Profit          |
+| Y4   | 5M    | 200K   | $200M | +$20M  | IPO ready       |
+| Y5   | 10M   | 500K   | $500M | +$100M | Category leader |
 
 **Key Metrics:**
+
 - CAC: $50 → LTV: $2,000
 - Gross Margin: 85%
 - Net Revenue Retention: 140%
@@ -223,6 +236,7 @@ use_of_funds = {
 ```
 
 **18-month runway to Series B metrics:**
+
 - 100K users
 - $5M ARR
 - 500 enterprise leads
@@ -234,16 +248,19 @@ use_of_funds = {
 ### ⏰ **Perfect Timing**
 
 **Technology Ready:**
+
 - WebAssembly mature (2024)
 - WebGPU shipping (2025)
 - 5G enables cloud compute
 
 **Market Ready:**
+
 - Remote work permanent
 - Gen Z workforce expects cloud tools
 - Enterprises embracing SaaS
 
 **Competition Vulnerable:**
+
 - Desktop tools can't pivot to web
 - High prices limiting market growth
 - No real collaboration solution
@@ -257,16 +274,19 @@ use_of_funds = {
 ### 🌟 **The Future We're Building**
 
 **Year 3: Category Leader**
+
 - 1M users collaborating
 - 10,000 companies transformed
 - $1B ecosystem economy
 
 **Year 5: IPO**
+
 - Standard for parametric design
 - 10M users globally
 - $10B market cap
 
 **Year 10: Beyond CAD**
+
 - AI-designed products
 - Manufacturing integration
 - Design-to-production platform
@@ -282,11 +302,13 @@ use_of_funds = {
 **Raising: $20M Series A**
 
 **Terms:**
+
 - Pre-money valuation: $80M
 - Lead investor: $15M
 - Strategic partners: $5M
 
 **Why Invest Now:**
+
 - ✅ Product-market fit validated
 - ✅ Viral growth starting
 - ✅ Enterprise interest confirmed
@@ -294,6 +316,7 @@ use_of_funds = {
 - ✅ Team proven
 
 **Next 12 Months:**
+
 - 100K users
 - $5M ARR
 - Series B at $250M+
@@ -310,24 +333,24 @@ const unitEconomics = {
   CAC: {
     organic: 0,
     paid: 50,
-    blended: 15
+    blended: 15,
   },
 
   // Monetization
   ARPU: 50,
-  conversion: "5%",
+  conversion: '5%',
 
   // Retention
   churn: {
-    monthly: "3%",
-    annual: "15%"
+    monthly: '3%',
+    annual: '15%',
   },
 
   // LTV
-  lifetime: "36 months",
+  lifetime: '36 months',
   LTV: 1800,
-  "LTV/CAC": 120
-}
+  'LTV/CAC': 120,
+};
 ```
 
 ---
@@ -337,21 +360,25 @@ const unitEconomics = {
 ### 🗓️ **Next 12 Months**
 
 **Q1 2025:**
+
 - ✅ Real-time collaboration
 - ✅ 500 nodes
 - ✅ Plugin marketplace
 
 **Q2 2025:**
+
 - AI design assistant
 - Mobile apps
 - Enterprise SSO
 
 **Q3 2025:**
+
 - Version control
 - Manufacturing prep
 - API v2
 
 **Q4 2025:**
+
 - AR/VR support
 - Advanced simulation
 - Global CDN
@@ -363,13 +390,17 @@ const unitEconomics = {
 ### 💼 **Customer Success**
 
 **MIT Architecture Department**
+
 > "BrepFlow transformed how our students collaborate on projects. The real-time features are game-changing."
+
 - 500 students
 - 90% adoption rate
 - 50% time saved
 
 **TechCorp (Fortune 500)**
+
 > "We reduced design iteration time by 40% and eliminated version conflicts entirely."
+
 - 50 designers
 - $200K annual contract
 - Expanding to 200 users
@@ -381,7 +412,9 @@ const unitEconomics = {
 # **Let's Build the Future Together**
 
 ### 📧 investors@brepflow.com
+
 ### 🌐 brepflow.com
+
 ### 📱 +1 (555) 123-4567
 
 **[Name]**, CEO & Co-founder
@@ -389,8 +422,9 @@ LinkedIn: /in/[username]
 Twitter: @[username]
 
 ### 🚀 **Demo Available Now**
+
 [Schedule Demo] | [Try Product] | [View Deck]
 
 ---
 
-*Confidential and Proprietary. Copyright © 2025 BrepFlow, Inc.*
+_Confidential and Proprietary. Copyright © 2025 BrepFlow, Inc._

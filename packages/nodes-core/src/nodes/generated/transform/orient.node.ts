@@ -21,24 +21,24 @@ export const TransformOrientNode: NodeDefinition<OrientInputs, OrientOutputs, Or
     shape: {
       type: 'Shape',
       label: 'Shape',
-      required: true
+      required: true,
     },
     fromDirection: {
       type: 'Vector',
       label: 'From Direction',
-      required: true
+      required: true,
     },
     toDirection: {
       type: 'Vector',
       label: 'To Direction',
-      required: true
-    }
+      required: true,
+    },
   },
   outputs: {
     oriented: {
       type: 'Shape',
-      label: 'Oriented'
-    }
+      label: 'Oriented',
+    },
   },
   params: {},
   async evaluate(context, inputs, params) {
@@ -47,12 +47,12 @@ export const TransformOrientNode: NodeDefinition<OrientInputs, OrientOutputs, Or
       params: {
         shape: inputs.shape,
         fromDirection: inputs.fromDirection,
-        toDirection: inputs.toDirection
-      }
+        toDirection: inputs.toDirection,
+      },
     });
-    
+
     return {
-      oriented: result
+      oriented: result,
     };
   },
 };

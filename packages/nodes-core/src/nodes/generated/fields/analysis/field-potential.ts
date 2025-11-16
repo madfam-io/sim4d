@@ -13,7 +13,11 @@ interface FieldPotentialOutputs {
   isConservative: boolean;
 }
 
-export const FieldsAnalysisFieldPotentialNode: NodeDefinition<FieldPotentialInputs, FieldPotentialOutputs, FieldPotentialParams> = {
+export const FieldsAnalysisFieldPotentialNode: NodeDefinition<
+  FieldPotentialInputs,
+  FieldPotentialOutputs,
+  FieldPotentialParams
+> = {
   id: 'Fields::FieldPotential',
   type: 'Fields::FieldPotential',
   category: 'Fields',
@@ -23,38 +27,38 @@ export const FieldsAnalysisFieldPotentialNode: NodeDefinition<FieldPotentialInpu
     vectorField: {
       type: 'VectorField',
       label: 'Vector Field',
-      optional: true
-    }
+      optional: true,
+    },
   },
   outputs: {
     potentialField: {
       type: 'Field',
-      label: 'Potential Field'
+      label: 'Potential Field',
     },
     isConservative: {
       type: 'Boolean',
-      label: 'Is Conservative'
-    }
+      label: 'Is Conservative',
+    },
   },
   params: {
     referencePoint: {
       type: 'vec3',
       label: 'Reference Point',
-      default: "[0, 0, 0]"
-    }
+      default: '[0, 0, 0]',
+    },
   },
   async evaluate(context, inputs, params) {
     const results = await context.geometry.execute({
       type: 'findPotential',
       params: {
         vectorField: inputs.vectorField,
-        referencePoint: params.referencePoint
-      }
+        referencePoint: params.referencePoint,
+      },
     });
-    
+
     return {
       potentialField: results.potentialField,
-      isConservative: results.isConservative
+      isConservative: results.isConservative,
     };
   },
 };
