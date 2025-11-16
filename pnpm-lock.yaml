@@ -357,8 +357,8 @@ importers:
         specifier: ^9.0.0
         version: 9.0.1
       ws:
-        specifier: ^8.16.0
-        version: 8.17.1
+        specifier: ^8.18.3
+        version: 8.18.3
       y-websocket:
         specifier: ^1.5.0
         version: 1.5.4(yjs@13.6.27)
@@ -382,8 +382,8 @@ importers:
         specifier: ^9.0.0
         version: 9.0.8
       '@types/ws':
-        specifier: ^8.5.10
-        version: 8.5.10
+        specifier: ^8.18.1
+        version: 8.18.1
       tsup:
         specifier: ^8.0.1
         version: 8.5.0(@swc/core@1.13.5)(postcss@8.5.6)(tsx@4.20.5)(typescript@5.9.2)
@@ -3271,8 +3271,8 @@ packages:
   /@types/webxr@0.5.23:
     resolution: {integrity: sha512-GPe4AsfOSpqWd3xA/0gwoKod13ChcfV67trvxaW2krUbgb9gxQjnCx8zGshzMl8LSHZlNH5gQ8LNScsDuc7nGQ==}
 
-  /@types/ws@8.5.10:
-    resolution: {integrity: sha512-vmQSUcfalpIq0R9q7uTo2lXs6eGIpt9wtnLdMv9LVpIjCA/+ufZRozlVoVelIYixx1ugCBKDhn89vnsEGOCx9A==}
+  /@types/ws@8.18.1:
+    resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
     dependencies:
       '@types/node': 20.19.14
     dev: true
@@ -9487,7 +9487,6 @@ packages:
         optional: true
       utf-8-validate:
         optional: true
-    dev: true
 
   /xml-name-validator@5.0.0:
     resolution: {integrity: sha512-EvGK8EJ3DhaHfbRlETOWAS5pO9MZITeauHKJyb8wyajUfQUenkIg2MvLDTZ4T/TgIcm3HU0TFBgWWboAZ30UHg==}
