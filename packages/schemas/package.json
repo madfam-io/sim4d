@@ -19,6 +19,6 @@
     "three-stdlib": "^2.36.0"
   },
   "devDependencies": {
-    "tsup": "^8.0.0"
+    "tsup": "^8.5.1"
   }
 }

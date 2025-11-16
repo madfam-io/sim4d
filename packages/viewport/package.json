@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@types/three": "^0.160.0",
-    "tsup": "^8.0.0",
+    "tsup": "^8.5.1",
     "vitest": "^3.2.4"
   }
 }
