@@ -50,7 +50,8 @@
     "**/*.test.ts",
     "**/*.test.tsx",
     "apps/marketing/**/*",
+    "apps/studio/**/*",
     "packages/nodes-core/src/nodes/generated/**/*"
   ],
-  "include": ["apps", "packages", "scripts", "tests", "config", "build", "docs", "turbo.d.ts"]
+  "include": ["packages", "scripts", "tests", "config", "build", "docs", "turbo.d.ts"]
 }

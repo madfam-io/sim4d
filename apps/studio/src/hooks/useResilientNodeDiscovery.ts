@@ -476,7 +476,7 @@ export function useResilientNodeDiscovery() {
                 `✅ Successfully discovered ${dynamicNodes.length} nodes from enhanced registry`
               );
               setDiscoveredNodes(
-                dynamicNodes.map((node) => ({
+                dynamicNodes.map((node: any) => ({
                   ...node,
                   metadata: {
                     label: node.label || node.type.split('::')[1] || 'Unknown',

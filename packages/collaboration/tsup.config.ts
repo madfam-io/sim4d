@@ -8,7 +8,14 @@ export default defineConfig({
     'client/index': 'src/client/index.ts',
   },
   format: ['cjs', 'esm'],
-  dts: false, // Temporarily disabled - type issues with project file list
+  dts: {
+    resolve: true,
+    tsconfig: './tsconfig.dts.json',
+    compilerOptions: {
+      incremental: false,
+      composite: false,
+    },
+  },
   splitting: false,
   sourcemap: true,
   clean: true,

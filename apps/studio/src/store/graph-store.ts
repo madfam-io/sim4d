@@ -216,7 +216,7 @@ export const useGraphStore = create<GraphState>()(
 
         removeNode: (nodeId) => {
           const { selectedNodes } = get();
-          const nodeToRemove = graphManager.getGraph().nodes.find((n) => n.id === nodeId);
+          const nodeToRemove = graphManager.getGraph().nodes.find((n: any) => n.id === nodeId);
 
           if (nodeToRemove) {
             // Create undo command
@@ -248,7 +248,7 @@ export const useGraphStore = create<GraphState>()(
         },
 
         updateNode: (nodeId, updates) => {
-          const node = graphManager.getGraph().nodes.find((n) => n.id === nodeId);
+          const node = graphManager.getGraph().nodes.find((n: any) => n.id === nodeId);
           if (node) {
             const oldState = { ...node };
 
@@ -286,7 +286,7 @@ export const useGraphStore = create<GraphState>()(
         },
 
         removeEdge: (edgeId) => {
-          const edgeToRemove = graphManager.getGraph().edges.find((e) => e.id === edgeId);
+          const edgeToRemove = graphManager.getGraph().edges.find((e: any) => e.id === edgeId);
 
           if (edgeToRemove) {
             // Create undo command

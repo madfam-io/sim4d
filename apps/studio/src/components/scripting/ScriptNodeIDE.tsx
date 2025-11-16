@@ -95,7 +95,7 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
         setPermissions(editingNode.permissions);
       } else if (initialTemplate) {
         // Load template
-        const template = templates.find((t) => t.name === initialTemplate);
+        const template = templates.find((t: any) => t.name === initialTemplate);
         if (template) {
           setScript(template.template);
           setLanguage(template.language);
@@ -110,7 +110,7 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
         }
       } else {
         // Reset to default
-        setScript(templates.find((t) => t.name === 'Empty Script')?.template || '');
+        setScript(templates.find((t: any) => t.name === 'Empty Script')?.template || '');
       }
 
       // Initialize main tab
@@ -223,7 +223,7 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
         metrics: [],
         executionTime: 0,
         memoryUsage: 0,
-        error: error instanceof Error ? error : new Error(String(error)),
+        error: error instanceof Error ? error.message : String(error),
       });
     } finally {
       setIsTesting(false);
@@ -250,7 +250,7 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
   // Template loading
   const loadTemplate = useCallback((template: ScriptTemplate) => {
     setScript(template.template);
-    setLanguage(template.language);
+    setLanguage(template.language as ScriptLanguage);
     setMetadata((prev) => ({
       ...prev,
       category: template.category,
@@ -357,7 +357,7 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
                   onChange={(e) => setLanguage(e.target.value as ScriptLanguage)}
                   className="language-selector"
                 >
-                  {supportedLanguages.map((lang) => (
+                  {supportedLanguages.map((lang: string) => (
                     <option key={lang} value={lang}>
                       {lang.charAt(0).toUpperCase() + lang.slice(1)}
                     </option>
@@ -515,28 +515,32 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
                         <span>{validationResult.valid ? 'Valid' : 'Invalid'}</span>
                       </div>
 
-                      {validationResult.errors.length > 0 && (
+                      {validationResult.errors && validationResult.errors.length > 0 && (
                         <div className="validation-errors">
                           <h4>Errors:</h4>
-                          {validationResult.errors.map((error, index) => (
+                          {validationResult.errors.map((error: any, index: number) => (
                             <div key={index} className="validation-message error">
                               <Icon name="x-circle" size={14} />
                               <span>
-                                Line {error.line}: {error.message}
+                                {typeof error === 'string'
+                                  ? error
+                                  : `Line ${error.line}: ${error.message}`}
                               </span>
                             </div>
                           ))}
                         </div>
                       )}
 
-                      {validationResult.warnings.length > 0 && (
+                      {validationResult.warnings && validationResult.warnings.length > 0 && (
                         <div className="validation-warnings">
                           <h4>Warnings:</h4>
-                          {validationResult.warnings.map((warning, index) => (
+                          {validationResult.warnings.map((warning: any, index: number) => (
                             <div key={index} className="validation-message warning">
                               <Icon name="alert-triangle" size={14} />
                               <span>
-                                Line {warning.line}: {warning.message}
+                                {typeof warning === 'string'
+                                  ? warning
+                                  : `Line ${warning.line}: ${warning.message}`}
                               </span>
                             </div>
                           ))}
@@ -574,14 +578,19 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
                       {executionResult.error && (
                         <div className="testing-error">
                           <h4>Error:</h4>
-                          <pre>{executionResult.error.message}</pre>
+                          <pre>
+                            {typeof executionResult.error === 'string'
+                              ? executionResult.error
+                              : (executionResult.error as any)?.message ||
+                                String(executionResult.error)}
+                          </pre>
                         </div>
                       )}
 
                       {executionResult.logs.length > 0 && (
                         <div className="testing-logs">
                           <h4>Logs:</h4>
-                          {executionResult.logs.map((log, index) => (
+                          {executionResult.logs.map((log: any, index: number) => (
                             <div key={index} className={`log-entry ${log.level}`}>
                               <span className="log-level">[{log.level.toUpperCase()}]</span>
                               <span className="log-message">{log.message}</span>
@@ -650,7 +659,7 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
               </div>
               <div className="modal-body">
                 <div className="template-grid">
-                  {templates.map((template) => (
+                  {templates.map((template: any) => (
                     <div
                       key={template.name}
                       className="template-card"

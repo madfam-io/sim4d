@@ -53,7 +53,6 @@ import './App.css';
 import { BrowserWASMTestSuite } from './test-browser-wasm';
 import { SessionControls } from './components/SessionControls';
 import { CollaborationProvider } from '@brepflow/collaboration/client';
-// @ts-expect-error - types not generated yet
 import type { Operation, Conflict } from '@brepflow/collaboration/client';
 import { useSession } from './hooks/useSession';
 import { Routes, Route, Navigate } from 'react-router-dom';

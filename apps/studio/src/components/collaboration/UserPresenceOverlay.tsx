@@ -17,7 +17,7 @@ import './UserPresenceOverlay.css';
 // Import the actual collaboration engine
 import { BrepFlowCollaborationEngine } from '@brepflow/engine-core';
 
-const collaborationEngine = new BrepFlowCollaborationEngine();
+const collaborationEngine = new BrepFlowCollaborationEngine({} as any);
 
 interface UserPresenceOverlayProps {
   sessionId: SessionId;
@@ -69,6 +69,7 @@ export const UserPresenceOverlay: React.FC<UserPresenceOverlayProps> = ({
       const cursor: CursorPosition = {
         x: event.clientX - rect.left,
         y: event.clientY - rect.top,
+        userId: currentUserId,
         timestamp: Date.now(),
       };
 
@@ -372,7 +373,7 @@ const UserSelectionComponent: React.FC<UserSelectionComponentProps> = ({ selecti
 
   return (
     <div className="user-selection">
-      {selection.selection.selectedNodes.map((nodeId) => (
+      {selection.selection.selectedNodes.map((nodeId: string) => (
         <NodeSelectionHighlight key={nodeId} nodeId={nodeId} user={selection.user} />
       ))}
     </div>

@@ -4,13 +4,13 @@
 
 import React, { Component, ReactNode, ErrorInfo } from 'react';
 import { getConfig } from '@brepflow/engine-core';
-import { ProductionLogger } from '@brepflow/engine-occt';
+import ProductionLogger from '@brepflow/engine-occt';
 
 // Lazy logger initialization to avoid constructor issues during module loading
 let logger: any = null;
 const getLogger = () => {
   if (!logger) {
-    logger = new ProductionLogger('ErrorBoundary');
+    logger = new ProductionLogger({ component: 'ErrorBoundary' } as any);
   }
   return logger;
 };
