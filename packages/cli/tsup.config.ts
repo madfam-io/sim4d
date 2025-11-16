@@ -1,5 +1,9 @@
 import { createBaseConfig } from '../../config/tsup.base.config';
 
+/**
+ * CLI build configuration
+ * Node.js headless runner for batch processing
+ */
 export default createBaseConfig({
   format: ['esm'],
   platform: 'node',
@@ -10,4 +14,5 @@ export default createBaseConfig({
   },
   splitting: false,
   sourcemap: true,
+  tsconfig: './tsconfig.json', // Use local tsconfig instead of strict
 });
