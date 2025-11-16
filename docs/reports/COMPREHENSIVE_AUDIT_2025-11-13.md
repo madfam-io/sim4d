@@ -574,6 +574,7 @@ private getDefaultRecoveryActions(code: ErrorCode): RecoveryAction[] {
     - Expected: 200-500ms gain
 
 14. ✅ **Add Three.js disposal**
+
     ```typescript
     useEffect(() => {
       // ...setup...
