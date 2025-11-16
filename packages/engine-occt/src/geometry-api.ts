@@ -1,4 +1,3 @@
-// TODO: Fix tessellate signature alignment with WorkerAPI, method name mismatches (getOCCTVersion → getVersion), and missing properties
 import { createHandleId } from '@brepflow/types';
 import type { WorkerAPI, ShapeHandle, MeshData, BoundingBox } from '@brepflow/types';
 import { getOCCTWrapper, type RawShapeHandle } from './occt-wrapper';
@@ -23,6 +22,7 @@ export class GeometryAPI implements WorkerAPI {
   private readonly occtWrapper = getOCCTWrapper();
   private readonly rawShapeCache = new Map<string, RawShapeHandle>();
   private readonly handleCache = new Map<string, ShapeHandle>();
+  private readonly handleRegistry = new Map<string, ShapeHandle>();
   private readonly meshCache = new Map<string, MeshData>();
 
   private ensurePositive(value: unknown, name: string): number {
@@ -163,7 +163,7 @@ export class GeometryAPI implements WorkerAPI {
         return this.copyShape(params) as unknown as T;
 
       case 'TESSELLATE':
-        return this.tessellate(params) as unknown as T;
+        return this.tessellateInternal(params) as unknown as T;
       case 'TESSELLATE_WITH_PARAMS':
         return this.tessellateWithParams(params) as unknown as T;
 
@@ -187,7 +187,7 @@ export class GeometryAPI implements WorkerAPI {
         return this.importSTEP(params) as unknown as T;
 
       case 'GET_SHAPE_COUNT':
-        return this.getShapeCount() as unknown as T;
+        return this.handleRegistry.size as unknown as T;
       case 'DELETE_SHAPE':
         return this.deleteShape(params) as unknown as T;
       case 'CLEAR_ALL_SHAPES':
@@ -382,7 +382,17 @@ export class GeometryAPI implements WorkerAPI {
 
   // === Tessellation ===
 
-  private tessellate(params: TessellatePayload): TessellateResult {
+  // WorkerAPI tessellate implementation - matches interface signature
+  async tessellate(
+    shapeId: string & { __brand: 'HandleId' },
+    deflection: number
+  ): Promise<MeshData> {
+    const result = this.tessellateInternal({ shape: shapeId, tolerance: deflection });
+    return result.mesh;
+  }
+
+  // Internal tessellation method with full options
+  private tessellateInternal(params: TessellatePayload): TessellateResult {
     const { shape, tolerance = params?.deflection ?? 0.01 } = params ?? {};
     if (!shape) {
       throw new Error('TESSELLATE requires a shape');
@@ -557,6 +567,7 @@ export class GeometryAPI implements WorkerAPI {
     this.rawShapeCache.delete(shapeId);
     this.handleCache.delete(shapeId);
     this.handleCache.delete(handle.id);
+    this.handleRegistry.delete(shapeId);
 
     // Purge cached meshes for this shape
     for (const key of Array.from(this.meshCache.keys())) {
@@ -565,13 +576,14 @@ export class GeometryAPI implements WorkerAPI {
       }
     }
 
-    return this.getShapeCount();
+    return this.handleRegistry.size;
   }
 
   private clearAllShapes(): number {
     this.occtWrapper.clearAllShapes();
     this.rawShapeCache.clear();
     this.handleCache.clear();
+    this.handleRegistry.clear();
     this.meshCache.clear();
     return 0;
   }
@@ -695,6 +707,7 @@ export class GeometryAPI implements WorkerAPI {
     this.rawShapeCache.set(rawId, raw);
     this.handleCache.set(rawId, handle);
     this.handleCache.set(handle.id, handle);
+    this.handleRegistry.set(rawId, handle);
     return handle;
   }
 
