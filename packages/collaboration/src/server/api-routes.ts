@@ -7,6 +7,19 @@ import type { Request, Response, NextFunction } from 'express';
 import type { CollaborationServer } from './collaboration-server';
 import * as crypto from 'crypto';
 
+// Type augmentation for express-session
+// This allows req.session to be used when express-session middleware is installed
+declare global {
+  namespace Express {
+    interface Request {
+      session?: {
+        id?: string;
+        [key: string]: any;
+      };
+    }
+  }
+}
+
 export interface APIRoutesOptions {
   /**
    * Base path for API routes (default: '/api/collaboration')

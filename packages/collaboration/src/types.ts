@@ -171,3 +171,16 @@ export interface CollaborationOptions {
   presenceThrottle?: number;
   operationBuffer?: number;
 }
+
+// Collaboration Event Handlers
+export interface CollaborationEventHandler {
+  onOperation?: (operation: Operation) => void;
+  onPresenceUpdate?: (presence: Presence[]) => void;
+  onPresenceJoin?: (presence: Presence) => void;
+  onPresenceLeave?: (userId: string) => void;
+  onDocumentSync?: (document: Document) => void;
+  onConflict?: (conflict: Conflict) => void;
+  onError?: (error: Error) => void;
+  onConnect?: () => void;
+  onDisconnect?: () => void;
+}

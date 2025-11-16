@@ -11,19 +11,8 @@ import type {
   Selection,
   Viewport,
   Conflict,
+  CollaborationEventHandler,
 } from '../types';
-
-export type CollaborationEventHandler = {
-  onOperation?: (operation: Operation) => void;
-  onPresenceUpdate?: (presence: Presence[]) => void;
-  onPresenceJoin?: (presence: Presence) => void;
-  onPresenceLeave?: (userId: string) => void;
-  onDocumentSync?: (document: Document) => void;
-  onConflict?: (conflict: Conflict) => void;
-  onError?: (error: Error) => void;
-  onConnect?: () => void;
-  onDisconnect?: () => void;
-};
 
 export class CollaborationClient {
   private socket: Socket<ServerToClientEvents, ClientToServerEvents>;

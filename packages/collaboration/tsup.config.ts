@@ -4,6 +4,7 @@ export default defineConfig({
   entry: {
     index: 'src/index.ts',
     'server/index': 'src/server/index.ts',
+    'server/standalone-server': 'src/server/standalone-server.ts',
     'client/index': 'src/client/index.ts',
   },
   format: ['cjs', 'esm'],
@@ -20,6 +21,8 @@ export default defineConfig({
     'uuid',
     'socket.io',
     'socket.io-client',
+    'express', // Standalone server dependency
+    'cors', // Standalone server dependency
     '@brepflow/engine-core', // Has Node.js modules (path, url, fs)
     '@brepflow/types', // Type-only package, no need to bundle
   ],

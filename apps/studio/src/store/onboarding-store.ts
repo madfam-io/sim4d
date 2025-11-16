@@ -57,7 +57,8 @@ export const useOnboardingStore = create<OnboardingStore>()(
           const newState = {
             ...store.state,
             userSkillLevel: skillLevel,
-            tourMode: true,
+            // If user selected 'skip', don't start tour mode
+            tourMode: skillLevel !== 'skip',
             isFirstVisit: false,
           };
           saveState(newState);

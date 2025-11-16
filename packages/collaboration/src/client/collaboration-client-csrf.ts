@@ -9,6 +9,7 @@ import type {
   ServerToClientEvents,
   ClientToServerEvents,
   CollaborationOptions,
+  CollaborationEventHandler,
   Document,
   Operation,
   Presence,
@@ -19,18 +20,10 @@ import type {
   Conflict,
 } from '../types';
 
-export type CollaborationEventHandler = {
-  onOperation?: (operation: Operation) => void;
-  onPresenceUpdate?: (presence: Presence[]) => void;
-  onPresenceJoin?: (presence: Presence) => void;
-  onPresenceLeave?: (userId: string) => void;
-  onDocumentSync?: (document: Document) => void;
-  onConflict?: (conflict: Conflict) => void;
-  onError?: (error: Error) => void;
-  onConnect?: () => void;
-  onDisconnect?: () => void;
+// CSRF-specific event handler extending base handler
+export interface CSRFCollaborationEventHandler extends CollaborationEventHandler {
   onCSRFError?: (error: Error) => void;
-};
+}
 
 export interface CSRFCollaborationOptions extends CollaborationOptions {
   /** Base URL for HTTP API (for CSRF token fetching) */
@@ -55,7 +48,7 @@ export class CSRFCollaborationClient {
   private connected: boolean = false;
   private document: Document | null = null;
   private presence: Map<string, Presence> = new Map();
-  private eventHandlers: CollaborationEventHandler = {};
+  private eventHandlers: CSRFCollaborationEventHandler = {};
   private operationQueue: Operation[] = [];
   private presenceThrottle: Map<string, any> = new Map();
 
@@ -353,7 +346,7 @@ export class CSRFCollaborationClient {
     }
   }
 
-  setEventHandlers(handlers: CollaborationEventHandler): void {
+  setEventHandlers(handlers: CSRFCollaborationEventHandler): void {
     this.eventHandlers = handlers;
   }
 

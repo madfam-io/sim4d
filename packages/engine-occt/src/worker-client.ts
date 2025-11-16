@@ -1,5 +1,6 @@
 // TODO: Align ShapeHandle interface between @brepflow/types and local occt-bindings.ts
 import type { WorkerAPI, ShapeHandle, MeshData } from '@brepflow/types';
+import { createHandleId } from '@brepflow/types';
 import type {
   WorkerRequest,
   WorkerResponse,
@@ -152,7 +153,7 @@ export class WorkerClient implements WorkerAPI {
     const result = (await this.sendRequest({
       type: 'TESSELLATE',
       params: {
-        shape: { id: shapeId as any, type: 'solid' }, // TODO: Fix HandleId branded type
+        shape: { id: createHandleId(shapeId), type: 'solid' },
         deflection,
       },
     })) as TessellationResult;

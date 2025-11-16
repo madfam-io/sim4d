@@ -1,4 +1,4 @@
-FROM node:20.11.1-bullseye
+FROM node:22.12-bullseye
 
 # Install pnpm
 ENV PNPM_HOME=/root/.local/share/pnpm
@@ -15,6 +15,7 @@ COPY turbo.json tsconfig*.json ./
 COPY packages/collaboration ./packages/collaboration
 COPY packages/types ./packages/types
 COPY packages/engine-core ./packages/engine-core
+COPY packages/engine-occt ./packages/engine-occt
 COPY packages/schemas ./packages/schemas
 COPY config ./config
 
@@ -24,10 +25,11 @@ RUN pnpm install --frozen-lockfile
 # Build packages in dependency order
 RUN pnpm --filter @brepflow/types run build
 RUN pnpm --filter @brepflow/schemas run build || true
+RUN pnpm --filter @brepflow/engine-occt run build
 RUN pnpm --filter @brepflow/engine-core run build
 RUN pnpm --filter @brepflow/collaboration run build
 
 EXPOSE 8080
 
-# Run collaboration server
-CMD ["node", "packages/collaboration/dist/server/index.js"]
+# Run collaboration standalone server
+CMD ["node", "packages/collaboration/dist/server/standalone-server.cjs"]

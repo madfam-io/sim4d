@@ -6,7 +6,7 @@ import React, {
   useCallback,
   useRef,
 } from 'react';
-import { CSRFCollaborationClient } from './collaboration-client-csrf';
+import { CSRFCollaborationClient, type CSRFCollaborationEventHandler } from './collaboration-client-csrf';
 import type {
   CollaborationOptions,
   Document,

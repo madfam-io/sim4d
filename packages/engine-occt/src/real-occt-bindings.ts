@@ -12,6 +12,7 @@ import type {
   WorkerAPI,
   HandleId,
 } from '@brepflow/types';
+import { createHandleId } from '@brepflow/types';
 
 // Declare OCCT module interface - matches Emscripten output
 declare const Module: any;
@@ -200,7 +201,7 @@ export class RealOCCT implements WorkerAPI {
     this.shapes.set(id, shape);
 
     return {
-      id: id as any, // TODO: Fix HandleId branded type
+      id: createHandleId(id),
       type,
       bbox,
       hash: id.substring(0, 16),
@@ -1404,7 +1405,7 @@ export class RealOCCT implements WorkerAPI {
     const id = this.generateId();
     this.shapes.set(id, shape);
 
-    return { id: id as any, type: 'Point' }; // TODO: Fix HandleId branded type
+    return { id: createHandleId(id), type: 'Point' };
   }
 
   /**
@@ -1437,7 +1438,7 @@ export class RealOCCT implements WorkerAPI {
     const id = this.generateId();
     this.shapes.set(id, shape);
 
-    return { id: id as any, type: 'Curve' }; // TODO: Fix HandleId branded type
+    return { id: createHandleId(id), type: 'Curve' };
   }
 
   /**
@@ -1480,7 +1481,7 @@ export class RealOCCT implements WorkerAPI {
     const id = this.generateId();
     this.shapes.set(id, shape);
 
-    return { id: id as any, type: 'Wire' }; // TODO: Fix HandleId branded type
+    return { id: createHandleId(id), type: 'Wire' };
   }
 
   /**

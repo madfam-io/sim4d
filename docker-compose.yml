@@ -50,10 +50,10 @@ services:
       dockerfile: Dockerfile.collaboration
     ports:
       - "8080:8080"
-    volumes:
-      - ./packages/collaboration:/app/packages/collaboration
-      - /app/node_modules
-      - /app/packages/collaboration/node_modules
+    # volumes:
+    #   - ./packages/collaboration:/app/packages/collaboration
+    #   - /app/node_modules
+    #   - /app/packages/collaboration/node_modules
     environment:
       - NODE_ENV=development
       - COLLAB_PORT=8080
@@ -61,7 +61,7 @@ services:
       - LOCK_TIMEOUT=60000
     networks:
       - brepflow
-    command: node packages/collaboration/dist/server/index.js
+    command: node packages/collaboration/dist/server/standalone-server.cjs
 
   # Redis - Session storage and pub/sub for collaboration
   redis:

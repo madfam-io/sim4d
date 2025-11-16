@@ -5,8 +5,8 @@
  * for session management and geometry export
  */
 
-import express from 'express';
-import { createServer } from 'http';
+import express, { type Express } from 'express';
+import { createServer, type Server as HTTPServer } from 'http';
 import cors from 'cors';
 import { CollaborationServer } from './collaboration-server';
 import { registerSessionRoutes } from './session-routes';
@@ -18,7 +18,11 @@ const CORS_ORIGIN = process.env.CORS_ORIGIN || 'http://localhost:5173';
 /**
  * Create and start collaboration server
  */
-export async function startCollaborationServer() {
+export async function startCollaborationServer(): Promise<{
+  app: Express;
+  httpServer: HTTPServer;
+  collaborationServer: CollaborationServer;
+}> {
   // Create Express app
   const app = express();
   
