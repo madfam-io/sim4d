@@ -434,6 +434,7 @@ export const useKeyboardShortcuts = () => {
       shortcutManager.unregisterContext('layout');
     };
 
+    /* eslint-disable no-unreachable */
     const shortcuts: KeyboardShortcuts = {
       // Panel visibility toggles
       'ctrl+shift+1': () => togglePanelVisibility('nodePanel'),

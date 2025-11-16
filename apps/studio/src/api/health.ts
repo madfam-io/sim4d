@@ -183,16 +183,11 @@ class HealthCheckService {
   private async checkGeometryEngine(): Promise<boolean> {
     // This would check the actual store/engine state
     // For now, we'll simulate the check
-    try {
-      // In a real implementation, this would:
-      // 1. Get the store instance
-      // 2. Check if engine is initialized
-      // 3. Run a simple operation
-      return true;
-    } catch (error) {
-      logger.error('Geometry engine check failed', error);
-      return false;
-    }
+    // In a real implementation, this would:
+    // 1. Get the store instance
+    // 2. Check if engine is initialized
+    // 3. Run a simple operation
+    return true;
   }
 
   private getMemoryUsage(): MemoryUsage {

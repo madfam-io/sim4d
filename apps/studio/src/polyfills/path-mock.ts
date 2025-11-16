@@ -25,7 +25,7 @@ export function extname(path: string): string {
 
 export function join(...paths: string[]): string {
   return paths
-    .map((part) => part.replace(/[\/\\]+$/, ''))
+    .map((part) => part.replace(/[/\\]+$/, ''))
     .filter((part) => part.length > 0)
     .join('/');
 }
