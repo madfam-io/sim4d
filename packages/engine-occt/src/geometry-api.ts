@@ -391,6 +391,11 @@ export class GeometryAPI implements WorkerAPI {
     return result.mesh;
   }
 
+  // WorkerAPI dispose implementation - matches interface signature
+  async dispose(handleId: string & { __brand: 'HandleId' }): Promise<void> {
+    return this.invoke('DELETE_SHAPE', { shape: handleId });
+  }
+
   // Internal tessellation method with full options
   private tessellateInternal(params: TessellatePayload): TessellateResult {
     const { shape, tolerance = params?.deflection ?? 0.01 } = params ?? {};
