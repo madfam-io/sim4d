@@ -32,7 +32,7 @@
     "socket.io": "^4.7.0",
     "socket.io-client": "^4.7.0",
     "uuid": "^9.0.0",
-    "ws": "^8.16.0",
+    "ws": "^8.18.3",
     "y-websocket": "^1.5.0",
     "yjs": "^13.6.0"
   },
@@ -42,7 +42,7 @@
     "@types/node": "^20.11.5",
     "@types/react": "^18.2.0",
     "@types/uuid": "^9.0.0",
-    "@types/ws": "^8.5.10",
+    "@types/ws": "^8.18.1",
     "tsup": "^8.0.1",
     "typescript": "^5.3.3",
     "vitest": "^4.0.9"
