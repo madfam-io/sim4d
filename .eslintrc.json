@@ -34,7 +34,6 @@
       }
     ],
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/ban-types": "warn",
     "@typescript-eslint/ban-ts-comment": [
       "error",
       {
