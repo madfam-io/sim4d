@@ -27,4 +27,4 @@ export * from './diagnostics/evaluation-profiler';
 // TODO: Fix type issues and remove @ts-nocheck from scripting files
 // export * from './scripting/types';
 // export { BrepFlowScriptEngine } from './scripting/script-engine';
-export * from './scripting/javascript-executor';
+// export * from './scripting/javascript-executor';

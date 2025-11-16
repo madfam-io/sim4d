@@ -224,7 +224,8 @@ async function renderVariant(
   params: string[],
   options: { export?: string }
 ): Promise<void> {
-  const { GraphManager, DAGEngine, GeometryAPIFactory } = await import('@brepflow/engine-core');
+  const { GraphManager, DAGEngine } = await import('@brepflow/engine-core');
+  const { GeometryAPIFactory } = await import('@brepflow/engine-core/geometry-api-factory');
   const { registerCoreNodes } = await import('@brepflow/nodes-core');
 
   // Load graph

@@ -34,7 +34,7 @@ function getLogger(): LoggerLike {
     };
   }
 
-  return loggerInstance;
+  return loggerInstance!;
 }
 
 // Try-catch import for optional GeometryProxy to handle test environments

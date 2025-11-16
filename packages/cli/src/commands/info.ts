@@ -84,8 +84,10 @@ function countParameters(graph: GraphInstance): number {
 /**
  * Collect all parameters
  */
-function collectParameters(graph: GraphInstance): Record<string, unknown[]> {
-  const params: Record<string, unknown[]> = {};
+function collectParameters(
+  graph: GraphInstance
+): Record<string, Array<{ nodeId: string; nodeType: string; value: unknown }>> {
+  const params: Record<string, Array<{ nodeId: string; nodeType: string; value: unknown }>> = {};
 
   for (const node of graph.nodes) {
     if (node.params) {
@@ -114,9 +116,39 @@ function displayInfo(info: {
   version: string;
   units: string;
   tolerance: number;
-  nodes: number;
-  edges: number;
-  parameters: Record<string, unknown[]>;
+  metadata?: {
+    created?: string;
+    author?: string;
+    description?: string;
+    name?: string;
+    createdAt?: string;
+    updatedAt?: string;
+  };
+  statistics: {
+    nodes: number;
+    edges: number;
+    nodeTypes: Record<string, number>;
+    parameters: number;
+  };
+  nodes?: Array<{
+    id: string;
+    type: string;
+    params?: Record<string, unknown>;
+  }>;
+  edges?: Array<{
+    source: string;
+    sourceHandle: string;
+    target: string;
+    targetHandle: string;
+  }>;
+  parameters?: Record<
+    string,
+    Array<{
+      nodeId: string;
+      nodeType: string;
+      value: unknown;
+    }>
+  >;
 }): void {
   console.log(chalk.blue('\n📊 BrepFlow Graph Information\n'));
 
