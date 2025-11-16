@@ -362,7 +362,6 @@ function renderEvaluationLogic(template: NodeTemplate): string {
  * Generate test file for node
  */
 export function generateNodeTest(template: NodeTemplate): string {
-  const pascalName = toPascalCase(template.name);
   const importPath = `./${toKebabCase(template.name)}.node`;
   const exportIdentifier = getExportIdentifier(template);
   const constantName = `${exportIdentifier}Node`;

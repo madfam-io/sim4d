@@ -18,7 +18,7 @@
     "generate": "tsx src/generator/generate.ts",
     "test": "vitest",
     "lint": "eslint . --ext .ts,.tsx",
-    "typecheck": "echo \"Skipping nodes-core typecheck - TODO: fix 126 TS2741 errors\"",
+    "typecheck": "echo \"Skipping nodes-core typecheck - legacy nodes use 'id' instead of 'type' property (126 TS2741 errors). See docs/technical-debt.md\"",
     "clean": "rm -rf dist"
   },
   "dependencies": {
@@ -31,6 +31,6 @@
     "@types/uuid": "^9.0.0",
     "tsup": "^8.0.0",
     "tsx": "^4.20.5",
-    "vitest": "^3.2.4"
+    "vitest": "^4.0.9"
   }
 }

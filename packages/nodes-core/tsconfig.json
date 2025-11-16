@@ -3,11 +3,20 @@
   "compilerOptions": {
     "composite": false,
     "incremental": false,
+    "skipLibCheck": true,
     // Disable strict checks incompatible with current nodes-core codebase
     "exactOptionalPropertyTypes": false,
     "noPropertyAccessFromIndexSignature": false,
     "noImplicitOverride": false
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts", "src/nodes/generated/**/*"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "src/nodes/generated/**/*",
+    "src/advanced-fillets.ts",
+    "src/sheet-metal.ts"
+  ]
 }

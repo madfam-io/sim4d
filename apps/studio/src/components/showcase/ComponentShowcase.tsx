@@ -417,7 +417,13 @@ export const ComponentShowcase: React.FC = () => {
             for (let i = 0; i < 50; i++) {
               const panel = document.createElement('div');
               panel.className = 'panel';
-              panel.innerHTML = `<div class="panel-header">Panel ${i}</div>`;
+
+              // Safe DOM manipulation instead of innerHTML
+              const header = document.createElement('div');
+              header.className = 'panel-header';
+              header.textContent = `Panel ${i}`;
+              panel.appendChild(header);
+
               stressTest.appendChild(panel);
             }
             document.body.appendChild(stressTest);

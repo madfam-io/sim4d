@@ -43,7 +43,7 @@ describe('Icon', () => {
 
     expect(svg).toBeInTheDocument();
     expect(svg?.classList.contains('lucide-circle-alert')).toBe(true);
-    expect(consoleSpy).toHaveBeenCalledWith('Icon "unknown" not found in IconMap');
+    expect(consoleSpy).toHaveBeenCalledWith('Icon "unknown" not found in IconMap - using fallback');
 
     consoleSpy.mockRestore();
   });

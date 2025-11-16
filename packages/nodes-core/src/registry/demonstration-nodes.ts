@@ -211,7 +211,7 @@ function createDemoNode(
       documentation: `Documentation for ${name} node`,
       examples: [`Example usage of ${name}`],
     },
-    evaluate: async (inputs: any, parameters: any) => {
+    evaluate: async (_inputs: any, _parameters: any) => {
       // Demo implementation
       return { output: `Demo result from ${name}` };
     },

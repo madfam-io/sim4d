@@ -25,7 +25,6 @@ export async function discoverAllNodes(): Promise<{
   registry.clear();
 
   // PRODUCTION-ONLY: No demonstration nodes - all 913 generated nodes are production-ready
-  let registeredCount = 0;
 
   // Register generated nodes
   console.log('🔍 Discovering generated nodes...');
@@ -38,7 +37,6 @@ export async function discoverAllNodes(): Promise<{
   for (const nodeDefinition of generatedNodeDefinitions) {
     try {
       registry.registerNode(nodeDefinition);
-      registeredCount++;
     } catch (error) {
       console.warn(`⚠️ Failed to register generated node ${nodeDefinition.type}:`, error);
     }

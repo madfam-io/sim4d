@@ -80,6 +80,18 @@ global.Worker = class MockWorker {
   }
 } as any;
 
+// Polyfill window for Node.js test environment
+if (typeof global.window === 'undefined') {
+  global.window = {
+    isSecureContext: true,
+    location: {
+      protocol: 'https:',
+      hostname: 'localhost',
+      href: 'https://localhost',
+    },
+  } as any;
+}
+
 // Provide SharedArrayBuffer for WASM threading tests
 if (typeof global.SharedArrayBuffer === 'undefined') {
   // In test environment, use regular ArrayBuffer as fallback

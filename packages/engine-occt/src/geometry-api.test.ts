@@ -95,8 +95,9 @@ describe('GeometryAPI', () => {
   describe('boolean operations', () => {
     it('performs boolean union', async () => {
       const api = new GeometryAPI();
-      const shapeA = stubShape('box');
-      const shapeB = stubShape('sphere');
+      // Create shapes through API so they are properly registered
+      const shapeA = await api.invoke<ShapeHandle>('MAKE_BOX', {});
+      const shapeB = await api.invoke<ShapeHandle>('MAKE_SPHERE', {});
 
       const result = await api.invoke<ShapeHandle>('BOOLEAN_UNION', { shapes: [shapeA, shapeB] });
 
@@ -108,7 +109,8 @@ describe('GeometryAPI', () => {
   describe('tessellation', () => {
     it('tessellates a shape handle and caches the mesh', async () => {
       const api = new GeometryAPI();
-      const shape = stubShape('box');
+      // Create shape through API so it is properly registered
+      const shape = await api.invoke<ShapeHandle>('MAKE_BOX', {});
 
       const first = await api.invoke<{ mesh: MeshData }>('TESSELLATE', { shape, deflection: 0.1 });
       const second = await api.invoke<{ mesh: MeshData }>('TESSELLATE', { shape, deflection: 0.1 });
@@ -122,7 +124,8 @@ describe('GeometryAPI', () => {
   describe('exports', () => {
     it('exports STEP data', async () => {
       const api = new GeometryAPI();
-      const shape = stubShape('box');
+      // Create shape through API so it is properly registered
+      const shape = await api.invoke<ShapeHandle>('MAKE_BOX', {});
 
       const result = await api.invoke<string>('EXPORT_STEP', { shape });
 

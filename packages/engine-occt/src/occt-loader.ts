@@ -65,6 +65,13 @@ class LoaderState {
 }
 
 /**
+ * Reset the OCCT loader circuit breaker (for testing)
+ */
+export function resetOCCTCircuitBreaker(): void {
+  LoaderState.resetCircuitBreaker();
+}
+
+/**
  * Load and initialize the OCCT WASM module with enhanced capability detection
  */
 export async function loadOCCTModule(options: LoaderOptions = {}): Promise<any> {

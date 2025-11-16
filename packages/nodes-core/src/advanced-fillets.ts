@@ -1,4 +1,4 @@
-import { NodeDefinition, SocketType, EvalContext } from '@brepflow/types';
+import { NodeDefinition, SocketType } from '@brepflow/types';
 import { NumberParam, BoolParam, StringParam } from './utils/param-utils';
 
 /**

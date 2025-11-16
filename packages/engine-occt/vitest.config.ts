@@ -4,6 +4,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'node', // Changed from jsdom to node for better WASM support
+    cache: false, // Disable caching to force fresh module loading
     testTimeout: 30000,
     hookTimeout: 30000,
     setupFiles: ['./tests/setup/setup.ts'],

@@ -35,6 +35,20 @@ export interface MemoryConfig {
   cleanupThresholdMB: number; // When to trigger cleanup
   aggressiveCleanupMB: number; // When to do aggressive cleanup
   gcIntervalMs: number; // Garbage collection interval
+
+  // DEPENDENCY INJECTION for testing
+  // Allows tests to provide mock performance monitor
+  performanceMonitor?: {
+    startMeasurement: (name: string) => (() => number) | undefined;
+  };
+  // Allows tests to provide mock memory provider for testing memory stats
+  memoryProvider?: {
+    getMemoryStats: () => { usedJSHeapSize: number; totalJSHeapSize: number };
+  };
+  // Allows tests to provide mock time provider for testing cache aging
+  timeProvider?: {
+    now: () => number;
+  };
 }
 
 // Cache entry with metadata
@@ -80,16 +94,44 @@ export class AdvancedMemoryManager {
     cleanupDuration: 0,
   };
 
+  // Dependency injection - store injected or default implementations
+  private readonly performanceMonitor: {
+    startMeasurement: (name: string) => (() => number) | undefined;
+  };
+  private readonly memoryProvider: {
+    getMemoryStats: () => { usedJSHeapSize: number; totalJSHeapSize: number };
+  };
+  private readonly timeProvider: {
+    now: () => number;
+  };
+
   constructor(private config: MemoryConfig) {
+    // Initialize injected dependencies or use defaults
+    this.performanceMonitor = config.performanceMonitor || WASMPerformanceMonitor;
+    this.memoryProvider = config.memoryProvider || {
+      getMemoryStats: () => {
+        if (typeof performance !== 'undefined' && 'memory' in performance) {
+          return (performance as any).memory;
+        }
+        return { usedJSHeapSize: 0, totalJSHeapSize: 0 };
+      },
+    };
+    this.timeProvider = config.timeProvider || { now: () => this.timeProvider.now() };
+
+    console.log('[MemoryManager] Initialized with enhanced config:', {
+      hasCustomPerformanceMonitor: !!config.performanceMonitor,
+      hasCustomMemoryProvider: !!config.memoryProvider,
+      hasCustomTimeProvider: !!config.timeProvider,
+    });
+
     this.startMemoryMonitoring();
-    console.log('[MemoryManager] Initialized with enhanced config:', config);
   }
 
   /**
    * Store shape handle with intelligent caching and performance monitoring
    */
   cacheShape(id: string, shape: ShapeHandle, priority: number = 1): void {
-    const endMeasurement = WASMPerformanceMonitor?.startMeasurement('cache-shape-store');
+    const endMeasurement = this.performanceMonitor.startMeasurement('cache-shape-store');
     const size = this.estimateShapeSize(shape);
 
     // Check if we need to evict before adding
@@ -97,7 +139,7 @@ export class AdvancedMemoryManager {
 
     const entry: CacheEntry<ShapeHandle> = {
       data: shape,
-      lastAccessed: Date.now(),
+      lastAccessed: this.timeProvider.now(),
       accessCount: 1,
       size,
       priority,
@@ -117,14 +159,14 @@ export class AdvancedMemoryManager {
    * Cache operation results for performance optimization
    */
   cacheResult(operationKey: string, result: any, priority: number = 1): void {
-    const endMeasurement = WASMPerformanceMonitor?.startMeasurement('cache-result-store');
+    const endMeasurement = this.performanceMonitor.startMeasurement('cache-result-store');
     const size = this.estimateResultSize(result);
 
     this.ensureSpace('result', size);
 
     const entry: CacheEntry<any> = {
       data: result,
-      lastAccessed: Date.now(),
+      lastAccessed: this.timeProvider.now(),
       accessCount: 1,
       size,
       priority,
@@ -142,7 +184,7 @@ export class AdvancedMemoryManager {
    * Get cached operation result
    */
   getResult(operationKey: string): any | null {
-    const endMeasurement = WASMPerformanceMonitor?.startMeasurement('cache-result-get');
+    const endMeasurement = this.performanceMonitor.startMeasurement('cache-result-get');
     const entry = this.resultCache.get(operationKey);
 
     if (!entry) {
@@ -152,7 +194,7 @@ export class AdvancedMemoryManager {
     }
 
     // Update access statistics
-    entry.lastAccessed = Date.now();
+    entry.lastAccessed = this.timeProvider.now();
     entry.accessCount++;
     this.performanceMetrics.cacheHits++;
 
@@ -181,7 +223,7 @@ export class AdvancedMemoryManager {
 
     const entry: CacheEntry<MeshLOD> = {
       data: meshLOD,
-      lastAccessed: Date.now(),
+      lastAccessed: this.timeProvider.now(),
       accessCount: 1,
       size,
       priority,
@@ -200,7 +242,7 @@ export class AdvancedMemoryManager {
    * Retrieve shape with access tracking and performance monitoring
    */
   getShape(id: string): ShapeHandle | null {
-    const endMeasurement = WASMPerformanceMonitor?.startMeasurement('cache-shape-get');
+    const endMeasurement = this.performanceMonitor.startMeasurement('cache-shape-get');
     const entry = this.shapeCache.get(id);
 
     if (!entry) {
@@ -210,7 +252,7 @@ export class AdvancedMemoryManager {
     }
 
     // Update access statistics
-    entry.lastAccessed = Date.now();
+    entry.lastAccessed = this.timeProvider.now();
     entry.accessCount++;
     this.performanceMetrics.cacheHits++;
 
@@ -222,7 +264,7 @@ export class AdvancedMemoryManager {
    * Get mesh at appropriate detail level based on memory pressure with performance monitoring
    */
   getMesh(id: string, requestedLOD?: 'high' | 'medium' | 'low' | 'bounds'): MeshData | null {
-    const endMeasurement = WASMPerformanceMonitor?.startMeasurement('cache-mesh-get');
+    const endMeasurement = this.performanceMonitor.startMeasurement('cache-mesh-get');
     const entry = this.meshCache.get(id);
 
     if (!entry) {
@@ -232,7 +274,7 @@ export class AdvancedMemoryManager {
     }
 
     // Update access statistics
-    entry.lastAccessed = Date.now();
+    entry.lastAccessed = this.timeProvider.now();
     entry.accessCount++;
     this.performanceMetrics.cacheHits++;
 
@@ -372,7 +414,7 @@ export class AdvancedMemoryManager {
    * Evict least recently used entries (enhanced with result cache support)
    */
   private evictLRU(type: 'shape' | 'mesh' | 'result', requiredSize: number): void {
-    const endMeasurement = WASMPerformanceMonitor?.startMeasurement('cache-eviction');
+    const endMeasurement = this.performanceMonitor.startMeasurement('cache-eviction');
     let cache: Map<string, CacheEntry<any>>;
 
     switch (type) {
@@ -432,7 +474,7 @@ export class AdvancedMemoryManager {
    * Calculate eviction score (lower = more likely to evict)
    */
   private calculateEvictionScore(entry: CacheEntry<any>): number {
-    const now = Date.now();
+    const now = this.timeProvider.now();
     const ageMinutes = (now - entry.lastAccessed) / (1000 * 60);
     const frequencyBonus = Math.min(entry.accessCount / 10, 5); // Max 5 point bonus
     const priorityBonus = entry.priority * 2;
@@ -454,13 +496,12 @@ export class AdvancedMemoryManager {
 
   /**
    * Update memory statistics
+   * Uses injected memory provider for testability
    */
   private updateMemoryStats(): void {
-    // Get JavaScript heap usage
-    if (typeof performance !== 'undefined' && 'memory' in performance) {
-      const memory = (performance as any).memory;
-      this.memoryStats.totalMemoryMB = Math.round(memory.usedJSHeapSize / (1024 * 1024));
-    }
+    // Get JavaScript heap usage via injected provider
+    const memory = this.memoryProvider.getMemoryStats();
+    this.memoryStats.totalMemoryMB = Math.round(memory.usedJSHeapSize / (1024 * 1024));
 
     // Update cache sizes (already tracked incrementally)
     console.log('[MemoryManager] Stats:', this.memoryStats);
@@ -488,8 +529,8 @@ export class AdvancedMemoryManager {
    * Perform regular maintenance cleanup with enhanced monitoring
    */
   private performMaintenanceCleanup(): void {
-    const cleanupStart = Date.now();
-    const endMeasurement = WASMPerformanceMonitor?.startMeasurement('memory-cleanup');
+    const cleanupStart = this.timeProvider.now();
+    const endMeasurement = this.performanceMonitor.startMeasurement('memory-cleanup');
 
     // Skip if cleaned up recently
     if (cleanupStart - this.memoryStats.lastCleanup < 30000) return;
@@ -515,7 +556,7 @@ export class AdvancedMemoryManager {
     }
 
     this.memoryStats.lastCleanup = cleanupStart;
-    this.performanceMetrics.cleanupDuration = Date.now() - cleanupStart;
+    this.performanceMetrics.cleanupDuration = this.timeProvider.now() - cleanupStart;
 
     if (endMeasurement) endMeasurement();
   }
@@ -524,7 +565,7 @@ export class AdvancedMemoryManager {
    * Clean result cache based on age
    */
   private cleanResultCache(maxAgeMs: number): void {
-    const now = Date.now();
+    const now = this.timeProvider.now();
     let cleaned = 0;
 
     for (const [id, entry] of this.resultCache.entries()) {
@@ -544,7 +585,7 @@ export class AdvancedMemoryManager {
    * Evict entries older than specified age
    */
   private evictByAge(maxAgeMs: number): void {
-    const now = Date.now();
+    const now = this.timeProvider.now();
     let evicted = 0;
 
     // Clean shape cache

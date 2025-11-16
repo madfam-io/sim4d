@@ -13,7 +13,6 @@ import {
   generateNodeDocumentation,
   NodeTemplate,
   toKebabCase,
-  toPascalCase,
   getExportIdentifier,
 } from './node-template';
 
@@ -28,7 +27,8 @@ import {
   advancedPrimitiveTemplates,
   sketchPrimitiveTemplates,
 } from './templates/primitives-advanced';
-import { measurementTemplates, analysisTemplates } from './templates/measurement-analysis';
+// Measurement and analysis templates imported but not yet used in generation
+// import { measurementTemplates, analysisTemplates } from './templates/measurement-analysis';
 
 // Phase 2 - Core Geometry
 import { basicPrimitivesTemplates } from './templates/core-primitives';
@@ -178,7 +178,6 @@ async function generateNode(template: NodeTemplate, outputDir: string): Promise<
 
   // Generate file names
   const fileBaseName = toKebabCase(template.name);
-  const pascalName = toPascalCase(template.name);
   const targetDir = template.subcategory
     ? path.join(nodeDir, toKebabCase(template.subcategory))
     : nodeDir;

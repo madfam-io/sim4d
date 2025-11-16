@@ -42,6 +42,18 @@ export interface PoolConfig {
   preferredOCCTMode?: 'full-occt' | 'optimized-occt';
   adaptiveScaling: boolean;
   taskTimeout: number;
+
+  // DEPENDENCY INJECTION for testing
+  // Allows tests to provide mock worker factory instead of real WorkerClient instantiation
+  workerFactory?: (url: string | undefined, options: any) => WorkerClient;
+  // Allows tests to provide mock capability detector
+  capabilityDetector?: () => Promise<any>;
+  // Allows tests to provide mock OCCT config provider
+  configProvider?: () => Promise<OCCTConfig | null>;
+  // Allows tests to provide mock performance monitor
+  performanceMonitor?: {
+    startMeasurement: (name: string) => (() => number) | undefined;
+  };
 }
 
 export class WorkerPool {
@@ -62,7 +74,30 @@ export class WorkerPool {
   private globalCapabilities: any = null;
   private optimalOCCTConfig: OCCTConfig | null = null;
 
+  // Dependency injection - store injected or default implementations
+  private readonly workerFactory: (url: string | undefined, options: any) => WorkerClient;
+  private readonly capabilityDetector: () => Promise<any>;
+  private readonly configProvider: () => Promise<OCCTConfig | null>;
+  private readonly performanceMonitor: {
+    startMeasurement: (name: string) => (() => number) | undefined;
+  };
+
   constructor(private config: PoolConfig) {
+    // Initialize injected dependencies or use defaults
+    this.workerFactory = config.workerFactory || ((url, options) => new WorkerClient(url, options));
+    this.capabilityDetector =
+      config.capabilityDetector || (() => WASMCapabilityDetector.detectCapabilities());
+    this.configProvider =
+      config.configProvider || (() => WASMCapabilityDetector.getOptimalConfiguration());
+    this.performanceMonitor = config.performanceMonitor || WASMPerformanceMonitor;
+
+    console.log('[WorkerPool] Initialized with config:', {
+      hasCustomWorkerFactory: !!config.workerFactory,
+      hasCustomCapabilityDetector: !!config.capabilityDetector,
+      hasCustomConfigProvider: !!config.configProvider,
+      hasCustomPerformanceMonitor: !!config.performanceMonitor,
+    });
+
     this.initializeCapabilities();
     this.startHealthChecks();
     this.startCleanupTimer();
@@ -71,12 +106,14 @@ export class WorkerPool {
 
   /**
    * Initialize capabilities and optimal configuration
+   * Uses injected capability detector and config provider for testability
    */
   private async initializeCapabilities(): Promise<void> {
     if (this.config.enableCapabilityDetection) {
       try {
-        this.globalCapabilities = await WASMCapabilityDetector.detectCapabilities();
-        this.optimalOCCTConfig = await WASMCapabilityDetector.getOptimalConfiguration();
+        // Use injected dependency or default
+        this.globalCapabilities = await this.capabilityDetector();
+        this.optimalOCCTConfig = await this.configProvider();
         console.log('[WorkerPool] Detected capabilities:', this.globalCapabilities);
         console.log('[WorkerPool] Optimal OCCT config:', this.optimalOCCTConfig);
       } catch (error) {
@@ -100,21 +137,22 @@ export class WorkerPool {
 
   /**
    * Create a new capability-aware worker
+   * Uses injected worker factory and performance monitor for testability
    */
   private async createWorker(): Promise<PoolWorker> {
     const id = `worker_${this.nextWorkerId++}`;
     const startTime = Date.now();
 
     if (this.config.enablePerformanceMonitoring) {
-      const endMeasurement = WASMPerformanceMonitor.startMeasurement(`worker-creation-${id}`);
+      const endMeasurement = this.performanceMonitor.startMeasurement(`worker-creation-${id}`);
     }
 
     try {
       // Determine OCCT mode for this worker
       const occtMode = this.determineWorkerOCCTMode();
 
-      // Create worker client with enhanced configuration
-      const client = new WorkerClient(this.config.workerUrl, {
+      // Create worker client with injected factory
+      const client = this.workerFactory(this.config.workerUrl, {
         occtMode,
         capabilities: this.globalCapabilities,
         enablePerformanceMonitoring: this.config.enablePerformanceMonitoring,
@@ -283,9 +321,9 @@ export class WorkerPool {
     const { priority = 0, timeout = this.config.taskTimeout, preferredMode } = options;
     const taskId = `task-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
-    let performanceEndMeasurement: (() => number) | null = null;
+    let performanceEndMeasurement: (() => number) | undefined = undefined;
     if (this.config.enablePerformanceMonitoring) {
-      performanceEndMeasurement = WASMPerformanceMonitor.startMeasurement(
+      performanceEndMeasurement = this.performanceMonitor.startMeasurement(
         `operation-${operation.toLowerCase()}`
       );
     }

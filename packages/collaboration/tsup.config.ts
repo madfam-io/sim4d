@@ -8,14 +8,7 @@ export default defineConfig({
     'client/index': 'src/client/index.ts',
   },
   format: ['cjs', 'esm'],
-  dts: {
-    resolve: true,
-    tsconfig: './tsconfig.dts.json',
-    compilerOptions: {
-      incremental: false,
-      composite: false,
-    },
-  },
+  dts: false, // Disable DTS generation in tsup - will use tsc separately
   splitting: false,
   sourcemap: true,
   clean: true,

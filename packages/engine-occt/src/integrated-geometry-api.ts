@@ -29,6 +29,8 @@ export interface GeometryAPIConfig {
   memoryConfig?: any;
   maxRetries: number;
   operationTimeout: number;
+  // Dependency injection for testing - allows tests to provide mock OCCT loader
+  occtLoader?: (config?: any) => Promise<any>;
 }
 
 export interface OperationResult<T = any> {
@@ -65,12 +67,16 @@ export class IntegratedGeometryAPI {
   }
 
   constructor(private config: GeometryAPIConfig) {
+    console.log('⭐⭐⭐ CONSTRUCTOR - CODE VERSION 2025-11-16 15:40 ⭐⭐⭐');
+    console.log('[CONSTRUCTOR] config.enableRealOCCT:', config.enableRealOCCT);
+
     // Store as singleton if not already set
     if (!IntegratedGeometryAPI.instance) {
       IntegratedGeometryAPI.instance = this;
     }
     // CRITICAL: Detect environment and validate production safety
     this.environment = detectEnvironment();
+    console.log('[CONSTRUCTOR] environment.isTest:', this.environment.isTest);
 
     // Initialize subsystems
     if (config.enableMemoryManagement) {
@@ -86,6 +92,7 @@ export class IntegratedGeometryAPI {
     }
 
     console.log('[IntegratedGeometryAPI] Initialized with config:', config);
+    console.log('[IntegratedGeometryAPI] Config has occtLoader:', !!config.occtLoader);
   }
 
   /**
@@ -99,6 +106,10 @@ export class IntegratedGeometryAPI {
    * Initialize the geometry API with capability detection
    */
   async init(): Promise<void> {
+    console.log('🔥🔥🔥 INIT METHOD - NEW CODE 2025-11-16 15:35 🔥🔥🔥');
+    console.log('[INIT] enableRealOCCT:', this.config.enableRealOCCT);
+    console.log('[INIT] environment.isTest:', this.environment.isTest);
+
     if (this.initialized) return;
     if (this.initializationPromise) return this.initializationPromise;
 
@@ -107,6 +118,10 @@ export class IntegratedGeometryAPI {
   }
 
   private async performInitialization(): Promise<void> {
+    console.log('🚨🚨🚨 NEW CODE VERSION 2025-11-16 15:30 🚨🚨🚨');
+    console.log('[DEBUG] this.config.enableRealOCCT:', this.config.enableRealOCCT);
+    console.log('[DEBUG] this.environment.isTest:', this.environment.isTest);
+
     const endMeasurement = WASMPerformanceMonitor?.startMeasurement('api-initialization');
 
     try {
@@ -115,21 +130,68 @@ export class IntegratedGeometryAPI {
       // Detect capabilities
       this.capabilities = await WASMCapabilityDetector.detectCapabilities();
       console.log('[IntegratedGeometryAPI] Capabilities detected:', this.capabilities);
+      console.log('[IntegratedGeometryAPI] DEBUG Point A - after capability detection');
 
-      if (!this.config.enableRealOCCT) {
+      console.log(
+        '[IntegratedGeometryAPI] DEBUG Point B - checking enableRealOCCT:',
+        this.config.enableRealOCCT
+      );
+      // In production, real OCCT is REQUIRED
+      // In test environment, allow enableRealOCCT: false for unit tests with mock OCCT
+      if (!this.config.enableRealOCCT && !this.environment.isTest) {
         throw new ProductionSafetyError(
           'Real OCCT is required but has been disabled via configuration',
           { config: this.config, environment: this.environment }
         );
       }
 
+      // If enableRealOCCT is false in test environment, skip WASM checks and use mock
+      if (!this.config.enableRealOCCT && this.environment.isTest) {
+        console.log(
+          '[IntegratedGeometryAPI] ⚠️  Test mode with enableRealOCCT: false - using mock OCCT'
+        );
+
+        // Use injected mock loader (required for this mode)
+        if (!this.config.occtLoader) {
+          throw new Error(
+            'Test mode with enableRealOCCT: false requires occtLoader to be provided'
+          );
+        }
+
+        this.occtModule = await this.config.occtLoader({
+          enablePerformanceMonitoring: this.config.enablePerformanceMonitoring,
+        });
+        this.usingRealOCCT = false; // Explicitly mark as using mock
+        this.initialized = true;
+        console.log('[IntegratedGeometryAPI] Mock OCCT loaded successfully for unit tests');
+        if (endMeasurement) endMeasurement();
+        return; // Skip the rest of initialization (real OCCT loading)
+      }
+
+      console.log(
+        '[IntegratedGeometryAPI] DEBUG Point C - checking hasWASM:',
+        this.capabilities.hasWASM
+      );
       if (!this.capabilities.hasWASM) {
         throw createProductionErrorBoundary('WASM_UNAVAILABLE', this.environment);
       }
 
+      // DIAGNOSTIC: Check if injected loader exists
+      if (this.config.occtLoader) {
+        console.log('[IntegratedGeometryAPI] ✅ USING INJECTED LOADER!');
+      } else {
+        console.log('[IntegratedGeometryAPI] ❌ NO INJECTED LOADER - using real loadOCCTModule');
+      }
+
       try {
-        // Load real OCCT with enhanced loader
-        this.occtModule = await loadOCCTModule({
+        // Load real OCCT with enhanced loader (or use injected loader for testing)
+        const loader = this.config.occtLoader || loadOCCTModule;
+        console.log('[IntegratedGeometryAPI] Selected loader:', loader);
+        console.log(
+          '[IntegratedGeometryAPI] Using loader:',
+          loader === loadOCCTModule ? 'REAL loadOCCTModule' : 'INJECTED test loader'
+        );
+        this.occtModule = await loader({
           enablePerformanceMonitoring: this.config.enablePerformanceMonitoring,
         });
 

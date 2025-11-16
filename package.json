@@ -81,5 +81,10 @@
     "*.{js,jsx,json,md}": [
       "prettier --write"
     ]
+  },
+  "pnpm": {
+    "overrides": {
+      "js-yaml": "^4.1.1"
+    }
   }
 }
