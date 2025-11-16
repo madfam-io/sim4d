@@ -99,8 +99,8 @@ importers:
         specifier: ^11.0.0
         version: 11.18.2(react-dom@18.3.1)(react@18.3.1)
       lucide-react:
-        specifier: ^0.300.0
-        version: 0.300.0(react@18.3.1)
+        specifier: ^0.553.0
+        version: 0.553.0(react@18.3.1)
       postcss:
         specifier: ^8.4.32
         version: 8.5.6
@@ -196,8 +196,8 @@ importers:
         specifier: ^12.23.12
         version: 12.23.12(react-dom@18.3.1)(react@18.3.1)
       lucide-react:
-        specifier: ^0.544.0
-        version: 0.544.0(react@18.3.1)
+        specifier: ^0.553.0
+        version: 0.553.0(react@18.3.1)
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -6539,16 +6539,8 @@ packages:
     dev: false
     optional: true
 
-  /lucide-react@0.300.0(react@18.3.1):
-    resolution: {integrity: sha512-rQxUUCmWAvNLoAsMZ5j04b2+OJv6UuNLYMY7VK0eVlm4aTwUEjEEHc09/DipkNIlhXUSDn2xoyIzVT0uh7dRsg==}
-    peerDependencies:
-      react: ^16.5.1 || ^17.0.0 || ^18.0.0
-    dependencies:
-      react: 18.3.1
-    dev: false
-
-  /lucide-react@0.544.0(react@18.3.1):
-    resolution: {integrity: sha512-t5tS44bqd825zAW45UQxpG2CvcC4urOwn2TrwSH8u+MjeE+1NnWl6QqeQ/6NdjMqdOygyiT9p3Ev0p1NJykxjw==}
+  /lucide-react@0.553.0(react@18.3.1):
+    resolution: {integrity: sha512-BRgX5zrWmNy/lkVAe0dXBgd7XQdZ3HTf+Hwe3c9WK6dqgnj9h+hxV+MDncM88xDWlCq27+TKvHGE70ViODNILw==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
     dependencies:
