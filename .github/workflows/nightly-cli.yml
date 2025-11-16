@@ -33,7 +33,7 @@ jobs:
 
       - name: Upload CLI smoke artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: nightly-cli-smoke
           path: artifacts/nightly-cli/

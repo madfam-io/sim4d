@@ -74,7 +74,7 @@ jobs:
         fi
 
     - name: Upload test results
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       if: failure()
       with:
         name: playwright-report
@@ -82,7 +82,7 @@ jobs:
         retention-days: 30
 
     - name: Upload test videos
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       if: failure()
       with:
         name: playwright-videos
@@ -124,7 +124,7 @@ jobs:
         CI: true
 
     - name: Upload visual diff artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       if: failure()
       with:
         name: visual-regression-diffs
@@ -165,7 +165,7 @@ jobs:
         CI: true
 
     - name: Upload performance reports
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       if: always()
       with:
         name: performance-reports
