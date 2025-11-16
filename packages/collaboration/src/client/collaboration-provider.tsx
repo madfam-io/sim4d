@@ -1,4 +1,12 @@
-import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+  useMemo,
+} from 'react';
 import {
   CSRFCollaborationClient,
   type CSRFCollaborationEventHandler,
@@ -126,6 +134,12 @@ export function CollaborationProvider({
   const [isConnected, setIsConnected] = useState(false);
   const clientRef = useRef<CSRFCollaborationClient | null>(null);
 
+  // Stabilize user object to prevent unnecessary re-renders
+  const stableUser = useMemo(() => options.user, [options.user.id]);
+
+  // Destructure options for stable dependencies
+  const { serverUrl, documentId } = options;
+
   useEffect(() => {
     // Create CSRF-aware collaboration client
     const collaborationClient = new CSRFCollaborationClient({
@@ -180,17 +194,17 @@ export function CollaborationProvider({
       collaborationClient.destroy();
       clientRef.current = null;
     };
-  }, [options.serverUrl, options.documentId, options.user.id, apiBaseUrl, sessionId]);
+  }, [serverUrl, documentId, stableUser.id, apiBaseUrl, sessionId, options]);
 
   const submitOperation = useCallback(
     (input: OperationInput) => {
       if (!clientRef.current) return;
 
-      const operation = normaliseOperation(input, options.user.id, options.documentId);
+      const operation = normaliseOperation(input, stableUser.id, documentId);
 
       clientRef.current.submitOperation(operation);
     },
-    [options.user.id, options.documentId]
+    [stableUser.id, documentId]
   );
 
   const updateCursor = useCallback(
@@ -200,10 +214,10 @@ export function CollaborationProvider({
       clientRef.current.updateCursor({
         x,
         y,
-        userId: options.user.id,
+        userId: stableUser.id,
       });
     },
-    [options.user.id]
+    [stableUser.id]
   );
 
   const updateSelection = useCallback(
@@ -213,10 +227,10 @@ export function CollaborationProvider({
       clientRef.current.updateSelection({
         nodeIds,
         edgeIds,
-        userId: options.user.id,
+        userId: stableUser.id,
       });
     },
-    [options.user.id]
+    [stableUser.id]
   );
 
   const updateViewport = useCallback(
@@ -227,10 +241,10 @@ export function CollaborationProvider({
         x,
         y,
         zoom,
-        userId: options.user.id,
+        userId: stableUser.id,
       });
     },
-    [options.user.id]
+    [stableUser.id]
   );
 
   const setEditing = useCallback((nodeId: string | null) => {
@@ -248,7 +262,7 @@ export function CollaborationProvider({
     document,
     presence,
     isConnected,
-    currentUser: options.user,
+    currentUser: stableUser,
     submitOperation,
     updateCursor,
     updateSelection,

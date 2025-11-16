@@ -169,3 +169,123 @@ pnpm test:e2e:debug --grep "viewport performance"
 - ✅ **Visual Regression**: Screenshot comparison enabled
 
 The framework provides 100% coverage of established user workflows and ensures reproducible testing across different environments.
+
+## 🔗 Collaboration Testing
+
+### Prerequisites for Collaboration Tests
+
+Collaboration tests require the collaboration server to be running:
+
+```bash
+# Start collaboration server with Docker
+docker-compose up -d collaboration
+
+# Verify server is running
+curl http://localhost:8080/health
+
+# View collaboration server logs
+docker-compose logs -f collaboration
+```
+
+### Environment Configuration
+
+The `.env.test` file configures the collaboration environment:
+
+```env
+# Collaboration Server (required for E2E tests)
+VITE_COLLABORATION_WS_URL=http://localhost:8080
+VITE_COLLABORATION_API_URL=http://localhost:8080
+VITE_ENABLE_COLLABORATION=true
+```
+
+### Running Collaboration Tests
+
+```bash
+# Run all collaboration tests
+pnpm exec playwright test tests/e2e/collaboration-*.test.ts
+
+# Run specific collaboration test suites
+pnpm exec playwright test tests/e2e/collaboration-csrf.test.ts
+pnpm exec playwright test tests/e2e/collaboration-websocket.test.ts
+pnpm exec playwright test tests/e2e/collaboration-operations.test.ts
+```
+
+### Troubleshooting Collaboration Tests
+
+#### Issue: CSRF Token Tests Fail (0 requests)
+
+**Symptoms**: Tests expect 1 CSRF request but receive 0
+
+**Cause**: Collaboration server not running or not configured
+
+**Solution**:
+
+1. Start server: `docker-compose up -d collaboration`
+2. Check environment: verify `.env.test` has correct URLs
+3. Verify server health: `curl http://localhost:8080/health`
+
+#### Issue: Multiple CSRF Requests (3+ instead of 1)
+
+**Symptoms**: Firefox tests receive multiple CSRF token requests
+
+**Status**: FIXED in v0.1.0 - CollaborationProvider now uses stable user object to prevent re-renders
+
+**Technical Details**: The fix stabilizes the user object using `useMemo` to prevent unnecessary component re-mounts that were causing multiple CSRF token fetches.
+
+#### Issue: WebSocket Connection Failures
+
+**Symptoms**: WebSocket tests timeout or fail to connect
+
+**Solution**:
+
+1. Check collaboration server logs: `docker-compose logs collaboration`
+2. Verify CORS settings allow localhost
+3. Ensure WebSocket port 8080 is not blocked by firewall
+
+### Collaboration Test Architecture
+
+The collaboration system uses CSRF token-based authentication:
+
+1. **Token Fetch**: Client requests CSRF token from `/api/collaboration/csrf-token`
+2. **Token Caching**: Token cached client-side with expiration tracking
+3. **Socket Auth**: Token included in Socket.IO auth handshake
+4. **Token Refresh**: Automatic refresh before expiration
+
+**Key Implementation Files**:
+
+- `packages/collaboration/src/client/collaboration-provider.tsx`: React provider with lifecycle management
+- `packages/collaboration/src/client/collaboration-client-csrf.ts`: CSRF token fetching and caching
+- `tests/e2e/collaboration-csrf.test.ts`: CSRF token validation tests
+- `tests/e2e/collaboration-websocket.test.ts`: WebSocket connection tests
+
+### Mock vs Real Collaboration
+
+For tests that don't require real server functionality:
+
+```typescript
+// Mock CSRF token response
+await page.route('**/api/collaboration/csrf-token', (route) => {
+  route.fulfill({
+    status: 200,
+    body: JSON.stringify({
+      success: true,
+      token: 'mock-csrf-token',
+      sessionId: 'test-session',
+      expiresIn: 3600,
+    }),
+  });
+});
+```
+
+Use mocks when testing:
+
+- UI interactions independent of collaboration
+- Error handling for collaboration failures
+- Offline behavior and edge cases
+
+Use real server when testing:
+
+- Multi-user real-time synchronization
+- CSRF token lifecycle and refresh
+- WebSocket connection reliability
+- Operational transforms and conflict resolution

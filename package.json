@@ -15,7 +15,7 @@
     "pnpm": ">=8.6.7"
   },
   "scripts": {
-    "dev": "turbo run dev",
+    "dev": "turbo run dev --concurrency=15",
     "build": "turbo run build",
     "build:production": "bash scripts/build-production.sh",
     "build:wasm": "bash scripts/build-occt.sh",
