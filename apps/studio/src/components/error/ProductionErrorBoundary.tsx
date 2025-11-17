@@ -4,6 +4,7 @@
 
 import React, { Component, ReactNode, ErrorInfo } from 'react';
 import { getConfig } from '@brepflow/engine-core';
+// @ts-expect-error - engine-occt has typecheck disabled (requires type refactoring)
 import ProductionLogger from '@brepflow/engine-occt';
 
 // Lazy logger initialization to avoid constructor issues during module loading

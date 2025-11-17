@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 import { useSession } from '../hooks/useSession';
-import { createChildLogger } from '../../lib/logging/logger-instance';
+import { createChildLogger } from '../lib/logging/logger-instance';
 
 const logger = createChildLogger({ module: 'SessionControls' });
 

@@ -322,7 +322,7 @@ export class CameraSynchronizationEngine {
 
     // For orthographic views, preserve axis alignment
     if (targetViewport.camera.isOrthographic) {
-      return this.preserveOrthographicRotation(targetViewport, deltaCamera, constraints);
+      return this.preserveOrthographicRotation(targetViewport, deltaCamera, _constraints);
     }
 
     // For perspective views, apply rotation transformation

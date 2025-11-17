@@ -148,7 +148,7 @@ function AppContent() {
   const [nodes, setNodes, onNodesChange] = useNodesState(rfNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(rfEdges);
 
-  debugLog('Graph snapshot', {
+  logger.debug('Graph snapshot', {
     storeNodes: graph.nodes.length,
     storeEdges: graph.edges.length,
     reactFlowNodes: rfNodes.length,
@@ -166,7 +166,7 @@ function AppContent() {
       selectedNodes,
       errorTracker.errors
     );
-    debugLog('Syncing nodes from store', {
+    logger.debug('Syncing nodes from store', {
       nodeCount: newNodes.length,
       edgeCount: newEdges.length,
     });
@@ -211,7 +211,7 @@ function AppContent() {
     const exposeStudioApi = /^(localhost|127\.0\.0\.1)$/.test(window.location.hostname);
 
     if (!exposeStudioApi) {
-      debugLog('Studio API helpers not exposed outside local development');
+      logger.debug('Studio API helpers not exposed outside local development');
       return () => undefined;
     }
 
@@ -228,7 +228,7 @@ function AppContent() {
 
   const onConnect = useCallback(
     (params: Connection) => {
-      debugLog('Connection attempt', params);
+      logger.debug('Connection attempt', params);
       if (params.source && params.target) {
         addGraphEdge({
           source: createNodeId(params.source),
@@ -236,7 +236,7 @@ function AppContent() {
           target: createNodeId(params.target),
           targetHandle: createSocketId(params.targetHandle || 'input'),
         });
-        debugLog('Edge added', { source: params.source, target: params.target });
+        logger.debug('Edge added', { source: params.source, target: params.target });
       }
     },
     [addGraphEdge]
@@ -321,7 +321,7 @@ function AppContent() {
       position,
     });
 
-    debugLog('Opening parameter dialog', { nodeType, position });
+    logger.debug('Opening parameter dialog', { nodeType, position });
   }, []);
 
   const onDragOver = useCallback((event: React.DragEvent) => {
@@ -341,7 +341,7 @@ function AppContent() {
         params,
       });
 
-      debugLog('Node created via dialog', { nodeType: parameterDialog.nodeType, params });
+      logger.debug('Node created via dialog', { nodeType: parameterDialog.nodeType, params });
 
       recordUserInteraction({
         type: 'node_created',
@@ -496,7 +496,7 @@ function AppContent() {
                     enableKeyboardShortcuts={true}
                     showLayoutControls={true}
                     onLayoutChange={(layout) => {
-                      debugLog('Viewport layout changed', layout);
+                      logger.debug('Viewport layout changed', layout);
                       recordUserInteraction({
                         type: 'viewport_layout_change',
                         target: layout.type,
@@ -504,17 +504,17 @@ function AppContent() {
                       });
                     }}
                     onViewportSelect={(viewportId) => {
-                      debugLog('Viewport selected', viewportId);
+                      logger.debug('Viewport selected', viewportId);
                       recordUserInteraction({
                         type: 'viewport_select',
                         target: viewportId,
                       });
                     }}
                     onCameraChange={(viewportId, camera) => {
-                      debugLog('Camera changed for viewport', { viewportId, camera });
+                      logger.debug('Camera changed for viewport', { viewportId, camera });
                     }}
                     onRenderModeChange={(viewportId, mode) => {
-                      debugLog('Render mode changed', { viewportId, mode });
+                      logger.debug('Render mode changed', { viewportId, mode });
                       recordUserInteraction({
                         type: 'viewport_render_mode_change',
                         target: mode,
@@ -616,7 +616,7 @@ function App() {
       },
     })
       .then(() => {
-        debugLog('Monitoring system initialized');
+        logger.debug('Monitoring system initialized');
         setIsMonitoringReady(true);
       })
       .catch((error) => {

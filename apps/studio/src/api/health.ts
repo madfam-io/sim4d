@@ -7,13 +7,6 @@ import { createChildLogger } from '../lib/logging/logger-instance';
 
 const logger = createChildLogger({ module: 'health' });
 
-const logger = {
-  info: (msg: string, ...args: unknown[]) => logger.info('[HealthCheck]', msg, ...args),
-  error: (msg: string, ...args: unknown[]) => logger.error('[HealthCheck]', msg, ...args),
-  warn: (msg: string, ...args: unknown[]) => logger.warn('[HealthCheck]', msg, ...args),
-  debug: (msg: string, ...args: unknown[]) => console.debug('[HealthCheck]', msg, ...args),
-};
-
 export interface HealthStatus {
   status: 'healthy' | 'degraded' | 'unhealthy';
   timestamp: string;

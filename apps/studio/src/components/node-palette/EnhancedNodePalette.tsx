@@ -65,7 +65,7 @@ export function EnhancedNodePalette({
     // For now, just show selection - could add node details panel later
     logger.debug('Node selected in palette', {
       nodeType,
-      searchQuery: query,
+      searchQuery,
       selectedCategory,
     });
   };

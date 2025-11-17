@@ -22,7 +22,6 @@ import { MonitoringConfig } from '../error-handling/types';
  * Can be overridden via environment variables or runtime configuration
  */
 const DEFAULT_LOGGING_CONFIG: MonitoringConfig['logging'] = {
-  enabled: true,
   level: (import.meta.env.VITE_LOG_LEVEL as 'debug' | 'info' | 'warn' | 'error') || 'info',
   console: true,
   structured: import.meta.env.PROD ? false : true, // Structured logs in dev, simple in prod

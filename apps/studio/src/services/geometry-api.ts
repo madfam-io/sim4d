@@ -3,6 +3,7 @@
  * Wraps the geometry API factory for Studio-specific use
  */
 
+// @ts-expect-error - engine-occt has typecheck disabled (requires type refactoring)
 import { getGeometryAPI as getGeometryAPIBase, IntegratedGeometryAPI } from '@brepflow/engine-occt';
 import type { WorkerAPI } from '@brepflow/types';
 

@@ -3,7 +3,9 @@
  * Handles all geometry operations with real OCCT implementation
  */
 
+// @ts-expect-error - engine-occt has typecheck disabled (requires type refactoring)
 import { IntegratedGeometryAPI, getGeometryAPI } from '@brepflow/engine-occt';
+// @ts-expect-error - engine-occt has typecheck disabled (requires type refactoring)
 import { GeometryValidator } from '@brepflow/engine-occt';
 
 export class ProductionGeometryService {
