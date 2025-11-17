@@ -1,5 +1,8 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
+import { createChildLogger } from '../lib/logging/logger-instance';
+
+const logger = createChildLogger({ module: 'selection-store' });
 
 export interface SelectionState {
   selectedNodes: Set<string>;
@@ -150,7 +153,7 @@ export const useSelectionStore = create<SelectionState & SelectionActions>()(
       selectAll: () => {
         // This should be called with all available node and edge IDs
         // Implementation depends on how we get all available items
-        console.log('Select all triggered - needs node/edge lists');
+        logger.debug('Select all triggered - requires node/edge lists from graph store');
       },
 
       clearSelection: () => {

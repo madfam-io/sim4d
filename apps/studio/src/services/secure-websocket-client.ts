@@ -6,6 +6,9 @@
 // @ts-expect-error - socket.io-client is an optional dependency for collaboration features
 import { io, Socket } from 'socket.io-client';
 import { collaborationAPI } from '../api/collaboration';
+import { createChildLogger } from '../lib/logging/logger-instance';
+
+const logger = createChildLogger({ module: 'secure-websocket-client' });
 
 export interface SecureWebSocketOptions {
   reconnection?: boolean;
@@ -38,7 +41,9 @@ export class SecureWebSocketClient {
    */
   async connect(url?: string): Promise<void> {
     if (this.connected) {
-      console.warn('[SecureWebSocket] Already connected');
+      logger.warn('WebSocket already connected', {
+        serverUrl: this.serverUrl,
+      });
       return;
     }
 
@@ -68,9 +73,16 @@ export class SecureWebSocketClient {
       await this.waitForConnection();
 
       this.connected = true;
-      console.log('[SecureWebSocket] Connected successfully');
+      logger.info('WebSocket connected successfully', {
+        serverUrl: targetUrl,
+        reconnectionEnabled: this.options.reconnection,
+      });
     } catch (error) {
-      console.error('[SecureWebSocket] Connection failed:', error);
+      logger.error('WebSocket connection failed', {
+        error: error instanceof Error ? error.message : String(error),
+        serverUrl: targetUrl,
+        timeout: this.options.timeout,
+      });
       throw error;
     }
   }
@@ -80,7 +92,7 @@ export class SecureWebSocketClient {
    */
   async disconnect(): Promise<void> {
     if (!this.socket) {
-      console.warn('[SecureWebSocket] Not connected');
+      logger.warn('Cannot disconnect - not connected');
       return;
     }
 
@@ -88,7 +100,7 @@ export class SecureWebSocketClient {
       this.socket!.once('disconnect', () => {
         this.connected = false;
         this.socket = null;
-        console.log('[SecureWebSocket] Disconnected');
+        logger.info('WebSocket disconnected');
         resolve();
       });
 
@@ -159,17 +171,25 @@ export class SecureWebSocketClient {
     // Connection events
     this.socket.on('connect', () => {
       this.connected = true;
-      console.log('[SecureWebSocket] Connected');
+      logger.info('WebSocket connected', {
+        serverUrl: this.serverUrl,
+      });
     });
 
     this.socket.on('disconnect', (reason: string) => {
       this.connected = false;
-      console.log('[SecureWebSocket] Disconnected:', reason);
+      logger.info('WebSocket disconnected', {
+        reason,
+        serverUrl: this.serverUrl,
+      });
     });
 
     // Handle reconnection
     this.socket.on('reconnect', async (attemptNumber: number) => {
-      console.log(`[SecureWebSocket] Reconnected after ${attemptNumber} attempts`);
+      logger.info('WebSocket reconnected successfully', {
+        attemptNumber,
+        serverUrl: this.serverUrl,
+      });
 
       // Get fresh CSRF token on reconnect
       try {
@@ -181,25 +201,42 @@ export class SecureWebSocketClient {
         // Notify reconnect callbacks
         this.reconnectCallbacks.forEach((callback) => callback());
       } catch (error) {
-        console.error('[SecureWebSocket] Failed to refresh token on reconnect:', error);
+        logger.error('Failed to refresh CSRF token on reconnect', {
+          error: error instanceof Error ? error.message : String(error),
+          attemptNumber,
+        });
       }
     });
 
     this.socket.on('reconnect_attempt', (attemptNumber: number) => {
-      console.log(`[SecureWebSocket] Reconnection attempt ${attemptNumber}`);
+      logger.debug('WebSocket reconnection attempt', {
+        attemptNumber,
+        maxAttempts: this.options.reconnectionAttempts,
+      });
     });
 
     this.socket.on('reconnect_failed', () => {
-      console.error('[SecureWebSocket] Reconnection failed after max attempts');
+      logger.error('WebSocket reconnection failed after max attempts', {
+        maxAttempts: this.options.reconnectionAttempts,
+        serverUrl: this.serverUrl,
+      });
     });
 
     // Handle CSRF token errors
     this.socket.on('connect_error', async (error: Error) => {
-      console.error('[SecureWebSocket] Connection error:', error.message);
+      const isCSRFError = error.message.includes('CSRF') || error.message.includes('csrf');
+
+      logger.error('WebSocket connection error', {
+        error: error.message,
+        isCSRFError,
+        serverUrl: this.serverUrl,
+      });
 
       // If CSRF token is invalid, try to get a new one and reconnect
-      if (error.message.includes('CSRF') || error.message.includes('csrf')) {
-        console.log('[SecureWebSocket] CSRF token invalid, refreshing...');
+      if (isCSRFError) {
+        logger.info('CSRF token invalid, attempting refresh', {
+          serverUrl: this.serverUrl,
+        });
 
         try {
           const { csrfToken } = await collaborationAPI.getCSRFToken(true);
@@ -210,7 +247,9 @@ export class SecureWebSocketClient {
             this.socket.connect();
           }
         } catch (refreshError) {
-          console.error('[SecureWebSocket] Failed to refresh CSRF token:', refreshError);
+          logger.error('Failed to refresh CSRF token on connection error', {
+            error: refreshError instanceof Error ? refreshError.message : String(refreshError),
+          });
         }
       }
     });

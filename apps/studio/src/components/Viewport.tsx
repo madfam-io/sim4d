@@ -3,6 +3,9 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three-stdlib';
 import { useGraphStore } from '../store/graph-store';
 import { Icon } from './icons/IconSystem';
+import { createChildLogger } from '../lib/logging/logger-instance';
+
+const logger = createChildLogger({ module: 'Viewport' });
 // import { MeasurementTools, type Measurement } from './viewport/MeasurementTools';
 
 // Temporary type definition for measurements
@@ -178,7 +181,11 @@ export function Viewport() {
           const mesh = createMeshFromTessellation(meshData, node.id);
           geometryGroupRef.current.add(mesh);
         } catch (error) {
-          console.warn(`Failed to tessellate geometry for node ${node.id}:`, error);
+          logger.warn('Failed to tessellate geometry, falling back to simple geometry', {
+            nodeId: node.id,
+            nodeType: node.type,
+            error: error instanceof Error ? error.message : String(error),
+          });
           // Fall back to simple geometry on error
           const mesh = createSimpleGeometry(node);
           if (mesh) {

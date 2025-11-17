@@ -4,7 +4,10 @@
  */
 
 import { getGeometryAPI, isRealGeometryAvailable } from './geometry-api';
+import { createChildLogger } from '../lib/logging/logger-instance';
 // Removed unused WorkerAPI import
+
+const logger = createChildLogger({ module: 'wasm-export' });
 
 export interface ExportOptions {
   format: 'step' | 'stl' | 'iges';
@@ -98,10 +101,17 @@ export async function exportGeometry(
       return new Blob([exportData], { type: mimeType });
     }
   } catch (error: unknown) {
-    console.error(`Export to ${options.format} failed:`, error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    logger.error('WASM geometry export failed', {
+      format: options.format,
+      binary: options.binary,
+      precision: options.precision,
+      error: errorMessage,
+      geometryHandleCount: geometryHandles.length,
+    });
 
     // Provide helpful error message
-    if (error instanceof Error ? error.message : String(error)?.includes('not implemented')) {
+    if (errorMessage?.includes('not implemented')) {
       throw new Error(
         `${options.format.toUpperCase()} export is not yet implemented in the geometry engine`
       );

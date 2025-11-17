@@ -12,7 +12,8 @@
     "composite": false,
     "incremental": false,
     "skipLibCheck": true,
-    "verbatimModuleSyntax": false
+    "verbatimModuleSyntax": false,
+    "noImplicitAny": true
   },
   "include": ["src/**/*"],
   "exclude": [

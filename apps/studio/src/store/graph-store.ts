@@ -22,6 +22,10 @@ import {
   AddEdgeCommand,
   RemoveEdgeCommand,
 } from '../lib/undo-redo';
+import { createChildLogger } from '../lib/logging/logger-instance';
+
+// Create a module-specific logger
+const logger = createChildLogger({ module: 'graph-store' });
 
 let registerNodesPromise: Promise<void> | null = null;
 
@@ -115,7 +119,7 @@ export const useGraphStore = create<GraphState>()(
 
           const geometryAPI = await getGeometryAPI();
           await geometryAPI.init();
-          console.log('🚀 Geometry API initialized successfully');
+          logger.info('Geometry API initialized successfully');
 
           // Record successful initialization
           try {
@@ -135,7 +139,10 @@ export const useGraphStore = create<GraphState>()(
           };
           return new DAGEngine({ worker: workerAPI as any });
         } catch (error) {
-          console.error('❌ Failed to initialize geometry API:', error);
+          logger.error('Failed to initialize geometry API', {
+            error: error instanceof Error ? error.message : String(error),
+            wasmSupport: crossOriginIsolated,
+          });
 
           // Report error to monitoring system
           try {
@@ -340,7 +347,7 @@ export const useGraphStore = create<GraphState>()(
         evaluateGraph: async () => {
           const { dagEngine, graphManager } = get();
           if (!dagEngine) {
-            console.warn('DAG engine not initialized');
+            logger.warn('DAG engine not initialized - evaluation skipped');
 
             // Report engine not ready error
             try {
@@ -381,6 +388,11 @@ export const useGraphStore = create<GraphState>()(
 
             const duration = performance.now() - startTime;
 
+            logger.info('Graph evaluation completed', {
+              duration_ms: duration.toFixed(2),
+              dirtyNodeCount: dirtyNodes.size,
+            });
+
             // Record successful evaluation
             try {
               const metricsCollector = MetricsCollector.getInstance();
@@ -398,9 +410,14 @@ export const useGraphStore = create<GraphState>()(
               evaluationProgress: 100,
             });
           } catch (error) {
-            console.error('Evaluation failed:', error);
-
             const duration = performance.now() - startTime;
+
+            logger.error('Graph evaluation failed', {
+              error: error instanceof Error ? error.message : String(error),
+              duration_ms: duration.toFixed(2),
+              nodeCount: graphManager.getGraph().nodes.length,
+              edgeCount: graphManager.getGraph().edges.length,
+            });
 
             // Report evaluation error
             try {
@@ -452,8 +469,14 @@ export const useGraphStore = create<GraphState>()(
               selectedNodes: new Set(),
               errors: new Map(),
             });
+            logger.info('Graph loaded successfully', {
+              nodeCount: graphManager.getGraph().nodes.length,
+              edgeCount: graphManager.getGraph().edges.length,
+            });
           } catch (error) {
-            console.error('Failed to load graph:', error);
+            logger.error('Failed to load graph', {
+              error: error instanceof Error ? error.message : String(error),
+            });
           }
         },
 

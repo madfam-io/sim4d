@@ -7,6 +7,9 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import type { GraphInstance } from '@brepflow/types';
+import { createChildLogger } from '../lib/logging/logger-instance';
+
+const logger = createChildLogger({ module: 'useSession' });
 
 export interface SessionHookResult {
   sessionId: string | null;
@@ -55,7 +58,9 @@ export function useSession(): SessionHookResult {
     async (id: string) => {
       // Skip API call if no collaboration server is configured - use local session
       if (!API_BASE_URL) {
-        console.log('[useSession] Collaboration server not configured, using local session');
+        logger.info('Collaboration server not configured, using local session', {
+          environment: import.meta.env['PROD'] ? 'production' : 'development',
+        });
         const emptyGraph = createEmptyGraph();
         setGraph(emptyGraph);
         setLoading(false);
@@ -78,7 +83,11 @@ export function useSession(): SessionHookResult {
         const data = await response.json();
         setGraph(data.graph);
       } catch (err) {
-        console.error('[useSession] Error loading session:', err);
+        logger.error('Failed to load session', {
+          error: err instanceof Error ? err.message : String(err),
+          sessionId: id,
+          apiBaseUrl: API_BASE_URL,
+        });
         setError(err instanceof Error ? err : new Error('Unknown error'));
         // Redirect to home on error
         navigate('/', { replace: true });
@@ -95,7 +104,9 @@ export function useSession(): SessionHookResult {
   const createNewSession = useCallback(async () => {
     // Skip API call if no collaboration server is configured
     if (!API_BASE_URL) {
-      console.log('[useSession] Collaboration server not configured, using local session');
+      logger.info('Collaboration server not configured, using local session', {
+        environment: import.meta.env['PROD'] ? 'production' : 'development',
+      });
       const localSessionId = crypto.randomUUID();
       const emptyGraph = createEmptyGraph();
       setGraph(emptyGraph);
@@ -121,7 +132,10 @@ export function useSession(): SessionHookResult {
       const data = await response.json();
       navigate(`/session/${data.sessionId}`, { replace: true });
     } catch (err) {
-      console.error('[useSession] Error creating session:', err);
+      logger.error('Failed to create new session', {
+        error: err instanceof Error ? err.message : String(err),
+        apiBaseUrl: API_BASE_URL,
+      });
       setError(err instanceof Error ? err : new Error('Unknown error'));
     } finally {
       setLoading(false);
@@ -134,7 +148,9 @@ export function useSession(): SessionHookResult {
   const updateSession = useCallback(
     async (updatedGraph: GraphInstance) => {
       if (!sessionId) {
-        console.warn('[useSession] Cannot update session: no session ID');
+        logger.warn('Cannot update session: no session ID', {
+          graphNodeCount: updatedGraph.nodes.length,
+        });
         return;
       }
 
@@ -151,7 +167,11 @@ export function useSession(): SessionHookResult {
 
         setGraph(updatedGraph);
       } catch (err) {
-        console.error('[useSession] Error updating session:', err);
+        logger.error('Failed to update session', {
+          error: err instanceof Error ? err.message : String(err),
+          sessionId,
+          graphNodeCount: updatedGraph.nodes.length,
+        });
         setError(err instanceof Error ? err : new Error('Unknown error'));
       }
     },
@@ -163,7 +183,7 @@ export function useSession(): SessionHookResult {
    */
   const deleteSession = useCallback(async () => {
     if (!sessionId) {
-      console.warn('[useSession] Cannot delete session: no session ID');
+      logger.warn('Cannot delete session: no session ID');
       return;
     }
 
@@ -178,7 +198,10 @@ export function useSession(): SessionHookResult {
 
       navigate('/', { replace: true });
     } catch (err) {
-      console.error('[useSession] Error deleting session:', err);
+      logger.error('Failed to delete session', {
+        error: err instanceof Error ? err.message : String(err),
+        sessionId,
+      });
       setError(err instanceof Error ? err : new Error('Unknown error'));
     }
   }, [sessionId, navigate]);

@@ -20,8 +20,10 @@ import './ScriptNodeIDE.css';
 
 // Import the actual script engine
 import { BrepFlowScriptEngine } from '@brepflow/engine-core';
+import { createChildLogger } from '../../lib/logging/logger-instance';
 
 const scriptEngine = new BrepFlowScriptEngine();
+const logger = createChildLogger({ module: 'ScriptNodeIDE' });
 
 interface ScriptNodeIDEProps {
   isOpen: boolean;
@@ -158,7 +160,10 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
         setValidationResult(result);
       }
     } catch (error) {
-      console.error('Validation error:', error);
+      logger.error('Script validation error', {
+        error: error instanceof Error ? error.message : String(error),
+        language,
+      });
     } finally {
       setIsValidating(false);
     }
@@ -174,15 +179,15 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
       // Mock context for testing
       const mockContext = {
         script: {
-          log: (message: string) => console.log(message),
-          progress: (value: number) => console.log(`Progress: ${value}%`),
+          log: (message: string) => logger.debug('Script log', { message }),
+          progress: (value: number) => logger.debug('Script progress', { progress: value }),
           createVector: (x: number, y: number, z: number) => ({ x, y, z }),
           measureDistance: (p1: any, p2: any) =>
             Math.sqrt(
               Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2) + Math.pow(p2.z - p1.z, 2)
             ),
           getParameter: (name: string, defaultValue?: any) => defaultValue,
-          setOutput: (name: string, value: any) => console.log(`Output ${name}:`, value),
+          setOutput: (name: string, value: any) => logger.debug('Script output', { name, value }),
           getInput: (name: string) => undefined,
           sleep: (ms: number) => new Promise((resolve) => setTimeout(resolve, ms)),
           timeout: (promise: Promise<any>, ms: number) =>
@@ -194,7 +199,8 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
             const start = performance.now();
             return () => performance.now() - start;
           },
-          recordMetric: (name: string, value: number) => console.log(`Metric ${name}: ${value}`),
+          recordMetric: (name: string, value: number) =>
+            logger.debug('Script metric', { name, value }),
         },
         runtime: {
           nodeId: 'test-node',
@@ -205,7 +211,7 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
         },
         geom: {
           invoke: async (operation: string, params: any) => {
-            console.log(`Mock geometry operation: ${operation}`, params);
+            logger.debug('Mock geometry operation', { operation, params });
             return { mockResult: true };
           },
         },
@@ -242,7 +248,9 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
       onNodeCreated(nodeDefinition);
       onClose();
     } catch (error) {
-      console.error('Failed to create node:', error);
+      logger.error('Node creation failed', {
+        error: error instanceof Error ? error.message : String(error),
+      });
       alert(`Failed to create node: ${error instanceof Error ? error.message : String(error)}`);
     }
   }, [script, metadata, permissions, onNodeCreated, onClose]);
@@ -290,7 +298,10 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
         setScript(formatted);
       }
     } catch (error) {
-      console.error('Format error:', error);
+      logger.error('Code formatting error', {
+        error: error instanceof Error ? error.message : String(error),
+        language,
+      });
     }
   }, [script, language]);
 

@@ -6,6 +6,9 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { BrepFlowCollaborationEngine } from '@brepflow/engine-core';
 import { SecureWebSocketClient } from '../services/secure-websocket-client';
+import { createChildLogger } from '../lib/logging/logger-instance';
+
+const logger = createChildLogger({ module: 'useCollaboration' });
 
 // Create secure WebSocket client
 const secureWebSocketClient = new SecureWebSocketClient();
@@ -91,7 +94,9 @@ export function useCollaboration(
         await secureWebSocketClient.connect();
         wsConnectedRef.current = true;
       } catch (error) {
-        console.error('Failed to connect WebSocket:', error);
+        logger.error('WebSocket connection failed', {
+          error: error instanceof Error ? error.message : String(error),
+        });
         throw error;
       }
     }
@@ -120,7 +125,10 @@ export function useCollaboration(
 
           return sessionId;
         } catch (error) {
-          console.error('Failed to create session:', error);
+          logger.error('Session creation failed', {
+            error: error instanceof Error ? error.message : String(error),
+            projectId,
+          });
           throw error;
         }
       },
@@ -142,7 +150,10 @@ export function useCollaboration(
             currentUser: user,
           }));
         } catch (error) {
-          console.error('Failed to join session:', error);
+          logger.error('Session join failed', {
+            error: error instanceof Error ? error.message : String(error),
+            sessionId,
+          });
           throw error;
         }
       },
@@ -167,7 +178,10 @@ export function useCollaboration(
             selections: new Map(),
           }));
         } catch (error) {
-          console.error('Failed to leave session:', error);
+          logger.error('Session leave failed', {
+            error: error instanceof Error ? error.message : String(error),
+            sessionId,
+          });
           throw error;
         }
       }
@@ -193,7 +207,10 @@ export function useCollaboration(
               cursor
             );
           } catch (error) {
-            console.error('Failed to broadcast cursor:', error);
+            logger.error('Cursor broadcast failed', {
+              error: error instanceof Error ? error.message : String(error),
+              sessionId,
+            });
           }
         }, throttleCursor);
       },
@@ -225,7 +242,10 @@ export function useCollaboration(
               selection
             );
           } catch (error) {
-            console.error('Failed to broadcast selection:', error);
+            logger.error('Selection broadcast failed', {
+              error: error instanceof Error ? error.message : String(error),
+              sessionId,
+            });
           }
         }, throttleSelection);
       },
@@ -252,7 +272,10 @@ export function useCollaboration(
             currentUser: prev.currentUser ? { ...prev.currentUser, ...updates } : null,
           }));
         } catch (error) {
-          console.error('Failed to update user:', error);
+          logger.error('User update failed', {
+            error: error instanceof Error ? error.message : String(error),
+            sessionId,
+          });
         }
       },
       [state.sessionId, state.currentUser]
@@ -272,7 +295,10 @@ export function useCollaboration(
             operationCount: prev.operationCount + 1,
           }));
         } catch (error) {
-          console.error('Failed to apply operation:', error);
+          logger.error('Operation apply failed', {
+            error: error instanceof Error ? error.message : String(error),
+            sessionId,
+          });
           throw error;
         }
       },
@@ -399,7 +425,10 @@ export function useCollaboration(
             selections,
           }));
         } catch (error) {
-          console.error('Failed to load presence:', error);
+          logger.error('Presence data load failed', {
+            error: error instanceof Error ? error.message : String(error),
+            sessionId,
+          });
         }
       };
 

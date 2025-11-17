@@ -6,13 +6,9 @@
 import { getGeometryAPI } from '@brepflow/engine-occt';
 import { getConfig } from '@brepflow/engine-core';
 import { healthCheckService } from '../api/health';
+import { createChildLogger } from '../lib/logging/logger-instance';
 
-const logger = {
-  info: (msg: string, ...args: unknown[]) => console.info('[Initialization]', msg, ...args),
-  error: (msg: string, ...args: unknown[]) => console.error('[Initialization]', msg, ...args),
-  warn: (msg: string, ...args: unknown[]) => console.warn('[Initialization]', msg, ...args),
-  debug: (msg: string, ...args: unknown[]) => console.debug('[Initialization]', msg, ...args),
-};
+const logger = createChildLogger({ module: 'initialization' });
 
 export interface InitializationResult {
   success: boolean;

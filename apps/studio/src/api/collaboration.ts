@@ -3,6 +3,11 @@
  * Handles CSRF token management and collaboration server communication
  */
 
+import { createChildLogger } from '../lib/logging/logger-instance';
+
+// Create module-specific logger
+const logger = createChildLogger({ module: 'collaboration-api' });
+
 export interface CSRFTokenResponse {
   csrfToken: string;
   sessionId: string;
@@ -68,7 +73,10 @@ class CollaborationAPI {
 
       return this.currentToken;
     } catch (error) {
-      console.error('Failed to fetch CSRF token:', error);
+      logger.error('Failed to fetch CSRF token', {
+        error: error instanceof Error ? error.message : String(error),
+        serverUrl: this.config.serverUrl,
+      });
       throw error;
     }
   }
@@ -98,9 +106,15 @@ class CollaborationAPI {
     this.refreshTimer = window.setTimeout(async () => {
       try {
         await this.getCSRFToken(true);
-        console.log('[Collaboration] CSRF token refreshed automatically');
+        logger.info('CSRF token refreshed automatically', {
+          expiresAt: this.currentToken?.expiresAt,
+          nextRefreshIn: timeUntilRefresh,
+        });
       } catch (error) {
-        console.error('[Collaboration] Failed to refresh CSRF token:', error);
+        logger.error('Failed to refresh CSRF token', {
+          error: error instanceof Error ? error.message : String(error),
+          timeUntilRefresh,
+        });
       }
     }, timeUntilRefresh);
   }

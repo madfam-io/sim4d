@@ -4,6 +4,9 @@ import { NodeSearchBar } from './NodeSearchBar';
 import { CategoryTreeSidebar } from './CategoryTreeSidebar';
 import { NodeCard, NodeListItem, NodeCompactItem } from './NodeCard';
 import type { NodeDefinition } from '@brepflow/types';
+import { createChildLogger } from '../../lib/logging/logger-instance';
+
+const logger = createChildLogger({ module: 'EnhancedNodePalette' });
 
 interface EnhancedNodePaletteProps {
   onNodeDragStart: (event: React.DragEvent, nodeType: string) => void;
@@ -60,7 +63,11 @@ export function EnhancedNodePalette({
   // Handle node selection and hover
   const handleNodeSelect = (nodeType: string) => {
     // For now, just show selection - could add node details panel later
-    console.log('Node selected:', nodeType);
+    logger.debug('Node selected in palette', {
+      nodeType,
+      searchQuery: query,
+      selectedCategory,
+    });
   };
 
   const handleNodeHover = (nodeType: string | null) => {

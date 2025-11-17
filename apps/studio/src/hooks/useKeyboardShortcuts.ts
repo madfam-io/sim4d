@@ -3,6 +3,9 @@ import { useLayoutStore } from '../store/layout-store';
 import { PanelId } from '../types/layout';
 import { useGraphStore } from '../store/graph-store';
 import { useClipboard } from './useClipboard';
+import { createChildLogger } from '../lib/logging/logger-instance';
+
+const logger = createChildLogger({ module: 'useKeyboardShortcuts' });
 
 export interface KeyboardShortcut {
   key: string;
@@ -280,19 +283,19 @@ export const useKeyboardShortcuts = () => {
   useEffect(() => {
     shortcutManager.registerActionCallback('undo', () => {
       undo();
-      console.log('Undo action triggered');
+      logger.debug('Undo action triggered');
     });
 
     shortcutManager.registerActionCallback('redo', () => {
       redo();
-      console.log('Redo action triggered');
+      logger.debug('Redo action triggered');
     });
 
     shortcutManager.registerActionCallback('selectAll', () => {
       // Select all nodes in the current graph
       const allNodeIds = graph.nodes.map((node) => node.id);
       graph.nodes.forEach((node) => selectNode(node.id));
-      console.log(`Selected all ${allNodeIds.length} nodes`);
+      logger.debug('Select all action triggered', { nodeCount: allNodeIds.length });
     });
 
     shortcutManager.registerActionCallback('copy', () => {
@@ -300,9 +303,9 @@ export const useKeyboardShortcuts = () => {
       if (selectedNodes.size > 0) {
         const nodesToCopy = graph.nodes.filter((node) => selectedNodes.has(node.id));
         copyNodes(nodesToCopy);
-        console.log(`📋 Copied ${nodesToCopy.length} selected nodes`);
+        logger.debug('Copy action completed', { nodeCount: nodesToCopy.length });
       } else {
-        console.log('No nodes selected to copy');
+        logger.debug('Copy action skipped - no nodes selected');
       }
     });
 
@@ -311,9 +314,9 @@ export const useKeyboardShortcuts = () => {
       if (hasClipboardData()) {
         const pastedNodes = pasteNodes();
         pastedNodes.forEach((node) => addNode(node));
-        console.log(`📋 Pasted ${pastedNodes.length} nodes`);
+        logger.debug('Paste action completed', { nodeCount: pastedNodes.length });
       } else {
-        console.log('No nodes in clipboard to paste');
+        logger.debug('Paste action skipped - no clipboard data');
       }
     });
 
@@ -330,7 +333,10 @@ export const useKeyboardShortcuts = () => {
         // Then remove the nodes
         selectedNodes.forEach((nodeId) => removeNode(nodeId));
 
-        console.log(`Deleted ${selectedNodes.size} nodes and ${edgesToRemove.length} edges`);
+        logger.debug('Delete action completed', {
+          nodeCount: selectedNodes.size,
+          edgeCount: edgesToRemove.length,
+        });
       }
     });
 

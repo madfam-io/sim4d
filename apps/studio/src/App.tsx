@@ -58,13 +58,10 @@ import { CollaborationProvider } from '@brepflow/collaboration/client';
 import type { Operation, Conflict } from '@brepflow/collaboration/client';
 import { useSession } from './hooks/useSession';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { createChildLogger } from './lib/logging/logger-instance';
 
-const debugLog = (...args: unknown[]) => {
-  if (import.meta.env['DEV']) {
-    // eslint-disable-next-line no-console
-    console.debug('[Studio]', ...args);
-  }
-};
+// Create module-specific logger
+const logger = createChildLogger({ module: 'App' });
 
 function AppContent() {
   const {
@@ -376,7 +373,9 @@ function AppContent() {
       // Debounce evaluation
       const timer = setTimeout(() => {
         executeWasmOperation(() => evaluateGraph(), 'graph_evaluation').catch((error) => {
-          console.error('Graph evaluation failed:', error);
+          logger.error('Graph evaluation failed', {
+            error: error instanceof Error ? error.message : String(error),
+          });
         });
       }, 500);
       return () => clearTimeout(timer);
@@ -621,7 +620,9 @@ function App() {
         setIsMonitoringReady(true);
       })
       .catch((error) => {
-        console.error('❌ Failed to initialize monitoring system:', error);
+        logger.error('Failed to initialize monitoring system', {
+          error: error instanceof Error ? error.message : String(error),
+        });
         // Still allow the app to load without monitoring
         setIsMonitoringReady(true);
       });
@@ -706,16 +707,28 @@ function SessionWrapper() {
             apiBaseUrl={collaborationApiUrl}
             sessionId={sessionId}
             onOperation={(operation: Operation) => {
-              console.log('[Collaboration] Received operation:', operation);
+              logger.debug('Collaboration operation received', {
+                operationType: operation.type,
+                operationId: operation.id,
+              });
             }}
             onConflict={(conflict: Conflict) => {
-              console.warn('[Collaboration] Conflict detected:', conflict);
+              logger.warn('Collaboration conflict detected', {
+                conflictType: conflict.type,
+                conflictId: conflict.id,
+              });
             }}
             onError={(error: Error) => {
-              console.error('[Collaboration] Error:', error);
+              logger.error('Collaboration error occurred', {
+                error: error.message,
+                stack: error.stack,
+              });
             }}
             onCSRFError={(error: Error) => {
-              console.error('[Collaboration] CSRF authentication failed:', error);
+              logger.error('Collaboration CSRF authentication failed', {
+                error: error.message,
+                needsReauthentication: true,
+              });
             }}
           >
             <OnboardingOrchestrator>

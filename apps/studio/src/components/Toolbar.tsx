@@ -2,7 +2,10 @@ import React from 'react';
 import { useGraphStore } from '../store/graph-store';
 import { Button } from './ui/Button';
 import { exportGeometry, downloadFile, isExportAvailable } from '../services/wasm-export';
+import { createChildLogger } from '../lib/logging/logger-instance';
 import './Toolbar.css';
+
+const logger = createChildLogger({ module: 'Toolbar' });
 
 export function Toolbar() {
   const { evaluateGraph, clearGraph, exportGraph, importGraph, undo, redo, canUndo, canRedo } =
@@ -90,11 +93,17 @@ export function Toolbar() {
         setTimeout(() => toast.remove(), 3000);
       } catch (exportError: unknown) {
         toast.remove();
-        console.error(`Export to ${format} failed:`, exportError);
-
-        // Provide helpful error message
         const errorMessage =
           exportError instanceof Error ? exportError.message : String(exportError);
+
+        logger.error('Geometry export failed', {
+          format,
+          error: errorMessage,
+          isNotImplemented: errorMessage?.includes('not yet implemented'),
+          isNotInitialized: errorMessage?.includes('not initialized'),
+        });
+
+        // Provide helpful error message
         if (errorMessage?.includes('not yet implemented')) {
           alert(
             `${format.toUpperCase()} export is coming soon!\n\nThe geometry engine is loaded but this specific format is still being implemented.`
@@ -106,8 +115,11 @@ export function Toolbar() {
         }
       }
     } catch (err: unknown) {
-      console.error(`Export to ${format} failed:`, err);
       const errorMessage = err instanceof Error ? err.message : String(err);
+      logger.error('Export operation failed', {
+        format,
+        error: errorMessage,
+      });
       alert(`Export failed: ${errorMessage}`);
     }
   };

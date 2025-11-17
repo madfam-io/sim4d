@@ -7,7 +7,10 @@ import { NodeMetricsCollector, NodePerformanceData } from '../lib/monitoring/nod
 import { ErrorDiagnosticsEngine, NodeErrorDiagnostic } from '../lib/diagnostics/error-diagnostics';
 import { NodeConfigurationManager } from '../lib/configuration/node-config';
 import { ErrorCode } from '../lib/error-handling/types';
+import { createChildLogger } from '../lib/logging/logger-instance';
 import './Inspector.css';
+
+const logger = createChildLogger({ module: 'Inspector' });
 
 interface InspectorProps {
   selectedNode: NodeInstance | null;
@@ -765,7 +768,11 @@ export function Inspector({ selectedNode, onParamChange }: InspectorProps) {
                     author: 'Studio User',
                     notes: `Configuration exported from ${selectedNode.type} node`,
                   });
-                  console.log('Configuration exported:', config);
+                  logger.info('Node configuration exported', {
+                    nodeId: selectedNode.id,
+                    nodeType: selectedNode.type,
+                    configVersion: config.version,
+                  });
                   // Could show a toast notification here
                 }}
               >

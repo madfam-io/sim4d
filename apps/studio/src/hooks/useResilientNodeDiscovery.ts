@@ -1,5 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
 import type { NodeDefinition } from '@brepflow/types';
+import { createChildLogger } from '../lib/logging/logger-instance';
+
+const logger = createChildLogger({ module: 'useResilientNodeDiscovery' });
 
 // Temporary node metadata interface to replace missing types
 interface NodeMetadata {
@@ -441,41 +444,44 @@ export function useResilientNodeDiscovery() {
 
   useEffect(() => {
     async function attemptNodeDiscovery() {
-      console.log('🔍 useResilientNodeDiscovery hook called - starting discovery process');
+      logger.info('Node discovery process started');
       const discoveryErrors: string[] = [];
 
       try {
-        console.log('🔍 DEBUG: Attempting dynamic import of @brepflow/nodes-core...');
+        logger.debug('Attempting dynamic import of @brepflow/nodes-core');
         // Try to dynamically import the nodes-core package and initialize the registry
         // @ts-expect-error - DTS generation disabled in @brepflow/nodes-core due to TS4023 errors with generated nodes
         const nodesCore = await import('@brepflow/nodes-core');
-        console.log('🔍 DEBUG: Dynamic import successful:', Object.keys(nodesCore));
+        logger.debug('Dynamic import successful', { exportedKeys: Object.keys(nodesCore) });
 
         const { registerAllNodes, getEnhancedRegistry } = nodesCore;
 
         if (registerAllNodes && getEnhancedRegistry) {
-          console.log('🔍 Starting dynamic node discovery...');
-          console.log('🔍 DEBUG: registerAllNodes type:', typeof registerAllNodes);
-          console.log('🔍 DEBUG: getEnhancedRegistry type:', typeof getEnhancedRegistry);
+          logger.info('Starting dynamic node discovery');
+          logger.debug('Function types resolved', {
+            registerAllNodesType: typeof registerAllNodes,
+            getEnhancedRegistryType: typeof getEnhancedRegistry,
+          });
 
           // Initialize the enhanced registry with demonstration nodes
-          console.log('🔍 DEBUG: About to call registerAllNodes...');
+          logger.debug('Calling registerAllNodes to initialize registry');
           try {
             const initResult = await registerAllNodes();
-            console.log('🔍 DEBUG: registerAllNodes returned:', initResult);
+            logger.debug('Registry initialization completed', { initResult });
 
             // Get the populated registry instance
-            console.log('🔍 DEBUG: About to call getEnhancedRegistry...');
+            logger.debug('Retrieving enhanced registry instance');
             const registry = getEnhancedRegistry();
-            console.log('🔍 DEBUG: getEnhancedRegistry returned:', registry);
+            logger.debug('Registry instance retrieved', { registry });
             const dynamicNodes = registry.getAllNodes();
-            console.log(`🔍 DEBUG: Registry retrieved, found ${dynamicNodes?.length || 0} nodes`);
+            logger.debug('Retrieved nodes from registry', { nodeCount: dynamicNodes?.length || 0 });
 
             if (dynamicNodes && dynamicNodes.length > 0) {
               // Success: use dynamic registry
-              console.log(
-                `✅ Successfully discovered ${dynamicNodes.length} nodes from enhanced registry`
-              );
+              logger.info('Node discovery completed successfully', {
+                nodeCount: dynamicNodes.length,
+                source: 'enhanced-registry',
+              });
               setDiscoveredNodes(
                 dynamicNodes.map((node: any) => ({
                   ...node,
@@ -494,30 +500,37 @@ export function useResilientNodeDiscovery() {
               discoveryErrors.push('Registry returned empty node list after initialization');
             }
           } catch (registryError) {
-            console.error('🔍 DEBUG: registerAllNodes threw error:', registryError);
+            logger.error('Registry initialization failed', {
+              error: registryError instanceof Error ? registryError.message : String(registryError),
+            });
             discoveryErrors.push(
               `Registry initialization failed: ${registryError instanceof Error ? registryError.message : String(registryError)}`
             );
           }
         } else {
-          console.log(
-            '🔍 DEBUG: Missing functions - registerAllNodes:',
-            !!registerAllNodes,
-            'getEnhancedRegistry:',
-            !!getEnhancedRegistry
-          );
+          logger.debug('Required functions not available', {
+            hasRegisterAllNodes: !!registerAllNodes,
+            hasGetEnhancedRegistry: !!getEnhancedRegistry,
+          });
           discoveryErrors.push('registerAllNodes or getEnhancedRegistry not available');
         }
       } catch (error) {
-        console.error('🔍 DEBUG: Dynamic import failed:', error);
+        logger.error('Dynamic import failed', {
+          error: error instanceof Error ? error.message : String(error),
+        });
         discoveryErrors.push(
           `Failed to import nodes-core: ${error instanceof Error ? error.message : String(error)}`
         );
       }
 
       // Fallback: use enhanced static nodes
-      console.warn('⚠️ Falling back to static node definitions');
-      console.log(`📦 Using ${ENHANCED_FALLBACK_NODES.length} fallback nodes with rich metadata`);
+      logger.warn('Falling back to static node definitions', {
+        reason: 'dynamic-discovery-failed',
+      });
+      logger.info('Using fallback nodes', {
+        nodeCount: ENHANCED_FALLBACK_NODES.length,
+        source: 'enhanced-fallback',
+      });
 
       setDiscoveredNodes(ENHANCED_FALLBACK_NODES);
       setDiscoveryStatus('fallback');
