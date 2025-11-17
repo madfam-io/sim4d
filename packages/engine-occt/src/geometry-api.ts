@@ -593,12 +593,12 @@ export class GeometryAPI implements WorkerAPI {
     return 0;
   }
 
-  private healthCheck(): {
+  async healthCheck(): Promise<{
     healthy: boolean;
     timestamp: string;
     shapeCount: number;
     occtVersion: string;
-  } {
+  }> {
     return {
       healthy: this.initialized,
       timestamp: new Date().toISOString(),

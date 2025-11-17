@@ -208,8 +208,8 @@ export class OCCTOperationRouter implements WorkerAPI {
   /**
    * Execute operation (alternative interface)
    */
-  async execute(request: { type: string; params: any }): Promise<any> {
-    return this.invoke(request.type, request.params);
+  async execute<T = any>(operation: string, params: any): Promise<T> {
+    return this.invoke(operation, params);
   }
 
   // Direct method implementations for common operations
@@ -265,8 +265,12 @@ export class OCCTOperationRouter implements WorkerAPI {
     return this.invoke('revolve', params);
   }
 
-  async tessellate(params: any): Promise<any> {
-    return this.invoke('tessellate', params);
+  async tessellate(shapeId: any, deflection: number): Promise<any> {
+    return this.invoke('tessellate', { shapeId, deflection });
+  }
+
+  async dispose(handleId: any): Promise<void> {
+    await this.invoke('dispose', { handleId });
   }
 
   async calculateVolume(params: any): Promise<any> {
