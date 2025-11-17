@@ -51,8 +51,8 @@ export async function startCollaborationServer(): Promise<{
   const collaborationServer = new CollaborationServer(httpServer, {
     corsOrigin: CORS_ORIGIN,
     csrfTokenSecret: process.env.CSRF_TOKEN_SECRET,
-    enableRateLimiting: true,
-    maxConnectionsPerIP: 10,
+    enableRateLimiting: process.env.ENABLE_RATE_LIMIT !== 'false', // Default: enabled, disable for tests
+    maxConnectionsPerIP: parseInt(process.env.MAX_CONNECTIONS_PER_IP || '10', 10),
   });
 
   // Register session routes on Express router

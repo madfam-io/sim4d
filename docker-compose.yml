@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile.studio
     ports:
-      - "5173:5173"
+      - '5173:5173'
     volumes:
       - ./apps/studio:/app/apps/studio
       - ./packages:/app/packages
@@ -31,7 +31,7 @@ services:
       context: .
       dockerfile: Dockerfile.marketing
     ports:
-      - "3000:3000"
+      - '3000:3000'
     volumes:
       - ./apps/marketing:/app/apps/marketing
       - ./packages:/app/packages
@@ -49,16 +49,17 @@ services:
       context: .
       dockerfile: Dockerfile.collaboration
     ports:
-      - "8080:8080"
-    # volumes:
-    #   - ./packages/collaboration:/app/packages/collaboration
-    #   - /app/node_modules
-    #   - /app/packages/collaboration/node_modules
+      - '8080:8080'
+    volumes:
+      - ./packages/collaboration/dist:/app/packages/collaboration/dist
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=${NODE_ENV:-development}
       - COLLAB_PORT=8080
       - HEARTBEAT_INTERVAL=30000
       - LOCK_TIMEOUT=60000
+      - ENABLE_RATE_LIMIT=${ENABLE_RATE_LIMIT:-true}
+      - MAX_CONNECTIONS_PER_IP=${MAX_CONNECTIONS_PER_IP:-10}
+      - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:5173}
     networks:
       - brepflow
     command: node packages/collaboration/dist/server/standalone-server.cjs
@@ -67,14 +68,14 @@ services:
   redis:
     image: redis:7-alpine
     ports:
-      - "6379:6379"
+      - '6379:6379'
     volumes:
       - redis_data:/data
     networks:
       - brepflow
     command: redis-server --appendonly yes
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ['CMD', 'redis-cli', 'ping']
       interval: 5s
       timeout: 3s
       retries: 5
@@ -83,7 +84,7 @@ services:
   postgres:
     image: postgres:16-alpine
     ports:
-      - "5432:5432"
+      - '5432:5432'
     environment:
       - POSTGRES_DB=brepflow
       - POSTGRES_USER=brepflow
@@ -94,7 +95,7 @@ services:
     networks:
       - brepflow
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U brepflow"]
+      test: ['CMD-SHELL', 'pg_isready -U brepflow']
       interval: 5s
       timeout: 3s
       retries: 5
