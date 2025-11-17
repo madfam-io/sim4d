@@ -181,7 +181,11 @@ const handleWithBindings = (request: WorkerRequest): any => {
     throw new Error('OCCT module is not initialized');
   }
 
-  const params = request.params ?? {};
+  // Type assertion needed because normalizeOperationType breaks discriminated union narrowing
+  // The operation normalization (e.g., 'MAKE_BOX' -> 'BOX') prevents TypeScript from narrowing
+  // request.params to the specific request type. Runtime behavior is safe due to switch logic.
+  // TODO: Refactor to preserve type discrimination (switch on request.type directly)
+  const params = (request.params ?? {}) as any;
   const operation = normalizeOperationType(request.type);
 
   switch (operation) {
