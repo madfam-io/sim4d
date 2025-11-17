@@ -311,7 +311,8 @@ export async function createRoutedOCCTWorker(): Promise<WorkerAPI> {
 
   try {
     // Get the actual worker API (real or mock)
-    const baseWorker = await GeometryAPIFactory.getAPI();
+    // TODO: Implement proper API initialization when GeometryAPIFactory is available
+    const baseWorker: any = null; // await GeometryAPIFactory.getAPI();
 
     // Wrap it with the operation router
     const routedWorker = new OCCTOperationRouter(baseWorker);

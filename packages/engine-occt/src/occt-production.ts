@@ -486,7 +486,7 @@ export class OCCTProductionAPI {
   /**
    * Execute a geometry command
    */
-  async execute(command: WorkerCommand): Promise<WorkerResponse> {
+  async execute(command: WorkerRequest): Promise<WorkerResponse> {
     await this.ensureInitialized();
 
     if (!this.module) {

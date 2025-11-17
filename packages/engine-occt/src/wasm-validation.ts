@@ -159,7 +159,7 @@ export class WASMValidator {
       ];
 
       for (const func of requiredFunctions) {
-        if (typeof this.module[func] !== 'function') {
+        if (typeof (this.module as any)[func] !== 'function') {
           errors.push(`Required function missing: ${func}`);
         }
       }

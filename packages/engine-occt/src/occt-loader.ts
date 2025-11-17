@@ -88,7 +88,8 @@ export async function loadOCCTModule(options: LoaderOptions = {}): Promise<any> 
     const isWorker = typeof importScripts === 'function';
     const isNode = typeof process !== 'undefined' && process.versions && process.versions.node;
     const isTest =
-      typeof global !== 'undefined' && (global.__vitest || process.env.NODE_ENV === 'test');
+      typeof global !== 'undefined' &&
+      ((global as any).__vitest || process.env.NODE_ENV === 'test');
 
     console.log('[OCCT] Environment detection:', { isBrowser, isWorker, isNode, isTest });
 

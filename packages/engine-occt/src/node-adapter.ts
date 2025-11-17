@@ -42,8 +42,8 @@ export class GeometryProxy {
         return await this.worker.invoke(actualMethod, operation.params);
       }
       // Fallback: try direct method call
-      else if (typeof this.worker[actualMethod] === 'function') {
-        return await this.worker[actualMethod](operation.params);
+      else if (typeof (this.worker as any)[actualMethod] === 'function') {
+        return await (this.worker as any)[actualMethod](operation.params);
       }
       // Alternative: use execute method
       else if (this.worker.execute) {
