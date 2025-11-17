@@ -310,7 +310,7 @@ const handleWithBindings = (request: WorkerRequest): any => {
       if (sections.length < 2) {
         throw new Error('LOFT requires at least two section handles');
       }
-      const sectionIds = sections.map((section) => getShapeId(section));
+      const sectionIds = sections.map((section: any) => getShapeId(section));
       const handle = occtModule.makeLoft(sectionIds, params.options ?? {});
       return normalizeShapeHandle(handle);
     }

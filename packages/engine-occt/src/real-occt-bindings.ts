@@ -863,7 +863,7 @@ export class RealOCCT implements WorkerAPI {
       const tool = this.shapes.get(shapes[i]?.id || shapes[i]);
       if (!tool) continue;
 
-      const fuse = new this.occt.BRepAlgoAPI_Fuse(result, tool);
+      const fuse: any = new this.occt.BRepAlgoAPI_Fuse(result, tool);
       fuse.Build();
 
       if (i > 1) {
@@ -925,7 +925,7 @@ export class RealOCCT implements WorkerAPI {
       const tool = this.shapes.get(shapes[i]?.id || shapes[i]);
       if (!tool) continue;
 
-      const common = new this.occt.BRepAlgoAPI_Common(result, tool);
+      const common: any = new this.occt.BRepAlgoAPI_Common(result, tool);
       common.Build();
 
       if (i > 1) {

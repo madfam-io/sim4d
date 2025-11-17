@@ -627,7 +627,7 @@ export class OCCTProductionAPI {
           if (sections.length < 2) {
             throw new Error('LOFT operation requires at least two section handles');
           }
-          const sectionIds = sections.map((section) => this.getShapeId(section));
+          const sectionIds = sections.map((section: any) => this.getShapeId(section));
           const handle = (this.module as any).makeLoft(sectionIds, params.options ?? {});
           result = this.normalizeShapeHandle(handle);
           break;
