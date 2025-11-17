@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "@types/uuid": "^9.0.7",
-    "tsup": "^8.0.0",
-    "vitest": "^4.0.9"
+    "tsup": "^8.5.1",
+    "vitest": "^4.0.10"
   }
 }
