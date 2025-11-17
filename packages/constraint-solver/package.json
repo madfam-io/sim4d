@@ -21,10 +21,10 @@
     "numeric": "^1.2.6"
   },
   "devDependencies": {
-    "@types/node": "^20.11.5",
+    "@types/node": "^20.19.25",
     "@types/numeric": "^1.2.6",
     "tsup": "^8.5.1",
-    "typescript": "^5.3.3",
-    "vitest": "^4.0.9"
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.10"
   }
 }
