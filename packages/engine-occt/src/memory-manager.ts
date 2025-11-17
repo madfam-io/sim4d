@@ -775,7 +775,7 @@ export class AdvancedMemoryManager {
     size += mesh.positions.byteLength;
     size += mesh.normals.byteLength;
     size += mesh.indices.byteLength;
-    size += mesh.edges.byteLength;
+    if (mesh.edges) size += mesh.edges.byteLength;
     if (mesh.uvs) size += mesh.uvs.byteLength;
     return size;
   }

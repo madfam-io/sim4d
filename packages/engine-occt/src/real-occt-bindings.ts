@@ -866,15 +866,19 @@ export class RealOCCT implements WorkerAPI {
       const fuse: any = new this.occt.BRepAlgoAPI_Fuse(result, tool);
       fuse.Build();
 
-      if (i > 1) {
+      if (i > 1 && result) {
         // Clean up intermediate result
         result.delete();
       }
 
-      result = fuse.Shape();
+      const newResult = fuse.Shape();
       fuse.delete();
+
+      if (!newResult) throw new Error('Boolean union operation failed');
+      result = newResult;
     }
 
+    if (!result) throw new Error('Boolean union: final result is null');
     const handle = this.createHandle(result, 'solid');
     return handle;
   }
@@ -928,15 +932,19 @@ export class RealOCCT implements WorkerAPI {
       const common: any = new this.occt.BRepAlgoAPI_Common(result, tool);
       common.Build();
 
-      if (i > 1) {
+      if (i > 1 && result) {
         // Clean up intermediate result
         result.delete();
       }
 
-      result = common.Shape();
+      const newResult = common.Shape();
       common.delete();
+
+      if (!newResult) throw new Error('Boolean intersection operation failed');
+      result = newResult;
     }
 
+    if (!result) throw new Error('Boolean intersection: final result is null');
     const handle = this.createHandle(result, 'solid');
     return handle;
   }
