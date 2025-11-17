@@ -8,7 +8,6 @@ import {
   NumberInput,
   CoordinateInput,
   Enhanced3DViewport,
-  Vec3Input,
 } from '../ui';
 import { usePerformanceMonitor, getPerformanceMonitor } from '../../utils/performance-monitor';
 import './ComponentShowcase.css';

@@ -36,8 +36,8 @@ const VIEW_TYPE_ICONS: Record<ViewportViewType, 'box' | 'square'> = {
 export const ViewportInstance: React.FC<ViewportInstanceProps> = ({
   viewport,
   isActive,
-  geometryData,
-  onCameraChange,
+  geometryData: _geometryData,
+  onCameraChange: _onCameraChange,
   onSelect,
   onRenderModeChange,
   onViewTypeChange,

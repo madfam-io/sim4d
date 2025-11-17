@@ -3,11 +3,7 @@
  * Helps recover from corrupted or broken layout states
  */
 
-import {
-  LAYOUT_PRESETS,
-  getDefaultLayoutForScreenSize,
-  getScreenSizeFromWidth,
-} from '../config/layout-presets';
+import { getDefaultLayoutForScreenSize, getScreenSizeFromWidth } from '../config/layout-presets';
 import type { WorkbenchLayout } from '../types/layout';
 import { createChildLogger } from '../lib/logging/logger-instance';
 

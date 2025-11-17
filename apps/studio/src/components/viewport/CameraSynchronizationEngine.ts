@@ -200,7 +200,7 @@ export class CameraSynchronizationEngine {
     if (!sourceViewport) return;
 
     const eligibleTargets = Array.from(this.viewports.entries())
-      .filter(([id, viewport]) => {
+      .filter(([id, _viewport]) => {
         if (id === event.sourceViewportId) return false;
 
         const settings = this.syncSettings.get(id);
@@ -258,7 +258,7 @@ export class CameraSynchronizationEngine {
     syncMode: SyncMode
   ): Partial<ViewportCameraState> | null {
     const targetConstraints = ORTHOGRAPHIC_CONSTRAINTS[targetViewport.viewType];
-    const sourceConstraints = ORTHOGRAPHIC_CONSTRAINTS[sourceViewport.viewType];
+    const _sourceConstraints = ORTHOGRAPHIC_CONSTRAINTS[sourceViewport.viewType];
 
     let transformedCamera: Partial<ViewportCameraState> = {};
 
@@ -314,7 +314,7 @@ export class CameraSynchronizationEngine {
     sourceViewport: ViewportInstance,
     targetViewport: ViewportInstance,
     deltaCamera: Partial<ViewportCameraState>,
-    constraints: (typeof ORTHOGRAPHIC_CONSTRAINTS)[ViewportViewType]
+    _constraints: (typeof ORTHOGRAPHIC_CONSTRAINTS)[ViewportViewType]
   ): Partial<ViewportCameraState> {
     if (!deltaCamera.position || !deltaCamera.target) {
       return {};
@@ -339,7 +339,7 @@ export class CameraSynchronizationEngine {
     sourceViewport: ViewportInstance,
     targetViewport: ViewportInstance,
     deltaCamera: Partial<ViewportCameraState>,
-    constraints: (typeof ORTHOGRAPHIC_CONSTRAINTS)[ViewportViewType]
+    _constraints: (typeof ORTHOGRAPHIC_CONSTRAINTS)[ViewportViewType]
   ): Partial<ViewportCameraState> {
     if (!deltaCamera.target) return {};
 
@@ -465,7 +465,7 @@ export class CameraSynchronizationEngine {
   /**
    * Check if camera delta is significant enough to warrant sync
    */
-  private isDeltaSignificant(delta: Partial<ViewportCameraState>, threshold: number): boolean {
+  private isDeltaSignificant(delta: Partial<ViewportCameraState>, _threshold: number): boolean {
     return (
       Object.keys(delta).length > 0 &&
       (delta.position || delta.target || delta.zoom || delta.fov) !== undefined
@@ -633,7 +633,7 @@ export class CameraSynchronizationEngine {
 
   private rotateVector3(
     vector: [number, number, number],
-    center: [number, number, number]
+    _center: [number, number, number]
   ): [number, number, number] {
     // Simplified rotation - in real implementation, use proper 3D rotation matrices
     return [vector[0], vector[1], vector[2]];
@@ -658,8 +658,8 @@ export class CameraSynchronizationEngine {
 
   private transformVector3BetweenViews(
     vector: [number, number, number],
-    sourceConstraints: (typeof ORTHOGRAPHIC_CONSTRAINTS)[ViewportViewType],
-    targetConstraints: (typeof ORTHOGRAPHIC_CONSTRAINTS)[ViewportViewType]
+    _sourceConstraints: (typeof ORTHOGRAPHIC_CONSTRAINTS)[ViewportViewType],
+    _targetConstraints: (typeof ORTHOGRAPHIC_CONSTRAINTS)[ViewportViewType]
   ): [number, number, number] {
     // Simplified transformation - in real implementation, use proper transformation matrices
     return vector;

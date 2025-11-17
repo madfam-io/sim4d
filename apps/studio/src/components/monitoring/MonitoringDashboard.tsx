@@ -50,7 +50,7 @@ export const MonitoringDashboard: React.FC<MonitoringDashboardProps> = ({ isVisi
       clearInterval(refreshInterval);
       setRefreshInterval(null);
     }
-  }, [isVisible, refreshData]);
+  }, [isVisible, refreshData, refreshInterval]);
 
   if (!isVisible || !dashboardData) {
     return null;

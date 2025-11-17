@@ -19,7 +19,7 @@ const logger = createChildLogger({ module: 'EnhancedStudioExample' });
  * This demonstrates professional CAD-grade components in action
  */
 export const EnhancedStudioExample: React.FC = () => {
-  const [selectedTool, setSelectedTool] = useState('orbit');
+  const [_selectedTool, setSelectedTool] = useState('orbit');
   const [nodeParameters, setNodeParameters] = useState({
     width: 100,
     height: 50,

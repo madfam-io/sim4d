@@ -6,7 +6,6 @@
 import React, { useCallback, useState } from 'react';
 import { ErrorBoundary, WASMErrorBoundary } from '../lib/error-handling/error-boundary';
 import { useMonitoring, useRenderTiming, useOperationTiming } from '../hooks/useMonitoring';
-import { ErrorCode } from '../lib/error-handling/types';
 import { createChildLogger } from '../lib/logging/logger-instance';
 
 const logger = createChildLogger({ module: 'monitoring-integration' });
@@ -341,7 +340,7 @@ export const DataProcessor: React.FC<{
     if (data) {
       processData();
     }
-  }, [processData]);
+  }, [processData, data]);
 
   if (error) {
     return (

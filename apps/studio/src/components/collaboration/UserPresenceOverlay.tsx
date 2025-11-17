@@ -271,7 +271,7 @@ export const UserPresenceOverlay: React.FC<UserPresenceOverlayProps> = ({
     };
 
     loadPresence();
-  }, [sessionId, currentUserId]);
+  }, [sessionId, currentUserId, users]);
 
   // Render user cursors
   const renderCursors = useMemo(() => {
