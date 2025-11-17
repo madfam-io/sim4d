@@ -65,8 +65,9 @@ async function testOperationRouting(): Promise<boolean> {
 
     log('  ✅ Operation routing validated', colors.green);
     return true;
-  } catch (error) {
-    log(`  ❌ Operation routing failed: ${error.message}`, colors.red);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    log(`  ❌ Operation routing failed: ${message}`, colors.red);
     return false;
   }
 }
@@ -115,8 +116,9 @@ async function testContextEnhancement(): Promise<boolean> {
       log('  ❌ Context enhancement not working properly', colors.red);
       return false;
     }
-  } catch (error) {
-    log(`  ❌ Context enhancement failed: ${error.message}`, colors.red);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    log(`  ❌ Context enhancement failed: ${message}`, colors.red);
     return false;
   }
 }
@@ -257,8 +259,9 @@ async function testNodeExecution(): Promise<boolean> {
     log(`    Union: ${JSON.stringify(union.outputs.result)}`, colors.gray);
 
     return true;
-  } catch (error) {
-    log(`  ❌ Node execution failed: ${error.message}`, colors.red);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    log(`  ❌ Node execution failed: ${message}`, colors.red);
     console.error(error);
     return false;
   }
@@ -300,8 +303,9 @@ async function testWASMIntegration(): Promise<boolean> {
 
     // WASM may not be fully functional in test environment, so we don't fail
     return true;
-  } catch (error) {
-    log(`  ⚠️ WASM validation error: ${error.message}`, colors.yellow);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    log(`  ⚠️ WASM validation error: ${message}`, colors.yellow);
     return true; // Don't fail the test for WASM issues
   }
 }
@@ -360,8 +364,9 @@ async function testPerformance(): Promise<boolean> {
 
     log('  ✅ Performance benchmark complete', colors.green);
     return true;
-  } catch (error) {
-    log(`  ❌ Performance test failed: ${error.message}`, colors.red);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    log(`  ❌ Performance test failed: ${message}`, colors.red);
     return false;
   }
 }

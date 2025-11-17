@@ -54,9 +54,10 @@ export class GeometryProxy {
       } else {
         throw new Error(`Worker does not support operation: ${actualMethod}`);
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.error(`Geometry operation failed: ${operation.type} -> ${actualMethod}`, error);
-      throw new Error(`Geometry operation '${operation.type}' failed: ${error.message}`);
+      const message = error instanceof Error ? error.message : String(error);
+      throw new Error(`Geometry operation '${operation.type}' failed: ${message}`);
     }
   }
 
@@ -203,8 +204,9 @@ export async function initializeNodeAdapter(): Promise<void> {
         params: { width: 10, depth: 10, height: 10 },
       });
       console.log('✅ Test geometry operation successful');
-    } catch (error) {
-      console.warn('⚠️ Test geometry operation failed (WASM may not be loaded):', error.message);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      console.warn('⚠️ Test geometry operation failed (WASM may not be loaded):', message);
     }
   } catch (error) {
     console.error('❌ Failed to initialize OCCT node adapter:', error);

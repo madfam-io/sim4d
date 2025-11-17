@@ -133,12 +133,13 @@ export async function loadOCCTModule(options: LoaderOptions = {}): Promise<any> 
         console.log(`[OCCT] Successfully loaded ${config.mode} in ${duration.toFixed(1)}ms`);
 
         return occtModule;
-      } catch (error) {
+      } catch (error: unknown) {
         console.warn(`[OCCT] Attempt ${attempts} failed:`, error);
 
         if (attempts >= maxAttempts) {
           LoaderState.recordFailure();
-          throw new Error(`Failed to load OCCT after ${maxAttempts} attempts: ${error.message}`);
+          const message = error instanceof Error ? error.message : String(error);
+          throw new Error(`Failed to load OCCT after ${maxAttempts} attempts: ${message}`);
         }
 
         // Wait before retry (exponential backoff)

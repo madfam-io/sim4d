@@ -147,8 +147,9 @@ async function testNodeEvaluation() {
     }
 
     return true;
-  } catch (error) {
-    log(`    ❌ Test failed: ${error.message}`, colors.red);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    log(`    ❌ Test failed: ${message}`, colors.red);
     return false;
   }
 }
