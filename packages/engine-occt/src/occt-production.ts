@@ -875,10 +875,9 @@ export class OCCTProductionAPI {
 
       return {
         id: command.id,
-        type: command.type,
         result,
         success: true,
-      };
+      } as any;
     } catch (error) {
       console.error('[OCCTProductionAPI] Command failed:', command.type, error);
 

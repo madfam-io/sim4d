@@ -633,6 +633,7 @@ export interface MeshData {
   uvs?: Float32Array;
   vertices?: Float32Array;
   vertexCount?: number;
+  triangleCount?: number;
   edgeCount?: number;
 }
 
