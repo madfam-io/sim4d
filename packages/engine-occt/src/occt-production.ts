@@ -486,7 +486,7 @@ export class OCCTProductionAPI {
   /**
    * Execute a geometry command
    */
-  async execute(command: WorkerRequest): Promise<WorkerResponse> {
+  async execute(command: any): Promise<WorkerResponse> {
     await this.ensureInitialized();
 
     if (!this.module) {
@@ -883,10 +883,12 @@ export class OCCTProductionAPI {
 
       return {
         id: command.id,
-        type: command.type,
-        error: error instanceof Error ? error.message : String(error),
+        error: {
+          message: error instanceof Error ? error.message : String(error),
+          code: 'EXECUTION_ERROR',
+        },
         success: false,
-      };
+      } as WorkerResponse;
     }
   }
 

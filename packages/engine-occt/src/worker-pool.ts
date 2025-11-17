@@ -84,7 +84,7 @@ export class WorkerPool {
 
   constructor(private config: PoolConfig) {
     // Initialize injected dependencies or use defaults
-    this.workerFactory = config.workerFactory || ((url, options) => new WorkerClient(url, options));
+    this.workerFactory = config.workerFactory || ((url) => new WorkerClient(url));
     this.capabilityDetector =
       config.capabilityDetector || (() => WASMCapabilityDetector.detectCapabilities());
     this.configProvider =

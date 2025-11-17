@@ -47,10 +47,7 @@ export class GeometryProxy {
       }
       // Alternative: use execute method
       else if (this.worker.execute) {
-        return await this.worker.execute({
-          ...operation,
-          type: actualMethod,
-        });
+        return await this.worker.execute(actualMethod, operation.params);
       } else {
         throw new Error(`Worker does not support operation: ${actualMethod}`);
       }

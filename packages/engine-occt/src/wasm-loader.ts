@@ -219,7 +219,7 @@ export class WASMLoader {
     try {
       // Create a minimal test WASM with threads
       const testWasm = this.createThreadTestWasm();
-      const module = await WebAssembly.compile(testWasm);
+      const module = await WebAssembly.compile(testWasm as BufferSource);
       const _instance = await WebAssembly.instantiate(module);
 
       // If we get here without errors, basic threading should work

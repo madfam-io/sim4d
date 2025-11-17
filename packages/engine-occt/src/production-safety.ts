@@ -19,28 +19,31 @@ export function detectEnvironment(): EnvironmentConfig {
 
   // Check browser environment indicators
   const hostname = typeof window !== 'undefined' ? window.location?.hostname : '';
-  const isLocalhost =
-    hostname === 'localhost' || hostname === '127.0.0.1' || hostname.startsWith('192.168.');
+  const isLocalhost = Boolean(
+    hostname === 'localhost' || hostname === '127.0.0.1' || hostname.startsWith('192.168.')
+  );
 
   // Production detection logic
-  const isProduction =
+  const isProduction = Boolean(
     nodeEnv === 'production' ||
-    (!isLocalhost && hostname && !hostname.includes('dev') && !hostname.includes('staging'));
+      (!isLocalhost && hostname && !hostname.includes('dev') && !hostname.includes('staging'))
+  );
 
-  const isDevelopment = nodeEnv === 'development' || isLocalhost;
+  const isDevelopment = Boolean(nodeEnv === 'development' || isLocalhost);
 
   // Enhanced test detection - check for test environment flags
-  const isTest =
+  const isTest = Boolean(
     nodeEnv === 'test' ||
-    (typeof global !== 'undefined' && (global as any).__vitest__) ||
-    (typeof global !== 'undefined' && (global as any).__OCCT_TEST_MODE__) ||
-    (typeof process !== 'undefined' && process.env?.ENABLE_REAL_OCCT_TESTING === 'true');
+      (typeof global !== 'undefined' && (global as any).__vitest__) ||
+      (typeof global !== 'undefined' && (global as any).__OCCT_TEST_MODE__) ||
+      (typeof process !== 'undefined' && process.env?.ENABLE_REAL_OCCT_TESTING === 'true')
+  );
 
   return {
     isProduction,
     isDevelopment,
     isTest,
-    nodeEnv,
+    nodeEnv: nodeEnv as string,
   };
 }
 

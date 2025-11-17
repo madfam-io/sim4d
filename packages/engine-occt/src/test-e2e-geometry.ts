@@ -146,8 +146,10 @@ async function testNodeExecution(): Promise<boolean> {
 
     // Register Box node that uses context.geometry
     registry.registerNode({
+      id: 'Test::Box',
       type: 'Test::Box',
       category: 'Test',
+      label: 'Test Box',
       params: {
         width: { type: 'number', default: 100 },
         height: { type: 'number', default: 100 },
@@ -166,12 +168,14 @@ async function testNodeExecution(): Promise<boolean> {
           }),
         };
       },
-    });
+    } as any);
 
     // Register Union node
     registry.registerNode({
+      id: 'Test::Union',
       type: 'Test::Union',
       category: 'Test',
+      label: 'Test Union',
       params: {},
       inputs: {
         a: { type: 'Solid' },
@@ -189,10 +193,13 @@ async function testNodeExecution(): Promise<boolean> {
           }),
         };
       },
-    });
+    } as any);
 
     // Create test graph with two boxes and a union
     const testGraph: GraphInstance = {
+      version: '1.0',
+      units: 'mm' as const,
+      tolerance: 0.01,
       nodes: [
         {
           id: 'box1' as any,
@@ -220,7 +227,7 @@ async function testNodeExecution(): Promise<boolean> {
           },
           outputs: {},
           dirty: true,
-        } as NodeInstance,
+        } as any as NodeInstance,
       ],
       edges: [],
       metadata: { description: 'Test graph for E2E validation' },

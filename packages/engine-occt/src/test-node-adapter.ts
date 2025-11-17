@@ -92,6 +92,9 @@ async function testNodeEvaluation() {
 
     // Create a simple test graph with a box node
     const testGraph: GraphInstance = {
+      version: '1.0',
+      units: 'mm' as const,
+      tolerance: 0.01,
       nodes: [
         {
           id: 'box-node-1',
@@ -108,8 +111,10 @@ async function testNodeEvaluation() {
 
     // Register a test node definition that uses context.geometry
     NodeRegistry.getInstance().registerNode({
+      id: 'Solid::Box',
       type: 'Solid::Box',
       category: 'Solid',
+      label: 'Box',
       params: {},
       inputs: {},
       outputs: { solid: { type: 'Solid' } },
@@ -125,7 +130,7 @@ async function testNodeEvaluation() {
           }),
         };
       },
-    });
+    } as any);
 
     // Evaluate the graph
     log('  Evaluating test graph...', colors.gray);

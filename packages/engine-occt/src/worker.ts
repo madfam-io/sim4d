@@ -33,7 +33,7 @@ const postMessageToHost = (message: WorkerResponse | any) => {
 
 const addHostMessageListener = (handler: (event: { data: WorkerRequest }) => void) => {
   if (isBrowserLikeWorker) {
-    (self as any).addEventListener('message', handler as EventListener);
+    (self as any).addEventListener('message', handler as unknown as EventListener);
   } else if (parentPort) {
     parentPort.on('message', (data: WorkerRequest) => handler({ data }));
   } else {
