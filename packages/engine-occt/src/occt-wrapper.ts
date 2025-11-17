@@ -6,7 +6,7 @@
  */
 
 import type { MeshData, ShapeHandle } from '@brepflow/types';
-import { loadOCCT, getOCCTModule, type OCCTModule } from './occt-bindings';
+import { loadOCCT, getOCCTModule as _getOCCTModule, type OCCTModule } from './occt-bindings';
 
 export type RawShapeHandle = ShapeHandle & {
   bbox_min_x?: number;

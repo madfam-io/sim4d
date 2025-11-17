@@ -9,6 +9,7 @@ import type { GeometryAPIConfig, _OperationResult } from './integrated-geometry-
 import type { ShapeHandle, _MeshData } from '@brepflow/types';
 import { resetOCCTCircuitBreaker } from './occt-loader';
 import { shutdownGlobalMemoryManager } from './memory-manager';
+import { shutdownGlobalPool } from './worker-pool';
 
 // Mock the dependencies
 const occtFixture = vi.hoisted(() => {
@@ -285,8 +286,16 @@ const TEST_API_CONFIG: GeometryAPIConfig = {
     enableCircuitBreaker: true,
     adaptiveScaling: true,
     taskTimeout: 30000,
-    // DI: Inject mock worker factory and capability detection
-    workerFactory: () => workerPoolFixture.mockWorkerClient as any,
+    // DI: Inject mock worker factory that creates fresh workers each time
+    workerFactory: () =>
+      ({
+        init: vi.fn().mockResolvedValue(undefined),
+        invoke: vi.fn().mockImplementation(async (operation: string, params: any) => {
+          const result = await occtFixture.occtModule.invoke(operation, params);
+          return { success: true, result };
+        }),
+        terminate: vi.fn().mockResolvedValue(undefined),
+      }) as any,
     capabilityDetector: async () => workerPoolFixture.mockCapabilities,
     configProvider: async () => workerPoolFixture.mockOCCTConfig,
     performanceMonitor: {
@@ -359,14 +368,15 @@ vi.mock('./wasm-capability-detector', () => ({
 describe('IntegratedGeometryAPI', () => {
   let geometryAPI: IntegratedGeometryAPI;
 
-  afterEach(() => {
+  afterEach(async () => {
     // Reset all mock fixtures and circuit breaker state for next test
     occtFixture.reset();
     workerPoolFixture.reset();
     memoryFixture.reset();
     resetOCCTCircuitBreaker();
-    // Clear global memory manager singleton to prevent cache pollution between tests
+    // Clear global singletons to prevent state pollution between tests
     shutdownGlobalMemoryManager();
+    await shutdownGlobalPool();
   });
 
   describe('Initialization', () => {

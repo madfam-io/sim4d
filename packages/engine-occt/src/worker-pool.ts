@@ -10,8 +10,12 @@ import {
   WASMPerformanceMonitor,
   type OCCTConfig,
 } from './wasm-capability-detector';
-import type { WorkerRequest, WorkerResponse, HealthCheckResult } from './worker-types';
-import type { ShapeHandle, MeshData } from '@brepflow/types';
+import type {
+  WorkerRequest as _WorkerRequest,
+  WorkerResponse as _WorkerResponse,
+  HealthCheckResult,
+} from './worker-types';
+import type { ShapeHandle as _ShapeHandle, MeshData as _MeshData } from '@brepflow/types';
 
 export interface PoolWorker {
   id: string;

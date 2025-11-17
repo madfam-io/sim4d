@@ -10,7 +10,7 @@ import { NodeRegistry } from '@brepflow/engine-core';
 import { GeometryProxy, createEnhancedContext } from './node-adapter';
 import {
   OCCTOperationRouter,
-  createRoutedOCCTWorker,
+  createRoutedOCCTWorker as _createRoutedOCCTWorker,
   getRoutingStatistics,
 } from './occt-operation-router';
 import { WASMValidator } from './wasm-validation';
