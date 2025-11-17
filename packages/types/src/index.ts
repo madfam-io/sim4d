@@ -628,6 +628,10 @@ export interface MeshData {
   normals: Float32Array;
   indices: Uint32Array;
   edges?: Uint32Array;
+  uvs?: Float32Array;
+  vertices?: Float32Array;
+  vertexCount?: number;
+  edgeCount?: number;
 }
 
 // Export formats

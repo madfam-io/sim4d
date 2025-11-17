@@ -446,6 +446,9 @@ importers:
 
   packages/engine-occt:
     dependencies:
+      '@brepflow/engine-core':
+        specifier: workspace:*
+        version: link:../engine-core
       '@brepflow/types':
         specifier: workspace:*
         version: link:../types

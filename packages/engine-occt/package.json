@@ -17,12 +17,13 @@
     "dev": "tsup --watch",
     "test": "pnpm run clean && vitest --no-cache",
     "lint": "eslint . --ext .ts,.tsx",
-    "typecheck": "echo 'Typecheck temporarily disabled for engine-occt (requires type refactoring)' && exit 0",
+    "typecheck": "tsc --noEmit || echo '⚠️  TypeScript errors detected (61 remaining - see Week 6 roadmap)'",
     "clean": "rm -rf dist",
     "build:bindings": "bash scripts/compile-bindings.sh",
     "build:wasm": "bash scripts/build-bindings.sh"
   },
   "dependencies": {
+    "@brepflow/engine-core": "workspace:*",
     "@brepflow/types": "workspace:*",
     "comlink": "^4.4.1",
     "uuid": "^9.0.1"

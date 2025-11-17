@@ -1,10 +1,10 @@
 // TODO: Align ShapeHandle interface between @brepflow/types and local occt-bindings.ts
-import type { WorkerAPI, _ShapeHandle, MeshData } from '@brepflow/types';
+import type { WorkerAPI, ShapeHandle, MeshData } from '@brepflow/types';
 import { createHandleId } from '@brepflow/types';
 import type {
   WorkerRequest,
   WorkerResponse,
-  _GeometryResult,
+  GeometryResult,
   TessellationResult,
 } from './worker-types';
 

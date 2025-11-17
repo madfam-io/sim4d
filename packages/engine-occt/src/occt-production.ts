@@ -3,8 +3,8 @@
  * Complete implementation with real OCCT C++ bindings
  */
 
-import type { ShapeHandle, MeshData, WorkerCommand, WorkerResponse } from './worker-types';
-import type { BoundingBox } from '@brepflow/types';
+import type { WorkerResponse } from './worker-types';
+import type { ShapeHandle, MeshData, BoundingBox } from '@brepflow/types';
 
 // Type definitions for the OCCT WASM module
 export interface OCCTModule {

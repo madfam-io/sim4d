@@ -5,7 +5,7 @@
 
 import {
   GeometryProxy,
-  _initializeNodeAdapter,
+  initializeNodeAdapter,
   getOperationStats,
   OPERATION_MAP,
 } from './node-adapter';
