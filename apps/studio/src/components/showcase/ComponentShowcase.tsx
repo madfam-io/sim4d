@@ -12,6 +12,9 @@ import {
 } from '../ui';
 import { usePerformanceMonitor, getPerformanceMonitor } from '../../utils/performance-monitor';
 import './ComponentShowcase.css';
+import { createChildLogger } from '../../lib/logging/logger-instance';
+
+const logger = createChildLogger({ module: 'ComponentShowcase' });
 
 /**
  * Interactive Component Showcase
@@ -288,9 +291,9 @@ export const ComponentShowcase: React.FC = () => {
           <Panel title="Enhanced 3D Viewport" subtitle="Professional CAD navigation and tools">
             <div style={{ height: '600px' }}>
               <Enhanced3DViewport
-                onToolChange={(tool) => console.log('Tool changed:', tool)}
-                onViewChange={(view) => console.log('View changed:', view)}
-                onMeasurement={(type, data) => console.log('Measurement:', type, data)}
+                onToolChange={(tool) => logger.debug('Tool changed:', tool)}
+                onViewChange={(view) => logger.debug('View changed:', view)}
+                onMeasurement={(type, data) => logger.debug('Measurement:', type, data)}
               />
             </div>
           </Panel>
@@ -390,7 +393,7 @@ export const ComponentShowcase: React.FC = () => {
           icon="activity"
           onClick={() => {
             const monitor = getPerformanceMonitor();
-            console.log(monitor.getPerformanceReport());
+            logger.debug(monitor.getPerformanceReport());
           }}
         >
           Log Performance Report
@@ -402,7 +405,7 @@ export const ComponentShowcase: React.FC = () => {
           onClick={async () => {
             const monitor = getPerformanceMonitor();
             const recording = await monitor.startRecording(5000);
-            console.log('Performance recording:', recording);
+            logger.debug('Performance recording:', recording);
           }}
         >
           Record 5s Performance

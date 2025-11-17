@@ -7,6 +7,9 @@ import React, { useCallback, useState } from 'react';
 import { ErrorBoundary, WASMErrorBoundary } from '../lib/error-handling/error-boundary';
 import { useMonitoring, useRenderTiming, useOperationTiming } from '../hooks/useMonitoring';
 import { ErrorCode } from '../lib/error-handling/types';
+import { createChildLogger } from '../lib/logging/logger-instance';
+
+const logger = createChildLogger({ module: 'monitoring-integration' });
 
 /**
  * Example: Monitored Button Component
@@ -119,7 +122,7 @@ export const GeometryPreview: React.FC<{
   return (
     <WASMErrorBoundary
       onError={(error, errorInfo) => {
-        console.error('WASM error in geometry preview:', error, errorInfo);
+        logger.error('WASM error in geometry preview:', error, errorInfo);
         onError?.(error);
       }}
     >
@@ -384,7 +387,7 @@ export const MonitoredPage: React.FC = () => {
   }, []);
 
   const handleGeometryError = useCallback((error: Error) => {
-    console.error('Geometry error:', error);
+    logger.error('Geometry error:', error);
     // Could show user notification here
   }, []);
 

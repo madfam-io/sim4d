@@ -94,7 +94,7 @@ export class PerformanceMonitor {
 
         this.performanceObserver.observe({ entryTypes: ['measure'] });
       } catch (error) {
-        console.warn('PerformanceObserver not available:', error);
+        logger.warn('PerformanceObserver not available:', error);
       }
     }
   }
@@ -216,7 +216,7 @@ export class PerformanceMonitor {
   }
 
   private handlePerformanceWarnings(warnings: string[]): void {
-    console.warn('Performance warnings:', warnings);
+    logger.warn('Performance warnings:', warnings);
 
     // Trigger performance optimization strategies
     if (this.metrics.fps < 20) {
@@ -225,7 +225,7 @@ export class PerformanceMonitor {
   }
 
   private triggerEmergencyOptimization(): void {
-    console.warn('Triggering emergency performance optimization');
+    logger.warn('Triggering emergency performance optimization');
 
     // Dispatch custom event for the application to handle
     window.dispatchEvent(
@@ -330,6 +330,9 @@ export function getPerformanceMonitor(): PerformanceMonitor {
 
 // React Hook for performance monitoring
 import { useState, useEffect } from 'react';
+import { createChildLogger } from '../lib/logging/logger-instance';
+
+const logger = createChildLogger({ module: 'performance-monitor' });
 
 export function usePerformanceMonitor() {
   const [metrics, setMetrics] = useState<PerformanceMetrics | null>(null);

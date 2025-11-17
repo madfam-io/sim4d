@@ -6,6 +6,9 @@
 
 import React, { useState } from 'react';
 import { useSession } from '../hooks/useSession';
+import { createChildLogger } from '../../lib/logging/logger-instance';
+
+const logger = createChildLogger({ module: 'SessionControls' });
 
 export function SessionControls() {
   const { sessionId, graph, getShareUrl } = useSession();
@@ -17,7 +20,7 @@ export function SessionControls() {
    */
   async function handleExport(format: 'step' | 'stl') {
     if (!sessionId || !graph) {
-      console.warn('[SessionControls] Cannot export: no active session');
+      logger.warn('[SessionControls] Cannot export: no active session');
       return;
     }
 
@@ -54,7 +57,7 @@ export function SessionControls() {
       a.click();
       URL.revokeObjectURL(url);
     } catch (error) {
-      console.error('[SessionControls] Export error:', error);
+      logger.error('[SessionControls] Export error:', error);
       alert(
         `Failed to export ${format.toUpperCase()}: ${error instanceof Error ? error.message : 'Unknown error'}`
       );
@@ -77,7 +80,7 @@ export function SessionControls() {
       setCopySuccess(true);
       setTimeout(() => setCopySuccess(false), 2000);
     } catch (error) {
-      console.error('[SessionControls] Failed to copy share URL:', error);
+      logger.error('[SessionControls] Failed to copy share URL:', error);
       alert('Failed to copy share link');
     }
   }

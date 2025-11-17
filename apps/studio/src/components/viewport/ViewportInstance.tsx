@@ -7,6 +7,9 @@ import type {
   ViewportViewType,
 } from './multi-viewport-interfaces';
 import './ViewportInstance.css';
+import { createChildLogger } from '../../lib/logging/logger-instance';
+
+const logger = createChildLogger({ module: 'ViewportInstance' });
 
 const RENDER_MODE_ICONS: Record<
   ViewportRenderMode,
@@ -78,7 +81,7 @@ export const ViewportInstance: React.FC<ViewportInstanceProps> = ({
   const handleToolChange = useCallback(
     (toolId: string) => {
       // This will be connected to actual camera controls later
-      console.log(`Viewport ${viewport.id}: Tool changed to ${toolId}`);
+      logger.debug(`Viewport ${viewport.id}: Tool changed to ${toolId}`);
     },
     [viewport.id]
   );

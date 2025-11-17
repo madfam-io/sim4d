@@ -99,6 +99,9 @@ import {
   Unlink,
 } from 'lucide-react';
 import { clsx } from 'clsx';
+import { createChildLogger } from '../../lib/logging/logger-instance';
+
+const logger = createChildLogger({ module: 'IconSystem' });
 
 export interface IconProps extends Omit<React.SVGProps<SVGSVGElement>, 'name'> {
   name: string;
@@ -279,7 +282,7 @@ export const Icon: React.FC<IconProps> = ({
   if (!IconComponent) {
     // Only warn in development - production uses fallback icon silently
     if (import.meta.env['DEV']) {
-      console.warn(`Icon "${name}" not found in IconMap - using fallback`);
+      logger.warn(`Icon "${name}" not found in IconMap - using fallback`);
     }
     return (
       <AlertCircle

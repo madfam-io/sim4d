@@ -3,11 +3,14 @@
  */
 
 import { getConfig } from '@brepflow/engine-core';
+import { createChildLogger } from '../lib/logging/logger-instance';
+
+const logger = createChildLogger({ module: 'health' });
 
 const logger = {
-  info: (msg: string, ...args: unknown[]) => console.info('[HealthCheck]', msg, ...args),
-  error: (msg: string, ...args: unknown[]) => console.error('[HealthCheck]', msg, ...args),
-  warn: (msg: string, ...args: unknown[]) => console.warn('[HealthCheck]', msg, ...args),
+  info: (msg: string, ...args: unknown[]) => logger.info('[HealthCheck]', msg, ...args),
+  error: (msg: string, ...args: unknown[]) => logger.error('[HealthCheck]', msg, ...args),
+  warn: (msg: string, ...args: unknown[]) => logger.warn('[HealthCheck]', msg, ...args),
   debug: (msg: string, ...args: unknown[]) => console.debug('[HealthCheck]', msg, ...args),
 };
 

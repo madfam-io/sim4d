@@ -8,6 +8,9 @@ import { ErrorManager } from '../lib/error-handling/error-manager';
 import { MetricsCollector } from '../lib/monitoring/metrics-collector';
 import { HealthAlert } from '../lib/monitoring/health-monitor';
 import { BrepFlowError } from '../lib/error-handling/types';
+import { createChildLogger } from '../lib/logging/logger-instance';
+
+const logger = createChildLogger({ module: 'useMonitoring' });
 
 /**
  * Hook for accessing monitoring system
@@ -22,7 +25,7 @@ export function useMonitoring() {
       setMonitoringSystem(system);
       setIsInitialized(true);
     } catch (error) {
-      console.warn('Monitoring system not initialized yet');
+      logger.warn('Monitoring system not initialized yet');
     }
   }, []);
 
@@ -194,7 +197,7 @@ export function useErrorMonitoring() {
       const errorManager = ErrorManager.getInstance();
       errorManager.resolveError(errorId);
     } catch (error) {
-      console.warn('Failed to resolve error:', error);
+      logger.warn('Failed to resolve error:', error);
     }
   }, []);
 

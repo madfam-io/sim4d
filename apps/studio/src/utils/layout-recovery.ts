@@ -9,6 +9,9 @@ import {
   getScreenSizeFromWidth,
 } from '../config/layout-presets';
 import type { WorkbenchLayout } from '../types/layout';
+import { createChildLogger } from '../lib/logging/logger-instance';
+
+const logger = createChildLogger({ module: 'layout-recovery' });
 
 const STORAGE_KEY = 'brepflow-layout-state';
 const LAYOUTS_KEY = 'brepflow-saved-layouts';
@@ -133,7 +136,7 @@ export function getSafeLayout(): WorkbenchLayout {
     }
 
     // Layout is corrupted, attempt recovery
-    console.warn('🔧 Corrupted layout detected, attempting recovery:', validation.issues);
+    logger.warn('🔧 Corrupted layout detected, attempting recovery:', validation.issues);
     const recovered = recoverLayout(parsed);
 
     // Save the recovered layout
@@ -142,7 +145,7 @@ export function getSafeLayout(): WorkbenchLayout {
     return recovered;
   } catch (error) {
     // JSON parsing failed or other error, clear storage and use default
-    console.error('❌ Failed to load layout, using default:', error);
+    logger.error('❌ Failed to load layout, using default:', error);
     clearLayoutStorage();
 
     return getDefaultLayoutForScreenSize(

@@ -16,6 +16,9 @@ import './UserPresenceOverlay.css';
 
 // Import the actual collaboration engine
 import { BrepFlowCollaborationEngine } from '@brepflow/engine-core';
+import { createChildLogger } from '../../lib/logging/logger-instance';
+
+const logger = createChildLogger({ module: 'UserPresenceOverlay' });
 
 const collaborationEngine = new BrepFlowCollaborationEngine({} as any);
 
@@ -263,7 +266,7 @@ export const UserPresenceOverlay: React.FC<UserPresenceOverlayProps> = ({
         setCursors(userCursors);
         setSelections(userSelections);
       } catch (error) {
-        console.error('Failed to load presence state:', error);
+        logger.error('Failed to load presence state:', error);
       }
     };
 
@@ -302,7 +305,7 @@ export const UserPresenceOverlay: React.FC<UserPresenceOverlayProps> = ({
           const cursor = cursors.get(userId);
           if (cursor && cursor.visible) {
             // Scroll to user's cursor position
-            console.log(`Focus on user ${userId} at position`, cursor.position);
+            logger.debug(`Focus on user ${userId} at position`, cursor.position);
           }
         }}
       />

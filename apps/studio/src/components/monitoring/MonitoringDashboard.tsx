@@ -7,6 +7,9 @@ import { MonitoringSystem } from '../../lib/monitoring/monitoring-system';
 import { HealthAlert } from '../../lib/monitoring/health-monitor';
 import { BrepFlowError } from '../../lib/error-handling/types';
 import styles from './MonitoringDashboard.module.css';
+import { createChildLogger } from '../../lib/logging/logger-instance';
+
+const logger = createChildLogger({ module: 'MonitoringDashboard' });
 
 interface MonitoringDashboardProps {
   isVisible: boolean;
@@ -26,7 +29,7 @@ export const MonitoringDashboard: React.FC<MonitoringDashboardProps> = ({ isVisi
       const data = monitoringSystem.getMonitoringDashboard();
       setDashboardData(data);
     } catch (error) {
-      console.error('Failed to refresh monitoring data:', error);
+      logger.error('Failed to refresh monitoring data:', error);
     }
   }, []);
 
@@ -244,7 +247,7 @@ export const MonitoringDashboard: React.FC<MonitoringDashboardProps> = ({ isVisi
             onClick={() => {
               const newWindow = window.open('', '_blank');
               if (newWindow && (newWindow as any).console) {
-                (newWindow as any).console.log('Console opened');
+                (newWindow as any).logger.debug('Console opened');
               }
             }}
           >

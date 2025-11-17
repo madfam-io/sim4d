@@ -11,6 +11,9 @@ import type {
   ViewportViewType,
   ViewportInstance,
 } from './multi-viewport-interfaces';
+import { createChildLogger } from '../../lib/logging/logger-instance';
+
+const logger = createChildLogger({ module: 'CameraSynchronizationEngine' });
 
 // Synchronization modes for different professional workflows
 export type SyncMode = 'none' | 'rotation' | 'pan' | 'zoom' | 'full' | 'orthographic-lock';
@@ -559,7 +562,7 @@ export class CameraSynchronizationEngine {
       try {
         listener(event);
       } catch (error) {
-        console.warn('Sync event listener error:', error);
+        logger.warn('Sync event listener error:', error);
       }
     });
   }

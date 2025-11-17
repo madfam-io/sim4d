@@ -4,6 +4,9 @@
 
 import type { NodeInstance, NodeId } from '@brepflow/types';
 import { createNodeId } from '@brepflow/types';
+import { createChildLogger } from '../logging/logger-instance';
+
+const logger = createChildLogger({ module: 'node-config' });
 
 export interface NodeConfiguration {
   id: string;
@@ -256,7 +259,7 @@ export class NodeConfigurationManager {
 
       return config;
     } catch (error) {
-      console.error('Failed to import configuration:', error);
+      logger.error('Failed to import configuration:', error);
       return null;
     }
   }
@@ -412,7 +415,7 @@ export class NodeConfigurationManager {
         }
       }
     } catch (error) {
-      console.error('Failed to load configurations from storage:', error);
+      logger.error('Failed to load configurations from storage:', error);
     }
   }
 
@@ -436,7 +439,7 @@ export class NodeConfigurationManager {
       );
       localStorage.setItem(this.STORAGE_KEY_TEMPLATES, JSON.stringify(templatesData));
     } catch (error) {
-      console.error('Failed to save configurations to storage:', error);
+      logger.error('Failed to save configurations to storage:', error);
     }
   }
 

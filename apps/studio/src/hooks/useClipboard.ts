@@ -1,5 +1,8 @@
 import { useState, useCallback } from 'react';
 import type { NodeInstance } from '@brepflow/types';
+import { createChildLogger } from '../lib/logging/logger-instance';
+
+const logger = createChildLogger({ module: 'useClipboard' });
 
 interface ClipboardData {
   nodes: NodeInstance[];
@@ -32,10 +35,10 @@ export function useClipboard() {
     try {
       navigator.clipboard.writeText(JSON.stringify(data));
     } catch (error) {
-      console.warn('Failed to copy to system clipboard:', error);
+      logger.warn('Failed to copy to system clipboard:', error);
     }
 
-    console.log(`📋 Copied ${nodes.length} nodes to clipboard`);
+    logger.debug(`📋 Copied ${nodes.length} nodes to clipboard`);
   }, []);
 
   const pasteNodes = useCallback(
@@ -57,7 +60,7 @@ export function useClipboard() {
         originalId: undefined,
       }));
 
-      console.log(`📋 Pasted ${pastedNodes.length} nodes at position`, basePosition);
+      logger.debug(`📋 Pasted ${pastedNodes.length} nodes at position`, basePosition);
       return pastedNodes;
     },
     [clipboardData]

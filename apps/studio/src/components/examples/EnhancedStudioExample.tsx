@@ -10,6 +10,9 @@ import {
   Enhanced3DViewport,
   DESIGN_TOKENS,
 } from '../ui';
+import { createChildLogger } from '../../lib/logging/logger-instance';
+
+const logger = createChildLogger({ module: 'EnhancedStudioExample' });
 
 /**
  * Example implementation showcasing the enhanced UI/UX design system
@@ -183,9 +186,9 @@ export const EnhancedStudioExample: React.FC = () => {
       <div style={{ gridArea: 'viewport', background: 'white' }}>
         <Enhanced3DViewport
           onToolChange={setSelectedTool}
-          onViewChange={(view) => console.log('View changed to:', view)}
+          onViewChange={(view) => logger.debug('View changed to:', view)}
           onMeasurement={(type, data) => {
-            console.log('Measurement added:', type, data);
+            logger.debug('Measurement added:', type, data);
             setMeasurements((prev) => [...prev, data]);
           }}
         />

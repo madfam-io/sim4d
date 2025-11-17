@@ -8,6 +8,9 @@ import { MetricsCollector } from './metrics-collector';
 import { HealthMonitor, HealthThresholds, HealthAlert } from './health-monitor';
 import { Logger } from '../logging/logger';
 import { RetryHandler } from './retry-handler';
+import { createChildLogger } from '../logging/logger-instance';
+
+const logger = createChildLogger({ module: 'monitoring-system' });
 
 export interface MonitoringSystemConfig {
   monitoring: MonitoringConfig;
@@ -55,7 +58,7 @@ export class MonitoringSystem {
       return;
     }
 
-    console.log('🔧 Initializing BrepFlow Monitoring System...');
+    logger.debug('🔧 Initializing BrepFlow Monitoring System...');
 
     try {
       // Initialize logger first
@@ -97,9 +100,9 @@ export class MonitoringSystem {
       });
 
       this.initialized = true;
-      console.log('✅ Monitoring System Ready');
+      logger.debug('✅ Monitoring System Ready');
     } catch (error) {
-      console.error('❌ Failed to initialize monitoring system:', error);
+      logger.error('❌ Failed to initialize monitoring system:', error);
       throw error;
     }
   }
@@ -331,7 +334,7 @@ export class MonitoringSystem {
       this.initialized = false;
       this.logger.info('Monitoring system shutdown complete');
     } catch (error) {
-      console.error('Error during monitoring system shutdown:', error);
+      logger.error('Error during monitoring system shutdown:', error);
     }
   }
 
