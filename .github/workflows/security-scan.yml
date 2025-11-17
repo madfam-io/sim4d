@@ -1,0 +1,337 @@
+name: Security Scanning
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    # Run weekly security scans every Monday at 2 AM UTC
+    - cron: '0 2 * * 1'
+  workflow_dispatch:
+
+# Cancel in-progress runs for same workflow + PR/branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ═══════════════════════════════════════════════════════════════════════════
+  # Job 1: Dependency Vulnerability Scanning
+  # ═══════════════════════════════════════════════════════════════════════════
+  dependency-scan:
+    name: Dependency Vulnerability Scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Cache pnpm dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run npm audit
+        id: npm-audit
+        run: |
+          npm audit --json > npm-audit.json || true
+          echo "audit_result=$?" >> $GITHUB_OUTPUT
+
+      - name: Check vulnerabilities
+        run: node scripts/check-security-vulnerabilities.js
+
+      - name: Upload npm audit results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-audit-results
+          path: |
+            npm-audit.json
+            security-reports/
+          retention-days: 90
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # Job 2: Secrets Scanning
+  # ═══════════════════════════════════════════════════════════════════════════
+  secrets-scan:
+    name: Secrets Scanning
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for gitleaks
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
+
+      - name: Upload Gitleaks report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gitleaks-report
+          path: |
+            gitleaks-report.json
+            gitleaks-report.sarif
+          retention-days: 90
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # Job 3: CodeQL Analysis (SAST)
+  # ═══════════════════════════════════════════════════════════════════════════
+  codeql-analysis:
+    name: CodeQL Security Analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ['javascript', 'typescript']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          queries: security-extended
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}"
+          upload: true
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # Job 4: License Compliance Check
+  # ═══════════════════════════════════════════════════════════════════════════
+  license-check:
+    name: License Compliance
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check licenses
+        run: |
+          npx license-checker --json --production > licenses.json
+
+          # Check for problematic licenses
+          PROBLEMATIC=$(jq -r 'to_entries[] | select(.value.licenses | tostring | test("GPL|AGPL|LGPL|SSPL")) | .key' licenses.json | wc -l)
+
+          if [ "$PROBLEMATIC" -gt 0 ]; then
+            echo "::warning::Found $PROBLEMATIC packages with potentially problematic licenses"
+            jq -r 'to_entries[] | select(.value.licenses | tostring | test("GPL|AGPL|LGPL|SSPL")) | "\(.key): \(.value.licenses)"' licenses.json
+          fi
+
+      - name: Upload license report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: license-report
+          path: licenses.json
+          retention-days: 90
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # Job 5: ESLint Security Analysis
+  # ═══════════════════════════════════════════════════════════════════════════
+  eslint-security:
+    name: ESLint Security Rules
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run ESLint with security rules
+        run: |
+          # Run ESLint and save results
+          pnpm run lint --format json --output-file eslint-results.json || true
+
+          # Check for security-related issues
+          SECURITY_ISSUES=$(jq '[.[] | .messages[] | select(.ruleId | test("security|no-eval|no-implied-eval"))] | length' eslint-results.json || echo "0")
+
+          if [ "$SECURITY_ISSUES" -gt 0 ]; then
+            echo "::warning::Found $SECURITY_ISSUES security-related ESLint issues"
+          fi
+
+      - name: Upload ESLint results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eslint-security-results
+          path: eslint-results.json
+          retention-days: 90
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # Job 6: Security Headers Validation
+  # ═══════════════════════════════════════════════════════════════════════════
+  security-headers:
+    name: Security Headers Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check Vite security configuration
+        run: |
+          echo "Checking for security headers in Vite config..."
+
+          # Check for COOP header
+          if grep -q "Cross-Origin-Opener-Policy" apps/studio/vite.config.ts; then
+            echo "✅ COOP header configured"
+          else
+            echo "::warning::COOP header not found in Vite config"
+          fi
+
+          # Check for COEP header
+          if grep -q "Cross-Origin-Embedder-Policy" apps/studio/vite.config.ts; then
+            echo "✅ COEP header configured"
+          else
+            echo "::warning::COEP header not found in Vite config"
+          fi
+
+          # Check for CSP
+          if grep -q "Content-Security-Policy" apps/studio/vite.config.ts; then
+            echo "✅ CSP configured"
+          else
+            echo "::warning::CSP not configured"
+          fi
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # Job 7: Comprehensive Security Report
+  # ═══════════════════════════════════════════════════════════════════════════
+  security-report:
+    name: Generate Security Report
+    runs-on: ubuntu-latest
+    needs: [dependency-scan, secrets-scan, license-check, eslint-security, security-headers]
+    if: always()
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Generate summary report
+        run: |
+          cat > security-summary.md << 'EOF'
+          # 🔒 Security Scan Summary
+
+          **Date**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          **Branch**: ${{ github.ref_name }}
+          **Commit**: ${{ github.sha }}
+
+          ## Scan Results
+
+          | Check | Status |
+          |-------|--------|
+          | Dependency Vulnerabilities | ${{ needs.dependency-scan.result == 'success' && '✅ Pass' || '❌ Fail' }} |
+          | Secrets Scanning | ${{ needs.secrets-scan.result == 'success' && '✅ Pass' || '❌ Fail' }} |
+          | License Compliance | ${{ needs.license-check.result == 'success' && '✅ Pass' || '⚠️ Review' }} |
+          | ESLint Security | ${{ needs.eslint-security.result == 'success' && '✅ Pass' || '⚠️ Review' }} |
+          | Security Headers | ${{ needs.security-headers.result == 'success' && '✅ Pass' || '⚠️ Review' }} |
+
+          ## Next Steps
+
+          1. Review detailed reports in workflow artifacts
+          2. Address any critical or high severity issues
+          3. Run `./scripts/security-audit.sh` locally for detailed analysis
+
+          ---
+          *Generated by BrepFlow Security Scanning Pipeline*
+          EOF
+
+          cat security-summary.md
+
+      - name: Upload security summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-summary
+          path: security-summary.md
+          retention-days: 90
+
+      - name: Comment on PR (if applicable)
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const summary = fs.readFileSync('security-summary.md', 'utf8');
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: summary
+            });
