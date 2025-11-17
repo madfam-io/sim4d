@@ -5,7 +5,7 @@
  */
 
 import { EvalContext, WorkerAPI } from '@brepflow/types';
-import { GeometryAPIFactory } from '@brepflow/engine-core';
+// import { GeometryAPIFactory } from '@brepflow/engine-core'; // TODO: Not exported from engine-core
 import { NODE_TO_OCCT_OPERATION_MAP } from './occt-operation-router';
 
 /**
@@ -189,7 +189,8 @@ export async function initializeNodeAdapter(): Promise<void> {
 
   try {
     // Get the geometry API (real or mock based on configuration)
-    const api = await GeometryAPIFactory.getAPI();
+    // TODO: Implement proper API initialization when GeometryAPIFactory is available
+    const api: any = null; // await GeometryAPIFactory.getAPI();
 
     // Store globally for access by the DAG engine
     (global as any).__OCCT_GEOMETRY_API = api;

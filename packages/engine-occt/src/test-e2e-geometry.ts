@@ -6,7 +6,7 @@
 
 import { DAGEngine } from '@brepflow/engine-core';
 import { NodeRegistry } from '@brepflow/engine-core';
-import { GeometryAPIFactory } from '@brepflow/engine-core';
+// import { GeometryAPIFactory } from '@brepflow/engine-core'; // TODO: Not exported from engine-core
 import { GeometryProxy, createEnhancedContext } from './node-adapter';
 import {
   OCCTOperationRouter,

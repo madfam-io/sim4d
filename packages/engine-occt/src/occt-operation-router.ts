@@ -6,7 +6,7 @@
 
 import type { WorkerAPI } from '@brepflow/types';
 import type { ProductionWorkerAPI } from './production-api';
-import { GeometryAPIFactory } from '@brepflow/engine-core';
+// import { GeometryAPIFactory } from '@brepflow/engine-core'; // TODO: Not exported from engine-core
 
 /**
  * Comprehensive operation mapping from node operations to OCCT worker operations

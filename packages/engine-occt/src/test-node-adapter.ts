@@ -10,7 +10,7 @@ import {
   OPERATION_MAP,
 } from './node-adapter';
 import { WASMValidator } from './wasm-validation';
-import { GeometryAPIFactory } from '@brepflow/engine-core';
+// import { GeometryAPIFactory } from '@brepflow/engine-core'; // TODO: Not exported from engine-core
 import { DAGEngine } from '@brepflow/engine-core';
 import { NodeRegistry } from '@brepflow/engine-core';
 import type { GraphInstance, NodeInstance, WorkerAPI } from '@brepflow/types';
