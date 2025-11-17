@@ -16,6 +16,9 @@ import {
   getScreenSizeFromWidth,
 } from '../config/layout-presets';
 import { getSafeLayout, validateLayout } from '../utils/layout-recovery';
+import { createChildLogger } from '../lib/logging/logger-instance';
+
+const logger = createChildLogger({ module: 'layout-store' });
 
 const STORAGE_KEY = 'brepflow-layout-state';
 const LAYOUTS_KEY = 'brepflow-saved-layouts';
@@ -51,7 +54,9 @@ function saveLayoutToStorage(layout: WorkbenchLayout) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(layout));
   } catch (error) {
-    console.warn('Failed to save layout to storage:', error);
+    logger.warn('Layout save to storage failed', {
+      error: error instanceof Error ? error.message : String(error),
+    });
   }
 }
 
@@ -60,14 +65,16 @@ function saveLayoutsToStorage(layouts: WorkbenchLayout[]) {
   try {
     localStorage.setItem(LAYOUTS_KEY, JSON.stringify(layouts));
   } catch (error) {
-    console.warn('Failed to save layouts to storage:', error);
+    logger.warn('Layouts save to storage failed', {
+      error: error instanceof Error ? error.message : String(error),
+    });
   }
 }
 
 function getInitialLayout(): WorkbenchLayout {
   const screenSize = getInitialScreenSize();
 
-  console.log('🖥️ Layout Initialization:', {
+  logger.info('Layout initialization', {
     screenSize,
     windowWidth: typeof window !== 'undefined' ? window.innerWidth : 'undefined',
   });
@@ -77,7 +84,10 @@ function getInitialLayout(): WorkbenchLayout {
 
   // Validate the screen size matches current window
   if (layout.metadata.screenSize !== screenSize) {
-    console.log('📱 Screen size changed, adapting layout');
+    logger.debug('Screen size changed, adapting layout', {
+      previousSize: layout.metadata.screenSize,
+      currentSize: screenSize,
+    });
     const adaptedLayout = getDefaultLayoutForScreenSize(screenSize);
     return {
       ...adaptedLayout,
@@ -88,7 +98,7 @@ function getInitialLayout(): WorkbenchLayout {
     };
   }
 
-  console.log('📋 Using layout:', layout.name);
+  logger.info('Layout selected', { layoutName: layout.name });
   return layout;
 }
 
@@ -329,7 +339,9 @@ export const useLayoutStore = create<LayoutStore>()(
 
           get().setLayout(importedLayout);
         } catch (error) {
-          console.error('Failed to import layout:', error);
+          logger.error('Layout import failed', {
+            error: error instanceof Error ? error.message : String(error),
+          });
           throw new Error('Invalid layout format');
         }
       },
