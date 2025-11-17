@@ -8,6 +8,7 @@ import {
 import type { GeometryAPIConfig, _OperationResult } from './integrated-geometry-api';
 import type { ShapeHandle, _MeshData } from '@brepflow/types';
 import { resetOCCTCircuitBreaker } from './occt-loader';
+import { shutdownGlobalMemoryManager } from './memory-manager';
 
 // Mock the dependencies
 const occtFixture = vi.hoisted(() => {
@@ -214,7 +215,11 @@ const occtFixture = vi.hoisted(() => {
 const workerPoolFixture = vi.hoisted(() => ({
   mockWorkerClient: {
     init: vi.fn().mockResolvedValue(undefined),
-    invoke: vi.fn().mockResolvedValue({ success: true, result: { id: 'shape-1', type: 'solid' } }),
+    invoke: vi.fn().mockImplementation(async (operation: string, params: any) => {
+      // Delegate to the OCCT fixture to get realistic results
+      const result = await occtFixture.occtModule.invoke(operation, params);
+      return { success: true, result };
+    }),
     terminate: vi.fn().mockResolvedValue(undefined),
   },
   mockCapabilities: {
@@ -360,6 +365,8 @@ describe('IntegratedGeometryAPI', () => {
     workerPoolFixture.reset();
     memoryFixture.reset();
     resetOCCTCircuitBreaker();
+    // Clear global memory manager singleton to prevent cache pollution between tests
+    shutdownGlobalMemoryManager();
   });
 
   describe('Initialization', () => {
@@ -469,8 +476,12 @@ describe('IntegratedGeometryAPI', () => {
 
     it('should handle operation failure gracefully', async () => {
       // Use DI to inject a failing OCCT loader for this specific test
+      // Disable memory management and error recovery to get pure failure
       const failingOCCTConfig: GeometryAPIConfig = {
         ...TEST_API_CONFIG,
+        enableMemoryManagement: false, // Disable caching for this test
+        enableErrorRecovery: false, // Disable recovery to get actual error
+        workerPoolConfig: undefined, // Disable worker pool to use direct OCCT calls
         occtLoader: async () => ({
           invoke: vi.fn().mockImplementation((operation: string) => {
             if (operation === 'INVALID_OPERATION') {
@@ -568,6 +579,7 @@ describe('IntegratedGeometryAPI', () => {
   describe('API Testing', () => {
     beforeEach(async () => {
       geometryAPI = new IntegratedGeometryAPI(TEST_API_CONFIG);
+      await geometryAPI.init();
     });
 
     it('should pass API test', async () => {
@@ -581,6 +593,7 @@ describe('IntegratedGeometryAPI', () => {
       // Use DI to inject a failing OCCT loader for this specific test
       const failingTestConfig: GeometryAPIConfig = {
         ...TEST_API_CONFIG,
+        workerPoolConfig: undefined, // Disable worker pool to use direct OCCT calls
         occtLoader: async () => ({
           invoke: vi.fn().mockRejectedValue(new Error('Test operation failed')),
           tessellate: vi.fn().mockRejectedValue(new Error('Test operation failed')),
@@ -831,6 +844,9 @@ describe('IntegratedGeometryAPI', () => {
         height: 20,
         depth: 20,
       });
+
+      expect(makeResult.success).toBe(true);
+      expect(makeResult.result).toBeDefined();
 
       const result = await geometryAPI.tessellate(makeResult.result!, 0.1);
 
