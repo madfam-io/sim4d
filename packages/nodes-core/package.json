@@ -27,10 +27,10 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@types/node": "^20.11.0",
+    "@types/node": "^20.19.25",
     "@types/uuid": "^9.0.0",
-    "tsup": "^8.0.0",
-    "tsx": "^4.20.5",
+    "tsup": "^8.5.1",
+    "tsx": "^4.20.6",
     "vitest": "^4.0.9"
   }
 }
