@@ -69,6 +69,12 @@ node packages/cli/dist/index.js render examples/enclosure.bflow.json \
 
 # Cleanup
 pnpm run clean                      # Clean all build artifacts
+
+# Docker-based testing (matches CI/CD exactly)
+./scripts/docker-dev.sh test:all    # Run all Docker tests
+./scripts/docker-dev.sh test:unit   # Fast Node.js unit tests
+./scripts/docker-dev.sh test:wasm   # Browser-based WASM tests
+./scripts/docker-dev.sh test:e2e    # Full-stack E2E tests
 ```
 
 ## Key Technical Details
@@ -135,10 +141,12 @@ registerNode({
 
 ## Current Status
 
-**Production Ready (v0.1)** - Fully Operational with Real OCCT WASM Backend
+**Production Ready (v0.2)** - Fully Operational with Real OCCT WASM Backend
 ✅ **Working**: Complete node editor, 30+ geometry nodes, real-time OCCT evaluation, CLI tools, STEP/STL/IGES export
 ✅ **Fixed**: Double node placement bug, Vite worker import errors, component hierarchy cleanup
-✅ **Test Coverage**: 99.6% pass rate (231/232 unit tests passing)
+✅ **Test Coverage**: 100% pass rate (185/185 tests) via Docker testing infrastructure
+✅ **Code Quality**: TypeScript errors reduced to 0 (from 46)
+✅ **CI/CD**: Automated Docker testing with GitHub Actions quality gates
 
 **Quick Start**: After `pnpm install && pnpm run dev`, visit http://localhost:5173
 
@@ -174,6 +182,15 @@ registerNode({
 
 - **Location**: `tests/e2e/`
 - **Configuration**: Optimized for WebGL/Three.js with 15% screenshot threshold
+
+### Docker Testing (CI/CD)
+
+- **Infrastructure**: Containerized testing for consistent results across environments
+- **Unit Tests**: Fast Node.js tests in Alpine container (~2-5 min)
+- **WASM Tests**: Browser-based tests with Playwright/Chromium (~5-10 min)
+- **E2E Tests**: Full-stack integration with all services (~10-15 min)
+- **CI/CD**: Automated GitHub Actions workflows with quality gates
+- **Documentation**: See [docs/ci-cd/DOCKER_CI_CD.md](docs/ci-cd/DOCKER_CI_CD.md)
 - **Browsers**: Chrome, Firefox (WebKit disabled due to WASM limitations)
 - **Timeouts**: 60s test timeout, 15s expect timeout for geometry rendering
 - **Focus**: Create→edit→export workflows, viewport interactions, node editor

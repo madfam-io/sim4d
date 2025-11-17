@@ -3,7 +3,6 @@
  * Handles startup sequence, validation, and health checks
  */
 
-// @ts-expect-error - engine-occt has typecheck disabled (requires type refactoring)
 import { getGeometryAPI } from '@brepflow/engine-occt';
 import { getConfig } from '@brepflow/engine-core';
 import { healthCheckService } from '../api/health';

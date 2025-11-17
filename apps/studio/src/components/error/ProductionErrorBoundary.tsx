@@ -4,7 +4,6 @@
 
 import React, { Component, ReactNode, ErrorInfo } from 'react';
 import { getConfig } from '@brepflow/engine-core';
-// @ts-expect-error - engine-occt has typecheck disabled (requires type refactoring)
 import ProductionLogger from '@brepflow/engine-occt';
 
 // Lazy logger initialization to avoid constructor issues during module loading
@@ -77,7 +76,7 @@ export class ProductionErrorBoundary extends Component<Props, State> {
     }
   }
 
-  private reportToErrorService(error: Error, errorInfo: ErrorInfo) {
+  private reportToErrorService(_error: Error, _errorInfo: ErrorInfo) {
     // This would integrate with Sentry or similar service
     try {
       // Example Sentry integration:
@@ -292,9 +291,11 @@ export function withErrorBoundary<P extends object>(
   Component: React.ComponentType<P>,
   fallback?: (error: Error, errorInfo: ErrorInfo) => ReactNode
 ) {
-  return (props: P) => (
+  const WrappedComponent = (props: P) => (
     <ProductionErrorBoundary fallback={fallback}>
       <Component {...props} />
     </ProductionErrorBoundary>
   );
+  WrappedComponent.displayName = `withErrorBoundary(${Component.displayName || Component.name || 'Component'})`;
+  return WrappedComponent;
 }

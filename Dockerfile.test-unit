@@ -1,0 +1,79 @@
+# Dockerfile.test-unit
+# Optimized container for Node.js unit tests
+# Runs Vitest tests without browser dependencies
+
+FROM node:20-alpine AS base
+
+# Install build dependencies for native modules
+RUN apk add --no-cache \
+    python3 \
+    make \
+    g++ \
+    git
+
+# Enable pnpm
+RUN corepack enable pnpm
+
+WORKDIR /app
+
+# ============================================
+# Stage 1: Dependencies
+# ============================================
+FROM base AS deps
+
+# Copy package files for dependency installation
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY .npmrc ./
+
+# Copy all package.json files to establish workspace structure
+COPY apps/studio/package.json ./apps/studio/
+COPY apps/marketing/package.json ./apps/marketing/
+COPY packages/cli/package.json ./packages/cli/
+COPY packages/cloud-api/package.json ./packages/cloud-api/
+COPY packages/cloud-services/package.json ./packages/cloud-services/
+COPY packages/collaboration/package.json ./packages/collaboration/
+COPY packages/constraint-solver/package.json ./packages/constraint-solver/
+COPY packages/engine-core/package.json ./packages/engine-core/
+COPY packages/engine-occt/package.json ./packages/engine-occt/
+COPY packages/examples/package.json ./packages/examples/
+COPY packages/nodes-core/package.json ./packages/nodes-core/
+COPY packages/schemas/package.json ./packages/schemas/
+COPY packages/sdk/package.json ./packages/sdk/
+COPY packages/types/package.json ./packages/types/
+COPY packages/version-control/package.json ./packages/version-control/
+COPY packages/viewport/package.json ./packages/viewport/
+
+# Install dependencies with frozen lockfile
+RUN pnpm install --frozen-lockfile --prefer-offline
+
+# ============================================
+# Stage 2: Test Runner
+# ============================================
+FROM base AS test-runner
+
+# Copy dependencies from previous stage
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/apps ./apps
+COPY --from=deps /app/packages ./packages
+
+# Copy source code and configuration
+COPY . .
+
+# Copy test configuration
+COPY vitest.config.ts vitest.config.js ./
+COPY tsconfig.json tsconfig.base.json ./
+COPY tests/ ./tests/
+
+# Set environment variables for testing
+ENV NODE_ENV=test
+ENV CI=true
+
+# Create coverage directory
+RUN mkdir -p coverage
+
+# Health check for test container readiness
+HEALTHCHECK --interval=5s --timeout=3s --retries=3 \
+  CMD node -e "process.exit(0)"
+
+# Default command: run all unit tests with coverage
+CMD ["pnpm", "run", "test", "--coverage", "--run"]

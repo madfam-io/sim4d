@@ -1,0 +1,168 @@
+# docker-compose.test.yml
+# Test orchestration for containerized testing
+# Separates unit tests (Node.js) from WASM tests (browser) and E2E tests
+
+version: '3.8'
+
+services:
+  # ============================================
+  # Unit Tests (Node.js, Fast)
+  # ============================================
+  test-unit:
+    build:
+      context: .
+      dockerfile: Dockerfile.test-unit
+      cache_from:
+        - brepflow/test-unit:latest
+    image: brepflow/test-unit:latest
+    container_name: brepflow-test-unit
+    environment:
+      - NODE_ENV=test
+      - CI=true
+    volumes:
+      # Mount coverage output for CI integration
+      - ./coverage:/app/coverage:rw
+      # Mount source for watch mode (optional)
+      - ./packages:/app/packages:ro
+      - ./apps:/app/apps:ro
+    command: pnpm run test --coverage --run
+    networks:
+      - test-network
+
+  # ============================================
+  # WASM Integration Tests (Browser-based)
+  # ============================================
+  test-wasm:
+    build:
+      context: .
+      dockerfile: Dockerfile.test-wasm
+      cache_from:
+        - brepflow/test-wasm:latest
+    image: brepflow/test-wasm:latest
+    container_name: brepflow-test-wasm
+    environment:
+      - NODE_ENV=test
+      - CI=true
+      - PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+      - DISPLAY=:99
+    volumes:
+      # Mount test results for CI integration
+      - ./test-results:/app/test-results:rw
+      - ./test-outputs:/app/test-outputs:rw
+      - ./playwright-report:/app/playwright-report:rw
+      # Mount WASM binaries (must be available)
+      - ./dist/wasm:/app/dist/wasm:ro
+    command: >
+      sh -c "
+        echo 'Running WASM integration tests in Playwright...' &&
+        pnpm exec playwright test packages/engine-occt/ --reporter=list
+      "
+    networks:
+      - test-network
+    shm_size: '2gb'  # Required for Chrome in Docker
+
+  # ============================================
+  # E2E Tests (Full Stack)
+  # ============================================
+  test-e2e:
+    build:
+      context: .
+      dockerfile: Dockerfile.test-wasm
+      cache_from:
+        - brepflow/test-wasm:latest
+    image: brepflow/test-e2e:latest
+    container_name: brepflow-test-e2e
+    environment:
+      - NODE_ENV=test
+      - CI=true
+      - PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+      - BASE_URL=http://studio:5173
+      - COLLAB_URL=ws://collaboration:8080
+    volumes:
+      - ./test-results:/app/test-results:rw
+      - ./test-outputs:/app/test-outputs:rw
+      - ./playwright-report:/app/playwright-report:rw
+    depends_on:
+      studio-test:
+        condition: service_healthy
+      collaboration-test:
+        condition: service_healthy
+      redis-test:
+        condition: service_healthy
+    command: pnpm run test:e2e --reporter=list
+    networks:
+      - test-network
+    shm_size: '2gb'
+
+  # ============================================
+  # Test Support Services
+  # ============================================
+
+  # Studio instance for E2E testing
+  studio-test:
+    build:
+      context: .
+      dockerfile: Dockerfile.studio
+    container_name: brepflow-studio-test
+    ports:
+      - "5174:5173"  # Different port to avoid conflicts
+    environment:
+      - NODE_ENV=test
+      - VITE_COLLABORATION_WS_URL=ws://collaboration-test:8080
+      - VITE_COLLABORATION_API_URL=http://collaboration-test:8080
+      - ENABLE_MOCK_GEOMETRY=false
+      - REQUIRE_REAL_OCCT=true
+    networks:
+      - test-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:5173/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    command: pnpm --filter @brepflow/studio run dev --host 0.0.0.0
+
+  # Collaboration instance for E2E testing
+  collaboration-test:
+    build:
+      context: .
+      dockerfile: Dockerfile.collaboration
+    container_name: brepflow-collaboration-test
+    ports:
+      - "8081:8080"  # Different port to avoid conflicts
+    environment:
+      - NODE_ENV=test
+      - COLLAB_PORT=8080
+      - HEARTBEAT_INTERVAL=30000
+      - LOCK_TIMEOUT=60000
+      - REDIS_URL=redis://redis-test:6379
+    depends_on:
+      redis-test:
+        condition: service_healthy
+    networks:
+      - test-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:8080/health', (r) => process.exit(r.statusCode === 200 ? 0 : 1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    command: node packages/collaboration/dist/server/standalone-server.cjs
+
+  # Redis for collaboration tests
+  redis-test:
+    image: redis:7-alpine
+    container_name: brepflow-redis-test
+    networks:
+      - test-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+networks:
+  test-network:
+    driver: bridge
+
+# Note: No volumes defined at root level - all test data is ephemeral

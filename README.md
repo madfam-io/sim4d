@@ -3,7 +3,10 @@
 **Web-first, node-based parametric CAD (alpha)**
 by **Aureo Labs** — a **MADFAM** company
 
-[![CI](https://img.shields.io/badge/ci-alpha-orange)](#) [![License: MPL‑2.0](https://img.shields.io/badge/license-MPL--2.0-blue.svg)](#license)
+[![Docker Tests](https://github.com/aureo-labs/brepflow/actions/workflows/test-docker.yml/badge.svg)](https://github.com/aureo-labs/brepflow/actions/workflows/test-docker.yml)
+[![PR Quality Gate](https://github.com/aureo-labs/brepflow/actions/workflows/pr-quality-gate.yml/badge.svg)](https://github.com/aureo-labs/brepflow/actions/workflows/pr-quality-gate.yml)
+[![CI Pipeline](https://github.com/aureo-labs/brepflow/actions/workflows/ci.yml/badge.svg)](https://github.com/aureo-labs/brepflow/actions/workflows/ci.yml)
+[![License: MPL‑2.0](https://img.shields.io/badge/license-MPL--2.0-blue.svg)](#license)
 
 > ✅ BrepFlow now runs on **real OCCT.wasm** geometry kernel. All 25 core OCCT operations verified and functional. WASM binaries are pre-compiled and included in the repository for immediate use.
 

@@ -1,0 +1,431 @@
+name: Docker Testing
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+env:
+  DOCKER_BUILDKIT: 1
+  COMPOSE_DOCKER_CLI_BUILD: 1
+
+jobs:
+  # Job 1: Docker Unit Tests (Fast - Node.js)
+  docker-unit-tests:
+    name: Docker Unit Tests (Node.js)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          driver-opts: |
+            image=moby/buildkit:latest
+            network=host
+
+      - name: Cache Docker layers
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-unit-${{ hashFiles('**/pnpm-lock.yaml', 'Dockerfile.test-unit') }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-unit-
+
+      - name: Build unit test Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile.test-unit
+          load: true
+          tags: brepflow-test-unit:latest
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+          build-args: |
+            NODE_VERSION=20.11.1
+
+      - name: Run unit tests in Docker
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}/coverage:/app/coverage:rw \
+            -e CI=true \
+            -e NODE_ENV=test \
+            brepflow-test-unit:latest
+
+      - name: Upload coverage reports
+        uses: actions/upload-artifact@v5
+        with:
+          name: coverage-unit-tests
+          path: coverage/
+          retention-days: 30
+
+      - name: Generate coverage summary
+        if: always()
+        run: |
+          if [ -f coverage/coverage-summary.json ]; then
+            echo "## Unit Test Coverage" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
+            cat coverage/coverage-summary.json >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      # Move cache to prevent growth
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
+  # Job 2: Docker WASM Tests (Browser-based)
+  docker-wasm-tests:
+    name: Docker WASM Tests (Browser)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          driver-opts: |
+            image=moby/buildkit:latest
+            network=host
+
+      - name: Cache Docker layers
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-wasm-${{ hashFiles('**/pnpm-lock.yaml', 'Dockerfile.test-wasm') }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-wasm-
+
+      - name: Build WASM test Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile.test-wasm
+          load: true
+          tags: brepflow-test-wasm:latest
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+
+      - name: Run WASM tests in Docker
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}/test-results:/app/test-results:rw \
+            -v ${{ github.workspace }}/dist/wasm:/app/dist/wasm:ro \
+            --shm-size=2gb \
+            -e CI=true \
+            -e PLAYWRIGHT_BROWSERS_PATH=/ms-playwright \
+            -e COOP_COEP_ENABLED=true \
+            brepflow-test-wasm:latest
+
+      - name: Upload WASM test results
+        uses: actions/upload-artifact@v5
+        if: always()
+        with:
+          name: wasm-test-results
+          path: test-results/
+          retention-days: 30
+
+      - name: Generate WASM test summary
+        if: always()
+        run: |
+          echo "## WASM Test Results" >> $GITHUB_STEP_SUMMARY
+          if [ -d test-results ]; then
+            echo "Test artifacts generated successfully" >> $GITHUB_STEP_SUMMARY
+            find test-results -type f -name "*.json" | head -5 >> $GITHUB_STEP_SUMMARY
+          fi
+
+      # Move cache to prevent growth
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
+  # Job 3: Docker E2E Tests (Full Stack)
+  docker-e2e-tests:
+    name: Docker E2E Tests (Full Stack)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Cache Docker layers
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-e2e-${{ hashFiles('**/pnpm-lock.yaml', 'docker-compose.test.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-e2e-
+
+      - name: Start test services
+        run: |
+          docker compose -f docker-compose.test.yml up -d studio-test collaboration-test redis-test postgres-test
+
+      - name: Wait for services to be healthy
+        run: |
+          echo "Waiting for services to be healthy..."
+          timeout 120 bash -c 'until docker compose -f docker-compose.test.yml ps | grep -q "healthy"; do sleep 2; done'
+          docker compose -f docker-compose.test.yml ps
+
+      - name: Run E2E tests
+        run: |
+          docker compose -f docker-compose.test.yml run --rm test-e2e
+
+      - name: Upload E2E test results
+        uses: actions/upload-artifact@v5
+        if: always()
+        with:
+          name: e2e-test-results
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 30
+
+      - name: Collect service logs
+        if: failure()
+        run: |
+          mkdir -p logs
+          docker compose -f docker-compose.test.yml logs studio-test > logs/studio.log
+          docker compose -f docker-compose.test.yml logs collaboration-test > logs/collaboration.log
+          docker compose -f docker-compose.test.yml logs redis-test > logs/redis.log
+          docker compose -f docker-compose.test.yml logs postgres-test > logs/postgres.log
+
+      - name: Upload service logs
+        uses: actions/upload-artifact@v5
+        if: failure()
+        with:
+          name: service-logs
+          path: logs/
+          retention-days: 7
+
+      - name: Stop test services
+        if: always()
+        run: |
+          docker compose -f docker-compose.test.yml down -v
+
+  # Job 4: Test Summary & Quality Gates
+  test-summary:
+    name: Test Summary & Quality Gates
+    runs-on: ubuntu-latest
+    needs: [docker-unit-tests, docker-wasm-tests, docker-e2e-tests]
+    if: always()
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Download all test artifacts
+        uses: actions/download-artifact@v5
+        with:
+          path: test-artifacts/
+
+      - name: Generate comprehensive test summary
+        run: |
+          echo "# 🧪 Docker Testing Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Unit tests
+          echo "## Unit Tests (Node.js)" >> $GITHUB_STEP_SUMMARY
+          if [ -f test-artifacts/coverage-unit-tests/coverage-summary.json ]; then
+            echo "✅ Unit tests passed with coverage" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Unit tests failed or no coverage" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # WASM tests
+          echo "## WASM Tests (Browser)" >> $GITHUB_STEP_SUMMARY
+          if [ -d test-artifacts/wasm-test-results ]; then
+            echo "✅ WASM tests completed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ WASM tests failed" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # E2E tests
+          echo "## E2E Tests (Full Stack)" >> $GITHUB_STEP_SUMMARY
+          if [ -d test-artifacts/e2e-test-results ]; then
+            echo "✅ E2E tests completed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ E2E tests failed" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Overall status
+          echo "## Overall Status" >> $GITHUB_STEP_SUMMARY
+          echo "- Docker Unit Tests: ${{ needs.docker-unit-tests.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Docker WASM Tests: ${{ needs.docker-wasm-tests.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Docker E2E Tests: ${{ needs.docker-e2e-tests.result }}" >> $GITHUB_STEP_SUMMARY
+
+      - name: Quality Gate - Check all tests passed
+        if: |
+          needs.docker-unit-tests.result != 'success' ||
+          needs.docker-wasm-tests.result != 'success' ||
+          needs.docker-e2e-tests.result != 'success'
+        run: |
+          echo "::error::Quality gate failed - not all tests passed"
+          exit 1
+
+      - name: Quality Gate - Success
+        if: |
+          needs.docker-unit-tests.result == 'success' &&
+          needs.docker-wasm-tests.result == 'success' &&
+          needs.docker-e2e-tests.result == 'success'
+        run: |
+          echo "::notice::✅ All Docker tests passed - Quality gate satisfied"
+          echo "🎉 100% test pass rate achieved in Docker environment" >> $GITHUB_STEP_SUMMARY
+
+  # Job 5: Docker Build Performance Benchmark
+  docker-build-benchmark:
+    name: Docker Build Performance
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Benchmark unit test build (cold)
+        run: |
+          START_TIME=$(date +%s)
+          docker build -f Dockerfile.test-unit -t brepflow-test-unit:bench .
+          END_TIME=$(date +%s)
+          DURATION=$((END_TIME - START_TIME))
+          echo "UNIT_BUILD_TIME=$DURATION" >> $GITHUB_ENV
+          echo "Unit test build (cold): ${DURATION}s" >> $GITHUB_STEP_SUMMARY
+
+      - name: Benchmark unit test build (cached)
+        run: |
+          START_TIME=$(date +%s)
+          docker build -f Dockerfile.test-unit -t brepflow-test-unit:bench-cached .
+          END_TIME=$(date +%s)
+          DURATION=$((END_TIME - START_TIME))
+          echo "UNIT_BUILD_CACHED_TIME=$DURATION" >> $GITHUB_ENV
+          echo "Unit test build (cached): ${DURATION}s" >> $GITHUB_STEP_SUMMARY
+
+      - name: Benchmark WASM test build
+        run: |
+          START_TIME=$(date +%s)
+          docker build -f Dockerfile.test-wasm -t brepflow-test-wasm:bench .
+          END_TIME=$(date +%s)
+          DURATION=$((END_TIME - START_TIME))
+          echo "WASM_BUILD_TIME=$DURATION" >> $GITHUB_ENV
+          echo "WASM test build: ${DURATION}s" >> $GITHUB_STEP_SUMMARY
+
+      - name: Performance Report
+        run: |
+          echo "## 📊 Docker Build Performance" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Build Type | Duration | Target |" >> $GITHUB_STEP_SUMMARY
+          echo "|------------|----------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Unit (cold) | ${UNIT_BUILD_TIME}s | <180s |" >> $GITHUB_STEP_SUMMARY
+          echo "| Unit (cached) | ${UNIT_BUILD_CACHED_TIME}s | <30s |" >> $GITHUB_STEP_SUMMARY
+          echo "| WASM | ${WASM_BUILD_TIME}s | <240s |" >> $GITHUB_STEP_SUMMARY
+
+          # Check if performance targets are met
+          if [ "$UNIT_BUILD_TIME" -gt 180 ]; then
+            echo "::warning::Unit build time exceeded target (${UNIT_BUILD_TIME}s > 180s)"
+          fi
+
+          if [ "$UNIT_BUILD_CACHED_TIME" -gt 30 ]; then
+            echo "::warning::Cached build time exceeded target (${UNIT_BUILD_CACHED_TIME}s > 30s)"
+          fi
+
+          if [ "$WASM_BUILD_TIME" -gt 240 ]; then
+            echo "::warning::WASM build time exceeded target (${WASM_BUILD_TIME}s > 240s)"
+          fi
+
+  # Job 6: Performance Regression Tests
+  performance-tests:
+    name: Performance Regression Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20.11.1'
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: '8.6.7'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build application
+        run: pnpm run build
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Start dev server in background
+        run: |
+          pnpm --filter @brepflow/studio run dev --port 5173 &
+          echo "DEV_SERVER_PID=$!" >> $GITHUB_ENV
+
+      - name: Wait for dev server
+        run: |
+          timeout 120 bash -c 'until curl -f http://localhost:5173; do sleep 2; done'
+
+      - name: Run performance tests
+        run: pnpm exec playwright test tests/performance/ --reporter=html,json
+        env:
+          CI: true
+
+      - name: Stop dev server
+        if: always()
+        run: |
+          if [ ! -z "$DEV_SERVER_PID" ]; then
+            kill $DEV_SERVER_PID || true
+          fi
+
+      - name: Check for performance regressions
+        if: always()
+        run: node scripts/check-performance-regressions.js
+
+      - name: Upload performance report
+        uses: actions/upload-artifact@v5
+        if: always()
+        with:
+          name: performance-report
+          path: |
+            playwright-report/
+            performance-metrics/
+          retention-days: 90
+
+      - name: Generate performance summary
+        if: always()
+        run: |
+          echo "## ⚡ Performance Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ -f performance-metrics/baselines.json ]; then
+            echo "### Baselines vs Current" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+            cat performance-metrics/baselines.json >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          fi
