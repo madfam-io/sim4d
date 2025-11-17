@@ -447,6 +447,7 @@ export function useResilientNodeDiscovery() {
       try {
         console.log('🔍 DEBUG: Attempting dynamic import of @brepflow/nodes-core...');
         // Try to dynamically import the nodes-core package and initialize the registry
+        // @ts-expect-error - DTS generation disabled in @brepflow/nodes-core due to TS4023 errors with generated nodes
         const nodesCore = await import('@brepflow/nodes-core');
         console.log('🔍 DEBUG: Dynamic import successful:', Object.keys(nodesCore));
 

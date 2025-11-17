@@ -30,6 +30,7 @@ async function ensureCoreNodesRegistered(): Promise<void> {
     return registerNodesPromise;
   }
 
+  // @ts-expect-error - DTS generation disabled in @brepflow/nodes-core due to TS4023 errors with generated nodes
   registerNodesPromise = import('@brepflow/nodes-core')
     .then((module) => {
       const registerCoreNodes = module.registerCoreNodes as (() => void) | undefined;

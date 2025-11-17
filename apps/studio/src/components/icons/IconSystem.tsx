@@ -278,7 +278,7 @@ export const Icon: React.FC<IconProps> = ({
 
   if (!IconComponent) {
     // Only warn in development - production uses fallback icon silently
-    if (import.meta.env.DEV) {
+    if (import.meta.env['DEV']) {
       console.warn(`Icon "${name}" not found in IconMap - using fallback`);
     }
     return (

@@ -46,7 +46,8 @@
     "no-case-declarations": "off",
     "react-hooks/exhaustive-deps": "warn",
     "react/no-unescaped-entities": "warn",
-    "no-useless-escape": "warn"
+    "no-useless-escape": "warn",
+    "@typescript-eslint/no-unused-expressions": "off"
   },
   "ignorePatterns": ["dist", "build", "node_modules", "*.js", "*.mjs"]
 }

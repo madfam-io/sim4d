@@ -93,7 +93,7 @@ export class MonitoringSystem {
       this.logger.info('Monitoring system initialized successfully', {
         sessionId: this.sessionId,
         enabledFeatures: this.config.enabledFeatures,
-        version: import.meta.env.VITE_BUILD_VERSION || 'development',
+        version: import.meta.env['VITE_BUILD_VERSION'] || 'development',
       });
 
       this.initialized = true;

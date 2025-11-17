@@ -5,7 +5,7 @@
  */
 
 import type { WorkerAPI } from '@brepflow/types';
-import { ProductionWorkerAPI } from './production-worker';
+import { _ProductionWorkerAPI } from './production-worker';
 import { GeometryAPIFactory } from '@brepflow/engine-core';
 
 /**

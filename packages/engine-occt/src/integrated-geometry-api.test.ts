@@ -5,8 +5,8 @@ import {
   createGeometryAPI,
   DEFAULT_API_CONFIG,
 } from './integrated-geometry-api';
-import type { GeometryAPIConfig, OperationResult } from './integrated-geometry-api';
-import type { ShapeHandle, MeshData } from '@brepflow/types';
+import type { GeometryAPIConfig, _OperationResult } from './integrated-geometry-api';
+import type { ShapeHandle, _MeshData } from '@brepflow/types';
 import { resetOCCTCircuitBreaker } from './occt-loader';
 
 // Mock the dependencies

@@ -198,7 +198,7 @@ export async function initializeNodeAdapter(): Promise<void> {
 
     // Test basic operation
     try {
-      const testBox = await api.execute?.({
+      const _testBox = await api.execute?.({
         type: 'makeBox',
         params: { width: 10, depth: 10, height: 10 },
       });

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Pause, RotateCw, Maximize2, X } from 'lucide-react';
 import { GlowButton } from './ui/GlowButton';
@@ -12,28 +12,31 @@ export function LiveDemo({ isVisible }: LiveDemoProps) {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
 
-  const demoSteps = [
-    {
-      title: 'Create Base Geometry',
-      description: 'Start with primitive shapes using parametric controls',
-      duration: 3000,
-    },
-    {
-      title: 'Apply Transformations',
-      description: 'Transform and array geometry with node connections',
-      duration: 3000,
-    },
-    {
-      title: 'Boolean Operations',
-      description: 'Combine shapes with union, difference, and intersection',
-      duration: 3000,
-    },
-    {
-      title: 'Export to STEP',
-      description: 'Export manufacturing-ready files instantly',
-      duration: 3000,
-    },
-  ];
+  const demoSteps = useMemo(
+    () => [
+      {
+        title: 'Create Base Geometry',
+        description: 'Start with primitive shapes using parametric controls',
+        duration: 3000,
+      },
+      {
+        title: 'Apply Transformations',
+        description: 'Transform and array geometry with node connections',
+        duration: 3000,
+      },
+      {
+        title: 'Boolean Operations',
+        description: 'Combine shapes with union, difference, and intersection',
+        duration: 3000,
+      },
+      {
+        title: 'Export to STEP',
+        description: 'Export manufacturing-ready files instantly',
+        duration: 3000,
+      },
+    ],
+    []
+  );
 
   useEffect(() => {
     if (isPlaying && currentStep < demoSteps.length - 1) {

@@ -25,7 +25,8 @@ export function SessionControls() {
 
     try {
       const API_BASE_URL =
-        import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? '' : 'http://localhost:8080');
+        import.meta.env['VITE_API_BASE_URL'] ||
+        (import.meta.env['PROD'] ? '' : 'http://localhost:8080');
 
       // If no API server configured, export is not available in production
       if (!API_BASE_URL) {

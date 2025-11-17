@@ -22,7 +22,7 @@ export interface SessionHookResult {
 // In production, if no API URL is configured, use empty string to skip collaboration features
 // In development, default to localhost:8080
 const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? '' : 'http://localhost:8080');
+  import.meta.env['VITE_API_BASE_URL'] || (import.meta.env['PROD'] ? '' : 'http://localhost:8080');
 
 /**
  * Create empty graph template

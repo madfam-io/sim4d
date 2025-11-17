@@ -615,7 +615,7 @@ export class AdvancedMemoryManager {
    * Degrade mesh quality to save memory
    */
   private degradeMeshQuality(): void {
-    for (const [id, entry] of this.meshCache.entries()) {
+    for (const [_id, entry] of this.meshCache.entries()) {
       const meshLOD = entry.data;
 
       // Remove high detail if we have medium
@@ -762,7 +762,7 @@ export class AdvancedMemoryManager {
   /**
    * Estimate memory size of shape handle
    */
-  private estimateShapeSize(shape: ShapeHandle): number {
+  private estimateShapeSize(_shape: ShapeHandle): number {
     // Base size for shape handle data
     return 1024; // 1KB base estimate
   }

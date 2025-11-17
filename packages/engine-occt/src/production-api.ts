@@ -12,8 +12,12 @@ import { pathToFileURL } from 'node:url';
 let logger: any = null;
 const getLogger = () => {
   if (!logger) {
-    const { ProductionLogger } = require('./production-logger');
-    logger = new ProductionLogger('ProductionWorkerAPI');
+    // Use dynamic import but don't wait - fallback to console temporarily
+    import('./production-logger').then(({ ProductionLogger }) => {
+      logger = new ProductionLogger('ProductionWorkerAPI');
+    });
+    // Return console logger as fallback
+    return console;
   }
   return logger;
 };
@@ -52,7 +56,7 @@ export class ProductionWorkerAPI implements WorkerAPI {
     getLogger().info('Initializing production OCCT worker');
 
     // Check environment
-    const envConfig = getConfig();
+    const _envConfig = getConfig();
     // Create worker
     try {
       // Use public directory path for worker - this works reliably across environments
@@ -170,7 +174,7 @@ export class ProductionWorkerAPI implements WorkerAPI {
 
   private handleWorkerError(error: Error): void {
     // Reject all pending requests
-    for (const [id, pending] of this.pendingRequests) {
+    for (const [_id, pending] of this.pendingRequests) {
       clearTimeout(pending.timeout);
       pending.reject(error);
     }
@@ -232,7 +236,7 @@ export class ProductionWorkerAPI implements WorkerAPI {
 
   private cleanup(): void {
     // Clear pending requests
-    for (const [id, pending] of this.pendingRequests) {
+    for (const [_id, pending] of this.pendingRequests) {
       clearTimeout(pending.timeout);
       pending.reject(new Error('Worker terminated'));
     }

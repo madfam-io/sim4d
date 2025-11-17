@@ -3,7 +3,7 @@
  * Can be run in both Node.js and browser environments
  */
 
-import { WASMLoader, detectWASMCapabilities } from './wasm-loader';
+import { WASMLoader as _WASMLoader, detectWASMCapabilities } from './wasm-loader';
 import { loadOCCT, OCCTMemoryManager } from './occt-bindings';
 
 export interface TestResult {

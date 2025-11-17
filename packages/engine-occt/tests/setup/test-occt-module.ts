@@ -162,7 +162,7 @@ export function createTestOCCTModule(): TestOCCTModule {
     _malloc: (size: number) => memoryManager.malloc(size),
     _free: (ptr: number) => memoryManager.free(ptr),
 
-    cwrap: (name: string, returnType: string, argTypes: string[]) => {
+    cwrap: (name: string, _returnType: string, _argTypes: string[]) => {
       // Return a wrapped function that simulates OCCT operations
       return (...args: any[]) => {
         return simulateOCCTOperation(name, args);

@@ -231,7 +231,7 @@ export class WASMCapabilityDetector {
 
       for (const size of testSizes) {
         try {
-          const buffer = new ArrayBuffer(size * 1024 * 1024);
+          const _buffer = new ArrayBuffer(size * 1024 * 1024);
           maxMemory = size;
           // Don't hold onto the buffer
         } catch {

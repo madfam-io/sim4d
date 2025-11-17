@@ -9,7 +9,7 @@ import {
   type OCCTConfig,
 } from './wasm-capability-detector';
 
-declare function createOCCTCoreModule(config?: any): Promise<any>;
+declare function _createOCCTCoreModule(config?: any): Promise<any>;
 
 export interface LoaderOptions {
   forceMode?: 'full-occt' | 'optimized-occt';
@@ -179,7 +179,7 @@ async function loadNodeJSOCCT(): Promise<any> {
 
   if (missingArtifacts.length > 0) {
     throw new Error(
-      `OCCT Node bundle missing: ${missingArtifacts.join(', ')}. Run \"pnpm run build:wasm\" to regenerate.`
+      `OCCT Node bundle missing: ${missingArtifacts.join(', ')}. Run "pnpm run build:wasm" to regenerate.`
     );
   }
 
@@ -223,7 +223,7 @@ async function loadNodeJSOCCT(): Promise<any> {
   return adapter;
 }
 
-async function loadFullOCCTModule(config: OCCTConfig, options: LoaderOptions): Promise<any> {
+async function loadFullOCCTModule(config: OCCTConfig, _options: LoaderOptions): Promise<any> {
   const wasmFile = config.wasmFile;
   const wasmUrl = new URL(/* @vite-ignore */ `../wasm/${wasmFile}`, import.meta.url).href;
 
@@ -313,7 +313,7 @@ async function loadFullOCCTModule(config: OCCTConfig, options: LoaderOptions): P
   }
 }
 
-async function loadOptimizedOCCTModule(config: OCCTConfig, options: LoaderOptions): Promise<any> {
+async function loadOptimizedOCCTModule(config: OCCTConfig, _options: LoaderOptions): Promise<any> {
   const wasmFile = config.wasmFile;
   const wasmUrl = new URL(/* @vite-ignore */ `../wasm/${wasmFile}`, import.meta.url).href;
 
@@ -388,7 +388,7 @@ async function loadOptimizedOCCTModule(config: OCCTConfig, options: LoaderOption
   }
 }
 
-async function instantiateWASMDirect(wasmUrl: string, Module?: any): Promise<any> {
+async function _instantiateWASMDirect(wasmUrl: string, _Module?: any): Promise<any> {
   const response = await fetch(wasmUrl);
   const wasmBuffer = await response.arrayBuffer();
 

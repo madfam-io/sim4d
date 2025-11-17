@@ -66,7 +66,7 @@ export class ErrorManager extends SimpleEventEmitter {
     this.logger = Logger.getInstance();
     this.metrics = MetricsCollector.getInstance();
     this.sessionId = uuidv4();
-    this.buildVersion = import.meta.env.VITE_BUILD_VERSION || 'development';
+    this.buildVersion = import.meta.env['VITE_BUILD_VERSION'] || 'development';
 
     this.setupErrorHandlers();
   }

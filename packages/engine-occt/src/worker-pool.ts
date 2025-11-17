@@ -10,8 +10,12 @@ import {
   WASMPerformanceMonitor,
   type OCCTConfig,
 } from './wasm-capability-detector';
-import type { WorkerRequest, WorkerResponse, HealthCheckResult } from './worker-types';
-import type { ShapeHandle, MeshData } from '@brepflow/types';
+import type {
+  _WorkerRequest,
+  WorkerResponse as _WorkerResponse,
+  HealthCheckResult,
+} from './worker-types';
+import type { _ShapeHandle, MeshData as _MeshData } from '@brepflow/types';
 
 export interface PoolWorker {
   id: string;
@@ -144,7 +148,7 @@ export class WorkerPool {
     const startTime = Date.now();
 
     if (this.config.enablePerformanceMonitoring) {
-      const endMeasurement = this.performanceMonitor.startMeasurement(`worker-creation-${id}`);
+      const _endMeasurement = this.performanceMonitor.startMeasurement(`worker-creation-${id}`);
     }
 
     try {

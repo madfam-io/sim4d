@@ -134,7 +134,7 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
           { operation: request.type }
         );
 
-      case 'MAKE_BOX':
+      case 'MAKE_BOX': {
         if (!isInitialized || !occtModule) {
           throw new WorkerError('NOT_INITIALIZED', 'OCCT not initialized');
         }
@@ -152,8 +152,9 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
         result = transformShapeHandle(box);
         logger.debug(`Created box: ${box.id}`);
         break;
+      }
 
-      case 'MAKE_CYLINDER':
+      case 'MAKE_CYLINDER': {
         if (!isInitialized || !occtModule) {
           throw new WorkerError('NOT_INITIALIZED', 'OCCT not initialized');
         }
@@ -167,8 +168,9 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
         result = transformShapeHandle(cylinder);
         logger.debug(`Created cylinder: ${cylinder.id}`);
         break;
+      }
 
-      case 'MAKE_SPHERE':
+      case 'MAKE_SPHERE': {
         if (!isInitialized || !occtModule) {
           throw new WorkerError('NOT_INITIALIZED', 'OCCT not initialized');
         }
@@ -182,6 +184,7 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
         result = transformShapeHandle(sphere);
         logger.debug(`Created sphere: ${sphere.id}`);
         break;
+      }
 
       case 'BOOLEAN_UNION':
         if (!isInitialized || !occtModule) {
@@ -207,7 +210,7 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
         result = performBooleanIntersect(request.params.shapes);
         break;
 
-      case 'TESSELLATE':
+      case 'TESSELLATE': {
         if (!isInitialized || !occtModule) {
           throw new WorkerError('NOT_INITIALIZED', 'OCCT not initialized');
         }
@@ -226,6 +229,7 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
           bbox: request.params.shape.bbox,
         };
         break;
+      }
 
       case 'DISPOSE':
         if (!isInitialized || !occtModule) {

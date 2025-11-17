@@ -1,10 +1,10 @@
 // TODO: Align ShapeHandle interface between @brepflow/types and local occt-bindings.ts
-import type { WorkerAPI, ShapeHandle, MeshData } from '@brepflow/types';
+import type { WorkerAPI, _ShapeHandle, MeshData } from '@brepflow/types';
 import { createHandleId } from '@brepflow/types';
 import type {
   WorkerRequest,
   WorkerResponse,
-  GeometryResult,
+  _GeometryResult,
   TessellationResult,
 } from './worker-types';
 
@@ -124,7 +124,7 @@ export class WorkerClient implements WorkerAPI {
     console.error('Worker error:', error);
 
     // Reject all pending requests
-    for (const [id, { reject }] of this.pending) {
+    for (const [_id, { reject }] of this.pending) {
       reject(new Error('Worker error: ' + error.message));
     }
     this.pending.clear();

@@ -10,7 +10,7 @@ import { GeometryAPIFactory } from '@brepflow/engine-core';
 import { GeometryProxy, createEnhancedContext } from './node-adapter';
 import {
   OCCTOperationRouter,
-  createRoutedOCCTWorker,
+  _createRoutedOCCTWorker,
   getRoutingStatistics,
 } from './occt-operation-router';
 import { WASMValidator } from './wasm-validation';
@@ -177,7 +177,7 @@ async function testNodeExecution(): Promise<boolean> {
         b: { type: 'Solid' },
       },
       outputs: { result: { type: 'Solid' } },
-      async evaluate(context: any, inputs: any, params: any) {
+      async evaluate(context: any, inputs: any, _params: any) {
         if (!context.geometry) {
           throw new Error('No geometry in context!');
         }

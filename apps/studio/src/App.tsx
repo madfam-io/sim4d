@@ -52,13 +52,15 @@ import { ViewportLayoutManager } from './components/viewport/ViewportLayoutManag
 import './App.css';
 import { BrowserWASMTestSuite } from './test-browser-wasm';
 import { SessionControls } from './components/SessionControls';
+// @ts-expect-error - DTS generation disabled in @brepflow/collaboration due to complex type issues (tracked in technical debt)
 import { CollaborationProvider } from '@brepflow/collaboration/client';
+// @ts-expect-error - DTS generation disabled in @brepflow/collaboration due to complex type issues (tracked in technical debt)
 import type { Operation, Conflict } from '@brepflow/collaboration/client';
 import { useSession } from './hooks/useSession';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 const debugLog = (...args: unknown[]) => {
-  if (import.meta.env.DEV) {
+  if (import.meta.env['DEV']) {
     // eslint-disable-next-line no-console
     console.debug('[Studio]', ...args);
   }
@@ -678,10 +680,10 @@ function SessionWrapper() {
   // Check if collaboration server is configured
   const collaborationServerUrl =
     import.meta.env['VITE_COLLABORATION_WS_URL'] ||
-    (import.meta.env.PROD ? '' : 'http://localhost:8080');
+    (import.meta.env['PROD'] ? '' : 'http://localhost:8080');
   const collaborationApiUrl =
     import.meta.env['VITE_COLLABORATION_API_URL'] ||
-    (import.meta.env.PROD ? '' : 'http://localhost:8080');
+    (import.meta.env['PROD'] ? '' : 'http://localhost:8080');
   const hasCollaborationServer = Boolean(collaborationServerUrl && collaborationApiUrl);
 
   return (

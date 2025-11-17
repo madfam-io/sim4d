@@ -7,7 +7,7 @@ import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest';
 import { loadOCCTModule } from './occt-loader';
 import { OCCTMemoryManager } from './occt-bindings';
 import { WASMLoader } from './wasm-loader';
-import type { ShapeHandle, MeshData } from '@brepflow/types';
+import type { ShapeHandle, _MeshData } from '@brepflow/types';
 
 // Test configuration
 const TEST_CONFIG = {
@@ -75,7 +75,7 @@ describe('OCCT Integration Tests', () => {
   afterAll(async () => {
     // Cleanup all test shapes
     if (occtModule && occtModule.deleteShape) {
-      for (const [id, shape] of testShapes) {
+      for (const [_id, shape] of testShapes) {
         try {
           occtModule.deleteShape(shape.id);
         } catch (error) {
