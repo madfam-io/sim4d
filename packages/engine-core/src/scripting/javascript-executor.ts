@@ -355,9 +355,12 @@ export class JavaScriptExecutor implements ScriptExecutor {
         'isFinite',
       ],
       comments: [/\/\/.*$/, /\/\*[\s\S]*?\*\//],
-      strings: [/"(?:[^"\\]|\\.)*"/, /'(?:[^'\\]|\\.)*'/, /`(?:[^`\\]|\\.)*`/],
+      strings: [/"(?:[^"\\]|\\[\s\S])*?"/, /'(?:[^'\\]|\\[\s\S])*?'/, /`(?:[^`\\]|\\[\s\S])*?`/],
       numbers: [
-        /\b\d+\.?\d*([eE][+-]?\d+)?\b/,
+        /\b\d+\.\d+[eE][+-]\d+\b/, // Float with exponent (strict)
+        /\b\d+\.\d+\b/, // Float without exponent
+        /\b\d+[eE][+-]\d+\b/, // Integer with exponent (strict)
+        /\b\d+\b/, // Integer
         /\b0[xX][0-9a-fA-F]+\b/,
         /\b0[bB][01]+\b/,
         /\b0[oO][0-7]+\b/,

@@ -457,7 +457,13 @@ return {
     const params: Record<string, any> = {};
 
     // Look for getParameter calls to infer parameters
-    const paramMatches = script.matchAll(/getParameter\(['"`]([^'"`]+)['"`](?:,\s*([^)]+))?\)/g);
+    // Use two separate patterns to avoid optional groups (ReDoS risk)
+    const withDefault = script.matchAll(
+      /getParameter\(['"`]([\w-]{1,50})['"`],\s*([\w.'"]{1,50})\)/gu
+    );
+    const withoutDefault = script.matchAll(/getParameter\(['"`]([\w-]{1,50})['"`]\)/gu);
+
+    const paramMatches = [...withDefault, ...withoutDefault];
     for (const match of paramMatches) {
       const paramName = match[1];
       const defaultValue = match[2];
