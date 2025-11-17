@@ -270,7 +270,7 @@ async function loadFullOCCTModule(config: OCCTConfig, _options: LoaderOptions): 
       PTHREAD_POOL_SIZE: config.workers,
 
       // Runtime callbacks
-      onRuntimeInitialized: function () {
+      onRuntimeInitialized: function (this: any) {
         console.log('[OCCT] Full runtime initialized successfully');
 
         // Validate that we have the expected OCCT functions

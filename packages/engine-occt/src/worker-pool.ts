@@ -215,7 +215,7 @@ export class WorkerPool {
       }
 
       // Default to optimal configuration
-      return this.optimalOCCTConfig?.mode || 'optimized-occt';
+      return (this.optimalOCCTConfig as OCCTConfig | null)?.mode || 'optimized-occt';
     }
 
     // Conservative default

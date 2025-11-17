@@ -5,7 +5,7 @@
  */
 
 import { WASMLoader, type WASMCapabilities } from './wasm-loader';
-import type { OCCTModule } from './occt-bindings';
+import type { OCCTModule, MeshData } from './occt-bindings';
 
 export interface WASMValidationResult {
   compiled: boolean;
@@ -203,15 +203,15 @@ export class WASMValidator {
 
       // Test 2: Boolean operation
       if (box && sphere) {
-        const union = this.module.performUnion(box.id, sphere.id);
+        const union = this.module.booleanUnion(box.id, sphere.id);
         if (!union || !union.id) {
           errors.push('Failed to perform boolean union');
         }
 
         // Test 3: Tessellation
         if (union) {
-          const mesh = this.module.tessellate(union.id, 0.1);
-          if (!mesh || !mesh.vertices || mesh.vertices.length === 0) {
+          const mesh = this.module.tessellate(union.id, 0.1) as MeshData;
+          if (!mesh || !mesh.positions || mesh.positions.length === 0) {
             errors.push('Failed to tessellate geometry');
           }
         }
