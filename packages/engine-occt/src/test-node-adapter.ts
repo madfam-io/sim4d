@@ -91,7 +91,6 @@ async function testNodeEvaluation() {
 
     // Create a simple test graph with a box node
     const testGraph: GraphInstance = {
-      id: 'test-graph',
       nodes: [
         {
           id: 'box-node-1',
@@ -110,7 +109,6 @@ async function testNodeEvaluation() {
     NodeRegistry.getInstance().registerNode({
       type: 'Solid::Box',
       category: 'Solid',
-      metadata: { label: 'Box', description: 'Create a box' },
       params: {},
       inputs: {},
       outputs: { solid: { type: 'Solid' } },

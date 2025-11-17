@@ -147,7 +147,6 @@ async function testNodeExecution(): Promise<boolean> {
     registry.registerNode({
       type: 'Test::Box',
       category: 'Test',
-      metadata: { label: 'Test Box', description: 'Test box creation' },
       params: {
         width: { type: 'number', default: 100 },
         height: { type: 'number', default: 100 },
@@ -172,7 +171,6 @@ async function testNodeExecution(): Promise<boolean> {
     registry.registerNode({
       type: 'Test::Union',
       category: 'Test',
-      metadata: { label: 'Test Union', description: 'Test boolean union' },
       params: {},
       inputs: {
         a: { type: 'Solid' },
@@ -194,7 +192,6 @@ async function testNodeExecution(): Promise<boolean> {
 
     // Create test graph with two boxes and a union
     const testGraph: GraphInstance = {
-      id: 'test-graph',
       nodes: [
         {
           id: 'box1' as any,
