@@ -18,6 +18,7 @@ describe('Node OCCT smoke', () => {
   let api: IntegratedGeometryAPI | null = null;
 
   beforeAll(async () => {
+    // eslint-disable-next-line security/detect-non-literal-fs-filename -- Test file, checking WASM artifacts
     const missing = requiredArtifacts.filter((file) => !fs.existsSync(path.join(wasmDir, file)));
 
     if (missing.length > 0) {

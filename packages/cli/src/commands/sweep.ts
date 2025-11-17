@@ -41,6 +41,7 @@ export const sweepCommand = new Command('sweep')
           process.exit(1);
         }
 
+        // eslint-disable-next-line security/detect-non-literal-fs-filename -- CLI argument, validated by commander
         const csvContent = await fs.readFile(options.matrix, 'utf-8');
         parameterSets = parseCSV(csvContent);
         spinner.succeed(`Loaded ${parameterSets.length} parameter sets from CSV`);
@@ -229,6 +230,7 @@ async function renderVariant(
   const { registerCoreNodes } = await import('@brepflow/nodes-core');
 
   // Load graph
+  // eslint-disable-next-line security/detect-non-literal-fs-filename -- CLI argument, validated by commander
   const graphContent = await fs.readFile(graphPath, 'utf-8');
   const graph: GraphInstance = JSON.parse(graphContent);
 

@@ -81,6 +81,7 @@ describe('exportFormat', () => {
 
       expect(results).toHaveLength(shapes.length);
       for (const record of results) {
+        // eslint-disable-next-line security/detect-non-literal-fs-filename -- Test file, path from function result
         const file = await fs.readFile(record.filepath, 'utf8');
         expect(file).toContain('EXPORT_STEP');
       }

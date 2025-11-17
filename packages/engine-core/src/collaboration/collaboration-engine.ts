@@ -96,7 +96,7 @@ export class BrepFlowCollaborationEngine {
   /**
    * Create a new collaboration session
    */
-  async createSession(projectId: string = 'default', userId?: UserId): Promise<SessionId> {
+  async createSession(projectId: string = 'default', _userId?: UserId): Promise<SessionId> {
     const sessionId = `session_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
 
     const session: CollaborationSession = {
@@ -801,7 +801,7 @@ export class BrepFlowCollaborationEngine {
     if (!session) return;
 
     // Send to all users except the excluded one
-    for (const [userId, user] of session.users) {
+    for (const [userId] of session.users) {
       if (userId !== excludeUserId) {
         // In a real implementation, this would send via WebSocket
         // For now, emit an event that can be listened to

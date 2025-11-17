@@ -248,6 +248,7 @@ export class BrepFlowScriptEngine implements ScriptEngine {
 
     let script = template.template;
     Object.entries(placeholders).forEach(([key, value]) => {
+      // eslint-disable-next-line security/detect-non-literal-regexp -- Template keys are controlled, not user input
       script = script.replace(new RegExp(`\\{\\{${key}\\}\\}`, 'g'), value);
     });
 

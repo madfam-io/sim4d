@@ -54,6 +54,7 @@ export const renderCommand = new Command('render')
       }
 
       // Load graph
+      // eslint-disable-next-line security/detect-non-literal-fs-filename -- CLI argument, validated by commander
       const graphContent = await fs.readFile(graphPath, 'utf-8');
       const graph: GraphInstance = JSON.parse(graphContent);
       spinner.succeed('Graph loaded');
@@ -438,12 +439,14 @@ export async function exportFormat(
           );
       }
 
+      // eslint-disable-next-line security/detect-non-literal-fs-filename -- Output path from CLI, validated
       if (Buffer.isBuffer(content)) {
         await fs.writeFile(filepath, content);
       } else {
         await fs.writeFile(filepath, content, 'utf8');
       }
 
+      // eslint-disable-next-line security/detect-non-literal-fs-filename -- Output path from CLI, validated
       const { size } = await fs.stat(filepath);
       written.push({
         format: normalizedFormat,

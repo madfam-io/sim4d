@@ -5,7 +5,6 @@
 
 import {
   WebSocketMessage,
-  WebSocketMessageType,
   OperationMessage,
   OperationAckMessage,
   CursorUpdateMessage,

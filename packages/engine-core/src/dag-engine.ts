@@ -20,6 +20,7 @@ function getLogger(): LoggerLike {
   }
 
   try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires -- Optional dependency, fallback needed for tests
     const { ProductionLogger } = require('@brepflow/engine-occt');
     loggerInstance = new ProductionLogger('DAGEngine');
   } catch (error) {
@@ -40,6 +41,7 @@ function getLogger(): LoggerLike {
 // Try-catch import for optional GeometryProxy to handle test environments
 let GeometryProxy: any;
 try {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires -- Optional dependency, fallback needed for tests
   const occtModule = require('@brepflow/engine-occt');
   GeometryProxy = occtModule.GeometryProxy;
 } catch (error) {
