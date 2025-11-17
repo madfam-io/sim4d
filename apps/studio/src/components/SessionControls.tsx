@@ -92,6 +92,7 @@ export function SessionControls() {
   return (
     <div
       className="session-controls"
+      data-testid="session-controls"
       style={{
         position: 'fixed',
         top: '20px',
@@ -104,6 +105,7 @@ export function SessionControls() {
       {/* Export Buttons */}
       <div style={{ display: 'flex', gap: '5px' }}>
         <button
+          data-testid="export-step-btn"
           onClick={() => handleExport('step')}
           disabled={exporting || !graph || graph.nodes.length === 0}
           style={{
@@ -122,6 +124,7 @@ export function SessionControls() {
         </button>
 
         <button
+          data-testid="export-stl-btn"
           onClick={() => handleExport('stl')}
           disabled={exporting || !graph || graph.nodes.length === 0}
           style={{
@@ -142,6 +145,7 @@ export function SessionControls() {
 
       {/* Share Button */}
       <button
+        data-testid="share-btn"
         onClick={handleShare}
         style={{
           padding: '8px 16px',
@@ -161,6 +165,7 @@ export function SessionControls() {
 
       {/* Session ID Display */}
       <div
+        data-testid="session-id"
         style={{
           padding: '8px 12px',
           backgroundColor: '#f5f5f5',
