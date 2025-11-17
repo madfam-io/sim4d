@@ -13,6 +13,19 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { Solver2D } from './solver-2d';
 import type { Point2D, Variable, Constraint2D } from './types';
 
+/**
+ * Helper function to create a solver-compatible point entity
+ * Converts simple Point2D to entity with params and fixed arrays
+ */
+function createPointEntity(id: string, x: number, y: number, fixed: boolean = false) {
+  return {
+    id,
+    type: 'point' as const,
+    params: [x, y],
+    fixed: [fixed, fixed],
+  };
+}
+
 describe('Solver2D - Comprehensive Tests', () => {
   let solver: Solver2D;
 
@@ -97,13 +110,16 @@ describe('Solver2D - Comprehensive Tests', () => {
 
   describe('Distance Constraints', () => {
     it('should solve distance constraint between two points', () => {
-      const p1: Point2D = { id: 'p1', x: 0, y: 0 };
-      const p2: Point2D = { id: 'p2', x: 3, y: 4 };
+      const p1 = createPointEntity('p1', 0, 0);
+      const p2 = createPointEntity('p2', 3, 4);
+
+      solver.addEntity(p1);
+      solver.addEntity(p2);
 
       const constraint: Constraint2D = {
         id: 'dist1',
         type: 'distance',
-        entities: [p1, p2],
+        entities: ['p1', 'p2'],
         targetValue: 5, // Distance should be 5 (already is: 3-4-5 triangle)
       };
 
@@ -116,13 +132,16 @@ describe('Solver2D - Comprehensive Tests', () => {
     });
 
     it('should handle zero distance constraint', () => {
-      const p1: Point2D = { id: 'p1', x: 0, y: 0 };
-      const p2: Point2D = { id: 'p2', x: 0, y: 0 };
+      const p1 = createPointEntity('p1', 0, 0);
+      const p2 = createPointEntity('p2', 0, 0);
+
+      solver.addEntity(p1);
+      solver.addEntity(p2);
 
       const constraint: Constraint2D = {
         id: 'dist1',
         type: 'distance',
-        entities: [p1, p2],
+        entities: ['p1', 'p2'],
         targetValue: 0,
       };
 
@@ -134,12 +153,14 @@ describe('Solver2D - Comprehensive Tests', () => {
     });
 
     it('should handle distance constraint with insufficient entities', () => {
-      const p1: Point2D = { id: 'p1', x: 0, y: 0 };
+      const p1 = createPointEntity('p1', 0, 0);
+
+      solver.addEntity(p1);
 
       const constraint: Constraint2D = {
         id: 'dist1',
         type: 'distance',
-        entities: [p1], // Only one point - should not crash
+        entities: ['p1'], // Only one point - should not crash
         targetValue: 10,
       };
 
@@ -154,13 +175,16 @@ describe('Solver2D - Comprehensive Tests', () => {
 
   describe('Horizontal and Vertical Constraints', () => {
     it('should solve horizontal constraint', () => {
-      const p1: Point2D = { id: 'p1', x: 0, y: 5 };
-      const p2: Point2D = { id: 'p2', x: 10, y: 5 };
+      const p1 = createPointEntity('p1', 0, 5);
+      const p2 = createPointEntity('p2', 10, 5);
+
+      solver.addEntity(p1);
+      solver.addEntity(p2);
 
       const constraint: Constraint2D = {
         id: 'horiz1',
         type: 'horizontal',
-        entities: [p1, p2],
+        entities: ['p1', 'p2'],
       };
 
       solver.addConstraint(constraint);
@@ -171,13 +195,16 @@ describe('Solver2D - Comprehensive Tests', () => {
     });
 
     it('should solve vertical constraint', () => {
-      const p1: Point2D = { id: 'p1', x: 5, y: 0 };
-      const p2: Point2D = { id: 'p2', x: 5, y: 10 };
+      const p1 = createPointEntity('p1', 5, 0);
+      const p2 = createPointEntity('p2', 5, 10);
+
+      solver.addEntity(p1);
+      solver.addEntity(p2);
 
       const constraint: Constraint2D = {
         id: 'vert1',
         type: 'vertical',
-        entities: [p1, p2],
+        entities: ['p1', 'p2'],
       };
 
       solver.addConstraint(constraint);
@@ -188,7 +215,7 @@ describe('Solver2D - Comprehensive Tests', () => {
     });
 
     it('should handle horizontal constraint with insufficient entities', () => {
-      const p1: Point2D = { id: 'p1', x: 0, y: 0 };
+      const p1 = createPointEntity('p1', 0, 0);
 
       const constraint: Constraint2D = {
         id: 'horiz1',
@@ -215,8 +242,8 @@ describe('Solver2D - Comprehensive Tests', () => {
     });
 
     it('should handle constraints with no variables', () => {
-      const p1: Point2D = { id: 'p1', x: 0, y: 0 };
-      const p2: Point2D = { id: 'p2', x: 1, y: 0 };
+      const p1 = createPointEntity('p1', 0, 0);
+      const p2 = createPointEntity('p2', 1, 0);
 
       const constraint: Constraint2D = {
         id: 'dist1',
@@ -235,8 +262,8 @@ describe('Solver2D - Comprehensive Tests', () => {
 
     it('should respect maximum iterations limit', () => {
       // Create an unsolvable or very difficult constraint system
-      const p1: Point2D = { id: 'p1', x: 0, y: 0 };
-      const p2: Point2D = { id: 'p2', x: 100, y: 100 };
+      const p1 = createPointEntity('p1', 0, 0);
+      const p2 = createPointEntity('p2', 100, 100);
 
       const constraint: Constraint2D = {
         id: 'dist1',
@@ -269,13 +296,16 @@ describe('Solver2D - Comprehensive Tests', () => {
 
   describe('Edge Cases', () => {
     it('should handle constraint with missing targetValue', () => {
-      const p1: Point2D = { id: 'p1', x: 0, y: 0 };
-      const p2: Point2D = { id: 'p2', x: 5, y: 0 };
+      const p1 = createPointEntity('p1', 0, 0);
+      const p2 = createPointEntity('p2', 5, 0);
+
+      solver.addEntity(p1);
+      solver.addEntity(p2);
 
       const constraint: Constraint2D = {
         id: 'dist1',
         type: 'distance',
-        entities: [p1, p2],
+        entities: ['p1', 'p2'],
         // No targetValue - should default to 0
       };
 
@@ -287,13 +317,16 @@ describe('Solver2D - Comprehensive Tests', () => {
     });
 
     it('should handle negative distance target', () => {
-      const p1: Point2D = { id: 'p1', x: 0, y: 0 };
-      const p2: Point2D = { id: 'p2', x: 5, y: 0 };
+      const p1 = createPointEntity('p1', 0, 0);
+      const p2 = createPointEntity('p2', 5, 0);
+
+      solver.addEntity(p1);
+      solver.addEntity(p2);
 
       const constraint: Constraint2D = {
         id: 'dist1',
         type: 'distance',
-        entities: [p1, p2],
+        entities: ['p1', 'p2'],
         targetValue: -10, // Negative distance
       };
 
@@ -306,13 +339,16 @@ describe('Solver2D - Comprehensive Tests', () => {
     });
 
     it('should handle very large coordinate values', () => {
-      const p1: Point2D = { id: 'p1', x: 1e10, y: 1e10 };
-      const p2: Point2D = { id: 'p2', x: 1e10 + 5, y: 1e10 };
+      const p1 = createPointEntity('p1', 1e10, 1e10);
+      const p2 = createPointEntity('p2', 1e10 + 5, 1e10);
+
+      solver.addEntity(p1);
+      solver.addEntity(p2);
 
       const constraint: Constraint2D = {
         id: 'dist1',
         type: 'distance',
-        entities: [p1, p2],
+        entities: ['p1', 'p2'],
         targetValue: 5,
       };
 
