@@ -11,8 +11,21 @@ export default defineConfig({
     exclude: ['**/node_modules/**', '**/dist/**'],
     coverage: {
       provider: 'v8',
-      reporter: ['text', 'json', 'html'],
-      exclude: ['tests/**', '**/*.test.{js,ts,jsx,tsx}', '**/*.spec.{js,ts,jsx,tsx}', 'dist/**'],
+      reporter: ['text', 'json', 'html', 'lcov'],
+      include: ['src/**/*.{js,ts,jsx,tsx}'],
+      exclude: [
+        'tests/**',
+        '**/*.test.{js,ts,jsx,tsx}',
+        '**/*.spec.{js,ts,jsx,tsx}',
+        'dist/**',
+        '**/*.d.ts',
+        '**/node_modules/**',
+      ],
+      all: true,
+      lines: 70,
+      functions: 70,
+      branches: 70,
+      statements: 70,
     },
   },
 });

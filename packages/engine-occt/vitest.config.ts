@@ -12,8 +12,23 @@ export default defineConfig({
     exclude: ['**/node_modules/**', '**/dist/**'],
     coverage: {
       provider: 'v8',
-      reporter: ['text', 'json', 'html'],
-      exclude: ['tests/**', '**/*.test.{js,ts,jsx,tsx}', '**/*.spec.{js,ts,jsx,tsx}', 'dist/**'],
+      reporter: ['text', 'json', 'html', 'lcov'],
+      include: ['src/**/*.{js,ts,jsx,tsx}'],
+      exclude: [
+        'tests/**',
+        'test/**',
+        '**/*.test.{js,ts,jsx,tsx}',
+        '**/*.spec.{js,ts,jsx,tsx}',
+        'dist/**',
+        '**/*.d.ts',
+        '**/node_modules/**',
+        'wasm/**',
+      ],
+      all: true,
+      lines: 60,
+      functions: 70,
+      branches: 60,
+      statements: 60,
     },
     // Ensure test environment variables are set
     env: {
