@@ -27,12 +27,12 @@
   },
   "dependencies": {
     "@brepflow/types": "workspace:*",
-    "xxhash-wasm": "^1.0.2",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "xxhash-wasm": "^1.0.2"
   },
   "devDependencies": {
     "@types/uuid": "^9.0.7",
-    "tsup": "^8.0.0",
+    "tsup": "^8.5.1",
     "vitest": "^4.0.9"
   }
 }

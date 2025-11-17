@@ -14,9 +14,9 @@
   },
   "dependencies": {
     "@brepflow/types": "workspace:*",
-    "three": "^0.181.1",
+    "@react-three/drei": "^9.92.0",
     "@react-three/fiber": "^8.15.0",
-    "@react-three/drei": "^9.92.0"
+    "three": "^0.181.1"
   },
   "peerDependencies": {
     "react": "^18.2.0",
@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@types/three": "^0.160.0",
-    "tsup": "^8.0.0",
+    "tsup": "^8.5.1",
     "vitest": "^4.0.9"
   }
 }
