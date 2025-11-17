@@ -310,6 +310,11 @@ const TEST_API_CONFIG: GeometryAPIConfig = {
   },
 };
 
+vi.mock('./occt-loader', () => ({
+  resetOCCTCircuitBreaker: vi.fn(),
+  loadOCCTModule: vi.fn().mockResolvedValue({}),
+}));
+
 vi.mock('./error-recovery', () => ({
   getErrorRecoverySystem: vi.fn().mockReturnValue({
     validateOperation: vi.fn().mockResolvedValue({ valid: true }),
