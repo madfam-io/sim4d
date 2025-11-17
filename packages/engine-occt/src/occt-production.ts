@@ -312,6 +312,7 @@ async function initializeOCCT(): Promise<OCCTModule> {
 export class OCCTProductionAPI {
   private module: OCCTModule | null = null;
   private initPromise: Promise<void>;
+  private usingRealOCCT: boolean = false;
 
   constructor() {
     this.initPromise = this.initialize();
@@ -468,6 +469,7 @@ export class OCCTProductionAPI {
   private async initialize(): Promise<void> {
     try {
       this.module = await loadOCCTProduction();
+      this.usingRealOCCT = !!this.module;
     } catch (error) {
       console.error('[OCCTProductionAPI] Initialization failed:', error);
       throw error;

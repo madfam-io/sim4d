@@ -534,8 +534,10 @@ export interface Edge {
 export interface WorkerAPI {
   init?(): Promise<void>;
   invoke<T = any>(operation: string, params: any): Promise<T>;
+  execute?<T = any>(operation: string, params: any): Promise<T>;
   tessellate(shapeId: HandleId, deflection: number): Promise<MeshData>;
   dispose(handleId: HandleId): Promise<void>;
+  healthCheck?(): Promise<any>;
   terminate?(): Promise<void>;
 }
 
@@ -585,12 +587,12 @@ export interface ShapeHandle {
   bbox_max_x?: number;
   bbox_max_y?: number;
   bbox_max_z?: number;
+  metadata?: Record<string, any>;
   volume?: number;
   area?: number;
   centerX?: number;
   centerY?: number;
   centerZ?: number;
-  metadata?: Record<string, unknown>;
 }
 
 // Assembly handle

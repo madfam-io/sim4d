@@ -64,7 +64,7 @@ export class WASMValidator {
     // Step 2: Attempt to load WASM module
     const loadStart = performance.now();
     const loadStatus = await this.validateLoading();
-    result.loadTime = performance.now() - loadStart;
+    result.performance.loadTime = performance.now() - loadStart;
     result.loaded = loadStatus.success;
     if (!loadStatus.success) {
       result.errors.push(...loadStatus.errors);
@@ -74,7 +74,7 @@ export class WASMValidator {
     // Step 3: Validate functional operations
     const operationStart = performance.now();
     const functionalStatus = await this.validateFunctionality();
-    result.operationTime = performance.now() - operationStart;
+    result.performance.operationTime = performance.now() - operationStart;
     result.functional = functionalStatus.success;
     if (!functionalStatus.success) {
       result.errors.push(...functionalStatus.errors);
