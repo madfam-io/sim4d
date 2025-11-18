@@ -76,8 +76,18 @@ export async function startCollaborationServer(): Promise<{
   return { app, httpServer, collaborationServer };
 }
 
-// Start server if run directly
-if (require.main === module) {
+// Start server if run directly (ESM compatible check)
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Check if this module is being run directly
+const isMainModule =
+  process.argv[1] === __filename || process.argv[1]?.endsWith('standalone-server.js');
+
+if (isMainModule) {
   startCollaborationServer().catch((error) => {
     console.error('[CollaborationServer] Failed to start:', error);
     process.exit(1);
