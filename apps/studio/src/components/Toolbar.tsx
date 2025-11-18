@@ -3,6 +3,11 @@ import { useGraphStore } from '../store/graph-store';
 import { Button } from './ui/Button';
 import { exportGeometry, downloadFile, isExportAvailable } from '../services/wasm-export';
 import { createChildLogger } from '../lib/logging/logger-instance';
+import { TemplateGallery } from './templates/TemplateGallery';
+import { loadTemplate } from '../utils/template-loader';
+import type { Template } from '../templates/template-registry';
+import { ExportProgressModal } from './export/ExportProgressModal';
+import { useExportProgress } from '../hooks/useExportProgress';
 import './Toolbar.css';
 
 const logger = createChildLogger({ module: 'Toolbar' });
@@ -15,6 +20,10 @@ export function Toolbar() {
     'bflow'
   );
   const [showExportMenu, setShowExportMenu] = React.useState(false);
+  const [showTemplateGallery, setShowTemplateGallery] = React.useState(false);
+  const [currentExportFormat, setCurrentExportFormat] = React.useState<string>('');
+
+  const exportProgress = useExportProgress();
 
   const handleEvaluate = () => {
     evaluateGraph();
@@ -40,8 +49,16 @@ export function Toolbar() {
 
   const handleExportCAD = async (format: 'step' | 'stl' | 'iges') => {
     try {
+      // Start export progress
+      setCurrentExportFormat(format);
+      exportProgress.startExport(format);
+
       const graph = useGraphStore.getState().graph;
       const dagEngine = useGraphStore.getState().dagEngine;
+
+      // Stage 1: Collecting geometry
+      exportProgress.setStage('collecting-geometry', 'Collecting geometry from graph...');
+      await new Promise((resolve) => setTimeout(resolve, 200));
 
       // Find geometry outputs from DAG engine evaluation
       const geometryOutputs = dagEngine
@@ -53,26 +70,28 @@ export function Toolbar() {
         : [];
 
       if (geometryOutputs.length === 0) {
-        alert('No geometry to export. Please evaluate the graph first.');
+        exportProgress.setError('No geometry to export. Please evaluate the graph first.');
         return;
       }
 
-      // Check if real geometry is available
+      exportProgress.updateProgress({
+        totalItems: geometryOutputs.length,
+        processedItems: geometryOutputs.length,
+      });
+
+      // Stage 2: Check if export is available
+      exportProgress.setStage('processing', 'Initializing geometry engine...');
       const exportAvailable = await isExportAvailable();
       if (!exportAvailable) {
-        // Show helpful message while WASM loads
-        const formatName = format.toUpperCase();
-        alert(
-          `${formatName} export requires the geometry engine to be initialized.\n\nPlease wait a moment and try again, or refresh the page.`
+        exportProgress.setError(
+          'Geometry engine not initialized. Please wait a moment and try again.'
         );
         return;
       }
 
-      // Show exporting status
-      const toast = document.createElement('div');
-      toast.className = 'toolbar-toast';
-      toast.textContent = `Exporting to ${format.toUpperCase()}...`;
-      document.body.appendChild(toast);
+      // Stage 3: Export geometry
+      exportProgress.setStage('exporting', `Generating ${format.toUpperCase()} file...`);
+      await new Promise((resolve) => setTimeout(resolve, 300));
 
       try {
         // Export geometry using WASM
@@ -82,17 +101,20 @@ export function Toolbar() {
           precision: 0.1,
         });
 
+        // Stage 4: Finalize
+        exportProgress.setStage('finalizing', 'Preparing download...');
+        await new Promise((resolve) => setTimeout(resolve, 200));
+
         // Download the file
         const timestamp = new Date().toISOString().split('T')[0];
         const filename = `brepflow-export-${timestamp}.${format}`;
         downloadFile(blob, filename);
 
-        // Update toast to success
-        toast.textContent = `✅ Exported to ${format.toUpperCase()}`;
-        toast.style.background = 'var(--color-success)';
-        setTimeout(() => toast.remove(), 3000);
+        // Complete
+        exportProgress.complete();
+
+        logger.info('Export completed successfully', { format, filename });
       } catch (exportError: unknown) {
-        toast.remove();
         const errorMessage =
           exportError instanceof Error ? exportError.message : String(exportError);
 
@@ -103,15 +125,17 @@ export function Toolbar() {
           isNotInitialized: errorMessage?.includes('not initialized'),
         });
 
-        // Provide helpful error message
+        // Set error with helpful message
         if (errorMessage?.includes('not yet implemented')) {
-          alert(
-            `${format.toUpperCase()} export is coming soon!\n\nThe geometry engine is loaded but this specific format is still being implemented.`
+          exportProgress.setError(
+            `${format.toUpperCase()} export is coming soon! The geometry engine is loaded but this specific format is still being implemented.`
           );
         } else if (errorMessage?.includes('not initialized')) {
-          alert(`The geometry engine is still initializing. Please wait a moment and try again.`);
+          exportProgress.setError(
+            'The geometry engine is still initializing. Please wait a moment and try again.'
+          );
         } else {
-          alert(`Export failed: ${errorMessage}`);
+          exportProgress.setError(`Export failed: ${errorMessage}`);
         }
       }
     } catch (err: unknown) {
@@ -120,7 +144,7 @@ export function Toolbar() {
         format,
         error: errorMessage,
       });
-      alert(`Export failed: ${errorMessage}`);
+      exportProgress.setError(`Export failed: ${errorMessage}`);
     }
   };
 
@@ -190,6 +214,56 @@ export function Toolbar() {
       }
     } else {
       alert('No saved project found');
+    }
+  };
+
+  const handleTemplateSelect = async (template: Template) => {
+    try {
+      // Confirm if graph has unsaved changes
+      const currentGraph = useGraphStore.getState().graph;
+      if (currentGraph.nodes.length > 0) {
+        const confirmed = window.confirm(
+          'Loading a template will replace your current graph. Continue?'
+        );
+        if (!confirmed) {
+          return;
+        }
+      }
+
+      // Load template
+      const result = await loadTemplate(template, {
+        clearExisting: true,
+        positionOffset: { x: 100, y: 100 },
+        trackAnalytics: true,
+      });
+
+      if (result.success && result.graph) {
+        importGraph(result.graph);
+        setShowTemplateGallery(false);
+
+        // Show success toast
+        const toast = document.createElement('div');
+        toast.className = 'toolbar-toast';
+        toast.textContent = `✅ Template "${template.name}" loaded`;
+        toast.style.background = 'var(--color-success)';
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+
+        logger.info('Template loaded successfully', {
+          templateId: template.id,
+          templateName: template.name,
+          nodeCount: result.nodeCount,
+        });
+      } else {
+        throw new Error(result.error || 'Failed to load template');
+      }
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      alert(`Failed to load template: ${errorMessage}`);
+      logger.error('Template load failed', {
+        templateId: template.id,
+        error: errorMessage,
+      });
     }
   };
 
@@ -282,6 +356,16 @@ export function Toolbar() {
       </div>
 
       <div className="toolbar-group" role="group" aria-label="Project management">
+        <Button
+          onClick={() => setShowTemplateGallery(true)}
+          variant="secondary"
+          icon="template"
+          size="md"
+          title="Browse Templates"
+          aria-label="Open template gallery"
+        >
+          Templates
+        </Button>
         <Button
           onClick={handleSave}
           variant="secondary"
@@ -384,6 +468,36 @@ export function Toolbar() {
         </span>
         <span aria-label="Application version">BrepFlow Studio v0.1.0</span>
       </div>
+
+      {/* Template Gallery Modal */}
+      {showTemplateGallery && (
+        <div className="toolbar-modal-overlay" onClick={() => setShowTemplateGallery(false)}>
+          <div className="toolbar-modal-content" onClick={(e) => e.stopPropagation()}>
+            <TemplateGallery
+              onTemplateSelect={handleTemplateSelect}
+              onClose={() => setShowTemplateGallery(false)}
+              showRecommended={true}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Export Progress Modal */}
+      <ExportProgressModal
+        isOpen={
+          exportProgress.isExporting ||
+          exportProgress.progress.stage === 'complete' ||
+          exportProgress.progress.stage === 'error'
+        }
+        progress={exportProgress.progress}
+        format={currentExportFormat}
+        onCancel={() => {
+          exportProgress.setError('Export cancelled by user');
+        }}
+        onClose={() => {
+          exportProgress.reset();
+        }}
+      />
     </nav>
   );
 }

@@ -1,0 +1,144 @@
+{
+  "version": "0.1.0",
+  "units": "mm",
+  "tolerance": 0.001,
+  "metadata": {
+    "created": "2025-11-17T12:00:00Z",
+    "author": "BrepFlow Examples",
+    "description": "Simple parametric spur gear",
+    "difficulty": "intermediate",
+    "tags": ["mechanical", "gear", "parametric"],
+    "estimatedTime": "5 minutes"
+  },
+  "nodes": [
+    {
+      "id": "tooth_profile",
+      "type": "Sketch::Polygon",
+      "position": { "x": 100, "y": 100 },
+      "inputs": {},
+      "params": {
+        "points": [
+          { "x": 20, "y": 0, "z": 0 },
+          { "x": 22, "y": 2, "z": 0 },
+          { "x": 22, "y": -2, "z": 0 }
+        ],
+        "closed": true
+      }
+    },
+    {
+      "id": "tooth_extrude",
+      "type": "Solid::Extrude",
+      "position": { "x": 300, "y": 100 },
+      "inputs": {
+        "profile": { "nodeId": "tooth_profile", "socketId": "curve" }
+      },
+      "params": {
+        "distance": 10
+      }
+    },
+    {
+      "id": "tooth_array",
+      "type": "Transform::ArrayCircular",
+      "position": { "x": 500, "y": 100 },
+      "inputs": {
+        "shape": { "nodeId": "tooth_extrude", "socketId": "shape" }
+      },
+      "params": {
+        "count": 12,
+        "angle": 360,
+        "axis": { "x": 0, "y": 0, "z": 1 },
+        "center": { "x": 0, "y": 0, "z": 0 }
+      }
+    },
+    {
+      "id": "hub",
+      "type": "Solid::Cylinder",
+      "position": { "x": 300, "y": 250 },
+      "inputs": {},
+      "params": {
+        "radius": 15,
+        "height": 10
+      }
+    },
+    {
+      "id": "gear_body",
+      "type": "Boolean::Union",
+      "position": { "x": 700, "y": 175 },
+      "inputs": {
+        "shapes": [
+          { "nodeId": "tooth_array", "socketId": "shapes" },
+          { "nodeId": "hub", "socketId": "shape" }
+        ]
+      },
+      "params": {
+        "simplify": true
+      }
+    },
+    {
+      "id": "shaft_hole",
+      "type": "Solid::Cylinder",
+      "position": { "x": 500, "y": 300 },
+      "inputs": {},
+      "params": {
+        "radius": 5,
+        "height": 12
+      }
+    },
+    {
+      "id": "final_gear",
+      "type": "Boolean::Subtract",
+      "position": { "x": 900, "y": 225 },
+      "inputs": {
+        "base": { "nodeId": "gear_body", "socketId": "shape" },
+        "tools": [{ "nodeId": "shaft_hole", "socketId": "shape" }]
+      },
+      "params": {
+        "simplify": true
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "source": "tooth_profile",
+      "sourceHandle": "curve",
+      "target": "tooth_extrude",
+      "targetHandle": "profile"
+    },
+    {
+      "id": "e2",
+      "source": "tooth_extrude",
+      "sourceHandle": "shape",
+      "target": "tooth_array",
+      "targetHandle": "shape"
+    },
+    {
+      "id": "e3",
+      "source": "tooth_array",
+      "sourceHandle": "shapes",
+      "target": "gear_body",
+      "targetHandle": "shapes"
+    },
+    {
+      "id": "e4",
+      "source": "hub",
+      "sourceHandle": "shape",
+      "target": "gear_body",
+      "targetHandle": "shapes"
+    },
+    {
+      "id": "e5",
+      "source": "gear_body",
+      "sourceHandle": "shape",
+      "target": "final_gear",
+      "targetHandle": "base"
+    },
+    {
+      "id": "e6",
+      "source": "shaft_hole",
+      "sourceHandle": "shape",
+      "target": "final_gear",
+      "targetHandle": "tools"
+    }
+  ]
+}

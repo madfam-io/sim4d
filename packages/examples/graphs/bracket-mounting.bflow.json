@@ -1,0 +1,178 @@
+{
+  "version": "0.1.0",
+  "units": "mm",
+  "tolerance": 0.001,
+  "metadata": {
+    "created": "2025-11-17T12:00:00Z",
+    "author": "BrepFlow Examples",
+    "description": "L-bracket with mounting holes and fillets",
+    "difficulty": "beginner",
+    "tags": ["bracket", "mechanical", "beginner"],
+    "estimatedTime": "3 minutes"
+  },
+  "nodes": [
+    {
+      "id": "base_plate",
+      "type": "Solid::Box",
+      "position": { "x": 100, "y": 100 },
+      "inputs": {},
+      "params": {
+        "width": 80,
+        "height": 60,
+        "depth": 5
+      }
+    },
+    {
+      "id": "vertical_plate",
+      "type": "Solid::Box",
+      "position": { "x": 100, "y": 250 },
+      "inputs": {},
+      "params": {
+        "width": 80,
+        "height": 5,
+        "depth": 60
+      }
+    },
+    {
+      "id": "move_vertical",
+      "type": "Transform::Move",
+      "position": { "x": 300, "y": 250 },
+      "inputs": {
+        "shape": { "nodeId": "vertical_plate", "socketId": "shape" }
+      },
+      "params": {
+        "offset": { "x": 0, "y": 27.5, "z": 30 }
+      }
+    },
+    {
+      "id": "bracket_base",
+      "type": "Boolean::Union",
+      "position": { "x": 500, "y": 175 },
+      "inputs": {
+        "shapes": [
+          { "nodeId": "base_plate", "socketId": "shape" },
+          { "nodeId": "move_vertical", "socketId": "shape" }
+        ]
+      },
+      "params": {
+        "simplify": true
+      }
+    },
+    {
+      "id": "fillet_internal",
+      "type": "Features::Fillet",
+      "position": { "x": 700, "y": 175 },
+      "inputs": {
+        "shape": { "nodeId": "bracket_base", "socketId": "shape" }
+      },
+      "params": {
+        "radius": 8,
+        "selectAll": false
+      }
+    },
+    {
+      "id": "mounting_hole",
+      "type": "Solid::Cylinder",
+      "position": { "x": 500, "y": 350 },
+      "inputs": {},
+      "params": {
+        "radius": 4,
+        "height": 8
+      }
+    },
+    {
+      "id": "hole_pattern",
+      "type": "Transform::ArrayLinear",
+      "position": { "x": 700, "y": 350 },
+      "inputs": {
+        "shape": { "nodeId": "mounting_hole", "socketId": "shape" }
+      },
+      "params": {
+        "count": 2,
+        "spacing": { "x": 60, "y": 0, "z": 0 }
+      }
+    },
+    {
+      "id": "final_bracket",
+      "type": "Boolean::Subtract",
+      "position": { "x": 900, "y": 250 },
+      "inputs": {
+        "base": { "nodeId": "fillet_internal", "socketId": "shape" },
+        "tools": [{ "nodeId": "hole_pattern", "socketId": "shapes" }]
+      },
+      "params": {
+        "simplify": true
+      }
+    },
+    {
+      "id": "fillet_edges",
+      "type": "Features::Fillet",
+      "position": { "x": 1100, "y": 250 },
+      "inputs": {
+        "shape": { "nodeId": "final_bracket", "socketId": "shape" }
+      },
+      "params": {
+        "radius": 2,
+        "selectAll": true
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "source": "vertical_plate",
+      "sourceHandle": "shape",
+      "target": "move_vertical",
+      "targetHandle": "shape"
+    },
+    {
+      "id": "e2",
+      "source": "base_plate",
+      "sourceHandle": "shape",
+      "target": "bracket_base",
+      "targetHandle": "shapes"
+    },
+    {
+      "id": "e3",
+      "source": "move_vertical",
+      "sourceHandle": "shape",
+      "target": "bracket_base",
+      "targetHandle": "shapes"
+    },
+    {
+      "id": "e4",
+      "source": "bracket_base",
+      "sourceHandle": "shape",
+      "target": "fillet_internal",
+      "targetHandle": "shape"
+    },
+    {
+      "id": "e5",
+      "source": "mounting_hole",
+      "sourceHandle": "shape",
+      "target": "hole_pattern",
+      "targetHandle": "shape"
+    },
+    {
+      "id": "e6",
+      "source": "fillet_internal",
+      "sourceHandle": "shape",
+      "target": "final_bracket",
+      "targetHandle": "base"
+    },
+    {
+      "id": "e7",
+      "source": "hole_pattern",
+      "sourceHandle": "shapes",
+      "target": "final_bracket",
+      "targetHandle": "tools"
+    },
+    {
+      "id": "e8",
+      "source": "final_bracket",
+      "sourceHandle": "shape",
+      "target": "fillet_edges",
+      "targetHandle": "shape"
+    }
+  ]
+}
