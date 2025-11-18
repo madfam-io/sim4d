@@ -23,7 +23,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/three": "^0.160.0",
+    "@types/three": "^0.181.0",
     "tsup": "^8.5.1",
     "vitest": "^4.0.9"
   }
