@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitest/config';
+import path from 'node:path';
 
 export default defineConfig({
   test: {
@@ -26,6 +27,20 @@ export default defineConfig({
       functions: 80,
       branches: 80,
       statements: 80,
+    },
+    alias: {
+      '@brepflow/engine-occt': path.resolve(
+        __dirname,
+        './tests/setup/__mocks__/engine-occt.mock.ts'
+      ),
+    },
+  },
+  resolve: {
+    alias: {
+      '@brepflow/engine-occt': path.resolve(
+        __dirname,
+        './tests/setup/__mocks__/engine-occt.mock.ts'
+      ),
     },
   },
 });

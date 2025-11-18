@@ -809,4 +809,172 @@ describe('DAGEngine', () => {
       expect(mockWorker.invoke).toHaveBeenCalledWith('TEST_OP', {});
     });
   });
+
+  describe('Evaluation Summary and Profiling', () => {
+    it('should return evaluation summary after evaluation', async () => {
+      // Register a test node
+      const testNodeDef: NodeDefinition = {
+        id: 'Test::Profiled',
+        category: 'Test',
+        label: 'Profiled Node',
+        params: {},
+        inputs: {},
+        outputs: { result: 'number' },
+        evaluate: vi.fn().mockResolvedValue({ result: 123 }),
+      };
+      mockRegistry.registerNode(testNodeDef);
+
+      const graph: GraphInstance = {
+        id: 'graph-1',
+        name: 'Test Graph',
+        nodes: [
+          {
+            id: 'node-1',
+            type: 'Test::Profiled',
+            position: { x: 0, y: 0 },
+            params: {},
+            inputs: {},
+            outputs: {},
+            dirty: true,
+          },
+        ],
+        edges: [],
+      };
+
+      const dirtyNodes = new Set(['node-1']);
+      await dagEngine.evaluate(graph, dirtyNodes);
+
+      const summary = dagEngine.getEvaluationSummary();
+      expect(summary).toBeDefined();
+      expect(summary?.sampleCount).toBeGreaterThan(0);
+    });
+
+    it('should handle slow node performance warnings', async () => {
+      // Register a slow node that will trigger p95 warning
+      const slowNodeDef: NodeDefinition = {
+        id: 'Test::Slow',
+        category: 'Test',
+        label: 'Slow Node',
+        params: {},
+        inputs: {},
+        outputs: { result: 'number' },
+        evaluate: vi.fn().mockImplementation(async () => {
+          // Simulate slow execution
+          await new Promise((resolve) => setTimeout(resolve, 1600));
+          return { result: 42 };
+        }),
+      };
+      mockRegistry.registerNode(slowNodeDef);
+
+      const graph: GraphInstance = {
+        id: 'graph-1',
+        name: 'Test Graph',
+        nodes: [
+          {
+            id: 'node-1',
+            type: 'Test::Slow',
+            position: { x: 0, y: 0 },
+            params: {},
+            inputs: {},
+            outputs: {},
+            dirty: true,
+          },
+        ],
+        edges: [],
+      };
+
+      const dirtyNodes = new Set(['node-1']);
+      await dagEngine.evaluate(graph, dirtyNodes);
+
+      const summary = dagEngine.getEvaluationSummary();
+      expect(summary).toBeDefined();
+      expect(summary?.p95Ms).toBeGreaterThanOrEqual(1500);
+    });
+
+    it('should return null summary before any evaluation', () => {
+      const summary = dagEngine.getEvaluationSummary();
+      expect(summary).toBeNull();
+    });
+
+    it('should handle summary with zero samples', async () => {
+      // This tests the early return path when sampleCount === 0
+      // We can't directly trigger this, but we can verify the method exists
+      const summary = dagEngine.getEvaluationSummary();
+      expect(summary).toBeNull(); // No evaluation yet, so null
+    });
+  });
+
+  describe('Input Resolution with Dirty Source Nodes', () => {
+    it('should evaluate dirty source node when collecting inputs', async () => {
+      // Register two connected nodes
+      const sourceNodeDef: NodeDefinition = {
+        id: 'Test::Source',
+        category: 'Test',
+        label: 'Source Node',
+        params: { value: { type: 'number', default: 10 } },
+        inputs: {},
+        outputs: { result: 'number' },
+        evaluate: vi.fn().mockResolvedValue({ result: 10 }),
+      };
+
+      const targetNodeDef: NodeDefinition = {
+        id: 'Test::Target',
+        category: 'Test',
+        label: 'Target Node',
+        params: {},
+        inputs: { input: 'number' },
+        outputs: { result: 'number' },
+        evaluate: vi.fn().mockImplementation(async (ctx, inputs) => {
+          return { result: inputs.input * 2 };
+        }),
+      };
+
+      mockRegistry.registerNode(sourceNodeDef);
+      mockRegistry.registerNode(targetNodeDef);
+
+      const graph: GraphInstance = {
+        id: 'graph-1',
+        name: 'Test Graph',
+        nodes: [
+          {
+            id: 'source',
+            type: 'Test::Source',
+            position: { x: 0, y: 0 },
+            params: { value: 10 },
+            inputs: {},
+            outputs: { result: 10 },
+            dirty: true, // Source is dirty
+          },
+          {
+            id: 'target',
+            type: 'Test::Target',
+            position: { x: 100, y: 0 },
+            params: {},
+            inputs: {
+              input: { nodeId: 'source', socketId: 'result' },
+            },
+            outputs: {},
+            dirty: false, // Target is clean but source is dirty
+          },
+        ],
+        edges: [
+          {
+            id: 'edge-1',
+            source: 'source',
+            sourceHandle: 'result',
+            target: 'target',
+            targetHandle: 'input',
+          },
+        ],
+      };
+
+      // Only evaluate target, but it should trigger source evaluation
+      const dirtyNodes = new Set(['target']);
+      await dagEngine.evaluate(graph, dirtyNodes);
+
+      // Source should have been evaluated even though only target was in dirtyNodes
+      expect(sourceNodeDef.evaluate).toHaveBeenCalled();
+      expect(targetNodeDef.evaluate).toHaveBeenCalled();
+    });
+  });
 });

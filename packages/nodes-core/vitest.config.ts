@@ -9,7 +9,11 @@ export default defineConfig({
     hookTimeout: 30000,
     setupFiles: ['./tests/setup/setup.ts'],
     include: ['**/*.{test,spec}.{js,jsx,ts,tsx}'],
-    exclude: ['**/node_modules/**', '**/dist/**'],
+    exclude: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/generated/**/*.{test,spec}.{js,jsx,ts,tsx}', // Exclude auto-generated tests (909 files requiring WASM)
+    ],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
