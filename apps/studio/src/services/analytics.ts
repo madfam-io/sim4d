@@ -19,6 +19,7 @@ export type AnalyticsEvent =
   | 'onboarding_started'
   | 'onboarding_completed'
   | 'onboarding_skipped'
+  | 'onboarding_skill_selected'
   | 'first_node_created'
   | 'first_connection_made'
   | 'first_parameter_edited'

@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useNodePalette } from '../../hooks/useNodePalette';
 import { NodeSearchBar } from './NodeSearchBar';
 import { CategoryTreeSidebar } from './CategoryTreeSidebar';
+import { CurationModeSelector } from './CurationModeSelector';
 import { NodeCard, NodeListItem, NodeCompactItem } from './NodeCard';
 import type { NodeDefinition } from '@brepflow/types';
 import { createChildLogger } from '../../lib/logging/logger-instance';
@@ -45,6 +46,9 @@ export function EnhancedNodePalette({
     filteredNodes,
     filteredCount,
     totalNodeCount,
+    curationMode,
+    curatedStats,
+    isFiltering,
     setSearchQuery,
     setFilters,
     setSortBy,
@@ -52,9 +56,11 @@ export function EnhancedNodePalette({
     setSelectedCategory,
     toggleCategoryExpansion,
     clearFilters,
+    setCurationMode,
   } = useNodePalette({
     initialView: defaultViewMode,
     enableAdvancedFeatures: enableAdvancedSearch,
+    initialCurationMode: 'curated', // Default to curated mode for better UX
   });
 
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
@@ -255,6 +261,14 @@ export function EnhancedNodePalette({
             : 'Fallback catalogue detected. Run a fresh build for @brepflow/nodes-core so the enhanced node registry can load real nodes.'}
         </div>
       )}
+
+      {/* Curation Mode Selector */}
+      <CurationModeSelector
+        currentMode={curationMode}
+        onChange={setCurationMode}
+        stats={curatedStats}
+        compact={compact}
+      />
 
       {enableAdvancedSearch && (
         <NodeSearchBar

@@ -139,3 +139,6 @@ export * from './assembly-advanced';
 // Export enhanced registry system
 export * from './registry/enhanced-node-registry';
 export * from './registry/node-discovery';
+
+// Export curated node catalog
+export * from './catalog';

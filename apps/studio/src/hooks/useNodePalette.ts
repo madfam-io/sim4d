@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useResilientNodeDiscovery } from './useResilientNodeDiscovery';
+import { useCuratedNodeFilter } from './useCuratedNodeFilter';
+import type { CurationMode } from './useCuratedNodeFilter';
 
 export interface NodeFilters {
   categories: string[];
@@ -17,6 +19,7 @@ export interface UseNodePaletteOptions {
   initialSort?: SortOption;
   initialView?: ViewMode;
   enableAdvancedFeatures?: boolean;
+  initialCurationMode?: CurationMode;
 }
 
 export function useNodePalette({
@@ -24,6 +27,7 @@ export function useNodePalette({
   initialSort = 'name',
   initialView = 'list',
   enableAdvancedFeatures = true,
+  initialCurationMode = 'curated',
 }: UseNodePaletteOptions = {}) {
   const {
     nodes: discoveredNodes,
@@ -34,6 +38,9 @@ export function useNodePalette({
     isReady,
     nodeCount,
   } = useResilientNodeDiscovery();
+
+  const { curationMode, setCurationMode, filterNodes, curatedStats, isFiltering } =
+    useCuratedNodeFilter({ initialMode: initialCurationMode });
 
   const isCatalogReady = discoveryStatus === 'complete';
   const isCatalogFallback = discoveryStatus === 'fallback';
@@ -118,7 +125,11 @@ export function useNodePalette({
       return [] as typeof discoveredNodes;
     }
 
+    // Start with search results or all nodes
     let filtered = searchQuery.trim() ? searchNodes(searchQuery) : [...discoveredNodes];
+
+    // Apply curation filter first (reduces set significantly)
+    filtered = filterNodes(filtered);
 
     if (selectedCategory) {
       filtered = filtered.filter((node) => {
@@ -181,6 +192,7 @@ export function useNodePalette({
     selectedCategory,
     filters,
     sortBy,
+    filterNodes,
   ]);
 
   const filteredCount = filteredNodes.length;
@@ -232,6 +244,9 @@ export function useNodePalette({
     filteredNodes,
     filteredCount,
     totalNodeCount,
+    curationMode,
+    curatedStats,
+    isFiltering,
     setSearchQuery,
     setFilters,
     setSortBy,
@@ -239,5 +254,6 @@ export function useNodePalette({
     setSelectedCategory,
     toggleCategoryExpansion,
     clearFilters,
+    setCurationMode,
   };
 }
