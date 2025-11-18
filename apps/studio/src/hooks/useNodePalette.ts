@@ -122,14 +122,14 @@ export function useNodePalette({
 
   const filteredNodes = useMemo(() => {
     if (!isReady || !isCatalogReady || discoveredNodes.length === 0) {
-      return [] as typeof discoveredNodes;
+      return [];
     }
 
     // Start with search results or all nodes
     let filtered = searchQuery.trim() ? searchNodes(searchQuery) : [...discoveredNodes];
 
     // Apply curation filter first (reduces set significantly)
-    filtered = filterNodes(filtered);
+    filtered = filterNodes(filtered) as typeof discoveredNodes;
 
     if (selectedCategory) {
       filtered = filtered.filter((node) => {

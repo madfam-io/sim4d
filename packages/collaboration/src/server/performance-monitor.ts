@@ -321,10 +321,7 @@ export class PerformanceMonitor {
   private startCleanup(): void {
     // Cleanup every 5 minutes
     this.cleanupTimer = setInterval(() => {
-      const cleaned = this.cleanupOldMetrics();
-      if (cleaned > 0) {
-        console.log(`Cleaned up ${cleaned} old metrics beyond retention period`);
-      }
+      this.cleanupOldMetrics();
     }, 300000);
   }
 }

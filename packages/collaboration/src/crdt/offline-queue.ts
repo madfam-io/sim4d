@@ -124,11 +124,8 @@ export class OfflineQueue {
 
     const removed = initialSize - this.queue.length;
 
-    if (removed > 0) {
-      console.log(`Removed ${removed} expired operations from queue`);
-      if (this.persistToStorage) {
-        this.saveToStorage();
-      }
+    if (removed > 0 && this.persistToStorage) {
+      this.saveToStorage();
     }
 
     return removed;
@@ -195,7 +192,6 @@ export class OfflineQueue {
         const serialized = localStorage.getItem(this.storageKey);
         if (serialized) {
           this.queue = JSON.parse(serialized);
-          console.log(`Loaded ${this.queue.length} operations from offline queue`);
 
           // Remove expired operations
           this.removeExpired();

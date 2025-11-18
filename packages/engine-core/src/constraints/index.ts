@@ -146,6 +146,11 @@ export class ConstraintManager {
     // Update geometry positions if solve was successful
     if (result.success && result.variables) {
       this.updateGeometryFromVariables(result.variables);
+      this.system.solved = true;
+      this.system.lastSolveTime = Date.now();
+      this.system.iterations = result.iterations || 0;
+    } else {
+      this.system.solved = false;
     }
 
     return result;

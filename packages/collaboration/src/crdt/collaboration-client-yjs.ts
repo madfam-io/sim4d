@@ -135,13 +135,11 @@ export class CollaborationClientYjs {
       // Connection state changed
       if (wasConnected !== this.connected) {
         if (this.connected) {
-          console.log('Connected to collaboration server');
           this.eventHandlers.onConnect?.();
 
           // Replay queued operations
           this.replayQueuedOperations();
         } else {
-          console.log('Disconnected from collaboration server');
           this.eventHandlers.onDisconnect?.();
         }
       }
@@ -161,8 +159,6 @@ export class CollaborationClientYjs {
     if (!this.yjsAdapter.isConnected()) {
       return;
     }
-
-    console.log(`Replaying ${this.offlineQueue.size()} queued operations`);
 
     while (!this.offlineQueue.isEmpty()) {
       const queuedOp = this.offlineQueue.dequeue();
@@ -188,8 +184,6 @@ export class CollaborationClientYjs {
         }
       }
     }
-
-    console.log('Finished replaying queued operations');
   }
 
   /**
@@ -243,7 +237,6 @@ export class CollaborationClientYjs {
     } else {
       // Queue for later
       this.offlineQueue.enqueue(operation);
-      console.log('Operation queued for offline replay');
     }
   }
 

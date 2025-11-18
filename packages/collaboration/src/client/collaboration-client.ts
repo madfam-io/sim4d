@@ -45,7 +45,6 @@ export class CollaborationClient {
   private setupSocketHandlers(): void {
     this.socket.on('connect', () => {
       this.connected = true;
-      console.log('Connected to collaboration server');
 
       // Join document room
       this.socket.emit('document:join', this.options.documentId, this.options.user);
@@ -58,7 +57,6 @@ export class CollaborationClient {
 
     this.socket.on('disconnect', () => {
       this.connected = false;
-      console.log('Disconnected from collaboration server');
       this.eventHandlers.onDisconnect?.();
     });
 

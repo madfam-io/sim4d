@@ -65,17 +65,10 @@ export class YjsAdapter {
     // Setup connection event handlers
     this.wsProvider.on('status', (event: { status: string }) => {
       this.connected = event.status === 'connected';
-      if (this.connected) {
-        console.log(`Connected to collaboration server: ${this.documentId}`);
-      } else {
-        console.log(`Disconnected from collaboration server: ${this.documentId}`);
-      }
     });
 
     this.wsProvider.on('sync', (synced: boolean) => {
-      if (synced) {
-        console.log('Initial sync complete');
-      }
+      // Sync state tracked internally
     });
   }
 

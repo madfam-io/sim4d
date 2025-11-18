@@ -294,10 +294,7 @@ export class LockManager {
   private startCleanup(): void {
     // Cleanup every 10 seconds
     this.cleanupTimer = setInterval(() => {
-      const cleaned = this.cleanupExpiredLocks();
-      if (cleaned > 0) {
-        console.log(`Cleaned up ${cleaned} expired locks`);
-      }
+      this.cleanupExpiredLocks();
     }, 10000);
   }
 }

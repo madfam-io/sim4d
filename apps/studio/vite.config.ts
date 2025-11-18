@@ -133,7 +133,12 @@ let originalConsoleWarn: ((...args: unknown[]) => void) | undefined;
 export default defineConfig({
   plugins: [
     wasmWorkerFixPlugin(), // Must run first to fix worker calls in WASM files
-    react(),
+    react({
+      // Use automatic JSX runtime (no need to import React in every file)
+      jsxRuntime: 'automatic',
+      // Skip detection issues by explicitly including all source files
+      include: '**/*.{jsx,tsx}',
+    }),
     wasmPlugin(),
     nodePolyfillsPlugin(),
     wasmAssetsPlugin(),
@@ -152,9 +157,11 @@ export default defineConfig({
       'Cross-Origin-Embedder-Policy': 'require-corp',
 
       // SECURITY: Content Security Policy
+      // Note: 'unsafe-inline' is allowed in development for React Fast Refresh (HMR)
+      // Production builds use strict CSP without inline scripts
       'Content-Security-Policy': [
         "default-src 'self'",
-        "script-src 'self' 'wasm-unsafe-eval'", // wasm-unsafe-eval required for WASM
+        "script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'", // unsafe-inline required for React Fast Refresh in dev
         "worker-src 'self' blob:",
         "style-src 'self' 'unsafe-inline'", // unsafe-inline needed for React/CSS-in-JS
         "img-src 'self' data: blob:",

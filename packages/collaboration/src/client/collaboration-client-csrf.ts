@@ -83,8 +83,6 @@ export class CSRFCollaborationClient {
       const expiresIn = (data.expiresIn || 3600) * 1000; // Convert to ms
       this.tokenExpiresAt = Date.now() + expiresIn;
 
-      console.log('[CSRF] Token fetched successfully, expires in', data.expiresIn, 'seconds');
-
       return data.token;
     } catch (error) {
       console.error('[CSRF] Token fetch failed:', error);
@@ -116,8 +114,6 @@ export class CSRFCollaborationClient {
       // Update expiration
       const expiresIn = (data.expiresIn || 3600) * 1000;
       this.tokenExpiresAt = Date.now() + expiresIn;
-
-      console.log('[CSRF] Token refreshed successfully');
 
       return data.token;
     } catch (error) {
@@ -155,12 +151,6 @@ export class CSRFCollaborationClient {
       },
       Math.min(timeUntilRefresh, refreshInterval)
     );
-
-    console.log(
-      '[CSRF] Token refresh scheduled in',
-      Math.round(timeUntilRefresh / 1000),
-      'seconds'
-    );
   }
 
   /**
@@ -168,8 +158,6 @@ export class CSRFCollaborationClient {
    */
   private async handleTokenRefresh(): Promise<void> {
     try {
-      console.log('[CSRF] Refreshing token and reconnecting...');
-
       // Fetch new token
       const newToken = await this.refreshCSRFToken();
       this.csrfToken = newToken;
@@ -190,9 +178,6 @@ export class CSRFCollaborationClient {
       if (this.retryAttempts < this.maxRetries) {
         this.retryAttempts++;
         const backoff = Math.pow(2, this.retryAttempts) * 1000;
-        console.log(
-          `[CSRF] Retrying token refresh in ${backoff}ms (attempt ${this.retryAttempts}/${this.maxRetries})`
-        );
         setTimeout(() => this.handleTokenRefresh(), backoff);
       } else {
         console.error('[CSRF] Max retry attempts reached, giving up');
@@ -210,7 +195,6 @@ export class CSRFCollaborationClient {
     this.socket.on('connect', () => {
       this.connected = true;
       this.retryAttempts = 0; // Reset retry counter on successful connection
-      console.log('[Collaboration] Connected to server');
 
       // Join document room
       this.socket!.emit('document:join', this.options.documentId, this.currentUser);
@@ -223,7 +207,6 @@ export class CSRFCollaborationClient {
 
     this.socket.on('disconnect', () => {
       this.connected = false;
-      console.log('[Collaboration] Disconnected from server');
       this.eventHandlers.onDisconnect?.();
     });
 

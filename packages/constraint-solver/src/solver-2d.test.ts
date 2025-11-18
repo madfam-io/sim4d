@@ -15,7 +15,7 @@ describe('Solver2D', () => {
     expect(result).toBeDefined();
     expect(result.success).toBeDefined();
     expect(result.iterations).toBeGreaterThanOrEqual(0);
-    expect(result.error).toBeGreaterThanOrEqual(0);
+    expect(result.residual).toBeGreaterThanOrEqual(0);
   });
 
   it('should handle empty constraint set', () => {
@@ -24,6 +24,6 @@ describe('Solver2D', () => {
 
     expect(result.success).toBe(true);
     expect(result.iterations).toBe(0);
-    expect(result.error).toBe(0);
+    expect(result.residual).toBe(0);
   });
 });

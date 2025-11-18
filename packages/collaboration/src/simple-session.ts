@@ -158,10 +158,6 @@ export class SimpleSessionManager {
     }
 
     expiredSessions.forEach((id) => this.sessions.delete(id));
-
-    if (expiredSessions.length > 0) {
-      console.log(`[SessionManager] Cleaned up ${expiredSessions.length} expired sessions`);
-    }
   }
 
   /**

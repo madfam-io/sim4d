@@ -120,7 +120,6 @@ export class BrepFlowCollaborationEngine {
     };
 
     this.sessions.set(sessionId, session);
-    console.log(`[Collaboration] Created session: ${sessionId} for project: ${projectId}`);
 
     return sessionId;
   }
@@ -163,8 +162,6 @@ export class BrepFlowCollaborationEngine {
 
     // Emit session joined event
     this.emit('session-joined', { sessionId, user });
-
-    console.log(`[Collaboration] User ${user.id} joined session ${sessionId}`);
   }
 
   /**
@@ -187,8 +184,6 @@ export class BrepFlowCollaborationEngine {
 
     // Emit session left event
     this.emit('session-left', { sessionId, userId });
-
-    console.log(`[Collaboration] User ${userId} left session ${sessionId}`);
   }
 
   /**
@@ -233,10 +228,6 @@ export class BrepFlowCollaborationEngine {
 
       // Emit operation applied event
       this.emit('operation-applied', { sessionId, operation });
-
-      console.log(
-        `[Collaboration] Applied operation ${operation.id} (type: ${operation.type}) to session ${sessionId}`
-      );
     } catch (error) {
       console.error('Error processing operation:', error);
       throw new CollaborationError(
@@ -530,8 +521,6 @@ export class BrepFlowCollaborationEngine {
       this.setupWebSocketHandlers();
       this.startHeartbeat();
       this.reconnectAttempts = 0;
-
-      console.log(`[Collaboration] Connected to WebSocket for session ${sessionId}`);
     } catch (error) {
       console.error('[Collaboration] Failed to connect to WebSocket:', error);
       await this.handleReconnect(sessionId);
@@ -554,7 +543,6 @@ export class BrepFlowCollaborationEngine {
     });
 
     this.wsClient.onReconnect(async () => {
-      console.log('[Collaboration] WebSocket reconnected');
       this.emit('connection-restored', { sessionId: 'unknown' });
     });
   }
@@ -617,26 +605,13 @@ export class BrepFlowCollaborationEngine {
     this.reconnectAttempts++;
     const delay = Math.min(1000 * Math.pow(2, this.reconnectAttempts - 1), 30000);
 
-    console.log(`[Collaboration] Reconnection attempt ${this.reconnectAttempts} in ${delay}ms`);
-
     setTimeout(async () => {
       await this.connectWebSocket(sessionId);
     }, delay);
   }
 
   private setupEventHandlers(): void {
-    // Setup default event handlers for logging
-    this.on('session-joined', ({ sessionId, user }) => {
-      console.log(`[Collaboration] User ${user.name} joined session ${sessionId}`);
-    });
-
-    this.on('session-left', ({ sessionId, userId }) => {
-      console.log(`[Collaboration] User ${userId} left session ${sessionId}`);
-    });
-
-    this.on('operation-applied', ({ sessionId, operation }) => {
-      console.log(`[Collaboration] Operation ${operation.type} applied to session ${sessionId}`);
-    });
+    // Event handlers can be registered by consumers via .on()
   }
 
   private startHeartbeat(): void {
@@ -836,8 +811,6 @@ export class BrepFlowCollaborationEngine {
     this.userSessions.clear();
     this.eventListeners.clear();
     this.lockManager.cleanup();
-
-    console.log('[Collaboration] Engine shutdown complete');
   }
 }
 
