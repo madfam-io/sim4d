@@ -7,5 +7,8 @@ export * from './server';
 // Client
 export * from './client';
 
-// Operational Transformation
+// CRDT (Yjs-based collaboration)
+export * from './crdt';
+
+// Operational Transformation (legacy)
 export { OperationalTransform } from './ot/operational-transform';
