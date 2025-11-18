@@ -9,8 +9,8 @@
     "@typescript-eslint/no-unused-vars": [
       "warn",
       {
-        "argsIgnorePattern": "^_|^params$|^ctx$|^inputName$|^nodeId$|^paramName$|^userId$|^sessionId$|^value$",
-        "varsIgnorePattern": "^_|^variables$|^initHasher$|^NodeInstance$|^Constraint$|^GeometryElement$|^MockWebSocketClient$|^createTestSelection$|^waitFor$|^Edge$|^NodeId$|^target$|^client[0-9]$"
+        "argsIgnorePattern": "^_|^params$|^ctx$|^inputName$|^nodeId$|^paramName$|^userId$|^sessionId$|^value$|^config$|^event$|^listener$|^callback$|^message$|^urlOrSessionId$|^lastKnownVersion$",
+        "varsIgnorePattern": "^_|^variables$|^initHasher$|^NodeInstance$|^Constraint$|^GeometryElement$|^MockWebSocketClient$|^createTestSelection$|^waitFor$|^Edge$|^NodeId$|^target$|^client[0-9]$|^config$|^hasOperationMessage$|^Operation$|^DeleteEdgeOperation$"
       }
     ],
     "@typescript-eslint/no-var-requires": "warn",

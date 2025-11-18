@@ -223,7 +223,7 @@ function checkCollaborationConnection(): HealthCheckResult {
 /**
  * Express-style health endpoint handler
  */
-export function handleHealthRequest(): Response {
+export function handleHealthRequest(): Promise<Response> {
   // Note: This is for Vite dev server middleware
   // In production, would use Express res object
   return performHealthCheck().then((health) => {
