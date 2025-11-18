@@ -6,6 +6,7 @@ import { GuidedTour } from './GuidedTour';
 import { PlaygroundManager } from './PlaygroundManager';
 import { HintSystem, type Hint } from './HintSystem';
 import { ProgressTracker } from './ProgressTracker';
+import { trackEvent } from '../../services/analytics';
 import './onboarding.css';
 
 const getHintsForCurrentState = (state: any): Hint[] => {

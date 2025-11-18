@@ -1,7 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useEffect } from 'react';
 import { useOnboardingStore } from '../../store/onboarding-store';
 import type { SkillLevel } from '../../types/onboarding';
+import { trackEvent } from '../../services/analytics';
 import './onboarding.css';
 
 interface SkillCardProps {
@@ -40,7 +42,13 @@ const SkillCard: React.FC<SkillCardProps> = ({
 export const WelcomeScreen: React.FC = () => {
   const { startOnboarding } = useOnboardingStore();
 
+  useEffect(() => {
+    // Track when onboarding is shown
+    trackEvent('onboarding_started');
+  }, []);
+
   const handleSkillSelect = (skillLevel: SkillLevel) => {
+    trackEvent('onboarding_skill_selected', { skillLevel });
     startOnboarding(skillLevel);
   };
 
