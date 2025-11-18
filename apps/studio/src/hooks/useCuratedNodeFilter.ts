@@ -1,5 +1,4 @@
 import { useMemo, useState, useCallback } from 'react';
-// @ts-expect-error - nodes-core doesn't generate .d.ts files yet (dts: false in tsup config)
 import {
   getCuratedNodeIds,
   getCategoriesBySkillLevel,
@@ -7,6 +6,7 @@ import {
   getIntermediateNodes,
   getAdvancedNodes,
   getCuratedCatalogStats,
+  // @ts-expect-error - nodes-core doesn't generate .d.ts files yet (dts: false in tsup config)
 } from '@brepflow/nodes-core';
 import type { NodeDefinition } from '@brepflow/types';
 

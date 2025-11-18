@@ -1,6 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { NodeIcon } from '../icons/IconSystem';
 import type { NodeDefinition } from '@brepflow/types';
+import { highlightMatches } from '../../lib/fuzzy-search';
 // import type { NodeMetadata } from '@brepflow/nodes-core';
 
 // Node metadata interface for enhanced node discovery
@@ -27,23 +28,64 @@ interface NodeCardProps {
   showDescription?: boolean;
 }
 
+/**
+ * Enhanced HighlightText component with fuzzy matching support
+ */
 function HighlightText({ text, highlight }: { text: string; highlight?: string }) {
-  if (!highlight?.trim()) {
-    return <span>{text}</span>;
-  }
+  const highlightedParts = useMemo(() => {
+    if (!highlight?.trim() || !text) {
+      return [{ text, isHighlight: false }];
+    }
 
-  const regex = new RegExp(`(${highlight})`, 'gi');
-  const parts = text.split(regex);
+    const matches = highlightMatches(highlight, text);
+    if (matches.length === 0) {
+      return [{ text, isHighlight: false }];
+    }
+
+    // Build parts array with highlighted sections
+    const parts: Array<{ text: string; isHighlight: boolean }> = [];
+    let lastIndex = 0;
+
+    // Merge overlapping matches
+    const merged: Array<{ start: number; end: number }> = [];
+    let current = matches[0];
+
+    for (let i = 1; i < matches.length; i++) {
+      const next = matches[i];
+      if (next.start <= current.end + 1) {
+        current = { start: current.start, end: Math.max(current.end, next.end) };
+      } else {
+        merged.push(current);
+        current = next;
+      }
+    }
+    merged.push(current);
+
+    // Build parts from merged matches
+    for (const match of merged) {
+      if (match.start > lastIndex) {
+        parts.push({ text: text.slice(lastIndex, match.start), isHighlight: false });
+      }
+      parts.push({ text: text.slice(match.start, match.end), isHighlight: true });
+      lastIndex = match.end;
+    }
+
+    if (lastIndex < text.length) {
+      parts.push({ text: text.slice(lastIndex), isHighlight: false });
+    }
+
+    return parts;
+  }, [text, highlight]);
 
   return (
     <span>
-      {parts.map((part, index) =>
-        regex.test(part) ? (
+      {highlightedParts.map((part, index) =>
+        part.isHighlight ? (
           <mark key={index} className="search-highlight">
-            {part}
+            {part.text}
           </mark>
         ) : (
-          <span key={index}>{part}</span>
+          <span key={index}>{part.text}</span>
         )
       )}
     </span>

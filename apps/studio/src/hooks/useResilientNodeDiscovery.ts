@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import type { NodeDefinition } from '@brepflow/types';
 import { createChildLogger } from '../lib/logging/logger-instance';
+import { fuzzySearchMultiField, tokenizeQuery, allTokensMatch } from '../lib/fuzzy-search';
 
 const logger = createChildLogger({ module: 'useResilientNodeDiscovery' });
 
@@ -557,29 +558,53 @@ export function useResilientNodeDiscovery() {
     return tree;
   }, [discoveredNodes]);
 
-  // Search functionality with metadata
+  // Search functionality with fuzzy matching
   const searchNodes = useMemo(() => {
     return (query: string) => {
       if (!query.trim()) return discoveredNodes;
 
-      const lowerQuery = query.toLowerCase();
+      // Tokenize query for multi-word search support
+      const tokens = tokenizeQuery(query);
+      const isSingleToken = tokens.length === 1;
+      const searchTerm = isSingleToken ? query : tokens[0]; // Use first token for fuzzy scoring
 
-      return discoveredNodes.filter((node) => {
-        const metadata = node.metadata;
-        const nodeType = node.type.toLowerCase();
-        const label = metadata?.label?.toLowerCase() || '';
-        const description = metadata?.description?.toLowerCase() || '';
-        const tags = metadata?.tags?.join(' ').toLowerCase() || '';
-        const category = metadata?.category?.toLowerCase() || node.category.toLowerCase();
+      // Score and filter nodes
+      const scoredNodes = discoveredNodes
+        .map((node) => {
+          const metadata = node.metadata;
+          const nodeType = node.type || '';
+          const label = metadata?.label || nodeType.split('::').pop() || '';
+          const description = metadata?.description || '';
+          const tags = metadata?.tags?.join(' ') || '';
+          const category = metadata?.category || node.category || '';
 
-        return (
-          nodeType.includes(lowerQuery) ||
-          label.includes(lowerQuery) ||
-          description.includes(lowerQuery) ||
-          tags.includes(lowerQuery) ||
-          category.includes(lowerQuery)
-        );
-      });
+          // Calculate fuzzy score across all fields with weights
+          const score = fuzzySearchMultiField({
+            query: searchTerm,
+            fields: [
+              { value: label, weight: 10 }, // Label is most important
+              { value: nodeType, weight: 8 }, // Node type is very important
+              { value: category, weight: 6 }, // Category is important
+              { value: tags, weight: 5 }, // Tags are moderately important
+              { value: description, weight: 3 }, // Description is least important
+            ],
+            threshold: 30, // Minimum score of 30/100 to match
+          });
+
+          // For multi-word queries, check if all tokens match
+          if (!isSingleToken) {
+            const allFieldsText = `${label} ${nodeType} ${category} ${tags} ${description}`;
+            if (!allTokensMatch(tokens, allFieldsText, 25)) {
+              return { node, score: 0 };
+            }
+          }
+
+          return { node, score };
+        })
+        .filter((item) => item.score > 0)
+        .sort((a, b) => b.score - a.score); // Sort by score descending
+
+      return scoredNodes.map((item) => item.node);
     };
   }, [discoveredNodes]);
 
