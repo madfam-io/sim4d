@@ -78,6 +78,9 @@ export class IsolatedVMExecutor implements ScriptExecutor {
       // Extract outputs from execution result
       const outputs = await this.extractOutputs(isolateContext);
 
+      // Extract logs from isolate
+      await this.extractLogs(isolateContext, logs, context.runtime.nodeId);
+
       return {
         success: true,
         outputs,
@@ -368,82 +371,98 @@ async function evaluate(ctx, inputs, params) {
     const mathModule = await context.eval('Math');
     await global.set('Math', mathModule);
 
-    // Console (logged, not executed in main thread)
-    await global.set('console', {
-      log: new ivm.Reference((message: string) => {
-        this.addLog(logs, 'info', String(message), scriptContext.runtime.nodeId);
-      }),
-      warn: new ivm.Reference((message: string) => {
-        this.addLog(logs, 'warn', String(message), scriptContext.runtime.nodeId);
-      }),
-      error: new ivm.Reference((message: string) => {
-        this.addLog(logs, 'error', String(message), scriptContext.runtime.nodeId);
-      }),
-    });
+    // Create storage objects within the isolate for outputs and logs
+    await context.eval('globalThis.__outputs__ = {}');
+    await context.eval('globalThis.__logs__ = []');
 
-    // Script utilities object (controlled access to context)
-    const scriptUtils = {
-      getInput: new ivm.Reference((name: string) => {
-        if (typeof name !== 'string' || name.length > 100) {
-          throw new Error('Invalid input name');
+    // Copy inputs and params into the isolate using ExternalCopy
+    const inputs = (scriptContext as any).inputs || {};
+    const params = (scriptContext as any).params || {};
+
+    // Transfer inputs and params to isolate
+    await global.set('__inputs__', new ivm.ExternalCopy(inputs).copyInto());
+    await global.set('__params__', new ivm.ExternalCopy(params).copyInto());
+
+    // Create all utilities within the isolate using eval
+    await context.eval(`
+      // Console implementation
+      globalThis.console = {
+        log: function(...args) {
+          globalThis.__logs__.push({
+            level: 'info',
+            message: args.map(String).join(' ')
+          });
+        },
+        warn: function(...args) {
+          globalThis.__logs__.push({
+            level: 'warn',
+            message: args.map(String).join(' ')
+          });
+        },
+        error: function(...args) {
+          globalThis.__logs__.push({
+            level: 'error',
+            message: args.map(String).join(' ')
+          });
         }
-        return (scriptContext as any).inputs?.[name];
-      }),
+      };
 
-      setOutput: new ivm.Reference((name: string, value: any) => {
-        if (typeof name !== 'string' || name.length > 100) {
-          throw new Error('Invalid output name');
+      // Script context utilities
+      globalThis.ctx = {
+        script: {
+          getInput: function(name) {
+            if (typeof name !== 'string' || name.length > 100) {
+              throw new Error('Invalid input name');
+            }
+            return globalThis.__inputs__[name];
+          },
+
+          setOutput: function(name, value) {
+            if (typeof name !== 'string' || name.length > 100) {
+              throw new Error('Invalid output name');
+            }
+            globalThis.__outputs__[name] = value;
+          },
+
+          getParameter: function(name, defaultValue) {
+            if (typeof name !== 'string' || name.length > 100) {
+              throw new Error('Invalid parameter name');
+            }
+            const value = globalThis.__params__[name];
+            return value !== undefined ? value : defaultValue;
+          },
+
+          log: function(message, level = 'info') {
+            globalThis.__logs__.push({
+              level: level,
+              message: String(message).substring(0, 1000)
+            });
+          },
+
+          createVector: function(x, y, z) {
+            if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(z)) {
+              throw new Error('Invalid vector coordinates');
+            }
+            return { x, y, z };
+          }
         }
-        if (!(scriptContext as any).outputs) {
-          (scriptContext as any).outputs = {};
+      };
+
+      // Performance utilities
+      globalThis.performance = {
+        now: function() {
+          return Date.now();
         }
-        (scriptContext as any).outputs[name] = value;
-      }),
+      };
 
-      getParameter: new ivm.Reference((name: string, defaultValue?: any) => {
-        if (typeof name !== 'string' || name.length > 100) {
-          throw new Error('Invalid parameter name');
-        }
-        return (scriptContext as any).params?.[name] ?? defaultValue;
-      }),
-
-      log: new ivm.Reference((message: string, level: string = 'info') => {
-        this.addLog(
-          logs,
-          level as any,
-          String(message).substring(0, 1000),
-          scriptContext.runtime.nodeId
-        );
-      }),
-
-      createVector: new ivm.Reference((x: number, y: number, z: number) => {
+      // Vector3 constructor
+      globalThis.Vector3 = function(x, y, z) {
         if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(z)) {
           throw new Error('Invalid vector coordinates');
         }
         return { x, y, z };
-      }),
-    };
-
-    // Create ctx object with script utilities
-    await global.set('ctx', {
-      script: scriptUtils,
-    });
-
-    // Performance object (read-only)
-    await global.set('performance', {
-      now: new ivm.Reference(() => performance.now()),
-    });
-
-    // Define frozen vector constructor
-    await global.set(
-      'Vector3',
-      new ivm.Reference((x: number, y: number, z: number) => {
-        if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(z)) {
-          throw new Error('Invalid vector coordinates');
-        }
-        return { x, y, z };
-      })
-    );
+      };
+    `);
   }
 
   /**
@@ -490,10 +509,48 @@ async function evaluate(ctx, inputs, params) {
   /**
    * Extract outputs from isolate context
    */
-  private async extractOutputs(_context: ivm.Context): Promise<Record<string, any>> {
-    // Outputs are stored in the context via ctx.script.setOutput
-    // For now, return empty object as outputs are collected during execution
-    return {};
+  private async extractOutputs(context: ivm.Context): Promise<Record<string, any>> {
+    try {
+      // Get the __outputs__ object from the isolate context
+      const outputsRef = await context.global.get('__outputs__');
+      if (!outputsRef) {
+        return {};
+      }
+
+      // Copy the outputs object from the isolate to the main thread
+      const outputsCopy = await outputsRef.copy();
+      return outputsCopy || {};
+    } catch (error) {
+      // If extraction fails, return empty object (outputs may not have been set)
+      return {};
+    }
+  }
+
+  /**
+   * Extract logs from isolate context
+   */
+  private async extractLogs(
+    context: ivm.Context,
+    logs: ScriptLogEntry[],
+    nodeId: string
+  ): Promise<void> {
+    try {
+      // Get the __logs__ array from the isolate context
+      const logsRef = await context.global.get('__logs__');
+      if (!logsRef) {
+        return;
+      }
+
+      // Copy the logs array from the isolate to the main thread
+      const logsCopy = await logsRef.copy();
+      if (Array.isArray(logsCopy)) {
+        for (const log of logsCopy) {
+          this.addLog(logs, log.level || 'info', log.message || '', nodeId);
+        }
+      }
+    } catch (error) {
+      // If extraction fails, silently ignore (logs are nice-to-have)
+    }
   }
 
   /**
