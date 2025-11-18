@@ -13,6 +13,7 @@ const NODE_BUILTIN_WARNING_PATTERNS = [
   'Module "url" has been externalized for browser compatibility',
 ];
 
+// eslint-disable-next-line no-secrets/no-secrets -- False positive: documentation path
 const OCCT_ASSET_DOC_PATH = 'docs/implementation/OCCT_ASSET_STRATEGY.md';
 
 interface SuppressedLogDescriptor {
@@ -149,6 +150,27 @@ export default defineConfig({
       // Required for SharedArrayBuffer/WASM threads
       'Cross-Origin-Opener-Policy': 'same-origin',
       'Cross-Origin-Embedder-Policy': 'require-corp',
+
+      // SECURITY: Content Security Policy
+      'Content-Security-Policy': [
+        "default-src 'self'",
+        "script-src 'self' 'wasm-unsafe-eval'", // wasm-unsafe-eval required for WASM
+        "worker-src 'self' blob:",
+        "style-src 'self' 'unsafe-inline'", // unsafe-inline needed for React/CSS-in-JS
+        "img-src 'self' data: blob:",
+        "font-src 'self' data:",
+        "connect-src 'self' ws: wss:", // WebSocket for dev server HMR
+        "frame-ancestors 'none'",
+        "base-uri 'self'",
+        "form-action 'self'",
+      ].join('; '),
+
+      // SECURITY: Additional security headers
+      'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'DENY',
+      'X-XSS-Protection': '1; mode=block',
+      'Referrer-Policy': 'strict-origin-when-cross-origin',
+      'Permissions-Policy': 'geolocation=(), microphone=(), camera=()',
     },
     fs: {
       // Allow serving files from the entire monorepo
@@ -168,8 +190,30 @@ export default defineConfig({
     port: 5173,
     strictPort: true,
     headers: {
+      // Required for SharedArrayBuffer/WASM threads
       'Cross-Origin-Opener-Policy': 'same-origin',
       'Cross-Origin-Embedder-Policy': 'require-corp',
+
+      // SECURITY: Content Security Policy (same as dev server)
+      'Content-Security-Policy': [
+        "default-src 'self'",
+        "script-src 'self' 'wasm-unsafe-eval'",
+        "worker-src 'self' blob:",
+        "style-src 'self' 'unsafe-inline'",
+        "img-src 'self' data: blob:",
+        "font-src 'self' data:",
+        "connect-src 'self' ws: wss:",
+        "frame-ancestors 'none'",
+        "base-uri 'self'",
+        "form-action 'self'",
+      ].join('; '),
+
+      // SECURITY: Additional security headers
+      'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'DENY',
+      'X-XSS-Protection': '1; mode=block',
+      'Referrer-Policy': 'strict-origin-when-cross-origin',
+      'Permissions-Policy': 'geolocation=(), microphone=(), camera=()',
     },
   },
   worker: {
@@ -245,6 +289,7 @@ export default defineConfig({
 
         // Suppress WASM chunk warnings
         const shouldSuppressWasmChunkWarning =
+          // eslint-disable-next-line no-secrets/no-secrets -- False positive: Rollup warning code constant
           ['FILE_SIZE', 'LARGE_BUNDLE', 'LARGE_DYNAMIC_IMPORT_CHUNK'].includes(
             warning.code ?? ''
           ) && messageText.includes('.wasm');

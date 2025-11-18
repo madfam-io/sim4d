@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@brepflow/types": "workspace:*",
+    "isolated-vm": "^6.0.2",
     "uuid": "^9.0.1",
     "xxhash-wasm": "^1.0.2"
   },

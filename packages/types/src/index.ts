@@ -646,3 +646,8 @@ export interface ExportOptions {
   units?: string;
   tolerance?: number;
 }
+
+// ============================================================================
+// SECURITY: HTML SANITIZATION UTILITIES
+// ============================================================================
+export * from './sanitization';

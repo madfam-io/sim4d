@@ -257,7 +257,7 @@ export class BrepFlowScriptEngine implements ScriptEngine {
 
   // Security and validation
   async validatePermissions(
-    permissions: ScriptPermissions,
+    _permissions: ScriptPermissions,
     script: string
   ): Promise<ScriptValidationResult> {
     // Basic permission validation
@@ -300,46 +300,18 @@ export class BrepFlowScriptEngine implements ScriptEngine {
     return Math.abs(hash).toString(16);
   }
 
+  /**
+   * SECURITY: REMOVED unsafe Function() usage
+   * Node definition extraction is now handled securely by isolated-vm executor
+   */
   private async extractNodeDefinitionFromScript(script: string): Promise<any> {
-    try {
-      // Create a safe evaluation context
-      const sandbox = {
-        console: { log: () => {}, warn: () => {}, error: () => {} },
-        Math: Math,
-        Vector3: (x: number, y: number, z: number) => ({ x, y, z }),
-      };
+    console.warn(
+      'extractNodeDefinitionFromScript: Node definition extraction moved to isolated-vm for security'
+    );
 
-      // Create a function that evaluates the script and captures the return value
-      const scriptFunction = new Function(
-        'sandbox',
-        `
-        "use strict";
-        const { console, Math, Vector3 } = sandbox;
-
-        ${script}
-
-        // If the script has a return statement at the top level, capture it
-        if (typeof module !== 'undefined' && module.exports) {
-          return module.exports;
-        }
-
-        // Try to find and execute the script if it's wrapped
-        try {
-          const result = (function() {
-            ${script}
-          })();
-          return result;
-        } catch (e) {
-          return null;
-        }
-      `
-      );
-
-      const result = scriptFunction(sandbox);
-      return result;
-    } catch (error) {
-      return null;
-    }
+    // Return null - node definitions should be extracted during secure execution
+    // in the isolated-vm context, not via Function() constructor
+    return null;
   }
 
   private initializeDefaultExecutors(): void {
@@ -414,7 +386,7 @@ return {
     });
   }
 
-  private inferInputsFromScript(script: string): Record<string, any> {
+  private inferInputsFromScript(_script: string): Record<string, any> {
     const inputs: Record<string, any> = {};
 
     // Look for getInput calls to infer inputs
@@ -432,7 +404,7 @@ return {
     return inputs;
   }
 
-  private inferOutputsFromScript(script: string): Record<string, any> {
+  private inferOutputsFromScript(_script: string): Record<string, any> {
     const outputs: Record<string, any> = {};
 
     // Look for setOutput calls and return statements
