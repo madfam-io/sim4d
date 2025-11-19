@@ -18,7 +18,7 @@ export class ProductionGeometryService {
 
   private getLogger() {
     if (!this.logger) {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      // eslint-disable-next-line @typescript-eslint/no-var-requires -- Lazy loading logger to avoid circular dependencies in initialization
       const { ProductionLogger } = require('@brepflow/engine-occt');
       this.logger = new ProductionLogger('GeometryService');
     }
@@ -119,8 +119,8 @@ export class ProductionGeometryService {
     }
 
     try {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const result = await this.api.invoke('HEALTH_CHECK', {});
+      // Invoke health check (result not used, just checking API responsiveness)
+      await this.api.invoke('HEALTH_CHECK', {});
       const memoryUsage = await this.api.invoke('GET_MEMORY_USAGE', {});
 
       return {

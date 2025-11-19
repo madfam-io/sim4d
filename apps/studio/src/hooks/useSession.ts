@@ -233,8 +233,8 @@ export function useSession(): SessionHookResult {
 
     // Load existing session
     loadSession(sessionId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sessionId]); // Only depend on sessionId to prevent infinite loops
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- loadSession is intentionally excluded from deps to prevent infinite re-renders when session state changes
+  }, [sessionId]);
 
   return {
     sessionId: sessionId || null,

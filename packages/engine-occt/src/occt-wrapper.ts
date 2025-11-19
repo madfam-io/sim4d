@@ -74,7 +74,7 @@ export class OCCTWrapper {
     if (shape && typeof shape.id === 'string') {
       return shape.id;
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- WASM/OCCT shape handles may have non-standard ID types that need runtime coercion
     if (shape && (shape.id as unknown)) {
       return shape.id as unknown as string;
     }
