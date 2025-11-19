@@ -1,3 +1,5 @@
+import { getLogger } from './production-logger';
+const logger = getLogger('OCCT');
 /**
  * Advanced WASM Loader with COOP/COEP Detection and Threading Support
  * Handles SharedArrayBuffer availability and optimal WASM loading strategies
@@ -44,7 +46,7 @@ export class WASMLoader {
       return this.capabilities;
     }
 
-    console.log('[WASMLoader] Detecting browser capabilities...');
+    logger.info('[WASMLoader] Detecting browser capabilities...');
 
     const capabilities: WASMCapabilities = {
       hasWASM: this.checkWASMSupport(),
@@ -75,7 +77,7 @@ export class WASMLoader {
 
     this.capabilities = capabilities;
 
-    console.log('[WASMLoader] Capabilities detected:', capabilities);
+    logger.info('[WASMLoader] Capabilities detected:', capabilities);
     return capabilities;
   }
 
@@ -98,7 +100,7 @@ export class WASMLoader {
 
     // Check memory requirements
     if (capabilities.memoryLimit < options.memoryRequired) {
-      console.warn(
+      logger.warn(
         `[WASMLoader] Memory limit (${capabilities.memoryLimit}MB) below required (${options.memoryRequired}MB)`
       );
     }
@@ -106,11 +108,11 @@ export class WASMLoader {
     try {
       return await this.loadWASMModule(options, capabilities);
     } catch (error) {
-      console.error('[WASMLoader] Failed to load WASM module:', error);
+      logger.error('[WASMLoader] Failed to load WASM module:', error);
 
       // Try fallback if available
       if (options.fallbackPath) {
-        console.log('[WASMLoader] Attempting fallback load...');
+        logger.info('[WASMLoader] Attempting fallback load...');
         return await this.loadWASMModule(
           {
             ...options,
@@ -206,7 +208,7 @@ export class WASMLoader {
         memoryMB = Math.min(memoryMB, 512); // Cap at 512MB for mobile
       }
     } catch (error) {
-      console.warn('[WASMLoader] Could not estimate memory limit:', error);
+      logger.warn('[WASMLoader] Could not estimate memory limit:', error);
     }
 
     return Math.max(memoryMB, 256); // Minimum 256MB
@@ -225,7 +227,7 @@ export class WASMLoader {
       // If we get here without errors, basic threading should work
       return true;
     } catch (error) {
-      console.warn('[WASMLoader] Thread test failed:', error);
+      logger.warn('[WASMLoader] Thread test failed:', error);
       return false;
     }
   }
@@ -271,7 +273,7 @@ export class WASMLoader {
     options: WASMLoadOptions,
     capabilities: WASMCapabilities
   ): Promise<unknown> {
-    console.log(
+    logger.info(
       `[WASMLoader] Loading WASM from ${options.wasmPath} (threads: ${capabilities.hasThreads})`
     );
 
@@ -310,7 +312,7 @@ export class WASMLoader {
 
             // Progress callback
             onRuntimeInitialized: () => {
-              console.log('[WASMLoader] WASM runtime initialized');
+              logger.info('[WASMLoader] WASM runtime initialized');
             },
 
             // Error handling
@@ -319,8 +321,8 @@ export class WASMLoader {
               reject(new Error(`WASM module aborted: ${error}`));
             },
 
-            print: (text: string) => console.log('[WASM]', text),
-            printErr: (text: string) => console.error('[WASM]', text),
+            print: (text: string) => logger.info('[WASM]', text),
+            printErr: (text: string) => logger.error('[WASM]', text),
           };
 
           // Initialize the module
@@ -331,7 +333,7 @@ export class WASMLoader {
               // Add capability info to module
               module._capabilities = capabilities;
 
-              console.log('[WASMLoader] WASM module loaded successfully');
+              logger.info('[WASMLoader] WASM module loaded successfully');
               resolve(module);
             })
             .catch((error: any) => {

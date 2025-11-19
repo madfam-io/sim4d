@@ -1,3 +1,5 @@
+import { getLogger } from './production-logger';
+const logger = getLogger('OCCT');
 /**
  * OCCT.wasm worker for real geometry operations
  *
@@ -17,7 +19,7 @@ if (!isBrowserLikeWorker) {
     const workerThreads = await import('node:worker_threads');
     parentPort = workerThreads.parentPort;
   } catch (error) {
-    console.error('[OCCT Worker] Failed to load worker_threads parent port', error);
+    logger.error('[OCCT Worker] Failed to load worker_threads parent port', error);
   }
 }
 
@@ -27,7 +29,7 @@ const postMessageToHost = (message: WorkerResponse | unknown) => {
   } else if (parentPort) {
     parentPort.postMessage(message);
   } else {
-    console.error('[OCCT Worker] Unable to post message, no host channel available');
+    logger.error('[OCCT Worker] Unable to post message, no host channel available');
   }
 };
 
@@ -573,36 +575,36 @@ addHostMessageListener(async (event: { data: WorkerRequest }) => {
 
         if (canUseProductionAPI) {
           try {
-            console.log('[OCCT Worker] Attempting production API initialization...');
+            logger.info('[OCCT Worker] Attempting production API initialization...');
             const api = await loadProductionAPI();
             await api.ensureInitialized();
             useProduction = true;
             isInitialized = true;
             // productionInitialized = true; // Tracked via useProduction
-            console.log('✅ OCCT worker initialized with production API (real geometry)');
+            logger.info('✅ OCCT worker initialized with production API (real geometry)');
           } catch (prodError) {
-            console.warn('[OCCT Worker] Production API failed:', prodError);
+            logger.warn('[OCCT Worker] Production API failed:', prodError);
           }
         }
 
         if (!isInitialized) {
           try {
-            console.log('[OCCT Worker] Attempting fallback bindings...');
+            logger.info('[OCCT Worker] Attempting fallback bindings...');
             occtModule = await loadOCCT();
             if (occtModule) {
               isInitialized = true;
               useProduction = false;
-              console.log('✅ OCCT worker initialized with fallback bindings (real geometry)');
+              logger.info('✅ OCCT worker initialized with fallback bindings (real geometry)');
             }
           } catch (bindError) {
-            console.error('[OCCT Worker] Fallback bindings also failed:', bindError);
+            logger.error('[OCCT Worker] Fallback bindings also failed:', bindError);
           }
         }
 
         if (!isInitialized) {
           const errorMsg =
             'CRITICAL: Failed to initialize real OCCT geometry. No fallback available.';
-          console.error(errorMsg);
+          logger.error(errorMsg);
           throw new Error(errorMsg);
         }
       }

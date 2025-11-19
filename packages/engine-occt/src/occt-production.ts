@@ -1,3 +1,5 @@
+import { getLogger } from './production-logger';
+const logger = getLogger('OCCT');
 /**
  * Production OCCT Integration Module
  * Complete implementation with real OCCT C++ bindings
@@ -113,7 +115,7 @@ export async function loadOCCTProduction(): Promise<OCCTModule> {
  */
 async function initializeOCCT(): Promise<OCCTModule> {
   try {
-    console.log('[OCCT Production] Loading WASM module...');
+    logger.info('[OCCT Production] Loading WASM module...');
 
     // Construct proper URL for WASM module based on environment
     const isWorker = typeof self !== 'undefined' && typeof window === 'undefined';
@@ -123,7 +125,7 @@ async function initializeOCCT(): Promise<OCCTModule> {
       try {
         return new URL(/* @vite-ignore */ '../wasm/occt-core.js', import.meta.url).href;
       } catch (error) {
-        console.error('[OCCT Production] Failed to resolve local module path:', error);
+        logger.error('[OCCT Production] Failed to resolve local module path:', error);
         return '/wasm/occt-core.js';
       }
     };
@@ -137,13 +139,13 @@ async function initializeOCCT(): Promise<OCCTModule> {
       } else {
         wasmModuleUrl = resolveLocalModule();
       }
-      console.log('[OCCT Production] Worker context - using URL:', wasmModuleUrl);
+      logger.info('[OCCT Production] Worker context - using URL:', wasmModuleUrl);
     } else if (isBrowser) {
       wasmModuleUrl = '/wasm/occt.js';
-      console.log('[OCCT Production] Main thread context - using path:', wasmModuleUrl);
+      logger.info('[OCCT Production] Main thread context - using path:', wasmModuleUrl);
     } else {
       wasmModuleUrl = resolveLocalModule();
-      console.log('[OCCT Production] Node context - using local module:', wasmModuleUrl);
+      logger.info('[OCCT Production] Node context - using local module:', wasmModuleUrl);
     }
 
     // Try to load the module - first attempt with fetch for worker context
@@ -163,9 +165,9 @@ async function initializeOCCT(): Promise<OCCTModule> {
             value: { type: 'renderer' },
             configurable: true,
           });
-          console.log('[OCCT Production] Spoofing process global for WASM import');
+          logger.info('[OCCT Production] Spoofing process global for WASM import');
         } catch (error) {
-          console.warn('[OCCT Production] Unable to spoof process for WASM import:', error);
+          logger.warn('[OCCT Production] Unable to spoof process for WASM import:', error);
         }
       }
 
@@ -180,7 +182,7 @@ async function initializeOCCT(): Promise<OCCTModule> {
               delete (globalThis as unknown).process;
             }
           } catch (error) {
-            console.warn('[OCCT Production] Unable to restore process global:', error);
+            logger.warn('[OCCT Production] Unable to restore process global:', error);
           }
         }
       }
@@ -188,7 +190,7 @@ async function initializeOCCT(): Promise<OCCTModule> {
 
     try {
       if (wasmModuleUrl.startsWith('http')) {
-        console.log('[OCCT Production] Fetching module from:', wasmModuleUrl);
+        logger.info('[OCCT Production] Fetching module from:', wasmModuleUrl);
         const response = await fetch(wasmModuleUrl);
         if (!response.ok) {
           throw new Error(`Failed to fetch WASM module: ${response.status} ${response.statusText}`);
@@ -202,11 +204,11 @@ async function initializeOCCT(): Promise<OCCTModule> {
         createModule = await importModule(wasmModuleUrl);
       }
     } catch (error) {
-      console.error('[OCCT Production] Failed to load module:', error);
+      logger.error('[OCCT Production] Failed to load module:', error);
 
       const localHref = resolveLocalModule();
       if (localHref && localHref !== wasmModuleUrl) {
-        console.log('[OCCT Production] Retrying with local module reference:', localHref);
+        logger.info('[OCCT Production] Retrying with local module reference:', localHref);
         createModule = await importModule(localHref);
         wasmModuleUrl = localHref;
       } else {
@@ -246,21 +248,21 @@ async function initializeOCCT(): Promise<OCCTModule> {
 
       // Error handling
       onAbort: (what: unknown) => {
-        console.error('[OCCT Production] WASM abort:', what);
+        logger.error('[OCCT Production] WASM abort:', what);
         throw new Error(`OCCT WASM aborted: ${what}`);
       },
 
       // Progress tracking
       onRuntimeInitialized: () => {
-        console.log('[OCCT Production] Runtime initialized');
+        logger.info('[OCCT Production] Runtime initialized');
       },
 
       print: (text: string) => {
-        console.log('[OCCT]', text);
+        logger.info('[OCCT]', text);
       },
 
       printErr: (text: string) => {
-        console.error('[OCCT Error]', text);
+        logger.error('[OCCT Error]', text);
       },
     };
 
@@ -275,28 +277,28 @@ async function initializeOCCT(): Promise<OCCTModule> {
     const version = occtModule.getOCCTVersion();
     const status = occtModule.getStatus();
 
-    console.log('[OCCT Production] Module loaded successfully');
-    console.log('[OCCT Production] Version:', version);
-    console.log('[OCCT Production] Status:', status);
+    logger.info('[OCCT Production] Module loaded successfully');
+    logger.info('[OCCT Production] Version:', version);
+    logger.info('[OCCT Production] Status:', status);
 
     // Run a basic test
     try {
       const testBox = occtModule.makeBox(10, 10, 10);
       if (testBox && testBox.id) {
-        console.log('[OCCT Production] Test box created:', testBox.id);
+        logger.info('[OCCT Production] Test box created:', testBox.id);
         occtModule.deleteShape(testBox.id);
-        console.log('[OCCT Production] Geometry operations verified ✅');
+        logger.info('[OCCT Production] Geometry operations verified ✅');
       } else {
-        console.warn('[OCCT Production] Test box creation returned invalid result');
+        logger.warn('[OCCT Production] Test box creation returned invalid result');
       }
     } catch (testError) {
-      console.error('[OCCT Production] Test failed:', testError);
+      logger.error('[OCCT Production] Test failed:', testError);
       // Don't throw - module may still be usable
     }
 
     return occtModule;
   } catch (error) {
-    console.error('[OCCT Production] Failed to load module:', error);
+    logger.error('[OCCT Production] Failed to load module:', error);
 
     // Reset state on failure
     occtModule = null;
@@ -473,7 +475,7 @@ export class OCCTProductionAPI {
       this.module = await loadOCCTProduction();
       this.usingRealOCCT = !!this.module;
     } catch (error) {
-      console.error('[OCCTProductionAPI] Initialization failed:', error);
+      logger.error('[OCCTProductionAPI] Initialization failed:', error);
       throw error;
     }
   }
@@ -881,7 +883,7 @@ export class OCCTProductionAPI {
         success: true,
       } as unknown;
     } catch (error) {
-      console.error('[OCCTProductionAPI] Command failed:', command.type, error);
+      logger.error('[OCCTProductionAPI] Command failed:', command.type, error);
 
       return {
         id: command.id,
@@ -921,7 +923,7 @@ export class OCCTProductionAPI {
       try {
         this.module.clearAllShapes();
       } catch (error) {
-        console.error('[OCCTProductionAPI] Disposal error:', error);
+        logger.error('[OCCTProductionAPI] Disposal error:', error);
       }
     }
     this.module = null;

@@ -1,3 +1,5 @@
+import { getLogger } from './production-logger';
+const logger = getLogger('OCCT');
 /**
  * Enhanced Worker Pool Management for OCCT Operations
  * Provides concurrent geometry processing with load balancing, automatic scaling,
@@ -95,7 +97,7 @@ export class WorkerPool {
       config.configProvider || (() => WASMCapabilityDetector.getOptimalConfiguration());
     this.performanceMonitor = config.performanceMonitor || WASMPerformanceMonitor;
 
-    console.log('[WorkerPool] Initialized with config:', {
+    logger.info('[WorkerPool] Initialized with config:', {
       hasCustomWorkerFactory: !!config.workerFactory,
       hasCustomCapabilityDetector: !!config.capabilityDetector,
       hasCustomConfigProvider: !!config.configProvider,
@@ -118,10 +120,10 @@ export class WorkerPool {
         // Use injected dependency or default
         this.globalCapabilities = await this.capabilityDetector();
         this.optimalOCCTConfig = await this.configProvider();
-        console.log('[WorkerPool] Detected capabilities:', this.globalCapabilities);
-        console.log('[WorkerPool] Optimal OCCT config:', this.optimalOCCTConfig);
+        logger.info('[WorkerPool] Detected capabilities:', this.globalCapabilities);
+        logger.info('[WorkerPool] Optimal OCCT config:', this.optimalOCCTConfig);
       } catch (error) {
-        console.warn('[WorkerPool] Failed to detect capabilities:', error);
+        logger.warn('[WorkerPool] Failed to detect capabilities:', error);
         this.optimalOCCTConfig = null;
       }
     }
@@ -136,7 +138,7 @@ export class WorkerPool {
       initPromises.push(this.createWorker());
     }
     await Promise.all(initPromises);
-    console.log(`[WorkerPool] Initialized ${this.config.minWorkers} workers`);
+    logger.info(`[WorkerPool] Initialized ${this.config.minWorkers} workers`);
   }
 
   /**
@@ -182,11 +184,11 @@ export class WorkerPool {
       this.workers.set(id, worker);
 
       const duration = Date.now() - startTime;
-      console.log(`[WorkerPool] Created ${occtMode} worker ${id} in ${duration}ms`);
+      logger.info(`[WorkerPool] Created ${occtMode} worker ${id} in ${duration}ms`);
 
       return worker;
     } catch (error) {
-      console.error(`[WorkerPool] Failed to create worker ${id}:`, error);
+      logger.error(`[WorkerPool] Failed to create worker ${id}:`, error);
       throw error;
     }
   }
@@ -370,7 +372,7 @@ export class WorkerPool {
             // Reset circuit breaker on success
             if (worker.circuitBreakerTripped) {
               worker.circuitBreakerTripped = false;
-              console.log(`[WorkerPool] Circuit breaker reset for worker ${worker.id}`);
+              logger.info(`[WorkerPool] Circuit breaker reset for worker ${worker.id}`);
             }
 
             clearTimeout(timeoutId);
@@ -386,12 +388,12 @@ export class WorkerPool {
             // Circuit breaker logic
             if (this.config.enableCircuitBreaker && worker.errorCount >= 3) {
               worker.circuitBreakerTripped = true;
-              console.warn(`[WorkerPool] Circuit breaker tripped for worker ${worker.id}`);
+              logger.warn(`[WorkerPool] Circuit breaker tripped for worker ${worker.id}`);
             }
 
             // Check if worker should be replaced due to errors
             if (worker.errorCount > 5) {
-              console.warn(`[WorkerPool] Replacing worker ${worker.id} due to repeated errors`);
+              logger.warn(`[WorkerPool] Replacing worker ${worker.id} due to repeated errors`);
               this.replaceWorker(worker.id);
             }
 
@@ -470,7 +472,7 @@ export class WorkerPool {
         await this.createWorker();
       }
     } catch (error) {
-      console.error(`[WorkerPool] Failed to replace worker ${workerId}:`, error);
+      logger.error(`[WorkerPool] Failed to replace worker ${workerId}:`, error);
     }
   }
 
@@ -489,16 +491,16 @@ export class WorkerPool {
           const memoryPressure = health.memoryUsage > this.config.memoryThreshold;
           if (memoryPressure !== worker.memoryPressure) {
             worker.memoryPressure = memoryPressure;
-            console.log(`[WorkerPool] Worker ${workerId} memory pressure: ${memoryPressure}`);
+            logger.info(`[WorkerPool] Worker ${workerId} memory pressure: ${memoryPressure}`);
           }
 
           // Replace worker if under memory pressure and has processed many tasks
           if (memoryPressure && worker.taskCount > this.config.maxTasksPerWorker) {
-            console.log(`[WorkerPool] Replacing worker ${workerId} due to memory pressure`);
+            logger.info(`[WorkerPool] Replacing worker ${workerId} due to memory pressure`);
             this.replaceWorker(workerId);
           }
         } catch (error) {
-          console.warn(`[WorkerPool] Health check failed for worker ${workerId}:`, error);
+          logger.warn(`[WorkerPool] Health check failed for worker ${workerId}:`, error);
           worker.errorCount++;
 
           if (worker.errorCount > 2) {
@@ -524,7 +526,7 @@ export class WorkerPool {
 
       for (const worker of workersToRemove) {
         if (this.workers.size > this.config.minWorkers) {
-          console.log(`[WorkerPool] Removing idle worker ${worker.id}`);
+          logger.info(`[WorkerPool] Removing idle worker ${worker.id}`);
           worker.client.terminate();
           this.workers.delete(worker.id);
         }
@@ -585,7 +587,7 @@ export class WorkerPool {
     await Promise.all(terminatePromises);
     this.workers.clear();
 
-    console.log('[WorkerPool] Shutdown complete');
+    logger.info('[WorkerPool] Shutdown complete');
   }
 }
 

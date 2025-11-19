@@ -1,3 +1,5 @@
+import { getLogger } from './production-logger';
+const logger = getLogger('OCCT');
 // OCCT.wasm TypeScript Bindings
 // Real OCCT integration with WebAssembly
 
@@ -230,7 +232,7 @@ export class OCCTMemoryManager {
         try {
           occtModule.deleteShape(shapeId);
         } catch (error) {
-          console.warn(`Failed to delete shape ${shapeId}:`, error);
+          logger.warn(`Failed to delete shape ${shapeId}:`, error);
         }
       }
     }
@@ -251,13 +253,13 @@ function createErrorBoundaryWrapper<T extends (...args: unknown[]) => any>(
       const result = fn(...args);
       if (result instanceof Promise) {
         return result.catch((error: any) => {
-          console.error(`[OCCT] Operation '${operation}' failed:`, error);
+          logger.error(`[OCCT] Operation '${operation}' failed:`, error);
           throw new Error(`OCCT operation '${operation}' failed: ${error.message || error}`);
         });
       }
       return result;
     } catch (error: unknown) {
-      console.error(`[OCCT] Operation '${operation}' failed:`, error);
+      logger.error(`[OCCT] Operation '${operation}' failed:`, error);
       throw new Error(`OCCT operation '${operation}' failed: ${error.message || error}`);
     }
   }) as T;
@@ -278,7 +280,7 @@ async function attemptWASMLoad(): Promise<unknown> {
     const isWorker = typeof self !== 'undefined' && typeof importScripts === 'function';
 
     if (isNode && !isBrowser && !isWorker) {
-      console.log('[OCCT] Node.js environment detected, loading Node.js WASM module');
+      logger.info('[OCCT] Node.js environment detected, loading Node.js WASM module');
       // Delegate to occt-loader.ts which has Node.js support
       const { loadOCCTModule } = await import('./occt-loader');
       return await loadOCCTModule();
@@ -290,19 +292,19 @@ async function attemptWASMLoad(): Promise<unknown> {
       typeof self !== 'undefined' ? self : typeof window !== 'undefined' ? window : null;
 
     if (!globalScope) {
-      console.log('[OCCT] Non-browser/worker environment detected, WASM loading deferred');
+      logger.info('[OCCT] Non-browser/worker environment detected, WASM loading deferred');
       return null;
     }
 
     // Check for required browser features
     // SharedArrayBuffer is available on the global scope (self in workers, window in browser)
     if (!globalScope.SharedArrayBuffer) {
-      console.warn(
+      logger.warn(
         '[OCCT] SharedArrayBuffer not available. Real geometry requires COOP/COEP headers.'
       );
-      console.warn('[OCCT] Add these headers to your server:');
-      console.warn('[OCCT]   Cross-Origin-Opener-Policy: same-origin');
-      console.warn('[OCCT]   Cross-Origin-Embedder-Policy: require-corp');
+      logger.warn('[OCCT] Add these headers to your server:');
+      logger.warn('[OCCT]   Cross-Origin-Opener-Policy: same-origin');
+      logger.warn('[OCCT]   Cross-Origin-Embedder-Policy: require-corp');
       return null;
     }
 
@@ -318,12 +320,12 @@ async function attemptWASMLoad(): Promise<unknown> {
     }
 
     if (!wasmPath) {
-      console.error('[OCCT] CRITICAL: WASM files not found. ONLY real geometry is supported.');
-      console.error('[OCCT] Geometry operations will fail. Check /wasm directory.');
+      logger.error('[OCCT] CRITICAL: WASM files not found. ONLY real geometry is supported.');
+      logger.error('[OCCT] Geometry operations will fail. Check /wasm directory.');
       return null; // Fail on use, not on load
     }
 
-    console.log('[OCCT] Loading WASM module from:', wasmPath);
+    logger.info('[OCCT] Loading WASM module from:', wasmPath);
     const module = await import(/* @vite-ignore */ wasmPath);
     const wasmModuleFactory = module.default || module;
 
@@ -333,17 +335,17 @@ async function attemptWASMLoad(): Promise<unknown> {
         // All WASM files are now in the public directory
         return `/wasm/${file}`;
       },
-      print: (text: string) => console.log('[OCCT WASM]', text),
-      printErr: (text: string) => console.error('[OCCT WASM Error]', text),
+      print: (text: string) => logger.info('[OCCT WASM]', text),
+      printErr: (text: string) => logger.error('[OCCT WASM Error]', text),
     });
 
-    console.log('[OCCT] WASM module loaded successfully');
+    logger.info('[OCCT] WASM module loaded successfully');
     return wasmInstance;
   } catch (error) {
     // WASM loading failed - allow app to start but geometry will fail on use
-    console.error('[OCCT] CRITICAL: WASM loading failed. ONLY real geometry is supported.');
-    console.error('[OCCT] Error:', (error as Error).message);
-    console.error('[OCCT] Geometry operations will fail when attempted.');
+    logger.error('[OCCT] CRITICAL: WASM loading failed. ONLY real geometry is supported.');
+    logger.error('[OCCT] Error:', (error as Error).message);
+    logger.error('[OCCT] Geometry operations will fail when attempted.');
     return null; // Fail on use, not on load
   }
 }
@@ -385,7 +387,7 @@ function flattenBoundingBox(shape: unknown): ShapeHandle {
 function createRealOCCTModule(wasm: WASMModule): OCCTModule {
   return {
     makeBox: createErrorBoundaryWrapper('makeBox', (dx: number, dy: number, dz: number) => {
-      console.log(`[OCCT] Creating box: ${dx} x ${dy} x ${dz}`);
+      logger.info(`[OCCT] Creating box: ${dx} x ${dy} x ${dz}`);
       const shape = wasm.makeBox(dx, dy, dz);
       if (!shape || !shape.id) {
         throw new Error('Invalid shape returned from WASM');
@@ -397,7 +399,7 @@ function createRealOCCTModule(wasm: WASMModule): OCCTModule {
     makeBoxWithOrigin: createErrorBoundaryWrapper(
       'makeBoxWithOrigin',
       (x: number, y: number, z: number, dx: number, dy: number, dz: number) => {
-        console.log(`[OCCT] Creating box with origin: (${x},${y},${z}) size ${dx}x${dy}x${dz}`);
+        logger.info(`[OCCT] Creating box with origin: (${x},${y},${z}) size ${dx}x${dy}x${dz}`);
         const shape = wasm.makeBoxWithOrigin(x, y, z, dx, dy, dz);
         if (!shape || !shape.id) {
           throw new Error('Invalid shape returned from WASM');
@@ -408,7 +410,7 @@ function createRealOCCTModule(wasm: WASMModule): OCCTModule {
     ),
 
     makeSphere: createErrorBoundaryWrapper('makeSphere', (radius: number) => {
-      console.log(`[OCCT] Creating sphere: radius ${radius}`);
+      logger.info(`[OCCT] Creating sphere: radius ${radius}`);
       const shape = wasm.makeSphere(radius);
       if (!shape || !shape.id) {
         throw new Error('Invalid shape returned from WASM');
@@ -420,7 +422,7 @@ function createRealOCCTModule(wasm: WASMModule): OCCTModule {
     makeSphereWithCenter: createErrorBoundaryWrapper(
       'makeSphereWithCenter',
       (cx: number, cy: number, cz: number, radius: number) => {
-        console.log(`[OCCT] Creating sphere with center: (${cx},${cy},${cz}) radius ${radius}`);
+        logger.info(`[OCCT] Creating sphere with center: (${cx},${cy},${cz}) radius ${radius}`);
         const shape = wasm.makeSphereWithCenter(cx, cy, cz, radius);
         if (!shape || !shape.id) {
           throw new Error('Invalid shape returned from WASM');
@@ -431,7 +433,7 @@ function createRealOCCTModule(wasm: WASMModule): OCCTModule {
     ),
 
     makeCylinder: createErrorBoundaryWrapper('makeCylinder', (radius: number, height: number) => {
-      console.log(`[OCCT] Creating cylinder: radius ${radius}, height ${height}`);
+      logger.info(`[OCCT] Creating cylinder: radius ${radius}, height ${height}`);
       const shape = wasm.makeCylinder(radius, height);
       if (!shape || !shape.id) {
         throw new Error('Invalid shape returned from WASM');
@@ -443,7 +445,7 @@ function createRealOCCTModule(wasm: WASMModule): OCCTModule {
     makeCone: createErrorBoundaryWrapper(
       'makeCone',
       (radius1: number, radius2: number, height: number) => {
-        console.log(`[OCCT] Creating cone: r1=${radius1}, r2=${radius2}, h=${height}`);
+        logger.info(`[OCCT] Creating cone: r1=${radius1}, r2=${radius2}, h=${height}`);
         const shape = wasm.makeCone(radius1, radius2, height);
         if (!shape || !shape.id) {
           throw new Error('Invalid shape returned from WASM');
@@ -456,7 +458,7 @@ function createRealOCCTModule(wasm: WASMModule): OCCTModule {
     makeTorus: createErrorBoundaryWrapper(
       'makeTorus',
       (majorRadius: number, minorRadius: number) => {
-        console.log(`[OCCT] Creating torus: major=${majorRadius}, minor=${minorRadius}`);
+        logger.info(`[OCCT] Creating torus: major=${majorRadius}, minor=${minorRadius}`);
         const shape = wasm.makeTorus(majorRadius, minorRadius);
         if (!shape || !shape.id) {
           throw new Error('Invalid shape returned from WASM');
@@ -470,7 +472,7 @@ function createRealOCCTModule(wasm: WASMModule): OCCTModule {
     extrude: createErrorBoundaryWrapper(
       'extrude',
       (profileId: string, dx: number, dy: number, dz: number) => {
-        console.log(`[OCCT] Extruding profile ${profileId}: (${dx}, ${dy}, ${dz})`);
+        logger.info(`[OCCT] Extruding profile ${profileId}: (${dx}, ${dy}, ${dz})`);
         const shape = wasm.extrude(profileId, dx, dy, dz);
         if (!shape || !shape.id) {
           throw new Error('Invalid shape returned from WASM');
@@ -492,7 +494,7 @@ function createRealOCCTModule(wasm: WASMModule): OCCTModule {
         originY: number,
         originZ: number
       ) => {
-        console.log(`[OCCT] Revolving profile ${profileId}: angle=${angle}`);
+        logger.info(`[OCCT] Revolving profile ${profileId}: angle=${angle}`);
         const shape = wasm.revolve(
           profileId,
           angle,
@@ -515,7 +517,7 @@ function createRealOCCTModule(wasm: WASMModule): OCCTModule {
     booleanUnion: createErrorBoundaryWrapper(
       'booleanUnion',
       (shape1Id: string, shape2Id: string) => {
-        console.log(`[OCCT] Boolean union: ${shape1Id} + ${shape2Id}`);
+        logger.info(`[OCCT] Boolean union: ${shape1Id} + ${shape2Id}`);
         const shape = wasm.booleanUnion(shape1Id, shape2Id);
         if (!shape || !shape.id) {
           throw new Error('Invalid shape returned from WASM');
@@ -530,7 +532,7 @@ function createRealOCCTModule(wasm: WASMModule): OCCTModule {
     booleanSubtract: createErrorBoundaryWrapper(
       'booleanSubtract',
       (shape1Id: string, shape2Id: string) => {
-        console.log(`[OCCT] Boolean subtract: ${shape1Id} - ${shape2Id}`);
+        logger.info(`[OCCT] Boolean subtract: ${shape1Id} - ${shape2Id}`);
         const shape = wasm.booleanSubtract(shape1Id, shape2Id);
         if (!shape || !shape.id) {
           throw new Error('Invalid shape returned from WASM');
@@ -545,7 +547,7 @@ function createRealOCCTModule(wasm: WASMModule): OCCTModule {
     booleanIntersect: createErrorBoundaryWrapper(
       'booleanIntersect',
       (shape1Id: string, shape2Id: string) => {
-        console.log(`[OCCT] Boolean intersect: ${shape1Id} ∩ ${shape2Id}`);
+        logger.info(`[OCCT] Boolean intersect: ${shape1Id} ∩ ${shape2Id}`);
         const shape = wasm.booleanIntersect(shape1Id, shape2Id);
         if (!shape || !shape.id) {
           throw new Error('Invalid shape returned from WASM');
@@ -559,7 +561,7 @@ function createRealOCCTModule(wasm: WASMModule): OCCTModule {
 
     // Feature operations
     makeFillet: createErrorBoundaryWrapper('makeFillet', (shapeId: string, radius: number) => {
-      console.log(`[OCCT] Creating fillet on ${shapeId}: radius=${radius}`);
+      logger.info(`[OCCT] Creating fillet on ${shapeId}: radius=${radius}`);
       const shape = wasm.makeFillet(shapeId, radius);
       if (!shape || !shape.id) {
         throw new Error('Invalid shape returned from WASM');
@@ -570,7 +572,7 @@ function createRealOCCTModule(wasm: WASMModule): OCCTModule {
     }),
 
     makeChamfer: createErrorBoundaryWrapper('makeChamfer', (shapeId: string, distance: number) => {
-      console.log(`[OCCT] Creating chamfer on ${shapeId}: distance=${distance}`);
+      logger.info(`[OCCT] Creating chamfer on ${shapeId}: distance=${distance}`);
       const shape = wasm.makeChamfer(shapeId, distance);
       if (!shape || !shape.id) {
         throw new Error('Invalid shape returned from WASM');
@@ -581,7 +583,7 @@ function createRealOCCTModule(wasm: WASMModule): OCCTModule {
     }),
 
     makeShell: createErrorBoundaryWrapper('makeShell', (shapeId: string, thickness: number) => {
-      console.log(`[OCCT] Creating shell from ${shapeId}: thickness=${thickness}`);
+      logger.info(`[OCCT] Creating shell from ${shapeId}: thickness=${thickness}`);
       const shape = wasm.makeShell(shapeId, thickness);
       if (!shape || !shape.id) {
         throw new Error('Invalid shape returned from WASM');
@@ -606,7 +608,7 @@ function createRealOCCTModule(wasm: WASMModule): OCCTModule {
         sy: number,
         sz: number
       ) => {
-        console.log(`[OCCT] Transforming ${shapeId}`);
+        logger.info(`[OCCT] Transforming ${shapeId}`);
         const shape = wasm.transform(shapeId, tx, ty, tz, rx, ry, rz, sx, sy, sz);
         if (!shape || !shape.id) {
           throw new Error('Invalid shape returned from WASM');
@@ -618,7 +620,7 @@ function createRealOCCTModule(wasm: WASMModule): OCCTModule {
     ),
 
     copyShape: createErrorBoundaryWrapper('copyShape', (shapeId: string) => {
-      console.log(`[OCCT] Copying shape ${shapeId}`);
+      logger.info(`[OCCT] Copying shape ${shapeId}`);
       const shape = wasm.copyShape(shapeId);
       if (!shape || !shape.id) {
         throw new Error('Invalid shape returned from WASM');
@@ -631,7 +633,7 @@ function createRealOCCTModule(wasm: WASMModule): OCCTModule {
     tessellate: createErrorBoundaryWrapper(
       'tessellate',
       (shapeId: string, precision?: number, angle?: number) => {
-        console.log(`[OCCT] Tessellating ${shapeId}: precision=${precision}, angle=${angle}`);
+        logger.info(`[OCCT] Tessellating ${shapeId}: precision=${precision}, angle=${angle}`);
         return wasm.tessellate(shapeId, precision || 0.01, angle || 0.5);
       }
     ),
@@ -639,14 +641,14 @@ function createRealOCCTModule(wasm: WASMModule): OCCTModule {
     tessellateWithParams: createErrorBoundaryWrapper(
       'tessellateWithParams',
       (shapeId: string, precision: number, angle: number) => {
-        console.log(`[OCCT] Tessellating ${shapeId}: precision=${precision}, angle=${angle}`);
+        logger.info(`[OCCT] Tessellating ${shapeId}: precision=${precision}, angle=${angle}`);
         return wasm.tessellateWithParams(shapeId, precision, angle);
       }
     ),
 
     // File I/O
     importSTEP: createErrorBoundaryWrapper('importSTEP', (fileData: string) => {
-      console.log(`[OCCT] Importing STEP file: ${fileData.length} bytes`);
+      logger.info(`[OCCT] Importing STEP file: ${fileData.length} bytes`);
       const shape = wasm.importSTEP(fileData);
       if (!shape || !shape.id) {
         throw new Error('Invalid shape returned from WASM');
@@ -656,18 +658,18 @@ function createRealOCCTModule(wasm: WASMModule): OCCTModule {
     }),
 
     exportSTEP: createErrorBoundaryWrapper('exportSTEP', (shapeId: string) => {
-      console.log(`[OCCT] Exporting ${shapeId} to STEP`);
+      logger.info(`[OCCT] Exporting ${shapeId} to STEP`);
       return wasm.exportSTEP(shapeId);
     }),
 
     exportSTL: createErrorBoundaryWrapper('exportSTL', (shapeId: string, binary?: boolean) => {
-      console.log(`[OCCT] Exporting ${shapeId} to STL (${binary ? 'binary' : 'ASCII'})`);
+      logger.info(`[OCCT] Exporting ${shapeId} to STL (${binary ? 'binary' : 'ASCII'})`);
       return wasm.exportSTL(shapeId, binary);
     }),
 
     // Memory management
     deleteShape: createErrorBoundaryWrapper('deleteShape', (shapeId: string) => {
-      console.log(`[OCCT] Deleting shape ${shapeId}`);
+      logger.info(`[OCCT] Deleting shape ${shapeId}`);
       wasm.deleteShape(shapeId);
       OCCTMemoryManager.untrackShape(shapeId);
     }),
@@ -677,7 +679,7 @@ function createRealOCCTModule(wasm: WASMModule): OCCTModule {
     }),
 
     clearAllShapes: createErrorBoundaryWrapper('clearAllShapes', () => {
-      console.log('[OCCT] Clearing all shapes');
+      logger.info('[OCCT] Clearing all shapes');
       wasm.clearAllShapes();
       OCCTMemoryManager.cleanup();
     }),
@@ -710,7 +712,7 @@ export async function loadOCCT(): Promise<OCCTModule | null> {
   // Prevent multiple load attempts
   if (wasmLoadAttempted) {
     if (wasmLoadError) {
-      console.log('[OCCT] Previous WASM load failed - only real OCCT geometry is supported');
+      logger.info('[OCCT] Previous WASM load failed - only real OCCT geometry is supported');
       return null;
     }
     return occtModule;
@@ -720,38 +722,38 @@ export async function loadOCCT(): Promise<OCCTModule | null> {
 
   try {
     // Attempt to load the real WASM module
-    console.log('[OCCT] Attempting to load real OCCT WASM module...');
+    logger.info('[OCCT] Attempting to load real OCCT WASM module...');
     wasmModule = await attemptWASMLoad();
 
     if (wasmModule) {
       // Successfully loaded WASM - create real OCCT module
-      console.log('[OCCT] ✅ Real OCCT WASM loaded successfully!');
+      logger.info('[OCCT] ✅ Real OCCT WASM loaded successfully!');
       occtModule = createRealOCCTModule(wasmModule);
       wasmLoaded = true;
 
       // Test the module
       try {
         const version = occtModule.getOCCTVersion();
-        console.log(`[OCCT] Running OCCT version: ${version}`);
+        logger.info(`[OCCT] Running OCCT version: ${version}`);
       } catch (e) {
-        console.log('[OCCT] OCCT module loaded (version check not available)');
+        logger.info('[OCCT] OCCT module loaded (version check not available)');
       }
 
       return occtModule;
     } else {
       // WASM not available - fail on use, not on load
-      console.error(
+      logger.error(
         '[OCCT] CRITICAL: Real OCCT WASM not available. ONLY real geometry is supported.'
       );
-      console.error('[OCCT] Expected WASM files at: /wasm/occt.js or /wasm/occt-core.js');
-      console.error('[OCCT] Geometry operations will fail when attempted.');
+      logger.error('[OCCT] Expected WASM files at: /wasm/occt.js or /wasm/occt-core.js');
+      logger.error('[OCCT] Geometry operations will fail when attempted.');
       return null; // Fail on use, not on load
     }
   } catch (error) {
     // Error loading WASM - FAIL HARD, NO MOCK FALLBACK
     wasmLoadError = error as Error;
-    console.error('[OCCT] CRITICAL: Failed to load WASM module. ONLY real geometry is supported.');
-    console.error('[OCCT] Error details:', error);
+    logger.error('[OCCT] CRITICAL: Failed to load WASM module. ONLY real geometry is supported.');
+    logger.error('[OCCT] Error details:', error);
 
     // Return null to trigger mock fallback
     return null;
@@ -791,7 +793,7 @@ export function resetWASMLoader(): void {
   wasmLoaded = false;
   wasmLoadAttempted = false;
   wasmLoadError = null;
-  console.log('[OCCT] WASM loader reset - will retry on next load');
+  logger.info('[OCCT] WASM loader reset - will retry on next load');
 }
 
 // Re-export the original RealOCCT class for backward compatibility

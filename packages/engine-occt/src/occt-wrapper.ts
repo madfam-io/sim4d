@@ -38,7 +38,7 @@ export class OCCTWrapper {
 
     this.module = module;
     this.initialized = true;
-    console.log('[OCCTWrapper] Real OCCT module initialised');
+    logger.info('[OCCTWrapper] Real OCCT module initialised');
   }
 
   private ensureModule(): OCCTModule {

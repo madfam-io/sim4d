@@ -199,7 +199,7 @@ export class OCCTOperationRouter implements WorkerAPI {
         .replace(/([A-Z])/g, '_$1')
         .slice(1);
 
-    console.log(`[OCCTRouter] Routing: ${operation} → ${occtOperation}`);
+    logger.info(`[OCCTRouter] Routing: ${operation} → ${occtOperation}`);
 
     // Call the worker with the mapped operation
     return this.worker.invoke(occtOperation, params);
@@ -307,7 +307,7 @@ export class OCCTOperationRouter implements WorkerAPI {
  * This is the main entry point for getting a worker with correct operation routing
  */
 export async function createRoutedOCCTWorker(): Promise<WorkerAPI> {
-  console.log('[OCCTRouter] Creating routed OCCT worker...');
+  logger.info('[OCCTRouter] Creating routed OCCT worker...');
 
   try {
     // Get the actual worker API (real or mock)
@@ -317,15 +317,15 @@ export async function createRoutedOCCTWorker(): Promise<WorkerAPI> {
     // Wrap it with the operation router
     const routedWorker = new OCCTOperationRouter(baseWorker);
 
-    console.log('[OCCTRouter] ✅ Routed worker created successfully');
-    console.log(
+    logger.info('[OCCTRouter] ✅ Routed worker created successfully');
+    logger.info(
       '[OCCTRouter] 📊 Operations mapped:',
       Object.keys(NODE_TO_OCCT_OPERATION_MAP).length
     );
 
     return routedWorker;
   } catch (error) {
-    console.error('[OCCTRouter] Failed to create routed worker:', error);
+    logger.error('[OCCTRouter] Failed to create routed worker:', error);
     throw error;
   }
 }

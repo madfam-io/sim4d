@@ -1,3 +1,5 @@
+import { getLogger } from './production-logger';
+const logger = getLogger('OCCT');
 /**
  * Integrated Geometry API
  * Combines all enhanced systems: WASM loader, worker pool, memory management,
@@ -67,8 +69,8 @@ export class IntegratedGeometryAPI {
   }
 
   constructor(private config: GeometryAPIConfig) {
-    console.log('⭐⭐⭐ CONSTRUCTOR - CODE VERSION 2025-11-16 15:40 ⭐⭐⭐');
-    console.log('[CONSTRUCTOR] config.enableRealOCCT:', config.enableRealOCCT);
+    logger.info('⭐⭐⭐ CONSTRUCTOR - CODE VERSION 2025-11-16 15:40 ⭐⭐⭐');
+    logger.info('[CONSTRUCTOR] config.enableRealOCCT:', config.enableRealOCCT);
 
     // Store as singleton if not already set
     if (!IntegratedGeometryAPI.instance) {
@@ -76,7 +78,7 @@ export class IntegratedGeometryAPI {
     }
     // CRITICAL: Detect environment and validate production safety
     this.environment = detectEnvironment();
-    console.log('[CONSTRUCTOR] environment.isTest:', this.environment.isTest);
+    logger.info('[CONSTRUCTOR] environment.isTest:', this.environment.isTest);
 
     // Initialize subsystems
     if (config.enableMemoryManagement) {
@@ -91,8 +93,8 @@ export class IntegratedGeometryAPI {
       this.workerPool = getWorkerPool(config.workerPoolConfig);
     }
 
-    console.log('[IntegratedGeometryAPI] Initialized with config:', config);
-    console.log('[IntegratedGeometryAPI] Config has occtLoader:', !!config.occtLoader);
+    logger.info('[IntegratedGeometryAPI] Initialized with config:', config);
+    logger.info('[IntegratedGeometryAPI] Config has occtLoader:', !!config.occtLoader);
   }
 
   /**
@@ -106,9 +108,9 @@ export class IntegratedGeometryAPI {
    * Initialize the geometry API with capability detection
    */
   async init(): Promise<void> {
-    console.log('🔥🔥🔥 INIT METHOD - NEW CODE 2025-11-16 15:35 🔥🔥🔥');
-    console.log('[INIT] enableRealOCCT:', this.config.enableRealOCCT);
-    console.log('[INIT] environment.isTest:', this.environment.isTest);
+    logger.info('🔥🔥🔥 INIT METHOD - NEW CODE 2025-11-16 15:35 🔥🔥🔥');
+    logger.info('[INIT] enableRealOCCT:', this.config.enableRealOCCT);
+    logger.info('[INIT] environment.isTest:', this.environment.isTest);
 
     if (this.initialized) return;
     if (this.initializationPromise) return this.initializationPromise;
@@ -118,21 +120,21 @@ export class IntegratedGeometryAPI {
   }
 
   private async performInitialization(): Promise<void> {
-    console.log('🚨🚨🚨 NEW CODE VERSION 2025-11-16 15:30 🚨🚨🚨');
-    console.log('[DEBUG] this.config.enableRealOCCT:', this.config.enableRealOCCT);
-    console.log('[DEBUG] this.environment.isTest:', this.environment.isTest);
+    logger.info('🚨🚨🚨 NEW CODE VERSION 2025-11-16 15:30 🚨🚨🚨');
+    logger.info('[DEBUG] this.config.enableRealOCCT:', this.config.enableRealOCCT);
+    logger.info('[DEBUG] this.environment.isTest:', this.environment.isTest);
 
     const endMeasurement = WASMPerformanceMonitor?.startMeasurement('api-initialization');
 
     try {
-      console.log('[IntegratedGeometryAPI] Starting initialization...');
+      logger.info('[IntegratedGeometryAPI] Starting initialization...');
 
       // Detect capabilities
       this.capabilities = await WASMCapabilityDetector.detectCapabilities();
-      console.log('[IntegratedGeometryAPI] Capabilities detected:', this.capabilities);
-      console.log('[IntegratedGeometryAPI] DEBUG Point A - after capability detection');
+      logger.info('[IntegratedGeometryAPI] Capabilities detected:', this.capabilities);
+      logger.info('[IntegratedGeometryAPI] DEBUG Point A - after capability detection');
 
-      console.log(
+      logger.info(
         '[IntegratedGeometryAPI] DEBUG Point B - checking enableRealOCCT:',
         this.config.enableRealOCCT
       );
@@ -147,7 +149,7 @@ export class IntegratedGeometryAPI {
 
       // If enableRealOCCT is false in test environment, skip WASM checks and use mock
       if (!this.config.enableRealOCCT && this.environment.isTest) {
-        console.log(
+        logger.info(
           '[IntegratedGeometryAPI] ⚠️  Test mode with enableRealOCCT: false - using mock OCCT'
         );
 
@@ -163,12 +165,12 @@ export class IntegratedGeometryAPI {
         });
         this.usingRealOCCT = false; // Explicitly mark as using mock
         this.initialized = true;
-        console.log('[IntegratedGeometryAPI] Mock OCCT loaded successfully for unit tests');
+        logger.info('[IntegratedGeometryAPI] Mock OCCT loaded successfully for unit tests');
         if (endMeasurement) endMeasurement();
         return; // Skip the rest of initialization (real OCCT loading)
       }
 
-      console.log(
+      logger.info(
         '[IntegratedGeometryAPI] DEBUG Point C - checking hasWASM:',
         this.capabilities.hasWASM
       );
@@ -178,16 +180,16 @@ export class IntegratedGeometryAPI {
 
       // DIAGNOSTIC: Check if injected loader exists
       if (this.config.occtLoader) {
-        console.log('[IntegratedGeometryAPI] ✅ USING INJECTED LOADER!');
+        logger.info('[IntegratedGeometryAPI] ✅ USING INJECTED LOADER!');
       } else {
-        console.log('[IntegratedGeometryAPI] ❌ NO INJECTED LOADER - using real loadOCCTModule');
+        logger.info('[IntegratedGeometryAPI] ❌ NO INJECTED LOADER - using real loadOCCTModule');
       }
 
       try {
         // Load real OCCT with enhanced loader (or use injected loader for testing)
         const loader = this.config.occtLoader || loadOCCTModule;
-        console.log('[IntegratedGeometryAPI] Selected loader:', loader);
-        console.log(
+        logger.info('[IntegratedGeometryAPI] Selected loader:', loader);
+        logger.info(
           '[IntegratedGeometryAPI] Using loader:',
           loader === loadOCCTModule ? 'REAL loadOCCTModule' : 'INJECTED test loader'
         );
@@ -196,15 +198,15 @@ export class IntegratedGeometryAPI {
         });
 
         this.usingRealOCCT = true;
-        console.log('[IntegratedGeometryAPI] Real OCCT module loaded successfully');
-        console.log(
+        logger.info('[IntegratedGeometryAPI] Real OCCT module loaded successfully');
+        logger.info(
           '[IntegratedGeometryAPI] DEBUG: usingRealOCCT value:',
           this.usingRealOCCT,
           'type:',
           typeof this.usingRealOCCT
         );
       } catch (occtError) {
-        console.error('[IntegratedGeometryAPI] Failed to load real OCCT:', occtError);
+        logger.error('[IntegratedGeometryAPI] Failed to load real OCCT:', occtError);
         const boundaryError = createProductionErrorBoundary(
           'OCCT_INITIALIZATION',
           this.environment
@@ -216,25 +218,25 @@ export class IntegratedGeometryAPI {
       // CRITICAL: Final production safety validation
       // Skip validation in test environment where test-specific real OCCT module is used
       if (!this.environment.isTest) {
-        console.log(
+        logger.info(
           '[IntegratedGeometryAPI] Validating production safety with real OCCT:',
           this.usingRealOCCT
         );
         validateProductionSafety(this.usingRealOCCT, this.environment);
         logProductionSafetyStatus(this.usingRealOCCT, this.environment);
       } else {
-        console.log(
+        logger.info(
           '✅ [IntegratedGeometryAPI] Test environment - using test-specific real OCCT module'
         );
       }
 
       this.initialized = true;
-      console.log('[IntegratedGeometryAPI] Initialization complete');
+      logger.info('[IntegratedGeometryAPI] Initialization complete');
 
       if (endMeasurement) endMeasurement();
     } catch (error) {
       if (endMeasurement) endMeasurement();
-      console.error('[IntegratedGeometryAPI] Initialization failed:', error);
+      logger.error('[IntegratedGeometryAPI] Initialization failed:', error);
       throw error;
     }
   }
@@ -265,7 +267,7 @@ export class IntegratedGeometryAPI {
         const validation = await this.errorRecovery.validateOperation(operation, params);
         if (!validation.valid) {
           if (validation.fixable && validation.suggestedFix) {
-            console.log('[IntegratedGeometryAPI] Auto-fixing parameters');
+            logger.info('[IntegratedGeometryAPI] Auto-fixing parameters');
             params = validation.suggestedFix();
           } else {
             throw new OCCTError(
@@ -289,7 +291,7 @@ export class IntegratedGeometryAPI {
         const cachedResult = this.memoryManager.getResult(cacheKey);
         if (cachedResult) {
           cacheHit = true;
-          console.log(`[IntegratedGeometryAPI] Cache hit for ${operation}`);
+          logger.info(`[IntegratedGeometryAPI] Cache hit for ${operation}`);
 
           const duration = Date.now() - startTime;
           if (endMeasurement) endMeasurement();
@@ -321,7 +323,7 @@ export class IntegratedGeometryAPI {
         }
       } catch (executionError) {
         if (this.errorRecovery) {
-          console.log(
+          logger.info(
             `[IntegratedGeometryAPI] Error occurred, attempting recovery for ${operation}`
           );
 
@@ -339,7 +341,7 @@ export class IntegratedGeometryAPI {
             rawResult = recoveryResult.result;
             retryCount = 1;
             fallbackUsed = true;
-            console.log('[IntegratedGeometryAPI] Successfully recovered from error');
+            logger.info('[IntegratedGeometryAPI] Successfully recovered from error');
           } else {
             throw recoveryResult.finalError || executionError;
           }
@@ -381,7 +383,7 @@ export class IntegratedGeometryAPI {
 
       const duration = Date.now() - startTime;
       const normalizedError = error instanceof Error ? error : new Error(String(error));
-      console.error(
+      logger.error(
         `[IntegratedGeometryAPI] Operation ${operation} failed after ${duration}ms:`,
         normalizedError
       );
@@ -415,7 +417,7 @@ export class IntegratedGeometryAPI {
       if (this.memoryManager) {
         const cachedMesh = this.memoryManager.getMesh(shape.id, tolerance);
         if (cachedMesh) {
-          console.log(`[IntegratedGeometryAPI] Mesh cache hit for shape ${shape.id}`);
+          logger.info(`[IntegratedGeometryAPI] Mesh cache hit for shape ${shape.id}`);
           return {
             success: true,
             result: cachedMesh,
@@ -429,7 +431,7 @@ export class IntegratedGeometryAPI {
       } else {
         const cachedMesh = this.meshCache.get(cacheKey);
         if (cachedMesh) {
-          console.log(`[IntegratedGeometryAPI] Mesh cache hit for shape ${shape.id}`);
+          logger.info(`[IntegratedGeometryAPI] Mesh cache hit for shape ${shape.id}`);
           return {
             success: true,
             result: cachedMesh,
@@ -600,7 +602,7 @@ Capabilities: ${this.capabilities ? 'Detected' : 'Not Available'}
    * Shutdown the API and all subsystems
    */
   async shutdown(): Promise<void> {
-    console.log('[IntegratedGeometryAPI] Shutting down...');
+    logger.info('[IntegratedGeometryAPI] Shutting down...');
 
     if (this.workerPool) {
       await this.workerPool.shutdown();
@@ -622,14 +624,14 @@ Capabilities: ${this.capabilities ? 'Detected' : 'Not Available'}
     this.initializationPromise = null;
     this.meshCache.clear();
 
-    console.log('[IntegratedGeometryAPI] Shutdown complete');
+    logger.info('[IntegratedGeometryAPI] Shutdown complete');
   }
 
   /**
    * Force cleanup and optimization
    */
   async optimize(): Promise<void> {
-    console.log('[IntegratedGeometryAPI] Running optimization...');
+    logger.info('[IntegratedGeometryAPI] Running optimization...');
 
     if (this.memoryManager) {
       this.memoryManager.forceCleanup();
@@ -644,7 +646,7 @@ Capabilities: ${this.capabilities ? 'Detected' : 'Not Available'}
       WASMPerformanceMonitor.clearMeasurements();
     }
 
-    console.log('[IntegratedGeometryAPI] Optimization complete');
+    logger.info('[IntegratedGeometryAPI] Optimization complete');
   }
 
   /**
@@ -658,7 +660,7 @@ Capabilities: ${this.capabilities ? 'Detected' : 'Not Available'}
    * Test the API with a simple operation
    */
   async test(): Promise<{ success: boolean; report: string }> {
-    console.log('[IntegratedGeometryAPI] Running API test...');
+    logger.info('[IntegratedGeometryAPI] Running API test...');
 
     try {
       await this.init();

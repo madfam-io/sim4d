@@ -121,7 +121,7 @@ export class WorkerClient implements WorkerAPI {
    * Handle worker errors
    */
   private handleError(error: ErrorEvent): void {
-    console.error('Worker error:', error);
+    logger.error('Worker error:', error);
 
     // Reject all pending requests
     for (const [_id, { reject }] of this.pending) {
