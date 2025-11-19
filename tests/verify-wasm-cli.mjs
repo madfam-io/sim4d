@@ -100,7 +100,9 @@ tests.push({ name: 'API Implementation', passed: apiComplete });
 // Test 6: Check Studio app integration
 console.log('\n🎨 TEST 6: Studio App Integration');
 const studioPath = path.join(root, 'apps/studio/src');
-const hasEngineImports = execSync(`grep -r "@brepflow/engine" ${studioPath} 2>/dev/null | wc -l`, { encoding: 'utf-8' });
+// Use proper escaping to prevent command injection
+const escapedPath = studioPath.replace(/'/g, "'\\''");
+const hasEngineImports = execSync(`grep -r "@brepflow/engine" '${escapedPath}' 2>/dev/null | wc -l`, { encoding: 'utf-8' });
 const integrated = parseInt(hasEngineImports.trim()) > 0;
 console.log(`  ${integrated ? '✅' : '❌'} Engine integrated in Studio (${hasEngineImports.trim()} imports)`);
 tests.push({ name: 'Studio Integration', passed: integrated });

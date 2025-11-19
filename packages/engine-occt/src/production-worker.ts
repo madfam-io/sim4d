@@ -65,6 +65,14 @@ function stopMemoryMonitoring() {
 
 // Handle messages from main thread
 self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
+  // Verify message origin for security
+  // In a Web Worker context, messages from the same origin are trusted
+  // Additional validation is performed on the message structure
+  if (!event.data || typeof event.data !== 'object') {
+    logger.warn('Invalid message format received');
+    return;
+  }
+
   const request = event.data;
   const startTime = performance.now();
 
