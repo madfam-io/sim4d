@@ -564,7 +564,25 @@ const handleWithBindings = (request: WorkerRequest): unknown => {
 
 // Handle messages from host environment (browser worker or Node worker thread)
 addHostMessageListener(async (event: { data: WorkerRequest }) => {
+  // Verify message structure for security
+  if (!event.data || typeof event.data !== 'object') {
+    logger.warn('Invalid message format received');
+    return;
+  }
+
   const request = event.data;
+
+  // Validate required message fields to ensure it's from a trusted source
+  if (!request.type || typeof request.type !== 'string') {
+    logger.warn('Message missing required type field');
+    return;
+  }
+
+  // Validate request ID if present
+  if (request.id !== undefined && typeof request.id !== 'string' && typeof request.id !== 'number') {
+    logger.warn('Invalid request ID format');
+    return;
+  }
 
   try {
     let result: unknown;

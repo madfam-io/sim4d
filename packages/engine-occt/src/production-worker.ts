@@ -65,15 +65,27 @@ function stopMemoryMonitoring() {
 
 // Handle messages from main thread
 self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
-  // Verify message origin for security
-  // In a Web Worker context, messages from the same origin are trusted
-  // Additional validation is performed on the message structure
+  // Verify message origin and structure for security
+  // For Web Workers, validate message structure and required fields
   if (!event.data || typeof event.data !== 'object') {
     logger.warn('Invalid message format received');
     return;
   }
 
   const request = event.data;
+
+  // Validate required message fields to ensure it's from a trusted source
+  if (!request.type || typeof request.type !== 'string') {
+    logger.warn('Message missing required type field');
+    return;
+  }
+
+  // Validate request ID if present
+  if (request.id !== undefined && typeof request.id !== 'string' && typeof request.id !== 'number') {
+    logger.warn('Invalid request ID format');
+    return;
+  }
+
   const startTime = performance.now();
 
   try {

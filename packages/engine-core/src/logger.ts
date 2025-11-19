@@ -91,12 +91,21 @@ class BrepFlowLogger {
       : '';
     const prefix = this.config.prefix ? `[${this.config.prefix}]` : '';
     const levelStr = this.formatLevel(level);
-    const formattedMessage = `${timestamp}${prefix}${levelStr} ${message}`;
+    // Sanitize message to prevent format string injection by escaping % characters
+    const sanitizedMessage = message.replace(/%/g, '%%');
+    const formattedMessage = `${timestamp}${prefix}${levelStr} ${sanitizedMessage}`;
 
     const consoleMethod = this.getConsoleMethod(level);
     // Use fixed format string to prevent log injection
+    // Serialize context as JSON to prevent injection through context values
     if (context && Object.keys(context).length > 0) {
-      consoleMethod('%s', formattedMessage, context);
+      try {
+        const contextStr = JSON.stringify(context, null, 2);
+        consoleMethod('%s %s', formattedMessage, contextStr);
+      } catch {
+        // Fallback if JSON.stringify fails (e.g., circular references)
+        consoleMethod('%s [Context serialization failed]', formattedMessage);
+      }
     } else {
       consoleMethod('%s', formattedMessage);
     }
