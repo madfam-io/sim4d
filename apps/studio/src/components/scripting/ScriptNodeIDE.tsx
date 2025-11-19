@@ -15,6 +15,9 @@ import type {
   ScriptLanguage,
   ScriptPermissions,
   ScriptMetadata,
+  ScriptError,
+  ScriptWarning,
+  ScriptLogEntry,
 } from '@brepflow/engine-core';
 import './ScriptNodeIDE.css';
 
@@ -97,7 +100,7 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
         setPermissions(editingNode.permissions);
       } else if (initialTemplate) {
         // Load template
-        const template = templates.find((t: any) => t.name === initialTemplate);
+        const template = templates.find((t: ScriptTemplate) => t.name === initialTemplate);
         if (template) {
           setScript(template.template);
           setLanguage(template.language);
@@ -112,7 +115,7 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
         }
       } else {
         // Reset to default
-        setScript(templates.find((t: any) => t.name === 'Empty Script')?.template || '');
+        setScript(templates.find((t: ScriptTemplate) => t.name === 'Empty Script')?.template || '');
       }
 
       // Initialize main tab
@@ -177,23 +180,25 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
       const sandbox = await scriptEngine.createSandbox(permissions);
 
       // Mock context for testing
+      type MockVec3 = { x: number; y: number; z: number };
       const mockContext = {
         script: {
           log: (message: string) => logger.debug('Script log', { message }),
           progress: (value: number) => logger.debug('Script progress', { progress: value }),
           createVector: (x: number, y: number, z: number) => ({ x, y, z }),
-          measureDistance: (p1: any, p2: any) =>
+          measureDistance: (p1: MockVec3, p2: MockVec3) =>
             Math.sqrt(
               Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2) + Math.pow(p2.z - p1.z, 2)
             ),
-          getParameter: (name: string, defaultValue?: any) => defaultValue,
-          setOutput: (name: string, value: any) => logger.debug('Script output', { name, value }),
+          getParameter: (name: string, defaultValue?: unknown) => defaultValue,
+          setOutput: (name: string, value: unknown) =>
+            logger.debug('Script output', { name, value }),
           getInput: (name: string) => undefined,
           sleep: (ms: number) => new Promise((resolve) => setTimeout(resolve, ms)),
-          timeout: (promise: Promise<any>, ms: number) =>
+          timeout: <T,>(promise: Promise<T>, ms: number) =>
             Promise.race([
               promise,
-              new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), ms)),
+              new Promise<T>((_, reject) => setTimeout(() => reject(new Error('Timeout')), ms)),
             ]),
           startTimer: (label: string) => {
             const start = performance.now();
@@ -210,12 +215,12 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
           isAborted: () => false,
         },
         geom: {
-          invoke: async (operation: string, params: any) => {
+          invoke: async (operation: string, params: unknown) => {
             logger.debug('Mock geometry operation', { operation, params });
             return { mockResult: true };
           },
         },
-      } as any;
+      };
 
       const result = await sandbox.execute(script, mockContext, permissions);
       setExecutionResult(result);
@@ -529,7 +534,7 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
                       {validationResult.errors && validationResult.errors.length > 0 && (
                         <div className="validation-errors">
                           <h4>Errors:</h4>
-                          {validationResult.errors.map((error: any, index: number) => (
+                          {validationResult.errors.map((error: ScriptError, index: number) => (
                             <div key={index} className="validation-message error">
                               <Icon name="x-circle" size={14} />
                               <span>
@@ -545,16 +550,18 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
                       {validationResult.warnings && validationResult.warnings.length > 0 && (
                         <div className="validation-warnings">
                           <h4>Warnings:</h4>
-                          {validationResult.warnings.map((warning: any, index: number) => (
-                            <div key={index} className="validation-message warning">
-                              <Icon name="alert-triangle" size={14} />
-                              <span>
-                                {typeof warning === 'string'
-                                  ? warning
-                                  : `Line ${warning.line}: ${warning.message}`}
-                              </span>
-                            </div>
-                          ))}
+                          {validationResult.warnings.map(
+                            (warning: ScriptWarning, index: number) => (
+                              <div key={index} className="validation-message warning">
+                                <Icon name="alert-triangle" size={14} />
+                                <span>
+                                  {typeof warning === 'string'
+                                    ? warning
+                                    : `Line ${warning.line}: ${warning.message}`}
+                                </span>
+                              </div>
+                            )
+                          )}
                         </div>
                       )}
                     </div>
@@ -592,8 +599,9 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
                           <pre>
                             {typeof executionResult.error === 'string'
                               ? executionResult.error
-                              : (executionResult.error as any)?.message ||
-                                String(executionResult.error)}
+                              : executionResult.error instanceof Error
+                                ? executionResult.error.message
+                                : String(executionResult.error)}
                           </pre>
                         </div>
                       )}
@@ -601,7 +609,7 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
                       {executionResult.logs.length > 0 && (
                         <div className="testing-logs">
                           <h4>Logs:</h4>
-                          {executionResult.logs.map((log: any, index: number) => (
+                          {executionResult.logs.map((log: ScriptLogEntry, index: number) => (
                             <div key={index} className={`log-entry ${log.level}`}>
                               <span className="log-level">[{log.level.toUpperCase()}]</span>
                               <span className="log-message">{log.message}</span>
@@ -670,7 +678,7 @@ export const ScriptNodeIDE: React.FC<ScriptNodeIDEProps> = ({
               </div>
               <div className="modal-body">
                 <div className="template-grid">
-                  {templates.map((template: any) => (
+                  {templates.map((template: ScriptTemplate) => (
                     <div
                       key={template.name}
                       className="template-card"

@@ -14,7 +14,7 @@ export enum LogLevel {
 export interface LogEntry {
   level: LogLevel;
   message: string;
-  data?: any;
+  data?: unknown;
   timestamp: number;
   sessionId: string;
   context?: Record<string, unknown>;
@@ -51,35 +51,40 @@ export class Logger {
   /**
    * Log debug message
    */
-  public debug(message: string, data?: any, context?: Record<string, unknown>): void {
+  public debug(message: string, data?: unknown, context?: Record<string, unknown>): void {
     this.log(LogLevel.DEBUG, message, data, context);
   }
 
   /**
    * Log info message
    */
-  public info(message: string, data?: any, context?: Record<string, unknown>): void {
+  public info(message: string, data?: unknown, context?: Record<string, unknown>): void {
     this.log(LogLevel.INFO, message, data, context);
   }
 
   /**
    * Log warning message
    */
-  public warn(message: string, data?: any, context?: Record<string, unknown>): void {
+  public warn(message: string, data?: unknown, context?: Record<string, unknown>): void {
     this.log(LogLevel.WARN, message, data, context);
   }
 
   /**
    * Log error message
    */
-  public error(message: string, data?: any, context?: Record<string, unknown>): void {
+  public error(message: string, data?: unknown, context?: Record<string, unknown>): void {
     this.log(LogLevel.ERROR, message, data, context);
   }
 
   /**
    * Core logging method
    */
-  private log(level: LogLevel, message: string, data?: any, context?: Record<string, unknown>): void {
+  private log(
+    level: LogLevel,
+    message: string,
+    data?: unknown,
+    context?: Record<string, unknown>
+  ): void {
     // Check if we should log this level
     const configLevel = this.getLogLevelFromConfig();
     if (level < configLevel) {
@@ -264,7 +269,7 @@ export class Logger {
   /**
    * Sanitize data to remove sensitive information
    */
-  private sanitizeData(data: unknown): any {
+  private sanitizeData(data: unknown): unknown {
     if (!data) return data;
 
     if (typeof data === 'string') {
@@ -276,7 +281,7 @@ export class Logger {
     }
 
     if (typeof data === 'object') {
-      const sanitized: any = {};
+      const sanitized: Record<string, unknown> = {};
       const sensitiveKeys = ['password', 'token', 'secret', 'key', 'authorization'];
 
       for (const [key, value] of Object.entries(data)) {
@@ -323,19 +328,19 @@ export class ChildLogger {
     private context: Record<string, unknown>
   ) {}
 
-  public debug(message: string, data?: any, additionalContext?: Record<string, unknown>): void {
+  public debug(message: string, data?: unknown, additionalContext?: Record<string, unknown>): void {
     this.parent.debug(message, data, { ...this.context, ...additionalContext });
   }
 
-  public info(message: string, data?: any, additionalContext?: Record<string, unknown>): void {
+  public info(message: string, data?: unknown, additionalContext?: Record<string, unknown>): void {
     this.parent.info(message, data, { ...this.context, ...additionalContext });
   }
 
-  public warn(message: string, data?: any, additionalContext?: Record<string, unknown>): void {
+  public warn(message: string, data?: unknown, additionalContext?: Record<string, unknown>): void {
     this.parent.warn(message, data, { ...this.context, ...additionalContext });
   }
 
-  public error(message: string, data?: any, additionalContext?: Record<string, unknown>): void {
+  public error(message: string, data?: unknown, additionalContext?: Record<string, unknown>): void {
     this.parent.error(message, data, { ...this.context, ...additionalContext });
   }
 }

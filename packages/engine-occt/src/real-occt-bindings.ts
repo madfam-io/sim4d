@@ -145,21 +145,21 @@ export class RealOCCT implements WorkerAPI {
   /**
    * Create point from JS object
    */
-  private createPoint(v: Vec3): any {
+  private createPoint(v: Vec3): OCCTHandle {
     return new this.occt.gp_Pnt(v.x, v.y, v.z);
   }
 
   /**
    * Create direction from JS object
    */
-  private createDir(v: Vec3): any {
+  private createDir(v: Vec3): OCCTHandle {
     return new this.occt.gp_Dir(v.x, v.y, v.z);
   }
 
   /**
    * Create axis from center and direction
    */
-  private createAxis(center: Vec3, direction: Vec3): any {
+  private createAxis(center: Vec3, direction: Vec3): OCCTHandle {
     const pnt = this.createPoint(center);
     const dir = this.createDir(direction);
     return new this.occt.gp_Ax2(pnt, dir);
@@ -243,7 +243,7 @@ export class RealOCCT implements WorkerAPI {
   /**
    * Main operation invocation
    */
-  async invoke<T = any>(operation: string, params: unknown): Promise<T> {
+  async invoke<T = unknown>(operation: string, params: unknown): Promise<T> {
     if (!this.occt) {
       throw new Error('OCCT not initialized');
     }
@@ -864,7 +864,7 @@ export class RealOCCT implements WorkerAPI {
       const tool = this.shapes.get(shapes[i]?.id || shapes[i]);
       if (!tool) continue;
 
-      const fuse: any = new this.occt.BRepAlgoAPI_Fuse(result, tool);
+      const fuse: OCCTHandle = new this.occt.BRepAlgoAPI_Fuse(result, tool);
       fuse.Build();
 
       if (i > 1 && result) {
@@ -930,7 +930,7 @@ export class RealOCCT implements WorkerAPI {
       const tool = this.shapes.get(shapes[i]?.id || shapes[i]);
       if (!tool) continue;
 
-      const common: any = new this.occt.BRepAlgoAPI_Common(result, tool);
+      const common: OCCTHandle = new this.occt.BRepAlgoAPI_Common(result, tool);
       common.Build();
 
       if (i > 1 && result) {
@@ -1305,7 +1305,7 @@ export class RealOCCT implements WorkerAPI {
   /**
    * Get shape properties
    */
-  private getProperties(params: unknown): any {
+  private getProperties(params: unknown): unknown {
     const shape = this.shapes.get(params.shape?.id || params.shape);
     if (!shape) throw new Error('Shape not found');
 
@@ -1496,7 +1496,7 @@ export class RealOCCT implements WorkerAPI {
   /**
    * Create assembly
    */
-  private createAssembly(params: unknown): any {
+  private createAssembly(params: unknown): unknown {
     const { parts = [], name = 'Assembly', visible = true } = params;
 
     const assemblyId = this.generateId();
@@ -1506,7 +1506,7 @@ export class RealOCCT implements WorkerAPI {
     const assemblyHandle = {
       id: assemblyId,
       name,
-      parts: parts.map((part: any) => ({
+      parts: parts.map((part: unknown) => ({
         id: part?.id || part,
         type: 'Shape',
       })),
@@ -1525,7 +1525,7 @@ export class RealOCCT implements WorkerAPI {
   /**
    * Create mate constraint
    */
-  private createMate(params: unknown): any {
+  private createMate(params: unknown): unknown {
     const {
       assembly,
       part1,
@@ -1563,7 +1563,7 @@ export class RealOCCT implements WorkerAPI {
   /**
    * Create pattern
    */
-  private createPattern(params: unknown): any {
+  private createPattern(params: unknown): unknown {
     const {
       assembly,
       part,
@@ -1635,7 +1635,7 @@ export class RealOCCT implements WorkerAPI {
   /**
    * Transform part in assembly
    */
-  private transformPart(params: unknown): any {
+  private transformPart(params: unknown): unknown {
     const {
       assembly,
       part,
@@ -1648,7 +1648,7 @@ export class RealOCCT implements WorkerAPI {
     if (!assemblyData) throw new Error('Assembly not found');
 
     const partId = part?.id || part;
-    const partIndex = assemblyData.parts.findIndex((p: any) => p.id === partId);
+    const partIndex = assemblyData.parts.findIndex((p: unknown) => p.id === partId);
 
     if (partIndex === -1) throw new Error('Part not found in assembly');
 
@@ -1676,7 +1676,7 @@ export class RealOCCT implements WorkerAPI {
     }
 
     // Get curve shapes
-    const curveShapes = curves.map((curveRef: any) => {
+    const curveShapes = curves.map((curveRef: unknown) => {
       const curve = this.shapes.get(curveRef?.id || curveRef);
       if (!curve) throw new Error('Curve not found');
       return curve;
@@ -1720,7 +1720,7 @@ export class RealOCCT implements WorkerAPI {
     }
 
     // Simplified network surface - create lofted surface from U curves
-    const profiles = uCurves.map((curveRef: any) => {
+    const profiles = uCurves.map((curveRef: unknown) => {
       const curve = this.shapes.get(curveRef?.id || curveRef);
       if (!curve) throw new Error('U curve not found');
       return curve;
@@ -1885,7 +1885,7 @@ export class RealOCCT implements WorkerAPI {
     const results: ShapeHandle[] = [];
 
     for (const dir of directions) {
-      let projector: any;
+      let projector: OCCTHandle;
       try {
         projector = dir
           ? new this.occt.BRepProj_Projection(sourceShape, targetShape, dir)
@@ -1947,7 +1947,7 @@ export class RealOCCT implements WorkerAPI {
     const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
     const normalized = clamp(parameter, 0, 1);
 
-    let isoCurve: any;
+    let isoCurve: OCCTHandle;
     let startParam = 0;
     let endParam = 1;
 
@@ -2133,7 +2133,7 @@ export class RealOCCT implements WorkerAPI {
       const rotationAxis = this.createAxis(centerVec, axisVec);
       const axis1 = rotationAxis.Axis();
 
-      let transform: any;
+      let transform: OCCTHandle;
 
       if (rotateInstances) {
         transform = new this.occt.gp_Trsf();
@@ -2475,83 +2475,83 @@ export class RealOCCT implements WorkerAPI {
    * Dispose shape
    */
   // 3D Constraints Operations
-  private solve3DConstraints(_params: unknown): any {
+  private solve3DConstraints(_params: unknown): unknown {
     console.log('[RealOCCT] Solving 3D constraints system');
     return { success: true, iterations: 5, residual: 1e-8 };
   }
 
-  private createCoincidentConstraint(_params: unknown): any {
+  private createCoincidentConstraint(_params: unknown): unknown {
     console.log('[RealOCCT] Creating coincident constraint');
     return { id: this.generateId(), type: 'coincident', satisfied: true };
   }
 
-  private createConcentricConstraint(_params: unknown): any {
+  private createConcentricConstraint(_params: unknown): unknown {
     console.log('[RealOCCT] Creating concentric constraint');
     return { id: this.generateId(), type: 'concentric', satisfied: true };
   }
 
-  private createParallelConstraint(_params: unknown): any {
+  private createParallelConstraint(_params: unknown): unknown {
     console.log('[RealOCCT] Creating parallel constraint');
     return { id: this.generateId(), type: 'parallel', satisfied: true };
   }
 
-  private createPerpendicularConstraint(_params: unknown): any {
+  private createPerpendicularConstraint(_params: unknown): unknown {
     console.log('[RealOCCT] Creating perpendicular constraint');
     return { id: this.generateId(), type: 'perpendicular', satisfied: true };
   }
 
-  private createDistanceConstraint(_params: unknown): any {
+  private createDistanceConstraint(_params: unknown): unknown {
     console.log('[RealOCCT] Creating distance constraint');
     return { id: this.generateId(), type: 'distance', satisfied: true };
   }
 
-  private createAngleConstraint(_params: unknown): any {
+  private createAngleConstraint(_params: unknown): unknown {
     console.log('[RealOCCT] Creating angle constraint');
     return { id: this.generateId(), type: 'angle', satisfied: true };
   }
 
-  private createTangentConstraint(_params: unknown): any {
+  private createTangentConstraint(_params: unknown): unknown {
     console.log('[RealOCCT] Creating tangent constraint');
     return { id: this.generateId(), type: 'tangent', satisfied: true };
   }
 
   // Simulation Operations
-  private createMesh(_params: unknown): any {
+  private createMesh(_params: unknown): unknown {
     console.log('[RealOCCT] Creating finite element mesh');
     return { id: this.generateId(), nodes: 1500, elements: 3000 };
   }
 
-  private createMaterial(params: unknown): any {
+  private createMaterial(params: unknown): unknown {
     console.log('[RealOCCT] Creating material definition');
     return { id: this.generateId(), name: params.name || 'Steel' };
   }
 
-  private createFixedSupport(_params: unknown): any {
+  private createFixedSupport(_params: unknown): unknown {
     console.log('[RealOCCT] Creating fixed support');
     return { id: this.generateId(), type: 'fixed_support' };
   }
 
-  private createForceLoad(_params: unknown): any {
+  private createForceLoad(_params: unknown): unknown {
     console.log('[RealOCCT] Creating force load');
     return { id: this.generateId(), type: 'force' };
   }
 
-  private createPressureLoad(_params: unknown): any {
+  private createPressureLoad(_params: unknown): unknown {
     console.log('[RealOCCT] Creating pressure load');
     return { id: this.generateId(), type: 'pressure' };
   }
 
-  private runStaticAnalysis(_params: unknown): any {
+  private runStaticAnalysis(_params: unknown): unknown {
     console.log('[RealOCCT] Running static analysis');
     return { id: this.generateId(), type: 'static', status: 'completed' };
   }
 
-  private runModalAnalysis(_params: unknown): any {
+  private runModalAnalysis(_params: unknown): unknown {
     console.log('[RealOCCT] Running modal analysis');
     return { id: this.generateId(), type: 'modal', status: 'completed' };
   }
 
-  private runThermalAnalysis(_params: unknown): any {
+  private runThermalAnalysis(_params: unknown): unknown {
     console.log('[RealOCCT] Running thermal analysis');
     return { id: this.generateId(), type: 'thermal', status: 'completed' };
   }
@@ -2567,33 +2567,33 @@ export class RealOCCT implements WorkerAPI {
     return [this.makeSphere({ radius: 30 })];
   }
 
-  private importSTL(params: unknown): any {
+  private importSTL(params: unknown): unknown {
     console.log(`[RealOCCT] Importing STL file: ${params.filePath}`);
     return { id: this.generateId(), type: 'mesh', vertices: 1000, faces: 2000 };
   }
 
-  private exportSTEP(params: unknown): any {
+  private exportSTEP(params: unknown): unknown {
     console.log(`[RealOCCT] Exporting to STEP: ${params.filePath}`);
     return { success: true, filePath: params.filePath, fileSize: 125000 };
   }
 
-  private exportIGES(params: unknown): any {
+  private exportIGES(params: unknown): unknown {
     console.log(`[RealOCCT] Exporting to IGES: ${params.filePath}`);
     return { success: true, filePath: params.filePath, fileSize: 105000 };
   }
 
-  private exportSTL(params: unknown): any {
+  private exportSTL(params: unknown): unknown {
     console.log(`[RealOCCT] Exporting to STL: ${params.filePath}`);
     return { success: true, filePath: params.filePath, triangles: 5000 };
   }
 
-  private exportOBJ(params: unknown): any {
+  private exportOBJ(params: unknown): unknown {
     console.log(`[RealOCCT] Exporting to OBJ: ${params.filePath}`);
     return { success: true, filePath: params.filePath, vertices: 2500, faces: 4500 };
   }
 
   // Advanced Mesh & Topology Operations
-  private healMesh(_params: unknown): any {
+  private healMesh(_params: unknown): unknown {
     console.log('[RealOCCT] Healing mesh geometry');
     return {
       id: this.generateId(),
@@ -2614,7 +2614,7 @@ export class RealOCCT implements WorkerAPI {
     return box;
   }
 
-  private analyzeMeshQuality(_params: unknown): any {
+  private analyzeMeshQuality(_params: unknown): unknown {
     console.log('[RealOCCT] Analyzing mesh quality metrics');
     return {
       id: this.generateId(),
@@ -2634,7 +2634,7 @@ export class RealOCCT implements WorkerAPI {
     return this.createHandle(originalShape, 'solid');
   }
 
-  private refineMesh(_params: unknown): any {
+  private refineMesh(_params: unknown): unknown {
     console.log('[RealOCCT] Refining mesh density');
     return {
       id: this.generateId(),
@@ -2645,7 +2645,7 @@ export class RealOCCT implements WorkerAPI {
     };
   }
 
-  private smoothMesh(params: unknown): any {
+  private smoothMesh(params: unknown): unknown {
     console.log('[RealOCCT] Smoothing mesh geometry');
     return {
       id: this.generateId(),
@@ -2656,7 +2656,7 @@ export class RealOCCT implements WorkerAPI {
   }
 
   // Manufacturing Operations
-  private generateToolpath(params: unknown): any {
+  private generateToolpath(params: unknown): unknown {
     console.log('[RealOCCT] Generating CNC toolpath');
     return {
       id: this.generateId(),
@@ -2668,7 +2668,7 @@ export class RealOCCT implements WorkerAPI {
     };
   }
 
-  private optimizeForPrinting(params: unknown): any {
+  private optimizeForPrinting(params: unknown): unknown {
     console.log('[RealOCCT] Optimizing for 3D printing');
     const originalShape = this.shapes.get(params.shape?.id || params.shape);
     if (!originalShape) throw new Error('Shape not found');
@@ -2681,7 +2681,7 @@ export class RealOCCT implements WorkerAPI {
     };
   }
 
-  private validateManufacturingConstraints(_params: unknown): any {
+  private validateManufacturingConstraints(_params: unknown): unknown {
     console.log('[RealOCCT] Validating manufacturing constraints');
     return {
       valid: true,
@@ -2694,7 +2694,7 @@ export class RealOCCT implements WorkerAPI {
     };
   }
 
-  private optimizeMaterialUsage(params: unknown): any {
+  private optimizeMaterialUsage(params: unknown): unknown {
     console.log('[RealOCCT] Optimizing material usage');
     return {
       layout: {
@@ -2710,7 +2710,7 @@ export class RealOCCT implements WorkerAPI {
     };
   }
 
-  private estimateManufacturingCost(params: unknown): any {
+  private estimateManufacturingCost(params: unknown): unknown {
     console.log('[RealOCCT] Estimating manufacturing cost');
     const volume = this.getVolume({ shape: params.shape });
     const materialCost = volume * 0.05; // $0.05 per cm³
@@ -2729,7 +2729,7 @@ export class RealOCCT implements WorkerAPI {
     };
   }
 
-  private performQualityControl(_params: unknown): any {
+  private performQualityControl(_params: unknown): unknown {
     console.log('[RealOCCT] Performing quality control analysis');
     return {
       inspection: {
@@ -2759,7 +2759,7 @@ export class RealOCCT implements WorkerAPI {
     return results;
   }
 
-  private createApiEndpoint(params: unknown): any {
+  private createApiEndpoint(params: unknown): unknown {
     console.log('[RealOCCT] Creating API endpoint');
     return {
       endpoint: params.endpoint,
@@ -2770,7 +2770,7 @@ export class RealOCCT implements WorkerAPI {
     };
   }
 
-  private checkPermissions(params: unknown): any {
+  private checkPermissions(params: unknown): unknown {
     console.log('[RealOCCT] Checking user permissions');
     return {
       authorized: true,
@@ -2781,7 +2781,7 @@ export class RealOCCT implements WorkerAPI {
     };
   }
 
-  private registerPlugin(params: unknown): any {
+  private registerPlugin(params: unknown): unknown {
     console.log('[RealOCCT] Registering plugin');
     return {
       pluginId: this.generateId(),
@@ -2792,7 +2792,7 @@ export class RealOCCT implements WorkerAPI {
     };
   }
 
-  private orchestrateWorkflow(_params: unknown): any {
+  private orchestrateWorkflow(_params: unknown): unknown {
     console.log('[RealOCCT] Orchestrating workflow');
     return {
       workflowId: this.generateId(),
@@ -2804,7 +2804,7 @@ export class RealOCCT implements WorkerAPI {
     };
   }
 
-  private generateAnalyticsReport(params: unknown): any {
+  private generateAnalyticsReport(params: unknown): unknown {
     console.log('[RealOCCT] Generating analytics report');
     return {
       reportId: this.generateId(),
