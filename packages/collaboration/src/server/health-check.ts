@@ -4,6 +4,9 @@
  */
 
 import type { Server as SocketIOServer } from 'socket.io';
+import { createLogger } from '@brepflow/engine-core';
+
+const logger = createLogger('Collaboration');
 import http, { type IncomingMessage } from 'http';
 
 interface RedisClient {
@@ -201,28 +204,28 @@ export async function standaloneHealthCheck(): Promise<void> {
 
     const req = http.request(options, (res: IncomingMessage) => {
       if (res.statusCode === 200) {
-        console.log('Health check passed');
+        logger.info('Health check passed');
         process.exit(0);
       } else {
-        console.error(`Health check failed with status ${res.statusCode}`);
+        logger.error(`Health check failed with status ${res.statusCode}`);
         process.exit(1);
       }
     });
 
     req.on('error', (error: Error) => {
-      console.error(`Health check failed: ${error.message}`);
+      logger.error(`Health check failed: ${error.message}`);
       process.exit(1);
     });
 
     req.on('timeout', () => {
-      console.error('Health check timeout');
+      logger.error('Health check timeout');
       req.destroy();
       process.exit(1);
     });
 
     req.end();
   } catch (error) {
-    console.error(
+    logger.error(
       `Health check error: ${error instanceof Error ? error.message : 'Unknown error'}`
     );
     process.exit(1);

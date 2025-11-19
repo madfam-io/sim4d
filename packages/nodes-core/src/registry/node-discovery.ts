@@ -5,6 +5,9 @@
 
 import { EnhancedNodeRegistry } from './enhanced-node-registry';
 import { NodeDefinition } from '@brepflow/types';
+import { createLogger } from '@brepflow/engine-core';
+
+const logger = createLogger('NodeDiscovery');
 // PRODUCTION-ONLY: Demonstration nodes removed - using generated nodes only
 
 import * as generatedNodes from '../nodes/generated/index.generated.js';
@@ -19,7 +22,7 @@ export async function discoverAllNodes(): Promise<{
 }> {
   const registry = EnhancedNodeRegistry.getInstance();
 
-  console.log('🔍 Starting dynamic node discovery...');
+  logger.info('🔍 Starting dynamic node discovery...');
 
   // Clear any existing registrations
   registry.clear();
@@ -27,32 +30,32 @@ export async function discoverAllNodes(): Promise<{
   // PRODUCTION-ONLY: No demonstration nodes - all 913 generated nodes are production-ready
 
   // Register generated nodes
-  console.log('🔍 Discovering generated nodes...');
+  logger.info('🔍 Discovering generated nodes...');
   const generatedNodeDefinitions = Object.values(generatedNodes).filter(
     (node): node is NodeDefinition => node && typeof node === 'object' && 'type' in node
   );
 
-  console.log(`📦 Found ${generatedNodeDefinitions.length} generated nodes`);
+  logger.info(`📦 Found ${generatedNodeDefinitions.length} generated nodes`);
 
   for (const nodeDefinition of generatedNodeDefinitions) {
     try {
       registry.registerNode(nodeDefinition);
     } catch (error) {
-      console.warn(`⚠️ Failed to register generated node ${nodeDefinition.type}:`, error);
+      logger.warn(`⚠️ Failed to register generated node ${nodeDefinition.type}:`, error);
     }
   }
 
-  console.log(`✅ Registered ${generatedNodeDefinitions.length} generated nodes`);
+  logger.info(`✅ Registered ${generatedNodeDefinitions.length} generated nodes`);
 
   // Get final statistics
   const statistics = registry.getStatistics();
   const categories = registry.getCategories();
 
-  console.log('✅ Node discovery complete!');
-  console.log(
+  logger.info('✅ Node discovery complete!');
+  logger.info(
     `📊 Registered ${statistics.totalNodes} nodes across ${statistics.totalCategories} categories`
   );
-  console.log(`🏷️ Found ${statistics.totalTags} unique tags`);
+  logger.info(`🏷️ Found ${statistics.totalTags} unique tags`);
 
   return {
     registeredCount: statistics.totalNodes,
@@ -123,15 +126,15 @@ export function validateNodeDiscovery(): {
   const isValid = statistics.totalNodes >= 800; // Adjusted to match actual generated node count
 
   if (missingCategories.length > 0) {
-    console.warn(
+    logger.warn(
       `⚠️ Some categories missing from production nodes: ${missingCategories.join(', ')}`
     );
   }
 
   if (isValid) {
-    console.log('✅ Production node discovery validation passed');
+    logger.info('✅ Production node discovery validation passed');
   } else {
-    console.error(
+    logger.error(
       `❌ Production node discovery validation failed: only ${statistics.totalNodes} nodes found (expected at least 800)`
     );
   }
@@ -147,7 +150,7 @@ export function validateNodeDiscovery(): {
  * Initialize the enhanced node registry with all available nodes
  */
 export async function initializeNodeRegistry(): Promise<EnhancedNodeRegistry> {
-  console.log('🚀 Initializing enhanced node registry...');
+  logger.info('🚀 Initializing enhanced node registry...');
 
   // Discover and register all nodes
   const discoveryResult = await discoverAllNodes();
@@ -156,13 +159,13 @@ export async function initializeNodeRegistry(): Promise<EnhancedNodeRegistry> {
   const validation = validateNodeDiscovery();
 
   if (!validation.isValid) {
-    console.error('❌ Node registry initialization failed validation');
+    logger.error('❌ Node registry initialization failed validation');
     throw new Error(`Node discovery validation failed: ${validation.missingCategories.join(', ')}`);
   }
 
-  console.log('🎉 Enhanced node registry initialized successfully!');
-  console.log(`📊 Registry contains ${discoveryResult.registeredCount} nodes`);
-  console.log(`📂 Organized into ${discoveryResult.categories.length} categories`);
+  logger.info('🎉 Enhanced node registry initialized successfully!');
+  logger.info(`📊 Registry contains ${discoveryResult.registeredCount} nodes`);
+  logger.info(`📂 Organized into ${discoveryResult.categories.length} categories`);
 
   return EnhancedNodeRegistry.getInstance();
 }

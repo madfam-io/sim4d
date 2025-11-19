@@ -1,5 +1,7 @@
 // TODO: Fix NodeDefinition type mismatches, error type assertions, and duplicate exports
-import { NodeRegistry } from '@brepflow/engine-core';
+import { NodeRegistry, createLogger } from '@brepflow/engine-core';
+
+const logger = createLogger('NodesCore');
 
 // Import core node definitions (only existing files)
 import { sketchNodes } from './sketch';
@@ -51,25 +53,25 @@ export function registerCoreNodes(): void {
 
 // Enhanced registration with all 1012+ nodes
 export async function registerAllNodes(): Promise<EnhancedNodeRegistry> {
-  console.log('🚀 Registering all 1012+ nodes with enhanced registry...');
+  logger.info('🚀 Registering all 1012+ nodes with enhanced registry...');
 
   // Initialize enhanced registry with all generated nodes
-  console.log('🔍 DEBUG: About to call initializeNodeRegistry...');
+  logger.info('🔍 DEBUG: About to call initializeNodeRegistry...');
   const enhancedRegistry = await initializeNodeRegistry();
-  console.log('🔍 DEBUG: initializeNodeRegistry returned:', enhancedRegistry);
-  console.log('🔍 DEBUG: typeof enhancedRegistry:', typeof enhancedRegistry);
-  console.log('🔍 DEBUG: enhancedRegistry is null?', enhancedRegistry === null);
-  console.log('🔍 DEBUG: enhancedRegistry is undefined?', enhancedRegistry === undefined);
+  logger.info('🔍 DEBUG: initializeNodeRegistry returned:', enhancedRegistry);
+  logger.info('🔍 DEBUG: typeof enhancedRegistry:', typeof enhancedRegistry);
+  logger.info('🔍 DEBUG: enhancedRegistry is null?', enhancedRegistry === null);
+  logger.info('🔍 DEBUG: enhancedRegistry is undefined?', enhancedRegistry === undefined);
 
   if (!enhancedRegistry) {
-    console.error('❌ DEBUG: enhancedRegistry is null/undefined!');
+    logger.error('❌ DEBUG: enhancedRegistry is null/undefined!');
     throw new Error('initializeNodeRegistry returned null/undefined');
   }
 
-  console.log('🔍 DEBUG: initializeNodeRegistry completed successfully');
+  logger.info('🔍 DEBUG: initializeNodeRegistry completed successfully');
 
   // Also register legacy nodes for backward compatibility
-  console.log('🔍 DEBUG: About to create legacyNodes array...');
+  logger.info('🔍 DEBUG: About to create legacyNodes array...');
   const legacyNodes = [
     ...sketchNodes,
     ...solidNodes,
@@ -78,39 +80,39 @@ export async function registerAllNodes(): Promise<EnhancedNodeRegistry> {
     ...transformNodes,
     ...ioNodes,
   ];
-  console.log(`🔍 DEBUG: Created legacyNodes array with ${legacyNodes.length} nodes`);
+  logger.info(`🔍 DEBUG: Created legacyNodes array with ${legacyNodes.length} nodes`);
 
-  console.log('🔍 DEBUG: About to call enhancedRegistry.registerNodes...');
-  console.log(
+  logger.info('🔍 DEBUG: About to call enhancedRegistry.registerNodes...');
+  logger.info(
     '🔍 DEBUG: enhancedRegistry.registerNodes exists?',
     typeof enhancedRegistry.registerNodes
   );
 
   // Fix legacy nodes: convert 'id' property to 'type' property for EnhancedNodeRegistry compatibility
-  console.log('🔍 DEBUG: Converting legacy nodes from id to type...');
+  logger.info('🔍 DEBUG: Converting legacy nodes from id to type...');
   const fixedLegacyNodes = legacyNodes.map((node) => {
     if (node && (node as unknown).id && !node.type) {
       return { ...node, type: (node as unknown).id };
     }
     return node;
   });
-  console.log(`🔍 DEBUG: Fixed ${fixedLegacyNodes.length} legacy nodes`);
+  logger.info(`🔍 DEBUG: Fixed ${fixedLegacyNodes.length} legacy nodes`);
 
   try {
     enhancedRegistry.registerNodes(fixedLegacyNodes);
-    console.log('🔍 DEBUG: enhancedRegistry.registerNodes completed');
+    logger.info('🔍 DEBUG: enhancedRegistry.registerNodes completed');
   } catch (error) {
-    console.error('❌ DEBUG: enhancedRegistry.registerNodes failed:', error);
-    console.error('❌ DEBUG: Error message:', error.message);
-    console.error('❌ DEBUG: Error stack:', error.stack);
+    logger.error('❌ DEBUG: enhancedRegistry.registerNodes failed:', error);
+    logger.error('❌ DEBUG: Error message:', error.message);
+    logger.error('❌ DEBUG: Error stack:', error.stack);
     throw error;
   }
 
-  console.log('🔍 DEBUG: About to call getRegistryStatus...');
+  logger.info('🔍 DEBUG: About to call getRegistryStatus...');
   const status = getRegistryStatus();
-  console.log(`✅ Enhanced registry initialized with ${status.nodeCount} total nodes`);
+  logger.info(`✅ Enhanced registry initialized with ${status.nodeCount} total nodes`);
 
-  console.log('🔍 DEBUG: About to return enhancedRegistry');
+  logger.info('🔍 DEBUG: About to return enhancedRegistry');
   return enhancedRegistry;
 }
 

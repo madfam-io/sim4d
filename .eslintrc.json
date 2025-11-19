@@ -73,7 +73,8 @@
     {
       "files": ["packages/cli/**/*"],
       "rules": {
-        "security/detect-non-literal-fs-filename": "off"
+        "security/detect-non-literal-fs-filename": "off",
+        "no-console": "off"
       }
     },
     {

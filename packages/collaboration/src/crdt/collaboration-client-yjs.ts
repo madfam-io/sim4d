@@ -1,4 +1,7 @@
 import { YjsAdapter, type YjsAdapterOptions } from './yjs-adapter';
+import { createLogger } from '@brepflow/engine-core';
+
+const logger = createLogger('Collaboration');
 import { OfflineQueue, type QueuedOperation } from './offline-queue';
 import { OptimisticStateManager } from './optimistic-state';
 import type {
@@ -171,7 +174,7 @@ export class CollaborationClientYjs {
         // Confirm in optimistic state
         this.optimisticState.confirmOperation(queuedOp.operation.id);
       } catch (error) {
-        console.error('Failed to replay operation:', error);
+        logger.error('Failed to replay operation:', error);
 
         // Re-queue if retry count is low
         if (queuedOp.retryCount < 3) {
@@ -179,7 +182,7 @@ export class CollaborationClientYjs {
           this.offlineQueue.incrementRetry(queuedOp.operation);
         } else {
           // Give up after 3 retries
-          console.error(`Giving up on operation ${queuedOp.operation.id} after 3 retries`);
+          logger.error(`Giving up on operation ${queuedOp.operation.id} after 3 retries`);
           this.optimisticState.rejectOperation(queuedOp.operation.id);
         }
       }

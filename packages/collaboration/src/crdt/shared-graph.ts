@@ -1,4 +1,7 @@
 import * as Y from 'yjs';
+import { createLogger } from '@brepflow/engine-core';
+
+const logger = createLogger('Collaboration');
 import type { Graph, Node, Edge, Operation } from '../types';
 import { createNodeId, createEdgeId } from '@brepflow/types';
 
@@ -85,7 +88,7 @@ export class SharedGraph {
           break;
 
         default:
-          console.warn('Unknown operation type:', (operation as unknown).type);
+          logger.warn('Unknown operation type:', (operation as unknown).type);
       }
     }, operation.userId); // Track operation origin for undo/redo
   }
@@ -142,7 +145,7 @@ export class SharedGraph {
   private updateNode(nodeId: string, updates: Partial<Node>): void {
     const nodeMap = this.nodes.get(nodeId);
     if (!nodeMap) {
-      console.warn(`Node ${nodeId} not found for update`);
+      logger.warn(`Node ${nodeId} not found for update`);
       return;
     }
 

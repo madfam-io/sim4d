@@ -294,7 +294,7 @@ export function containsSuspiciousPatterns(input: string): boolean {
  * @param context - Context where input was detected
  */
 export function logSuspiciousInput(input: string, context: string): void {
-  console.warn('[SECURITY] Suspicious input detected', {
+  logger.warn('[SECURITY] Suspicious input detected', {
     context,
     inputLength: input.length,
     inputPreview: input.substring(0, 100),

@@ -3,6 +3,9 @@
  */
 
 import {
+import { createLogger } from '../../logger';
+
+const logger = createLogger('EngineCore');
   ConstraintSystem,
   Constraint,
   GeometryElement,
@@ -100,7 +103,7 @@ export class ConstraintSolver {
         residual = this.computeResidualNorm(residualVector);
 
         if (this.config.enableDebug) {
-          console.log(`Iteration ${iteration}: residual = ${residual}`);
+          logger.info(`Iteration ${iteration}: residual = ${residual}`);
         }
 
         // Check convergence
@@ -236,7 +239,7 @@ export class ConstraintSolver {
       return delta;
     } catch (error) {
       if (this.config.enableDebug) {
-        console.error('Linear system solve failed:', error);
+        logger.error('Linear system solve failed:', error);
       }
       return null;
     }

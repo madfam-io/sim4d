@@ -5,6 +5,9 @@
  */
 
 import { io, Socket } from 'socket.io-client';
+import { createLogger } from '@brepflow/engine-core';
+
+const logger = createLogger('Collaboration');
 import type {
   ServerToClientEvents,
   ClientToServerEvents,
@@ -85,7 +88,7 @@ export class CSRFCollaborationClient {
 
       return data.token;
     } catch (error) {
-      console.error('[CSRF] Token fetch failed:', error);
+      logger.error('[CSRF] Token fetch failed:', error);
       throw new Error(
         `CSRF token fetch failed: ${error instanceof Error ? error.message : String(error)}`
       );
@@ -117,7 +120,7 @@ export class CSRFCollaborationClient {
 
       return data.token;
     } catch (error) {
-      console.error('[CSRF] Token refresh failed:', error);
+      logger.error('[CSRF] Token refresh failed:', error);
       throw new Error(
         `CSRF token refresh failed: ${error instanceof Error ? error.message : String(error)}`
       );
@@ -140,7 +143,7 @@ export class CSRFCollaborationClient {
 
     // Don't set timer if token expires too soon
     if (timeUntilRefresh < 0) {
-      console.warn('[CSRF] Token expires soon, refreshing immediately');
+      logger.warn('[CSRF] Token expires soon, refreshing immediately');
       this.handleTokenRefresh();
       return;
     }
@@ -171,7 +174,7 @@ export class CSRFCollaborationClient {
       // Setup next refresh
       this.setupTokenRefreshTimer();
     } catch (error) {
-      console.error('[CSRF] Token refresh failed:', error);
+      logger.error('[CSRF] Token refresh failed:', error);
       this.eventHandlers.onCSRFError?.(error instanceof Error ? error : new Error(String(error)));
 
       // Retry with exponential backoff
@@ -180,7 +183,7 @@ export class CSRFCollaborationClient {
         const backoff = Math.pow(2, this.retryAttempts) * 1000;
         setTimeout(() => this.handleTokenRefresh(), backoff);
       } else {
-        console.error('[CSRF] Max retry attempts reached, giving up');
+        logger.error('[CSRF] Max retry attempts reached, giving up');
         this.eventHandlers.onError?.(new Error('CSRF token refresh failed after max retries'));
       }
     }
@@ -211,11 +214,11 @@ export class CSRFCollaborationClient {
     });
 
     this.socket.on('connect_error', (error) => {
-      console.error('[Collaboration] Connection error:', error);
+      logger.error('[Collaboration] Connection error:', error);
 
       // Check if it's a CSRF validation error
       if (error.message.includes('CSRF') || error.message.includes('token')) {
-        console.warn('[CSRF] Token validation failed, attempting refresh...');
+        logger.warn('[CSRF] Token validation failed, attempting refresh...');
         this.handleCSRFError(error);
       } else {
         this.eventHandlers.onError?.(error);
@@ -256,13 +259,13 @@ export class CSRFCollaborationClient {
 
     // Conflict handler
     this.socket.on('conflict:detected', (conflict) => {
-      console.warn('[Collaboration] Conflict detected:', conflict);
+      logger.warn('[Collaboration] Conflict detected:', conflict);
       this.eventHandlers.onConflict?.(conflict);
     });
 
     // Generic error handler
     this.socket.on('error', (error) => {
-      console.error('[Collaboration] Server error:', error);
+      logger.error('[Collaboration] Server error:', error);
       this.eventHandlers.onError?.(error);
     });
   }
@@ -282,7 +285,7 @@ export class CSRFCollaborationClient {
       this.disconnect();
       await this.connect();
     } catch (refreshError) {
-      console.error('[CSRF] Failed to recover from CSRF error:', refreshError);
+      logger.error('[CSRF] Failed to recover from CSRF error:', refreshError);
       this.eventHandlers.onError?.(new Error('CSRF authentication failed'));
     }
   }
@@ -320,7 +323,7 @@ export class CSRFCollaborationClient {
       // Setup token refresh timer
       this.setupTokenRefreshTimer();
     } catch (error) {
-      console.error('[CSRF] Failed to connect:', error);
+      logger.error('[CSRF] Failed to connect:', error);
       this.eventHandlers.onError?.(error instanceof Error ? error : new Error(String(error)));
       throw error;
     }

@@ -5,6 +5,9 @@
  */
 
 import type { Router, Request, Response } from 'express';
+import { createLogger } from '@brepflow/engine-core';
+
+const logger = createLogger('Collaboration');
 import type { CollaborationServer } from './collaboration-server';
 
 export interface CSRFRoutesOptions {
@@ -47,7 +50,7 @@ export function registerCSRFRoutes(router: Router, options: CSRFRoutesOptions): 
         sessionId,
       });
     } catch (error) {
-      console.error('[CSRF Routes] Token generation failed:', error);
+      logger.error('[CSRF Routes] Token generation failed:', error);
       res.status(500).json({
         success: false,
         error: 'Failed to generate CSRF token',
@@ -82,7 +85,7 @@ export function registerCSRFRoutes(router: Router, options: CSRFRoutesOptions): 
         sessionId,
       });
     } catch (error) {
-      console.error('[CSRF Routes] Token refresh failed:', error);
+      logger.error('[CSRF Routes] Token refresh failed:', error);
       res.status(500).json({
         success: false,
         error: 'Failed to refresh CSRF token',

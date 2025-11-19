@@ -4,6 +4,9 @@
  */
 
 import EventEmitter from 'events';
+import { createLogger } from '@brepflow/engine-core';
+
+const logger = createLogger('CloudServices');
 import {
   ProjectId,
   UserId,
@@ -516,7 +519,7 @@ export class CloudSyncManager extends EventEmitter {
   private startPeriodicSync(projectId: ProjectId): void {
     const timer = setInterval(() => {
       this.syncProject(projectId).catch((error) => {
-        console.error(`Periodic sync failed for ${projectId}:`, error);
+        logger.error(`Periodic sync failed for ${projectId}:`, error);
       });
     }, this.config.syncInterval);
 

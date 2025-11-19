@@ -6,6 +6,9 @@
  */
 
 import {
+import { createLogger } from '../../logger';
+
+const logger = createLogger('EngineCore');
   ScriptExecutor,
   ScriptContext,
   ScriptPermissions,
@@ -173,7 +176,7 @@ export class JavaScriptExecutor implements ScriptExecutor {
    * This functionality is now handled securely by isolated-vm
    */
   private extractNodeDefinition(_script: string): unknown {
-    console.warn('extractNodeDefinition: Using isolated-vm for safe execution');
+    logger.warn('extractNodeDefinition: Using isolated-vm for safe execution');
     return null;
   }
 
@@ -738,7 +741,7 @@ async function evaluate(ctx, inputs, params) {
         kind: 'function',
         detail: '(message: string) => void',
         documentation: 'Log a message to the console',
-        insertText: 'console.log($1)',
+        insertText: 'logger.info($1)',
       },
       {
         label: 'Math.PI',

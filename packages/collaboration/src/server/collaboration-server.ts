@@ -1,4 +1,7 @@
 import { Server, Socket } from 'socket.io';
+import { createLogger } from '@brepflow/engine-core';
+
+const logger = createLogger('Collaboration');
 import type { Server as HTTPServer } from 'http';
 import type {
   ServerToClientEvents,
@@ -119,7 +122,7 @@ export class CollaborationServer {
     // In production, you might want to block these
     if (!origin) {
       if (process.env.NODE_ENV === 'production') {
-        console.warn('SECURITY: Connection attempt with no Origin header blocked');
+        logger.warn('SECURITY: Connection attempt with no Origin header blocked');
         return callback(new Error('No origin header'), false);
       }
       return callback(null, true);
@@ -131,7 +134,7 @@ export class CollaborationServer {
     }
 
     // Log blocked attempt
-    console.warn(`SECURITY: Blocked CORS attempt from unauthorized origin: ${origin}`);
+    logger.warn(`SECURITY: Blocked CORS attempt from unauthorized origin: ${origin}`);
     callback(new Error('Origin not allowed'), false);
   }
 
@@ -145,7 +148,7 @@ export class CollaborationServer {
         if (this.enableRateLimiting) {
           const clientIP = this.getClientIP(socket);
           if (!this.checkRateLimit(clientIP)) {
-            console.warn(`SECURITY: Rate limit exceeded for IP: ${clientIP}`);
+            logger.warn(`SECURITY: Rate limit exceeded for IP: ${clientIP}`);
             return next(new Error('Rate limit exceeded'));
           }
         }
@@ -153,14 +156,14 @@ export class CollaborationServer {
         // 2. CSRF token validation
         const csrfToken = socket.handshake.auth.csrfToken as string | undefined;
         if (!csrfToken || !this.validateCSRFToken(csrfToken)) {
-          console.warn(`SECURITY: Invalid or missing CSRF token from ${socket.handshake.address}`);
+          logger.warn(`SECURITY: Invalid or missing CSRF token from ${socket.handshake.address}`);
           return next(new Error('Invalid CSRF token'));
         }
 
         // 3. Origin header validation (additional check beyond CORS)
         const origin = socket.handshake.headers.origin;
         if (origin && !this.allowedOrigins.has(origin)) {
-          console.warn(`SECURITY: Invalid origin in handshake: ${origin}`);
+          logger.warn(`SECURITY: Invalid origin in handshake: ${origin}`);
           return next(new Error('Invalid origin'));
         }
 
@@ -173,7 +176,7 @@ export class CollaborationServer {
         // All checks passed
         next();
       } catch (error) {
-        console.error('SECURITY: Middleware error:', error);
+        logger.error('SECURITY: Middleware error:', error);
         next(new Error('Authentication failed'));
       }
     });
@@ -220,7 +223,7 @@ export class CollaborationServer {
       const violations = tracker.connections - this.maxConnectionsPerIP;
       if (violations >= this.maxConnectionsPerIP * 3) {
         tracker.blacklisted = true;
-        console.warn(`SECURITY: IP blacklisted for excessive connections: ${ip}`);
+        logger.warn(`SECURITY: IP blacklisted for excessive connections: ${ip}`);
       }
       return false;
     }
@@ -260,7 +263,7 @@ export class CollaborationServer {
       const tokenAge = Date.now() - parseInt(timestamp, 10);
       const MAX_TOKEN_AGE = 60 * 60 * 1000; // 1 hour
       if (tokenAge > MAX_TOKEN_AGE || tokenAge < 0) {
-        console.warn('SECURITY: CSRF token expired or invalid timestamp');
+        logger.warn('SECURITY: CSRF token expired or invalid timestamp');
         return false;
       }
 
@@ -276,7 +279,7 @@ export class CollaborationServer {
         Buffer.from(expectedSignature, 'base64')
       );
     } catch (error) {
-      console.error('SECURITY: CSRF token validation error:', error);
+      logger.error('SECURITY: CSRF token validation error:', error);
       return false;
     }
   }
@@ -305,7 +308,7 @@ export class CollaborationServer {
   private setupHandlers(): void {
     this.io.on('connection', (socket) => {
       const clientIP = this.getClientIP(socket);
-      console.log(`Client connected: ${socket.id} from ${clientIP}`);
+      logger.info(`Client connected: ${socket.id} from ${clientIP}`);
 
       // SECURITY: Decrement rate limit on disconnect
       socket.on('disconnect', async () => {
@@ -450,7 +453,7 @@ export class CollaborationServer {
     const presenceList = this.presenceManager.getPresence(documentId);
     socket.emit('presence:update', presenceList);
 
-    console.log(`User ${user.name} joined document ${documentId}`);
+    logger.info(`User ${user.name} joined document ${documentId}`);
   }
 
   private async handleLeaveDocument(socket: Socket): Promise<void> {
@@ -471,7 +474,7 @@ export class CollaborationServer {
     // Notify other users
     socket.to(documentId).emit('presence:leave', userId);
 
-    console.log(`User ${userId} left document ${documentId}`);
+    logger.info(`User ${userId} left document ${documentId}`);
   }
 
   private async handleOperation(socket: Socket, operation: Operation): Promise<void> {
@@ -535,7 +538,7 @@ export class CollaborationServer {
     if (!session) return;
 
     await this.handleLeaveDocument(socket);
-    console.log(`Client disconnected: ${socket.id}`);
+    logger.info(`Client disconnected: ${socket.id}`);
   }
 
   public async close(): Promise<void> {

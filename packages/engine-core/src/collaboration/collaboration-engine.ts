@@ -5,6 +5,9 @@
  */
 
 import type { SessionId, UserId, NodeId } from '@brepflow/types';
+import { createLogger } from '../../logger';
+
+const logger = createLogger('EngineCore');
 
 // Collaboration-specific types from collaboration package
 export type CollaborationSession = any; // TODO: Import from @brepflow/collaboration when available
@@ -200,7 +203,7 @@ export class BrepFlowCollaborationEngine {
       const conflicts = await this.detectConflicts(session, operation);
 
       if (conflicts.length > 0) {
-        console.warn(
+        logger.warn(
           `[Collaboration] Detected ${conflicts.length} conflicts for operation ${operation.id}`
         );
 
@@ -229,7 +232,7 @@ export class BrepFlowCollaborationEngine {
       // Emit operation applied event
       this.emit('operation-applied', { sessionId, operation });
     } catch (error) {
-      console.error('Error processing operation:', error);
+      logger.error('Error processing operation:', error);
       throw new CollaborationError(
         `Failed to process operation: ${error.message}`,
         'OPERATION_FAILED',
@@ -345,7 +348,7 @@ export class BrepFlowCollaborationEngine {
       }
 
       default:
-        console.warn(`[Collaboration] Unknown operation type: ${operation.type}, applying as-is`);
+        logger.warn(`[Collaboration] Unknown operation type: ${operation.type}, applying as-is`);
         // Don't throw error for unknown types to be more resilient
         break;
     }
@@ -500,7 +503,7 @@ export class BrepFlowCollaborationEngine {
         try {
           listener(data);
         } catch (error) {
-          console.error(`[Collaboration] Error in event listener for ${event}:`, error);
+          logger.error(`[Collaboration] Error in event listener for ${event}:`, error);
         }
       });
     }
@@ -522,7 +525,7 @@ export class BrepFlowCollaborationEngine {
       this.startHeartbeat();
       this.reconnectAttempts = 0;
     } catch (error) {
-      console.error('[Collaboration] Failed to connect to WebSocket:', error);
+      logger.error('[Collaboration] Failed to connect to WebSocket:', error);
       await this.handleReconnect(sessionId);
     }
   }
@@ -563,10 +566,10 @@ export class BrepFlowCollaborationEngine {
           this.emit('session-left', { sessionId: data.sessionId, userId: data.userId });
           break;
         default:
-          console.warn('[Collaboration] Unknown WebSocket message type:', data.type);
+          logger.warn('[Collaboration] Unknown WebSocket message type:', data.type);
       }
     } catch (error) {
-      console.error('[Collaboration] Error handling WebSocket message:', error);
+      logger.error('[Collaboration] Error handling WebSocket message:', error);
     }
   }
 
@@ -597,7 +600,7 @@ export class BrepFlowCollaborationEngine {
 
   private async handleReconnect(sessionId: SessionId): Promise<void> {
     if (this.reconnectAttempts >= this.maxReconnectAttempts) {
-      console.error('[Collaboration] Max reconnection attempts reached');
+      logger.error('[Collaboration] Max reconnection attempts reached');
       this.emit('connection-lost', { sessionId });
       return;
     }
@@ -624,7 +627,7 @@ export class BrepFlowCollaborationEngine {
         try {
           await this.wsClient.send({ type: 'heartbeat', timestamp: Date.now() });
         } catch (error) {
-          console.warn('[Collaboration] Heartbeat failed:', error);
+          logger.warn('[Collaboration] Heartbeat failed:', error);
         }
       }
     }, 30000); // 30 second heartbeat
@@ -789,7 +792,7 @@ export class BrepFlowCollaborationEngine {
       try {
         await this.wsClient.send(message);
       } catch (error) {
-        console.warn('[Collaboration] Failed to broadcast message:', error);
+        logger.warn('[Collaboration] Failed to broadcast message:', error);
       }
     }
   }
