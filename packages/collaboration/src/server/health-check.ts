@@ -4,7 +4,20 @@
  */
 
 import type { Server as SocketIOServer } from 'socket.io';
-import http from 'http';
+import http, { type IncomingMessage } from 'http';
+
+interface RedisClient {
+  ping: () => Promise<unknown>;
+}
+
+interface PostgresClient {
+  query: (sql: string) => Promise<unknown>;
+  release: () => void;
+}
+
+interface PostgresPool {
+  connect: () => Promise<PostgresClient>;
+}
 
 export interface CollaborationHealthCheck {
   status: 'healthy' | 'degraded' | 'unhealthy';
@@ -33,8 +46,8 @@ export interface HealthCheckResult {
  */
 export async function performCollaborationHealthCheck(
   io: SocketIOServer,
-  redisClient?: any,
-  pgPool?: any
+  redisClient?: RedisClient,
+  pgPool?: PostgresPool
 ): Promise<CollaborationHealthCheck> {
   const checks = {
     server: checkServerStatus(),
@@ -98,7 +111,7 @@ function checkServerStatus(): HealthCheckResult {
 /**
  * Check Redis connection
  */
-async function checkRedisConnection(redisClient?: any): Promise<HealthCheckResult> {
+async function checkRedisConnection(redisClient?: RedisClient): Promise<HealthCheckResult> {
   if (!redisClient) {
     return {
       healthy: true,
@@ -123,7 +136,7 @@ async function checkRedisConnection(redisClient?: any): Promise<HealthCheckResul
 /**
  * Check PostgreSQL connection
  */
-async function checkPostgresConnection(pgPool?: any): Promise<HealthCheckResult> {
+async function checkPostgresConnection(pgPool?: PostgresPool): Promise<HealthCheckResult> {
   if (!pgPool) {
     return {
       healthy: true,
@@ -186,7 +199,7 @@ export async function standaloneHealthCheck(): Promise<void> {
       timeout: 3000,
     };
 
-    const req = http.request(options, (res: any) => {
+    const req = http.request(options, (res: IncomingMessage) => {
       if (res.statusCode === 200) {
         console.log('Health check passed');
         process.exit(0);
