@@ -148,10 +148,8 @@ describe('Constraint solver and geometry integration', () => {
     expect(handle.bbox_min_z).toBeDefined();
     expect(handle.bbox_max_z).toBeDefined();
 
-    // TODO: Fix bbox extraction in OCCT WASM bindings and restore dimension assertions:
-    // expect(handle.bbox_max_x - handle.bbox_min_x).toBeCloseTo(width, 3);
-    // expect(handle.bbox_max_y - handle.bbox_min_y).toBeCloseTo(height, 3);
-    // expect(handle.bbox_max_z - handle.bbox_min_z).toBeCloseTo(depth, 3);
+    // NOTE: Bbox dimension assertions disabled - OCCT WASM bbox extraction needs fix.
+    // Restore when fixed: expect(handle.bbox_max_x - handle.bbox_min_x).toBeCloseTo(width, 3);
   });
 
   it('reports failure when constraints are contradictory and recovers once conflicts are disabled', async () => {

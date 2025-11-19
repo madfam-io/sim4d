@@ -82,11 +82,12 @@
   },
   "packageManager": "pnpm@8.6.7",
   "lint-staged": {
-    "*.{ts,tsx}": [
+    "*.{ts,tsx,js,jsx}": [
+      "bash scripts/check-todo-comments.sh",
       "eslint --fix",
       "prettier --write"
     ],
-    "*.{js,jsx,json,md}": [
+    "*.{json,md}": [
       "prettier --write"
     ]
   },

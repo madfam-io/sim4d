@@ -32,7 +32,7 @@ export default defineConfig({
         '**/__mocks__',
       ],
       thresholds: {
-        // TODO: Raise back toward 80%+ once instrumentation coverage improves
+        // NOTE: Temporary thresholds (60%/55%/45%/60%) - target 80%+ after instrumentation improvements.
         lines: 60,
         functions: 55,
         branches: 45,

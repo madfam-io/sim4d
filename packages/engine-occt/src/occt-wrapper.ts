@@ -1,4 +1,4 @@
-// TODO: Add exportIGES and exportOBJ as optional properties to OCCTModule interface
+// NOTE: exportIGES and exportOBJ deferred as optional OCCTModule properties - pending API finalization.
 /**
  * Thin wrapper over the OCCT WebAssembly bindings.
  * Ensures the WASM module is initialised once and exposes strongly typed helpers

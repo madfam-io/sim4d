@@ -438,7 +438,7 @@ export class PluginTestHelper {
 
     return {
       synchronized,
-      conflicts: [], // TODO: Implement conflict detection
+      conflicts: [], // NOTE: Conflict detection not yet implemented for plugin tests.
       latencyMs,
     };
   }

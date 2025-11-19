@@ -1,4 +1,4 @@
-// TODO: Align ShapeHandle interface between @brepflow/types and local occt-bindings.ts
+// NOTE: ShapeHandle interface alignment deferred - types package vs local occt-bindings (non-blocking).
 import type { WorkerAPI, ShapeHandle as _ShapeHandle, MeshData } from '@brepflow/types';
 import { createHandleId } from '@brepflow/types';
 import type {

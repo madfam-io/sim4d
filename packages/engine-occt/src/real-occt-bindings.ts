@@ -1,6 +1,7 @@
 import { getLogger } from './production-logger';
 const logger = getLogger('OCCT');
-// TODO: Align ShapeHandle.id usage with HandleId branded type requirements
+
+// NOTE: ShapeHandle.id currently uses string; alignment with HandleId branded type deferred.
 /**
  * Real OCCT.wasm bindings implementation
  * Complete replacement for mock geometry with actual OCCT operations

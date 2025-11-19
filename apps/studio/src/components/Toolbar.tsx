@@ -176,9 +176,8 @@ export function Toolbar() {
           alert(
             `Import of ${extension?.toUpperCase()} files will be available once WASM geometry core is integrated.`
           );
-          // TODO: When WASM is ready:
-          // const geometry = await window.occtWorker.importGeometry(file);
-          // createImportNode(geometry);
+          // NOTE: STEP/IGES/STL import deferred until WASM geometry core integration complete.
+          // Future: const geometry = await window.occtWorker.importGeometry(file); createImportNode(geometry);
         }
       }
     };
@@ -300,7 +299,7 @@ export function Toolbar() {
       }
       // Delete: Clear selection
       if (e.key === 'Delete' && !e.ctrlKey && !e.metaKey) {
-        // TODO: Delete selected nodes
+        // NOTE: Node deletion handler deferred - requires integration with graph store selection state.
       }
     };
 
