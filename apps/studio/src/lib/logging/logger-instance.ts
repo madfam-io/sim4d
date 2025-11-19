@@ -104,7 +104,7 @@ export function startTiming(operation: string, context: Record<string, unknown> 
 export function reconfigureLogger(config: Partial<MonitoringConfig['logging']>): void {
   // Note: This requires extending the Logger class to support runtime reconfiguration
   // For now, this is a placeholder for future implementation
-  console.warn('Logger reconfiguration not yet implemented. Restart required for config changes.');
+  logger.warn('Logger reconfiguration not yet implemented. Restart required for config changes.');
 }
 
 /**

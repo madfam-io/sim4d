@@ -14,6 +14,10 @@
  * - Data cleared after 30 days
  */
 
+import { createChildLogger } from '../lib/logging/logger-instance';
+
+const logger = createChildLogger({ module: 'Analytics' });
+
 export type AnalyticsEvent =
   | 'app_loaded'
   | 'onboarding_started'
@@ -111,7 +115,7 @@ class AnalyticsService {
 
     // Log in development for debugging
     if (import.meta.env.DEV) {
-      console.log('[Analytics]', event, metadata);
+      logger.debug('[Analytics]', { event, metadata });
     }
   }
 
@@ -188,7 +192,7 @@ class AnalyticsService {
       const now = Date.now();
       this.metrics = parsed.filter((m) => now - m.timestamp < this.MAX_AGE_MS);
     } catch (error) {
-      console.error('Failed to load analytics metrics:', error);
+      logger.error('Failed to load analytics metrics', error);
       this.metrics = [];
     }
   }
@@ -200,7 +204,7 @@ class AnalyticsService {
     try {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.metrics));
     } catch (error) {
-      console.error('Failed to save analytics metrics:', error);
+      logger.error('Failed to save analytics metrics', error);
     }
   }
 
@@ -259,7 +263,7 @@ class AnalyticsService {
     try {
       localStorage.setItem(this.JOURNEY_KEY, JSON.stringify(journey));
     } catch (error) {
-      console.error('Failed to update journey metrics:', error);
+      logger.error('Failed to update journey metrics', error);
     }
   }
 }

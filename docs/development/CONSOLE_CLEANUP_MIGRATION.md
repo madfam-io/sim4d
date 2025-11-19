@@ -10,14 +10,14 @@ This guide documents the migration from console statements to structured logging
 |---------|--------|-------|---------|--------|
 | engine-core | 50 | 44 | 6 | ✅ Phase 1 |
 | **engine-occt** | **343** | **30** | **313** | ✅ **Phase 2A** |
-| studio | 19 | 19 | 0 | 📋 Phase 2B |
+| **studio** | **19** | **14** | **5** | ✅ **Phase 2B** |
 | Other packages | ~283 | ~249 | ~34 | 📋 Phase 3 |
-| **TOTAL** | **~695** | **~388** | **~307** | **🔄 44% done** |
+| **TOTAL** | **~695** | **~383** | **~312** | **🔄 45% done** |
 
 ### Phase Completion:
 - ✅ **Phase 1** (Nov 19): Logger infrastructure + engine-core partial (6 removed)
 - ✅ **Phase 2A** (Nov 19): **engine-occt bulk cleanup (313 removed!)**
-- 📋 **Phase 2B**: Studio (19 statements - use existing Logger class)
+- ✅ **Phase 2B** (Nov 19): **Studio cleanup (5 removed) - analytics + logger-instance**
 - 📋 **Phase 3**: Other packages (~249 statements)
 
 ## Target
@@ -205,12 +205,38 @@ const structuredLogger: LoggerLike = {
 };
 ```
 
+### Studio Analytics Service (Phase 2B Completed)
+
+```typescript
+// apps/studio/src/services/analytics.ts
+import { createChildLogger } from '../lib/logging/logger-instance';
+
+const logger = createChildLogger({ module: 'Analytics' });
+
+// Before: console.log('[Analytics]', event, metadata);
+// After: logger.debug('[Analytics]', { event, metadata });
+
+// Before: console.error('Failed to load analytics metrics:', error);
+// After: logger.error('Failed to load analytics metrics', error);
+```
+
+**Files Updated (Phase 2B):**
+- `apps/studio/src/services/analytics.ts` - 4 console statements replaced
+- `apps/studio/src/lib/logging/logger-instance.ts` - 1 console.warn replaced
+
+**Note:** Studio's remaining console statements are:
+- 10 in `logger.ts` (intentional - logger implementation)
+- 1 `console.clear()` in MonitoringDashboard (intentional UI button)
+- 1 in test setup file
+- 2 text references to "console" (not actual statements)
+
 ## Next Steps
 
-1. Complete engine-core migration (6 remaining)
-2. Start engine-occt migration (343 instances)
-3. Migrate studio (19 instances)
-4. Complete remaining packages
+1. ✅ ~~Complete engine-core migration~~ - Phase 1 done (6 removed)
+2. ✅ ~~Start engine-occt migration~~ - Phase 2A done (313 removed!)
+3. ✅ ~~Migrate studio~~ - Phase 2B done (5 removed)
+4. **Phase 3**: Migrate remaining packages (~249 console statements in viewport, nodes-core, cli, etc.)
+5. **Goal**: Reach final target of <50 console statements
 
 ## Verification
 
