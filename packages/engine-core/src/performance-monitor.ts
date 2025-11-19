@@ -372,8 +372,15 @@ export function measurePerformance(
 
 /**
  * React hook for performance monitoring
+ * Note: This requires React to be available in the consuming application
  */
 export function usePerformanceMonitor() {
+  // Dynamic import to avoid dependency on React in this package
+  if (typeof window === 'undefined' || !(window as any).React) {
+    throw new Error('usePerformanceMonitor requires React to be available');
+  }
+
+  const React = (window as any).React;
   const [metrics, setMetrics] = React.useState<PerformanceMetrics>(performanceMonitor.getMetrics());
 
   React.useEffect(() => {
