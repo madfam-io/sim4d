@@ -6,6 +6,9 @@
  */
 
 import express, { type Express } from 'express';
+import { createLogger } from '@brepflow/engine-core';
+
+const logger = createLogger('Collaboration');
 import { createServer, type Server as HTTPServer } from 'http';
 import cors from 'cors';
 import { CollaborationServer } from './collaboration-server';
@@ -67,10 +70,10 @@ export async function startCollaborationServer(): Promise<{
 
   // Start server
   httpServer.listen(PORT, () => {
-    console.log(`[CollaborationServer] Server running on port ${PORT}`);
-    console.log(`[CollaborationServer] CORS origin: ${CORS_ORIGIN}`);
-    console.log(`[CollaborationServer] Health check: http://localhost:${PORT}/health`);
-    console.log(`[CollaborationServer] Session API: http://localhost:${PORT}/api/sessions`);
+    logger.info(`[CollaborationServer] Server running on port ${PORT}`);
+    logger.info(`[CollaborationServer] CORS origin: ${CORS_ORIGIN}`);
+    logger.info(`[CollaborationServer] Health check: http://localhost:${PORT}/health`);
+    logger.info(`[CollaborationServer] Session API: http://localhost:${PORT}/api/sessions`);
   });
 
   return { app, httpServer, collaborationServer };
@@ -89,7 +92,7 @@ const isMainModule =
 
 if (isMainModule) {
   startCollaborationServer().catch((error) => {
-    console.error('[CollaborationServer] Failed to start:', error);
+    logger.error('[CollaborationServer] Failed to start:', error);
     process.exit(1);
   });
 }

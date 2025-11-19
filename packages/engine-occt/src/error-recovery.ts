@@ -1,3 +1,5 @@
+import { getLogger } from './production-logger';
+const logger = getLogger('OCCT');
 /**
  * Error Recovery and Validation System for OCCT Operations
  * Provides comprehensive error handling, validation, and recovery strategies
@@ -98,7 +100,7 @@ export class ErrorRecoverySystem {
   constructor() {
     this.initializeDefaultRules();
     this.initializeDefaultStrategies();
-    console.log('[ErrorRecovery] Initialized with validation and recovery systems');
+    logger.info('[ErrorRecovery] Initialized with validation and recovery systems');
   }
 
   /**
@@ -131,7 +133,7 @@ export class ErrorRecoverySystem {
           result.suggestedFix = ruleResult.suggestedFix;
         }
       } catch (validationError) {
-        console.warn(`[ErrorRecovery] Validation rule ${rule.name} failed:`, validationError);
+        logger.warn(`[ErrorRecovery] Validation rule ${rule.name} failed:`, validationError);
         result.warnings.push(`Validation rule ${rule.name} encountered an error`);
       }
     }
@@ -165,7 +167,7 @@ export class ErrorRecoverySystem {
 
     // Check circuit breaker
     if (this.isCircuitOpen(operation)) {
-      console.warn(`[ErrorRecovery] Circuit breaker open for operation ${operation}`);
+      logger.warn(`[ErrorRecovery] Circuit breaker open for operation ${operation}`);
       if (endMeasurement) endMeasurement();
       return { recovered: false, finalError: occtError };
     }
@@ -177,13 +179,13 @@ export class ErrorRecoverySystem {
     for (const strategy of this.recoveryStrategies) {
       if (strategy.canRecover(occtError)) {
         try {
-          console.log(`[ErrorRecovery] Attempting recovery with strategy: ${strategy.name}`);
+          logger.info(`[ErrorRecovery] Attempting recovery with strategy: ${strategy.name}`);
 
           const retryKey = `${operation}_${strategy.name}`;
           const retryCount = this.recoveryAttempts.get(retryKey) || 0;
 
           if (retryCount >= strategy.maxRetries) {
-            console.warn(`[ErrorRecovery] Max retries exceeded for ${strategy.name}`);
+            logger.warn(`[ErrorRecovery] Max retries exceeded for ${strategy.name}`);
             continue;
           }
 
@@ -201,11 +203,11 @@ export class ErrorRecoverySystem {
           this.resetCircuitBreaker(operation);
           this.recoveryAttempts.delete(retryKey);
 
-          console.log(`[ErrorRecovery] Successfully recovered using ${strategy.name}`);
+          logger.info(`[ErrorRecovery] Successfully recovered using ${strategy.name}`);
           if (endMeasurement) endMeasurement();
           return { recovered: true, result };
         } catch (recoveryError) {
-          console.warn(`[ErrorRecovery] Recovery strategy ${strategy.name} failed:`, recoveryError);
+          logger.warn(`[ErrorRecovery] Recovery strategy ${strategy.name} failed:`, recoveryError);
           continue;
         }
       }
@@ -213,7 +215,7 @@ export class ErrorRecoverySystem {
 
     // No recovery possible
     this.updateCircuitBreaker(operation, false);
-    console.error(`[ErrorRecovery] All recovery attempts failed for operation ${operation}`);
+    logger.error(`[ErrorRecovery] All recovery attempts failed for operation ${operation}`);
 
     if (endMeasurement) endMeasurement();
     return { recovered: false, finalError: occtError };
@@ -422,7 +424,7 @@ export class ErrorRecoverySystem {
       backoffMs: 1000,
       canRecover: (error) => error.category === ErrorCategory.MEMORY_ERROR,
       recover: async (error, context) => {
-        console.log('[ErrorRecovery] Attempting memory cleanup recovery');
+        logger.info('[ErrorRecovery] Attempting memory cleanup recovery');
 
         const memoryManager = getMemoryManager();
         memoryManager.forceCleanup();
@@ -443,13 +445,13 @@ export class ErrorRecoverySystem {
       backoffMs: 2000,
       canRecover: (error) => error.category === ErrorCategory.WORKER_ERROR,
       recover: async (error, context) => {
-        console.log('[ErrorRecovery] Attempting worker restart recovery');
+        logger.info('[ErrorRecovery] Attempting worker restart recovery');
 
         // Signal worker pool to restart the problematic worker
         // This would integrate with the WorkerPool class
         if (context.workerId) {
           // Worker pool restart logic would go here
-          console.log(`[ErrorRecovery] Restarting worker ${context.workerId}`);
+          logger.info(`[ErrorRecovery] Restarting worker ${context.workerId}`);
         }
 
         await this.delay(2000);
@@ -464,7 +466,7 @@ export class ErrorRecoverySystem {
       backoffMs: 5000,
       canRecover: (error) => error.category === ErrorCategory.WASM_ERROR,
       recover: async (error, context) => {
-        console.log('[ErrorRecovery] Attempting WASM reload recovery');
+        logger.info('[ErrorRecovery] Attempting WASM reload recovery');
 
         // This would integrate with the OCCT loader to reload WASM modules
         // OCCTLoader reload logic would go here
@@ -485,7 +487,7 @@ export class ErrorRecoverySystem {
         error.category === ErrorCategory.GEOMETRY_ERROR ||
         error.category === ErrorCategory.VALIDATION_ERROR,
       recover: async (error, context) => {
-        console.log('[ErrorRecovery] Attempting parameter simplification recovery');
+        logger.info('[ErrorRecovery] Attempting parameter simplification recovery');
 
         const simplifiedParams = this.simplifyParameters(context.params, context.operation);
         return this.retryOperation(context.operation, simplifiedParams);
@@ -528,7 +530,7 @@ export class ErrorRecoverySystem {
    */
   private async retryOperation(operation: string, params: unknown): Promise<unknown> {
     // This would integrate with the actual OCCT operation system
-    console.log(`[ErrorRecovery] Retrying operation ${operation} with params:`, params);
+    logger.info(`[ErrorRecovery] Retrying operation ${operation} with params:`, params);
 
     // For now, return a success indicator
     // In real implementation, this would call the actual operation
@@ -569,7 +571,7 @@ export class ErrorRecoverySystem {
       // Open circuit breaker after 5 consecutive failures
       if (breaker.failures >= 5) {
         breaker.isOpen = true;
-        console.warn(`[ErrorRecovery] Circuit breaker opened for operation ${operation}`);
+        logger.warn(`[ErrorRecovery] Circuit breaker opened for operation ${operation}`);
       }
     }
   }
@@ -664,7 +666,7 @@ Recovery Strategies: ${this.recoveryStrategies.length}
     this.errorHistory = [];
     this.recoveryAttempts.clear();
     this.circuitBreakers.clear();
-    console.log('[ErrorRecovery] System reset complete');
+    logger.info('[ErrorRecovery] System reset complete');
   }
 }
 

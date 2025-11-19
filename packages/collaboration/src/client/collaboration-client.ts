@@ -1,4 +1,7 @@
 import { io, Socket } from 'socket.io-client';
+import { createLogger } from '@brepflow/engine-core';
+
+const logger = createLogger('Collaboration');
 import type {
   ServerToClientEvents,
   ClientToServerEvents,
@@ -92,12 +95,12 @@ export class CollaborationClient {
     });
 
     this.socket.on('conflict:detected', (conflict) => {
-      console.warn('Conflict detected:', conflict);
+      logger.warn('Conflict detected:', conflict);
       this.eventHandlers.onConflict?.(conflict);
     });
 
     this.socket.on('error', (error) => {
-      console.error('Collaboration error:', error);
+      logger.error('Collaboration error:', error);
       this.eventHandlers.onError?.(error);
     });
   }

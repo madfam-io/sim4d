@@ -4,6 +4,9 @@
  */
 
 import type { Request, Response, NextFunction, Application } from 'express';
+import { createLogger } from '@brepflow/engine-core';
+
+const logger = createLogger('Collaboration');
 import type { CollaborationServer } from './collaboration-server';
 import * as crypto from 'crypto';
 
@@ -110,7 +113,7 @@ export function setupAPIRoutes(
         sessionId,
       });
     } catch (error) {
-      console.error('[API] Failed to generate CSRF token:', error);
+      logger.error('[API] Failed to generate CSRF token:', error);
       res.status(500).json({
         error: 'Failed to generate CSRF token',
         message: error instanceof Error ? error.message : 'Unknown error',
@@ -187,7 +190,7 @@ export function setupAPIRoutes(
     });
   }
 
-  console.log(`[API] Collaboration routes mounted at ${basePath}`);
+  logger.info(`[API] Collaboration routes mounted at ${basePath}`);
 }
 
 /**

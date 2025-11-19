@@ -1,3 +1,5 @@
+import { getLogger } from './production-logger';
+const logger = getLogger('OCCT');
 /**
  * OCCT Node Adapter System
  * Bridges the gap between node expectations (context.geometry) and actual context (context.worker)
@@ -52,7 +54,7 @@ export class GeometryProxy {
         throw new Error(`Worker does not support operation: ${actualMethod}`);
       }
     } catch (error: unknown) {
-      console.error(`Geometry operation failed: ${operation.type} -> ${actualMethod}`, error);
+      logger.error(`Geometry operation failed: ${operation.type} -> ${actualMethod}`, error);
       const message = error instanceof Error ? error.message : String(error);
       throw new Error(`Geometry operation '${operation.type}' failed: ${message}`);
     }
@@ -182,7 +184,7 @@ export function patchDAGEngine(DAGEngineClass: any): void {
  * Call this once during application startup to enable real geometry for all nodes
  */
 export async function initializeNodeAdapter(): Promise<void> {
-  console.log('🔧 Initializing OCCT node adapter system...');
+  logger.info('🔧 Initializing OCCT node adapter system...');
 
   try {
     // Get the geometry API (real or mock based on configuration)
@@ -192,8 +194,8 @@ export async function initializeNodeAdapter(): Promise<void> {
     // Store globally for access by the DAG engine
     (global as unknown).__OCCT_GEOMETRY_API = api;
 
-    console.log('✅ OCCT node adapter initialized successfully');
-    console.log('📊 Operation mappings loaded:', Object.keys(OPERATION_MAP).length);
+    logger.info('✅ OCCT node adapter initialized successfully');
+    logger.info('📊 Operation mappings loaded:', Object.keys(OPERATION_MAP).length);
 
     // Test basic operation
     try {
@@ -201,13 +203,13 @@ export async function initializeNodeAdapter(): Promise<void> {
         type: 'makeBox',
         params: { width: 10, depth: 10, height: 10 },
       });
-      console.log('✅ Test geometry operation successful');
+      logger.info('✅ Test geometry operation successful');
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : String(error);
-      console.warn('⚠️ Test geometry operation failed (WASM may not be loaded):', message);
+      logger.warn('⚠️ Test geometry operation failed (WASM may not be loaded):', message);
     }
   } catch (error) {
-    console.error('❌ Failed to initialize OCCT node adapter:', error);
+    logger.error('❌ Failed to initialize OCCT node adapter:', error);
     throw error;
   }
 }

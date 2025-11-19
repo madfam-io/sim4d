@@ -6,6 +6,9 @@
  */
 
 import * as fs from 'fs/promises';
+import { createLogger } from '@brepflow/engine-core';
+
+const logger = createLogger('NodesCore');
 import * as path from 'path';
 import {
   generateNodeImplementation,
@@ -196,10 +199,10 @@ async function generateNode(template: NodeTemplate, outputDir: string): Promise<
   await fs.writeFile(testPath, test);
   await fs.writeFile(docPath, documentation);
 
-  console.log(`✅ Generated ${template.category}::${template.name}`);
-  console.log(`   📁 ${implementationPath}`);
-  console.log(`   🧪 ${testPath}`);
-  console.log(`   📚 ${docPath}`);
+  logger.info(`✅ Generated ${template.category}::${template.name}`);
+  logger.info(`   📁 ${implementationPath}`);
+  logger.info(`   🧪 ${testPath}`);
+  logger.info(`   📚 ${docPath}`);
 }
 
 async function generateIndex(templates: NodeTemplate[], outputDir: string): Promise<void> {
@@ -253,13 +256,13 @@ ${registryEntries.join('\n')}
 `;
 
   await fs.writeFile(path.join(outputDir, 'index.generated.ts'), indexContent);
-  console.log(`\n📚 Generated index with ${templates.length} nodes`);
+  logger.info(`\n📚 Generated index with ${templates.length} nodes`);
 }
 
 async function main() {
   const outputDir = path.join(__dirname, '..', 'nodes', 'generated');
 
-  console.log(`🚀 Generating ${allTemplates.length} nodes from templates...\n`);
+  logger.info(`🚀 Generating ${allTemplates.length} nodes from templates...\n`);
 
   await ensureDirectory(outputDir);
 
@@ -271,14 +274,14 @@ async function main() {
   // Generate index file
   await generateIndex(allTemplates, outputDir);
 
-  console.log(`\n✨ Successfully generated ${allTemplates.length} nodes!`);
-  console.log(`📁 Output directory: ${outputDir}`);
+  logger.info(`\n✨ Successfully generated ${allTemplates.length} nodes!`);
+  logger.info(`📁 Output directory: ${outputDir}`);
 }
 
 // Run if executed directly
 if (require.main === module) {
   main().catch((err) => {
-    console.error('❌ Generation failed:', err);
+    logger.error('❌ Generation failed:', err);
     process.exit(1);
   });
 }

@@ -1,12 +1,15 @@
 #!/usr/bin/env node
 
 import * as fs from 'fs/promises';
+import { createLogger } from '@brepflow/engine-core';
+
+const logger = createLogger('NodesCore');
 import * as path from 'path';
 
 const indexPath = path.join(process.cwd(), 'src/nodes/generated/index.generated.ts');
 
 async function fixDuplicateExports() {
-  console.log('🔧 Fixing duplicate exports in generated index...');
+  logger.info('🔧 Fixing duplicate exports in generated index...');
 
   const content = await fs.readFile(indexPath, 'utf-8');
   const lines = content.split('\n');
@@ -23,9 +26,9 @@ async function fixDuplicateExports() {
       if (!seenExports.has(nodeName)) {
         seenExports.add(nodeName);
         filteredLines.push(line);
-        console.log(`✅ Keeping first occurrence of ${nodeName}`);
+        logger.info(`✅ Keeping first occurrence of ${nodeName}`);
       } else {
-        console.log(`❌ Removing duplicate export of ${nodeName}`);
+        logger.info(`❌ Removing duplicate export of ${nodeName}`);
         // Skip this line (don't add to filtered)
       }
     } else {
@@ -37,9 +40,9 @@ async function fixDuplicateExports() {
         if (!seenExports.has(nodeName)) {
           seenExports.add(nodeName);
           filteredLines.push(line);
-          console.log(`✅ Keeping first registry entry for ${nodeName}`);
+          logger.info(`✅ Keeping first registry entry for ${nodeName}`);
         } else {
-          console.log(`❌ Removing duplicate registry entry for ${nodeName}`);
+          logger.info(`❌ Removing duplicate registry entry for ${nodeName}`);
           // Skip this line
         }
       } else {
@@ -76,14 +79,14 @@ async function fixDuplicateExports() {
       registryEndIndex - registryStartIndex,
       ...newRegistrySection
     );
-    console.log(`🔧 Rebuilt registry with ${uniqueExports.length} entries`);
+    logger.info(`🔧 Rebuilt registry with ${uniqueExports.length} entries`);
   }
 
   const fixedContent = filteredLines.join('\n');
   await fs.writeFile(indexPath, fixedContent, 'utf-8');
 
-  console.log(`🎉 Fixed generated index file, removed duplicates`);
-  console.log(`📊 Total unique exports: ${seenExports.size}`);
+  logger.info(`🎉 Fixed generated index file, removed duplicates`);
+  logger.info(`📊 Total unique exports: ${seenExports.size}`);
 }
 
-fixDuplicateExports().catch(console.error);
+fixDuplicateExports().catch((error) => logger.error('Failed to fix duplicate exports', error));

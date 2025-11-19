@@ -1,4 +1,7 @@
 import * as Y from 'yjs';
+import { createLogger } from '@brepflow/engine-core';
+
+const logger = createLogger('Collaboration');
 import { WebsocketProvider } from 'y-websocket';
 import { SharedGraph } from './shared-graph';
 import type { Operation, Graph, CollaborationOptions } from '../types';
@@ -44,7 +47,7 @@ export class YjsAdapter {
    */
   connect(): void {
     if (this.wsProvider) {
-      console.warn('Already connected to collaboration server');
+      logger.warn('Already connected to collaboration server');
       return;
     }
 

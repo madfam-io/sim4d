@@ -9,6 +9,17 @@ export * from './config/environment';
 export * from './constraints';
 export * from './errors';
 export * from './diagnostics/evaluation-profiler';
+export * from './performance-monitor';
+export {
+  PerformanceReporter,
+  ConsolePerformanceExporter,
+  JSONPerformanceExporter,
+  type PerformanceReport,
+  type PerformanceAggregates,
+  type ThresholdViolation,
+  type PerformanceExporter,
+} from './performance-reporter';
+export { logger, createLogger, LogLevel, type LogContext, type ChildLogger } from './logger';
 
 // Collaboration types and interfaces
 // NOTE: Collaboration exports temporarily disabled due to DTS build issues

@@ -47,7 +47,7 @@ export class CommandSystem {
 
       return result;
     } catch (error) {
-      console.error(`Failed to execute command ${command.type}:`, error);
+      commandLogger.error(`Failed to execute command ${command.type}:`, error);
       throw error;
     }
   }
@@ -101,7 +101,7 @@ export class CommandSystem {
       this.notifyListeners();
       return true;
     } catch (error) {
-      console.error('Failed to undo command:', error);
+      commandLogger.error('Failed to undo command:', error);
       // Re-add to undo stack if undo failed
       this.undoStack.push(item);
       throw error;
@@ -138,7 +138,7 @@ export class CommandSystem {
       this.notifyListeners();
       return true;
     } catch (error) {
-      console.error('Failed to redo command:', error);
+      commandLogger.error('Failed to redo command:', error);
       // Re-add to redo stack if redo failed
       this.redoStack.push(item);
       throw error;

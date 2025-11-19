@@ -1,3 +1,5 @@
+import { getLogger } from './production-logger';
+const logger = getLogger('OCCT');
 /**
  * OCCT Web Worker - Full implementation with real OCCT operations
  * NO MOCK FALLBACK - This is production ready
@@ -56,8 +58,8 @@ async function ensureOCCTModuleLoaded(): Promise<void> {
 
         const moduleInstance = await factory({
           locateFile: (filename: string) => new URL(filename, baseUrl).href,
-          print: (text: string) => console.log('[OCCT Worker WASM]', text),
-          printErr: (text: string) => console.error('[OCCT Worker WASM Error]', text),
+          print: (text: string) => logger.info('[OCCT Worker WASM]', text),
+          printErr: (text: string) => logger.error('[OCCT Worker WASM Error]', text),
         });
 
         (globalThis as unknown).Module = moduleInstance;
@@ -66,11 +68,11 @@ async function ensureOCCTModuleLoaded(): Promise<void> {
           await moduleInstance.ready;
         }
 
-        console.log('[OCCTWorker] OCCT WASM module loaded from', specifier);
+        logger.info('[OCCTWorker] OCCT WASM module loaded from', specifier);
         return;
       } catch (importError) {
         lastError = importError;
-        console.warn(`[OCCTWorker] Failed to load ${specifier}:`, importError);
+        logger.warn(`[OCCTWorker] Failed to load ${specifier}:`, importError);
       }
     }
 
@@ -90,14 +92,14 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
     switch (request.type) {
       case 'INIT':
         if (!isInitialized) {
-          console.log('[OCCTWorker] Initializing real OCCT...');
+          logger.info('[OCCTWorker] Initializing real OCCT...');
 
           await ensureOCCTModuleLoaded();
           occt = new RealOCCT();
           await occt.init();
 
           isInitialized = true;
-          console.log('[OCCTWorker] Real OCCT initialized successfully');
+          logger.info('[OCCTWorker] Real OCCT initialized successfully');
 
           result = {
             initialized: true,
@@ -134,7 +136,7 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
 
     self.postMessage(response);
   } catch (error) {
-    console.error('[OCCTWorker] Operation failed:', error);
+    logger.error('[OCCTWorker] Operation failed:', error);
 
     // Send error response
     const response: WorkerResponse = {
@@ -153,8 +155,8 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
 
 // Handle worker termination
 self.addEventListener('unload', () => {
-  console.log('[OCCTWorker] Worker terminating');
+  logger.info('[OCCTWorker] Worker terminating');
   // OCCT cleanup handled by RealOCCT destructor
 });
 
-console.log('[OCCTWorker] Worker ready for real OCCT operations');
+logger.info('[OCCTWorker] Worker ready for real OCCT operations');

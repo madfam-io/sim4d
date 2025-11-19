@@ -6,8 +6,7 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { persist } from 'zustand/middleware';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import ReactFlow, {
+import {
   Node,
   Edge,
   Connection,
@@ -21,7 +20,6 @@ import { DAGEngine } from '@brepflow/engine-core';
 import { getGeometryAPI } from '../services/geometry-api';
 import { v4 as uuidv4 } from 'uuid';
 import { getConfig } from '@brepflow/engine-core';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { GraphInstance, NodeId } from '@brepflow/types';
 import { createNodeId } from '@brepflow/types';
 
@@ -29,7 +27,6 @@ import { createNodeId } from '@brepflow/types';
 let logger: any = null;
 const getLogger = () => {
   if (!logger) {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const { ProductionLogger } = require('@brepflow/engine-occt');
     logger = new ProductionLogger('GraphStore');
   }

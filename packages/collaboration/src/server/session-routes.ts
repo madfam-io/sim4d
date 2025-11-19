@@ -5,6 +5,9 @@
  */
 
 import type { Request, Response, Router } from 'express';
+import { createLogger } from '@brepflow/engine-core';
+
+const logger = createLogger('Collaboration');
 import { sessionManager } from '../simple-session';
 import type { GraphInstance } from '@brepflow/types';
 
@@ -27,7 +30,7 @@ export function registerSessionRoutes(router: Router): void {
         nodeCount: session.graph.nodes.length,
       });
     } catch (error) {
-      console.error('[SessionRoutes] Error creating session:', error);
+      logger.error('[SessionRoutes] Error creating session:', error);
       res.status(500).json({
         error: 'Failed to create session',
         message: error instanceof Error ? error.message : 'Unknown error',
@@ -59,7 +62,7 @@ export function registerSessionRoutes(router: Router): void {
         lastModified: session.lastModified,
       });
     } catch (error) {
-      console.error('[SessionRoutes] Error getting session:', error);
+      logger.error('[SessionRoutes] Error getting session:', error);
       res.status(500).json({
         error: 'Failed to get session',
         message: error instanceof Error ? error.message : 'Unknown error',
@@ -98,7 +101,7 @@ export function registerSessionRoutes(router: Router): void {
         updated: true,
       });
     } catch (error) {
-      console.error('[SessionRoutes] Error updating session:', error);
+      logger.error('[SessionRoutes] Error updating session:', error);
       res.status(500).json({
         error: 'Failed to update session',
         message: error instanceof Error ? error.message : 'Unknown error',
@@ -128,7 +131,7 @@ export function registerSessionRoutes(router: Router): void {
         deleted: true,
       });
     } catch (error) {
-      console.error('[SessionRoutes] Error deleting session:', error);
+      logger.error('[SessionRoutes] Error deleting session:', error);
       res.status(500).json({
         error: 'Failed to delete session',
         message: error instanceof Error ? error.message : 'Unknown error',
@@ -171,7 +174,7 @@ export function registerSessionRoutes(router: Router): void {
       res.setHeader('Content-Disposition', `attachment; filename="design.${format}"`);
       res.send(exportResult.content);
     } catch (error) {
-      console.error('[SessionRoutes] Error exporting session:', error);
+      logger.error('[SessionRoutes] Error exporting session:', error);
       res.status(500).json({
         error: 'Failed to export session',
         message: error instanceof Error ? error.message : 'Unknown error',
@@ -191,7 +194,7 @@ export function registerSessionRoutes(router: Router): void {
         sessions,
       });
     } catch (error) {
-      console.error('[SessionRoutes] Error listing sessions:', error);
+      logger.error('[SessionRoutes] Error listing sessions:', error);
       res.status(500).json({
         error: 'Failed to list sessions',
         message: error instanceof Error ? error.message : 'Unknown error',

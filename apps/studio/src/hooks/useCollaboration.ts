@@ -64,7 +64,7 @@ export function useCollaboration(
   options: UseCollaborationOptions = {}
 ): [CollaborationState, CollaborationActions] {
   const {
-    autoConnect = false, // eslint-disable-line @typescript-eslint/no-unused-vars
+    autoConnect: _autoConnect = false,
     throttleCursor = 50,
     throttleSelection = 200,
   } = options;

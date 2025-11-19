@@ -337,7 +337,7 @@ export class Solver2D {
 
       return this.solveLinearSystem(ATA, ATb);
     } catch (e) {
-      console.warn('Least squares failed, using fallback:', e);
+      logger.warn('Least squares failed, using fallback:', e);
       return new Array(A[0]?.length || 0).fill(0);
     }
   }

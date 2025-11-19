@@ -436,7 +436,7 @@ export class PluginManager {
 
   private async requestPermissions(permissions: PluginPermission[]): Promise<boolean> {
     // Simplified - in production would show UI dialog
-    console.log('Requesting permissions:', permissions);
+    logger.info('Requesting permissions:', permissions);
     return true;
   }
 
@@ -468,10 +468,10 @@ export class PluginManager {
 
   private createLogger(pluginId: string): Logger {
     return {
-      debug: (msg, ...args) => console.debug(`[${pluginId}]`, msg, ...args),
-      info: (msg, ...args) => console.info(`[${pluginId}]`, msg, ...args),
-      warn: (msg, ...args) => console.warn(`[${pluginId}]`, msg, ...args),
-      error: (msg, err) => console.error(`[${pluginId}]`, msg, err),
+      debug: (msg, ...args) => logger.debug(`[${pluginId}]`, msg, ...args),
+      info: (msg, ...args) => logger.info(`[${pluginId}]`, msg, ...args),
+      warn: (msg, ...args) => logger.warn(`[${pluginId}]`, msg, ...args),
+      error: (msg, err) => logger.error(`[${pluginId}]`, msg, err),
     };
   }
 
@@ -547,14 +547,14 @@ export class PluginManager {
     const panels = plugin.getPanels();
 
     // Would register with main app here
-    console.log(
+    logger.info(
       `Registered ${nodes.length} nodes, ${commands.length} commands, ${panels.length} panels`
     );
   }
 
   private unregisterPluginComponents(pluginId: string): void {
     // Unregister all components from this plugin
-    console.log(`Unregistered components for ${pluginId}`);
+    logger.info(`Unregistered components for ${pluginId}`);
   }
 }
 

@@ -9,7 +9,7 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 // Lazy logger initialization to avoid constructor issues during module loading
-let logger: any = null;
+let logger: unknown = null;
 const getLogger = () => {
   if (!logger) {
     // Use dynamic import but don't wait - fallback to console temporarily
@@ -30,7 +30,7 @@ export interface ProductionWorkerConfig {
 }
 
 export class ProductionWorkerAPI implements WorkerAPI {
-  private worker: any = null;
+  private worker: Worker | null = null;
   private requestId = 0;
   private pendingRequests = new Map<
     number,

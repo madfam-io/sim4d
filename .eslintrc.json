@@ -42,7 +42,7 @@
         "ts-expect-error": "allow-with-description"
       }
     ],
-    "no-console": ["warn", { "allow": ["error", "warn"] }],
+    "no-console": ["warn", { "allow": [] }],
     "no-case-declarations": "off",
     "react-hooks/exhaustive-deps": "warn",
     "react/no-unescaped-entities": "warn",
@@ -62,5 +62,27 @@
     "security/detect-pseudoRandomBytes": "error",
     "no-secrets/no-secrets": "error"
   },
+  "overrides": [
+    {
+      "files": ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx", "**/tests/**/*", "**/test/**/*"],
+      "rules": {
+        "security/detect-non-literal-fs-filename": "off",
+        "no-secrets/no-secrets": "off"
+      }
+    },
+    {
+      "files": ["packages/cli/**/*"],
+      "rules": {
+        "security/detect-non-literal-fs-filename": "off",
+        "no-console": "off"
+      }
+    },
+    {
+      "files": ["**/cloud-services/**/*", "**/collaboration/**/*"],
+      "rules": {
+        "no-secrets/no-secrets": "off"
+      }
+    }
+  ],
   "ignorePatterns": ["dist", "build", "node_modules", "*.js", "*.mjs"]
 }

@@ -1,5 +1,4 @@
 // Test setup for viewport
-/* eslint-disable no-console */
 
 import { beforeAll, afterAll } from 'vitest';
 

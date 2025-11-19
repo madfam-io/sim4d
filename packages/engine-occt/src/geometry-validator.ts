@@ -4,6 +4,9 @@
  */
 
 import { getConfig } from '@brepflow/engine-core';
+import { getLogger } from './production-logger';
+
+const logger = getLogger('OCCT');
 
 export class GeometryValidator {
   private enabled: boolean;
@@ -100,7 +103,7 @@ export class GeometryValidator {
       (shape.bbox_max_z - shape.bbox_min_z);
 
     if (volume < 1e-10) {
-      console.warn(`Warning: ${type} has near-zero volume (${volume})`);
+      logger.warn(`Warning: ${type} has near-zero volume (${volume})`);
     }
   }
 
@@ -122,7 +125,7 @@ export class GeometryValidator {
         (result.bbox_max_z - result.bbox_min_z);
 
       if (volume < 1e-10) {
-        console.warn('Warning: Boolean intersection resulted in near-empty shape');
+        logger.warn('Warning: Boolean intersection resulted in near-empty shape');
       }
     }
   }
@@ -190,7 +193,7 @@ export class GeometryValidator {
       const length = Math.sqrt(nx * nx + ny * ny + nz * nz);
 
       if (Math.abs(length - 1.0) > 0.01) {
-        console.warn(`Warning: Normal vector ${i} not normalized (length=${length})`);
+        logger.warn(`Warning: Normal vector ${i} not normalized (length=${length})`);
       }
     }
 
@@ -207,7 +210,7 @@ export class GeometryValidator {
     }
 
     if (degenerateCount > 0) {
-      console.warn(`Warning: Mesh contains ${degenerateCount} degenerate triangles`);
+      logger.warn(`Warning: Mesh contains ${degenerateCount} degenerate triangles`);
     }
   }
 
@@ -244,7 +247,7 @@ export class GeometryValidator {
         this.validateOBJExport(data);
         break;
       default:
-        console.warn(`No validation available for format: ${format}`);
+        logger.warn(`No validation available for format: ${format}`);
     }
   }
 

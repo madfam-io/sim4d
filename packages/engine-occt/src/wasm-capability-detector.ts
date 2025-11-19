@@ -46,7 +46,7 @@ export class WASMCapabilityDetector {
     };
 
     this.cachedCapabilities = capabilities;
-    console.log('[WASM] Detected capabilities:', capabilities);
+    logger.info('[WASM] Detected capabilities:', capabilities);
 
     return capabilities;
   }
@@ -57,7 +57,7 @@ export class WASMCapabilityDetector {
   static async getOptimalConfiguration(): Promise<OCCTConfig> {
     const caps = await this.detectCapabilities();
 
-    console.log('[WASM] Capability details:', {
+    logger.info('[WASM] Capability details:', {
       hasWASM: caps.hasWASM,
       hasSharedArrayBuffer: caps.hasSharedArrayBuffer,
       hasThreads: caps.hasThreads,
@@ -69,7 +69,7 @@ export class WASMCapabilityDetector {
 
     // Full OCCT with threading (best performance)
     if (caps.hasSharedArrayBuffer && caps.hasThreads && caps.crossOriginIsolated) {
-      console.log('[WASM] Using full-occt mode with threading');
+      logger.info('[WASM] Using full-occt mode with threading');
       return {
         mode: 'full-occt',
         wasmFile: 'occt.wasm', // 13MB version with full features
@@ -83,7 +83,7 @@ export class WASMCapabilityDetector {
     // Optimized OCCT without threading - ALWAYS AVAILABLE if WASM is supported
     // Real geometry is NON-NEGOTIABLE for this application
     if (caps.hasWASM) {
-      console.log('[WASM] Using optimized-occt mode (no threading)');
+      logger.info('[WASM] Using optimized-occt mode (no threading)');
       return {
         mode: 'optimized-occt',
         wasmFile: 'occt-core.wasm', // 8.7MB optimized version
@@ -95,7 +95,7 @@ export class WASMCapabilityDetector {
     }
 
     // Final fallback - if browser has ANY WASM support, force optimized mode
-    console.warn('[WASM] Forcing optimized-occt mode despite capability detection');
+    logger.warn('[WASM] Forcing optimized-occt mode despite capability detection');
     return {
       mode: 'optimized-occt',
       wasmFile: 'occt-core.wasm',
@@ -148,7 +148,7 @@ export class WASMCapabilityDetector {
 
       return instance instanceof WebAssembly.Instance;
     } catch (error) {
-      console.warn('[WASM] WebAssembly not supported:', error);
+      logger.warn('[WASM] WebAssembly not supported:', error);
       return false;
     }
   }

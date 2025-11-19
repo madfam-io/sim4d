@@ -72,7 +72,7 @@ export function validateProductionSafety(
   // This prevents cached environment state from causing issues
   const env = detectEnvironment();
 
-  console.log('[ProductionSafety] Validation check:', {
+  logger.info('[ProductionSafety] Validation check:', {
     usingRealOCCT,
     isTest: env.isTest,
     nodeEnv: env.nodeEnv,
@@ -99,7 +99,7 @@ export function validateProductionSafety(
       );
     }
 
-    console.log('✅ [ProductionSafety] Test environment validated with real OCCT module');
+    logger.info('✅ [ProductionSafety] Test environment validated with real OCCT module');
     return;
   }
 
@@ -180,9 +180,9 @@ export function logProductionSafetyStatus(
   };
 
   if (usingRealOCCT) {
-    console.log('✅ PRODUCTION SAFE: Using real OCCT geometry operations', status);
+    logger.info('✅ PRODUCTION SAFE: Using real OCCT geometry operations', status);
   } else {
-    console.error('🚨 PRODUCTION SAFETY VIOLATION: Real OCCT geometry not available', status);
+    logger.error('🚨 PRODUCTION SAFETY VIOLATION: Real OCCT geometry not available', status);
     throw new ProductionSafetyError(
       'Real OCCT geometry validation failed - mock geometry is not supported',
       status

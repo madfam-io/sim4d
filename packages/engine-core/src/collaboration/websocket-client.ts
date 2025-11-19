@@ -4,6 +4,9 @@
  */
 
 import {
+import { createLogger } from '../../logger';
+
+const logger = createLogger('EngineCore');
   WebSocketMessage,
   OperationMessage,
   OperationAckMessage,
@@ -242,7 +245,7 @@ export class CollaborationWebSocketClient {
           const message: WebSocketMessage = JSON.parse(event.data);
           this.handleMessage(message);
         } catch (error) {
-          console.error('Failed to parse WebSocket message:', error);
+          logger.error('Failed to parse WebSocket message:', error);
         }
       };
 
@@ -337,7 +340,7 @@ export class CollaborationWebSocketClient {
     try {
       this.ws!.send(JSON.stringify(message));
     } catch (error) {
-      console.warn('Failed to send immediate message:', error);
+      logger.warn('Failed to send immediate message:', error);
     }
   }
 
@@ -386,7 +389,7 @@ export class CollaborationWebSocketClient {
         break;
 
       default:
-        console.warn('Unknown message type:', message.type);
+        logger.warn('Unknown message type:', message.type);
     }
   }
 
@@ -469,7 +472,7 @@ export class CollaborationWebSocketClient {
   }
 
   private handleError(message: WebSocketMessage): void {
-    console.error('WebSocket error:', message.payload);
+    logger.error('WebSocket error:', message.payload);
     this.emit({
       type: 'connection-status-changed',
       sessionId: this.sessionId!,
@@ -502,7 +505,7 @@ export class CollaborationWebSocketClient {
     while (this.messageQueue.length > 0 && this.isConnected) {
       const message = this.messageQueue.shift()!;
       this.sendMessage(message).catch((error) => {
-        console.warn('Failed to send queued message:', error);
+        logger.warn('Failed to send queued message:', error);
       });
     }
   }
@@ -521,7 +524,7 @@ export class CollaborationWebSocketClient {
         try {
           listener(event);
         } catch (error) {
-          console.error('Error in event listener:', error);
+          logger.error('Error in event listener:', error);
         }
       });
     }

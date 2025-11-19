@@ -1,3 +1,5 @@
+import { getLogger } from './production-logger';
+const logger = getLogger('OCCT');
 /**
  * Enhanced OCCT WASM Module Loader with Capability Detection
  * Handles loading and initialization of the real OCCT WebAssembly module
@@ -51,7 +53,7 @@ class LoaderState {
     const failureThreshold = 3;
     if (this.circuitBreaker.failures >= failureThreshold) {
       this.circuitBreaker.state = 'open';
-      console.warn('[OCCT] Circuit breaker opened due to repeated failures');
+      logger.warn('[OCCT] Circuit breaker opened due to repeated failures');
     }
   }
 
@@ -91,10 +93,10 @@ export async function loadOCCTModule(options: LoaderOptions = {}): Promise<unkno
       typeof global !== 'undefined' &&
       ((global as unknown).__vitest || process.env.NODE_ENV === 'test');
 
-    console.log('[OCCT] Environment detection:', { isBrowser, isWorker, isNode, isTest });
+    logger.info('[OCCT] Environment detection:', { isBrowser, isWorker, isNode, isTest });
 
     if (isNode && !isBrowser && !isWorker) {
-      console.log('[OCCT] Loading Node.js WASM module');
+      logger.info('[OCCT] Loading Node.js WASM module');
       return loadNodeJSOCCT();
     }
 
@@ -103,7 +105,7 @@ export async function loadOCCTModule(options: LoaderOptions = {}): Promise<unkno
       ? await getConfigForMode(options.forceMode)
       : await WASMCapabilityDetector.getOptimalConfiguration();
 
-    console.log('[OCCT] Selected configuration:', config);
+    logger.info('[OCCT] Selected configuration:', config);
 
     // Attempt to load based on configuration with retry logic
     let attempts = 0;
@@ -112,7 +114,7 @@ export async function loadOCCTModule(options: LoaderOptions = {}): Promise<unkno
     while (attempts < maxAttempts) {
       try {
         attempts++;
-        console.log(`[OCCT] Load attempt ${attempts}/${maxAttempts} for mode: ${config.mode}`);
+        logger.info(`[OCCT] Load attempt ${attempts}/${maxAttempts} for mode: ${config.mode}`);
 
         let occtModule: unknown;
 
@@ -131,11 +133,11 @@ export async function loadOCCTModule(options: LoaderOptions = {}): Promise<unkno
         LoaderState.resetCircuitBreaker();
 
         const duration = endMeasurement();
-        console.log(`[OCCT] Successfully loaded ${config.mode} in ${duration.toFixed(1)}ms`);
+        logger.info(`[OCCT] Successfully loaded ${config.mode} in ${duration.toFixed(1)}ms`);
 
         return occtModule;
       } catch (error: unknown) {
-        console.warn(`[OCCT] Attempt ${attempts} failed:`, error);
+        logger.warn(`[OCCT] Attempt ${attempts} failed:`, error);
 
         if (attempts >= maxAttempts) {
           LoaderState.recordFailure();
@@ -151,7 +153,7 @@ export async function loadOCCTModule(options: LoaderOptions = {}): Promise<unkno
     throw new Error('Unexpected end of load attempts');
   } catch (error) {
     endMeasurement();
-    console.error('[OCCT] Failed to load WASM module:', error);
+    logger.error('[OCCT] Failed to load WASM module:', error);
     throw error;
   }
 }
@@ -168,13 +170,13 @@ async function loadNodeJSOCCT(): Promise<unknown> {
   const wasmPath = path.join(wasmDir, `${moduleBasename}.wasm`);
   const workerPath = path.join(wasmDir, `${moduleBasename}.worker.js`);
 
-  console.log('[OCCT Node.js] Loading WASM bundle from:', jsPath);
+  logger.info('[OCCT Node.js] Loading WASM bundle from:', jsPath);
 
   const missingArtifacts: string[] = [];
   if (!fs.existsSync(jsPath)) missingArtifacts.push(path.basename(jsPath));
   if (!fs.existsSync(wasmPath)) missingArtifacts.push(path.basename(wasmPath));
   if (!fs.existsSync(workerPath)) {
-    console.warn(
+    logger.warn(
       '[OCCT Node.js] Worker glue not found. Pthread worker paths will be resolved relative to the current working directory.'
     );
   }
@@ -209,13 +211,13 @@ async function loadNodeJSOCCT(): Promise<unknown> {
       }
       return path.join(wasmDir, filename);
     },
-    print: (text: string) => console.log('[OCCT Node WASM]', text),
-    printErr: (text: string) => console.error('[OCCT Node WASM]', text),
+    print: (text: string) => logger.info('[OCCT Node WASM]', text),
+    printErr: (text: string) => logger.error('[OCCT Node WASM]', text),
   });
 
   (globalThis as unknown).Module = moduleInstance;
 
-  console.log(
+  logger.info(
     '[OCCT Node.js] OCCT wasm module ready with exports:',
     Object.keys(moduleInstance).length
   );
@@ -272,34 +274,33 @@ async function loadFullOCCTModule(config: OCCTConfig, _options: LoaderOptions): 
 
       // Runtime callbacks
       onRuntimeInitialized: function (this: unknown) {
-        console.log('[OCCT] Full runtime initialized successfully');
+        logger.info('[OCCT] Full runtime initialized successfully');
 
         // Validate that we have the expected OCCT functions
         if (this._BRepPrimAPI_MakeBox) {
-          console.log('[OCCT] BRepPrimAPI_MakeBox available ✓');
+          logger.info('[OCCT] BRepPrimAPI_MakeBox available ✓');
         }
         if (this._BRepPrimAPI_MakeSphere) {
-          console.log('[OCCT] BRepPrimAPI_MakeSphere available ✓');
+          logger.info('[OCCT] BRepPrimAPI_MakeSphere available ✓');
         }
         if (this._BRepPrimAPI_MakeCylinder) {
-          // eslint-disable-next-line no-secrets/no-secrets -- False positive: OCCT API class name
-          console.log('[OCCT] BRepPrimAPI_MakeCylinder available ✓');
+          logger.info('[OCCT] BRepPrimAPI_MakeCylinder available ✓');
         }
       },
 
       print: (text: string) => {
-        console.log('[OCCT Output]', text);
+        logger.info('[OCCT Output]', text);
       },
 
       printErr: (text: string) => {
-        console.error('[OCCT Error]', text);
+        logger.error('[OCCT Error]', text);
       },
     };
 
     // Call the Emscripten factory function with our config
     const occtModule = await factory(moduleConfig);
 
-    console.log('[OCCT] Full module loaded successfully', {
+    logger.info('[OCCT] Full module loaded successfully', {
       hasExports: !!occtModule,
       exportCount: occtModule ? Object.keys(occtModule).length : 0,
     });
@@ -311,7 +312,7 @@ async function loadFullOCCTModule(config: OCCTConfig, _options: LoaderOptions): 
     await occtAdapter.init();
     return occtAdapter;
   } catch (error) {
-    console.error('[OCCT] Failed to load full OCCT module:', error);
+    logger.error('[OCCT] Failed to load full OCCT module:', error);
     throw error;
   }
 }
@@ -365,22 +366,22 @@ async function loadOptimizedOCCTModule(
 
       // Runtime callbacks
       onRuntimeInitialized: function () {
-        console.log('[OCCT] Optimized runtime initialized successfully');
+        logger.info('[OCCT] Optimized runtime initialized successfully');
       },
 
       print: (text: string) => {
-        console.log('[OCCT Output]', text);
+        logger.info('[OCCT Output]', text);
       },
 
       printErr: (text: string) => {
-        console.error('[OCCT Error]', text);
+        logger.error('[OCCT Error]', text);
       },
     };
 
     // Call the Emscripten factory function with our config
     const occtModule = await factory(moduleConfig);
 
-    console.log('[OCCT] Optimized module loaded successfully');
+    logger.info('[OCCT] Optimized module loaded successfully');
 
     (globalThis as unknown).Module = occtModule;
 
@@ -389,7 +390,7 @@ async function loadOptimizedOCCTModule(
     await occtAdapter.init();
     return occtAdapter;
   } catch (error) {
-    console.error('[OCCT] Failed to load optimized OCCT module:', error);
+    logger.error('[OCCT] Failed to load optimized OCCT module:', error);
     throw error;
   }
 }
@@ -560,7 +561,7 @@ class OCCTAdapter {
           throw new Error(`Unsupported OCCT operation: ${operation}`);
       }
     } catch (error) {
-      console.error(`[OCCTAdapter] Operation ${operation} failed:`, error);
+      logger.error(`[OCCTAdapter] Operation ${operation} failed:`, error);
       throw error;
     }
   }

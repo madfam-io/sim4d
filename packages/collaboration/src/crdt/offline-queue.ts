@@ -1,4 +1,7 @@
 import type { Operation } from '../types';
+import { createLogger } from '@brepflow/engine-core';
+
+const logger = createLogger('Collaboration');
 
 /**
  * OfflineQueue - Queue for operations when disconnected from server
@@ -36,7 +39,7 @@ export class OfflineQueue {
   enqueue(operation: Operation): boolean {
     // Check queue size limit
     if (this.queue.length >= this.maxQueueSize) {
-      console.warn('Offline queue full, dropping oldest operation');
+      logger.warn('Offline queue full, dropping oldest operation');
       this.queue.shift(); // Remove oldest
     }
 
@@ -179,7 +182,7 @@ export class OfflineQueue {
         localStorage.setItem(this.storageKey, serialized);
       }
     } catch (error) {
-      console.error('Failed to save offline queue to storage:', error);
+      logger.error('Failed to save offline queue to storage:', error);
     }
   }
 
@@ -198,7 +201,7 @@ export class OfflineQueue {
         }
       }
     } catch (error) {
-      console.error('Failed to load offline queue from storage:', error);
+      logger.error('Failed to load offline queue from storage:', error);
       this.queue = [];
     }
   }

@@ -55,7 +55,7 @@ export class ConstraintSolverEngine {
       iterations++;
 
       if (this.options.verbose) {
-        console.log(`Iteration ${iterations}: residual = ${residual}`);
+        logger.info(`Iteration ${iterations}: residual = ${residual}`);
       }
     }
 
@@ -63,7 +63,7 @@ export class ConstraintSolverEngine {
     const conflicts = success ? undefined : this.detectConflicts(workingEntities);
 
     if (this.options.verbose) {
-      console.log(
+      logger.info(
         `Solver ${success ? 'converged' : 'failed'} in ${iterations} iterations (${Date.now() - startTime}ms)`
       );
     }

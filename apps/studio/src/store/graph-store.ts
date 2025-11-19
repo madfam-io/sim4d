@@ -5,10 +5,6 @@ import { createNodeId } from '@brepflow/types';
 import {
   GraphManager,
   DAGEngine,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  NodeRegistry,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  ComputeCache,
 } from '@brepflow/engine-core';
 import { getGeometryAPI } from '../services/geometry-api';
 import { ErrorManager } from '../lib/error-handling/error-manager';

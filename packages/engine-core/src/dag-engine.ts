@@ -5,6 +5,7 @@ import { hashNode } from './hash';
 import { GeometryEvaluationError } from './errors';
 import { EvaluationProfiler } from './diagnostics/evaluation-profiler';
 import type { EvaluationSummary } from './diagnostics/evaluation-profiler';
+import { createLogger } from './logger';
 
 interface LoggerLike {
   error(message: string, data?: unknown): void;
@@ -13,6 +14,8 @@ interface LoggerLike {
   debug(message: string, data?: unknown): void;
 }
 
+const dagLogger = createLogger('DAGEngine');
+
 let loggerInstance: LoggerLike | null = null;
 function getLogger(): LoggerLike {
   if (loggerInstance) {
@@ -20,18 +23,15 @@ function getLogger(): LoggerLike {
   }
 
   try {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires -- Optional dependency, fallback needed for tests
     const { ProductionLogger } = require('@brepflow/engine-occt');
     loggerInstance = new ProductionLogger('DAGEngine');
   } catch (error) {
-    // Fallback to console methods when OCCT logger is unavailable (tests)
+    // Fallback to structured logger when OCCT logger is unavailable
     loggerInstance = {
-      error: (message: string, data?: unknown) =>
-        console.error(`[DAGEngine] ${message}`, data ?? ''),
-      warn: (message: string, data?: unknown) => console.warn(`[DAGEngine] ${message}`, data ?? ''),
-      info: (message: string, data?: unknown) => console.info(`[DAGEngine] ${message}`, data ?? ''),
-      debug: (message: string, data?: unknown) =>
-        console.debug(`[DAGEngine] ${message}`, data ?? ''),
+      error: (message: string, data?: unknown) => dagLogger.error(message, undefined, data ? { data } : undefined),
+      warn: (message: string, data?: unknown) => dagLogger.warn(message, data ? { data } : undefined),
+      info: (message: string, data?: unknown) => dagLogger.info(message, data ? { data } : undefined),
+      debug: (message: string, data?: unknown) => dagLogger.debug(message, data ? { data } : undefined),
     };
   }
 
@@ -109,7 +109,7 @@ export class DAGEngine {
       } catch (error) {
         // Error is already logged and stored in node.state by evaluateNode()
         // Continue evaluation of other nodes
-        console.error(`Failed to evaluate node ${nodeId}:`, error);
+        getLogger().error(`Failed to evaluate node ${nodeId}`, error);
       }
     }
 

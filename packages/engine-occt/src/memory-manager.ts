@@ -1,3 +1,5 @@
+import { getLogger } from './production-logger';
+const logger = getLogger('OCCT');
 /**
  * Advanced Memory Management for OCCT Large Model Operations
  * Implements LRU caching, progressive mesh refinement, smart cleanup strategies,
@@ -118,7 +120,7 @@ export class AdvancedMemoryManager {
     };
     this.timeProvider = config.timeProvider || { now: () => this.timeProvider.now() };
 
-    console.log('[MemoryManager] Initialized with enhanced config:', {
+    logger.info('[MemoryManager] Initialized with enhanced config:', {
       hasCustomPerformanceMonitor: !!config.performanceMonitor,
       hasCustomMemoryProvider: !!config.memoryProvider,
       hasCustomTimeProvider: !!config.timeProvider,
@@ -150,7 +152,7 @@ export class AdvancedMemoryManager {
     this.memoryStats.shapeCacheMB += size / (1024 * 1024);
 
     if (endMeasurement) endMeasurement();
-    console.log(
+    logger.info(
       `[MemoryManager] Cached shape ${id} (${Math.round(size / 1024)}KB, priority: ${priority})`
     );
   }
@@ -177,13 +179,13 @@ export class AdvancedMemoryManager {
     this.memoryStats.resultCacheMB += size / (1024 * 1024);
 
     if (endMeasurement) endMeasurement();
-    console.log(`[MemoryManager] Cached result ${operationKey} (${Math.round(size / 1024)}KB)`);
+    logger.info(`[MemoryManager] Cached result ${operationKey} (${Math.round(size / 1024)}KB)`);
   }
 
   /**
    * Get cached operation result
    */
-  getResult(operationKey: string): any | null {
+  getResult(operationKey: string): unknown {
     const endMeasurement = this.performanceMonitor.startMeasurement('cache-result-get');
     const entry = this.resultCache.get(operationKey);
 
@@ -233,7 +235,7 @@ export class AdvancedMemoryManager {
     this.meshCache.set(id, entry);
     this.memoryStats.meshCacheMB += size / (1024 * 1024);
 
-    console.log(
+    logger.info(
       `[MemoryManager] Cached mesh LOD ${id} (${Math.round(size / 1024)}KB, priority: ${priority})`
     );
   }
@@ -465,7 +467,7 @@ export class AdvancedMemoryManager {
 
     this.performanceMetrics.evictions += evicted;
     if (endMeasurement) endMeasurement();
-    console.log(
+    logger.info(
       `[MemoryManager] Evicted ${evicted} ${type} entries, freed ${Math.round(freedSize / 1024)}KB`
     );
   }
@@ -504,7 +506,7 @@ export class AdvancedMemoryManager {
     this.memoryStats.totalMemoryMB = Math.round(memory.usedJSHeapSize / (1024 * 1024));
 
     // Update cache sizes (already tracked incrementally)
-    console.log('[MemoryManager] Stats:', this.memoryStats);
+    logger.info('[MemoryManager] Stats:', this.memoryStats);
   }
 
   /**
@@ -539,7 +541,7 @@ export class AdvancedMemoryManager {
       this.pressureLevel === MemoryPressure.HIGH ||
       this.pressureLevel === MemoryPressure.CRITICAL
     ) {
-      console.log(`[MemoryManager] Performing ${this.pressureLevel} pressure cleanup`);
+      logger.info(`[MemoryManager] Performing ${this.pressureLevel} pressure cleanup`);
 
       // Aggressive cleanup - remove older, less used entries
       this.evictByAge(300000); // 5 minutes old
@@ -577,7 +579,7 @@ export class AdvancedMemoryManager {
     }
 
     if (cleaned > 0) {
-      console.log(`[MemoryManager] Cleaned ${cleaned} result cache entries`);
+      logger.info(`[MemoryManager] Cleaned ${cleaned} result cache entries`);
     }
   }
 
@@ -607,7 +609,7 @@ export class AdvancedMemoryManager {
     }
 
     if (evicted > 0) {
-      console.log(`[MemoryManager] Age-based cleanup evicted ${evicted} entries`);
+      logger.info(`[MemoryManager] Age-based cleanup evicted ${evicted} entries`);
     }
   }
 
@@ -908,7 +910,7 @@ ${stats.pressureLevel === 'low' ? '✅ LOW - Optimal conditions' : ''}
    * Force garbage collection and cleanup
    */
   forceCleanup(): void {
-    console.log('[MemoryManager] Forcing cleanup');
+    logger.info('[MemoryManager] Forcing cleanup');
     this.evictByAge(0); // Evict everything not pinned
 
     // Trigger JavaScript garbage collection if available
@@ -929,7 +931,7 @@ ${stats.pressureLevel === 'low' ? '✅ LOW - Optimal conditions' : ''}
     this.shapeCache.clear();
     this.meshCache.clear();
 
-    console.log('[MemoryManager] Shutdown complete');
+    logger.info('[MemoryManager] Shutdown complete');
   }
 }
 

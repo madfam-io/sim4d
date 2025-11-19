@@ -8,6 +8,7 @@ import { shouldUseRealWASM, getWASMConfig } from './config/wasm-config';
 import type { WorkerAPI } from '@brepflow/types';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { createLogger } from './logger';
 
 interface LoggerLike {
   error(message: string, data?: unknown): void;
@@ -15,6 +16,8 @@ interface LoggerLike {
   info(message: string, data?: unknown): void;
   debug(message: string, data?: unknown): void;
 }
+
+const factoryLogger = createLogger('GeometryAPIFactory');
 
 const resolveEngineOCCTDistPath = () =>
   path.resolve(process.cwd(), 'packages/engine-occt/dist/index.js');
@@ -65,20 +68,16 @@ const getLogger = (): LoggerLike => {
     return occtLogger;
   }
 
-  // Fallback to console methods when OCCT logger is unavailable (tests or build failures)
-  const consoleLogger: LoggerLike = {
-    error: (message: string, data?: unknown) =>
-      console.error(`[GeometryAPIFactory] ${message}`, data ?? ''),
-    warn: (message: string, data?: unknown) =>
-      console.warn(`[GeometryAPIFactory] ${message}`, data ?? ''),
-    info: (message: string, data?: unknown) =>
-      console.info(`[GeometryAPIFactory] ${message}`, data ?? ''),
-    debug: (message: string, data?: unknown) =>
-      console.debug(`[GeometryAPIFactory] ${message}`, data ?? ''),
+  // Fallback to structured logger when OCCT logger is unavailable
+  const structuredLogger: LoggerLike = {
+    error: (message: string, data?: unknown) => factoryLogger.error(message, undefined, data ? { data } : undefined),
+    warn: (message: string, data?: unknown) => factoryLogger.warn(message, data ? { data } : undefined),
+    info: (message: string, data?: unknown) => factoryLogger.info(message, data ? { data } : undefined),
+    debug: (message: string, data?: unknown) => factoryLogger.debug(message, data ? { data } : undefined),
   };
 
-  logger = consoleLogger;
-  return consoleLogger;
+  logger = structuredLogger;
+  return structuredLogger;
 };
 
 export interface GeometryAPIConfig {

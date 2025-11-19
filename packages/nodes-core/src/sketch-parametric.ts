@@ -4,6 +4,9 @@
  */
 
 import type {
+import { createLogger } from '@brepflow/engine-core';
+
+const logger = createLogger('NodesCore');
   NodeDefinition,
   Vec3,
   ShapeHandle,
@@ -97,7 +100,7 @@ export const ParametricLineNode: NodeDefinition<
           activeConstraints: [], // No constraints added automatically
         };
       } catch (error) {
-        console.warn('Failed to register line with constraint system:', error);
+        logger.warn('Failed to register line with constraint system:', error);
       }
     }
 
@@ -196,7 +199,7 @@ export const ParametricCircleNode: NodeDefinition<
           activeConstraints: [], // No constraints added automatically
         };
       } catch (error) {
-        console.warn('Failed to register circle with constraint system:', error);
+        logger.warn('Failed to register circle with constraint system:', error);
       }
     }
 
@@ -288,7 +291,7 @@ export const ParametricPointNode: NodeDefinition<
           activeConstraints: [], // No constraints added automatically
         };
       } catch (error) {
-        console.warn('Failed to register point with constraint system:', error);
+        logger.warn('Failed to register point with constraint system:', error);
       }
     }
 
@@ -355,7 +358,7 @@ export const ConstraintNode: NodeDefinition<
   },
   async evaluate(ctx: EvalContext, inputs, params) {
     if (!ctx.constraintManager) {
-      console.warn('Constraint manager not available');
+      logger.warn('Constraint manager not available');
       return { result: false };
     }
 
@@ -374,7 +377,7 @@ export const ConstraintNode: NodeDefinition<
       }
 
       if (elementIds.length < 1) {
-        console.warn('No constraint elements provided');
+        logger.warn('No constraint elements provided');
         return { result: false };
       }
 
@@ -395,7 +398,7 @@ export const ConstraintNode: NodeDefinition<
       );
 
       if (!validation.valid) {
-        console.warn('Constraint validation failed:', validation.error);
+        logger.warn('Constraint validation failed:', validation.error);
         return { result: false };
       }
 
@@ -410,7 +413,7 @@ export const ConstraintNode: NodeDefinition<
       // Applied constraint ${constraintId} of type ${params.constraintType}
       return { result: true };
     } catch (error) {
-      console.error('Failed to apply constraint:', error);
+      logger.error('Failed to apply constraint:', error);
       return { result: false };
     }
   },
@@ -459,7 +462,7 @@ export const SolverNode: NodeDefinition<
   },
   async evaluate(ctx: EvalContext, inputs, params) {
     if (!ctx.constraintManager) {
-      console.warn('Constraint manager not available');
+      logger.warn('Constraint manager not available');
       return { solved: false, iterations: 0, residual: Infinity };
     }
 
@@ -482,7 +485,7 @@ export const SolverNode: NodeDefinition<
         residual: result.residual,
       };
     } catch (error) {
-      console.error('Failed to solve constraints:', error);
+      logger.error('Failed to solve constraints:', error);
       return { solved: false, iterations: 0, residual: Infinity };
     }
   },

@@ -4,6 +4,9 @@
  */
 
 import { WebSocketServer, WebSocket } from 'ws';
+import { createLogger } from '@brepflow/engine-core';
+
+const logger = createLogger('Collaboration');
 import { createServer } from 'http';
 import { EventEmitter } from 'events';
 import { v4 as uuidv4 } from 'uuid';
@@ -90,7 +93,7 @@ export class CollaborationServer extends EventEmitter {
     this.startHeartbeat();
 
     server.listen(this.PORT, () => {
-      console.log(`Collaboration server listening on port ${this.PORT}`);
+      logger.info(`Collaboration server listening on port ${this.PORT}`);
     });
   }
 
@@ -106,7 +109,7 @@ export class CollaborationServer extends EventEmitter {
           const message = JSON.parse(data.toString());
           this.handleMessage(client, message);
         } catch (error) {
-          console.error('Failed to parse message:', error);
+          logger.error('Failed to parse message:', error);
           this.sendError(client, 'Invalid message format');
         }
       });
@@ -116,7 +119,7 @@ export class CollaborationServer extends EventEmitter {
       });
 
       ws.on('error', (error) => {
-        console.error('WebSocket error:', error);
+        logger.error('WebSocket error:', error);
         this.handleDisconnect(client);
       });
 

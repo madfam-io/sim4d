@@ -4,9 +4,6 @@
  */
 
 import { getGeometryAPI as getGeometryAPIBase, IntegratedGeometryAPI } from '@brepflow/engine-occt';
-// WorkerAPI type imported for future use
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { WorkerAPI } from '@brepflow/types';
 
 let apiInstance: IntegratedGeometryAPI | null = null;
 let initializationPromise: Promise<IntegratedGeometryAPI> | null = null;

@@ -4,6 +4,9 @@
  */
 
 import EventEmitter from 'events';
+import { createLogger } from '@brepflow/engine-core';
+
+const logger = createLogger('CloudServices');
 import {
   PluginId,
   UserId,
@@ -588,7 +591,7 @@ export class PluginManager extends EventEmitter {
     // 2. Wait for INIT_SUCCESS response
     // 3. Handle initialization errors
 
-    console.log(`Installed plugin bundle for ${plugin.id} in sandbox ${sandbox.workerId}`);
+    logger.info(`Installed plugin bundle for ${plugin.id} in sandbox ${sandbox.workerId}`);
   }
 
   private buildCapabilitiesAPI(plugin: Plugin): Record<string, unknown> {
@@ -620,7 +623,7 @@ export class PluginManager extends EventEmitter {
         };
 
         // Simulate execution for now
-        console.log(`Initialized plugin ${plugin.id} with onLoad hook`);
+        logger.info(`Initialized plugin ${plugin.id} with onLoad hook`);
         this.emit('plugin-initialized', { pluginId: plugin.id });
       } catch (error) {
         throw new Error(
@@ -628,7 +631,7 @@ export class PluginManager extends EventEmitter {
         );
       }
     } else {
-      console.log(`Initialized plugin ${plugin.id} (no onLoad hook)`);
+      logger.info(`Initialized plugin ${plugin.id} (no onLoad hook)`);
       this.emit('plugin-initialized', { pluginId: plugin.id });
     }
   }
@@ -641,12 +644,12 @@ export class PluginManager extends EventEmitter {
       // 3. Force terminate worker
       // 4. Clear worker reference
 
-      console.log(`Destroyed sandbox ${sandbox.workerId}`);
+      logger.info(`Destroyed sandbox ${sandbox.workerId}`);
 
       // Clean up any sandbox-specific resources
       // (memory, storage, network connections, etc.)
     } catch (error) {
-      console.error('Sandbox destruction error:', error);
+      logger.error('Sandbox destruction error:', error);
       // Force cleanup anyway
     }
   }
@@ -669,12 +672,12 @@ export class PluginManager extends EventEmitter {
           deleteRequest.onsuccess = () => resolve(undefined);
           deleteRequest.onerror = () => reject(deleteRequest.error);
           deleteRequest.onblocked = () => {
-            console.warn(`Plugin storage deletion blocked for ${pluginId}`);
+            logger.warn(`Plugin storage deletion blocked for ${pluginId}`);
             resolve(undefined); // Continue anyway
           };
         });
       } catch (error) {
-        console.warn('Failed to clean plugin IndexedDB:', error);
+        logger.warn('Failed to clean plugin IndexedDB:', error);
       }
     }
 
@@ -699,11 +702,11 @@ export class PluginManager extends EventEmitter {
         const cacheName = `plugin_cache_${pluginId}`;
         await caches.delete(cacheName);
       } catch (error) {
-        console.warn('Failed to clean plugin cache:', error);
+        logger.warn('Failed to clean plugin cache:', error);
       }
     }
 
-    console.log(`Cleaned up resources for plugin ${pluginId}`);
+    logger.info(`Cleaned up resources for plugin ${pluginId}`);
     this.emit('plugin-cleanup-complete', { pluginId });
   }
 
@@ -744,7 +747,7 @@ export class PluginManager extends EventEmitter {
 
       return isValid;
     } catch (error) {
-      console.error('Signature verification failed:', error);
+      logger.error('Signature verification failed:', error);
       return false;
     }
   }

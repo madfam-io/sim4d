@@ -4,6 +4,9 @@
  */
 
 import EventEmitter from 'events';
+import { createLogger } from '@brepflow/engine-core';
+
+const logger = createLogger('CloudServices');
 import {
   ProjectId,
   UserId,
@@ -33,7 +36,6 @@ const isCloudSyncEnabled = (): boolean => {
     typeof globalThis !== 'undefined' &&
     '__BREPFLOW_ENABLE_CLOUD_SYNC__' in (globalThis as unknown)
   ) {
-    // eslint-disable-next-line no-secrets/no-secrets -- Global variable name, not a secret
     return Boolean((globalThis as unknown).__BREPFLOW_ENABLE_CLOUD_SYNC__);
   }
 
@@ -77,7 +79,6 @@ export class CloudSyncManager extends EventEmitter {
     super();
     if (!isCloudSyncEnabled()) {
       throw new Error(
-        // eslint-disable-next-line no-secrets/no-secrets -- Error message with env variable names
         'Cloud sync is disabled. Set BREPFLOW_ENABLE_CLOUD_SYNC=true (or window.__BREPFLOW_ENABLE_CLOUD_SYNC__ = true) to enable this experimental feature.'
       );
     }
@@ -518,7 +519,7 @@ export class CloudSyncManager extends EventEmitter {
   private startPeriodicSync(projectId: ProjectId): void {
     const timer = setInterval(() => {
       this.syncProject(projectId).catch((error) => {
-        console.error(`Periodic sync failed for ${projectId}:`, error);
+        logger.error(`Periodic sync failed for ${projectId}:`, error);
       });
     }, this.config.syncInterval);
 

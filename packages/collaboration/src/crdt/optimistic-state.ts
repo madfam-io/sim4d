@@ -1,4 +1,7 @@
 import type { Operation, Graph, Node, Edge } from '../types';
+import { createLogger } from '@brepflow/engine-core';
+
+const logger = createLogger('Collaboration');
 
 /**
  * OptimisticStateManager - Manages optimistic UI updates with rollback
@@ -188,7 +191,7 @@ export class OptimisticStateManager {
     // Remove conflicting operations
     for (const id of conflictingOps) {
       this.pendingOperations.delete(id);
-      console.warn(`Optimistic operation ${id} conflicted with remote operation ${remoteOp.id}`);
+      logger.warn(`Optimistic operation ${id} conflicted with remote operation ${remoteOp.id}`);
     }
   }
 
