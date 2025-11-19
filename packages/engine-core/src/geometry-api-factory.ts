@@ -217,29 +217,6 @@ export class GeometryAPIFactory {
   }
 
   /**
-   * Initialize API with retry logic
-   * @internal Reserved for future use
-   */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private static async _initializeWithRetry(api: WorkerAPI, attempts: number): Promise<void> {
-    for (let i = 0; i < attempts; i++) {
-      try {
-        await api.init?.();
-        return;
-      } catch (error) {
-        getLogger().warn(`Geometry API initialization attempt ${i + 1} failed`, error);
-
-        if (i === attempts - 1) {
-          throw error;
-        }
-
-        // Wait before retry
-        await new Promise((resolve) => setTimeout(resolve, 1000 * (i + 1)));
-      }
-    }
-  }
-
-  /**
    * Check if real API is available without initializing
    */
   static async isRealAPIAvailable(): Promise<boolean> {

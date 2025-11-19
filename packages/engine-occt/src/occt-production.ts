@@ -147,7 +147,10 @@ async function initializeOCCT(): Promise<OCCTModule> {
     }
 
     // Try to load the module - first attempt with fetch for worker context
-    let createModule: unknown;
+    interface WASMModuleFactory {
+      default: (config: unknown) => Promise<OCCTModule>;
+    }
+    let createModule: WASMModuleFactory;
 
     const importModule = async (specifier: string): Promise<unknown> => {
       const shouldSpoofProcess = isWorker && !isBrowser && specifier.startsWith('file://');
