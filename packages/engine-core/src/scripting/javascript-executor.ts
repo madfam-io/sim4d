@@ -172,7 +172,7 @@ export class JavaScriptExecutor implements ScriptExecutor {
    * SECURITY: REMOVED - No longer using Function() for node definition extraction
    * This functionality is now handled securely by isolated-vm
    */
-  private extractNodeDefinition(_script: string): any {
+  private extractNodeDefinition(_script: string): unknown {
     console.warn('extractNodeDefinition: Using isolated-vm for safe execution');
     return null;
   }
@@ -425,7 +425,7 @@ async function evaluate(ctx, inputs, params) {
         }
         return (context as unknown).inputs?.[name];
       },
-      getParameter: (name: string, defaultValue?: any) => {
+      getParameter: (name: string, defaultValue?: unknown) => {
         if (typeof name !== 'string' || name.length > 100) {
           throw new Error('Invalid parameter name');
         }
@@ -514,11 +514,11 @@ async function evaluate(ctx, inputs, params) {
    */
   private async executeInSecureContext(
     _script: string,
-    _sandbox: any,
+    _sandbox: unknown,
     _context: ScriptContext,
     _permissions: ScriptPermissions,
     _signal: AbortSignal
-  ): Promise<{ outputs: any; memoryUsage: number }> {
+  ): Promise<{ outputs: unknown; memoryUsage: number }> {
     // This method is no longer used - keeping stub for compatibility
     throw new Error('Direct execution removed for security. Use isolated-vm executor.');
   }
