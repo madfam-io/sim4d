@@ -39,7 +39,7 @@ function getLogger(): LoggerLike {
 }
 
 // Try-catch import for optional GeometryProxy to handle test environments
-let GeometryProxy: any;
+let GeometryProxy: unknown;
 try {
   // eslint-disable-next-line @typescript-eslint/no-var-requires -- Optional dependency, fallback needed for tests
   const occtModule = require('@brepflow/engine-occt');
@@ -245,7 +245,7 @@ export class DAGEngine {
    * Create enhanced context with geometry adapter
    * This bridges the gap between context.worker and context.geometry
    */
-  private createEnhancedContext(baseContext: EvalContext): any {
+  private createEnhancedContext(baseContext: EvalContext): unknown {
     try {
       const geometry = new GeometryProxy(baseContext.worker);
       return {
@@ -265,7 +265,7 @@ export class DAGEngine {
    * Collect input values for a node
    */
   private async collectInputs(graph: GraphInstance, node: NodeInstance): Promise<unknown> {
-    const inputs: any = {};
+    const inputs: Record<string, unknown> = {};
 
     for (const [inputName, socketRef] of Object.entries(node.inputs)) {
       if (!socketRef) continue;
@@ -287,7 +287,7 @@ export class DAGEngine {
   /**
    * Get value from a socket reference
    */
-  private async getSocketValue(graph: GraphInstance, ref: any): Promise<unknown> {
+  private async getSocketValue(graph: GraphInstance, ref: unknown): Promise<unknown> {
     const sourceNode = graph.nodes.find((n) => n.id === ref.nodeId);
     if (!sourceNode) {
       throw new Error(`Source node ${ref.nodeId} not found`);

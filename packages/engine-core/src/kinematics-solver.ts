@@ -651,7 +651,7 @@ export class KinematicsSolver {
     return this.poseToTransform(component.position, component.orientation);
   }
 
-  private frameToTransform(frame: any): Mat4 {
+  private frameToTransform(frame: unknown): Mat4 {
     // Convert frame definition to transform matrix
     return this.identityTransform(); // Simplified
   }
@@ -885,11 +885,11 @@ export class KinematicsSolver {
     // Update component position based on velocity
   }
 
-  private updateConstraintForces(constraint: any, _frame: number, forces: any): void {
+  private updateConstraintForces(constraint: unknown, _frame: number, forces: unknown): void {
     // Update constraint forces
   }
 
-  private getConstraintAxis(constraint: any, _axis: string): Vec3 {
+  private getConstraintAxis(constraint: unknown, _axis: string): Vec3 {
     // Get constraint axis
     return [0, 0, 1];
   }

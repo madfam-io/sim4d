@@ -3,7 +3,7 @@ import type { NodeInstance } from '@brepflow/types';
 /**
  * Generate deterministic hash for a node
  */
-export function hashNode(node: NodeInstance, inputs: any): string {
+export function hashNode(node: NodeInstance, inputs: unknown): string {
   const data = {
     type: node.type,
     params: node.params,
@@ -38,7 +38,7 @@ export function hash(data: string): string {
 /**
  * Normalize inputs for consistent hashing
  */
-function normalizeInputs(inputs: any): any {
+function normalizeInputs(inputs: unknown): unknown {
   if (inputs === null || inputs === undefined) {
     return null;
   }
@@ -54,7 +54,7 @@ function normalizeInputs(inputs: any): any {
     }
 
     // Handle regular objects
-    const normalized: any = {};
+    const normalized: Record<string, unknown> = {};
     const keys = Object.keys(inputs).sort();
     for (const key of keys) {
       normalized[key] = normalizeInputs(inputs[key]);
