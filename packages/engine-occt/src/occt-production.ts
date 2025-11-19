@@ -80,9 +80,9 @@ export interface OCCTModule {
   getOCCTVersion(): string;
 
   // Vector types
-  VectorFloat: any;
-  VectorUint: any;
-  VectorString: any;
+  VectorFloat: unknown;
+  VectorUint: unknown;
+  VectorString: unknown;
 }
 
 // Global module instance
@@ -147,7 +147,7 @@ async function initializeOCCT(): Promise<OCCTModule> {
     }
 
     // Try to load the module - first attempt with fetch for worker context
-    let createModule: any;
+    let createModule: unknown;
 
     const importModule = async (specifier: string): Promise<unknown> => {
       const shouldSpoofProcess = isWorker && !isBrowser && specifier.startsWith('file://');
@@ -242,7 +242,7 @@ async function initializeOCCT(): Promise<OCCTModule> {
       PTHREAD_POOL_SIZE: 4,
 
       // Error handling
-      onAbort: (what: any) => {
+      onAbort: (what: unknown) => {
         console.error('[OCCT Production] WASM abort:', what);
         throw new Error(`OCCT WASM aborted: ${what}`);
       },
@@ -349,7 +349,7 @@ export class OCCTProductionAPI {
     return Number.isFinite(numeric) ? numeric : fallback;
   }
 
-  private buildBoundingBox(source: any): BoundingBox {
+  private buildBoundingBox(source: unknown): BoundingBox {
     if (source?.bbox?.min && source?.bbox?.max) {
       return source.bbox;
     }
@@ -404,7 +404,7 @@ export class OCCTProductionAPI {
     throw new Error('Shape reference must provide an id string');
   }
 
-  private normalizeShapeHandle(handle: any, fallbackType = 'SOLID'): any {
+  private normalizeShapeHandle(handle: unknown, fallbackType = 'SOLID'): unknown {
     if (!handle || !handle.id) {
       throw new Error('OCCT module returned an invalid shape handle');
     }
@@ -454,7 +454,7 @@ export class OCCTProductionAPI {
     };
   }
 
-  private resolveBoundingBoxFromParams(shapeParam: any): BoundingBox {
+  private resolveBoundingBoxFromParams(shapeParam: unknown): BoundingBox {
     if (!shapeParam) {
       throw new Error('Shape parameter is required for GET_BOUNDING_BOX');
     }
@@ -486,7 +486,7 @@ export class OCCTProductionAPI {
   /**
    * Execute a geometry command
    */
-  async execute(command: any): Promise<WorkerResponse> {
+  async execute(command: unknown): Promise<WorkerResponse> {
     await this.ensureInitialized();
 
     if (!this.module) {
@@ -627,7 +627,7 @@ export class OCCTProductionAPI {
           if (sections.length < 2) {
             throw new Error('LOFT operation requires at least two section handles');
           }
-          const sectionIds = sections.map((section: any) => this.getShapeId(section));
+          const sectionIds = sections.map((section: unknown) => this.getShapeId(section));
           const handle = (this.module as unknown).makeLoft(sectionIds, params.options ?? {});
           result = this.normalizeShapeHandle(handle);
           break;
@@ -703,7 +703,7 @@ export class OCCTProductionAPI {
             throw new Error('BOOLEAN_UNION requires at least two shapes');
           }
 
-          let workingHandle: any = null;
+          let workingHandle: unknown = null;
           let currentId = this.getShapeId(shapeRefs[0]);
 
           for (let i = 1; i < shapeRefs.length; i++) {
@@ -726,7 +726,7 @@ export class OCCTProductionAPI {
             throw new Error('BOOLEAN_SUBTRACT requires a base shape and at least one tool');
           }
 
-          let workingHandle: any = null;
+          let workingHandle: unknown = null;
           let currentId = this.getShapeId(base);
 
           for (const tool of tools) {
@@ -748,7 +748,7 @@ export class OCCTProductionAPI {
             throw new Error('BOOLEAN_INTERSECT requires at least two shapes');
           }
 
-          let workingHandle: any = null;
+          let workingHandle: unknown = null;
           let currentId = this.getShapeId(shapeRefs[0]);
 
           for (let i = 1; i < shapeRefs.length; i++) {
