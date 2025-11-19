@@ -64,16 +64,35 @@ export class IsolatedVMExecutor implements ScriptExecutor {
       isolateContext = await isolate.createContext();
 
       // Set up secure sandbox environment
-      await this.setupSecureSandbox(isolateContext, context, logs, metrics);
+      try {
+        await this.setupSecureSandbox(isolateContext, context, logs, metrics);
+      } catch (error) {
+        throw new Error(`Sandbox setup failed: ${(error as Error).message}`);
+      }
 
       // Wrap script in async function for proper execution
       const wrappedScript = this.wrapScript(script);
 
       // Compile script
-      const compiledScript = await isolate.compileScript(wrappedScript);
+      let compiledScript;
+      try {
+        compiledScript = await isolate.compileScript(wrappedScript);
+      } catch (error) {
+        throw new Error(`Script compilation failed: ${(error as Error).message}`);
+      }
 
       // Execute with timeout and memory limits
-      await this.executeWithLimits(compiledScript, isolateContext, permissions.timeoutMS);
+      const scriptResult = await this.executeWithLimits(
+        compiledScript,
+        isolateContext,
+        permissions.timeoutMS
+      );
+
+      // Release the script result reference if it exists
+      // (the script's return value is a Reference that needs cleanup)
+      if (scriptResult && typeof scriptResult.release === 'function') {
+        scriptResult.release();
+      }
 
       // Extract outputs from execution result
       const outputs = await this.extractOutputs(isolateContext);
@@ -362,26 +381,19 @@ async function evaluate(ctx, inputs, params) {
     logs: ScriptLogEntry[],
     _metrics: ScriptMetric[]
   ): Promise<void> {
-    const global = context.global;
-
-    // SECURITY: Set up whitelisted globals only (frozen)
-    await global.set('global', global.derefInto());
-
-    // Math object (frozen, safe)
-    const mathModule = await context.eval('Math');
-    await global.set('Math', mathModule);
-
     // Create storage objects within the isolate for outputs and logs
     await context.eval('globalThis.__outputs__ = {}');
     await context.eval('globalThis.__logs__ = []');
 
-    // Copy inputs and params into the isolate using ExternalCopy
+    // Copy inputs and params into the isolate using JSON (simpler and safer)
     const inputs = (scriptContext as any).inputs || {};
     const params = (scriptContext as any).params || {};
 
-    // Transfer inputs and params to isolate
-    await global.set('__inputs__', new ivm.ExternalCopy(inputs).copyInto());
-    await global.set('__params__', new ivm.ExternalCopy(params).copyInto());
+    const inputsJson = JSON.stringify(inputs);
+    const paramsJson = JSON.stringify(params);
+
+    await context.eval(`globalThis.__inputs__ = JSON.parse('${inputsJson.replace(/'/g, "\\'")}');`);
+    await context.eval(`globalThis.__params__ = JSON.parse('${paramsJson.replace(/'/g, "\\'")}');`);
 
     // Create all utilities within the isolate using eval
     await context.eval(`
