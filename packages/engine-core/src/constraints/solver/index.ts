@@ -3,9 +3,6 @@
  */
 
 import {
-import { createLogger } from '../../logger';
-
-const logger = createLogger('EngineCore');
   ConstraintSystem,
   Constraint,
   GeometryElement,
@@ -13,6 +10,9 @@ const logger = createLogger('EngineCore');
   SolverResult,
 } from '../types';
 import { ConstraintEvaluator } from '../evaluator';
+import { createLogger } from '../../logger';
+
+const logger = createLogger('EngineCore');
 
 /**
  * Default solver configuration
