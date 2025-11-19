@@ -294,7 +294,8 @@ export function containsSuspiciousPatterns(input: string): boolean {
  * @param context - Context where input was detected
  */
 export function logSuspiciousInput(input: string, context: string): void {
-  logger.warn('[SECURITY] Suspicious input detected', {
+  // eslint-disable-next-line no-console -- Security logging in types package (no logger dependency)
+  console.warn('[SECURITY] Suspicious input detected', {
     context,
     inputLength: input.length,
     inputPreview: input.substring(0, 100),
