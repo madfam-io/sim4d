@@ -33,6 +33,7 @@ const isCloudSyncEnabled = (): boolean => {
     typeof globalThis !== 'undefined' &&
     '__BREPFLOW_ENABLE_CLOUD_SYNC__' in (globalThis as unknown)
   ) {
+    // eslint-disable-next-line no-secrets/no-secrets -- Global variable name, not a secret
     return Boolean((globalThis as unknown).__BREPFLOW_ENABLE_CLOUD_SYNC__);
   }
 
@@ -76,6 +77,7 @@ export class CloudSyncManager extends EventEmitter {
     super();
     if (!isCloudSyncEnabled()) {
       throw new Error(
+        // eslint-disable-next-line no-secrets/no-secrets -- Error message with env variable names
         'Cloud sync is disabled. Set BREPFLOW_ENABLE_CLOUD_SYNC=true (or window.__BREPFLOW_ENABLE_CLOUD_SYNC__ = true) to enable this experimental feature.'
       );
     }
@@ -741,19 +743,23 @@ export class CloudSyncManager extends EventEmitter {
     return operations;
   }
 
-  private convertToCollaborationOperation(cloudOp: CloudOperation): any {
+  private convertToCollaborationOperation(
+    cloudOp: CloudOperation
+  ): import('@brepflow/collaboration/src/types').BaseOperation {
     // Convert cloud operation to collaboration operation format
     return {
       id: cloudOp.id,
-      type: cloudOp.type,
+      type: cloudOp.type as import('@brepflow/collaboration/src/types').OperationType,
       userId: cloudOp.userId,
       timestamp: cloudOp.timestamp,
-      version: 0,
-      ...cloudOp.data,
+      documentId: '', // Document ID will be set by caller
+      ...(cloudOp.data as Record<string, unknown>),
     };
   }
 
-  private convertFromCollaborationOperation(collabOp: any): CloudOperation {
+  private convertFromCollaborationOperation(
+    collabOp: import('@brepflow/collaboration/src/types').BaseOperation
+  ): CloudOperation {
     // Convert collaboration operation back to cloud operation format
     return {
       id: collabOp.id,
