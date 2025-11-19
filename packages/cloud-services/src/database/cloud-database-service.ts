@@ -565,7 +565,7 @@ export class CloudDatabaseService extends EventEmitter {
   /**
    * Generic Query Interface
    */
-  private async query(sql: string, params: unknown[] = [], options: QueryOptions = {}): Promise<any[]> {
+  private async query(sql: string, params: unknown[] = [], options: QueryOptions = {}): Promise<unknown[]> {
     const cacheKey = options.cache ? `${sql}:${JSON.stringify(params)}` : null;
 
     // Check cache
@@ -716,7 +716,7 @@ export class CloudDatabaseService extends EventEmitter {
   }
 
   // Provider-specific implementations
-  private async createConnection(): Promise<any> {
+  private async createConnection(): Promise<unknown> {
     throw new Error('Database provider connection implementation required');
   }
 
@@ -724,7 +724,7 @@ export class CloudDatabaseService extends EventEmitter {
     throw new Error('Database migration implementation required');
   }
 
-  private async executeQuery(sql: string, params: unknown[], options: QueryOptions): Promise<any[]> {
+  private async executeQuery(sql: string, params: unknown[], options: QueryOptions): Promise<unknown[]> {
     throw new Error('Database query execution implementation required');
   }
 }

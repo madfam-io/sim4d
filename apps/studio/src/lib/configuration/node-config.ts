@@ -402,7 +402,7 @@ export class NodeConfigurationManager {
       if (configsData) {
         const parsed = JSON.parse(configsData);
         for (const [id, config] of Object.entries(parsed)) {
-          this.configurations.set(id, this.deserializeConfiguration(config as any));
+          this.configurations.set(id, this.deserializeConfiguration(config as unknown));
         }
       }
 
@@ -411,7 +411,7 @@ export class NodeConfigurationManager {
       if (templatesData) {
         const parsed = JSON.parse(templatesData);
         for (const [id, template] of Object.entries(parsed)) {
-          this.templates.set(id, this.deserializeTemplate(template as any));
+          this.templates.set(id, this.deserializeTemplate(template as unknown));
         }
       }
     } catch (error) {

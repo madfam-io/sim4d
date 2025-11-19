@@ -262,7 +262,7 @@ export const AdvancedMaterialNode: NodeDefinition<
  * Perform nonlinear FEA simulation
  */
 export const NonlinearAnalysisNode: NodeDefinition<
-  { mesh: any; material: any; boundaries: any[]; loads: any[] },
+  { mesh: any; material: any; boundaries: unknown[]; loads: unknown[] },
   { results: any; convergence: any },
   {
     analysisType: 'geometric' | 'material' | 'both';
@@ -328,8 +328,8 @@ export const NonlinearAnalysisNode: NodeDefinition<
  * Linear buckling eigenvalue analysis
  */
 export const BucklingAnalysisNode: NodeDefinition<
-  { mesh: any; material: any; boundaries: any[]; loads: any[] },
-  { bucklingFactors: number[]; modes: any[] },
+  { mesh: any; material: any; boundaries: unknown[]; loads: unknown[] },
+  { bucklingFactors: number[]; modes: unknown[] },
   { numberOfModes: number; preStress: boolean }
 > = {
   id: 'Simulation::BucklingAnalysis',

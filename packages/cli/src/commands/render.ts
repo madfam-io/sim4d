@@ -76,7 +76,7 @@ export const renderCommand = new Command('render')
         retryAttempts: 2,
         validateOutput: true,
       });
-      const healthPayload = unwrapOperationResult<any>(
+      const healthPayload = unwrapOperationResult<unknown>(
         await geometryAPI.invoke('HEALTH_CHECK', {})
       );
       if (!healthPayload.success || !healthPayload.result?.healthy) {
@@ -351,13 +351,13 @@ function buildFileName(shape: ShapeCandidate, format: string, includeHash: boole
 export function unwrapOperationResult<T>(value: unknown): {
   success: boolean;
   result: T | undefined;
-  error?: any;
+  error?: Error | unknown;
 } {
   if (value && typeof value === 'object' && 'success' in value) {
     return {
-      success: Boolean((value as any).success),
-      result: (value as any).result as T,
-      error: (value as any).error,
+      success: Boolean((value as unknown).success),
+      result: (value as unknown).result as T,
+      error: (value as unknown).error,
     };
   }
 

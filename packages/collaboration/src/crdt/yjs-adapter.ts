@@ -177,7 +177,7 @@ export class YjsAdapter {
     callback: (added: number[], updated: number[], removed: number[]) => void
   ): void {
     if (this.awareness) {
-      this.awareness.on('change', (event: any) => {
+      this.awareness.on('change', (event: unknown) => {
         callback(event.added, event.updated, event.removed);
       });
     }

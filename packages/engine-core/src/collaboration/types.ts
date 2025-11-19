@@ -61,8 +61,8 @@ export interface CollaborationSession {
 }
 
 export interface GraphState {
-  nodes: Map<NodeId, any>;
-  edges: Map<EdgeId, any>;
+  nodes: Map<NodeId, unknown>;
+  edges: Map<EdgeId, unknown>;
   parameters: Map<string, unknown>;
   version: number;
   lastModified: number;
@@ -354,8 +354,8 @@ export interface CollaborationEngine {
   getPresence: (sessionId: SessionId) => Promise<PresenceState>;
 
   // Event handling
-  addEventListener: (event: string, listener: (...args: any[]) => void) => void;
-  removeEventListener: (event: string, listener: (...args: any[]) => void) => void;
+  addEventListener: (event: string, listener: (...args: unknown[]) => void) => void;
+  removeEventListener: (event: string, listener: (...args: unknown[]) => void) => void;
 }
 
 // Configuration

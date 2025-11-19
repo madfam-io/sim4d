@@ -38,7 +38,7 @@ export interface NodeErrorDiagnostic {
 
 export class ErrorDiagnosticsEngine {
   private static instance: ErrorDiagnosticsEngine | null = null;
-  private diagnosticRules: Map<ErrorCode, (context: any) => DiagnosticSuggestion[]> = new Map();
+  private diagnosticRules: Map<ErrorCode, (context: unknown) => DiagnosticSuggestion[]> = new Map();
   private errorHistory: Map<string, NodeErrorDiagnostic[]> = new Map();
   private readonly MAX_HISTORY_SIZE = 50;
 
@@ -61,7 +61,7 @@ export class ErrorDiagnosticsEngine {
     nodeType: string,
     errorCode: ErrorCode,
     errorMessage: string,
-    context: any = {}
+    context: unknown = {}
   ): NodeErrorDiagnostic {
     const category = this.categorizeError(errorCode);
     const severity = this.assessSeverity(errorCode, context);
@@ -383,7 +383,7 @@ export class ErrorDiagnosticsEngine {
     return ErrorCategory.RUNTIME;
   }
 
-  private assessSeverity(errorCode: ErrorCode, context: any): ErrorSeverity {
+  private assessSeverity(errorCode: ErrorCode, context: unknown): ErrorSeverity {
     // Critical errors that prevent core functionality
     const criticalErrors = [
       ErrorCode.GEOMETRY_ENGINE_NOT_INITIALIZED,
@@ -417,7 +417,7 @@ export class ErrorDiagnosticsEngine {
     }
   }
 
-  private generateSuggestions(errorCode: ErrorCode, context: any): DiagnosticSuggestion[] {
+  private generateSuggestions(errorCode: ErrorCode, context: unknown): DiagnosticSuggestion[] {
     const ruleGenerator = this.diagnosticRules.get(errorCode);
     if (ruleGenerator) {
       return ruleGenerator(context);

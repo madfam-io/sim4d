@@ -332,7 +332,7 @@ export const MirrorPatternNode: NodeDefinition<
 export const VariablePatternNode: NodeDefinition<
   { shape: ShapeHandle },
   { shapes: ShapeHandle[] },
-  { transforms: any[]; keepOriginal: boolean }
+  { transforms: unknown[]; keepOriginal: boolean }
 > = {
   id: 'Pattern::Variable',
   category: 'Pattern',

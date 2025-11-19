@@ -32,7 +32,7 @@ export class GeometryProxy {
    * Execute a geometry operation through the worker
    * Maps node operation types to actual OCCT method names
    */
-  async execute(operation: { type: string; params: unknown }): Promise<any> {
+  async execute(operation: { type: string; params: unknown }): Promise<unknown> {
     // Map the operation type to the actual OCCT method name
     const actualMethod = this.operationMap[operation.type] || operation.type;
 
@@ -42,8 +42,8 @@ export class GeometryProxy {
         return await this.worker.invoke(actualMethod, operation.params);
       }
       // Fallback: try direct method call
-      else if (typeof (this.worker as any)[actualMethod] === 'function') {
-        return await (this.worker as any)[actualMethod](operation.params);
+      else if (typeof (this.worker as unknown)[actualMethod] === 'function') {
+        return await (this.worker as unknown)[actualMethod](operation.params);
       }
       // Alternative: use execute method
       else if (this.worker.execute) {
@@ -158,7 +158,7 @@ export function createEnhancedContext(context: EvalContext): EnhancedEvalContext
 export function patchDAGEngine(DAGEngineClass: any): void {
   const originalEvaluateNode = DAGEngineClass.prototype.evaluateNode;
 
-  DAGEngineClass.prototype.evaluateNode = async function (graph: any, nodeId: string) {
+  DAGEngineClass.prototype.evaluateNode = async function (graph: unknown, nodeId: string) {
     // Store original context creation
     const originalContextCreation = this.createContext;
 
@@ -187,10 +187,10 @@ export async function initializeNodeAdapter(): Promise<void> {
   try {
     // Get the geometry API (real or mock based on configuration)
     // TODO: Implement proper API initialization when GeometryAPIFactory is available
-    const api: any = null; // await GeometryAPIFactory.getAPI();
+    const api: unknown = null; // await GeometryAPIFactory.getAPI();
 
     // Store globally for access by the DAG engine
-    (global as any).__OCCT_GEOMETRY_API = api;
+    (global as unknown).__OCCT_GEOMETRY_API = api;
 
     console.log('✅ OCCT node adapter initialized successfully');
     console.log('📊 Operation mappings loaded:', Object.keys(OPERATION_MAP).length);
@@ -216,7 +216,7 @@ export async function initializeNodeAdapter(): Promise<void> {
  * Check if real geometry is available
  */
 export function isRealGeometryAvailable(): boolean {
-  return !!(global as any).__OCCT_GEOMETRY_API;
+  return !!(global as unknown).__OCCT_GEOMETRY_API;
 }
 
 /**

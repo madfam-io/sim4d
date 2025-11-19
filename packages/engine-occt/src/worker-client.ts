@@ -77,7 +77,7 @@ export class WorkerClient implements WorkerAPI {
   /**
    * Send request to worker
    */
-  private async sendRequest(request: Partial<WorkerRequest>): Promise<any> {
+  private async sendRequest(request: Partial<WorkerRequest>): Promise<unknown> {
     if (!this.worker) {
       throw new Error('Worker not initialized');
     }
@@ -137,7 +137,7 @@ export class WorkerClient implements WorkerAPI {
     await this.init();
 
     const result = await this.sendRequest({
-      type: operation as any,
+      type: operation as unknown,
       params,
     } as WorkerRequest);
 

@@ -384,7 +384,7 @@ export class RetryHandler {
   /**
    * Create a retryable wrapper function
    */
-  public createRetryableWrapper<T extends any[], R>(
+  public createRetryableWrapper<T extends unknown[], R>(
     fn: (...args: T) => Promise<R>,
     config: RetryConfig,
     operationName?: string

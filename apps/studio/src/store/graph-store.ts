@@ -137,7 +137,7 @@ export const useGraphStore = create<GraphState>()(
             ...geometryAPI,
             dispose: () => geometryAPI.shutdown(),
           };
-          return new DAGEngine({ worker: workerAPI as any });
+          return new DAGEngine({ worker: workerAPI as unknown });
         } catch (error) {
           logger.error('Failed to initialize geometry API', {
             error: error instanceof Error ? error.message : String(error),

@@ -296,8 +296,8 @@ export class HealthService {
    * Get memory usage information
    */
   private async getMemoryUsage(): Promise<MemoryInfo> {
-    if ('memory' in performance && (performance as any).memory) {
-      const memory = (performance as any).memory;
+    if ('memory' in performance && (performance as unknown).memory) {
+      const memory = (performance as unknown).memory;
       return {
         used: memory.usedJSHeapSize,
         total: memory.jsHeapSizeLimit,

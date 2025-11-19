@@ -385,7 +385,7 @@ export class CollaborationServer {
    */
   private isValidUser(user: unknown): user is User {
     if (typeof user !== 'object' || user === null) return false;
-    const u = user as any;
+    const u = user as unknown;
     return (
       typeof u.id === 'string' &&
       u.id.length > 0 &&
@@ -401,7 +401,7 @@ export class CollaborationServer {
    */
   private isValidOperation(operation: unknown): operation is Operation {
     if (typeof operation !== 'object' || operation === null) return false;
-    const op = operation as any;
+    const op = operation as unknown;
 
     // Basic validation - extend based on Operation type definition
     return (

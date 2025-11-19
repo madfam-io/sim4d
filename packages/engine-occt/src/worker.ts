@@ -23,7 +23,7 @@ if (!isBrowserLikeWorker) {
 
 const postMessageToHost = (message: WorkerResponse | any) => {
   if (isBrowserLikeWorker) {
-    (self as any).postMessage(message);
+    (self as unknown).postMessage(message);
   } else if (parentPort) {
     parentPort.postMessage(message);
   } else {
@@ -33,7 +33,7 @@ const postMessageToHost = (message: WorkerResponse | any) => {
 
 const addHostMessageListener = (handler: (event: { data: WorkerRequest }) => void) => {
   if (isBrowserLikeWorker) {
-    (self as any).addEventListener('message', handler as unknown as EventListener);
+    (self as unknown).addEventListener('message', handler as unknown as EventListener);
   } else if (parentPort) {
     parentPort.on('message', (data: WorkerRequest) => handler({ data }));
   } else {
@@ -84,9 +84,9 @@ const toVector3 = (
 
   if (value && typeof value === 'object') {
     return [
-      toFiniteNumber(value.x ?? (value as any)[0]),
-      toFiniteNumber(value.y ?? (value as any)[1]),
-      toFiniteNumber(value.z ?? (value as any)[2]),
+      toFiniteNumber(value.x ?? (value as unknown)[0]),
+      toFiniteNumber(value.y ?? (value as unknown)[1]),
+      toFiniteNumber(value.z ?? (value as unknown)[2]),
     ];
   }
 
@@ -99,7 +99,7 @@ const toVector3 = (
 //   return { x, y, z };
 // };
 
-// const unwrapShape = (shape: any) => (shape?.raw ? shape.raw : shape);
+// const unwrapShape = (shape: unknown) => (shape?.raw ? shape.raw : shape);
 
 const buildBoundingBox = (source: any) => {
   if (source?.bbox?.min && source?.bbox?.max) {
@@ -120,7 +120,7 @@ const buildBoundingBox = (source: any) => {
   };
 };
 
-const getShapeId = (shape: any): string => {
+const getShapeId = (shape: unknown): string => {
   if (typeof shape === 'string') {
     return shape;
   }
@@ -156,7 +156,7 @@ const buildMemoryUsage = (shapeCountProvider?: () => number) => {
   const shapeCount = shapeCountProvider ? shapeCountProvider() : 0;
   const memorySample =
     typeof performance !== 'undefined' && 'memory' in performance
-      ? (performance as any).memory
+      ? (performance as unknown).memory
       : null;
 
   const toMB = (value: number | undefined) =>
@@ -185,7 +185,7 @@ const handleWithBindings = (request: WorkerRequest): any => {
   // The operation normalization (e.g., 'MAKE_BOX' -> 'BOX') prevents TypeScript from narrowing
   // request.params to the specific request type. Runtime behavior is safe due to switch logic.
   // TODO: Refactor to preserve type discrimination (switch on request.type directly)
-  const params = (request.params ?? {}) as any;
+  const params = (request.params ?? {}) as unknown;
   const operation = normalizeOperationType(request.type);
 
   switch (operation) {

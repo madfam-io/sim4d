@@ -244,7 +244,7 @@ async function renderVariant(
     retryAttempts: 2,
     validateOutput: true,
   });
-  const health = unwrapOperationResult<any>(await geometryAPI.invoke('HEALTH_CHECK', {}));
+  const health = unwrapOperationResult<unknown>(await geometryAPI.invoke('HEALTH_CHECK', {}));
   if (!health.success || !health.result?.healthy) {
     throw new Error('OCCT health check failed');
   }

@@ -241,7 +241,7 @@ export class WASMCapabilityDetector {
 
       // Add device memory API if available
       if ('deviceMemory' in navigator) {
-        const deviceMemory = (navigator as any).deviceMemory * 1024; // GB to MB
+        const deviceMemory = (navigator as unknown).deviceMemory * 1024; // GB to MB
         return Math.min(maxMemory, deviceMemory / 2); // Use half of device memory
       }
 

@@ -19,7 +19,7 @@ export interface ExportOptions {
  * Export geometry to CAD format
  */
 export async function exportGeometry(
-  geometryHandles: any[],
+  geometryHandles: unknown[],
   options: ExportOptions
 ): Promise<Blob> {
   // Check if real geometry is available

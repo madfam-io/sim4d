@@ -135,7 +135,7 @@ export class WebSocketService extends EventEmitter {
   /**
    * Connection Management
    */
-  private async handleConnection(socket: WebSocket, request: any): Promise<void> {
+  private async handleConnection(socket: WebSocket, request: unknown): Promise<void> {
     const connectionId = this.generateConnectionId();
     const connection: ClientConnection = {
       id: connectionId,

@@ -14,7 +14,7 @@ const logger = createChildLogger({ module: 'useCollaboration' });
 const secureWebSocketClient = new SecureWebSocketClient();
 
 // Create collaboration engine with secure WebSocket
-const collaborationEngine = new BrepFlowCollaborationEngine(secureWebSocketClient as any);
+const collaborationEngine = new BrepFlowCollaborationEngine(secureWebSocketClient as unknown);
 import type {
   CollaborationUser,
   CursorPosition,
@@ -308,7 +308,7 @@ export function useCollaboration(
 
   // Set up event listeners
   useEffect(() => {
-    const handleUserJoined = (event: any) => {
+    const handleUserJoined = (event: unknown) => {
       if (event.sessionId === state.sessionId && event.userId !== state.currentUser?.id) {
         setState((prev) => {
           const newUsers = new Map(prev.users);
@@ -318,7 +318,7 @@ export function useCollaboration(
       }
     };
 
-    const handleUserLeft = (event: any) => {
+    const handleUserLeft = (event: unknown) => {
       if (event.sessionId === state.sessionId) {
         setState((prev) => {
           const newUsers = new Map(prev.users);
@@ -339,7 +339,7 @@ export function useCollaboration(
       }
     };
 
-    const handleCursorUpdated = (event: any) => {
+    const handleCursorUpdated = (event: unknown) => {
       if (event.sessionId === state.sessionId && event.userId !== state.currentUser?.id) {
         setState((prev) => {
           const newCursors = new Map(prev.cursors);
@@ -349,7 +349,7 @@ export function useCollaboration(
       }
     };
 
-    const handleSelectionUpdated = (event: any) => {
+    const handleSelectionUpdated = (event: unknown) => {
       if (event.sessionId === state.sessionId && event.userId !== state.currentUser?.id) {
         setState((prev) => {
           const newSelections = new Map(prev.selections);
@@ -359,7 +359,7 @@ export function useCollaboration(
       }
     };
 
-    const handleUserUpdated = (event: any) => {
+    const handleUserUpdated = (event: unknown) => {
       if (event.sessionId === state.sessionId) {
         setState((prev) => {
           const newUsers = new Map(prev.users);

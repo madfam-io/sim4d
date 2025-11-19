@@ -43,7 +43,7 @@ if (typeof window !== 'undefined') {
   }
 
   // Set up a simple require function for our polyfills
-  (window as any).require = function (id: string) {
+  (window as unknown).require = function (id: string) {
     switch (id) {
       case 'path':
         return pathMock;

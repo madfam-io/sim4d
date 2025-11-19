@@ -31,10 +31,10 @@ export interface ErrorContext {
   workerId?: string;
   timestamp: number;
   stackTrace?: string;
-  memoryState?: any;
+  memoryState?: unknown;
   retryCount: number;
   userAgent?: string;
-  capabilities?: any;
+  capabilities?: unknown;
 }
 
 export interface ValidationRule {
@@ -55,7 +55,7 @@ export interface ValidationResult {
 export interface RecoveryStrategy {
   name: string;
   canRecover: (error: OCCTError) => boolean;
-  recover: (error: OCCTError, context: ErrorContext) => Promise<any>;
+  recover: (error: OCCTError, context: ErrorContext) => Promise<unknown>;
   maxRetries: number;
   backoffMs: number;
 }
@@ -148,7 +148,7 @@ export class ErrorRecoverySystem {
     operation: string,
     params: unknown,
     context: Partial<ErrorContext> = {}
-  ): Promise<{ recovered: boolean; result?: any; finalError?: OCCTError }> {
+  ): Promise<{ recovered: boolean; result?: unknown; finalError?: OCCTError }> {
     const endMeasurement = WASMPerformanceMonitor?.startMeasurement('error-recovery');
 
     // Convert to OCCTError if needed
@@ -526,7 +526,7 @@ export class ErrorRecoverySystem {
   /**
    * Retry operation (placeholder for integration with actual operation system)
    */
-  private async retryOperation(operation: string, params: unknown): Promise<any> {
+  private async retryOperation(operation: string, params: unknown): Promise<unknown> {
     // This would integrate with the actual OCCT operation system
     console.log(`[ErrorRecovery] Retrying operation ${operation} with params:`, params);
 

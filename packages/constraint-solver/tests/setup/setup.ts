@@ -15,7 +15,7 @@ if (typeof global.performance === 'undefined') {
     getEntriesByType: vi.fn(() => []),
     clearMarks: vi.fn(),
     clearMeasures: vi.fn(),
-  } as any;
+  } as unknown;
 }
 
 // Mock crypto.randomUUID if not available
@@ -28,7 +28,7 @@ if (typeof global.crypto === 'undefined') {
       }
       return arr;
     }),
-  } as any;
+  } as unknown;
 }
 
 // Set up mathematical precision for constraint solving tests

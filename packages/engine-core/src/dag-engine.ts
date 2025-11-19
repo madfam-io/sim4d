@@ -52,7 +52,7 @@ try {
     }
     private worker: WorkerAPI;
 
-    async execute(operation: { type: string; params: unknown }): Promise<any> {
+    async execute(operation: { type: string; params: unknown }): Promise<unknown> {
       // Mock implementation for tests
       return { type: operation.type, ...operation.params };
     }
@@ -264,7 +264,7 @@ export class DAGEngine {
   /**
    * Collect input values for a node
    */
-  private async collectInputs(graph: GraphInstance, node: NodeInstance): Promise<any> {
+  private async collectInputs(graph: GraphInstance, node: NodeInstance): Promise<unknown> {
     const inputs: any = {};
 
     for (const [inputName, socketRef] of Object.entries(node.inputs)) {
@@ -287,7 +287,7 @@ export class DAGEngine {
   /**
    * Get value from a socket reference
    */
-  private async getSocketValue(graph: GraphInstance, ref: any): Promise<any> {
+  private async getSocketValue(graph: GraphInstance, ref: any): Promise<unknown> {
     const sourceNode = graph.nodes.find((n) => n.id === ref.nodeId);
     if (!sourceNode) {
       throw new Error(`Source node ${ref.nodeId} not found`);

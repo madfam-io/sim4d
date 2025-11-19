@@ -25,12 +25,12 @@ export interface GeometryAPIConfig {
   enablePerformanceMonitoring: boolean;
   enableMemoryManagement: boolean;
   enableErrorRecovery: boolean;
-  workerPoolConfig?: any;
-  memoryConfig?: any;
+  workerPoolConfig?: unknown;
+  memoryConfig?: unknown;
   maxRetries: number;
   operationTimeout: number;
   // Dependency injection for testing - allows tests to provide mock OCCT loader
-  occtLoader?: (config?: any) => Promise<any>;
+  occtLoader?: (config?: unknown) => Promise<unknown>;
 }
 
 export interface OperationResult<T = any> {
@@ -209,7 +209,7 @@ export class IntegratedGeometryAPI {
           'OCCT_INITIALIZATION',
           this.environment
         );
-        (boundaryError as any).cause = occtError;
+        (boundaryError as unknown).cause = occtError;
         throw boundaryError;
       }
 
@@ -308,7 +308,7 @@ export class IntegratedGeometryAPI {
         }
       }
 
-      let rawResult: any;
+      let rawResult: unknown;
       try {
         if (this.workerPool) {
           const workerResult = await this.workerPool.execute(operation, params, {
@@ -489,7 +489,7 @@ export class IntegratedGeometryAPI {
     return 1;
   }
 
-  private normalizeOperationResult<T>(operation: string, rawResult: any): T {
+  private normalizeOperationResult<T>(operation: string, rawResult: unknown): T {
     if (operation === 'TESSELLATE') {
       const mesh = rawResult?.mesh ?? rawResult;
       if (!mesh) {
@@ -497,15 +497,15 @@ export class IntegratedGeometryAPI {
       }
 
       if (mesh.positions && !('vertices' in mesh)) {
-        (mesh as any).vertices = mesh.positions;
+        (mesh as unknown).vertices = mesh.positions;
       }
 
       if (!mesh.normals) {
-        (mesh as any).normals = new Float32Array();
+        (mesh as unknown).normals = new Float32Array();
       }
 
       if (!mesh.indices) {
-        (mesh as any).indices = new Uint32Array();
+        (mesh as unknown).indices = new Uint32Array();
       }
 
       return mesh as T;
@@ -522,7 +522,7 @@ export class IntegratedGeometryAPI {
    * Get comprehensive system statistics
    */
   getStats() {
-    const stats: any = {
+    const stats: Record<string, unknown> = {
       initialized: this.initialized,
       capabilities: this.capabilities,
       usingRealOCCT: this.usingRealOCCT,

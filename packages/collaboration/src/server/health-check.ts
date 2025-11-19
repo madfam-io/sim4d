@@ -153,7 +153,7 @@ async function checkPostgresConnection(pgPool?: any): Promise<HealthCheckResult>
  */
 function checkWebSocketStatus(io: SocketIOServer): HealthCheckResult {
   try {
-    const engine = io.engine as any;
+    const engine = io.engine as unknown;
     const clientsCount = engine?.clientsCount ?? 0;
 
     return {

@@ -19,7 +19,7 @@ export type ParameterId = string;
 // Add missing type definitions
 export type User = ParticipantData;
 export type SessionState = {
-  nodes: Map<NodeId, any>;
+  nodes: Map<NodeId, unknown>;
   edges: Map<string, unknown>;
   parameters: Map<string, unknown>;
   version: number;
@@ -250,7 +250,7 @@ export class BrepFlowCollaborationEngine {
 
     // Check for parameter conflicts
     if (operation.type === 'UPDATE_NODE_PARAMS') {
-      const updateOp = operation as any;
+      const updateOp = operation as unknown;
       const lock = this.lockManager.getLock(session.id, updateOp.parameterId);
 
       if (lock && lock.userId !== operation.userId) {
@@ -283,7 +283,7 @@ export class BrepFlowCollaborationEngine {
 
     switch (operation.type) {
       case 'CREATE_NODE': {
-        const createNodeOp = operation as any;
+        const createNodeOp = operation as unknown;
         state.nodes.set(createNodeOp.nodeId, {
           id: createNodeOp.nodeId,
           type: createNodeOp.nodeType,
@@ -294,7 +294,7 @@ export class BrepFlowCollaborationEngine {
       }
 
       case 'DELETE_NODE': {
-        const deleteNodeOp = operation as any;
+        const deleteNodeOp = operation as unknown;
         state.nodes.delete(deleteNodeOp.nodeId);
         // Also remove edges connected to this node
         for (const [edgeId, edge] of state.edges) {
@@ -309,7 +309,7 @@ export class BrepFlowCollaborationEngine {
       }
 
       case 'UPDATE_NODE_POSITION': {
-        const updatePosOp = operation as any;
+        const updatePosOp = operation as unknown;
         const posNode = state.nodes.get(updatePosOp.nodeId);
         if (posNode) {
           posNode.position = updatePosOp.position;
@@ -318,7 +318,7 @@ export class BrepFlowCollaborationEngine {
       }
 
       case 'UPDATE_NODE_PARAMS': {
-        const updateParamsOp = operation as any;
+        const updateParamsOp = operation as unknown;
         const paramsNode = state.nodes.get(updateParamsOp.nodeId);
         if (paramsNode) {
           paramsNode.params = { ...paramsNode.params, ...updateParamsOp.params };
@@ -327,7 +327,7 @@ export class BrepFlowCollaborationEngine {
       }
 
       case 'CREATE_EDGE': {
-        const createEdgeOp = operation as any;
+        const createEdgeOp = operation as unknown;
         state.edges.set(createEdgeOp.edgeId, {
           id: createEdgeOp.edgeId,
           sourceNodeId: createEdgeOp.sourceNodeId,
@@ -339,7 +339,7 @@ export class BrepFlowCollaborationEngine {
       }
 
       case 'DELETE_EDGE': {
-        const deleteEdgeOp = operation as any;
+        const deleteEdgeOp = operation as unknown;
         state.edges.delete(deleteEdgeOp.edgeId);
         break;
       }

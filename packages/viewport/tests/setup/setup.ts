@@ -18,7 +18,7 @@ if (typeof global.performance === 'undefined') {
     getEntriesByType: vi.fn(() => []),
     clearMarks: vi.fn(),
     clearMeasures: vi.fn(),
-  } as any;
+  } as unknown;
 }
 
 // Mock crypto.randomUUID if not available
@@ -31,7 +31,7 @@ if (typeof global.crypto === 'undefined') {
       }
       return arr;
     }),
-  } as any;
+  } as unknown;
 }
 
 // Mock Canvas for Three.js tests
@@ -49,7 +49,7 @@ const mockCanvas = {
   height: 600,
 };
 
-global.HTMLCanvasElement = vi.fn().mockImplementation(() => mockCanvas) as any;
+global.HTMLCanvasElement = vi.fn().mockImplementation(() => mockCanvas) as unknown;
 
 // Mock WebGL context for Three.js
 const mockWebGLContext = {
@@ -92,7 +92,7 @@ global.window = {
   removeEventListener: vi.fn(),
   requestAnimationFrame: vi.fn((cb) => setTimeout(cb, 16)),
   cancelAnimationFrame: vi.fn(),
-} as any;
+} as unknown;
 
 global.document = {
   createElement: vi.fn((tag) => {
@@ -108,6 +108,6 @@ global.document = {
   },
   addEventListener: vi.fn(),
   removeEventListener: vi.fn(),
-} as any;
+} as unknown;
 
 export {};

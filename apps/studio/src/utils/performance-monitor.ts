@@ -162,8 +162,8 @@ export class PerformanceMonitor {
   }
 
   private updateMemoryMetrics(): void {
-    if ('memory' in performance && (performance as any).memory) {
-      const memory = (performance as any).memory;
+    if ('memory' in performance && (performance as unknown).memory) {
+      const memory = (performance as unknown).memory;
       this.metrics.memory = {
         used: memory.usedJSHeapSize,
         limit: memory.jsHeapSizeLimit,
@@ -303,13 +303,13 @@ export class PerformanceMonitor {
     workflowName: string,
     workflow: () => Promise<void>
   ): Promise<{ duration: number; memory: number }> {
-    const startMemory = (performance as any).memory?.usedJSHeapSize || 0;
+    const startMemory = (performance as unknown).memory?.usedJSHeapSize || 0;
     const startTime = performance.now();
 
     await workflow();
 
     const endTime = performance.now();
-    const endMemory = (performance as any).memory?.usedJSHeapSize || 0;
+    const endMemory = (performance as unknown).memory?.usedJSHeapSize || 0;
 
     return {
       duration: endTime - startTime,
@@ -400,7 +400,7 @@ export const PerformanceOptimizer = {
     }
   },
 
-  throttleUpdates<T extends (...args: any[]) => void>(fn: T, delay: number): T {
+  throttleUpdates<T extends (...args: unknown[]) => void>(fn: T, delay: number): T {
     let lastCall = 0;
     let timeout: NodeJS.Timeout | null = null;
 

@@ -33,7 +33,7 @@ function startMemoryMonitoring() {
 
   memoryMonitor = setInterval(() => {
     if (typeof performance !== 'undefined' && 'memory' in performance) {
-      const memory = (performance as any).memory;
+      const memory = (performance as unknown).memory;
       const usedMB = Math.round(memory.usedJSHeapSize / 1024 / 1024);
       const totalMB = Math.round(memory.totalJSHeapSize / 1024 / 1024);
 
@@ -310,7 +310,7 @@ function transformShapeHandle(occtShape: any) {
 }
 
 // Boolean operations with validation
-function performBooleanUnion(shapes: any[]): any {
+function performBooleanUnion(shapes: unknown[]): any {
   if (shapes.length < 2) {
     throw new WorkerError('INVALID_PARAMS', 'Boolean union requires at least 2 shapes', {
       count: shapes.length,
@@ -331,7 +331,7 @@ function performBooleanUnion(shapes: any[]): any {
   return result;
 }
 
-function performBooleanSubtract(base: any, tools: any[]): any {
+function performBooleanSubtract(base: any, tools: unknown[]): any {
   if (!base || tools.length === 0) {
     throw new WorkerError(
       'INVALID_PARAMS',
@@ -354,7 +354,7 @@ function performBooleanSubtract(base: any, tools: any[]): any {
   return result;
 }
 
-function performBooleanIntersect(shapes: any[]): any {
+function performBooleanIntersect(shapes: unknown[]): any {
   if (shapes.length < 2) {
     throw new WorkerError('INVALID_PARAMS', 'Boolean intersect requires at least 2 shapes', {
       count: shapes.length,

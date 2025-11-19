@@ -56,7 +56,7 @@ export const TopologyOptimizationNode: NodeDefinition<
   { optimizedShape: ShapeHandle },
   {
     objectiveFunction: string;
-    constraints: any[];
+    constraints: unknown[];
     targetReduction: number;
     preserveFeatures: boolean;
   }

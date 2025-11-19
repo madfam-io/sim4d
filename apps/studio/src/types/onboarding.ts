@@ -35,7 +35,7 @@ export interface PlaygroundObjective {
   description: string;
   completed: boolean;
   hint?: string;
-  validation: (graph: any) => boolean;
+  validation: (graph: unknown) => boolean;
 }
 
 export interface Playground {

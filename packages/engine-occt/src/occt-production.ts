@@ -131,7 +131,7 @@ async function initializeOCCT(): Promise<OCCTModule> {
     let wasmModuleUrl: string;
 
     if (isWorker) {
-      const origin = (self as any)?.location?.origin;
+      const origin = (self as unknown)?.location?.origin;
       if (origin && origin !== 'null') {
         wasmModuleUrl = `${origin}/wasm/occt.js`;
       } else {
@@ -149,7 +149,7 @@ async function initializeOCCT(): Promise<OCCTModule> {
     // Try to load the module - first attempt with fetch for worker context
     let createModule: any;
 
-    const importModule = async (specifier: string): Promise<any> => {
+    const importModule = async (specifier: string): Promise<unknown> => {
       const shouldSpoofProcess = isWorker && !isBrowser && specifier.startsWith('file://');
       let originalDescriptor: PropertyDescriptor | undefined;
 
@@ -174,7 +174,7 @@ async function initializeOCCT(): Promise<OCCTModule> {
             if (originalDescriptor) {
               Object.defineProperty(globalThis, 'process', originalDescriptor);
             } else {
-              delete (globalThis as any).process;
+              delete (globalThis as unknown).process;
             }
           } catch (error) {
             console.warn('[OCCT Production] Unable to restore process global:', error);
@@ -335,7 +335,7 @@ export class OCCTProductionAPI {
   }
 
   private hasModuleMethod(name: keyof OCCTModule | string): boolean {
-    return !!this.module && typeof (this.module as any)[name] === 'function';
+    return !!this.module && typeof (this.module as unknown)[name] === 'function';
   }
 
   private guardModuleMethod(name: keyof OCCTModule | string): void {
@@ -383,16 +383,16 @@ export class OCCTProductionAPI {
 
     if (value && typeof value === 'object') {
       return [
-        this.toFiniteNumber(value.x ?? (value as any)[0]),
-        this.toFiniteNumber(value.y ?? (value as any)[1]),
-        this.toFiniteNumber(value.z ?? (value as any)[2]),
+        this.toFiniteNumber(value.x ?? (value as unknown)[0]),
+        this.toFiniteNumber(value.y ?? (value as unknown)[1]),
+        this.toFiniteNumber(value.z ?? (value as unknown)[2]),
       ];
     }
 
     return fallback;
   }
 
-  private getShapeId(shape: any): string {
+  private getShapeId(shape: unknown): string {
     if (typeof shape === 'string') {
       return shape;
     }
@@ -440,7 +440,7 @@ export class OCCTProductionAPI {
     const shapeCount = this.module?.getShapeCount?.() ?? 0;
     const memorySample =
       typeof performance !== 'undefined' && 'memory' in performance
-        ? (performance as any).memory
+        ? (performance as unknown).memory
         : null;
 
     const toMB = (value: number | undefined) =>
@@ -616,7 +616,7 @@ export class OCCTProductionAPI {
           const profile = this.getShapeId(params.profile);
           const path = this.getShapeId(params.path);
           const options = params.options ?? {};
-          const handle = (this.module as any).makeSweep(profile, path, options);
+          const handle = (this.module as unknown).makeSweep(profile, path, options);
           result = this.normalizeShapeHandle(handle);
           break;
         }
@@ -628,7 +628,7 @@ export class OCCTProductionAPI {
             throw new Error('LOFT operation requires at least two section handles');
           }
           const sectionIds = sections.map((section: any) => this.getShapeId(section));
-          const handle = (this.module as any).makeLoft(sectionIds, params.options ?? {});
+          const handle = (this.module as unknown).makeLoft(sectionIds, params.options ?? {});
           result = this.normalizeShapeHandle(handle);
           break;
         }
@@ -661,7 +661,7 @@ export class OCCTProductionAPI {
           this.guardModuleMethod('makeOffset');
           const shapeId = this.getShapeId(params.shape);
           const offset = this.toFiniteNumber(params.offset ?? params.distance ?? 1);
-          const handle = (this.module as any).makeOffset(shapeId, offset, params.options ?? {});
+          const handle = (this.module as unknown).makeOffset(shapeId, offset, params.options ?? {});
           result = this.normalizeShapeHandle(handle);
           break;
         }
@@ -814,21 +814,21 @@ export class OCCTProductionAPI {
         case 'EXPORT_IGES': {
           this.guardModuleMethod('exportIGES');
           const shapeId = this.getShapeId(params.shape);
-          result = (this.module as any).exportIGES(shapeId);
+          result = (this.module as unknown).exportIGES(shapeId);
           break;
         }
 
         case 'EXPORT_OBJ': {
           this.guardModuleMethod('exportOBJ');
           const shapeId = this.getShapeId(params.shape);
-          result = (this.module as any).exportOBJ(shapeId);
+          result = (this.module as unknown).exportOBJ(shapeId);
           break;
         }
 
         case 'EXPORT_BREP': {
           this.guardModuleMethod('exportBREP');
           const shapeId = this.getShapeId(params.shape);
-          result = (this.module as any).exportBREP(shapeId);
+          result = (this.module as unknown).exportBREP(shapeId);
           break;
         }
 
@@ -877,7 +877,7 @@ export class OCCTProductionAPI {
         id: command.id,
         result,
         success: true,
-      } as any;
+      } as unknown;
     } catch (error) {
       console.error('[OCCTProductionAPI] Command failed:', command.type, error);
 

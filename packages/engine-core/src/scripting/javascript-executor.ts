@@ -423,21 +423,21 @@ async function evaluate(ctx, inputs, params) {
         if (typeof name !== 'string' || name.length > 100) {
           throw new Error('Invalid input name');
         }
-        return (context as any).inputs?.[name];
+        return (context as unknown).inputs?.[name];
       },
       getParameter: (name: string, defaultValue?: any) => {
         if (typeof name !== 'string' || name.length > 100) {
           throw new Error('Invalid parameter name');
         }
-        return (context as any).params?.[name] ?? defaultValue;
+        return (context as unknown).params?.[name] ?? defaultValue;
       },
       setOutput: (name: string, value: unknown) => {
         if (typeof name !== 'string' || name.length > 100) {
           throw new Error('Invalid output name');
         }
         // SECURITY: Deep freeze outputs to prevent mutation
-        if (!(context as any).outputs) (context as any).outputs = {};
-        (context as any).outputs[name] = Object.freeze(value);
+        if (!(context as unknown).outputs) (context as unknown).outputs = {};
+        (context as unknown).outputs[name] = Object.freeze(value);
       },
       log: (message: string, level: 'info' | 'warn' | 'error' = 'info') => {
         // SECURITY: Sanitize log messages
@@ -710,7 +710,7 @@ async function evaluate(ctx, inputs, params) {
       timestamp: Date.now(),
       level,
       message,
-      nodeId: nodeId as any, // TODO: Fix NodeId branded type
+      nodeId: nodeId as unknown, // TODO: Fix NodeId branded type
       executionId: 'current',
     });
   }
@@ -727,7 +727,7 @@ async function evaluate(ctx, inputs, params) {
       value,
       unit,
       timestamp: Date.now(),
-      nodeId: nodeId as any, // TODO: Fix NodeId branded type
+      nodeId: nodeId as unknown, // TODO: Fix NodeId branded type
     });
   }
 
@@ -771,7 +771,7 @@ async function evaluate(ctx, inputs, params) {
       {
         label: 'ctx.geom.invoke',
         kind: 'function',
-        detail: '(operation: string, params: unknown) => Promise<any>',
+        detail: '(operation: string, params: unknown) => Promise<unknown>',
         documentation: 'Invoke a geometry operation',
         insertText: 'ctx.geom.invoke($1)',
       },

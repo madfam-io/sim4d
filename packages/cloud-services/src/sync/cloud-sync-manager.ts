@@ -31,9 +31,9 @@ const isCloudSyncEnabled = (): boolean => {
 
   if (
     typeof globalThis !== 'undefined' &&
-    '__BREPFLOW_ENABLE_CLOUD_SYNC__' in (globalThis as any)
+    '__BREPFLOW_ENABLE_CLOUD_SYNC__' in (globalThis as unknown)
   ) {
-    return Boolean((globalThis as any).__BREPFLOW_ENABLE_CLOUD_SYNC__);
+    return Boolean((globalThis as unknown).__BREPFLOW_ENABLE_CLOUD_SYNC__);
   }
 
   return false;
@@ -468,11 +468,11 @@ export class CloudSyncManager extends EventEmitter {
   private operationsConflict(op1: CloudOperation, op2: CloudOperation): boolean {
     // Check if operations affect the same resources
     if (op1.type === 'UPDATE_NODE_PARAMS' && op2.type === 'UPDATE_NODE_PARAMS') {
-      return (op1.data as any).nodeId === (op2.data as any).nodeId;
+      return (op1.data as unknown).nodeId === (op2.data as unknown).nodeId;
     }
 
     if (op1.type === 'DELETE_NODE' && op2.type !== 'DELETE_NODE') {
-      return (op2.data as any).nodeId === (op1.data as any).nodeId;
+      return (op2.data as unknown).nodeId === (op1.data as unknown).nodeId;
     }
 
     return false;
@@ -546,7 +546,7 @@ export class CloudSyncManager extends EventEmitter {
     return this.apiClient.getProjectVersion(projectId);
   }
 
-  private async fetchRemoteProjectState(projectId: ProjectId): Promise<any> {
+  private async fetchRemoteProjectState(projectId: ProjectId): Promise<unknown> {
     return this.apiClient.getProjectState(projectId);
   }
 

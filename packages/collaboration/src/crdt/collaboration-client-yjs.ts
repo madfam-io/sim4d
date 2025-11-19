@@ -101,7 +101,7 @@ export class CollaborationClientYjs {
       // Notify about joins
       if (added.length > 0) {
         presenceList
-          .filter((p) => added.includes((p.user as any).clientId))
+          .filter((p) => added.includes((p.user as unknown).clientId))
           .forEach((p) => {
             this.eventHandlers.onPresenceJoin?.(p);
           });
@@ -110,7 +110,7 @@ export class CollaborationClientYjs {
       // Notify about updates
       if (updated.length > 0) {
         const updatedPresence = presenceList.filter((p) =>
-          updated.includes((p.user as any).clientId)
+          updated.includes((p.user as unknown).clientId)
         );
         this.eventHandlers.onPresenceUpdate?.(updatedPresence);
       }

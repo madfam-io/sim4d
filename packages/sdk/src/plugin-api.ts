@@ -71,14 +71,14 @@ export interface PluginContext {
 }
 
 export interface Logger {
-  debug(message: string, ...args: any[]): void;
-  info(message: string, ...args: any[]): void;
-  warn(message: string, ...args: any[]): void;
+  debug(message: string, ...args: unknown[]): void;
+  info(message: string, ...args: unknown[]): void;
+  warn(message: string, ...args: unknown[]): void;
   error(message: string, error?: Error): void;
 }
 
 export interface Storage {
-  get(key: string): Promise<any>;
+  get(key: string): Promise<unknown>;
   set(key: string, value: unknown): Promise<void>;
   delete(key: string): Promise<void>;
   clear(): Promise<void>;
@@ -89,14 +89,14 @@ export interface EventEmitter {
   on(event: string, handler: Function): void;
   off(event: string, handler: Function): void;
   once(event: string, handler: Function): void;
-  emit(event: string, ...args: any[]): void;
+  emit(event: string, ...args: unknown[]): void;
 }
 
 export interface UIContext {
-  showModal(options: ModalOptions): Promise<any>;
+  showModal(options: ModalOptions): Promise<unknown>;
   showNotification(options: NotificationOptions): void;
   registerPanel(panel: PanelDefinition): void;
-  updatePanel(panelId: string, state: any): void;
+  updatePanel(panelId: string, state: unknown): void;
 }
 
 export interface ViewportContext {
@@ -205,7 +205,7 @@ export class NodeBuilder<I = any, O = any, P = any> {
 
   input<K extends keyof I>(name: K, type: string, description?: string): this {
     if (!this.definition.inputs) {
-      this.definition.inputs = {} as any;
+      this.definition.inputs = {} as unknown;
     }
     this.definition.inputs![name as string] = { type, description };
     return this;
@@ -213,7 +213,7 @@ export class NodeBuilder<I = any, O = any, P = any> {
 
   output<K extends keyof O>(name: K, type: string, description?: string): this {
     if (!this.definition.outputs) {
-      this.definition.outputs = {} as any;
+      this.definition.outputs = {} as unknown;
     }
     this.definition.outputs![name as string] = { type, description };
     return this;
@@ -226,7 +226,7 @@ export class NodeBuilder<I = any, O = any, P = any> {
     options?: any
   ): this {
     if (!this.definition.params) {
-      this.definition.params = {} as any;
+      this.definition.params = {} as unknown;
     }
     this.definition.params![name as string] = {
       type,
@@ -258,7 +258,7 @@ export interface CommandDefinition {
   icon?: string;
   shortcut?: string;
   category?: string;
-  execute(context: PluginContext, ...args: any[]): Promise<void>;
+  execute(context: PluginContext, ...args: unknown[]): Promise<void>;
 }
 
 /**
@@ -518,7 +518,7 @@ export class PluginManager {
         handlers.get(event)?.delete(handler);
       },
       once(event, handler) {
-        const wrapper = (...args: any[]) => {
+        const wrapper = (...args: unknown[]) => {
           handler(...args);
           this.off(event, wrapper);
         };

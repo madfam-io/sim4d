@@ -145,7 +145,7 @@ export class OperationalTransformEngine {
       localOperation: op1,
       remoteOperation: op2,
       conflictingFields,
-    } as any;
+    } as unknown;
   }
 
   /**
@@ -228,11 +228,11 @@ export class OperationalTransformEngine {
       case 'DELETE_NODE':
       case 'UPDATE_NODE_POSITION':
       case 'UPDATE_NODE_PARAMS':
-        return `node:${(op as any).nodeId}`;
+        return `node:${(op as unknown).nodeId}`;
 
       case 'CREATE_EDGE':
       case 'DELETE_EDGE':
-        return `edge:${(op as any).edgeId}`;
+        return `edge:${(op as unknown).edgeId}`;
 
       case 'BATCH': {
         // For batch operations, get entities from all sub-operations
@@ -267,7 +267,7 @@ export class OperationalTransformEngine {
   ): Operation {
     if (localOp.nodeId === remoteOp.nodeId) {
       // Cannot create a node that's being deleted
-      const noop: Operation = { ...localOp, type: 'NOOP' as any };
+      const noop: Operation = { ...localOp, type: 'NOOP' as unknown };
       return noop;
     }
     return localOp;
@@ -279,7 +279,7 @@ export class OperationalTransformEngine {
   ): Operation {
     if (localOp.nodeId === remoteOp.nodeId) {
       // Node is being created, so delete is not needed
-      const noop: Operation = { ...localOp, type: 'NOOP' as any };
+      const noop: Operation = { ...localOp, type: 'NOOP' as unknown };
       return noop;
     }
     return localOp;
@@ -291,7 +291,7 @@ export class OperationalTransformEngine {
   ): Operation {
     if (localOp.nodeId === remoteOp.nodeId) {
       // Node already deleted, no need to delete again
-      const noop: Operation = { ...localOp, type: 'NOOP' as any };
+      const noop: Operation = { ...localOp, type: 'NOOP' as unknown };
       return noop;
     }
     return localOp;
@@ -303,7 +303,7 @@ export class OperationalTransformEngine {
   ): Operation {
     if (localOp.nodeId === remoteOp.nodeId) {
       // Both updating position, remote wins (last writer wins)
-      const noop: Operation = { ...localOp, type: 'NOOP' as any };
+      const noop: Operation = { ...localOp, type: 'NOOP' as unknown };
       return noop;
     }
     return localOp;
@@ -315,7 +315,7 @@ export class OperationalTransformEngine {
   ): Operation {
     if (localOp.nodeId === remoteOp.nodeId) {
       // Cannot update position of deleted node
-      const noop: Operation = { ...localOp, type: 'NOOP' as any };
+      const noop: Operation = { ...localOp, type: 'NOOP' as unknown };
       return noop;
     }
     return localOp;
@@ -343,7 +343,7 @@ export class OperationalTransformEngine {
       }
 
       if (Object.keys(mergedParams).length === 0) {
-        const noop: Operation = { ...localOp, type: 'NOOP' as any };
+        const noop: Operation = { ...localOp, type: 'NOOP' as unknown };
         return noop;
       }
 
@@ -361,7 +361,7 @@ export class OperationalTransformEngine {
   ): Operation {
     if (localOp.nodeId === remoteOp.nodeId) {
       // Cannot update parameters of deleted node
-      const noop: Operation = { ...localOp, type: 'NOOP' as any };
+      const noop: Operation = { ...localOp, type: 'NOOP' as unknown };
       return noop;
     }
     return localOp;
@@ -373,7 +373,7 @@ export class OperationalTransformEngine {
   ): Operation {
     if (localOp.edgeId === remoteOp.edgeId) {
       // Same edge ID, remote wins
-      const noop: Operation = { ...localOp, type: 'NOOP' as any };
+      const noop: Operation = { ...localOp, type: 'NOOP' as unknown };
       return noop;
     }
     return localOp;
@@ -385,7 +385,7 @@ export class OperationalTransformEngine {
   ): Operation {
     if (localOp.sourceNodeId === remoteOp.nodeId || localOp.targetNodeId === remoteOp.nodeId) {
       // Cannot create edge to/from deleted node
-      const noop: Operation = { ...localOp, type: 'NOOP' as any };
+      const noop: Operation = { ...localOp, type: 'NOOP' as unknown };
       return noop;
     }
     return localOp;
@@ -397,7 +397,7 @@ export class OperationalTransformEngine {
   ): Operation {
     if (localOp.edgeId === remoteOp.edgeId) {
       // Edge already deleted
-      const noop: Operation = { ...localOp, type: 'NOOP' as any };
+      const noop: Operation = { ...localOp, type: 'NOOP' as unknown };
       return noop;
     }
     return localOp;

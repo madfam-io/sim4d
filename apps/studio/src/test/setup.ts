@@ -37,9 +37,9 @@ class WorkerMock {
 
   addEventListener(event: string, handler: EventListener) {
     if (event === 'message') {
-      this.onmessage = handler as any;
+      this.onmessage = handler as unknown;
     } else if (event === 'error') {
-      this.onerror = handler as any;
+      this.onerror = handler as unknown;
     }
   }
 
@@ -53,7 +53,7 @@ class WorkerMock {
 }
 
 // Assign to global
-(global as any).Worker = WorkerMock;
+(global as unknown).Worker = WorkerMock;
 
 // Mock import.meta.url for ESM modules
 Object.defineProperty(import.meta, 'url', {

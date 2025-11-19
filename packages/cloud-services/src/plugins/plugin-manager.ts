@@ -29,7 +29,7 @@ export interface PluginCapability {
   name: string;
   version: string;
   permissions: string[];
-  handler: (context: PluginExecutionContext, ...args: any[]) => any;
+  handler: (context: PluginExecutionContext, ...args: unknown[]) => any;
 }
 
 export interface PluginSandbox {
@@ -50,7 +50,7 @@ export interface PluginInstallOptions {
 
 export interface PluginExecutionResult {
   success: boolean;
-  result?: any;
+  result?: unknown;
   error?: string;
   logs: PluginLogEntry[];
   metrics: PluginMetrics;
@@ -174,7 +174,7 @@ export class PluginManager extends EventEmitter {
   async executePlugin(
     pluginId: PluginId,
     functionName: string,
-    args: any[],
+    args: unknown[],
     context: Partial<PluginExecutionContext>
   ): Promise<PluginExecutionResult> {
     const plugin = this.installedPlugins.get(pluginId);
@@ -398,7 +398,7 @@ export class PluginManager extends EventEmitter {
     }
   }
 
-  private async executeSandboxed(task: PluginExecutionTask): Promise<any> {
+  private async executeSandboxed(task: PluginExecutionTask): Promise<unknown> {
     const { sandbox } = task.context;
 
     // Create isolated worker for plugin execution
@@ -1303,7 +1303,7 @@ interface PluginExecutionTask {
   id: string;
   pluginId: PluginId;
   functionName: string;
-  args: any[];
+  args: unknown[];
   context: PluginExecutionContext;
   createdAt: number;
   resolve?: (result: PluginExecutionResult) => void;

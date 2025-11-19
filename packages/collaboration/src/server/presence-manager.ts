@@ -37,7 +37,7 @@ export class PresenceManager {
     if (!userPresence) return undefined;
 
     // Update specific field
-    (userPresence as any)[field] = value;
+    (userPresence as unknown)[field] = value;
 
     // Update activity timestamp
     this.lastActivity.get(documentId)!.set(userId, new Date());

@@ -11,7 +11,7 @@ export interface HistoryNode {
   isActive: boolean;
   isSuppressed: boolean;
   error?: string;
-  result?: any;
+  result?: unknown;
 }
 
 export interface HistoryState {

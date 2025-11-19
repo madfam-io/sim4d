@@ -117,7 +117,7 @@ export class SecureWebSocketClient {
     }
 
     return new Promise((resolve, reject) => {
-      this.socket!.emit(event, data, (response: any) => {
+      this.socket!.emit(event, data, (response: unknown) => {
         if (response?.error) {
           reject(new Error(response.error));
         } else {

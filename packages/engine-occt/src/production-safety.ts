@@ -34,8 +34,8 @@ export function detectEnvironment(): EnvironmentConfig {
   // Enhanced test detection - check for test environment flags
   const isTest = Boolean(
     nodeEnv === 'test' ||
-      (typeof global !== 'undefined' && (global as any).__vitest__) ||
-      (typeof global !== 'undefined' && (global as any).__OCCT_TEST_MODE__) ||
+      (typeof global !== 'undefined' && (global as unknown).__vitest__) ||
+      (typeof global !== 'undefined' && (global as unknown).__OCCT_TEST_MODE__) ||
       (typeof process !== 'undefined' && process.env?.ENABLE_REAL_OCCT_TESTING === 'true')
   );
 
@@ -76,7 +76,7 @@ export function validateProductionSafety(
     usingRealOCCT,
     isTest: env.isTest,
     nodeEnv: env.nodeEnv,
-    hasTestModule: typeof global !== 'undefined' && (global as any).__OCCT_TEST_MODE__,
+    hasTestModule: typeof global !== 'undefined' && (global as unknown).__OCCT_TEST_MODE__,
     passedEnv: environment,
   });
 
@@ -84,8 +84,8 @@ export function validateProductionSafety(
   if (env.isTest) {
     const hasTestOCCTModule =
       typeof global !== 'undefined' &&
-      (global as any).__OCCT_TEST_MODE__ &&
-      typeof (global as any).createOCCTCoreModule === 'function';
+      (global as unknown).__OCCT_TEST_MODE__ &&
+      typeof (global as unknown).createOCCTCoreModule === 'function';
 
     if (!hasTestOCCTModule) {
       throw new ProductionSafetyError(

@@ -32,7 +32,7 @@ const requireEngineOCCTSafely = (): any | null => {
   }
 };
 
-const importEngineOCCTSafely = async (): Promise<any> => {
+const importEngineOCCTSafely = async (): Promise<unknown> => {
   const requiredModule = requireEngineOCCTSafely();
   if (requiredModule) {
     return requiredModule;
@@ -46,7 +46,7 @@ const importEngineOCCTSafely = async (): Promise<any> => {
       return await import(pathToFileURL(distPath).href);
     } catch (fallbackError) {
       const error = new Error('Failed to load @brepflow/engine-occt module');
-      (error as any).cause = primaryError;
+      (error as unknown).cause = primaryError;
       throw error;
     }
   }
@@ -201,7 +201,7 @@ export class GeometryAPIFactory {
 
       // Verify initialization
       const health = await api.invoke('HEALTH_CHECK', {});
-      if (!(health as any)?.healthy) {
+      if (!(health as unknown)?.healthy) {
         throw new Error('Geometry API health check failed after initialization');
       }
 
@@ -313,7 +313,7 @@ export class GeometryAPIFactory {
       }
 
       const fetchBase = sanitizedBase.startsWith('//')
-        ? `${(globalThis as any)?.location?.protocol ?? 'https:'}${sanitizedBase}`
+        ? `${(globalThis as unknown)?.location?.protocol ?? 'https:'}${sanitizedBase}`
         : sanitizedBase;
 
       const missing: string[] = [];
@@ -366,7 +366,7 @@ export class GeometryAPIFactory {
   /**
    * Get production API with strict configuration
    */
-  static async getProductionAPI(config?: any): Promise<WorkerAPI> {
+  static async getProductionAPI(config?: unknown): Promise<WorkerAPI> {
     return this.getAPI({
       validateOutput: true,
       enableRetry: false,
@@ -411,7 +411,7 @@ export const getGeometryAPI = () => GeometryAPIFactory.getAPI();
 
 export const getRealGeometryAPI = () => GeometryAPIFactory.getAPI();
 
-export const getProductionAPI = (config?: any) =>
+export const getProductionAPI = (config?: unknown) =>
   GeometryAPIFactory.getAPI({ ...config, validateOutput: true, enableRetry: false });
 
 export const isRealGeometryAvailable = () => GeometryAPIFactory.isRealAPIAvailable();

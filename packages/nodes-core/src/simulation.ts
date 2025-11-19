@@ -249,7 +249,7 @@ export const PressureLoadNode: NodeDefinition<
 };
 
 export const StaticAnalysisNode: NodeDefinition<
-  { mesh: any; material: any; boundaries: any[]; loads: any[] },
+  { mesh: any; material: any; boundaries: unknown[]; loads: unknown[] },
   { results: any },
   { solver: string; convergence: number; maxIterations: number }
 > = {
@@ -303,7 +303,7 @@ export const StaticAnalysisNode: NodeDefinition<
 };
 
 export const ModalAnalysisNode: NodeDefinition<
-  { mesh: any; material: any; boundaries: any[] },
+  { mesh: any; material: any; boundaries: unknown[] },
   { results: any },
   { numModes: number; frequency: number }
 > = {
@@ -348,7 +348,7 @@ export const ModalAnalysisNode: NodeDefinition<
 };
 
 export const ThermalAnalysisNode: NodeDefinition<
-  { mesh: any; material: any; boundaries: any[]; thermalLoads: any[] },
+  { mesh: any; material: any; boundaries: unknown[]; thermalLoads: unknown[] },
   { results: any },
   { conductivity: number; specificHeat: number; ambientTemp: number }
 > = {

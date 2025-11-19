@@ -85,7 +85,7 @@ export function useMonitoring() {
  */
 export function useHealthMonitoring() {
   const [alerts, setAlerts] = useState<HealthAlert[]>([]);
-  const [systemHealth, setSystemHealth] = useState<any>(null);
+  const [systemHealth, setSystemHealth] = useState<unknown>(null);
 
   useEffect(() => {
     const handleHealthAlert = (event: CustomEvent) => {
@@ -212,7 +212,7 @@ export function useErrorMonitoring() {
  * Hook for performance metrics
  */
 export function usePerformanceMetrics() {
-  const [metrics, setMetrics] = useState<any>(null);
+  const [metrics, setMetrics] = useState<unknown>(null);
 
   useEffect(() => {
     const updateMetrics = () => {

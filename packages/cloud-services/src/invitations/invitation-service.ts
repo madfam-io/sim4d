@@ -616,12 +616,12 @@ export class InvitationService extends EventEmitter {
     throw new Error('Permission check implementation required');
   }
 
-  private async getUserData(userId: UserId): Promise<any> {
+  private async getUserData(userId: UserId): Promise<unknown> {
     // Implementation depends on user service
     throw new Error('User data access implementation required');
   }
 
-  private async getResourceData(type: string, resourceId: string): Promise<any> {
+  private async getResourceData(type: string, resourceId: string): Promise<unknown> {
     // Implementation depends on project/team service
     throw new Error('Resource data access implementation required');
   }

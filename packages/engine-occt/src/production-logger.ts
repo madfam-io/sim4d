@@ -55,7 +55,7 @@ export class ProductionLogger {
         entry.error = {
           message: data.message,
           stack: data.stack,
-          code: (data as any).code,
+          code: (data as unknown).code,
         };
       } else {
         entry.data = data;

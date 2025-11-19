@@ -373,7 +373,7 @@ export const ConcentricConstraintNode: NodeDefinition<
 };
 
 export const ConstraintSolverNode: NodeDefinition<
-  { constraints: any[] },
+  { constraints: unknown[] },
   { solvedGeometry: ShapeHandle },
   { maxIterations: number; tolerance: number; method: string }
 > = {

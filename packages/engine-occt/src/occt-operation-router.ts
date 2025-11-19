@@ -213,59 +213,59 @@ export class OCCTOperationRouter implements WorkerAPI {
   }
 
   // Direct method implementations for common operations
-  async makeBox(params: unknown): Promise<any> {
+  async makeBox(params: unknown): Promise<unknown> {
     return this.invoke('makeBox', params);
   }
 
-  async makeSphere(params: unknown): Promise<any> {
+  async makeSphere(params: unknown): Promise<unknown> {
     return this.invoke('makeSphere', params);
   }
 
-  async makeCylinder(params: unknown): Promise<any> {
+  async makeCylinder(params: unknown): Promise<unknown> {
     return this.invoke('makeCylinder', params);
   }
 
-  async performUnion(params: unknown): Promise<any> {
+  async performUnion(params: unknown): Promise<unknown> {
     return this.invoke('performUnion', params);
   }
 
-  async performSubtract(params: unknown): Promise<any> {
+  async performSubtract(params: unknown): Promise<unknown> {
     return this.invoke('performSubtract', params);
   }
 
-  async performIntersect(params: unknown): Promise<any> {
+  async performIntersect(params: unknown): Promise<unknown> {
     return this.invoke('performIntersect', params);
   }
 
-  async translate(params: unknown): Promise<any> {
+  async translate(params: unknown): Promise<unknown> {
     return this.invoke('translate', params);
   }
 
-  async rotate(params: unknown): Promise<any> {
+  async rotate(params: unknown): Promise<unknown> {
     return this.invoke('rotate', params);
   }
 
-  async scale(params: unknown): Promise<any> {
+  async scale(params: unknown): Promise<unknown> {
     return this.invoke('scale', params);
   }
 
-  async fillet(params: unknown): Promise<any> {
+  async fillet(params: unknown): Promise<unknown> {
     return this.invoke('fillet', params);
   }
 
-  async chamfer(params: unknown): Promise<any> {
+  async chamfer(params: unknown): Promise<unknown> {
     return this.invoke('chamfer', params);
   }
 
-  async extrude(params: unknown): Promise<any> {
+  async extrude(params: unknown): Promise<unknown> {
     return this.invoke('extrude', params);
   }
 
-  async revolve(params: unknown): Promise<any> {
+  async revolve(params: unknown): Promise<unknown> {
     return this.invoke('revolve', params);
   }
 
-  async tessellate(shapeId: any, deflection: number): Promise<any> {
+  async tessellate(shapeId: any, deflection: number): Promise<unknown> {
     return this.invoke('tessellate', { shapeId, deflection });
   }
 
@@ -273,11 +273,11 @@ export class OCCTOperationRouter implements WorkerAPI {
     await this.invoke('dispose', { handleId });
   }
 
-  async calculateVolume(params: unknown): Promise<any> {
+  async calculateVolume(params: unknown): Promise<unknown> {
     return this.invoke('calculateVolume', params);
   }
 
-  async calculateArea(params: unknown): Promise<any> {
+  async calculateArea(params: unknown): Promise<unknown> {
     return this.invoke('calculateArea', params);
   }
 
@@ -288,7 +288,7 @@ export class OCCTOperationRouter implements WorkerAPI {
     }
   }
 
-  async healthCheck(): Promise<any> {
+  async healthCheck(): Promise<unknown> {
     if (this.worker.healthCheck) {
       return this.worker.healthCheck();
     }

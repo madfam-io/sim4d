@@ -17,9 +17,9 @@ import { createNodeId, createEdgeId } from '@brepflow/types';
  */
 export class SharedGraph {
   private ydoc: Y.Doc;
-  private nodes: Y.Map<Y.Map<any>>;
-  private edges: Y.Array<Y.Map<any>>;
-  private metadata: Y.Map<any>;
+  private nodes: Y.Map<Y.Map<unknown>>;
+  private edges: Y.Array<Y.Map<unknown>>;
+  private metadata: Y.Map<unknown>;
   private undoManager: Y.UndoManager;
 
   constructor(ydoc?: Y.Doc) {
@@ -85,7 +85,7 @@ export class SharedGraph {
           break;
 
         default:
-          console.warn('Unknown operation type:', (operation as any).type);
+          console.warn('Unknown operation type:', (operation as unknown).type);
       }
     }, operation.userId); // Track operation origin for undo/redo
   }
@@ -149,7 +149,7 @@ export class SharedGraph {
     Object.entries(updates).forEach(([key, value]) => {
       if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
         // Nested object - merge with existing nested map
-        let nestedMap = nodeMap.get(key) as Y.Map<any>;
+        let nestedMap = nodeMap.get(key) as Y.Map<unknown>;
         if (!nestedMap || !(nestedMap instanceof Y.Map)) {
           nestedMap = new Y.Map();
           nodeMap.set(key, nestedMap);
@@ -204,7 +204,7 @@ export class SharedGraph {
 
     // Convert nodes
     this.nodes.forEach((nodeMap, nodeId) => {
-      const node: any = { id: nodeId };
+      const node: unknown = { id: nodeId };
       nodeMap.forEach((value, key) => {
         if (value instanceof Y.Map) {
           // Nested map - convert to plain object
@@ -220,7 +220,7 @@ export class SharedGraph {
 
     // Convert edges
     this.edges.forEach((edgeMap) => {
-      const edge: any = {};
+      const edge: unknown = {};
       edgeMap.forEach((value, key) => (edge[key] = value));
       edges.push(edge as Edge);
     });
@@ -292,10 +292,10 @@ export class SharedGraph {
   /**
    * Subscribe to graph changes
    */
-  onChange(callback: (event: Y.YEvent<any>[]) => void): void {
+  onChange(callback: (event: Y.YEvent<unknown>[]) => void): void {
     this.ydoc.on('update', (update: Uint8Array, origin: any) => {
       // Convert update to events for callback
-      const events: Y.YEvent<any>[] = [];
+      const events: Y.YEvent<unknown>[] = [];
       // Note: Yjs doesn't provide direct event access from update
       // This is a simplified version - real implementation would need
       // to observe individual shared types

@@ -184,7 +184,7 @@ export class IsolatedVMExecutor implements ScriptExecutor {
     };
   }
 
-  async compile(script: string): Promise<any> {
+  async compile(script: string): Promise<unknown> {
     const isolate = new ivm.Isolate({ memoryLimit: 8 });
     try {
       const wrappedScript = this.wrapScript(script);
@@ -530,7 +530,7 @@ async function evaluate(ctx, inputs, params) {
     compiledScript: ivm.Script,
     context: ivm.Context,
     timeoutMS: number
-  ): Promise<any> {
+  ): Promise<unknown> {
     const timeout = timeoutMS || IsolatedVMExecutor.DEFAULT_TIMEOUT_MS;
 
     try {
@@ -542,15 +542,15 @@ async function evaluate(ctx, inputs, params) {
 
       // If result is a Reference, release it to avoid memory leaks
       // Return undefined since we use __outputs__ for actual data transfer
-      if (result && typeof (result as any).release === 'function') {
-        (result as any).release();
+      if (result && typeof (result as unknown).release === 'function') {
+        (result as unknown).release();
       }
 
       return undefined;
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (error.message?.includes('timeout') || error.message?.includes('timed out')) {
         // Create consistent timeout error message
-        throw new ScriptExecutionError(`Script execution timeout after ${timeout}ms`, '' as any);
+        throw new ScriptExecutionError(`Script execution timeout after ${timeout}ms`, '' as unknown);
       }
 
       // If the error is about non-transferable values, it's because the script
@@ -756,7 +756,7 @@ async function evaluate(ctx, inputs, params) {
       timestamp: Date.now(),
       level,
       message: sanitized,
-      nodeId: nodeId as any,
+      nodeId: nodeId as unknown,
       executionId: 'current',
     });
   }

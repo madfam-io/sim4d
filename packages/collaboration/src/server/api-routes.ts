@@ -174,7 +174,7 @@ export function setupAPIRoutes(
         // Validate token using internal method
         // Note: This assumes CollaborationServer has a public validation method
         // You may need to add this to the CollaborationServer class
-        const valid = (collaborationServer as any).validateCSRFToken?.(csrfToken) ?? false;
+        const valid = (collaborationServer as unknown).validateCSRFToken?.(csrfToken) ?? false;
 
         res.json({ valid });
       } catch (error) {
@@ -213,7 +213,7 @@ export function requireCSRFToken(collaborationServer: CollaborationServer) {
     }
 
     // Validate token
-    const valid = (collaborationServer as any).validateCSRFToken?.(csrfToken) ?? false;
+    const valid = (collaborationServer as unknown).validateCSRFToken?.(csrfToken) ?? false;
 
     if (!valid) {
       return res.status(403).json({

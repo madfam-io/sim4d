@@ -89,8 +89,8 @@ export async function registerAllNodes(): Promise<EnhancedNodeRegistry> {
   // Fix legacy nodes: convert 'id' property to 'type' property for EnhancedNodeRegistry compatibility
   console.log('🔍 DEBUG: Converting legacy nodes from id to type...');
   const fixedLegacyNodes = legacyNodes.map((node) => {
-    if (node && (node as any).id && !node.type) {
-      return { ...node, type: (node as any).id };
+    if (node && (node as unknown).id && !node.type) {
+      return { ...node, type: (node as unknown).id };
     }
     return node;
   });

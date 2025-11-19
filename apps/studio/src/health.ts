@@ -60,8 +60,8 @@ async function checkWasmWorker(): Promise<HealthCheckResult> {
     }
 
     // Try to access global window object for WASM status
-    if (typeof window !== 'undefined' && (window as any).occtStatus) {
-      const occtStatus = (window as any).occtStatus;
+    if (typeof window !== 'undefined' && (window as unknown).occtStatus) {
+      const occtStatus = (window as unknown).occtStatus;
       return {
         healthy: occtStatus.initialized === true,
         message: occtStatus.initialized ? 'OCCT WASM initialized' : 'OCCT WASM not initialized',
@@ -134,14 +134,14 @@ function checkViewportRenderer(): HealthCheckResult {
  */
 function checkMemoryUsage(): HealthCheckResult {
   try {
-    if (typeof window === 'undefined' || !(performance as any).memory) {
+    if (typeof window === 'undefined' || !(performance as unknown).memory) {
       return {
         healthy: true,
         message: 'Memory monitoring not available',
       };
     }
 
-    const memory = (performance as any).memory;
+    const memory = (performance as unknown).memory;
     const usedMB = memory.usedJSHeapSize / 1024 / 1024;
     const limitMB = memory.jsHeapSizeLimit / 1024 / 1024;
     const usagePercent = (usedMB / limitMB) * 100;
@@ -196,8 +196,8 @@ function checkCollaborationConnection(): HealthCheckResult {
     }
 
     // Check global collaboration state
-    if ((window as any).collaborationState) {
-      const state = (window as any).collaborationState;
+    if ((window as unknown).collaborationState) {
+      const state = (window as unknown).collaborationState;
       return {
         healthy: state.connected === true,
         message: state.connected ? 'Collaboration connected' : 'Collaboration disconnected',

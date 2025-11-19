@@ -157,7 +157,7 @@ export class OCCTMemoryManager {
  * Error boundary wrapper for WASM operations
  * Ensures the platform can gracefully handle WASM loading failures
  */
-function createErrorBoundaryWrapper<T extends (...args: any[]) => any>(
+function createErrorBoundaryWrapper<T extends (...args: unknown[]) => any>(
   operation: string,
   fn: T
 ): T {
@@ -171,7 +171,7 @@ function createErrorBoundaryWrapper<T extends (...args: any[]) => any>(
         });
       }
       return result;
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(`[OCCT] Operation '${operation}' failed:`, error);
       throw new Error(`OCCT operation '${operation}' failed: ${error.message || error}`);
     }
@@ -182,7 +182,7 @@ function createErrorBoundaryWrapper<T extends (...args: any[]) => any>(
  * Attempts to dynamically load the WASM module with proper error boundaries
  * This function will be called when WASM files are actually available
  */
-async function attemptWASMLoad(): Promise<any> {
+async function attemptWASMLoad(): Promise<unknown> {
   // This function will attempt to load WASM when it's available
   // For now, we use a dynamic import approach that won't break Vite
 
@@ -266,7 +266,7 @@ async function attemptWASMLoad(): Promise<any> {
 /**
  * Flatten nested bbox structure from WASM to flat properties expected by GeometryAPI
  */
-function flattenBoundingBox(shape: any): any {
+function flattenBoundingBox(shape: unknown): any {
   if (!shape) return flattenBoundingBox(shape);
 
   // If bbox is nested (new WASM format), flatten it

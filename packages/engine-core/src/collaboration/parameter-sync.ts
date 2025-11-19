@@ -347,7 +347,7 @@ export class ParameterSynchronizer {
     }
   }
 
-  private async getCurrentParameterValue(nodeId: NodeId, paramName: string): Promise<any> {
+  private async getCurrentParameterValue(nodeId: NodeId, paramName: string): Promise<unknown> {
     // This would typically get the current value from the graph state
     // For now, return undefined as a default
     return undefined;

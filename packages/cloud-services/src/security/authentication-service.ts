@@ -829,10 +829,10 @@ export class AuthenticationService extends EventEmitter {
   }
 
   // Data access methods (to be implemented with actual database/services)
-  private async findUserByEmail(email: string): Promise<any> {
+  private async findUserByEmail(email: string): Promise<unknown> {
     return null;
   }
-  private async findUserById(userId: UserId): Promise<any> {
+  private async findUserById(userId: UserId): Promise<unknown> {
     return null;
   }
   private async createUser(userData: any): Promise<User> {
@@ -872,7 +872,7 @@ export class AuthenticationService extends EventEmitter {
   ): Promise<AuthTokens> {
     throw new Error('Not implemented');
   }
-  private async verifyJwt(token: string): Promise<any> {
+  private async verifyJwt(token: string): Promise<unknown> {
     throw new Error('Not implemented');
   }
   private async verifyTotpCode(secret: string, code: string): Promise<boolean> {
@@ -883,7 +883,7 @@ export class AuthenticationService extends EventEmitter {
   }
   private async validateInviteCode(code: string): Promise<void> {}
   private async sendEmailVerification(user: User): Promise<void> {}
-  private async exchangeOAuthCode(provider: string, code: string): Promise<any> {
+  private async exchangeOAuthCode(provider: string, code: string): Promise<unknown> {
     return {};
   }
   private async storePasswordResetToken(
@@ -891,7 +891,7 @@ export class AuthenticationService extends EventEmitter {
     token: string,
     expiresAt: Date
   ): Promise<void> {}
-  private async getPasswordResetToken(token: string): Promise<any> {
+  private async getPasswordResetToken(token: string): Promise<unknown> {
     return null;
   }
   private async deletePasswordResetToken(token: string): Promise<void> {}

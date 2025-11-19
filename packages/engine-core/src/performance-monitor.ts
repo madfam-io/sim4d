@@ -93,7 +93,7 @@ export class PerformanceMonitor {
    */
   updateMemoryMetrics(): void {
     if ('memory' in performance) {
-      const memory = (performance as any).memory;
+      const memory = (performance as unknown).memory;
       this.metrics.heapUsed = memory.usedJSHeapSize / 1048576; // Convert to MB
       this.metrics.heapTotal = memory.totalJSHeapSize / 1048576;
     }
@@ -357,7 +357,7 @@ export function measurePerformance(
 ) {
   const originalMethod = descriptor.value;
 
-  descriptor.value = async function (...args: any[]) {
+  descriptor.value = async function (...args: unknown[]) {
     const stop = performanceMonitor.startMeasure(propertyKey);
     try {
       const result = await originalMethod.apply(this, args);

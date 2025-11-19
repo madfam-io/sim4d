@@ -5,7 +5,7 @@ export interface Command {
   type: string;
   timestamp: number;
   description: string;
-  execute(): Promise<any> | any;
+  execute(): Promise<unknown> | any;
   undo(): Promise<void> | void;
   redo?(): Promise<void> | void;
 }
@@ -27,7 +27,7 @@ export class CommandSystem {
   /**
    * Execute a command and add it to the undo stack
    */
-  async execute(command: Command): Promise<any> {
+  async execute(command: Command): Promise<unknown> {
     try {
       const result = await command.execute();
 
@@ -270,7 +270,7 @@ export class GraphCommand implements Command {
     private redoFunc?: () => void
   ) {}
 
-  async execute(): Promise<any> {
+  async execute(): Promise<unknown> {
     return this.executeFunc();
   }
 

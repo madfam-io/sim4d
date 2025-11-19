@@ -304,7 +304,7 @@ export class BrepFlowScriptEngine implements ScriptEngine {
    * SECURITY: REMOVED unsafe Function() usage
    * Node definition extraction is now handled securely by isolated-vm executor
    */
-  private async extractNodeDefinitionFromScript(script: string): Promise<any> {
+  private async extractNodeDefinitionFromScript(script: string): Promise<unknown> {
     console.warn(
       'extractNodeDefinitionFromScript: Node definition extraction moved to isolated-vm for security'
     );

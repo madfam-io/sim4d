@@ -369,7 +369,7 @@ export class MonitoringSystem {
    */
   private setupGlobalErrorHandlers(): void {
     // These are already set up in ErrorManager, but we can add additional handling here
-    window.addEventListener('brepflow:monitoring-event', (event: any) => {
+    window.addEventListener('brepflow:monitoring-event', (event: unknown) => {
       this.logger.info('Custom monitoring event', { event: event.detail });
     });
   }

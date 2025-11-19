@@ -45,8 +45,8 @@ export async function createTestContext(): Promise<EvaluationContext> {
   }
 
   return {
-    geom: geometryAPI as any, // Legacy interface compatibility
-    geometry: geometryAPI as any, // New interface
+    geom: geometryAPI as unknown, // Legacy interface compatibility
+    geometry: geometryAPI as unknown, // New interface
     logger: {
       info: (msg: string) => console.log(`[INFO] ${msg}`),
       warn: (msg: string) => console.warn(`[WARN] ${msg}`),

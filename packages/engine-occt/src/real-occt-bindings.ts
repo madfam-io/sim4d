@@ -1499,7 +1499,7 @@ export class RealOCCT implements WorkerAPI {
     const { parts = [], name = 'Assembly', visible = true } = params;
 
     const assemblyId = this.generateId();
-    const mates: any[] = [];
+    const mates: unknown[] = [];
 
     // Store parts in assembly structure
     const assemblyHandle = {
@@ -1865,7 +1865,7 @@ export class RealOCCT implements WorkerAPI {
     if (!sourceShape) throw new Error('Source curve not found');
     if (!targetShape) throw new Error('Target surface not found');
 
-    const directions: any[] = [];
+    const directions: unknown[] = [];
     if (projectionDirection && projectionDirection.length === 3) {
       const dirVector = {
         x: projectionDirection[0],
@@ -2744,7 +2744,7 @@ export class RealOCCT implements WorkerAPI {
   }
 
   // Enterprise API Operations
-  private executeBatchOperations(params: unknown): any[] {
+  private executeBatchOperations(params: unknown): unknown[] {
     console.log('[RealOCCT] Executing batch operations');
     const results = [];
     for (let i = 0; i < params.operations.length; i++) {

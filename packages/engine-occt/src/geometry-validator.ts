@@ -53,7 +53,7 @@ export class GeometryValidator {
   /**
    * Validate shape handle integrity
    */
-  validateShape(shape: any, type: string): void {
+  validateShape(shape: unknown, type: string): void {
     if (!this.enabled) return;
 
     // Check required fields
@@ -302,7 +302,7 @@ export class GeometryValidator {
     }
   }
 
-  private isValidBBox(shape: any): boolean {
+  private isValidBBox(shape: unknown): boolean {
     return (
       typeof shape.bbox_min_x === 'number' &&
       typeof shape.bbox_min_y === 'number' &&

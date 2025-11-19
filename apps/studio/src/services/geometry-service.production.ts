@@ -243,7 +243,7 @@ export class ProductionGeometryService {
    * Export geometry with validation
    */
   async export(
-    shape: any,
+    shape: unknown,
     format: 'STEP' | 'IGES' | 'STL' | 'OBJ',
     options: Record<string, unknown> = {}
   ): Promise<string | ArrayBuffer> {

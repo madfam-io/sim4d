@@ -128,7 +128,7 @@ export interface ScriptedNodeDefinition extends NodeDefinition {
   };
 
   // Enhanced evaluation with script execution
-  evaluate: (ctx: ScriptContext, inputs: any, params: unknown) => Promise<any>;
+  evaluate: (ctx: ScriptContext, inputs: any, params: unknown) => Promise<unknown>;
 
   // Script lifecycle hooks
   onInitialize?: (ctx: ScriptContext) => Promise<void>;

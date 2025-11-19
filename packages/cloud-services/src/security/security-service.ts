@@ -201,7 +201,7 @@ export class SecurityService extends EventEmitter {
 
     this.logAudit({
       action: 'threat_detected',
-      resource: { type: target.type as any, identifier: target.identifier },
+      resource: { type: target.type as unknown, identifier: target.identifier },
       outcome: 'success',
       details: { threatId, type, severity },
       ipAddress: source.ipAddress || 'unknown',
@@ -251,7 +251,7 @@ export class SecurityService extends EventEmitter {
 
     this.logAudit({
       action: 'threat_mitigated',
-      resource: { type: threat.target.type as any, identifier: threat.target.identifier },
+      resource: { type: threat.target.type as unknown, identifier: threat.target.identifier },
       outcome: 'success',
       details: { threatId, actions },
       ipAddress: 'unknown',
@@ -360,7 +360,7 @@ export class SecurityService extends EventEmitter {
             userAgent: context.userAgent,
           },
           {
-            type: resource.type as any,
+            type: resource.type as unknown,
             identifier: resource.identifier,
           },
           {
@@ -402,7 +402,7 @@ export class SecurityService extends EventEmitter {
       id: this.generateAuditId(),
       userId,
       action,
-      resource: resource as any,
+      resource: resource as unknown,
       outcome: 'success',
       details: {},
       ipAddress: context.ipAddress,
@@ -865,11 +865,11 @@ export class SecurityService extends EventEmitter {
   private async getCountryFromIp(ipAddress: string): Promise<string> {
     return 'US';
   }
-  private async analyzeBehavior(userId: UserId, context: any): Promise<number> {
+  private async analyzeBehavior(userId: UserId, context: unknown): Promise<number> {
     return 20;
   }
   private async analyzeActivityAnomaly(userId: UserId, activity: AuditLog): Promise<void> {}
-  private async performDataClassification(data: unknown, context: any): Promise<DataClassification> {
+  private async performDataClassification(data: unknown, context: unknown): Promise<DataClassification> {
     return {
       level: 'internal',
       categories: ['user_data'],
@@ -882,7 +882,7 @@ export class SecurityService extends EventEmitter {
     data: unknown,
     classification: DataClassification
   ): Promise<void> {}
-  private async performThreatInvestigation(threat: SecurityThreat): Promise<any> {
+  private async performThreatInvestigation(threat: SecurityThreat): Promise<unknown> {
     return {};
   }
   private async createSecurityIncident(threat: SecurityThreat): Promise<void> {}
@@ -893,16 +893,16 @@ export class SecurityService extends EventEmitter {
   private async applyRateLimit(identifier: string): Promise<void> {}
   private async processScheduledScans(): Promise<void> {}
   private async monitorThreats(): Promise<void> {}
-  private async getComplianceRequirements(standard: string): Promise<any[]> {
+  private async getComplianceRequirements(standard: string): Promise<unknown[]> {
     return [];
   }
   private getAuditLogsForPeriod(period: any): AuditLog[] {
     return [];
   }
-  private async assessCompliance(requirement: any, auditData: AuditLog[]): Promise<any> {
+  private async assessCompliance(requirement: any, auditData: AuditLog[]): Promise<unknown> {
     return {};
   }
-  private async generateComplianceRecommendations(requirements: any[]): Promise<string[]> {
+  private async generateComplianceRecommendations(requirements: unknown[]): Promise<string[]> {
     return [];
   }
   private calculateAverageResolutionTime(incidents: SecurityIncident[]): number {

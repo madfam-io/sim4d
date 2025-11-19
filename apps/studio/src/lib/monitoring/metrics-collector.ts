@@ -157,7 +157,7 @@ export class MetricsCollector {
    * Get system health metrics
    */
   public getSystemHealth(): SystemHealth {
-    const memoryInfo = (performance as any).memory;
+    const memoryInfo = (performance as unknown).memory;
     const errorRate = this.calculateErrorRate();
     const avgResponseTime = this.calculateAverageResponseTime();
 
@@ -300,7 +300,7 @@ export class MetricsCollector {
    */
   private collectSystemMetrics(): void {
     // Memory metrics
-    const memoryInfo = (performance as any).memory;
+    const memoryInfo = (performance as unknown).memory;
     if (memoryInfo) {
       this.setGauge('memory_used_bytes', memoryInfo.usedJSHeapSize);
       this.setGauge('memory_total_bytes', memoryInfo.totalJSHeapSize);
@@ -308,7 +308,7 @@ export class MetricsCollector {
     }
 
     // Connection metrics
-    const connection = (navigator as any).connection;
+    const connection = (navigator as unknown).connection;
     if (connection) {
       this.setGauge('network_downlink_mbps', connection.downlink);
       this.setGauge('network_rtt_ms', connection.rtt);
@@ -333,7 +333,7 @@ export class MetricsCollector {
       )[0] as PerformanceNavigationTiming;
 
       if (navigation) {
-        const startTime = (navigation as any).navigationStart || navigation.fetchStart || 0;
+        const startTime = (navigation as unknown).navigationStart || navigation.fetchStart || 0;
         this.recordTiming('page_load_time_ms', navigation.loadEventEnd - startTime);
         this.recordTiming('dom_content_loaded_ms', navigation.domContentLoadedEventEnd - startTime);
         this.recordTiming('first_paint_ms', navigation.responseEnd - startTime);

@@ -1,8 +1,8 @@
 import type { NodeDefinition } from '@brepflow/types';
 
 export const BatchProcessingNode: NodeDefinition<
-  { operations: any[] },
-  { results: any[] },
+  { operations: unknown[] },
+  { results: unknown[] },
   { concurrency: number; timeout: number; errorHandling: string; progressTracking: boolean }
 > = {
   id: 'Enterprise::BatchProcessing',

@@ -220,8 +220,8 @@ export class CloudApiClient {
     });
   }
 
-  async getShareAnalytics(shareId: ShareId): Promise<any> {
-    const response = await this.request<any>('GET', `/share/${shareId}/analytics`, {
+  async getShareAnalytics(shareId: ShareId): Promise<unknown> {
+    const response = await this.request<unknown>('GET', `/share/${shareId}/analytics`, {
       cache: false,
     });
     return response.data!;
