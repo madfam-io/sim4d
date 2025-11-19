@@ -33,7 +33,7 @@ export interface GeometryAPIConfig {
   occtLoader?: (config?: unknown) => Promise<unknown>;
 }
 
-export interface OperationResult<T = any> {
+export interface OperationResult<T = unknown> {
   success: boolean;
   result?: T;
   error?: string;
@@ -48,13 +48,13 @@ export interface OperationResult<T = any> {
 
 export class IntegratedGeometryAPI {
   private static instance: IntegratedGeometryAPI | null = null;
-  private occtModule: any = null;
+  private occtModule: unknown = null;
   protected initialized = false;
   private initializationPromise: Promise<void> | null = null;
-  private workerPool: any = null;
-  private memoryManager: any = null;
-  private errorRecovery: any = null;
-  private capabilities: any = null;
+  private workerPool: unknown = null;
+  private memoryManager: unknown = null;
+  private errorRecovery: unknown = null;
+  private capabilities: unknown = null;
   private environment: EnvironmentConfig;
   private usingRealOCCT = false;
   private meshCache = new Map<string, MeshData>();
@@ -242,7 +242,7 @@ export class IntegratedGeometryAPI {
   /**
    * Enhanced invoke method with full integration
    */
-  async invoke<T = any>(operation: string, params: unknown): Promise<OperationResult<T>> {
+  async invoke<T = unknown>(operation: string, params: unknown): Promise<OperationResult<T>> {
     const startTime = Date.now();
     let memoryBefore = 0;
     let cacheHit = false;
