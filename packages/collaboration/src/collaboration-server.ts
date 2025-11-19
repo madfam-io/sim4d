@@ -56,14 +56,14 @@ export interface Operation {
   type: 'create' | 'update' | 'delete' | 'move' | 'connect' | 'disconnect';
   userId: string;
   timestamp: number;
-  data: any;
+  data: unknown;
   reversible: boolean;
   inverse?: Operation;
 }
 
 export interface CollaborativeGraph {
-  nodes: Map<string, any>;
-  edges: Map<string, any>;
+  nodes: Map<string, unknown>;
+  edges: Map<string, unknown>;
   version: number;
   checksum: string;
 }
@@ -129,7 +129,7 @@ export class CollaborationServer extends EventEmitter {
     });
   }
 
-  private handleMessage(client: ClientConnection, message: any): void {
+  private handleMessage(client: ClientConnection, message: unknown): void {
     const { type, ...data } = message;
 
     switch (type) {
@@ -178,7 +178,7 @@ export class CollaborationServer extends EventEmitter {
     }
   }
 
-  private handleJoin(client: ClientConnection, data: any): void {
+  private handleJoin(client: ClientConnection, data: unknown): void {
     const { sessionId, user, projectId } = data;
 
     let session = this.sessions.get(sessionId);
@@ -235,7 +235,7 @@ export class CollaborationServer extends EventEmitter {
     );
   }
 
-  private handleLeave(client: ClientConnection, data: any): void {
+  private handleLeave(client: ClientConnection, data: unknown): void {
     const session = this.getClientSession(client);
     if (!session) return;
 
@@ -269,7 +269,7 @@ export class CollaborationServer extends EventEmitter {
     }
   }
 
-  private handleOperation(client: ClientConnection, data: any): void {
+  private handleOperation(client: ClientConnection, data: unknown): void {
     const session = this.getClientSession(client);
     if (!session) return;
 
@@ -324,7 +324,7 @@ export class CollaborationServer extends EventEmitter {
     });
   }
 
-  private handleCursor(client: ClientConnection, data: any): void {
+  private handleCursor(client: ClientConnection, data: unknown): void {
     const session = this.getClientSession(client);
     if (!session) return;
 
@@ -350,7 +350,7 @@ export class CollaborationServer extends EventEmitter {
     ); // 50ms throttle
   }
 
-  private handleSelection(client: ClientConnection, data: any): void {
+  private handleSelection(client: ClientConnection, data: unknown): void {
     const session = this.getClientSession(client);
     if (!session) return;
 
@@ -375,7 +375,7 @@ export class CollaborationServer extends EventEmitter {
     );
   }
 
-  private handleLock(client: ClientConnection, data: any): void {
+  private handleLock(client: ClientConnection, data: unknown): void {
     const session = this.getClientSession(client);
     if (!session) return;
 
@@ -423,7 +423,7 @@ export class CollaborationServer extends EventEmitter {
     );
   }
 
-  private handleUnlock(client: ClientConnection, data: any): void {
+  private handleUnlock(client: ClientConnection, data: unknown): void {
     const session = this.getClientSession(client);
     if (!session) return;
 
@@ -444,7 +444,7 @@ export class CollaborationServer extends EventEmitter {
     });
   }
 
-  private handleSync(client: ClientConnection, data: any): void {
+  private handleSync(client: ClientConnection, data: unknown): void {
     const session = this.getClientSession(client);
     if (!session) return;
 
@@ -469,7 +469,7 @@ export class CollaborationServer extends EventEmitter {
     }
   }
 
-  private handleChat(client: ClientConnection, data: any): void {
+  private handleChat(client: ClientConnection, data: unknown): void {
     const session = this.getClientSession(client);
     if (!session) return;
 
@@ -592,7 +592,7 @@ export class CollaborationServer extends EventEmitter {
     return client.sessionId ? this.sessions.get(client.sessionId) : undefined;
   }
 
-  private send(client: ClientConnection, message: any): void {
+  private send(client: ClientConnection, message: unknown): void {
     if (client.ws.readyState === WebSocket.OPEN) {
       client.ws.send(JSON.stringify(message));
     }
@@ -606,7 +606,7 @@ export class CollaborationServer extends EventEmitter {
     });
   }
 
-  private broadcast(session: Session, message: any, excludeClientId?: string): void {
+  private broadcast(session: Session, message: unknown, excludeClientId?: string): void {
     for (const [clientId, user] of session.users) {
       if (clientId !== excludeClientId) {
         const client = this.clients.get(clientId);
@@ -621,7 +621,7 @@ export class CollaborationServer extends EventEmitter {
 
   private broadcastThrottled(
     session: Session,
-    message: any,
+    message: unknown,
     excludeClientId: string,
     delay: number
   ): void {

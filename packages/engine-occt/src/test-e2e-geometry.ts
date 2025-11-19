@@ -82,14 +82,14 @@ async function testContextEnhancement(): Promise<boolean> {
   try {
     // Create a mock base context
     const mockWorker = {
-      invoke: async (op: string, params: any) => ({ id: 'test', op, params }),
+      invoke: async (op: string, params: unknown) => ({ id: 'test', op, params }),
     };
 
     const baseContext: EvalContext = {
-      nodeId: 'test-node' as any,
+      nodeId: 'test-node' as unknown,
       graph: {} as GraphInstance,
       cache: new Map(),
-      worker: mockWorker as any,
+      worker: mockWorker as unknown,
     };
 
     // Enhance the context
@@ -133,7 +133,7 @@ async function testNodeExecution(): Promise<boolean> {
   try {
     // Get the geometry API (mock mode for testing)
     // TODO: Implement proper API initialization when GeometryAPIFactory is available
-    const api: any = null; // await GeometryAPIFactory.getAPI({ enableRetry: true, retryAttempts: 1 });
+    const api: unknown = null; // await GeometryAPIFactory.getAPI({ enableRetry: true, retryAttempts: 1 });
 
     // Wrap it with the operation router
     const routedAPI = new OCCTOperationRouter(api);
@@ -157,7 +157,7 @@ async function testNodeExecution(): Promise<boolean> {
       },
       inputs: {},
       outputs: { solid: { type: 'Solid' } },
-      async evaluate(context: any, inputs: any, params: any) {
+      async evaluate(context: unknown, inputs: any, params: unknown) {
         if (!context.geometry) {
           throw new Error('No geometry in context!');
         }
@@ -168,7 +168,7 @@ async function testNodeExecution(): Promise<boolean> {
           }),
         };
       },
-    } as any);
+    } as unknown);
 
     // Register Union node
     registry.registerNode({
@@ -182,7 +182,7 @@ async function testNodeExecution(): Promise<boolean> {
         b: { type: 'Solid' },
       },
       outputs: { result: { type: 'Solid' } },
-      async evaluate(context: any, inputs: any, _params: any) {
+      async evaluate(context: unknown, inputs: any, _params: unknown) {
         if (!context.geometry) {
           throw new Error('No geometry in context!');
         }
@@ -193,7 +193,7 @@ async function testNodeExecution(): Promise<boolean> {
           }),
         };
       },
-    } as any);
+    } as unknown);
 
     // Create test graph with two boxes and a union
     const testGraph: GraphInstance = {
@@ -202,7 +202,7 @@ async function testNodeExecution(): Promise<boolean> {
       tolerance: 0.01,
       nodes: [
         {
-          id: 'box1' as any,
+          id: 'box1' as unknown,
           type: 'Test::Box',
           params: { width: 100, height: 100, depth: 100 },
           inputs: {},
@@ -210,7 +210,7 @@ async function testNodeExecution(): Promise<boolean> {
           dirty: true,
         } as NodeInstance,
         {
-          id: 'box2' as any,
+          id: 'box2' as unknown,
           type: 'Test::Box',
           params: { width: 50, height: 150, depth: 50 },
           inputs: {},
@@ -218,16 +218,16 @@ async function testNodeExecution(): Promise<boolean> {
           dirty: true,
         } as NodeInstance,
         {
-          id: 'union1' as any,
+          id: 'union1' as unknown,
           type: 'Test::Union',
           params: {},
           inputs: {
-            a: { nodeId: 'box1' as any, socket: 'solid' },
-            b: { nodeId: 'box2' as any, socket: 'solid' },
+            a: { nodeId: 'box1' as unknown, socket: 'solid' },
+            b: { nodeId: 'box2' as unknown, socket: 'solid' },
           },
           outputs: {},
           dirty: true,
-        } as any as NodeInstance,
+        } as unknown as NodeInstance,
       ],
       edges: [],
       metadata: { description: 'Test graph for E2E validation' },
@@ -235,13 +235,13 @@ async function testNodeExecution(): Promise<boolean> {
 
     // Evaluate the graph
     log('  Evaluating test graph...', colors.gray);
-    const dirtyNodes = new Set(['box1', 'box2', 'union1'] as any[]);
+    const dirtyNodes = new Set(['box1', 'box2', 'union1'] as unknown[]);
     await dagEngine.evaluate(testGraph, dirtyNodes);
 
     // Check results
-    const box1 = testGraph.nodes.find((n) => n.id === ('box1' as any));
-    const box2 = testGraph.nodes.find((n) => n.id === ('box2' as any));
-    const union = testGraph.nodes.find((n) => n.id === ('union1' as any));
+    const box1 = testGraph.nodes.find((n) => n.id === ('box1' as unknown));
+    const box2 = testGraph.nodes.find((n) => n.id === ('box2' as unknown));
+    const union = testGraph.nodes.find((n) => n.id === ('union1' as unknown));
 
     if (!box1?.outputs?.solid) {
       log('  ❌ Box1 node failed to produce output', colors.red);
@@ -328,14 +328,14 @@ async function testPerformance(): Promise<boolean> {
 
     // Create mock worker for performance testing
     const mockWorker = {
-      invoke: async (op: string, params: any) => {
+      invoke: async (op: string, params: unknown) => {
         // Simulate some work
         await new Promise((resolve) => setTimeout(resolve, Math.random() * 5));
         return { id: `result_${op}`, op, params };
       },
     };
 
-    const proxy = new GeometryProxy(mockWorker as any);
+    const proxy = new GeometryProxy(mockWorker as unknown);
 
     log(`  Running ${iterations} iterations of ${operations.length} operations...`, colors.gray);
 

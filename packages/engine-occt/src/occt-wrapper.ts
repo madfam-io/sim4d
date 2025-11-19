@@ -75,7 +75,7 @@ export class OCCTWrapper {
       return shape.id;
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if (shape && (shape.id as any)) {
+    if (shape && (shape.id as unknown)) {
       return shape.id as unknown as string;
     }
     throw new Error('[OCCTWrapper] Unable to resolve shape identifier');
@@ -291,7 +291,7 @@ export class OCCTWrapper {
     if (Array.isArray(data)) {
       return new Float32Array(data);
     }
-    if (data && typeof (data as any).length === 'number') {
+    if (data && typeof (data as unknown).length === 'number') {
       return Float32Array.from(data as ArrayLike<number>);
     }
     return new Float32Array();
@@ -304,7 +304,7 @@ export class OCCTWrapper {
     if (Array.isArray(data)) {
       return new Uint32Array(data);
     }
-    if (data && typeof (data as any).length === 'number') {
+    if (data && typeof (data as unknown).length === 'number') {
       return Uint32Array.from(data as ArrayLike<number>);
     }
     return new Uint32Array();

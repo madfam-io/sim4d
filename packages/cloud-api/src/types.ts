@@ -78,7 +78,7 @@ export type ConflictResolutionStrategy = 'auto' | 'manual' | 'latest-wins' | 'pr
 export interface CloudOperation {
   id: string;
   type: string;
-  data: any;
+  data: unknown;
   deviceId: DeviceId;
   userId: UserId;
   timestamp: number;
@@ -420,13 +420,13 @@ export interface ApiResponse<T = any> {
   data?: T;
   error?: ApiError;
   pagination?: PaginationInfo;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface ApiError {
   code: string;
   message: string;
-  details?: Record<string, any>;
+  details?: Record<string, unknown>;
   trace?: string;
 }
 
@@ -441,7 +441,7 @@ export interface PaginationInfo {
 // Search and filtering
 export interface SearchQuery {
   query?: string;
-  filters?: Record<string, any>;
+  filters?: Record<string, unknown>;
   sort?: SortOption[];
   pagination?: {
     page: number;

@@ -27,19 +27,19 @@ export enum ErrorCategory {
 
 export interface ErrorContext {
   operation: string;
-  params: any;
+  params: unknown;
   workerId?: string;
   timestamp: number;
   stackTrace?: string;
-  memoryState?: any;
+  memoryState?: unknown;
   retryCount: number;
   userAgent?: string;
-  capabilities?: any;
+  capabilities?: unknown;
 }
 
 export interface ValidationRule {
   name: string;
-  validate: (params: any) => ValidationResult;
+  validate: (params: unknown) => ValidationResult;
   category: ErrorCategory;
   severity: ErrorSeverity;
 }
@@ -55,7 +55,7 @@ export interface ValidationResult {
 export interface RecoveryStrategy {
   name: string;
   canRecover: (error: OCCTError) => boolean;
-  recover: (error: OCCTError, context: ErrorContext) => Promise<any>;
+  recover: (error: OCCTError, context: ErrorContext) => Promise<unknown>;
   maxRetries: number;
   backoffMs: number;
 }
@@ -104,7 +104,7 @@ export class ErrorRecoverySystem {
   /**
    * Validate operation parameters before execution
    */
-  async validateOperation(operation: string, params: any): Promise<ValidationResult> {
+  async validateOperation(operation: string, params: unknown): Promise<ValidationResult> {
     const endMeasurement = WASMPerformanceMonitor?.startMeasurement('error-validation');
 
     const result: ValidationResult = {
@@ -146,9 +146,9 @@ export class ErrorRecoverySystem {
   async handleError(
     error: Error | OCCTError,
     operation: string,
-    params: any,
+    params: unknown,
     context: Partial<ErrorContext> = {}
-  ): Promise<{ recovered: boolean; result?: any; finalError?: OCCTError }> {
+  ): Promise<{ recovered: boolean; result?: unknown; finalError?: OCCTError }> {
     const endMeasurement = WASMPerformanceMonitor?.startMeasurement('error-recovery');
 
     // Convert to OCCTError if needed
@@ -225,7 +225,7 @@ export class ErrorRecoverySystem {
   private categorizeError(
     error: Error,
     operation: string,
-    params: any,
+    params: unknown,
     context: Partial<ErrorContext>
   ): OCCTError {
     let category = ErrorCategory.UNKNOWN_ERROR;
@@ -496,7 +496,7 @@ export class ErrorRecoverySystem {
   /**
    * Simplify operation parameters to reduce complexity
    */
-  private simplifyParameters(params: any, operation: string): any {
+  private simplifyParameters(params: unknown, operation: string): any {
     const simplified = { ...params };
 
     // Increase tolerance for geometry operations
@@ -526,7 +526,7 @@ export class ErrorRecoverySystem {
   /**
    * Retry operation (placeholder for integration with actual operation system)
    */
-  private async retryOperation(operation: string, params: any): Promise<any> {
+  private async retryOperation(operation: string, params: unknown): Promise<unknown> {
     // This would integrate with the actual OCCT operation system
     console.log(`[ErrorRecovery] Retrying operation ${operation} with params:`, params);
 

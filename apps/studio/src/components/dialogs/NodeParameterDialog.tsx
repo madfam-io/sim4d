@@ -5,9 +5,9 @@ import { Icon } from '../icons/IconSystem';
 interface NodeParameterDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: (params: Record<string, any>) => void;
+  onConfirm: (params: Record<string, unknown>) => void;
   nodeType: string;
-  initialParams?: Record<string, any>;
+  initialParams?: Record<string, unknown>;
 }
 
 interface ParameterConfig {
@@ -256,7 +256,7 @@ const getNodeParameterConfig = (nodeType: string): ParameterConfig[] => {
   }
 };
 
-const getDefaultParams = (nodeType: string): Record<string, any> => {
+const getDefaultParams = (nodeType: string): Record<string, unknown> => {
   const type = nodeType.split('::')[1]?.toLowerCase();
 
   switch (type) {
@@ -421,7 +421,7 @@ export function NodeParameterDialog({
   const parameterConfigs = getNodeParameterConfig(nodeType);
   const defaultParams = getDefaultParams(nodeType);
 
-  const [params, setParams] = useState<Record<string, any>>(() => ({
+  const [params, setParams] = useState<Record<string, unknown>>(() => ({
     ...defaultParams,
     ...initialParams,
   }));
@@ -429,7 +429,7 @@ export function NodeParameterDialog({
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const validateParams = useCallback(
-    (paramValues: Record<string, any>): Record<string, string> => {
+    (paramValues: Record<string, unknown>): Record<string, string> => {
       const validationErrors: Record<string, string> = {};
 
       parameterConfigs.forEach((config) => {

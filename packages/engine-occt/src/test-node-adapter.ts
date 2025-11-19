@@ -38,11 +38,11 @@ async function testGeometryProxy() {
 
   // Create a mock worker API for testing
   const mockWorker = {
-    makeBox: async (params: any) => ({ id: 'box-1', type: 'solid', ...params }),
-    makeSphere: async (params: any) => ({ id: 'sphere-1', type: 'solid', ...params }),
-    performUnion: async (params: any) => ({ id: 'union-1', type: 'solid', ...params }),
+    makeBox: async (params: unknown) => ({ id: 'box-1', type: 'solid', ...params }),
+    makeSphere: async (params: unknown) => ({ id: 'sphere-1', type: 'solid', ...params }),
+    performUnion: async (params: unknown) => ({ id: 'union-1', type: 'solid', ...params }),
     execute: async (op: any) => ({ id: `${op.type}-1`, type: 'result', ...op.params }),
-  } as any as WorkerAPI;
+  } as unknown as WorkerAPI;
 
   const proxy = new GeometryProxy(mockWorker as WorkerAPI);
 
@@ -85,7 +85,7 @@ async function testNodeEvaluation() {
   try {
     // Get real geometry API
     // TODO: Implement proper API initialization when GeometryAPIFactory is available
-    const api: any = null; // await GeometryAPIFactory.getAPI({ enableRetry: true, retryAttempts: 1 });
+    const api: unknown = null; // await GeometryAPIFactory.getAPI({ enableRetry: true, retryAttempts: 1 });
 
     // Create DAG engine with the API
     const dagEngine = new DAGEngine({ worker: api });
@@ -118,7 +118,7 @@ async function testNodeEvaluation() {
       params: {},
       inputs: {},
       outputs: { solid: { type: 'Solid' } },
-      async evaluate(context: any, inputs: any, params: any) {
+      async evaluate(context: unknown, inputs: any, params: unknown) {
         // This mimics how generated nodes work - they expect context.geometry
         if (!context.geometry) {
           throw new Error('context.geometry not available - adapter not working!');
@@ -130,11 +130,11 @@ async function testNodeEvaluation() {
           }),
         };
       },
-    } as any);
+    } as unknown);
 
     // Evaluate the graph
     log('  Evaluating test graph...', colors.gray);
-    const dirtyNodes = new Set<any>(['box-node-1']);
+    const dirtyNodes = new Set<unknown>(['box-node-1']);
     await dagEngine.evaluate(testGraph, dirtyNodes);
 
     // Check if the node was evaluated successfully

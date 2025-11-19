@@ -47,7 +47,7 @@ export interface WebSocketMessage {
   userId?: UserId;
   sessionId?: SessionId;
   projectId?: ProjectId;
-  data: any;
+  data: unknown;
 }
 
 export type MessageType =
@@ -135,7 +135,7 @@ export class WebSocketService extends EventEmitter {
   /**
    * Connection Management
    */
-  private async handleConnection(socket: WebSocket, request: any): Promise<void> {
+  private async handleConnection(socket: WebSocket, request: unknown): Promise<void> {
     const connectionId = this.generateConnectionId();
     const connection: ClientConnection = {
       id: connectionId,
@@ -567,7 +567,7 @@ export class WebSocketService extends EventEmitter {
   /**
    * Validation and Rate Limiting
    */
-  private validateMessage(message: any): boolean {
+  private validateMessage(message: unknown): boolean {
     return (
       message &&
       typeof message.id === 'string' &&

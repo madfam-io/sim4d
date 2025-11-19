@@ -76,7 +76,7 @@ export const renderCommand = new Command('render')
         retryAttempts: 2,
         validateOutput: true,
       });
-      const healthPayload = unwrapOperationResult<any>(
+      const healthPayload = unwrapOperationResult<unknown>(
         await geometryAPI.invoke('HEALTH_CHECK', {})
       );
       if (!healthPayload.success || !healthPayload.result?.healthy) {
@@ -261,7 +261,7 @@ export function collectShapeHandles(graph: GraphInstance): ShapeCandidate[] {
   const seen = new Set<string>();
   let index = 0;
 
-  const visit = (value: any, nodeId: string, outputKey: string) => {
+  const visit = (value: unknown, nodeId: string, outputKey: string) => {
     if (value == null) {
       return;
     }
@@ -348,16 +348,16 @@ function buildFileName(shape: ShapeCandidate, format: string, includeHash: boole
   return `${stem}${hash ? `-${hash}` : ''}.${format}`;
 }
 
-export function unwrapOperationResult<T>(value: any): {
+export function unwrapOperationResult<T>(value: unknown): {
   success: boolean;
   result: T | undefined;
-  error?: any;
+  error?: Error | unknown;
 } {
   if (value && typeof value === 'object' && 'success' in value) {
     return {
-      success: Boolean((value as any).success),
-      result: (value as any).result as T,
-      error: (value as any).error,
+      success: Boolean((value as unknown).success),
+      result: (value as unknown).result as T,
+      error: (value as unknown).error,
     };
   }
 
@@ -370,7 +370,7 @@ export function unwrapOperationResult<T>(value: any): {
 async function invokeOperation<T>(
   geometryAPI: WorkerAPI,
   operation: string,
-  params: any
+  params: unknown
 ): Promise<T> {
   const response = await geometryAPI.invoke(operation, params);
   const { success, result, error } = unwrapOperationResult<T>(response);

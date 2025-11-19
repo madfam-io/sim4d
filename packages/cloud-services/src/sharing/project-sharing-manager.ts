@@ -30,9 +30,9 @@ const isSharingEnabled = (): boolean => {
 
   if (
     typeof globalThis !== 'undefined' &&
-    '__BREPFLOW_ENABLE_PROJECT_SHARING__' in (globalThis as any)
+    '__BREPFLOW_ENABLE_PROJECT_SHARING__' in (globalThis as unknown)
   ) {
-    return Boolean((globalThis as any).__BREPFLOW_ENABLE_PROJECT_SHARING__);
+    return Boolean((globalThis as unknown).__BREPFLOW_ENABLE_PROJECT_SHARING__);
   }
 
   return false;
@@ -631,7 +631,7 @@ export class ProjectSharingManager extends EventEmitter {
     return this.apiClient.getUser(userId);
   }
 
-  private async getProject(projectId: ProjectId): Promise<any> {
+  private async getProject(projectId: ProjectId): Promise<unknown> {
     return this.apiClient.getProject(projectId);
   }
 

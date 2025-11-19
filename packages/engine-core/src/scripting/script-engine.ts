@@ -141,7 +141,7 @@ export class BrepFlowScriptEngine implements ScriptEngine {
       params: nodeDefFromScript?.params || this.inferParamsFromScript(script),
 
       // Enhanced evaluate function
-      evaluate: async (ctx: ScriptContext, inputs: any, params: any) => {
+      evaluate: async (ctx: ScriptContext, inputs: any, params: unknown) => {
         // If the script defined its own evaluate function, use it
         if (nodeDefFromScript?.evaluate && typeof nodeDefFromScript.evaluate === 'function') {
           try {
@@ -304,7 +304,7 @@ export class BrepFlowScriptEngine implements ScriptEngine {
    * SECURITY: REMOVED unsafe Function() usage
    * Node definition extraction is now handled securely by isolated-vm executor
    */
-  private async extractNodeDefinitionFromScript(script: string): Promise<any> {
+  private async extractNodeDefinitionFromScript(script: string): Promise<unknown> {
     console.warn(
       'extractNodeDefinitionFromScript: Node definition extraction moved to isolated-vm for security'
     );
@@ -386,8 +386,8 @@ return {
     });
   }
 
-  private inferInputsFromScript(_script: string): Record<string, any> {
-    const inputs: Record<string, any> = {};
+  private inferInputsFromScript(_script: string): Record<string, unknown> {
+    const inputs: Record<string, unknown> = {};
 
     // Look for getInput calls to infer inputs
     const inputMatches = script.matchAll(/getInput\(['"`]([^'"`]+)['"`]\)/g);
@@ -404,8 +404,8 @@ return {
     return inputs;
   }
 
-  private inferOutputsFromScript(_script: string): Record<string, any> {
-    const outputs: Record<string, any> = {};
+  private inferOutputsFromScript(_script: string): Record<string, unknown> {
+    const outputs: Record<string, unknown> = {};
 
     // Look for setOutput calls and return statements
     const outputMatches = script.matchAll(/setOutput\(['"`]([^'"`]+)['"`]/g);
@@ -426,8 +426,8 @@ return {
     return outputs;
   }
 
-  private inferParamsFromScript(script: string): Record<string, any> {
-    const params: Record<string, any> = {};
+  private inferParamsFromScript(script: string): Record<string, unknown> {
+    const params: Record<string, unknown> = {};
 
     // Look for getParameter calls to infer parameters
     // Use two separate patterns to avoid optional groups (ReDoS risk)

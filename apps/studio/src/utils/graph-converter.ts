@@ -105,14 +105,14 @@ function getNodeLabel(node: NodeInstance): string {
 
   // Add parameter info for some nodes
   if (node.type === 'Solid::Box' && node.params) {
-    const { width, height, depth } = node.params as any;
+    const { width, height, depth } = node.params as unknown;
     if (width && height && depth) {
       return `Box (${width}×${height}×${depth})`;
     }
   }
 
   if (node.type === 'Features::Fillet' && node.params) {
-    const { radius } = node.params as any;
+    const { radius } = node.params as unknown;
     if (radius) {
       return `Fillet (R${radius})`;
     }

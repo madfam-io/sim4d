@@ -22,7 +22,7 @@ export class CollaborationClient {
   private presence: Map<string, Presence> = new Map();
   private eventHandlers: CollaborationEventHandler = {};
   private operationQueue: Operation[] = [];
-  private presenceThrottle: Map<string, any> = new Map();
+  private presenceThrottle: Map<string, unknown> = new Map();
 
   constructor(options: CollaborationOptions) {
     this.options = options;
@@ -198,7 +198,7 @@ export class CollaborationClient {
     this.socket.emit('document:request-sync');
   }
 
-  private throttledPresenceUpdate(type: string, data: any, callback: () => void): void {
+  private throttledPresenceUpdate(type: string, data: unknown, callback: () => void): void {
     // Clear existing timeout
     if (this.presenceThrottle.has(type)) {
       clearTimeout(this.presenceThrottle.get(type));

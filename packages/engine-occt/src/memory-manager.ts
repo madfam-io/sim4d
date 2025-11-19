@@ -72,7 +72,7 @@ interface MeshLOD {
 export class AdvancedMemoryManager {
   private shapeCache = new Map<string, CacheEntry<ShapeHandle>>();
   private meshCache = new Map<string, CacheEntry<MeshLOD>>();
-  private resultCache = new Map<string, CacheEntry<any>>();
+  private resultCache = new Map<string, CacheEntry<unknown>>();
   private memoryStats = {
     totalMemoryMB: 0,
     shapeCacheMB: 0,
@@ -111,7 +111,7 @@ export class AdvancedMemoryManager {
     this.memoryProvider = config.memoryProvider || {
       getMemoryStats: () => {
         if (typeof performance !== 'undefined' && 'memory' in performance) {
-          return (performance as any).memory;
+          return (performance as unknown).memory;
         }
         return { usedJSHeapSize: 0, totalJSHeapSize: 0 };
       },
@@ -158,13 +158,13 @@ export class AdvancedMemoryManager {
   /**
    * Cache operation results for performance optimization
    */
-  cacheResult(operationKey: string, result: any, priority: number = 1): void {
+  cacheResult(operationKey: string, result: unknown, priority: number = 1): void {
     const endMeasurement = this.performanceMonitor.startMeasurement('cache-result-store');
     const size = this.estimateResultSize(result);
 
     this.ensureSpace('result', size);
 
-    const entry: CacheEntry<any> = {
+    const entry: CacheEntry<unknown> = {
       data: result,
       lastAccessed: this.timeProvider.now(),
       accessCount: 1,
@@ -332,7 +332,7 @@ export class AdvancedMemoryManager {
   /**
    * Generate operation cache key with parameter hashing
    */
-  generateOperationKey(operation: string, params: any): string {
+  generateOperationKey(operation: string, params: unknown): string {
     // Simple hash of operation and parameters
     const paramStr = JSON.stringify(params, Object.keys(params).sort());
     return `${operation}_${this.simpleHash(paramStr)}`;
@@ -379,7 +379,7 @@ export class AdvancedMemoryManager {
    * Ensure we have enough space for new data (enhanced with result cache support)
    */
   private ensureSpace(type: 'shape' | 'mesh' | 'result', requiredSize: number): void {
-    let cache: Map<string, CacheEntry<any>>;
+    let cache: Map<string, CacheEntry<unknown>>;
     let currentMemory: number;
     let maxSize: number;
 
@@ -415,7 +415,7 @@ export class AdvancedMemoryManager {
    */
   private evictLRU(type: 'shape' | 'mesh' | 'result', requiredSize: number): void {
     const endMeasurement = this.performanceMonitor.startMeasurement('cache-eviction');
-    let cache: Map<string, CacheEntry<any>>;
+    let cache: Map<string, CacheEntry<unknown>>;
 
     switch (type) {
       case 'shape':
@@ -473,7 +473,7 @@ export class AdvancedMemoryManager {
   /**
    * Calculate eviction score (lower = more likely to evict)
    */
-  private calculateEvictionScore(entry: CacheEntry<any>): number {
+  private calculateEvictionScore(entry: CacheEntry<unknown>): number {
     const now = this.timeProvider.now();
     const ageMinutes = (now - entry.lastAccessed) / (1000 * 60);
     const frequencyBonus = Math.min(entry.accessCount / 10, 5); // Max 5 point bonus
@@ -794,7 +794,7 @@ export class AdvancedMemoryManager {
   /**
    * Estimate memory size of operation result
    */
-  private estimateResultSize(result: any): number {
+  private estimateResultSize(result: unknown): number {
     try {
       // If result is a shape handle or mesh, estimate more accurately
       if (result && typeof result === 'object') {

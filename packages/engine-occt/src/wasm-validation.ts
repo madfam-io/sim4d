@@ -159,7 +159,7 @@ export class WASMValidator {
       ];
 
       for (const func of requiredFunctions) {
-        if (typeof (this.module as any)[func] !== 'function') {
+        if (typeof (this.module as unknown)[func] !== 'function') {
           errors.push(`Required function missing: ${func}`);
         }
       }
@@ -241,7 +241,7 @@ export class WASMValidator {
    */
   private async measureMemoryUsage(): Promise<number> {
     if (typeof performance !== 'undefined' && 'memory' in performance) {
-      const memory = (performance as any).memory;
+      const memory = (performance as unknown).memory;
       return Math.round(memory.usedJSHeapSize / (1024 * 1024)); // MB
     }
     return 0;

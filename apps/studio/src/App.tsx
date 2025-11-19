@@ -331,7 +331,7 @@ function AppContent() {
 
   // Handle parameter dialog confirmation
   const handleParameterDialogConfirm = useCallback(
-    (params: Record<string, any>) => {
+    (params: Record<string, unknown>) => {
       if (!parameterDialog.nodeType) return;
 
       addNode({

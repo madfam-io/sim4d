@@ -50,7 +50,7 @@ export class CSRFCollaborationClient {
   private presence: Map<string, Presence> = new Map();
   private eventHandlers: CSRFCollaborationEventHandler = {};
   private operationQueue: Operation[] = [];
-  private presenceThrottle: Map<string, any> = new Map();
+  private presenceThrottle: Map<string, unknown> = new Map();
 
   // CSRF-specific properties
   private csrfToken: string | null = null;
@@ -377,7 +377,7 @@ export class CSRFCollaborationClient {
     this.socket?.emit('document:request-sync');
   }
 
-  private throttledPresenceUpdate(type: string, data: any, callback: () => void): void {
+  private throttledPresenceUpdate(type: string, data: unknown, callback: () => void): void {
     if (this.presenceThrottle.has(type)) {
       clearTimeout(this.presenceThrottle.get(type));
     }

@@ -12,8 +12,8 @@ let isInitialized = false;
 let moduleInitialization: Promise<void> | null = null;
 
 async function ensureOCCTModuleLoaded(): Promise<void> {
-  if (typeof (globalThis as any).Module !== 'undefined' && (globalThis as any).Module?.ready) {
-    await (globalThis as any).Module.ready;
+  if (typeof (globalThis as unknown).Module !== 'undefined' && (globalThis as unknown).Module?.ready) {
+    await (globalThis as unknown).Module.ready;
     return;
   }
 
@@ -51,7 +51,7 @@ async function ensureOCCTModuleLoaded(): Promise<void> {
           throw new Error(`OCCT factory missing in ${specifier}`);
         }
 
-        const baseUrl = new URL('.', new URL(specifier, (self as any)?.location?.href ?? 'file://'))
+        const baseUrl = new URL('.', new URL(specifier, (self as unknown)?.location?.href ?? 'file://'))
           .href;
 
         const moduleInstance = await factory({
@@ -60,7 +60,7 @@ async function ensureOCCTModuleLoaded(): Promise<void> {
           printErr: (text: string) => console.error('[OCCT Worker WASM Error]', text),
         });
 
-        (globalThis as any).Module = moduleInstance;
+        (globalThis as unknown).Module = moduleInstance;
 
         if (moduleInstance?.ready && typeof moduleInstance.ready.then === 'function') {
           await moduleInstance.ready;
@@ -85,7 +85,7 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
   const request = event.data;
 
   try {
-    let result: any;
+    let result: unknown;
 
     switch (request.type) {
       case 'INIT':

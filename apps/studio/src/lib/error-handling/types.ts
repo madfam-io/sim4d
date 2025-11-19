@@ -74,7 +74,7 @@ export interface ErrorContext {
   sessionId: string;
   userId?: string;
   buildVersion: string;
-  additionalData?: Record<string, any>;
+  additionalData?: Record<string, unknown>;
   // Additional properties used in components
   componentStack?: string;
   filename?: string;
@@ -150,7 +150,7 @@ export interface PerformanceMetric {
 export interface UserEvent {
   type: string;
   target?: string;
-  data?: Record<string, any>;
+  data?: Record<string, unknown>;
   timestamp: number;
   sessionId: string;
   userId?: string;

@@ -33,7 +33,7 @@ export interface ScriptExample {
   title: string;
   description: string;
   code: string;
-  parameters?: Record<string, any>;
+  parameters?: Record<string, unknown>;
 }
 
 export interface ScriptValidationResult {
@@ -74,9 +74,9 @@ export interface ScriptContext extends EvalContext {
     measureDistance: (p1: Vec3, p2: Vec3) => number;
 
     // Node utilities
-    getParameter: <T = any>(name: string, defaultValue?: T) => T;
-    setOutput: (name: string, value: any) => void;
-    getInput: <T = any>(name: string) => T | undefined;
+    getParameter: <T = unknown>(name: string, defaultValue?: T) => T;
+    setOutput: (name: string, value: unknown) => void;
+    getInput: <T = unknown>(name: string) => T | undefined;
 
     // Async utilities
     sleep: (ms: number) => Promise<void>;
@@ -128,7 +128,7 @@ export interface ScriptedNodeDefinition extends NodeDefinition {
   };
 
   // Enhanced evaluation with script execution
-  evaluate: (ctx: ScriptContext, inputs: any, params: any) => Promise<any>;
+  evaluate: (ctx: ScriptContext, inputs: unknown, params: unknown) => Promise<unknown>;
 
   // Script lifecycle hooks
   onInitialize?: (ctx: ScriptContext) => Promise<void>;
@@ -136,8 +136,8 @@ export interface ScriptedNodeDefinition extends NodeDefinition {
   onParameterChange?: (
     ctx: ScriptContext,
     paramName: string,
-    oldValue: any,
-    newValue: any
+    oldValue: unknown,
+    newValue: unknown
   ) => Promise<void>;
 }
 
@@ -153,7 +153,7 @@ export interface ScriptTemplate {
 
 export interface ScriptExecutionResult {
   success: boolean;
-  outputs: Record<string, any>;
+  outputs: Record<string, unknown>;
   logs: ScriptLogEntry[];
   metrics: ScriptMetric[];
   executionTime: number;
@@ -264,8 +264,8 @@ export interface ScriptExecutor {
 }
 
 export interface CompiledScript {
-  bytecode?: any;
-  sourceMap?: any;
+  bytecode?: unknown;
+  sourceMap?: unknown;
   dependencies: string[];
   entryPoint: string;
 }
@@ -314,7 +314,7 @@ export interface ParameterDoc {
   type: string;
   description: string;
   optional?: boolean;
-  defaultValue?: any;
+  defaultValue?: unknown;
 }
 
 export interface ReturnDoc {

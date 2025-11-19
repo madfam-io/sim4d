@@ -109,7 +109,7 @@ export class ProductionGeometryService {
    */
   async checkHealth(): Promise<{
     healthy: boolean;
-    details: Record<string, any>;
+    details: Record<string, unknown>;
   }> {
     if (!this.api) {
       return {
@@ -176,7 +176,7 @@ export class ProductionGeometryService {
    */
   async execute<T = any>(
     operation: string,
-    params: any,
+    params: unknown,
     options: {
       validate?: boolean;
       timeout?: number;
@@ -243,9 +243,9 @@ export class ProductionGeometryService {
    * Export geometry with validation
    */
   async export(
-    shape: any,
+    shape: unknown,
     format: 'STEP' | 'IGES' | 'STL' | 'OBJ',
-    options: Record<string, any> = {}
+    options: Record<string, unknown> = {}
   ): Promise<string | ArrayBuffer> {
     if (!this.api) {
       throw new Error('Geometry service not initialized');

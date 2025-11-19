@@ -13,7 +13,7 @@ export class WorkerClient implements WorkerAPI {
   private pending = new Map<
     string,
     {
-      resolve: (value: any) => void;
+      resolve: (value: unknown) => void;
       reject: (error: any) => void;
     }
   >();
@@ -77,7 +77,7 @@ export class WorkerClient implements WorkerAPI {
   /**
    * Send request to worker
    */
-  private async sendRequest(request: Partial<WorkerRequest>): Promise<any> {
+  private async sendRequest(request: Partial<WorkerRequest>): Promise<unknown> {
     if (!this.worker) {
       throw new Error('Worker not initialized');
     }
@@ -133,11 +133,11 @@ export class WorkerClient implements WorkerAPI {
   /**
    * Invoke geometry operation
    */
-  async invoke<T = any>(operation: string, params: any): Promise<T> {
+  async invoke<T = any>(operation: string, params: unknown): Promise<T> {
     await this.init();
 
     const result = await this.sendRequest({
-      type: operation as any,
+      type: operation as unknown,
       params,
     } as WorkerRequest);
 

@@ -8,7 +8,7 @@ import { GeometryValidator } from './geometry-validator';
 import { ProductionLogger } from './production-logger';
 import type { WorkerRequest, WorkerResponse } from './worker-types';
 
-let occtModule: any = null;
+let occtModule: unknown = null;
 let isInitialized = false;
 const logger = new ProductionLogger('OCCTWorker');
 const validator = new GeometryValidator();
@@ -18,7 +18,7 @@ class WorkerError extends Error {
   constructor(
     public code: string,
     message: string,
-    public details?: any
+    public details?: unknown
   ) {
     super(message);
     this.name = 'WorkerError';
@@ -33,7 +33,7 @@ function startMemoryMonitoring() {
 
   memoryMonitor = setInterval(() => {
     if (typeof performance !== 'undefined' && 'memory' in performance) {
-      const memory = (performance as any).memory;
+      const memory = (performance as unknown).memory;
       const usedMB = Math.round(memory.usedJSHeapSize / 1024 / 1024);
       const totalMB = Math.round(memory.totalJSHeapSize / 1024 / 1024);
 
@@ -69,7 +69,7 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
   const startTime = performance.now();
 
   try {
-    let result: any;
+    let result: unknown;
 
     switch (request.type) {
       case 'INIT':
@@ -289,7 +289,7 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
 });
 
 // Transform OCCT shape handle to our format
-function transformShapeHandle(occtShape: any) {
+function transformShapeHandle(occtShape: unknown) {
   return {
     id: occtShape.id,
     type: occtShape.type,
@@ -310,7 +310,7 @@ function transformShapeHandle(occtShape: any) {
 }
 
 // Boolean operations with validation
-function performBooleanUnion(shapes: any[]): any {
+function performBooleanUnion(shapes: unknown[]): unknown {
   if (shapes.length < 2) {
     throw new WorkerError('INVALID_PARAMS', 'Boolean union requires at least 2 shapes', {
       count: shapes.length,
@@ -331,7 +331,7 @@ function performBooleanUnion(shapes: any[]): any {
   return result;
 }
 
-function performBooleanSubtract(base: any, tools: any[]): any {
+function performBooleanSubtract(base: unknown, tools: unknown[]): unknown {
   if (!base || tools.length === 0) {
     throw new WorkerError(
       'INVALID_PARAMS',
@@ -354,7 +354,7 @@ function performBooleanSubtract(base: any, tools: any[]): any {
   return result;
 }
 
-function performBooleanIntersect(shapes: any[]): any {
+function performBooleanIntersect(shapes: unknown[]): unknown {
   if (shapes.length < 2) {
     throw new WorkerError('INVALID_PARAMS', 'Boolean intersect requires at least 2 shapes', {
       count: shapes.length,

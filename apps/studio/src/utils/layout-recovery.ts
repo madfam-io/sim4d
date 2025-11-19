@@ -74,10 +74,10 @@ export function recoverLayout(corruptedLayout: any): WorkbenchLayout {
 
     for (const [panelId, panel] of Object.entries(corruptedLayout.panels)) {
       if (panelId in defaultLayout.panels && typeof panel === 'object' && panel) {
-        const panelConfig = panel as any;
+        const panelConfig = panel as unknown;
         const defaultPanel = defaultLayout.panels[panelId as keyof typeof defaultLayout.panels];
 
-        (recoveredPanels as any)[panelId] = {
+        (recoveredPanels as unknown)[panelId] = {
           ...defaultPanel,
           // Preserve user settings if they're valid
           visible:

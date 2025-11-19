@@ -29,7 +29,7 @@ export interface PluginCapability {
   name: string;
   version: string;
   permissions: string[];
-  handler: (context: PluginExecutionContext, ...args: any[]) => any;
+  handler: (context: PluginExecutionContext, ...args: unknown[]) => any;
 }
 
 export interface PluginSandbox {
@@ -50,7 +50,7 @@ export interface PluginInstallOptions {
 
 export interface PluginExecutionResult {
   success: boolean;
-  result?: any;
+  result?: unknown;
   error?: string;
   logs: PluginLogEntry[];
   metrics: PluginMetrics;
@@ -60,7 +60,7 @@ export interface PluginLogEntry {
   level: 'debug' | 'info' | 'warn' | 'error';
   message: string;
   timestamp: Date;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface PluginMetrics {
@@ -174,7 +174,7 @@ export class PluginManager extends EventEmitter {
   async executePlugin(
     pluginId: PluginId,
     functionName: string,
-    args: any[],
+    args: unknown[],
     context: Partial<PluginExecutionContext>
   ): Promise<PluginExecutionResult> {
     const plugin = this.installedPlugins.get(pluginId);
@@ -398,7 +398,7 @@ export class PluginManager extends EventEmitter {
     }
   }
 
-  private async executeSandboxed(task: PluginExecutionTask): Promise<any> {
+  private async executeSandboxed(task: PluginExecutionTask): Promise<unknown> {
     const { sandbox } = task.context;
 
     // Create isolated worker for plugin execution
@@ -591,8 +591,8 @@ export class PluginManager extends EventEmitter {
     console.log(`Installed plugin bundle for ${plugin.id} in sandbox ${sandbox.workerId}`);
   }
 
-  private buildCapabilitiesAPI(plugin: Plugin): Record<string, any> {
-    const api: Record<string, any> = {};
+  private buildCapabilitiesAPI(plugin: Plugin): Record<string, unknown> {
+    const api: Record<string, unknown> = {};
 
     // Add requested capabilities
     for (const capability of plugin.manifest.permissions.capabilities) {
@@ -1129,7 +1129,7 @@ export class PluginManager extends EventEmitter {
   }
 
   private createGeometryCapability() {
-    return async (context: PluginExecutionContext, operation: string, params: any) => {
+    return async (context: PluginExecutionContext, operation: string, params: unknown) => {
       // Validate plugin has geometry permission
       const plugin = this.installedPlugins.get(context.pluginId);
       if (!plugin) {
@@ -1167,7 +1167,7 @@ export class PluginManager extends EventEmitter {
   }
 
   private createStorageCapability() {
-    return async (context: PluginExecutionContext, operation: string, params: any) => {
+    return async (context: PluginExecutionContext, operation: string, params: unknown) => {
       // Validate plugin has storage permission
       const plugin = this.installedPlugins.get(context.pluginId);
       if (!plugin) {
@@ -1232,7 +1232,7 @@ export class PluginManager extends EventEmitter {
   }
 
   private createNetworkCapability() {
-    return async (context: PluginExecutionContext, operation: string, params: any) => {
+    return async (context: PluginExecutionContext, operation: string, params: unknown) => {
       // Validate plugin has network permission
       const plugin = this.installedPlugins.get(context.pluginId);
       if (!plugin) {
@@ -1303,7 +1303,7 @@ interface PluginExecutionTask {
   id: string;
   pluginId: PluginId;
   functionName: string;
-  args: any[];
+  args: unknown[];
   context: PluginExecutionContext;
   createdAt: number;
   resolve?: (result: PluginExecutionResult) => void;

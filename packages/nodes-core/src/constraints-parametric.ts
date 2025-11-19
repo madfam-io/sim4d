@@ -43,7 +43,7 @@ export const CoincidentConstraintNode: NodeDefinition<
 
 export const ParallelConstraintNode: NodeDefinition<
   { line1: ShapeHandle; line2: ShapeHandle },
-  { result: any },
+  { result: unknown },
   Record<string, never>
 > = {
   id: 'Constraints::Parallel',
@@ -69,7 +69,7 @@ export const ParallelConstraintNode: NodeDefinition<
 
 export const PerpendicularConstraintNode: NodeDefinition<
   { line1: ShapeHandle; line2: ShapeHandle },
-  { result: any },
+  { result: unknown },
   Record<string, never>
 > = {
   id: 'Constraints::Perpendicular',
@@ -95,7 +95,7 @@ export const PerpendicularConstraintNode: NodeDefinition<
 
 export const TangentConstraintNode: NodeDefinition<
   { curve1: ShapeHandle; curve2: ShapeHandle },
-  { result: any },
+  { result: unknown },
   Record<string, never>
 > = {
   id: 'Constraints::Tangent',
@@ -121,7 +121,7 @@ export const TangentConstraintNode: NodeDefinition<
 
 export const DistanceConstraintNode: NodeDefinition<
   { entity1: ShapeHandle; entity2: ShapeHandle },
-  { result: any },
+  { result: unknown },
   { distance: number }
 > = {
   id: 'Constraints::Distance',
@@ -155,7 +155,7 @@ export const DistanceConstraintNode: NodeDefinition<
 
 export const AngleConstraintNode: NodeDefinition<
   { line1: ShapeHandle; line2: ShapeHandle },
-  { result: any },
+  { result: unknown },
   { angle: number }
 > = {
   id: 'Constraints::Angle',
@@ -190,7 +190,7 @@ export const AngleConstraintNode: NodeDefinition<
 
 export const RadiusConstraintNode: NodeDefinition<
   { circle: ShapeHandle },
-  { result: any },
+  { result: unknown },
   { radius: number }
 > = {
   id: 'Constraints::Radius',
@@ -222,7 +222,7 @@ export const RadiusConstraintNode: NodeDefinition<
 
 export const HorizontalConstraintNode: NodeDefinition<
   { line: ShapeHandle },
-  { result: any },
+  { result: unknown },
   Record<string, never>
 > = {
   id: 'Constraints::Horizontal',
@@ -246,7 +246,7 @@ export const HorizontalConstraintNode: NodeDefinition<
 
 export const VerticalConstraintNode: NodeDefinition<
   { line: ShapeHandle },
-  { result: any },
+  { result: unknown },
   Record<string, never>
 > = {
   id: 'Constraints::Vertical',
@@ -270,7 +270,7 @@ export const VerticalConstraintNode: NodeDefinition<
 
 export const EqualConstraintNode: NodeDefinition<
   { entity1: ShapeHandle; entity2: ShapeHandle },
-  { result: any },
+  { result: unknown },
   Record<string, never>
 > = {
   id: 'Constraints::Equal',
@@ -296,7 +296,7 @@ export const EqualConstraintNode: NodeDefinition<
 
 export const SymmetricConstraintNode: NodeDefinition<
   { entity1: ShapeHandle; entity2: ShapeHandle; axis: ShapeHandle },
-  { result: any },
+  { result: unknown },
   Record<string, never>
 > = {
   id: 'Constraints::Symmetric',
@@ -324,7 +324,7 @@ export const SymmetricConstraintNode: NodeDefinition<
 
 export const FixedConstraintNode: NodeDefinition<
   { entity: ShapeHandle },
-  { result: any },
+  { result: unknown },
   Record<string, never>
 > = {
   id: 'Constraints::Fixed',
@@ -348,7 +348,7 @@ export const FixedConstraintNode: NodeDefinition<
 
 export const ConcentricConstraintNode: NodeDefinition<
   { circle1: ShapeHandle; circle2: ShapeHandle },
-  { result: any },
+  { result: unknown },
   Record<string, never>
 > = {
   id: 'Constraints::Concentric',
@@ -373,7 +373,7 @@ export const ConcentricConstraintNode: NodeDefinition<
 };
 
 export const ConstraintSolverNode: NodeDefinition<
-  { constraints: any[] },
+  { constraints: unknown[] },
   { solvedGeometry: ShapeHandle },
   { maxIterations: number; tolerance: number; method: string }
 > = {

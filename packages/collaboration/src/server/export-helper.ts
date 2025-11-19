@@ -18,8 +18,8 @@ export interface ExportResult {
 /**
  * Collect shape handles from evaluated graph
  */
-function collectShapeHandles(graph: GraphInstance): any[] {
-  const handles: any[] = [];
+function collectShapeHandles(graph: GraphInstance): unknown[] {
+  const handles: unknown[] = [];
 
   for (const node of graph.nodes) {
     if (!node.outputs) continue;
@@ -58,7 +58,7 @@ export async function exportSessionGeometry(
 
   // Health check
   const healthResponse = await geometryAPI.invoke('HEALTH_CHECK', {});
-  const healthPayload = unwrapOperationResult<any>(healthResponse);
+  const healthPayload = unwrapOperationResult<unknown>(healthResponse);
 
   if (!healthPayload.success || !healthPayload.result?.healthy) {
     throw new Error('Geometry engine health check failed');
@@ -110,10 +110,10 @@ export async function exportSessionGeometry(
 /**
  * Unwrap operation result from geometry API
  */
-function unwrapOperationResult<T>(value: any): {
+function unwrapOperationResult<T>(value: unknown): {
   success: boolean;
   result: T | undefined;
-  error?: any;
+  error?: Error | unknown;
 } {
   if (value && typeof value === 'object' && 'success' in value) {
     return {
@@ -132,7 +132,7 @@ function unwrapOperationResult<T>(value: any): {
 /**
  * Invoke geometry operation with error handling
  */
-async function invokeOperation<T>(geometryAPI: any, operation: string, params: any): Promise<T> {
+async function invokeOperation<T>(geometryAPI: any, operation: string, params: unknown): Promise<T> {
   const response = await geometryAPI.invoke(operation, params);
   const { success, result, error } = unwrapOperationResult<T>(response);
 

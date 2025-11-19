@@ -484,7 +484,7 @@ export function useResilientNodeDiscovery() {
                 source: 'enhanced-registry',
               });
               setDiscoveredNodes(
-                dynamicNodes.map((node: any) => ({
+                dynamicNodes.map((node: unknown) => ({
                   ...node,
                   metadata: {
                     label: node.label || node.type.split('::')[1] || 'Unknown',
@@ -543,7 +543,7 @@ export function useResilientNodeDiscovery() {
 
   // Build category tree from discovered nodes
   const categoryTree = useMemo(() => {
-    const tree: Record<string, { nodes: any[]; subcategories: Record<string, any[]> }> = {};
+    const tree: Record<string, { nodes: unknown[]; subcategories: Record<string, unknown[]> }> = {};
 
     discoveredNodes.forEach((node) => {
       const category = node.metadata?.category || node.category || 'Other';

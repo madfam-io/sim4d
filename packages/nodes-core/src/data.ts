@@ -269,7 +269,7 @@ export const flattenNode: NodeDefinition = {
     },
   },
   evaluate: async (ctx, inputs, params) => {
-    const flatten = (arr: any, depth: number): any[] => {
+    const flatten = (arr: any, depth: number): unknown[] => {
       if (depth === 0 || !Array.isArray(arr)) return [arr];
       return arr.reduce((acc, val) => {
         if (Array.isArray(val) && depth > 1) {

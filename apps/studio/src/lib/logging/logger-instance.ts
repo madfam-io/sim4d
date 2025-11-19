@@ -59,7 +59,7 @@ export const logger = Logger.getInstance(DEFAULT_LOGGING_CONFIG, getOrCreateSess
  * const graphLogger = createChildLogger({ module: 'graph-store' });
  * graphLogger.info('Node added', { nodeId });
  */
-export function createChildLogger(context: Record<string, any>) {
+export function createChildLogger(context: Record<string, unknown>) {
   return logger.createChild(context);
 }
 
@@ -71,11 +71,11 @@ export function createChildLogger(context: Record<string, any>) {
  * // ... perform operation
  * timing.finish({ nodeCount: 42 });
  */
-export function startTiming(operation: string, context: Record<string, any> = {}) {
+export function startTiming(operation: string, context: Record<string, unknown> = {}) {
   return new (class {
     private startTime = performance.now();
 
-    finish(additionalContext?: Record<string, any>): void {
+    finish(additionalContext?: Record<string, unknown>): void {
       const duration = performance.now() - this.startTime;
       logger.info(`Completed: ${operation}`, {
         duration_ms: duration.toFixed(2),
@@ -84,7 +84,7 @@ export function startTiming(operation: string, context: Record<string, any> = {}
       });
     }
 
-    error(error: Error, additionalContext?: Record<string, any>): void {
+    error(error: Error, additionalContext?: Record<string, unknown>): void {
       const duration = performance.now() - this.startTime;
       logger.error(`Failed: ${operation}`, {
         duration_ms: duration.toFixed(2),

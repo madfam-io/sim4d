@@ -11,7 +11,7 @@ const isTestMode = typeof process !== 'undefined' && process.env?.NODE_ENV === '
 const isBrowserLikeWorker = typeof importScripts === 'function';
 const isNodeWorker = typeof process !== 'undefined' && !!process.versions?.node;
 
-let parentPort: any = null;
+let parentPort: unknown = null;
 if (!isBrowserLikeWorker) {
   try {
     const workerThreads = await import('node:worker_threads');
@@ -21,9 +21,9 @@ if (!isBrowserLikeWorker) {
   }
 }
 
-const postMessageToHost = (message: WorkerResponse | any) => {
+const postMessageToHost = (message: WorkerResponse | unknown) => {
   if (isBrowserLikeWorker) {
-    (self as any).postMessage(message);
+    (self as unknown).postMessage(message);
   } else if (parentPort) {
     parentPort.postMessage(message);
   } else {
@@ -33,15 +33,15 @@ const postMessageToHost = (message: WorkerResponse | any) => {
 
 const addHostMessageListener = (handler: (event: { data: WorkerRequest }) => void) => {
   if (isBrowserLikeWorker) {
-    (self as any).addEventListener('message', handler as unknown as EventListener);
+    (self as unknown).addEventListener('message', handler as unknown as EventListener);
   } else if (parentPort) {
     parentPort.on('message', (data: WorkerRequest) => handler({ data }));
   } else {
     throw new Error('No messaging channel available for OCCT worker');
   }
 };
-let occtModule: any = null;
-let productionAPI: any = null;
+let occtModule: unknown = null;
+let productionAPI: unknown = null;
 
 const loadProductionAPI = async () => {
   if (!productionAPI) {
@@ -75,7 +75,7 @@ const toFiniteNumber = (value: unknown, fallback = 0): number => {
 };
 
 const toVector3 = (
-  value: any,
+  value: unknown,
   fallback: [number, number, number] = [0, 0, 0]
 ): [number, number, number] => {
   if (Array.isArray(value) && value.length >= 3) {
@@ -84,9 +84,9 @@ const toVector3 = (
 
   if (value && typeof value === 'object') {
     return [
-      toFiniteNumber(value.x ?? (value as any)[0]),
-      toFiniteNumber(value.y ?? (value as any)[1]),
-      toFiniteNumber(value.z ?? (value as any)[2]),
+      toFiniteNumber(value.x ?? (value as unknown)[0]),
+      toFiniteNumber(value.y ?? (value as unknown)[1]),
+      toFiniteNumber(value.z ?? (value as unknown)[2]),
     ];
   }
 
@@ -94,14 +94,14 @@ const toVector3 = (
 };
 
 // Utility functions for future use
-// const toVec3Object = (value: any, fallback: { x: number; y: number; z: number } = { x: 0, y: 0, z: 0 }) => {
+// const toVec3Object = (value: unknown, fallback: { x: number; y: number; z: number } = { x: 0, y: 0, z: 0 }) => {
 //   const [x, y, z] = toVector3(value ?? fallback, [fallback.x, fallback.y, fallback.z]);
 //   return { x, y, z };
 // };
 
-// const unwrapShape = (shape: any) => (shape?.raw ? shape.raw : shape);
+// const unwrapShape = (shape: unknown) => (shape?.raw ? shape.raw : shape);
 
-const buildBoundingBox = (source: any) => {
+const buildBoundingBox = (source: unknown) => {
   if (source?.bbox?.min && source?.bbox?.max) {
     return source.bbox;
   }
@@ -120,7 +120,7 @@ const buildBoundingBox = (source: any) => {
   };
 };
 
-const getShapeId = (shape: any): string => {
+const getShapeId = (shape: unknown): string => {
   if (typeof shape === 'string') {
     return shape;
   }
@@ -132,7 +132,7 @@ const getShapeId = (shape: any): string => {
   throw new Error('Shape reference must include an id string');
 };
 
-const normalizeShapeHandle = (handle: any, fallbackType = 'SOLID') => {
+const normalizeShapeHandle = (handle: unknown, fallbackType = 'SOLID') => {
   if (!handle || !handle.id) {
     throw new Error('Invalid shape handle returned by OCCT');
   }
@@ -156,7 +156,7 @@ const buildMemoryUsage = (shapeCountProvider?: () => number) => {
   const shapeCount = shapeCountProvider ? shapeCountProvider() : 0;
   const memorySample =
     typeof performance !== 'undefined' && 'memory' in performance
-      ? (performance as any).memory
+      ? (performance as unknown).memory
       : null;
 
   const toMB = (value: number | undefined) =>
@@ -170,13 +170,13 @@ const buildMemoryUsage = (shapeCountProvider?: () => number) => {
   };
 };
 
-const guardModuleMethod = (module: any, name: string) => {
+const guardModuleMethod = (module: unknown, name: string) => {
   if (!module || typeof module[name] !== 'function') {
     throw new Error(`OCCT module does not expose required operation '${name}'`);
   }
 };
 
-const handleWithBindings = (request: WorkerRequest): any => {
+const handleWithBindings = (request: WorkerRequest): unknown => {
   if (!occtModule) {
     throw new Error('OCCT module is not initialized');
   }
@@ -185,7 +185,7 @@ const handleWithBindings = (request: WorkerRequest): any => {
   // The operation normalization (e.g., 'MAKE_BOX' -> 'BOX') prevents TypeScript from narrowing
   // request.params to the specific request type. Runtime behavior is safe due to switch logic.
   // TODO: Refactor to preserve type discrimination (switch on request.type directly)
-  const params = (request.params ?? {}) as any;
+  const params = (request.params ?? {}) as unknown;
   const operation = normalizeOperationType(request.type);
 
   switch (operation) {
@@ -310,7 +310,7 @@ const handleWithBindings = (request: WorkerRequest): any => {
       if (sections.length < 2) {
         throw new Error('LOFT requires at least two section handles');
       }
-      const sectionIds = sections.map((section: any) => getShapeId(section));
+      const sectionIds = sections.map((section: unknown) => getShapeId(section));
       const handle = occtModule.makeLoft(sectionIds, params.options ?? {});
       return normalizeShapeHandle(handle);
     }
@@ -385,7 +385,7 @@ const handleWithBindings = (request: WorkerRequest): any => {
         throw new Error('BOOLEAN_UNION requires at least two shapes');
       }
 
-      let workingHandle: any = null;
+      let workingHandle: unknown = null;
       let currentId = getShapeId(shapeRefs[0]);
 
       for (let i = 1; i < shapeRefs.length; i++) {
@@ -408,7 +408,7 @@ const handleWithBindings = (request: WorkerRequest): any => {
         throw new Error('BOOLEAN_SUBTRACT requires a base shape and at least one tool');
       }
 
-      let workingHandle: any = null;
+      let workingHandle: unknown = null;
       let currentId = getShapeId(base);
 
       for (const tool of tools) {
@@ -430,7 +430,7 @@ const handleWithBindings = (request: WorkerRequest): any => {
         throw new Error('BOOLEAN_INTERSECT requires at least two shapes');
       }
 
-      let workingHandle: any = null;
+      let workingHandle: unknown = null;
       let currentId = getShapeId(shapeRefs[0]);
 
       for (let i = 1; i < shapeRefs.length; i++) {
@@ -565,7 +565,7 @@ addHostMessageListener(async (event: { data: WorkerRequest }) => {
   const request = event.data;
 
   try {
-    let result: any;
+    let result: unknown;
 
     if (request.type === 'INIT') {
       if (!isInitialized) {

@@ -188,7 +188,7 @@ class HealthCheckService {
 
   private getMemoryUsage(): MemoryUsage {
     if (typeof performance !== 'undefined' && 'memory' in performance) {
-      const memory = (performance as any).memory;
+      const memory = (performance as unknown).memory;
       const used = Math.round(memory.usedJSHeapSize / 1024 / 1024);
       const total = Math.round(memory.totalJSHeapSize / 1024 / 1024);
       return {

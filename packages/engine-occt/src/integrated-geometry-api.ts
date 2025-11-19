@@ -25,15 +25,15 @@ export interface GeometryAPIConfig {
   enablePerformanceMonitoring: boolean;
   enableMemoryManagement: boolean;
   enableErrorRecovery: boolean;
-  workerPoolConfig?: any;
-  memoryConfig?: any;
+  workerPoolConfig?: unknown;
+  memoryConfig?: unknown;
   maxRetries: number;
   operationTimeout: number;
   // Dependency injection for testing - allows tests to provide mock OCCT loader
-  occtLoader?: (config?: any) => Promise<any>;
+  occtLoader?: (config?: unknown) => Promise<unknown>;
 }
 
-export interface OperationResult<T = any> {
+export interface OperationResult<T = unknown> {
   success: boolean;
   result?: T;
   error?: string;
@@ -48,13 +48,13 @@ export interface OperationResult<T = any> {
 
 export class IntegratedGeometryAPI {
   private static instance: IntegratedGeometryAPI | null = null;
-  private occtModule: any = null;
+  private occtModule: unknown = null;
   protected initialized = false;
   private initializationPromise: Promise<void> | null = null;
-  private workerPool: any = null;
-  private memoryManager: any = null;
-  private errorRecovery: any = null;
-  private capabilities: any = null;
+  private workerPool: unknown = null;
+  private memoryManager: unknown = null;
+  private errorRecovery: unknown = null;
+  private capabilities: unknown = null;
   private environment: EnvironmentConfig;
   private usingRealOCCT = false;
   private meshCache = new Map<string, MeshData>();
@@ -209,7 +209,7 @@ export class IntegratedGeometryAPI {
           'OCCT_INITIALIZATION',
           this.environment
         );
-        (boundaryError as any).cause = occtError;
+        (boundaryError as unknown).cause = occtError;
         throw boundaryError;
       }
 
@@ -242,7 +242,7 @@ export class IntegratedGeometryAPI {
   /**
    * Enhanced invoke method with full integration
    */
-  async invoke<T = any>(operation: string, params: any): Promise<OperationResult<T>> {
+  async invoke<T = unknown>(operation: string, params: unknown): Promise<OperationResult<T>> {
     const startTime = Date.now();
     let memoryBefore = 0;
     let cacheHit = false;
@@ -308,7 +308,7 @@ export class IntegratedGeometryAPI {
         }
       }
 
-      let rawResult: any;
+      let rawResult: unknown;
       try {
         if (this.workerPool) {
           const workerResult = await this.workerPool.execute(operation, params, {
@@ -489,7 +489,7 @@ export class IntegratedGeometryAPI {
     return 1;
   }
 
-  private normalizeOperationResult<T>(operation: string, rawResult: any): T {
+  private normalizeOperationResult<T>(operation: string, rawResult: unknown): T {
     if (operation === 'TESSELLATE') {
       const mesh = rawResult?.mesh ?? rawResult;
       if (!mesh) {
@@ -497,15 +497,15 @@ export class IntegratedGeometryAPI {
       }
 
       if (mesh.positions && !('vertices' in mesh)) {
-        (mesh as any).vertices = mesh.positions;
+        (mesh as unknown).vertices = mesh.positions;
       }
 
       if (!mesh.normals) {
-        (mesh as any).normals = new Float32Array();
+        (mesh as unknown).normals = new Float32Array();
       }
 
       if (!mesh.indices) {
-        (mesh as any).indices = new Uint32Array();
+        (mesh as unknown).indices = new Uint32Array();
       }
 
       return mesh as T;
@@ -522,7 +522,7 @@ export class IntegratedGeometryAPI {
    * Get comprehensive system statistics
    */
   getStats() {
-    const stats: any = {
+    const stats: Record<string, unknown> = {
       initialized: this.initialized,
       capabilities: this.capabilities,
       usingRealOCCT: this.usingRealOCCT,
@@ -715,7 +715,7 @@ Capabilities: ${this.capabilities ? 'Detected' : 'Not Available'}
    * Execute multiple operations in batch
    */
   async batchExecute(
-    operations: Array<{ operation: string; params: any }>
+    operations: Array<{ operation: string; params: unknown }>
   ): Promise<OperationResult[]> {
     const results: OperationResult[] = [];
 

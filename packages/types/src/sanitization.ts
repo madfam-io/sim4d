@@ -240,7 +240,7 @@ export function sanitizeURL(url: string): string {
  * @param sanitizer - Sanitization function to apply
  * @returns Object with sanitized values
  */
-export function sanitizeObject<T extends Record<string, any>>(
+export function sanitizeObject<T extends Record<string, unknown>>(
   data: T,
   sanitizer: (value: string) => string = sanitizeText
 ): T {
@@ -250,7 +250,7 @@ export function sanitizeObject<T extends Record<string, any>>(
     if (typeof value === 'string') {
       sanitized[key] = sanitizer(value);
     } else if (value && typeof value === 'object') {
-      sanitized[key] = sanitizeObject(value, sanitizer);
+      sanitized[key] = sanitizeObject(value as Record<string, unknown>, sanitizer);
     } else {
       sanitized[key] = value;
     }

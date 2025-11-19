@@ -26,7 +26,7 @@ export interface PoolWorker {
   errorCount: number;
   memoryPressure: boolean;
   occtMode: 'full-occt' | 'optimized-occt';
-  capabilities: any;
+  capabilities: unknown;
   averageTaskDuration: number;
   lastHealthCheck: number;
   circuitBreakerTripped: boolean;
@@ -49,9 +49,9 @@ export interface PoolConfig {
 
   // DEPENDENCY INJECTION for testing
   // Allows tests to provide mock worker factory instead of real WorkerClient instantiation
-  workerFactory?: (url: string | undefined, options: any) => WorkerClient;
+  workerFactory?: (url: string | undefined, options: unknown) => WorkerClient;
   // Allows tests to provide mock capability detector
-  capabilityDetector?: () => Promise<any>;
+  capabilityDetector?: () => Promise<unknown>;
   // Allows tests to provide mock OCCT config provider
   configProvider?: () => Promise<OCCTConfig | null>;
   // Allows tests to provide mock performance monitor
@@ -63,9 +63,9 @@ export interface PoolConfig {
 export class WorkerPool {
   private workers = new Map<string, PoolWorker>();
   private queue: Array<{
-    request: any;
-    resolve: (value: any) => void;
-    reject: (error: any) => void;
+    request: unknown;
+    resolve: (value: unknown) => void;
+    reject: (error: unknown) => void;
     priority: number;
     timeout?: number;
     operation: string;
@@ -75,12 +75,12 @@ export class WorkerPool {
   private healthCheckTimer: NodeJS.Timeout | null = null;
   private cleanupTimer: NodeJS.Timeout | null = null;
   private isShuttingDown = false;
-  private globalCapabilities: any = null;
+  private globalCapabilities: unknown = null;
   private optimalOCCTConfig: OCCTConfig | null = null;
 
   // Dependency injection - store injected or default implementations
-  private readonly workerFactory: (url: string | undefined, options: any) => WorkerClient;
-  private readonly capabilityDetector: () => Promise<any>;
+  private readonly workerFactory: (url: string | undefined, options: unknown) => WorkerClient;
+  private readonly capabilityDetector: () => Promise<unknown>;
   private readonly configProvider: () => Promise<OCCTConfig | null>;
   private readonly performanceMonitor: {
     startMeasurement: (name: string) => (() => number) | undefined;
@@ -309,9 +309,9 @@ export class WorkerPool {
   /**
    * Execute an operation on the pool with enhanced routing and monitoring
    */
-  async execute<T = any>(
+  async execute<T = unknown>(
     operation: string,
-    params: any,
+    params: unknown,
     options: {
       priority?: number;
       timeout?: number;

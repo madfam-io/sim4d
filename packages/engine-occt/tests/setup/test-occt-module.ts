@@ -13,8 +13,8 @@ export interface TestOCCTModule {
   _malloc: (size: number) => number;
   _free: (ptr: number) => void;
   cwrap: (name: string, returnType: string, argTypes: string[]) => Function;
-  ccall: (name: string, returnType: string, argTypes: string[], args: any[]) => any;
-  setValue: (ptr: number, value: any, type: string) => void;
+  ccall: (name: string, returnType: string, argTypes: string[], args: unknown[]) => any;
+  setValue: (ptr: number, value: unknown, type: string) => void;
   getValue: (ptr: number, type: string) => any;
   UTF8ToString: (ptr: number) => string;
   stringToUTF8: (str: string, ptr: number, maxLength: number) => void;
@@ -32,7 +32,7 @@ export interface TestOCCTModule {
  * Maintains geometric data for validation
  */
 class TestShapeRegistry {
-  private shapes = new Map<number, any>();
+  private shapes = new Map<number, unknown>();
   private nextId = 1;
 
   createShape(type: string, properties: any): number {
@@ -99,7 +99,7 @@ class TestMemoryManager {
     this.allocated.delete(ptr);
   }
 
-  setValue(ptr: number, value: any, type: string): void {
+  setValue(ptr: number, value: unknown, type: string): void {
     switch (type) {
       case 'i32':
         this.heap32[ptr >> 2] = value;
@@ -164,16 +164,16 @@ export function createTestOCCTModule(): TestOCCTModule {
 
     cwrap: (name: string, _returnType: string, _argTypes: string[]) => {
       // Return a wrapped function that simulates OCCT operations
-      return (...args: any[]) => {
+      return (...args: unknown[]) => {
         return simulateOCCTOperation(name, args);
       };
     },
 
-    ccall: (name: string, returnType: string, argTypes: string[], args: any[]) => {
+    ccall: (name: string, returnType: string, argTypes: string[], args: unknown[]) => {
       return simulateOCCTOperation(name, args);
     },
 
-    setValue: (ptr: number, value: any, type: string) => {
+    setValue: (ptr: number, value: unknown, type: string) => {
       memoryManager.setValue(ptr, value, type);
     },
 
@@ -219,7 +219,7 @@ export function createTestOCCTModule(): TestOCCTModule {
  * Simulate OCCT geometric operations for testing
  * These provide realistic geometric results for validation
  */
-function simulateOCCTOperation(operation: string, args: any[]): any {
+function simulateOCCTOperation(operation: string, args: unknown[]): any {
   console.log(`[TestOCCT] Executing operation: ${operation}`, args);
 
   // Box creation

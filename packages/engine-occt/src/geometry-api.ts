@@ -41,7 +41,7 @@ export class GeometryAPI implements WorkerAPI {
     return numeric;
   }
 
-  private gatherShapeOperands(params: any, minimum = 2): Array<ShapeHandle | string> {
+  private gatherShapeOperands(params: unknown, minimum = 2): Array<ShapeHandle | string> {
     const shapes: Array<ShapeHandle | string> = [];
 
     if (Array.isArray(params?.shapes)) {
@@ -122,7 +122,7 @@ export class GeometryAPI implements WorkerAPI {
     return this.initialized;
   }
 
-  async invoke<T = any>(operation: string, params: any): Promise<T> {
+  async invoke<T = any>(operation: string, params: unknown): Promise<T> {
     await this.init();
 
     switch (operation) {
@@ -203,7 +203,7 @@ export class GeometryAPI implements WorkerAPI {
 
   // === Primitive creation ===
 
-  private makeBox(params: any): ShapeHandle {
+  private makeBox(params: unknown): ShapeHandle {
     const width = this.ensurePositive(params?.width ?? params?.dx ?? 100, 'width');
     const height = this.ensurePositive(params?.height ?? params?.dy ?? 100, 'height');
     const depth = this.ensurePositive(params?.depth ?? params?.dz ?? 100, 'depth');
@@ -211,7 +211,7 @@ export class GeometryAPI implements WorkerAPI {
     return this.registerHandle(raw, 'solid');
   }
 
-  private makeBoxWithOrigin(params: any): ShapeHandle {
+  private makeBoxWithOrigin(params: unknown): ShapeHandle {
     if (!params) {
       throw new Error('MAKE_BOX_WITH_ORIGIN requires parameters');
     }
@@ -231,13 +231,13 @@ export class GeometryAPI implements WorkerAPI {
     return this.registerHandle(raw, 'solid');
   }
 
-  private makeSphere(params: any): ShapeHandle {
+  private makeSphere(params: unknown): ShapeHandle {
     const radius = this.ensurePositive(params?.radius ?? 50, 'radius');
     const raw = this.occtWrapper.makeSphere(radius);
     return this.registerHandle(raw, 'solid');
   }
 
-  private makeSphereWithCenter(params: any): ShapeHandle {
+  private makeSphereWithCenter(params: unknown): ShapeHandle {
     if (!params) {
       throw new Error('MAKE_SPHERE_WITH_CENTER requires parameters');
     }
@@ -250,14 +250,14 @@ export class GeometryAPI implements WorkerAPI {
     return this.registerHandle(raw, 'solid');
   }
 
-  private makeCylinder(params: any): ShapeHandle {
+  private makeCylinder(params: unknown): ShapeHandle {
     const radius = this.ensurePositive(params?.radius ?? 50, 'radius');
     const height = this.ensurePositive(params?.height ?? 100, 'height');
     const raw = this.occtWrapper.makeCylinder(radius, height);
     return this.registerHandle(raw, 'solid');
   }
 
-  private makeCone(params: any): ShapeHandle {
+  private makeCone(params: unknown): ShapeHandle {
     const radius1 = this.ensureNonNegative(params?.radius1 ?? 50, 'radius1');
     const radius2 = this.ensureNonNegative(params?.radius2 ?? 25, 'radius2');
     const height = this.ensurePositive(params?.height ?? 100, 'height');
@@ -265,14 +265,14 @@ export class GeometryAPI implements WorkerAPI {
     return this.registerHandle(raw, 'solid');
   }
 
-  private makeTorus(params: any): ShapeHandle {
+  private makeTorus(params: unknown): ShapeHandle {
     const majorRadius = this.ensurePositive(params?.majorRadius ?? 50, 'majorRadius');
     const minorRadius = this.ensurePositive(params?.minorRadius ?? 20, 'minorRadius');
     const raw = this.occtWrapper.makeTorus(majorRadius, minorRadius);
     return this.registerHandle(raw, 'solid');
   }
 
-  private makeShell(params: any): ShapeHandle {
+  private makeShell(params: unknown): ShapeHandle {
     const { shape, thickness } = params ?? {};
     if (!shape) {
       throw new Error('MAKE_SHELL requires a shape');
@@ -291,7 +291,7 @@ export class GeometryAPI implements WorkerAPI {
 
   // === Boolean operations ===
 
-  private booleanUnion(params: any): ShapeHandle {
+  private booleanUnion(params: unknown): ShapeHandle {
     const shapes = this.gatherShapeOperands(params, 2);
     const operandIds = shapes.map((shape) => this.ensureKnownShape(shape, 'BOOLEAN_UNION').id);
 
@@ -310,7 +310,7 @@ export class GeometryAPI implements WorkerAPI {
     return accumulated;
   }
 
-  private booleanDifference(params: any): ShapeHandle {
+  private booleanDifference(params: unknown): ShapeHandle {
     const { shape1, shape2 } = params ?? {};
     if (!shape1 || !shape2) {
       throw new Error('BOOLEAN_DIFFERENCE requires a base shape and a tool shape');
@@ -323,7 +323,7 @@ export class GeometryAPI implements WorkerAPI {
     return this.registerHandle(raw, 'boolean_difference');
   }
 
-  private booleanIntersection(params: any): ShapeHandle {
+  private booleanIntersection(params: unknown): ShapeHandle {
     const shapes = this.gatherShapeOperands(params, 2);
     const operandIds = shapes.map(
       (shape) => this.ensureKnownShape(shape, 'BOOLEAN_INTERSECTION').id
@@ -346,7 +346,7 @@ export class GeometryAPI implements WorkerAPI {
 
   // === Feature operations ===
 
-  private makeFillet(params: any): ShapeHandle {
+  private makeFillet(params: unknown): ShapeHandle {
     const { shape, radius = 5 } = params ?? {};
     if (!shape) {
       throw new Error('MAKE_FILLET requires a shape');
@@ -363,7 +363,7 @@ export class GeometryAPI implements WorkerAPI {
     return this.registerHandle(raw, 'fillet');
   }
 
-  private makeChamfer(params: any): ShapeHandle {
+  private makeChamfer(params: unknown): ShapeHandle {
     const { shape, distance = 5 } = params ?? {};
     if (!shape) {
       throw new Error('MAKE_CHAMFER requires a shape');
@@ -426,7 +426,7 @@ export class GeometryAPI implements WorkerAPI {
 
   // === Sweep operations ===
 
-  private extrude(params: any): ShapeHandle {
+  private extrude(params: unknown): ShapeHandle {
     const profile = params?.profile ?? params?.shape;
     if (!profile) {
       throw new Error('EXTRUDE requires a profile shape');
@@ -463,7 +463,7 @@ export class GeometryAPI implements WorkerAPI {
     return this.registerHandle(raw, profileHandle.type ?? 'solid');
   }
 
-  private revolve(params: any): ShapeHandle {
+  private revolve(params: unknown): ShapeHandle {
     const profile = params?.profile ?? params?.shape;
     if (!profile) {
       throw new Error('REVOLVE requires a profile shape');
@@ -513,7 +513,7 @@ export class GeometryAPI implements WorkerAPI {
 
   // === Transformations ===
 
-  private transform(params: any): ShapeHandle {
+  private transform(params: unknown): ShapeHandle {
     const shapeRef = params?.shape ?? params?.source;
     if (!shapeRef) {
       throw new Error('TRANSFORM requires a shape');
@@ -548,7 +548,7 @@ export class GeometryAPI implements WorkerAPI {
     return this.registerHandle(raw, handle.type ?? 'solid');
   }
 
-  private copyShape(params: any): ShapeHandle {
+  private copyShape(params: unknown): ShapeHandle {
     const source = params?.shape ?? params?.source;
     if (!source) {
       throw new Error('COPY_SHAPE requires a source shape');
@@ -561,7 +561,7 @@ export class GeometryAPI implements WorkerAPI {
 
   // === Shape management ===
 
-  private deleteShape(params: any): number {
+  private deleteShape(params: unknown): number {
     const target = params?.shapeId ?? params?.shape;
     if (!target) {
       throw new Error('DELETE_SHAPE requires a shape identifier');
@@ -607,7 +607,7 @@ export class GeometryAPI implements WorkerAPI {
     };
   }
 
-  private tessellateWithParams(params: any): TessellateResult {
+  private tessellateWithParams(params: unknown): TessellateResult {
     const { shape, precision, angle } = params ?? {};
     if (!shape) {
       throw new Error('TESSELLATE_WITH_PARAMS requires a shape');
@@ -637,7 +637,7 @@ export class GeometryAPI implements WorkerAPI {
 
   // === Import/Export ===
 
-  private exportSTEP(params: any): string {
+  private exportSTEP(params: unknown): string {
     const { shape } = params ?? {};
     if (!shape) {
       throw new Error('EXPORT_STEP requires a shape');
@@ -645,7 +645,7 @@ export class GeometryAPI implements WorkerAPI {
     return this.occtWrapper.exportSTEP(shape);
   }
 
-  private exportIGES(params: any): string {
+  private exportIGES(params: unknown): string {
     const { shape } = params ?? {};
     if (!shape) {
       throw new Error('EXPORT_IGES requires a shape');
@@ -653,7 +653,7 @@ export class GeometryAPI implements WorkerAPI {
     return this.occtWrapper.exportIGES(shape);
   }
 
-  private exportOBJ(params: any): string {
+  private exportOBJ(params: unknown): string {
     const { shape } = params ?? {};
     if (!shape) {
       throw new Error('EXPORT_OBJ requires a shape');
@@ -661,7 +661,7 @@ export class GeometryAPI implements WorkerAPI {
     return this.occtWrapper.exportOBJ(shape);
   }
 
-  private exportSTL(params: any): string {
+  private exportSTL(params: unknown): string {
     const { shape, binary = false } = params ?? {};
     if (!shape) {
       throw new Error('EXPORT_STL requires a shape');
@@ -669,7 +669,7 @@ export class GeometryAPI implements WorkerAPI {
     return this.occtWrapper.exportSTL(shape, binary);
   }
 
-  private importSTEP(params: any): ShapeHandle {
+  private importSTEP(params: unknown): ShapeHandle {
     const { data } = params ?? {};
     if (!data) {
       throw new Error('IMPORT_STEP requires STEP data');

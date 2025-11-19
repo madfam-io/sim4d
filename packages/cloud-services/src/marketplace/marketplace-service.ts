@@ -743,7 +743,7 @@ export class MarketplaceService extends EventEmitter {
   ): Promise<MarketplaceAnalytics> {
     throw new Error('Not implemented');
   }
-  private async calculateMarketplaceOverview(period: any): Promise<any> {
+  private async calculateMarketplaceOverview(period: any): Promise<unknown> {
     throw new Error('Not implemented');
   }
   private async saveReport(report: any): Promise<void> {}
@@ -754,7 +754,7 @@ export class MarketplaceService extends EventEmitter {
     moderatedBy: UserId,
     reason?: string
   ): Promise<void> {}
-  private async getRealtimeAnalytics(pluginId: PluginId): Promise<any> {
+  private async getRealtimeAnalytics(pluginId: PluginId): Promise<unknown> {
     return { downloads: 0, rating: 0, reviewCount: 0 };
   }
   private async loadFeaturedPlugins(category?: PluginCategory): Promise<Plugin[]> {

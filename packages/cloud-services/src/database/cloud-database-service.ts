@@ -59,7 +59,7 @@ export interface DatabaseTransaction {
   startTime: Date;
   queries: Array<{
     sql: string;
-    params: any[];
+    params: unknown[];
     timestamp: Date;
   }>;
 }
@@ -74,7 +74,7 @@ export interface PaginationOptions {
 export class CloudDatabaseService extends EventEmitter {
   private config: DatabaseConfig;
   private connection?: any;
-  private queryCache = new Map<string, { data: any; expires: number }>();
+  private queryCache = new Map<string, { data: unknown; expires: number }>();
   private activeTransactions = new Map<string, DatabaseTransaction>();
 
   constructor(config: DatabaseConfig) {
@@ -517,7 +517,7 @@ export class CloudDatabaseService extends EventEmitter {
   ): Promise<SearchResult<Plugin>> {
     // Build search SQL based on query
     let sql = 'SELECT * FROM plugins WHERE 1=1';
-    const params: any[] = [];
+    const params: unknown[] = [];
 
     if (query.query) {
       sql += ' AND (name LIKE ? OR description LIKE ? OR JSON_EXTRACT(tags, "$[*]") LIKE ?)';
@@ -565,7 +565,7 @@ export class CloudDatabaseService extends EventEmitter {
   /**
    * Generic Query Interface
    */
-  private async query(sql: string, params: any[] = [], options: QueryOptions = {}): Promise<any[]> {
+  private async query(sql: string, params: unknown[] = [], options: QueryOptions = {}): Promise<unknown[]> {
     const cacheKey = options.cache ? `${sql}:${JSON.stringify(params)}` : null;
 
     // Check cache
@@ -716,7 +716,7 @@ export class CloudDatabaseService extends EventEmitter {
   }
 
   // Provider-specific implementations
-  private async createConnection(): Promise<any> {
+  private async createConnection(): Promise<unknown> {
     throw new Error('Database provider connection implementation required');
   }
 
@@ -724,7 +724,7 @@ export class CloudDatabaseService extends EventEmitter {
     throw new Error('Database migration implementation required');
   }
 
-  private async executeQuery(sql: string, params: any[], options: QueryOptions): Promise<any[]> {
+  private async executeQuery(sql: string, params: unknown[], options: QueryOptions): Promise<unknown[]> {
     throw new Error('Database query execution implementation required');
   }
 }

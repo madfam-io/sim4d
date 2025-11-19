@@ -103,7 +103,7 @@ function suppressOcctWarnings(): Plugin {
             return;
           }
 
-          originalConsoleWarn?.apply(console, args as any);
+          originalConsoleWarn?.apply(console, args as unknown);
         };
       }
     },

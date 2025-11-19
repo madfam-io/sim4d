@@ -35,7 +35,7 @@ export class ProductionWorkerAPI implements WorkerAPI {
   private pendingRequests = new Map<
     number,
     {
-      resolve: (value: any) => void;
+      resolve: (value: unknown) => void;
       reject: (error: Error) => void;
       timeout: NodeJS.Timeout;
     }
@@ -72,8 +72,8 @@ export class ProductionWorkerAPI implements WorkerAPI {
       } else if (typeof window !== 'undefined' && typeof window.document !== 'undefined') {
         workerUrl = '/wasm/worker.mjs';
         getLogger().info('Browser context: using public worker path');
-      } else if (typeof self !== 'undefined' && (self as any).location) {
-        const origin = (self as any).location?.origin || 'http://localhost:5174';
+      } else if (typeof self !== 'undefined' && (self as unknown).location) {
+        const origin = (self as unknown).location?.origin || 'http://localhost:5174';
         workerUrl = `${origin}/wasm/worker.mjs`;
         getLogger().info('Worker context: using public worker URL');
       } else {
@@ -126,8 +126,8 @@ export class ProductionWorkerAPI implements WorkerAPI {
             pending.resolve(response.result);
           } else {
             const error = new Error(response.error?.message || 'Worker operation failed');
-            (error as any).code = response.error?.code;
-            (error as any).details = response.error?.details;
+            (error as unknown).code = response.error?.code;
+            (error as unknown).details = response.error?.details;
             pending.reject(error);
           }
         }
@@ -136,7 +136,7 @@ export class ProductionWorkerAPI implements WorkerAPI {
       }
     };
 
-    const handleError = (event: any) => {
+    const handleError = (event: unknown) => {
       const message = event?.message || event?.toString?.() || 'Worker error';
       getLogger().error('Worker error', event);
       this.handleWorkerError(new Error(message));
@@ -153,7 +153,7 @@ export class ProductionWorkerAPI implements WorkerAPI {
     }
   }
 
-  private handleWorkerEvent(event: any): void {
+  private handleWorkerEvent(event: unknown): void {
     switch (event.type) {
       case 'MEMORY_PRESSURE':
         getLogger().warn('Worker memory pressure detected', {
@@ -184,7 +184,7 @@ export class ProductionWorkerAPI implements WorkerAPI {
     this.isInitialized = false;
   }
 
-  async invoke<T>(operation: string, params: any): Promise<T> {
+  async invoke<T>(operation: string, params: unknown): Promise<T> {
     if (!this.worker) {
       throw new Error('Worker not initialized');
     }
@@ -256,7 +256,7 @@ export class ProductionWorkerAPI implements WorkerAPI {
   async healthCheck(): Promise<boolean> {
     try {
       const result = await this.invoke('HEALTH_CHECK', {});
-      return !!(result as any)?.healthy;
+      return !!(result as unknown)?.healthy;
     } catch (error) {
       getLogger().error('Health check failed', error);
       return false;
@@ -267,7 +267,7 @@ export class ProductionWorkerAPI implements WorkerAPI {
   async getMemoryUsage(): Promise<number> {
     try {
       const result = await this.invoke('HEALTH_CHECK', {});
-      return (result as any)?.memoryUsage || 0;
+      return (result as unknown)?.memoryUsage || 0;
     } catch (error) {
       getLogger().error('Failed to get memory usage', error);
       return 0;
@@ -284,7 +284,7 @@ export class ProductionWorkerAPI implements WorkerAPI {
   }
 
   // Tessellate shape for rendering
-  async tessellate(shapeId: string, deflection: number): Promise<any> {
+  async tessellate(shapeId: string, deflection: number): Promise<unknown> {
     try {
       const result = await this.invoke('TESSELLATE', {
         shapeId,

@@ -9,7 +9,7 @@ import {
   type OCCTConfig,
 } from './wasm-capability-detector';
 
-declare function _createOCCTCoreModule(config?: any): Promise<any>;
+declare function _createOCCTCoreModule(config?: unknown): Promise<unknown>;
 
 export interface LoaderOptions {
   forceMode?: 'full-occt' | 'optimized-occt';
@@ -74,7 +74,7 @@ export function resetOCCTCircuitBreaker(): void {
 /**
  * Load and initialize the OCCT WASM module with enhanced capability detection
  */
-export async function loadOCCTModule(options: LoaderOptions = {}): Promise<any> {
+export async function loadOCCTModule(options: LoaderOptions = {}): Promise<unknown> {
   const endMeasurement = WASMPerformanceMonitor.startMeasurement('occt-load-total');
 
   try {
@@ -89,7 +89,7 @@ export async function loadOCCTModule(options: LoaderOptions = {}): Promise<any> 
     const isNode = typeof process !== 'undefined' && process.versions && process.versions.node;
     const isTest =
       typeof global !== 'undefined' &&
-      ((global as any).__vitest || process.env.NODE_ENV === 'test');
+      ((global as unknown).__vitest || process.env.NODE_ENV === 'test');
 
     console.log('[OCCT] Environment detection:', { isBrowser, isWorker, isNode, isTest });
 
@@ -114,7 +114,7 @@ export async function loadOCCTModule(options: LoaderOptions = {}): Promise<any> 
         attempts++;
         console.log(`[OCCT] Load attempt ${attempts}/${maxAttempts} for mode: ${config.mode}`);
 
-        let occtModule: any;
+        let occtModule: unknown;
 
         switch (config.mode) {
           case 'full-occt':
@@ -155,7 +155,7 @@ export async function loadOCCTModule(options: LoaderOptions = {}): Promise<any> 
     throw error;
   }
 }
-async function loadNodeJSOCCT(): Promise<any> {
+async function loadNodeJSOCCT(): Promise<unknown> {
   const fs = await import(/* @vite-ignore */ 'fs');
   const path = await import(/* @vite-ignore */ 'path');
   const url = await import(/* @vite-ignore */ 'url');
@@ -213,7 +213,7 @@ async function loadNodeJSOCCT(): Promise<any> {
     printErr: (text: string) => console.error('[OCCT Node WASM]', text),
   });
 
-  (globalThis as any).Module = moduleInstance;
+  (globalThis as unknown).Module = moduleInstance;
 
   console.log(
     '[OCCT Node.js] OCCT wasm module ready with exports:',
@@ -225,7 +225,7 @@ async function loadNodeJSOCCT(): Promise<any> {
   return adapter;
 }
 
-async function loadFullOCCTModule(config: OCCTConfig, _options: LoaderOptions): Promise<any> {
+async function loadFullOCCTModule(config: OCCTConfig, _options: LoaderOptions): Promise<unknown> {
   const wasmFile = config.wasmFile;
   const wasmUrl = new URL(/* @vite-ignore */ `../wasm/${wasmFile}`, import.meta.url).href;
 
@@ -271,7 +271,7 @@ async function loadFullOCCTModule(config: OCCTConfig, _options: LoaderOptions): 
       PTHREAD_POOL_SIZE: config.workers,
 
       // Runtime callbacks
-      onRuntimeInitialized: function (this: any) {
+      onRuntimeInitialized: function (this: unknown) {
         console.log('[OCCT] Full runtime initialized successfully');
 
         // Validate that we have the expected OCCT functions
@@ -304,7 +304,7 @@ async function loadFullOCCTModule(config: OCCTConfig, _options: LoaderOptions): 
       exportCount: occtModule ? Object.keys(occtModule).length : 0,
     });
 
-    (globalThis as any).Module = occtModule;
+    (globalThis as unknown).Module = occtModule;
 
     // Wrap the raw OCCT module with an invoke interface
     const occtAdapter = new OCCTAdapter(occtModule);
@@ -316,7 +316,10 @@ async function loadFullOCCTModule(config: OCCTConfig, _options: LoaderOptions): 
   }
 }
 
-async function loadOptimizedOCCTModule(config: OCCTConfig, _options: LoaderOptions): Promise<any> {
+async function loadOptimizedOCCTModule(
+  config: OCCTConfig,
+  _options: LoaderOptions
+): Promise<unknown> {
   const wasmFile = config.wasmFile;
   const wasmUrl = new URL(/* @vite-ignore */ `../wasm/${wasmFile}`, import.meta.url).href;
 
@@ -379,7 +382,7 @@ async function loadOptimizedOCCTModule(config: OCCTConfig, _options: LoaderOptio
 
     console.log('[OCCT] Optimized module loaded successfully');
 
-    (globalThis as any).Module = occtModule;
+    (globalThis as unknown).Module = occtModule;
 
     // Wrap the raw OCCT module with an invoke interface
     const occtAdapter = new OCCTAdapter(occtModule);
@@ -391,7 +394,7 @@ async function loadOptimizedOCCTModule(config: OCCTConfig, _options: LoaderOptio
   }
 }
 
-async function _instantiateWASMDirect(wasmUrl: string, _Module?: any): Promise<any> {
+async function _instantiateWASMDirect(wasmUrl: string, _Module?: unknown): Promise<unknown> {
   const response = await fetch(wasmUrl);
   const wasmBuffer = await response.arrayBuffer();
 
@@ -469,7 +472,7 @@ async function getConfigForMode(mode: string): Promise<OCCTConfig> {
 export async function isOCCTAvailable(): Promise<{
   available: boolean;
   mode: string;
-  capabilities?: any;
+  capabilities?: unknown;
 }> {
   try {
     // Get capabilities first
@@ -528,9 +531,9 @@ ${performanceReport}
  * Adapter that wraps the raw OCCT module with the invoke interface
  */
 class OCCTAdapter {
-  constructor(private readonly occtModule: any) {}
+  constructor(private readonly occtModule: unknown) {}
 
-  async invoke<T>(operation: string, params: any): Promise<T> {
+  async invoke<T>(operation: string, params: unknown): Promise<T> {
     const op = operation?.toUpperCase?.() ?? operation;
 
     try {
@@ -562,7 +565,7 @@ class OCCTAdapter {
     }
   }
 
-  private normalizeShape(handle: any) {
+  private normalizeShape(handle: unknown) {
     if (!handle || !handle.id) {
       throw new Error('OCCT returned an invalid shape handle');
     }
@@ -590,7 +593,7 @@ class OCCTAdapter {
     };
   }
 
-  private getShapeId(input: any): string {
+  private getShapeId(input: unknown): string {
     if (!input) {
       throw new Error('Shape identifier not provided');
     }
@@ -631,7 +634,7 @@ class OCCTAdapter {
     return this.normalizeShape(handle);
   }
 
-  private booleanUnion(params: { shapes: any[] }) {
+  private booleanUnion(params: { shapes: unknown[] }) {
     const shapes = params.shapes || [];
     if (shapes.length < 2) {
       throw new Error('BOOLEAN_UNION requires at least two shapes');
@@ -649,7 +652,7 @@ class OCCTAdapter {
     return this.normalizeShape(handle);
   }
 
-  private booleanSubtract(params: { base: any; tools: any[] }) {
+  private booleanSubtract(params: { base: unknown; tools: unknown[] }) {
     const baseId = this.getShapeId(params.base);
     const tools = params.tools || [];
     if (tools.length === 0) {
@@ -664,7 +667,7 @@ class OCCTAdapter {
     return this.normalizeShape(handle);
   }
 
-  private booleanIntersect(params: { shapes: any[] }) {
+  private booleanIntersect(params: { shapes: unknown[] }) {
     const shapes = params.shapes || [];
     if (shapes.length < 2) {
       throw new Error('BOOLEAN_INTERSECT requires at least two shapes');
@@ -687,7 +690,7 @@ class OCCTAdapter {
     return { success: true };
   }
 
-  private tessellate(params: { shape: any; deflection?: number; angle?: number }) {
+  private tessellate(params: { shape: unknown; deflection?: number; angle?: number }) {
     const shapeId = this.getShapeId(params.shape);
     const deflection = params.deflection ?? 0.1;
     const angle = params.angle ?? 0.5;
@@ -696,8 +699,8 @@ class OCCTAdapter {
     return this.normalizeMesh(mesh);
   }
 
-  private normalizeMesh(mesh: any) {
-    const toFloat32 = (value: any) => {
+  private normalizeMesh(mesh: unknown) {
+    const toFloat32 = (value: unknown) => {
       if (!value) return new Float32Array();
       if (value instanceof Float32Array) return value;
       if (typeof value.toTypedArray === 'function') {
@@ -717,7 +720,7 @@ class OCCTAdapter {
       return new Float32Array();
     };
 
-    const toUint32 = (value: any) => {
+    const toUint32 = (value: unknown) => {
       if (!value) return new Uint32Array();
       if (value instanceof Uint32Array) return value;
       if (typeof value.toTypedArray === 'function') {

@@ -19,7 +19,7 @@ interface LoggerLike {
 const resolveEngineOCCTDistPath = () =>
   path.resolve(process.cwd(), 'packages/engine-occt/dist/index.js');
 
-const requireEngineOCCTSafely = (): any | null => {
+const requireEngineOCCTSafely = (): unknown | null => {
   try {
     return require('@brepflow/engine-occt');
   } catch (primaryError) {
@@ -32,7 +32,7 @@ const requireEngineOCCTSafely = (): any | null => {
   }
 };
 
-const importEngineOCCTSafely = async (): Promise<any> => {
+const importEngineOCCTSafely = async (): Promise<unknown> => {
   const requiredModule = requireEngineOCCTSafely();
   if (requiredModule) {
     return requiredModule;
@@ -46,7 +46,7 @@ const importEngineOCCTSafely = async (): Promise<any> => {
       return await import(pathToFileURL(distPath).href);
     } catch (fallbackError) {
       const error = new Error('Failed to load @brepflow/engine-occt module');
-      (error as any).cause = primaryError;
+      (error as unknown).cause = primaryError;
       throw error;
     }
   }
@@ -174,7 +174,7 @@ export class GeometryAPIFactory {
         init: async () => {
           await integratedAPI.init();
         },
-        invoke: async <T = any>(operation: string, params: any): Promise<T> => {
+        invoke: async <T = any>(operation: string, params: unknown): Promise<T> => {
           const result = await integratedAPI.invoke(operation, params);
           if (!result.success) {
             throw new Error(result.error || `Operation ${operation} failed`);
@@ -201,7 +201,7 @@ export class GeometryAPIFactory {
 
       // Verify initialization
       const health = await api.invoke('HEALTH_CHECK', {});
-      if (!(health as any)?.healthy) {
+      if (!(health as unknown)?.healthy) {
         throw new Error('Geometry API health check failed after initialization');
       }
 
@@ -213,29 +213,6 @@ export class GeometryAPIFactory {
       throw new Error(
         `Failed to initialize geometry API: ${error instanceof Error ? error.message : 'Unknown error'}`
       );
-    }
-  }
-
-  /**
-   * Initialize API with retry logic
-   * @internal Reserved for future use
-   */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private static async _initializeWithRetry(api: WorkerAPI, attempts: number): Promise<void> {
-    for (let i = 0; i < attempts; i++) {
-      try {
-        await api.init?.();
-        return;
-      } catch (error) {
-        getLogger().warn(`Geometry API initialization attempt ${i + 1} failed`, error);
-
-        if (i === attempts - 1) {
-          throw error;
-        }
-
-        // Wait before retry
-        await new Promise((resolve) => setTimeout(resolve, 1000 * (i + 1)));
-      }
     }
   }
 
@@ -313,7 +290,7 @@ export class GeometryAPIFactory {
       }
 
       const fetchBase = sanitizedBase.startsWith('//')
-        ? `${(globalThis as any)?.location?.protocol ?? 'https:'}${sanitizedBase}`
+        ? `${(globalThis as unknown)?.location?.protocol ?? 'https:'}${sanitizedBase}`
         : sanitizedBase;
 
       const missing: string[] = [];
@@ -366,7 +343,7 @@ export class GeometryAPIFactory {
   /**
    * Get production API with strict configuration
    */
-  static async getProductionAPI(config?: any): Promise<WorkerAPI> {
+  static async getProductionAPI(config?: unknown): Promise<WorkerAPI> {
     return this.getAPI({
       validateOutput: true,
       enableRetry: false,
@@ -411,7 +388,7 @@ export const getGeometryAPI = () => GeometryAPIFactory.getAPI();
 
 export const getRealGeometryAPI = () => GeometryAPIFactory.getAPI();
 
-export const getProductionAPI = (config?: any) =>
+export const getProductionAPI = (config?: unknown) =>
   GeometryAPIFactory.getAPI({ ...config, validateOutput: true, enableRetry: false });
 
 export const isRealGeometryAvailable = () => GeometryAPIFactory.isRealAPIAvailable();

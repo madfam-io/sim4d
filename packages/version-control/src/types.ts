@@ -65,8 +65,8 @@ export interface EdgeChange {
 export interface ParameterChange {
   nodeId: string;
   parameter: string;
-  valueBefore: any;
-  valueAfter: any;
+  valueBefore: unknown;
+  valueAfter: unknown;
   unit?: string;
 
   // For numeric parameters
@@ -164,9 +164,9 @@ export interface MergeConflict {
   nodeId?: string;
   parameter?: string;
 
-  base?: any;
-  ours: any;
-  theirs: any;
+  base?: unknown;
+  ours: unknown;
+  theirs: unknown;
 
   // Suggested resolutions
   suggestions?: ConflictResolution[];
@@ -179,7 +179,7 @@ export interface MergeConflict {
 export interface ConflictResolution {
   strategy: 'use-ours' | 'use-theirs' | 'merge' | 'custom';
   description: string;
-  value?: any;
+  value?: unknown;
   confidence: number; // 0-1, how confident we are this is correct
 }
 
@@ -246,8 +246,8 @@ export interface NodeDiff {
 export interface ParameterDiff {
   nodeId: string;
   parameter: string;
-  before: any;
-  after: any;
+  before: unknown;
+  after: unknown;
 
   // For numeric values
   absoluteChange?: number;

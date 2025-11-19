@@ -154,7 +154,7 @@ export class YjsAdapter {
   /**
    * Update local user's presence (cursor, selection, viewport)
    */
-  updatePresence(presenceData: Record<string, any>): void {
+  updatePresence(presenceData: Record<string, unknown>): void {
     if (this.awareness) {
       this.awareness.setLocalState(presenceData);
     }
@@ -163,7 +163,7 @@ export class YjsAdapter {
   /**
    * Get all users' presence data
    */
-  getPresence(): Map<number, Record<string, any>> {
+  getPresence(): Map<number, Record<string, unknown>> {
     if (!this.awareness) {
       return new Map();
     }
@@ -177,7 +177,7 @@ export class YjsAdapter {
     callback: (added: number[], updated: number[], removed: number[]) => void
   ): void {
     if (this.awareness) {
-      this.awareness.on('change', (event: any) => {
+      this.awareness.on('change', (event: unknown) => {
         callback(event.added, event.updated, event.removed);
       });
     }

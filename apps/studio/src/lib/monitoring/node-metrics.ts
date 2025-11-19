@@ -320,7 +320,7 @@ export class NodeMetricsCollector {
   private getCurrentMemoryUsage(): number {
     // Estimate memory usage
     if ('memory' in performance) {
-      return (performance as any).memory.usedJSHeapSize || 0;
+      return (performance as unknown).memory.usedJSHeapSize || 0;
     }
     return 0;
   }

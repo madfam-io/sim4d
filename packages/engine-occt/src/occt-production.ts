@@ -80,9 +80,9 @@ export interface OCCTModule {
   getOCCTVersion(): string;
 
   // Vector types
-  VectorFloat: any;
-  VectorUint: any;
-  VectorString: any;
+  VectorFloat: unknown;
+  VectorUint: unknown;
+  VectorString: unknown;
 }
 
 // Global module instance
@@ -131,7 +131,7 @@ async function initializeOCCT(): Promise<OCCTModule> {
     let wasmModuleUrl: string;
 
     if (isWorker) {
-      const origin = (self as any)?.location?.origin;
+      const origin = (self as unknown)?.location?.origin;
       if (origin && origin !== 'null') {
         wasmModuleUrl = `${origin}/wasm/occt.js`;
       } else {
@@ -147,9 +147,12 @@ async function initializeOCCT(): Promise<OCCTModule> {
     }
 
     // Try to load the module - first attempt with fetch for worker context
-    let createModule: any;
+    interface WASMModuleFactory {
+      default: (config: unknown) => Promise<OCCTModule>;
+    }
+    let createModule: WASMModuleFactory;
 
-    const importModule = async (specifier: string): Promise<any> => {
+    const importModule = async (specifier: string): Promise<unknown> => {
       const shouldSpoofProcess = isWorker && !isBrowser && specifier.startsWith('file://');
       let originalDescriptor: PropertyDescriptor | undefined;
 
@@ -174,7 +177,7 @@ async function initializeOCCT(): Promise<OCCTModule> {
             if (originalDescriptor) {
               Object.defineProperty(globalThis, 'process', originalDescriptor);
             } else {
-              delete (globalThis as any).process;
+              delete (globalThis as unknown).process;
             }
           } catch (error) {
             console.warn('[OCCT Production] Unable to restore process global:', error);
@@ -242,7 +245,7 @@ async function initializeOCCT(): Promise<OCCTModule> {
       PTHREAD_POOL_SIZE: 4,
 
       // Error handling
-      onAbort: (what: any) => {
+      onAbort: (what: unknown) => {
         console.error('[OCCT Production] WASM abort:', what);
         throw new Error(`OCCT WASM aborted: ${what}`);
       },
@@ -262,7 +265,6 @@ async function initializeOCCT(): Promise<OCCTModule> {
     };
 
     // Create the module instance
-    // @ts-ignore - WASM module types
     occtModule = await createModule.default(moduleConfig);
 
     if (!occtModule) {
@@ -335,7 +337,7 @@ export class OCCTProductionAPI {
   }
 
   private hasModuleMethod(name: keyof OCCTModule | string): boolean {
-    return !!this.module && typeof (this.module as any)[name] === 'function';
+    return !!this.module && typeof (this.module as unknown)[name] === 'function';
   }
 
   private guardModuleMethod(name: keyof OCCTModule | string): void {
@@ -349,7 +351,7 @@ export class OCCTProductionAPI {
     return Number.isFinite(numeric) ? numeric : fallback;
   }
 
-  private buildBoundingBox(source: any): BoundingBox {
+  private buildBoundingBox(source: unknown): BoundingBox {
     if (source?.bbox?.min && source?.bbox?.max) {
       return source.bbox;
     }
@@ -370,7 +372,7 @@ export class OCCTProductionAPI {
   }
 
   private toVector3(
-    value: any,
+    value: unknown,
     fallback: [number, number, number] = [0, 0, 0]
   ): [number, number, number] {
     if (Array.isArray(value) && value.length >= 3) {
@@ -383,16 +385,16 @@ export class OCCTProductionAPI {
 
     if (value && typeof value === 'object') {
       return [
-        this.toFiniteNumber(value.x ?? (value as any)[0]),
-        this.toFiniteNumber(value.y ?? (value as any)[1]),
-        this.toFiniteNumber(value.z ?? (value as any)[2]),
+        this.toFiniteNumber(value.x ?? (value as unknown)[0]),
+        this.toFiniteNumber(value.y ?? (value as unknown)[1]),
+        this.toFiniteNumber(value.z ?? (value as unknown)[2]),
       ];
     }
 
     return fallback;
   }
 
-  private getShapeId(shape: any): string {
+  private getShapeId(shape: unknown): string {
     if (typeof shape === 'string') {
       return shape;
     }
@@ -404,7 +406,7 @@ export class OCCTProductionAPI {
     throw new Error('Shape reference must provide an id string');
   }
 
-  private normalizeShapeHandle(handle: any, fallbackType = 'SOLID'): any {
+  private normalizeShapeHandle(handle: unknown, fallbackType = 'SOLID'): unknown {
     if (!handle || !handle.id) {
       throw new Error('OCCT module returned an invalid shape handle');
     }
@@ -440,7 +442,7 @@ export class OCCTProductionAPI {
     const shapeCount = this.module?.getShapeCount?.() ?? 0;
     const memorySample =
       typeof performance !== 'undefined' && 'memory' in performance
-        ? (performance as any).memory
+        ? (performance as unknown).memory
         : null;
 
     const toMB = (value: number | undefined) =>
@@ -454,7 +456,7 @@ export class OCCTProductionAPI {
     };
   }
 
-  private resolveBoundingBoxFromParams(shapeParam: any): BoundingBox {
+  private resolveBoundingBoxFromParams(shapeParam: unknown): BoundingBox {
     if (!shapeParam) {
       throw new Error('Shape parameter is required for GET_BOUNDING_BOX');
     }
@@ -486,7 +488,7 @@ export class OCCTProductionAPI {
   /**
    * Execute a geometry command
    */
-  async execute(command: any): Promise<WorkerResponse> {
+  async execute(command: unknown): Promise<WorkerResponse> {
     await this.ensureInitialized();
 
     if (!this.module) {
@@ -494,7 +496,7 @@ export class OCCTProductionAPI {
     }
 
     try {
-      let result: any;
+      let result: unknown;
       const params = command.params ?? {};
       const operation = this.normalizeOperationType(command.type);
 
@@ -616,7 +618,7 @@ export class OCCTProductionAPI {
           const profile = this.getShapeId(params.profile);
           const path = this.getShapeId(params.path);
           const options = params.options ?? {};
-          const handle = (this.module as any).makeSweep(profile, path, options);
+          const handle = (this.module as unknown).makeSweep(profile, path, options);
           result = this.normalizeShapeHandle(handle);
           break;
         }
@@ -627,8 +629,8 @@ export class OCCTProductionAPI {
           if (sections.length < 2) {
             throw new Error('LOFT operation requires at least two section handles');
           }
-          const sectionIds = sections.map((section: any) => this.getShapeId(section));
-          const handle = (this.module as any).makeLoft(sectionIds, params.options ?? {});
+          const sectionIds = sections.map((section: unknown) => this.getShapeId(section));
+          const handle = (this.module as unknown).makeLoft(sectionIds, params.options ?? {});
           result = this.normalizeShapeHandle(handle);
           break;
         }
@@ -661,7 +663,7 @@ export class OCCTProductionAPI {
           this.guardModuleMethod('makeOffset');
           const shapeId = this.getShapeId(params.shape);
           const offset = this.toFiniteNumber(params.offset ?? params.distance ?? 1);
-          const handle = (this.module as any).makeOffset(shapeId, offset, params.options ?? {});
+          const handle = (this.module as unknown).makeOffset(shapeId, offset, params.options ?? {});
           result = this.normalizeShapeHandle(handle);
           break;
         }
@@ -703,7 +705,7 @@ export class OCCTProductionAPI {
             throw new Error('BOOLEAN_UNION requires at least two shapes');
           }
 
-          let workingHandle: any = null;
+          let workingHandle: unknown = null;
           let currentId = this.getShapeId(shapeRefs[0]);
 
           for (let i = 1; i < shapeRefs.length; i++) {
@@ -726,7 +728,7 @@ export class OCCTProductionAPI {
             throw new Error('BOOLEAN_SUBTRACT requires a base shape and at least one tool');
           }
 
-          let workingHandle: any = null;
+          let workingHandle: unknown = null;
           let currentId = this.getShapeId(base);
 
           for (const tool of tools) {
@@ -748,7 +750,7 @@ export class OCCTProductionAPI {
             throw new Error('BOOLEAN_INTERSECT requires at least two shapes');
           }
 
-          let workingHandle: any = null;
+          let workingHandle: unknown = null;
           let currentId = this.getShapeId(shapeRefs[0]);
 
           for (let i = 1; i < shapeRefs.length; i++) {
@@ -814,21 +816,21 @@ export class OCCTProductionAPI {
         case 'EXPORT_IGES': {
           this.guardModuleMethod('exportIGES');
           const shapeId = this.getShapeId(params.shape);
-          result = (this.module as any).exportIGES(shapeId);
+          result = (this.module as unknown).exportIGES(shapeId);
           break;
         }
 
         case 'EXPORT_OBJ': {
           this.guardModuleMethod('exportOBJ');
           const shapeId = this.getShapeId(params.shape);
-          result = (this.module as any).exportOBJ(shapeId);
+          result = (this.module as unknown).exportOBJ(shapeId);
           break;
         }
 
         case 'EXPORT_BREP': {
           this.guardModuleMethod('exportBREP');
           const shapeId = this.getShapeId(params.shape);
-          result = (this.module as any).exportBREP(shapeId);
+          result = (this.module as unknown).exportBREP(shapeId);
           break;
         }
 
@@ -877,7 +879,7 @@ export class OCCTProductionAPI {
         id: command.id,
         result,
         success: true,
-      } as any;
+      } as unknown;
     } catch (error) {
       console.error('[OCCTProductionAPI] Command failed:', command.type, error);
 

@@ -324,9 +324,9 @@ export const useConstraintsAndSnapping = create<
 
         // Object snapping
         scene.traverse((object) => {
-          if (!(object as any).geometry) return;
+          if (!(object as unknown).geometry) return;
 
-          const geometry = (object as any).geometry;
+          const geometry = (object as unknown).geometry;
           const worldMatrix = object.matrixWorld;
 
           // Vertex snapping

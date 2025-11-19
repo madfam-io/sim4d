@@ -26,7 +26,7 @@ class SimpleEventEmitter {
     this.events[event].push(callback);
   }
 
-  emit(event: string, ...args: any[]) {
+  emit(event: string, ...args: unknown[]) {
     if (this.events[event]) {
       this.events[event].forEach((callback) => callback(...args));
     }

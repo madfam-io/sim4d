@@ -57,13 +57,13 @@ export interface CollaborationSession {
     users: Map<UserId, PresenceData>;
     lastUpdated: number;
   };
-  options: Record<string, any>;
+  options: Record<string, unknown>;
 }
 
 export interface GraphState {
-  nodes: Map<NodeId, any>;
-  edges: Map<EdgeId, any>;
-  parameters: Map<string, any>;
+  nodes: Map<NodeId, unknown>;
+  edges: Map<EdgeId, unknown>;
+  parameters: Map<string, unknown>;
   version: number;
   lastModified: number;
 }
@@ -92,7 +92,7 @@ export interface CreateNodeOperation extends BaseOperation {
   nodeId: NodeId;
   nodeType: string;
   position: { x: number; y: number };
-  params?: Record<string, any>;
+  params?: Record<string, unknown>;
 }
 
 export interface DeleteNodeOperation extends BaseOperation {
@@ -110,8 +110,8 @@ export interface UpdateNodePositionOperation extends BaseOperation {
 export interface UpdateNodeParamsOperation extends BaseOperation {
   type: 'UPDATE_NODE_PARAMS';
   nodeId: NodeId;
-  paramUpdates: Record<string, any>;
-  previousValues: Record<string, any>;
+  paramUpdates: Record<string, unknown>;
+  previousValues: Record<string, unknown>;
 }
 
 export interface CreateEdgeOperation extends BaseOperation {
@@ -165,7 +165,7 @@ export interface ConflictResolution {
   resolved: boolean;
   strategy: ConflictResolutionStrategy;
   resolvedOperation: Operation;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface OperationConflict {
@@ -191,7 +191,7 @@ export type WebSocketMessageType =
 
 export interface WebSocketMessage {
   type: WebSocketMessageType;
-  payload: any;
+  payload: unknown;
   timestamp: number;
   messageId: string;
 }
@@ -354,8 +354,8 @@ export interface CollaborationEngine {
   getPresence: (sessionId: SessionId) => Promise<PresenceState>;
 
   // Event handling
-  addEventListener: (event: string, listener: (...args: any[]) => void) => void;
-  removeEventListener: (event: string, listener: (...args: any[]) => void) => void;
+  addEventListener: (event: string, listener: (...args: unknown[]) => void) => void;
+  removeEventListener: (event: string, listener: (...args: unknown[]) => void) => void;
 }
 
 // Configuration
@@ -421,7 +421,7 @@ export interface CollaborationEvent {
   type: CollaborationEventType;
   sessionId: SessionId;
   userId?: UserId;
-  data: any;
+  data: unknown;
   timestamp: number;
 }
 

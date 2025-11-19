@@ -27,7 +27,7 @@ export interface OnboardingEvent {
     | 'tour_started'
     | 'tour_skipped';
   timestamp: number;
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
 }
 
 export interface PlaygroundObjective {
@@ -35,7 +35,7 @@ export interface PlaygroundObjective {
   description: string;
   completed: boolean;
   hint?: string;
-  validation: (graph: any) => boolean;
+  validation: (graph: unknown) => boolean;
 }
 
 export interface Playground {

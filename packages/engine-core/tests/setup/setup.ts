@@ -15,7 +15,7 @@ if (typeof global.performance === 'undefined') {
     getEntriesByType: vi.fn(() => []),
     clearMarks: vi.fn(),
     clearMeasures: vi.fn(),
-  } as any;
+  } as unknown;
 }
 
 // Mock crypto.randomUUID if not available
@@ -28,7 +28,7 @@ if (typeof global.crypto === 'undefined') {
       }
       return arr;
     }),
-  } as any;
+  } as unknown;
 }
 
 // Mock WebWorker for tests
@@ -47,7 +47,7 @@ if (typeof global.SharedArrayBuffer === 'undefined') {
 
 // Setup console error tracking for tests
 const originalError = console.error;
-global.console.error = vi.fn((...args: any[]) => {
+global.console.error = vi.fn((...args: unknown[]) => {
   // Allow certain expected errors in tests
   const message = args.join(' ');
   if (

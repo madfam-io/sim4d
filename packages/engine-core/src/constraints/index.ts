@@ -94,7 +94,7 @@ export class ConstraintManager {
   addConstraint(
     type: ConstraintType,
     elementIds: string[],
-    params: any = {},
+    params: unknown = {},
     priority: number = 1
   ): string {
     // Get geometry elements
@@ -293,7 +293,7 @@ export class ConstraintManager {
   validateConstraint(
     type: ConstraintType,
     elementIds: string[],
-    params: any = {}
+    params: unknown = {}
   ): { valid: boolean; error?: string } {
     try {
       const elements = elementIds.map((id) => {
@@ -330,7 +330,7 @@ export class ConstraintManager {
   /**
    * Import system from JSON
    */
-  importFromJSON(data: any): void {
+  importFromJSON(data: unknown): void {
     this.clear();
 
     if (data.geometry) {

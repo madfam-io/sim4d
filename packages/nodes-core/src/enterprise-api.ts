@@ -1,8 +1,8 @@
 import type { NodeDefinition } from '@brepflow/types';
 
 export const BatchProcessingNode: NodeDefinition<
-  { operations: any[] },
-  { results: any[] },
+  { operations: unknown[] },
+  { results: unknown[] },
   { concurrency: number; timeout: number; errorHandling: string; progressTracking: boolean }
 > = {
   id: 'Enterprise::BatchProcessing',
@@ -55,8 +55,8 @@ export const BatchProcessingNode: NodeDefinition<
 };
 
 export const APIEndpointNode: NodeDefinition<
-  { requestData?: any },
-  { responseData: any },
+  { requestData?: unknown },
+  { responseData: unknown },
   { endpoint: string; method: string; authentication: string; rateLimit: number; caching: boolean }
 > = {
   id: 'Enterprise::APIEndpoint',
@@ -114,8 +114,8 @@ export const APIEndpointNode: NodeDefinition<
 };
 
 export const PermissionControlNode: NodeDefinition<
-  { user: any; resource: any },
-  { accessResult: any },
+  { user: unknown; resource: unknown },
+  { accessResult: unknown },
   { permissionLevel: string; resourceType: string; organizationId: string; auditLogging: boolean }
 > = {
   id: 'Enterprise::PermissionControl',
@@ -167,8 +167,8 @@ export const PermissionControlNode: NodeDefinition<
 };
 
 export const PluginRegistryNode: NodeDefinition<
-  { pluginPackage: any },
-  { registrationResult: any },
+  { pluginPackage: unknown },
+  { registrationResult: unknown },
   { pluginType: string; version: string; permissions: string[]; signatureValidation: boolean }
 > = {
   id: 'Enterprise::PluginRegistry',
@@ -217,8 +217,8 @@ export const PluginRegistryNode: NodeDefinition<
 };
 
 export const WorkflowOrchestrationNode: NodeDefinition<
-  { workflowDefinition: any; inputs: any },
-  { workflowResult: any },
+  { workflowDefinition: unknown; inputs: unknown },
+  { workflowResult: unknown },
   { executionMode: string; retryPolicy: string; monitoring: boolean; scheduling: string }
 > = {
   id: 'Enterprise::WorkflowOrchestration',
@@ -271,8 +271,8 @@ export const WorkflowOrchestrationNode: NodeDefinition<
 };
 
 export const AnalyticsReportingNode: NodeDefinition<
-  { dataSource: any },
-  { analyticsReport: any },
+  { dataSource: unknown },
+  { analyticsReport: unknown },
   { reportType: string; timeRange: string; aggregation: string; exportFormat: string }
 > = {
   id: 'Enterprise::AnalyticsReporting',

@@ -59,7 +59,7 @@ export interface RoleAssignment {
   assignedBy: UserId;
   assignedAt: Date;
   expiresAt?: Date;
-  conditions?: Record<string, any>;
+  conditions?: Record<string, unknown>;
 }
 
 export interface PermissionAuditLog {
@@ -70,7 +70,7 @@ export interface PermissionAuditLog {
   granted: boolean;
   reason: string;
   timestamp: Date;
-  context: Record<string, any>;
+  context: Record<string, unknown>;
 }
 
 export class PermissionService extends EventEmitter {
@@ -135,7 +135,7 @@ export class PermissionService extends EventEmitter {
         userId,
         action: permission.action,
         resource: permission.resource,
-        resourceType: permission.resourceType as any,
+        resourceType: permission.resourceType as unknown,
       };
 
       const result = await this.checkPermission(context);
@@ -701,12 +701,12 @@ export class PermissionService extends EventEmitter {
   /**
    * Data Access (to be implemented with actual database)
    */
-  private async getProjectMetadata(projectId: ProjectId): Promise<any> {
+  private async getProjectMetadata(projectId: ProjectId): Promise<unknown> {
     // Implementation depends on database service
     throw new Error('Project metadata access implementation required');
   }
 
-  private async getTeamMetadata(teamId: TeamId): Promise<any> {
+  private async getTeamMetadata(teamId: TeamId): Promise<unknown> {
     // Implementation depends on database service
     throw new Error('Team metadata access implementation required');
   }

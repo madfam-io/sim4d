@@ -217,8 +217,8 @@ export const useOnboardingStore = create<OnboardingStore>()(
         });
 
         // Send to analytics service if available
-        if (typeof window !== 'undefined' && (window as any).analytics) {
-          (window as any).analytics.track(event.type, event.metadata);
+        if (typeof window !== 'undefined' && (window as unknown).analytics) {
+          (window as unknown).analytics.track(event.type, event.metadata);
         }
       },
 

@@ -13,7 +13,7 @@ export interface NodeConfiguration {
   name: string;
   description?: string;
   nodeType: string;
-  parameters: Record<string, any>;
+  parameters: Record<string, unknown>;
   metadata: NodeMetadata;
   version: string;
   createdAt: Date;
@@ -402,7 +402,7 @@ export class NodeConfigurationManager {
       if (configsData) {
         const parsed = JSON.parse(configsData);
         for (const [id, config] of Object.entries(parsed)) {
-          this.configurations.set(id, this.deserializeConfiguration(config as any));
+          this.configurations.set(id, this.deserializeConfiguration(config as unknown));
         }
       }
 
@@ -411,7 +411,7 @@ export class NodeConfigurationManager {
       if (templatesData) {
         const parsed = JSON.parse(templatesData);
         for (const [id, template] of Object.entries(parsed)) {
-          this.templates.set(id, this.deserializeTemplate(template as any));
+          this.templates.set(id, this.deserializeTemplate(template as unknown));
         }
       }
     } catch (error) {
@@ -460,7 +460,7 @@ export class NodeConfigurationManager {
     };
   }
 
-  private deserializeConfiguration(data: any): NodeConfiguration {
+  private deserializeConfiguration(data: unknown): NodeConfiguration {
     return {
       ...data,
       createdAt: new Date(data.createdAt),
@@ -488,7 +488,7 @@ export class NodeConfigurationManager {
     };
   }
 
-  private deserializeTemplate(data: any): ConfigurationTemplate {
+  private deserializeTemplate(data: unknown): ConfigurationTemplate {
     return {
       ...data,
       configurations: data.configurations.map((config: any) =>

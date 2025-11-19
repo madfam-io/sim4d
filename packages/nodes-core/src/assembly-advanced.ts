@@ -1,8 +1,19 @@
-import type { NodeDefinition, ShapeHandle, Vec3 } from '@brepflow/types';
+import type {
+  NodeDefinition,
+  ShapeHandle,
+  Vec3,
+  ComponentHandle,
+  AssemblyHandle,
+  MotionHandle,
+  BillOfMaterials,
+  AssemblyStep,
+  JointHandle,
+  InterferenceData,
+} from '@brepflow/types';
 
 export const AssemblyComponentNode: NodeDefinition<
   { part: ShapeHandle },
-  { component: any },
+  { component: ComponentHandle },
   { name: string; material: string; color: string }
 > = {
   id: 'Assembly::Component',
@@ -45,8 +56,8 @@ export const AssemblyComponentNode: NodeDefinition<
 };
 
 export const MateConstraintNode: NodeDefinition<
-  { component1: any; component2: any },
-  { assembly: any },
+  { component1: ComponentHandle; component2: ComponentHandle },
+  { assembly: AssemblyHandle },
   { mateType: string; offset: number; flip: boolean }
 > = {
   id: 'Assembly::MateConstraint',
@@ -99,8 +110,8 @@ export const MateConstraintNode: NodeDefinition<
 };
 
 export const AssemblyHierarchyNode: NodeDefinition<
-  { components: any[] },
-  { assembly: any },
+  { components: ComponentHandle[] },
+  { assembly: AssemblyHandle },
   { name: string; rootOrigin: Vec3 }
 > = {
   id: 'Assembly::Hierarchy',
@@ -136,8 +147,8 @@ export const AssemblyHierarchyNode: NodeDefinition<
 };
 
 export const InterferenceCheckNode: NodeDefinition<
-  { assembly: any },
-  { interferences: any[]; hasInterference: boolean },
+  { assembly: AssemblyHandle },
+  { interferences: InterferenceData[]; hasInterference: boolean },
   { tolerance: number; checkType: string }
 > = {
   id: 'Assembly::InterferenceCheck',
@@ -179,8 +190,8 @@ export const InterferenceCheckNode: NodeDefinition<
 };
 
 export const ExplodedViewNode: NodeDefinition<
-  { assembly: any },
-  { explodedAssembly: any },
+  { assembly: AssemblyHandle },
+  { explodedAssembly: AssemblyHandle },
   { explodeDistance: number; direction: Vec3; uniformExplode: boolean }
 > = {
   id: 'Assembly::ExplodedView',
@@ -223,8 +234,8 @@ export const ExplodedViewNode: NodeDefinition<
 };
 
 export const MotionStudyNode: NodeDefinition<
-  { assembly: any },
-  { motion: any; trajectory: any[] },
+  { assembly: AssemblyHandle },
+  { motion: MotionHandle; trajectory: Vec3[] },
   { simulationType: string; duration: number; steps: number }
 > = {
   id: 'Assembly::MotionStudy',
@@ -275,8 +286,8 @@ export const MotionStudyNode: NodeDefinition<
 };
 
 export const BillOfMaterialsNode: NodeDefinition<
-  { assembly: any },
-  { bom: any; totalWeight: number; totalCost: number },
+  { assembly: AssemblyHandle },
+  { bom: BillOfMaterials; totalWeight: number; totalCost: number },
   { includeSubAssemblies: boolean; costCalculation: boolean }
 > = {
   id: 'Assembly::BillOfMaterials',
@@ -318,8 +329,8 @@ export const BillOfMaterialsNode: NodeDefinition<
 };
 
 export const AssemblySequenceNode: NodeDefinition<
-  { assembly: any },
-  { sequence: any[]; instructions: string[] },
+  { assembly: AssemblyHandle },
+  { sequence: AssemblyStep[]; instructions: string[] },
   { optimizeSequence: boolean; generateInstructions: boolean }
 > = {
   id: 'Assembly::Sequence',
@@ -359,8 +370,8 @@ export const AssemblySequenceNode: NodeDefinition<
 };
 
 export const JointDefinitionNode: NodeDefinition<
-  { component1: any; component2: any },
-  { joint: any },
+  { component1: ComponentHandle; component2: ComponentHandle },
+  { joint: JointHandle },
   { jointType: string; limits: Vec3; friction: number; damping: number }
 > = {
   id: 'Assembly::JointDefinition',
@@ -415,8 +426,8 @@ export const JointDefinitionNode: NodeDefinition<
 };
 
 export const KinematicSolverNode: NodeDefinition<
-  { assembly: any; joints: any[] },
-  { solution: any; reachable: boolean },
+  { assembly: AssemblyHandle; joints: JointHandle[] },
+  { solution: JointHandle; reachable: boolean },
   { targetPosition: Vec3; targetOrientation: Vec3; solverIterations: number }
 > = {
   id: 'Assembly::KinematicSolver',

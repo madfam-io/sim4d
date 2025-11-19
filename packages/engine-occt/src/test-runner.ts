@@ -470,7 +470,7 @@ export class OCCTTestRunner {
   /**
    * Run individual test with error handling
    */
-  private async runTest(name: string, testFn: () => Promise<any>): Promise<TestResult> {
+  private async runTest(name: string, testFn: () => Promise<unknown>): Promise<TestResult> {
     const start = performance.now();
 
     try {
@@ -502,7 +502,7 @@ export class OCCTTestRunner {
   /**
    * Validate shape handle
    */
-  private validateShape(shape: any, expectedType: string): void {
+  private validateShape(shape: unknown, expectedType: string): void {
     if (!shape || !shape.id) {
       throw new Error('Invalid shape handle');
     }

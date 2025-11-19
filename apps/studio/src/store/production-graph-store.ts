@@ -39,9 +39,9 @@ const getLogger = () => {
 export type NodeData = {
   label: string;
   type: string;
-  inputs: Record<string, any>;
-  outputs: Record<string, any>;
-  params: Record<string, any>;
+  inputs: Record<string, unknown>;
+  outputs: Record<string, unknown>;
+  params: Record<string, unknown>;
   status: 'idle' | 'evaluating' | 'success' | 'error';
   error?: string;
 };
@@ -66,22 +66,22 @@ export type GraphState = {
   onConnect: (connection: Connection) => void;
   addNode: (type: string, position: { x: number; y: number }) => void;
   removeNode: (nodeId: string) => void;
-  updateNode: (nodeId: string, data: any) => void;
+  updateNode: (nodeId: string, data: unknown) => void;
   deleteNode: (nodeId: string) => void;
-  updateNodeParam: (nodeId: string, paramName: string, value: any) => void;
+  updateNodeParam: (nodeId: string, paramName: string, value: unknown) => void;
   addEdge: (sourceId: string, sourcePort: string, targetId: string, targetPort: string) => void;
   removeEdge: (edgeId: string) => void;
   selectNode: (nodeId: string | null) => void;
   evaluateGraph: () => Promise<void>;
   clearGraph: () => void;
   exportGraph: () => any;
-  importGraph: (data: any) => void;
+  importGraph: (data: unknown) => void;
 };
 
 export const useProductionGraphStore = create<GraphState>()(
   persist(
     immer((set, get) => {
-      const syncGraph = (state: any) => {
+      const syncGraph = (state: unknown) => {
         state.graph = {
           version: '0.1.0',
           units: 'mm' as const,
@@ -125,7 +125,7 @@ export const useProductionGraphStore = create<GraphState>()(
 
           // Verify it's real OCCT
           const initResult = await geometryAPI.invoke('HEALTH_CHECK', {});
-          if (!initResult || !(initResult as any).healthy) {
+          if (!initResult || !(initResult as unknown).healthy) {
             throw new Error('Geometry engine health check failed');
           }
 
@@ -135,10 +135,10 @@ export const useProductionGraphStore = create<GraphState>()(
             ...geometryAPI,
             dispose: () => geometryAPI.shutdown(),
           };
-          const engine = new DAGEngine({ worker: workerAPI as any });
+          const engine = new DAGEngine({ worker: workerAPI as unknown });
 
           getLogger().info('Production geometry engine initialized successfully', {
-            version: (initResult as any).version,
+            version: (initResult as unknown).version,
           });
 
           return engine;
@@ -245,7 +245,7 @@ export const useProductionGraphStore = create<GraphState>()(
 
           try {
             const result = await state.dagEngine.geometryAPI.invoke('HEALTH_CHECK', {});
-            return !!(result && (result as any).healthy);
+            return !!(result && (result as unknown).healthy);
           } catch (error) {
             getLogger().error('Health check failed', error);
             return false;
@@ -301,9 +301,9 @@ export const useProductionGraphStore = create<GraphState>()(
 
         deleteNode: (nodeId) => {
           set((state) => {
-            state.nodes = state.nodes.filter((node: any) => node.id !== nodeId);
+            state.nodes = state.nodes.filter((node: unknown) => node.id !== nodeId);
             state.edges = state.edges.filter(
-              (edge: any) => edge.source !== nodeId && edge.target !== nodeId
+              (edge: unknown) => edge.source !== nodeId && edge.target !== nodeId
             );
             syncGraph(state);
           });
@@ -313,11 +313,11 @@ export const useProductionGraphStore = create<GraphState>()(
 
         removeNode: (nodeId) => {
           set((state) => {
-            state.nodes = state.nodes.filter((node: any) => node.id !== nodeId);
+            state.nodes = state.nodes.filter((node: unknown) => node.id !== nodeId);
             state.edges = state.edges.filter(
-              (edge: any) => edge.source !== nodeId && edge.target !== nodeId
+              (edge: unknown) => edge.source !== nodeId && edge.target !== nodeId
             );
-            state.selectedNodes = state.selectedNodes.filter((id: any) => id !== nodeId);
+            state.selectedNodes = state.selectedNodes.filter((id: string) => id !== nodeId);
             syncGraph(state);
           });
           getLogger().debug('Node removed', { nodeId });
@@ -361,7 +361,7 @@ export const useProductionGraphStore = create<GraphState>()(
 
         removeEdge: (edgeId) => {
           set((state) => {
-            state.edges = state.edges.filter((edge: any) => edge.id !== edgeId);
+            state.edges = state.edges.filter((edge: unknown) => edge.id !== edgeId);
             syncGraph(state);
           });
           getLogger().debug('Edge removed', { edgeId });
@@ -388,7 +388,7 @@ export const useProductionGraphStore = create<GraphState>()(
           try {
             // Mark all nodes as evaluating
             set((state) => {
-              state.nodes.forEach((node: any) => {
+              state.nodes.forEach((node: unknown) => {
                 node.data.status = 'evaluating';
                 node.data.error = undefined;
               });
@@ -396,7 +396,7 @@ export const useProductionGraphStore = create<GraphState>()(
 
             // Build graph instance for engine
             const graphInstance = {
-              nodes: state.nodes.map((node: any) => ({
+              nodes: state.nodes.map((node: unknown) => ({
                 id: node.id,
                 type: node.data.type,
                 params: node.data.params,
@@ -404,7 +404,7 @@ export const useProductionGraphStore = create<GraphState>()(
                 outputs: node.data.outputs,
                 position: node.position,
               })),
-              edges: state.edges.map((edge: any) => ({
+              edges: state.edges.map((edge: unknown) => ({
                 id: edge.id!,
                 source: edge.source,
                 target: edge.target,
@@ -415,11 +415,11 @@ export const useProductionGraphStore = create<GraphState>()(
 
             // Evaluate with dirty propagation
             const dirtyNodes = new Set(state.nodes.map((n) => createNodeId(n.id)));
-            await state.dagEngine.evaluate(graphInstance as any, dirtyNodes);
+            await state.dagEngine.evaluate(graphInstance as unknown, dirtyNodes);
 
             // Update node statuses
             set((state) => {
-              state.nodes.forEach((node: any) => {
+              state.nodes.forEach((node: unknown) => {
                 node.data.status = 'success';
               });
             });
@@ -429,7 +429,7 @@ export const useProductionGraphStore = create<GraphState>()(
             getLogger().error('Graph evaluation failed', error);
 
             set((state) => {
-              state.nodes.forEach((node: any) => {
+              state.nodes.forEach((node: unknown) => {
                 node.data.status = 'error';
                 node.data.error = error instanceof Error ? error.message : 'Evaluation failed';
               });
@@ -487,7 +487,7 @@ export const useProductionGraphStore = create<GraphState>()(
             }
 
             set((state) => {
-              state.nodes = data.nodes.map((node: any) => ({
+              state.nodes = data.nodes.map((node: unknown) => ({
                 ...node,
                 data: {
                   ...node.data,

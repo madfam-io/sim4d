@@ -15,8 +15,8 @@ process.env.ENABLE_REAL_OCCT_TESTING = 'true';
 
 // Mark as test environment for production safety checks
 if (typeof global !== 'undefined') {
-  (global as any).__vitest__ = true;
-  (global as any).__OCCT_TEST_MODE__ = true;
+  (global as unknown).__vitest__ = true;
+  (global as unknown).__OCCT_TEST_MODE__ = true;
 }
 
 // Polyfill performance if not available
@@ -29,7 +29,7 @@ if (typeof global.performance === 'undefined') {
     getEntriesByType: vi.fn(() => []),
     clearMarks: vi.fn(),
     clearMeasures: vi.fn(),
-  } as any;
+  } as unknown;
 }
 
 // Polyfill crypto.randomUUID if not available
@@ -42,7 +42,7 @@ if (typeof global.crypto === 'undefined') {
       }
       return arr;
     },
-  } as any;
+  } as unknown;
 }
 
 // Mock WebWorker for test environment
@@ -55,7 +55,7 @@ global.Worker = class MockWorker {
     console.log(`[TestWorker] Created worker for: ${scriptURL}`);
   }
 
-  postMessage(message: any): void {
+  postMessage(message: unknown): void {
     // Simulate async worker response
     setTimeout(() => {
       if (this.onmessage) {
@@ -78,7 +78,7 @@ global.Worker = class MockWorker {
   dispatchEvent(): boolean {
     return true;
   }
-} as any;
+} as unknown;
 
 // Polyfill window for Node.js test environment
 if (typeof global.window === 'undefined') {
@@ -89,13 +89,13 @@ if (typeof global.window === 'undefined') {
       hostname: 'localhost',
       href: 'https://localhost',
     },
-  } as any;
+  } as unknown;
 }
 
 // Provide SharedArrayBuffer for WASM threading tests
 if (typeof global.SharedArrayBuffer === 'undefined') {
   // In test environment, use regular ArrayBuffer as fallback
-  global.SharedArrayBuffer = ArrayBuffer as any;
+  global.SharedArrayBuffer = ArrayBuffer as unknown;
 }
 
 // Ensure WebAssembly is available
@@ -108,7 +108,7 @@ if (typeof global.WebAssembly === 'undefined') {
     compile: async () => ({}),
     instantiate: async () => ({ instance: {}, module: {} }),
     validate: () => true,
-  } as any;
+  } as unknown;
 }
 
 // CRITICAL: Create test-specific REAL OCCT module
@@ -116,8 +116,8 @@ if (typeof global.WebAssembly === 'undefined') {
 const testOCCTModule = createTestOCCTModule();
 
 // Make the test OCCT module globally available
-(global as any).Module = testOCCTModule;
-(global as any).createOCCTCoreModule = async () => testOCCTModule;
+(global as unknown).Module = testOCCTModule;
+(global as unknown).createOCCTCoreModule = async () => testOCCTModule;
 
 // Reset test environment before each test
 beforeEach(() => {

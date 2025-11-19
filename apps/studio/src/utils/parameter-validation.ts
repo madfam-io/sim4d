@@ -28,14 +28,14 @@ export interface ParameterConstraints {
   positive?: boolean;
   nonZero?: boolean;
   pattern?: RegExp;
-  customValidator?: (value: any) => ValidationResult;
+  customValidator?: (value: unknown) => ValidationResult;
 }
 
 /**
  * Validate a numeric parameter with comprehensive feedback
  */
 export function validateNumber(
-  value: any,
+  value: unknown,
   constraints: ParameterConstraints = {},
   parameterName: string = 'Parameter'
 ): ValidationResult {
@@ -160,7 +160,7 @@ export function validateNumber(
  * Validate a string parameter
  */
 export function validateString(
-  value: any,
+  value: unknown,
   constraints: ParameterConstraints = {},
   parameterName: string = 'Parameter'
 ): ValidationResult {
@@ -201,7 +201,7 @@ export function validateString(
  * Validate a Vector3 parameter
  */
 export function validateVector3(
-  value: any,
+  value: unknown,
   constraints: ParameterConstraints = {},
   parameterName: string = 'Vector'
 ): ValidationResult {
@@ -288,7 +288,7 @@ export function getDefaultConstraints(nodeType: string, paramName: string): Para
  * Validate parameter with automatic constraint detection
  */
 export function validateParameter(
-  value: any,
+  value: unknown,
   paramName: string,
   nodeType: string,
   explicitConstraints?: ParameterConstraints
@@ -355,7 +355,7 @@ export function getValidationClass(result: ValidationResult): string {
  * Batch validate all parameters for a node
  */
 export function validateNodeParameters(
-  params: Record<string, any>,
+  params: Record<string, unknown>,
   nodeType: string,
   parameterConfigs?: Array<{ name: string; constraints?: ParameterConstraints }>
 ): Record<string, ValidationResult> {

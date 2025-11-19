@@ -1,8 +1,17 @@
-import type { NodeDefinition, ShapeHandle, Vec3 } from '@brepflow/types';
+import type {
+  NodeDefinition,
+  ShapeHandle,
+  Vec3,
+  FEMeshHandle,
+  FEMaterialHandle,
+  FEBoundaryHandle,
+  FELoadHandle,
+  FEResultsHandle,
+} from '@brepflow/types';
 
 export const MeshNode: NodeDefinition<
   { shape: ShapeHandle },
-  { mesh: any },
+  { mesh: FEMeshHandle },
   { elementSize: number; meshType: string; quality: number }
 > = {
   id: 'Simulation::Mesh',
@@ -50,7 +59,7 @@ export const MeshNode: NodeDefinition<
 
 export const MaterialNode: NodeDefinition<
   Record<string, never>,
-  { material: any },
+  { material: FEMaterialHandle },
   {
     name: string;
     density: number;
@@ -115,8 +124,8 @@ export const MaterialNode: NodeDefinition<
 };
 
 export const FixedSupportNode: NodeDefinition<
-  { mesh: any; faces?: ShapeHandle[] },
-  { boundary: any },
+  { mesh: FEMeshHandle; faces?: ShapeHandle[] },
+  { boundary: FEBoundaryHandle },
   { faces: ShapeHandle[]; constrainTranslation: Vec3; constrainRotation: Vec3 }
 > = {
   id: 'Simulation::FixedSupport',
@@ -161,8 +170,8 @@ export const FixedSupportNode: NodeDefinition<
 };
 
 export const ForceLoadNode: NodeDefinition<
-  { mesh: any; faces?: ShapeHandle[] },
-  { load: any },
+  { mesh: FEMeshHandle; faces?: ShapeHandle[] },
+  { load: FELoadHandle },
   { faces: ShapeHandle[]; force: Vec3; distributed: boolean }
 > = {
   id: 'Simulation::Force',
@@ -207,8 +216,8 @@ export const ForceLoadNode: NodeDefinition<
 };
 
 export const PressureLoadNode: NodeDefinition<
-  { mesh: any; faces?: ShapeHandle[] },
-  { load: any },
+  { mesh: FEMeshHandle; faces?: ShapeHandle[] },
+  { load: FELoadHandle },
   { faces: ShapeHandle[]; pressure: number }
 > = {
   id: 'Simulation::Pressure',
@@ -249,8 +258,8 @@ export const PressureLoadNode: NodeDefinition<
 };
 
 export const StaticAnalysisNode: NodeDefinition<
-  { mesh: any; material: any; boundaries: any[]; loads: any[] },
-  { results: any },
+  { mesh: FEMeshHandle; material: FEMaterialHandle; boundaries: unknown[]; loads: unknown[] },
+  { results: FEResultsHandle },
   { solver: string; convergence: number; maxIterations: number }
 > = {
   id: 'Simulation::StaticAnalysis',
@@ -303,8 +312,8 @@ export const StaticAnalysisNode: NodeDefinition<
 };
 
 export const ModalAnalysisNode: NodeDefinition<
-  { mesh: any; material: any; boundaries: any[] },
-  { results: any },
+  { mesh: FEMeshHandle; material: FEMaterialHandle; boundaries: unknown[] },
+  { results: FEResultsHandle },
   { numModes: number; frequency: number }
 > = {
   id: 'Simulation::ModalAnalysis',
@@ -348,8 +357,13 @@ export const ModalAnalysisNode: NodeDefinition<
 };
 
 export const ThermalAnalysisNode: NodeDefinition<
-  { mesh: any; material: any; boundaries: any[]; thermalLoads: any[] },
-  { results: any },
+  {
+    mesh: FEMeshHandle;
+    material: FEMaterialHandle;
+    boundaries: unknown[];
+    thermalLoads: unknown[];
+  },
+  { results: FEResultsHandle },
   { conductivity: number; specificHeat: number; ambientTemp: number }
 > = {
   id: 'Simulation::ThermalAnalysis',

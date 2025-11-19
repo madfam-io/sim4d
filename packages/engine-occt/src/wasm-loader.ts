@@ -82,7 +82,7 @@ export class WASMLoader {
   /**
    * Load WASM module with optimal configuration
    */
-  async loadModule(options: WASMLoadOptions): Promise<any> {
+  async loadModule(options: WASMLoadOptions): Promise<unknown> {
     const capabilities = await this.detectCapabilities();
 
     if (!capabilities.hasWASM) {
@@ -196,7 +196,7 @@ export class WASMLoader {
     try {
       // Use performance.memory if available
       if (typeof performance !== 'undefined' && 'memory' in performance) {
-        const memory = (performance as any).memory;
+        const memory = (performance as unknown).memory;
         const totalMB = Math.round(memory.jsHeapSizeLimit / (1024 * 1024));
         memoryMB = Math.min(totalMB * 0.7, 2048); // Use 70% of heap limit, max 2GB
       }
@@ -270,7 +270,7 @@ export class WASMLoader {
   private async loadWASMModule(
     options: WASMLoadOptions,
     capabilities: WASMCapabilities
-  ): Promise<any> {
+  ): Promise<unknown> {
     console.log(
       `[WASMLoader] Loading WASM from ${options.wasmPath} (threads: ${capabilities.hasThreads})`
     );
@@ -429,7 +429,7 @@ export async function detectWASMCapabilities(): Promise<WASMCapabilities> {
   return WASMLoader.getInstance().detectCapabilities();
 }
 
-export async function loadOCCTWASM(): Promise<any> {
+export async function loadOCCTWASM(): Promise<unknown> {
   const loader = WASMLoader.getInstance();
   const capabilities = await loader.detectCapabilities();
   const config = loader.generateOCCTConfig(capabilities);

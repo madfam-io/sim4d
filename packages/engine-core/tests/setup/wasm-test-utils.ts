@@ -34,7 +34,7 @@ export const createMockGeometryHandle = (type: ShapeType = 'SOLID'): GeometryHan
 export const createMockWorkerAPI = (): WorkerAPI => {
   const mockAPI: WorkerAPI = {
     // Primitive creation
-    invoke: vi.fn().mockImplementation(async (operation: string, params: any) => {
+    invoke: vi.fn().mockImplementation(async (operation: string, params: unknown) => {
       // Simulate geometry operations
       switch (operation) {
         case 'MAKE_BOX':
@@ -83,7 +83,7 @@ export const createMockWorkerAPI = (): WorkerAPI => {
  * Use with vi.mock() to stub the entire module
  */
 export const mockEngineOCCTModule = {
-  createGeometryAPI: vi.fn().mockImplementation(async (config?: any) => {
+  createGeometryAPI: vi.fn().mockImplementation(async (config?: unknown) => {
     return createMockWorkerAPI();
   }),
 
@@ -96,8 +96,8 @@ export const mockEngineOCCTModule = {
   })),
 
   // Re-export types (for TypeScript compatibility)
-  WorkerAPI: {} as any,
-  GeometryHandle: {} as any,
+  WorkerAPI: {} as unknown,
+  GeometryHandle: {} as unknown,
 };
 
 /**

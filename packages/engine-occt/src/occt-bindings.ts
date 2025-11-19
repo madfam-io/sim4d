@@ -77,8 +77,93 @@ export interface OCCTModule {
   getOCCTVersion(): string;
 
   // Vector types for interfacing with Emscripten
-  VectorFloat: any;
-  VectorUint: any;
+  VectorFloat: EmscriptenVectorConstructor<number>;
+  VectorUint: EmscriptenVectorConstructor<number>;
+}
+
+/**
+ * Emscripten vector type for interfacing with C++ std::vector
+ */
+export interface EmscriptenVector<T> {
+  size(): number;
+  get(index: number): T;
+  set(index: number, value: T): void;
+  push_back(value: T): void;
+  resize(size: number, value?: T): void;
+  delete(): void;
+}
+
+/**
+ * Emscripten vector constructor
+ */
+export interface EmscriptenVectorConstructor<T> {
+  new (): EmscriptenVector<T>;
+}
+
+/**
+ * Base Emscripten module interface
+ */
+export interface EmscriptenModule {
+  ready: Promise<void>;
+  HEAP8: Int8Array;
+  HEAP16: Int16Array;
+  HEAP32: Int32Array;
+  HEAPU8: Uint8Array;
+  HEAPU16: Uint16Array;
+  HEAPU32: Uint32Array;
+  HEAPF32: Float32Array;
+  HEAPF64: Float64Array;
+  _malloc(size: number): number;
+  _free(ptr: number): void;
+  cwrap(name: string, returnType: string | null, argTypes: string[]): unknown;
+  ccall(name: string, returnType: string | null, argTypes: string[], args: unknown[]): unknown;
+}
+
+/**
+ * WASM module type that extends the base Emscripten module with OCCT-specific methods
+ */
+export interface WASMModule extends EmscriptenModule {
+  // Geometry primitives
+  gp_Pnt?: new (x: number, y: number, z: number) => unknown;
+  gp_Vec?: new (x: number, y: number, z: number) => unknown;
+  gp_Dir?: new (x: number, y: number, z: number) => unknown;
+  gp_Ax1?: new (origin: unknown, direction: unknown) => unknown;
+  gp_Ax2?: new (origin: unknown, direction: unknown) => unknown;
+
+  // Shape builders
+  BRepPrimAPI_MakeBox?: new (dx: number, dy: number, dz: number) => unknown;
+  BRepPrimAPI_MakeSphere?: new (radius: number) => unknown;
+  BRepPrimAPI_MakeCylinder?: new (radius: number, height: number) => unknown;
+  BRepPrimAPI_MakeCone?: new (r1: number, r2: number, height: number) => unknown;
+  BRepPrimAPI_MakeTorus?: new (majorRadius: number, minorRadius: number) => unknown;
+
+  // Boolean operations
+  BRepAlgoAPI_Fuse?: new () => unknown;
+  BRepAlgoAPI_Cut?: new () => unknown;
+  BRepAlgoAPI_Common?: new () => unknown;
+
+  // Feature operations
+  BRepFilletAPI_MakeFillet?: new () => unknown;
+  BRepFilletAPI_MakeChamfer?: new () => unknown;
+
+  // Tessellation
+  BRepMesh_IncrementalMesh?: new (shape: unknown, deflection: number) => unknown;
+
+  // Vector constructors
+  VectorFloat: EmscriptenVectorConstructor<number>;
+  VectorUint: EmscriptenVectorConstructor<number>;
+  VectorString?: EmscriptenVectorConstructor<string>;
+
+  // OCCT-specific methods (dynamically added by our wrapper)
+  makeBox?(dx: number, dy: number, dz: number): ShapeHandle;
+  makeSphere?(radius: number): ShapeHandle;
+  tessellate?(shapeId: string, precision?: number, angle?: number): MeshData;
+  deleteShape?(shapeId: string): void;
+
+  // Utility methods
+  version?: () => string;
+  getOCCTVersion?: () => string;
+  terminate?: () => void;
 }
 
 export interface ShapeHandle {
@@ -111,7 +196,7 @@ export interface MeshData {
 
 // Module loader with real OCCT WASM integration
 let occtModule: OCCTModule | null = null;
-let wasmModule: any = null;
+let wasmModule: WASMModule | null = null;
 let wasmLoaded = false;
 let wasmLoadAttempted = false;
 let wasmLoadError: Error | null = null;
@@ -157,7 +242,7 @@ export class OCCTMemoryManager {
  * Error boundary wrapper for WASM operations
  * Ensures the platform can gracefully handle WASM loading failures
  */
-function createErrorBoundaryWrapper<T extends (...args: any[]) => any>(
+function createErrorBoundaryWrapper<T extends (...args: unknown[]) => any>(
   operation: string,
   fn: T
 ): T {
@@ -171,7 +256,7 @@ function createErrorBoundaryWrapper<T extends (...args: any[]) => any>(
         });
       }
       return result;
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(`[OCCT] Operation '${operation}' failed:`, error);
       throw new Error(`OCCT operation '${operation}' failed: ${error.message || error}`);
     }
@@ -182,7 +267,7 @@ function createErrorBoundaryWrapper<T extends (...args: any[]) => any>(
  * Attempts to dynamically load the WASM module with proper error boundaries
  * This function will be called when WASM files are actually available
  */
-async function attemptWASMLoad(): Promise<any> {
+async function attemptWASMLoad(): Promise<unknown> {
   // This function will attempt to load WASM when it's available
   // For now, we use a dynamic import approach that won't break Vite
 
@@ -266,29 +351,38 @@ async function attemptWASMLoad(): Promise<any> {
 /**
  * Flatten nested bbox structure from WASM to flat properties expected by GeometryAPI
  */
-function flattenBoundingBox(shape: any): any {
-  if (!shape) return flattenBoundingBox(shape);
+function flattenBoundingBox(shape: unknown): ShapeHandle {
+  if (!shape) return shape as ShapeHandle;
 
   // If bbox is nested (new WASM format), flatten it
-  if (shape.bbox && typeof shape.bbox === 'object' && shape.bbox.min && shape.bbox.max) {
+  if (
+    typeof shape === 'object' &&
+    shape !== null &&
+    'bbox' in shape &&
+    typeof shape.bbox === 'object' &&
+    shape.bbox !== null &&
+    'min' in shape.bbox &&
+    'max' in shape.bbox
+  ) {
+    const bbox = shape.bbox as { min: { x: number; y: number; z: number }; max: { x: number; y: number; z: number } };
     return {
       ...shape,
-      bbox_min_x: shape.bbox.min.x,
-      bbox_min_y: shape.bbox.min.y,
-      bbox_min_z: shape.bbox.min.z,
-      bbox_max_x: shape.bbox.max.x,
-      bbox_max_y: shape.bbox.max.y,
-      bbox_max_z: shape.bbox.max.z,
-    };
+      bbox_min_x: bbox.min.x,
+      bbox_min_y: bbox.min.y,
+      bbox_min_z: bbox.min.z,
+      bbox_max_x: bbox.max.x,
+      bbox_max_y: bbox.max.y,
+      bbox_max_z: bbox.max.z,
+    } as ShapeHandle;
   }
 
-  return flattenBoundingBox(shape);
+  return shape as ShapeHandle;
 }
 
 /**
  * Creates the real OCCT module implementation with error boundaries
  */
-function createRealOCCTModule(wasm: any): OCCTModule {
+function createRealOCCTModule(wasm: WASMModule): OCCTModule {
   return {
     makeBox: createErrorBoundaryWrapper('makeBox', (dx: number, dy: number, dz: number) => {
       console.log(`[OCCT] Creating box: ${dx} x ${dy} x ${dz}`);

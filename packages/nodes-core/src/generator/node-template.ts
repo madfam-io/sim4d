@@ -59,7 +59,7 @@ export interface NodeTemplate {
   // Examples
   examples?: {
     title: string;
-    parameters: Record<string, any>;
+    parameters: Record<string, unknown>;
     description?: string;
   }[];
 }
@@ -379,10 +379,10 @@ ${template.inputs
   .filter((i) => i.required)
   .map((i) => `      ${i.name}: undefined`)
   .join(',\n')}
-    } as any;
+    } as unknown;
     const params = {
 ${template.parameters.map((p) => `      ${p.name}: ${p.default !== undefined ? JSON.stringify(p.default) : 'undefined'}`).join(',\n')}
-    } as any;
+    } as unknown;
 
     const result = await ${constantName}.evaluate(context, inputs, params);
     expect(result).toBeDefined();

@@ -95,7 +95,7 @@ export function validateTemplate(graph: Graph): { valid: boolean; errors: string
 
   // Validate nodes
   if (graph.nodes) {
-    graph.nodes.forEach((node: any, index: number) => {
+    graph.nodes.forEach((node: unknown, index: number) => {
       if (!node.id) {
         errors.push(`Node ${index} missing id`);
       }
@@ -107,7 +107,7 @@ export function validateTemplate(graph: Graph): { valid: boolean; errors: string
 
   // Validate edges
   if (graph.edges) {
-    graph.edges.forEach((edge: any, index: number) => {
+    graph.edges.forEach((edge: unknown, index: number) => {
       if (!edge.source || !edge.target) {
         errors.push(`Edge ${index} missing source or target`);
       }
@@ -178,7 +178,7 @@ export async function loadTemplate(
     // Apply position offset to all nodes
     const offsetGraph: Graph = {
       ...graph,
-      nodes: graph.nodes.map((node: any) => ({
+      nodes: graph.nodes.map((node: unknown) => ({
         ...node,
         position: {
           x: (node.position?.x || 0) + positionOffset.x,
