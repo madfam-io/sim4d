@@ -3,15 +3,56 @@
  * Can be run in both Node.js and browser environments
  */
 
-import { WASMLoader as _WASMLoader, detectWASMCapabilities } from './wasm-loader';
+import { WASMLoader as _WASMLoader, detectWASMCapabilities, WASMCapabilities } from './wasm-loader';
 import { loadOCCT, OCCTMemoryManager } from './occt-bindings';
+
+// OCCT Shape interface
+interface OCCTShape {
+  id: string;
+  type: string;
+  volume: number;
+  area: number;
+  centerX?: number;
+  centerY?: number;
+  centerZ?: number;
+}
+
+// OCCT Mesh interface
+interface OCCTMesh {
+  positions: Float32Array;
+  normals: Float32Array;
+  indices: Uint32Array;
+  vertexCount: number;
+  triangleCount: number;
+  edgeCount?: number;
+}
+
+// OCCT Module interface
+interface OCCTModule {
+  makeBox: (width: number, height: number, depth: number) => OCCTShape;
+  makeBoxWithOrigin: (x: number, y: number, z: number, width: number, height: number, depth: number) => OCCTShape;
+  makeSphere: (radius: number) => OCCTShape;
+  makeCylinder: (radius: number, height: number) => OCCTShape;
+  makeTorus: (majorRadius: number, minorRadius: number) => OCCTShape;
+  booleanUnion: (shape1Id: string, shape2Id: string) => OCCTShape;
+  booleanSubtract: (shape1Id: string, shape2Id: string) => OCCTShape;
+  booleanIntersect: (shape1Id: string, shape2Id: string) => OCCTShape;
+  makeFillet: (shapeId: string, radius: number) => OCCTShape;
+  makeChamfer: (shapeId: string, distance: number) => OCCTShape;
+  makeShell: (shapeId: string, thickness: number) => OCCTShape;
+  transform: (shapeId: string, tx: number, ty: number, tz: number, rx: number, ry: number, rz: number, sx: number, sy: number, sz: number) => OCCTShape;
+  copyShape: (shapeId: string) => OCCTShape;
+  tessellate: (shapeId: string, linearDeflection: number, angularDeflection: number) => OCCTMesh;
+  deleteShape: (shapeId: string) => void;
+  clearAllShapes: () => void;
+}
 
 export interface TestResult {
   name: string;
   passed: boolean;
   duration: number;
   error?: string;
-  details?: any;
+  details?: Record<string, unknown>;
 }
 
 export interface TestSuite {
@@ -26,8 +67,8 @@ export interface TestSuite {
 }
 
 export class OCCTTestRunner {
-  private occtModule: any = null;
-  private capabilities: any = null;
+  private occtModule: OCCTModule | null = null;
+  private capabilities: WASMCapabilities | null = null;
 
   /**
    * Initialize test environment
@@ -502,7 +543,7 @@ export class OCCTTestRunner {
   /**
    * Validate shape handle
    */
-  private validateShape(shape: unknown, expectedType: string): void {
+  private validateShape(shape: OCCTShape, expectedType: string): void {
     if (!shape || !shape.id) {
       throw new Error('Invalid shape handle');
     }
@@ -523,7 +564,7 @@ export class OCCTTestRunner {
   /**
    * Validate mesh data
    */
-  private validateMesh(mesh: any): void {
+  private validateMesh(mesh: OCCTMesh): void {
     if (!mesh) {
       throw new Error('Invalid mesh data');
     }

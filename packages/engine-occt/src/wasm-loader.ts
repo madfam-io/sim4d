@@ -27,6 +27,37 @@ export interface WASMLoadOptions {
   timeout: number; // ms
 }
 
+// Browser Performance Memory API types
+interface PerformanceMemory {
+  jsHeapSizeLimit: number;
+  totalJSHeapSize: number;
+  usedJSHeapSize: number;
+}
+
+interface PerformanceWithMemory extends Performance {
+  memory?: PerformanceMemory;
+}
+
+// WASM Module configuration interface
+interface WASMModuleConfig {
+  locateFile: (path: string) => string;
+  pthreadPoolSize?: number;
+  pthread?: boolean;
+  INITIAL_MEMORY: number;
+  MAXIMUM_MEMORY: number;
+  ALLOW_MEMORY_GROWTH: boolean;
+  onRuntimeInitialized: () => void;
+  onAbort: (error: Error | string) => void;
+  print: (text: string) => void;
+  printErr: (text: string) => void;
+}
+
+// WASM Module instance interface
+interface WASMModuleInstance {
+  _capabilities?: WASMCapabilities;
+  [key: string]: unknown;
+}
+
 export class WASMLoader {
   private static instance: WASMLoader | null = null;
   private capabilities: WASMCapabilities | null = null;
@@ -198,9 +229,11 @@ export class WASMLoader {
     try {
       // Use performance.memory if available
       if (typeof performance !== 'undefined' && 'memory' in performance) {
-        const memory = (performance as unknown).memory;
-        const totalMB = Math.round(memory.jsHeapSizeLimit / (1024 * 1024));
-        memoryMB = Math.min(totalMB * 0.7, 2048); // Use 70% of heap limit, max 2GB
+        const perfWithMemory = performance as PerformanceWithMemory;
+        if (perfWithMemory.memory) {
+          const totalMB = Math.round(perfWithMemory.memory.jsHeapSizeLimit / (1024 * 1024));
+          memoryMB = Math.min(totalMB * 0.7, 2048); // Use 70% of heap limit, max 2GB
+        }
       }
 
       // Check for mobile devices (typically more constrained)
@@ -288,7 +321,7 @@ export class WASMLoader {
           const factory = moduleFactory.default || moduleFactory;
 
           // Configure module based on capabilities
-          const moduleConfig: any = {
+          const moduleConfig: WASMModuleConfig = {
             locateFile: (path: string) => {
               if (path.endsWith('.wasm')) {
                 return options.wasmPath;
@@ -316,7 +349,7 @@ export class WASMLoader {
             },
 
             // Error handling
-            onAbort: (error: any) => {
+            onAbort: (error: Error | string) => {
               clearTimeout(timeout);
               reject(new Error(`WASM module aborted: ${error}`));
             },
@@ -327,7 +360,7 @@ export class WASMLoader {
 
           // Initialize the module
           factory(moduleConfig)
-            .then((module: any) => {
+            .then((module: WASMModuleInstance) => {
               clearTimeout(timeout);
 
               // Add capability info to module
@@ -336,9 +369,10 @@ export class WASMLoader {
               logger.info('[WASMLoader] WASM module loaded successfully');
               resolve(module);
             })
-            .catch((error: any) => {
+            .catch((error: Error | unknown) => {
               clearTimeout(timeout);
-              reject(new Error(`WASM instantiation failed: ${error.message || error}`));
+              const errorMsg = error instanceof Error ? error.message : String(error);
+              reject(new Error(`WASM instantiation failed: ${errorMsg}`));
             });
         })
         .catch((error) => {

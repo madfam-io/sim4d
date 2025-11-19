@@ -289,10 +289,13 @@ const getDefaultParams = (nodeType: string): Record<string, unknown> => {
   }
 };
 
+// Parameter value types
+type ParameterValue = number | [number, number, number] | string | boolean;
+
 interface ParameterFieldProps {
   config: ParameterConfig;
-  value: any;
-  onChange: (value: any) => void;
+  value: ParameterValue;
+  onChange: (value: ParameterValue) => void;
   error?: string;
 }
 
@@ -464,7 +467,7 @@ export function NodeParameterDialog({
   );
 
   const handleParamChange = useCallback(
-    (paramName: string, value: any) => {
+    (paramName: string, value: ParameterValue) => {
       const newParams = { ...params, [paramName]: value };
       setParams(newParams);
 

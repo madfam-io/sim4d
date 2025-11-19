@@ -18,10 +18,16 @@ export const SUPPORTED_FORMATS: ExportFormat[] = [
   'usd',
 ];
 
+export interface ShapeHandle {
+  hash?: string;
+  id?: string;
+  type?: string;
+}
+
 export type ShapeCandidate = {
   nodeId: string;
   outputKey: string;
-  handle: any;
+  handle: ShapeHandle;
   index: number;
   label: string;
 };
@@ -326,7 +332,7 @@ function sanitizeFileStem(stem: string): string {
   );
 }
 
-function slugFromHandle(handle: any): string {
+function slugFromHandle(handle: ShapeHandle): string {
   if (handle && typeof handle === 'object') {
     if (typeof handle.hash === 'string') {
       return sanitizeFileStem(handle.hash).slice(0, 8);

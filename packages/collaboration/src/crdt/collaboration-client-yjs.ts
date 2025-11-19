@@ -12,6 +12,9 @@ import type {
   Document,
   CollaborationOptions,
   CollaborationEventHandler,
+  Cursor,
+  Selection,
+  Viewport,
 } from '../types';
 
 /**
@@ -302,7 +305,7 @@ export class CollaborationClientYjs {
   /**
    * Update cursor position
    */
-  updateCursor(cursor: any): void {
+  updateCursor(cursor: Cursor): void {
     const presence = {
       user: this.user,
       cursor,
@@ -313,7 +316,7 @@ export class CollaborationClientYjs {
   /**
    * Update selection
    */
-  updateSelection(selection: any): void {
+  updateSelection(selection: Selection): void {
     const presence = {
       user: this.user,
       selection,
@@ -324,7 +327,7 @@ export class CollaborationClientYjs {
   /**
    * Update viewport
    */
-  updateViewport(viewport: any): void {
+  updateViewport(viewport: Viewport): void {
     const presence = {
       user: this.user,
       viewport,
