@@ -1,0 +1,52 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "name": "BrepFlow API Documentation",
+  "entryPoints": [
+    "packages/engine-core/src/index.ts",
+    "packages/engine-occt/src/index.ts",
+    "packages/nodes-core/src/index.ts",
+    "packages/viewport/src/index.ts",
+    "packages/cli/src/index.ts",
+    "packages/constraint-solver/src/index.ts",
+    "packages/types/src/index.ts",
+    "packages/collaboration/src/index.ts",
+    "packages/version-control/src/index.ts",
+    "packages/cloud-api/src/index.ts"
+  ],
+  "entryPointStrategy": "packages",
+  "out": "docs/api/reference",
+  "plugin": ["typedoc-plugin-markdown"],
+  "readme": "docs/api/API_OVERVIEW.md",
+  "includeVersion": true,
+  "excludePrivate": true,
+  "excludeProtected": false,
+  "excludeExternals": true,
+  "categorizeByGroup": true,
+  "categoryOrder": ["Classes", "Interfaces", "Functions", "Type Aliases", "*"],
+  "sort": ["kind", "instance-first", "required-first", "alphabetical"],
+  "kindSortOrder": [
+    "Project",
+    "Module",
+    "Namespace",
+    "Class",
+    "Interface",
+    "Enum",
+    "Constructor",
+    "Property",
+    "Method",
+    "Function",
+    "Type Alias",
+    "Variable"
+  ],
+  "navigation": {
+    "includeCategories": true,
+    "includeGroups": true
+  },
+  "githubPages": false,
+  "gitRevision": "main",
+  "treatWarningsAsErrors": false,
+  "validation": {
+    "notExported": false,
+    "notDocumented": false
+  }
+}

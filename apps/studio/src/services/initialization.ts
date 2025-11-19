@@ -152,9 +152,6 @@ export class InitializationService {
       // IntegratedGeometryAPI always aims for real geometry
       result.capabilities.realGeometry = true;
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const _config = getConfig(); // Available for future use
-
       if (!result.capabilities.realGeometry) {
         const message = 'Real geometry API is required but not available';
         result.errors.push(message);
