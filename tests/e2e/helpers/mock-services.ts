@@ -149,7 +149,10 @@ export class MockServices {
           const user = cloudConfig.users.find((u) => u.id === userId);
           if (!user) throw new Error(`User ${userId} not found`);
 
-          const sessionId = `session-${Date.now()}-${Math.random()}`;
+          // Use cryptographically secure random generation
+          const randomBytes = crypto.getRandomValues(new Uint8Array(6));
+          const randomStr = Array.from(randomBytes, (byte) => byte.toString(36)).join('');
+          const sessionId = `session-${Date.now()}-${randomStr}`;
           this.sessions.set(sessionId, {
             id: sessionId,
             userId: userId,

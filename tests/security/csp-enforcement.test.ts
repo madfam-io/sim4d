@@ -139,11 +139,14 @@ describe('Content Security Policy (CSP)', () => {
     });
 
     it('should prevent javascript: URLs', () => {
-      // CSP blocks javascript: protocol URLs
+      // CSP blocks javascript: and other dangerous protocol URLs
       const testUrl = 'javascript:alert(1)';
-      const isJavascriptUrl = testUrl.startsWith('javascript:');
+      const dangerousSchemes = ['javascript:', 'data:', 'vbscript:', 'file:', 'about:'];
+      const isDangerousUrl = dangerousSchemes.some(scheme =>
+        testUrl.toLowerCase().startsWith(scheme)
+      );
 
-      expect(isJavascriptUrl).toBe(true); // We can detect them
+      expect(isDangerousUrl).toBe(true); // We can detect them
       // In production, CSP would block these
     });
 

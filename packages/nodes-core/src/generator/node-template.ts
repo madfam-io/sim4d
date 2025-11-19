@@ -96,7 +96,8 @@ export function toKebabCase(value: string): string {
 }
 
 function escapeSingleQuotes(value: string): string {
-  return value.replace(/'/g, "\\'");
+  // First escape backslashes, then escape single quotes
+  return value.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
 }
 
 function indentBlock(block: string, spaces = 2): string {

@@ -10,7 +10,10 @@ import type {
 const STORAGE_KEY = 'brepflow-onboarding-state';
 
 function generateSessionId(): string {
-  return Math.random().toString(36).substring(2) + Date.now().toString(36);
+  // Use cryptographically secure random generation
+  const randomBytes = crypto.getRandomValues(new Uint8Array(8));
+  const randomStr = Array.from(randomBytes, byte => byte.toString(36)).join('');
+  return randomStr + Date.now().toString(36);
 }
 
 function getInitialState(): OnboardingState {

@@ -101,7 +101,10 @@ export class BrepFlowCollaborationEngine {
    * Create a new collaboration session
    */
   async createSession(projectId: string = 'default', _userId?: UserId): Promise<SessionId> {
-    const sessionId = `session_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+    // Use cryptographically secure random generation
+    const randomBytes = crypto.getRandomValues(new Uint8Array(6));
+    const randomStr = Array.from(randomBytes, byte => byte.toString(36)).join('').substring(0, 9);
+    const sessionId = `session_${Date.now()}_${randomStr}`;
 
     const session: CollaborationSession = {
       id: sessionId,

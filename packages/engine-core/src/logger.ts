@@ -94,10 +94,11 @@ class BrepFlowLogger {
     const formattedMessage = `${timestamp}${prefix}${levelStr} ${message}`;
 
     const consoleMethod = this.getConsoleMethod(level);
+    // Use fixed format string to prevent log injection
     if (context && Object.keys(context).length > 0) {
-      consoleMethod(formattedMessage, context);
+      consoleMethod('%s', formattedMessage, context);
     } else {
-      consoleMethod(formattedMessage);
+      consoleMethod('%s', formattedMessage);
     }
   }
 

@@ -1,0 +1,21 @@
+name: "CodeQL Configuration"
+
+# Paths to exclude from CodeQL analysis
+paths-ignore:
+  # Generated WASM bindings - created by Emscripten compiler
+  - "packages/engine-occt/wasm/**"
+  - "apps/studio/src/lib/wasm/**"
+
+  # Test files with intentional file system operations and race conditions
+  - "tests/performance/**"
+  - "tests/audit/performance/**"
+  - "tests/integration/abacus.integration.test.ts"
+
+  # Third-party dependencies
+  - "**/node_modules/**"
+  - "**/dist/**"
+  - "**/build/**"
+
+# Query filters
+queries:
+  - uses: security-and-quality
