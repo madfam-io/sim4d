@@ -84,10 +84,14 @@ async function ensureOCCTModuleLoaded(): Promise<void> {
 
 // Handle worker messages
 self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
-  // Verify message origin and structure for security
-  // For Web Workers, validate message structure and required fields
+  // Security: Dedicated Web Workers can only receive messages from their creating context,
+  // so origin verification (event.origin) is not applicable here as it would be for
+  // window.postMessage or SharedWorker scenarios. Instead, we validate message structure
+  // to ensure it conforms to our expected protocol.
+
+  // Verify message structure for security
   if (!event.data || typeof event.data !== 'object') {
-    logger.warn('Invalid message format received');
+    logger.warn('Invalid message format received - rejecting');
     return;
   }
 
@@ -95,13 +99,20 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
 
   // Validate required message fields to ensure it's from a trusted source
   if (!request.type || typeof request.type !== 'string') {
-    logger.warn('Message missing required type field');
+    logger.warn('Message missing required type field - rejecting');
     return;
   }
 
   // Validate request ID if present
   if (request.id !== undefined && typeof request.id !== 'string' && typeof request.id !== 'number') {
-    logger.warn('Invalid request ID format');
+    logger.warn('Invalid request ID format - rejecting');
+    return;
+  }
+
+  // Additional validation: Ensure type matches expected patterns
+  const validTypePattern = /^[A-Z_]+$/;
+  if (!validTypePattern.test(request.type)) {
+    logger.warn(`Invalid request type pattern: ${request.type} - rejecting`);
     return;
   }
 

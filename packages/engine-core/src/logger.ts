@@ -91,23 +91,29 @@ class BrepFlowLogger {
       : '';
     const prefix = this.config.prefix ? `[${this.config.prefix}]` : '';
     const levelStr = this.formatLevel(level);
-    // Sanitize message to prevent format string injection by escaping % characters
-    const sanitizedMessage = message.replace(/%/g, '%%');
+
+    // Sanitize message to prevent log injection attacks
+    // Remove control characters and limit line breaks
+    const sanitizedMessage = message
+      .replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/g, '') // Remove control chars
+      .replace(/[\r\n]+/g, ' '); // Replace newlines with spaces
+
     const formattedMessage = `${timestamp}${prefix}${levelStr} ${sanitizedMessage}`;
 
     const consoleMethod = this.getConsoleMethod(level);
-    // Use fixed format string to prevent log injection
-    // Serialize context as JSON to prevent injection through context values
+
+    // Avoid format strings with user-controlled data to prevent log injection
+    // Pass sanitized strings directly to console methods
     if (context && Object.keys(context).length > 0) {
       try {
         const contextStr = JSON.stringify(context, null, 2);
-        consoleMethod('%s %s', formattedMessage, contextStr);
+        consoleMethod(formattedMessage, contextStr);
       } catch {
         // Fallback if JSON.stringify fails (e.g., circular references)
-        consoleMethod('%s [Context serialization failed]', formattedMessage);
+        consoleMethod(formattedMessage, '[Context serialization failed]');
       }
     } else {
-      consoleMethod('%s', formattedMessage);
+      consoleMethod(formattedMessage);
     }
   }
 

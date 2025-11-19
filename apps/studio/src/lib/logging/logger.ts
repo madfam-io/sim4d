@@ -118,12 +118,15 @@ export class Logger {
     const timestamp = new Date(entry.timestamp).toISOString();
     const prefix = `[${timestamp}] [${LogLevel[entry.level]}]`;
 
+    // Sanitize message to prevent log injection attacks
+    const sanitizedMessage = this.sanitizeLogMessage(entry.message);
+
     if (this.config.structured) {
       // Structured console output
       const structured = {
         timestamp: entry.timestamp,
         level: LogLevel[entry.level],
-        message: entry.message,
+        message: sanitizedMessage,
         sessionId: entry.sessionId,
         ...(entry.data && { data: entry.data }),
         ...(entry.context && { context: entry.context }),
@@ -144,8 +147,8 @@ export class Logger {
           break;
       }
     } else {
-      // Simple console output
-      const message = `${prefix} ${entry.message}`;
+      // Simple console output - avoid format strings with user data
+      const message = `${prefix} ${sanitizedMessage}`;
       const logData = entry.data ? [entry.data] : [];
 
       switch (entry.level) {
@@ -264,6 +267,20 @@ export class Logger {
    */
   public createChild(context: Record<string, unknown>): ChildLogger {
     return new ChildLogger(this, context);
+  }
+
+  /**
+   * Sanitize log message to prevent log injection attacks
+   */
+  private sanitizeLogMessage(message: string): string {
+    if (typeof message !== 'string') {
+      return String(message);
+    }
+
+    // Remove control characters and limit line breaks to prevent log injection
+    return message
+      .replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/g, '') // Remove control chars
+      .replace(/[\r\n]+/g, ' '); // Replace newlines with spaces
   }
 
   /**
