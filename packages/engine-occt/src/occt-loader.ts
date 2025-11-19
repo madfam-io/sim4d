@@ -114,7 +114,7 @@ export async function loadOCCTModule(options: LoaderOptions = {}): Promise<unkno
         attempts++;
         console.log(`[OCCT] Load attempt ${attempts}/${maxAttempts} for mode: ${config.mode}`);
 
-        let occtModule: any;
+        let occtModule: unknown;
 
         switch (config.mode) {
           case 'full-occt':
@@ -271,7 +271,7 @@ async function loadFullOCCTModule(config: OCCTConfig, _options: LoaderOptions): 
       PTHREAD_POOL_SIZE: config.workers,
 
       // Runtime callbacks
-      onRuntimeInitialized: function (this: any) {
+      onRuntimeInitialized: function (this: unknown) {
         console.log('[OCCT] Full runtime initialized successfully');
 
         // Validate that we have the expected OCCT functions
@@ -316,7 +316,10 @@ async function loadFullOCCTModule(config: OCCTConfig, _options: LoaderOptions): 
   }
 }
 
-async function loadOptimizedOCCTModule(config: OCCTConfig, _options: LoaderOptions): Promise<unknown> {
+async function loadOptimizedOCCTModule(
+  config: OCCTConfig,
+  _options: LoaderOptions
+): Promise<unknown> {
   const wasmFile = config.wasmFile;
   const wasmUrl = new URL(/* @vite-ignore */ `../wasm/${wasmFile}`, import.meta.url).href;
 
@@ -391,7 +394,7 @@ async function loadOptimizedOCCTModule(config: OCCTConfig, _options: LoaderOptio
   }
 }
 
-async function _instantiateWASMDirect(wasmUrl: string, _Module?: any): Promise<unknown> {
+async function _instantiateWASMDirect(wasmUrl: string, _Module?: unknown): Promise<unknown> {
   const response = await fetch(wasmUrl);
   const wasmBuffer = await response.arrayBuffer();
 
@@ -528,7 +531,7 @@ ${performanceReport}
  * Adapter that wraps the raw OCCT module with the invoke interface
  */
 class OCCTAdapter {
-  constructor(private readonly occtModule: any) {}
+  constructor(private readonly occtModule: unknown) {}
 
   async invoke<T>(operation: string, params: unknown): Promise<T> {
     const op = operation?.toUpperCase?.() ?? operation;
@@ -562,7 +565,7 @@ class OCCTAdapter {
     }
   }
 
-  private normalizeShape(handle: any) {
+  private normalizeShape(handle: unknown) {
     if (!handle || !handle.id) {
       throw new Error('OCCT returned an invalid shape handle');
     }
@@ -649,7 +652,7 @@ class OCCTAdapter {
     return this.normalizeShape(handle);
   }
 
-  private booleanSubtract(params: { base: any; tools: unknown[] }) {
+  private booleanSubtract(params: { base: unknown; tools: unknown[] }) {
     const baseId = this.getShapeId(params.base);
     const tools = params.tools || [];
     if (tools.length === 0) {
@@ -696,7 +699,7 @@ class OCCTAdapter {
     return this.normalizeMesh(mesh);
   }
 
-  private normalizeMesh(mesh: any) {
+  private normalizeMesh(mesh: unknown) {
     const toFloat32 = (value: unknown) => {
       if (!value) return new Float32Array();
       if (value instanceof Float32Array) return value;

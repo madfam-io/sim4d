@@ -206,9 +206,9 @@ export class SemanticDiffer {
   }
 
   private generateSummary(
-    nodes: any,
+    nodes: { added: NodeDiff[]; modified: NodeDiff[]; deleted: NodeDiff[] },
     params: ParameterDiff[],
-    topology: any,
+    topology: SemanticDiff['topology'],
     geometry: GeometryDiff
   ): SemanticDiff['summary'] {
     const changes: string[] = [];
@@ -242,7 +242,10 @@ export class SemanticDiffer {
     };
   }
 
-  private generateTitle(nodes: any, params: ParameterDiff[]): string {
+  private generateTitle(
+    nodes: { added: NodeDiff[]; modified: NodeDiff[]; deleted: NodeDiff[] },
+    params: ParameterDiff[]
+  ): string {
     if (nodes.added.length > 0) {
       return `Add ${nodes.added[0].nodeType}`;
     }
@@ -262,7 +265,11 @@ export class SemanticDiffer {
     return 'major';
   }
 
-  private findBreakingChanges(nodes: any): string[] {
+  private findBreakingChanges(nodes: {
+    added: NodeDiff[];
+    modified: NodeDiff[];
+    deleted: NodeDiff[];
+  }): string[] {
     const breaking: string[] = [];
     for (const node of nodes.deleted) {
       breaking.push(`Deleted ${node.nodeType} '${node.nodeId}'`);
@@ -314,14 +321,14 @@ export class SemanticDiffer {
     return `${edge.source}:${edge.sourcePort}->${edge.target}:${edge.targetPort}`;
   }
 
-  private computeAbsoluteChange(before: any, after: any): number | undefined {
+  private computeAbsoluteChange(before: unknown, after: unknown): number | undefined {
     if (typeof before === 'number' && typeof after === 'number') {
       return after - before;
     }
     return undefined;
   }
 
-  private computePercentChange(before: any, after: any): number | undefined {
+  private computePercentChange(before: unknown, after: unknown): number | undefined {
     if (typeof before === 'number' && typeof after === 'number' && before !== 0) {
       return ((after - before) / before) * 100;
     }
