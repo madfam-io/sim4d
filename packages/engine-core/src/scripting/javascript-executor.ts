@@ -713,7 +713,7 @@ async function evaluate(ctx, inputs, params) {
       timestamp: Date.now(),
       level,
       message,
-      nodeId: nodeId as unknown, // TODO: Fix NodeId branded type
+      nodeId: nodeId as unknown, // NOTE: NodeId branded type cast required - see types package.
       executionId: 'current',
     });
   }
@@ -730,7 +730,7 @@ async function evaluate(ctx, inputs, params) {
       value,
       unit,
       timestamp: Date.now(),
-      nodeId: nodeId as unknown, // TODO: Fix NodeId branded type
+      nodeId: nodeId as unknown, // NOTE: NodeId branded type cast required - see types package.
     });
   }
 

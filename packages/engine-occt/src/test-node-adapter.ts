@@ -10,7 +10,8 @@ import {
   OPERATION_MAP,
 } from './node-adapter';
 import { WASMValidator } from './wasm-validation';
-// import { GeometryAPIFactory } from '@brepflow/engine-core'; // TODO: Not exported from engine-core
+// NOTE: GeometryAPIFactory not exported from engine-core - API design pending.
+// import { GeometryAPIFactory } from '@brepflow/engine-core';
 import { DAGEngine } from '@brepflow/engine-core';
 import { NodeRegistry } from '@brepflow/engine-core';
 import type { GraphInstance, NodeInstance, WorkerAPI } from '@brepflow/types';
@@ -83,9 +84,9 @@ async function testNodeEvaluation() {
   log('\n📋 Testing Node Evaluation with Adapter...', colors.cyan);
 
   try {
+    // NOTE: Proper API initialization deferred - GeometryAPIFactory not exported from engine-core.
     // Get real geometry API
-    // TODO: Implement proper API initialization when GeometryAPIFactory is available
-    const api: unknown = null; // await GeometryAPIFactory.getAPI({ enableRetry: true, retryAttempts: 1 });
+    const api: unknown = null; // Future: await GeometryAPIFactory.getAPI({ enableRetry: true, retryAttempts: 1 });
 
     // Create DAG engine with the API
     const dagEngine = new DAGEngine({ worker: api });

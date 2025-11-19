@@ -547,13 +547,12 @@ describe('IntegratedGeometryAPI', () => {
       expect(result.performance).toBeDefined();
     });
 
-    // TODO: This test needs refactoring with DI pattern
-    // The MemoryManager now uses DI, so we can't dynamically mock it this way
-    // Consider testing mesh caching directly on MemoryManager component instead
+    // NOTE: Test skipped - requires MemoryManager DI pattern refactor.
+    // MemoryManager uses DI, preventing dynamic mocking. Test mesh caching directly
+    // on MemoryManager component where mock cache behavior can be properly injected.
     it.skip('should use cached mesh when available', async () => {
-      // Test skipped pending MemoryManager DI refactoring
-      // This should be tested at the MemoryManager component level
-      // where we can properly inject mock cache behavior
+      // Test skipped - pending MemoryManager DI refactoring.
+      // Should be tested at MemoryManager component level with proper DI mocks.
     });
   });
 

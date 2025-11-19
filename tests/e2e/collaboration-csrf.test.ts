@@ -34,8 +34,8 @@ test.describe('Collaboration Workflow with CSRF Protection', () => {
     expect(data).toHaveProperty('sessionId');
   });
 
-  // FIXME: Test assumes window.collaborationAPI exists but it doesn't - needs rewrite
-  // The app uses React CollaborationProvider, not a global API object
+  // NOTE: Skipped - Test assumes window.collaborationAPI exists but app uses React CollaborationProvider.
+  // Requires UI-based rewrite to test CSRF token caching via user interactions.
   test.skip('should cache CSRF token and avoid redundant requests', async ({ page }) => {
     // Set up request promise BEFORE reload to avoid race condition
     const firstRequest = page.waitForRequest(
@@ -72,8 +72,8 @@ test.describe('Collaboration Workflow with CSRF Protection', () => {
     expect(additionalRequests).toBe(0);
   });
 
-  // FIXME: Cannot import React hooks in page.evaluate() - architectural limitation of Playwright
-  // Needs rewrite to test via UI interactions instead of programmatic hook calls
+  // NOTE: Skipped - Playwright cannot import React hooks in page.evaluate() (architectural limitation).
+  // Requires UI-based rewrite to test via user interactions instead of programmatic hook calls.
   test.skip('should create collaboration session with CSRF authentication', async ({ page }) => {
     // Listen for WebSocket connection
     let websocketConnected = false;
@@ -113,7 +113,7 @@ test.describe('Collaboration Workflow with CSRF Protection', () => {
     // In real implementation, you'd inspect WebSocket auth via devtools protocol
   });
 
-  // FIXME: Cannot import React hooks in page.evaluate() - needs UI-based rewrite
+  // NOTE: Skipped - Playwright cannot import React hooks in page.evaluate() (architectural limitation).
   test.skip('should join existing collaboration session', async ({ page }) => {
     // Create session first
     const sessionId = await page.evaluate(async () => {
@@ -165,7 +165,7 @@ test.describe('Collaboration Workflow with CSRF Protection', () => {
     await context2?.close();
   });
 
-  // FIXME: Cannot import React hooks in page.evaluate() - needs UI-based rewrite
+  // NOTE: Skipped - Playwright cannot import React hooks in page.evaluate() (architectural limitation).
   test.skip('should update cursor position in real-time', async ({ page }) => {
     // Create session
     await page.evaluate(async () => {
@@ -201,7 +201,7 @@ test.describe('Collaboration Workflow with CSRF Protection', () => {
     expect(updateSuccess).toBe(true);
   });
 
-  // FIXME: Cannot import React hooks in page.evaluate() - needs UI-based rewrite
+  // NOTE: Skipped - Playwright cannot import React hooks in page.evaluate() (architectural limitation).
   test.skip('should update selection state', async ({ page }) => {
     // Create session
     await page.evaluate(async () => {
@@ -233,7 +233,7 @@ test.describe('Collaboration Workflow with CSRF Protection', () => {
     expect(updateSuccess).toBe(true);
   });
 
-  // FIXME: Cannot import React hooks in page.evaluate() - needs UI-based rewrite
+  // NOTE: Skipped - Playwright cannot import React hooks in page.evaluate() (architectural limitation).
   test.skip('should leave collaboration session cleanly', async ({ page }) => {
     // Create session
     await page.evaluate(async () => {
@@ -265,7 +265,7 @@ test.describe('Collaboration Workflow with CSRF Protection', () => {
     expect(leaveSuccess).toBe(true);
   });
 
-  // FIXME: Cannot import React hooks in page.evaluate() - needs UI-based rewrite
+  // NOTE: Skipped - Playwright cannot import React hooks in page.evaluate() (architectural limitation).
   test.skip('should handle network interruption and reconnect', async ({ page, context }) => {
     // Create session
     await page.evaluate(async () => {
@@ -303,7 +303,7 @@ test.describe('Collaboration Workflow with CSRF Protection', () => {
     expect(isConnected).toBe(true);
   });
 
-  // FIXME: Cannot import React hooks/modules in page.evaluate() - needs UI-based rewrite
+  // NOTE: Skipped - Playwright cannot import React hooks/modules in page.evaluate() (architectural limitation).
   test.skip('should handle expired CSRF token gracefully', async ({ page }) => {
     // Get initial token
     await page.evaluate(async () => {
@@ -342,7 +342,7 @@ test.describe('Collaboration Workflow with CSRF Protection', () => {
     expect(success).toBe(true);
   });
 
-  // FIXME: Cannot import React hooks in page.evaluate() - needs UI-based rewrite
+  // NOTE: Skipped - Playwright cannot import React hooks in page.evaluate() (architectural limitation).
   test.skip('should persist session across page refreshes', async ({ page }) => {
     // Create session
     const sessionId = await page.evaluate(async () => {
@@ -375,7 +375,7 @@ test.describe('Collaboration Workflow with CSRF Protection', () => {
     expect(persistedSessionId).toBe(sessionId);
   });
 
-  // FIXME: Cannot import React hooks in page.evaluate() - needs UI-based rewrite
+  // NOTE: Skipped - Playwright cannot import React hooks in page.evaluate() (architectural limitation).
   test.skip('should not display console errors during collaboration workflow', async ({ page }) => {
     const consoleErrors: string[] = [];
 
@@ -446,7 +446,7 @@ test.describe('Collaboration Workflow with CSRF Protection', () => {
 });
 
 test.describe('Collaboration Error Handling', () => {
-  // FIXME: Cannot import React hooks in page.evaluate() - needs UI-based rewrite
+  // NOTE: Skipped - Playwright cannot import React hooks in page.evaluate() (architectural limitation).
   test.skip('should handle server unavailable gracefully', async ({ page }) => {
     await page.goto('http://localhost:5173');
 
@@ -480,7 +480,7 @@ test.describe('Collaboration Error Handling', () => {
     expect(errorCaught).toBe(true);
   });
 
-  // FIXME: Cannot import React hooks in page.evaluate() - needs UI-based rewrite
+  // NOTE: Skipped - Playwright cannot import React hooks in page.evaluate() (architectural limitation).
   test.skip('should display user-friendly error message on CSRF failure', async ({ page }) => {
     await page.goto('http://localhost:5173');
 

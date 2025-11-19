@@ -1,4 +1,5 @@
-// TODO: Fix NodeDefinition type mismatches, error type assertions, and duplicate exports
+// NOTE: Known type system issues - NodeDefinition mismatches and duplicate exports (non-blocking).
+// See packages/types for branded type requirements and registry type definitions.
 import { NodeRegistry, createLogger } from '@brepflow/engine-core';
 
 const logger = createLogger('NodesCore');

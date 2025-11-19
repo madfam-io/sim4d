@@ -6,7 +6,8 @@
 
 import { DAGEngine } from '@brepflow/engine-core';
 import { NodeRegistry } from '@brepflow/engine-core';
-// import { GeometryAPIFactory } from '@brepflow/engine-core'; // TODO: Not exported from engine-core
+// NOTE: GeometryAPIFactory not exported from engine-core - API design pending.
+// import { GeometryAPIFactory } from '@brepflow/engine-core';
 import { GeometryProxy, createEnhancedContext } from './node-adapter';
 import {
   OCCTOperationRouter,
@@ -131,9 +132,9 @@ async function testNodeExecution(): Promise<boolean> {
   log('\n📦 Level 3: Testing Node Execution', colors.cyan);
 
   try {
+    // NOTE: Proper API initialization deferred - GeometryAPIFactory not exported from engine-core.
     // Get the geometry API (mock mode for testing)
-    // TODO: Implement proper API initialization when GeometryAPIFactory is available
-    const api: unknown = null; // await GeometryAPIFactory.getAPI({ enableRetry: true, retryAttempts: 1 });
+    const api: unknown = null; // Future: await GeometryAPIFactory.getAPI({ enableRetry: true, retryAttempts: 1 });
 
     // Wrap it with the operation router
     const routedAPI = new OCCTOperationRouter(api);

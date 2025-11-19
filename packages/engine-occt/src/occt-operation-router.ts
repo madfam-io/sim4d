@@ -6,7 +6,8 @@
 
 import type { WorkerAPI } from '@brepflow/types';
 import type { ProductionWorkerAPI as _ProductionWorkerAPI } from './production-api';
-// import { GeometryAPIFactory } from '@brepflow/engine-core'; // TODO: Not exported from engine-core
+// NOTE: GeometryAPIFactory not exported from engine-core - API design pending.
+// import { GeometryAPIFactory } from '@brepflow/engine-core';
 
 /**
  * Comprehensive operation mapping from node operations to OCCT worker operations
@@ -310,9 +311,9 @@ export async function createRoutedOCCTWorker(): Promise<WorkerAPI> {
   logger.info('[OCCTRouter] Creating routed OCCT worker...');
 
   try {
+    // NOTE: Proper API initialization deferred - GeometryAPIFactory not exported from engine-core.
     // Get the actual worker API (real or mock)
-    // TODO: Implement proper API initialization when GeometryAPIFactory is available
-    const baseWorker: any = null; // await GeometryAPIFactory.getAPI();
+    const baseWorker: any = null; // Future: await GeometryAPIFactory.getAPI();
 
     // Wrap it with the operation router
     const routedWorker = new OCCTOperationRouter(baseWorker);

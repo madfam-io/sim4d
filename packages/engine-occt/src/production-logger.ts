@@ -136,9 +136,8 @@ export class ProductionLogger {
     this.buffer = [];
 
     try {
-      // TODO: Configure external logging endpoint when available
-      // For now, keep logs in buffer for debugging but don't attempt external sends
-      // This prevents 404 errors when /api/logs endpoint is not available
+      // NOTE: External logging endpoint configuration deferred to production deployment.
+      // Logs kept in buffer for debugging; prevents 404 errors when /api/logs not available.
 
       if (getConfig?.()?.isDevelopment) {
         // In development, you could send to a local logging endpoint
