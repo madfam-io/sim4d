@@ -351,7 +351,7 @@ export const performanceMonitor = new PerformanceMonitor();
  * Performance decorator for automatic timing
  */
 export function measurePerformance(
-  target: any,
+  target: unknown,
   propertyKey: string,
   descriptor: PropertyDescriptor
 ) {

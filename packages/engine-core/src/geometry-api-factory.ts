@@ -19,7 +19,7 @@ interface LoggerLike {
 const resolveEngineOCCTDistPath = () =>
   path.resolve(process.cwd(), 'packages/engine-occt/dist/index.js');
 
-const requireEngineOCCTSafely = (): any | null => {
+const requireEngineOCCTSafely = (): unknown | null => {
   try {
     return require('@brepflow/engine-occt');
   } catch (primaryError) {
