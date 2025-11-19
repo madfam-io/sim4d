@@ -68,16 +68,17 @@ class BrepFlowLogger {
   }
 
   public error(message: string, error?: Error | unknown, context?: LogContext): void {
-    const errorContext = error instanceof Error
-      ? {
-          ...context,
-          error: error.message,
-          stack: error.stack,
-        }
-      : {
-          ...context,
-          error: String(error),
-        };
+    const errorContext =
+      error instanceof Error
+        ? {
+            ...context,
+            error: error.message,
+            stack: error.stack,
+          }
+        : {
+            ...context,
+            error: String(error),
+          };
     this.log(LogLevel.ERROR, message, errorContext);
   }
 
@@ -86,15 +87,14 @@ class BrepFlowLogger {
       return;
     }
 
-    const timestamp = this.config.enableTimestamps
-      ? `[${new Date().toISOString()}]`
-      : '';
+    const timestamp = this.config.enableTimestamps ? `[${new Date().toISOString()}]` : '';
     const prefix = this.config.prefix ? `[${this.config.prefix}]` : '';
     const levelStr = this.formatLevel(level);
 
     // Sanitize message to prevent log injection attacks
     // Remove control characters and limit line breaks
     const sanitizedMessage = message
+      // eslint-disable-next-line no-control-regex -- Intentional control character removal for security
       .replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/g, '') // Remove control chars
       .replace(/[\r\n]+/g, ' '); // Replace newlines with spaces
 
@@ -107,7 +107,12 @@ class BrepFlowLogger {
     if (context && Object.keys(context).length > 0) {
       try {
         const contextStr = JSON.stringify(context, null, 2);
-        consoleMethod(formattedMessage, contextStr);
+        // Sanitize context string to prevent log injection via object values
+        const sanitizedContextStr = contextStr
+          // eslint-disable-next-line no-control-regex -- Intentional control character removal for security
+          .replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/g, '') // Remove control chars
+          .replace(/[\r\n]+/g, ' '); // Replace newlines with spaces
+        consoleMethod(formattedMessage, sanitizedContextStr);
       } catch {
         // Fallback if JSON.stringify fails (e.g., circular references)
         consoleMethod(formattedMessage, '[Context serialization failed]');
@@ -193,32 +198,19 @@ export class ChildLogger {
   ) {}
 
   public debug(message: string, context?: LogContext): void {
-    this.parent.debug(
-      `[${this.prefix}] ${message}`,
-      { ...this.baseContext, ...context }
-    );
+    this.parent.debug(`[${this.prefix}] ${message}`, { ...this.baseContext, ...context });
   }
 
   public info(message: string, context?: LogContext): void {
-    this.parent.info(
-      `[${this.prefix}] ${message}`,
-      { ...this.baseContext, ...context }
-    );
+    this.parent.info(`[${this.prefix}] ${message}`, { ...this.baseContext, ...context });
   }
 
   public warn(message: string, context?: LogContext): void {
-    this.parent.warn(
-      `[${this.prefix}] ${message}`,
-      { ...this.baseContext, ...context }
-    );
+    this.parent.warn(`[${this.prefix}] ${message}`, { ...this.baseContext, ...context });
   }
 
   public error(message: string, error?: Error | unknown, context?: LogContext): void {
-    this.parent.error(
-      `[${this.prefix}] ${message}`,
-      error,
-      { ...this.baseContext, ...context }
-    );
+    this.parent.error(`[${this.prefix}] ${message}`, error, { ...this.baseContext, ...context });
   }
 }
 
