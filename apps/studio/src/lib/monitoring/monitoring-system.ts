@@ -125,7 +125,10 @@ export class MonitoringSystem {
     } = {}
   ): Promise<T> {
     const startTime = Date.now();
-    const operationId = `${operationName}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    // Use cryptographically secure random generation
+    const randomBytes = crypto.getRandomValues(new Uint8Array(6));
+    const randomStr = Array.from(randomBytes, byte => byte.toString(36)).join('').substring(0, 9);
+    const operationId = `${operationName}_${Date.now()}_${randomStr}`;
 
     // Log operation start
     this.logger.info('Starting monitored operation', {
@@ -537,6 +540,9 @@ export class MonitoringSystem {
    * Generate unique session ID
    */
   private generateSessionId(): string {
-    return `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    // Use cryptographically secure random generation
+    const randomBytes = crypto.getRandomValues(new Uint8Array(6));
+    const randomStr = Array.from(randomBytes, byte => byte.toString(36)).join('').substring(0, 9);
+    return `session_${Date.now()}_${randomStr}`;
   }
 }

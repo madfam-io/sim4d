@@ -85,18 +85,19 @@ export class ProductionLogger {
     const prefix = `[${entry.timestamp}] [${entry.context}]`;
     const message = `${prefix} ${entry.message}`;
 
+    // Use fixed format string to prevent format string injection
     switch (entry.level) {
       case 'error':
-        console.error(message, entry.error || entry.data || '');
+        console.error('%s', message, entry.error || entry.data || '');
         break;
       case 'warn':
-        console.warn(message, entry.data || '');
+        console.warn('%s', message, entry.data || '');
         break;
       case 'info':
-        console.info(message, entry.data || '');
+        console.info('%s', message, entry.data || '');
         break;
       case 'debug':
-        console.debug(message, entry.data || '');
+        console.debug('%s', message, entry.data || '');
         break;
     }
   }

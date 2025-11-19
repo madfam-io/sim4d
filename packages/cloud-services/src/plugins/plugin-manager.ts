@@ -200,8 +200,11 @@ export class PluginManager extends EventEmitter {
       sandbox,
     };
 
+    // Use cryptographically secure random generation
+    const randomBytes = crypto.getRandomValues(new Uint8Array(6));
+    const randomStr = Array.from(randomBytes, byte => byte.toString(36)).join('').substring(0, 9);
     const task: PluginExecutionTask = {
-      id: `exec_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      id: `exec_${Date.now()}_${randomStr}`,
       pluginId,
       functionName,
       args,
@@ -1260,8 +1263,11 @@ export class PluginManager extends EventEmitter {
           const allowedDomains = plugin.manifest.permissions.networkAccess;
 
           const isAllowed = allowedDomains.some((access) => {
-            const domainPattern = access.domain.replace('*', '.*');
-            const regex = new RegExp(`^${domainPattern}$`);
+            // Escape regex special characters except * which we want to treat as wildcard
+            const escapedDomain = access.domain
+              .replace(/[.+?^${}()|[\]\\]/g, '\\$&')
+              .replace(/\*/g, '.*');
+            const regex = new RegExp(`^${escapedDomain}$`);
             return regex.test(urlObj.hostname);
           });
 
