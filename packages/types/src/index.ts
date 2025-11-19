@@ -404,7 +404,11 @@ export interface SocketSpec {
 }
 
 // Node types
-export interface NodeInstance<I = Record<string, unknown>, O = Record<string, unknown>, P = Record<string, unknown>> {
+export interface NodeInstance<
+  I = Record<string, unknown>,
+  O = Record<string, unknown>,
+  P = Record<string, unknown>,
+> {
   id: NodeId;
   type: string;
   position?: { x: number; y: number };
@@ -415,7 +419,11 @@ export interface NodeInstance<I = Record<string, unknown>, O = Record<string, un
   dirty?: boolean;
 }
 
-export interface NodeDefinition<I = Record<string, unknown>, O = Record<string, unknown>, P = Record<string, unknown>> {
+export interface NodeDefinition<
+  I = Record<string, unknown>,
+  O = Record<string, unknown>,
+  P = Record<string, unknown>,
+> {
   id: string;
   type: string; // Node type identifier (same as id for compatibility)
   category: string;
@@ -694,6 +702,66 @@ export interface InterferenceData {
   volume: number;
   location: Vec3;
   severity: 'warning' | 'error';
+}
+
+// Finite Element Analysis (FEA) types
+
+// FE Mesh handle
+export interface FEMeshHandle {
+  id: HandleId;
+  elementType: 'tetrahedral' | 'hexahedral' | 'mixed';
+  elementSize: number;
+  nodeCount: number;
+  elementCount: number;
+  quality: number;
+  hash?: string;
+}
+
+// FE Material definition
+export interface FEMaterialHandle {
+  id: HandleId;
+  name: string;
+  density: number; // kg/m³
+  youngsModulus: number; // Pa
+  poissonsRatio: number; // dimensionless
+  yieldStrength?: number; // Pa
+  thermalConductivity?: number; // W/(m·K)
+  specificHeat?: number; // J/(kg·K)
+  hash?: string;
+}
+
+// FE Boundary condition
+export interface FEBoundaryHandle {
+  id: HandleId;
+  type: 'fixed' | 'displacement' | 'velocity' | 'force' | 'pressure' | 'temperature';
+  faces?: HandleId[];
+  value?: Vec3 | number;
+  hash?: string;
+}
+
+// FE Load
+export interface FELoadHandle {
+  id: HandleId;
+  type: 'force' | 'pressure' | 'thermal' | 'gravity';
+  magnitude: number;
+  direction?: Vec3;
+  faces?: HandleId[];
+  hash?: string;
+}
+
+// FE Analysis results
+export interface FEResultsHandle {
+  id: HandleId;
+  analysisType: 'static' | 'modal' | 'thermal' | 'dynamic';
+  displacement?: Float32Array;
+  stress?: Float32Array;
+  strain?: Float32Array;
+  temperature?: Float32Array;
+  modalFrequencies?: number[];
+  maxDisplacement?: number;
+  maxStress?: number;
+  safetyFactor?: number;
+  hash?: string;
 }
 
 // Mesh data

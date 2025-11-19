@@ -1,4 +1,47 @@
-import type { NodeDefinition, ShapeHandle } from '@brepflow/types';
+import type {
+  NodeDefinition,
+  ShapeHandle,
+  FEMeshHandle,
+  FEMaterialHandle,
+  FEBoundaryHandle,
+  FELoadHandle,
+  FEResultsHandle,
+} from '@brepflow/types';
+
+// Additional advanced simulation types (temporary - could be moved to @brepflow/types)
+interface MeshQualityMetrics {
+  minQuality: number;
+  maxQuality: number;
+  averageQuality: number;
+  worstElements: number[];
+}
+
+interface ContactPairHandle {
+  id: string;
+  surface1: ShapeHandle;
+  surface2: ShapeHandle;
+  type: 'bonded' | 'sliding' | 'separating';
+  friction?: number;
+}
+
+interface ConvergenceData {
+  iteration: number;
+  residual: number;
+  converged: boolean;
+  tolerance: number;
+}
+
+interface FatigueLifeData {
+  cyclesEstimate: number;
+  damageIndex: number;
+  criticalLocations: Float32Array;
+}
+
+interface PlotHandle {
+  id: string;
+  type: 'contour' | 'probe' | 'vector' | 'streamline';
+  data: Float32Array | number[];
+}
 
 /**
  * Advanced Mesh Generation Node
@@ -6,7 +49,7 @@ import type { NodeDefinition, ShapeHandle } from '@brepflow/types';
  */
 export const AdvancedMeshNode: NodeDefinition<
   { shape: ShapeHandle },
-  { mesh: any; quality: any },
+  { mesh: FEMeshHandle; quality: MeshQualityMetrics },
   {
     elementType: 'tet4' | 'tet10' | 'hex8' | 'hex20' | 'wedge6' | 'wedge15';
     meshSize: number;
@@ -76,8 +119,8 @@ export const AdvancedMeshNode: NodeDefinition<
  * Locally refines mesh in critical areas
  */
 export const MeshRefinementZoneNode: NodeDefinition<
-  { mesh: any; region?: ShapeHandle },
-  { mesh: any },
+  { mesh: FEMeshHandle; region?: ShapeHandle },
+  { mesh: FEMeshHandle },
   {
     refinementLevel: number;
     transitionType: 'sharp' | 'smooth';
@@ -143,7 +186,7 @@ export const MeshRefinementZoneNode: NodeDefinition<
  */
 export const ContactSurfaceNode: NodeDefinition<
   { masterSurface: ShapeHandle; slaveSurface: ShapeHandle },
-  { contactPair: any },
+  { contactPair: ContactPairHandle },
   {
     contactType: 'bonded' | 'sliding' | 'frictionless' | 'rough';
     friction: number;
@@ -197,7 +240,7 @@ export const ContactSurfaceNode: NodeDefinition<
  */
 export const AdvancedMaterialNode: NodeDefinition<
   Record<string, never>,
-  { material: any },
+  { material: FEMaterialHandle },
   {
     modelType: 'elastic' | 'plastic' | 'hyperelastic' | 'viscoelastic' | 'composite';
     youngModulus: number;
@@ -262,8 +305,8 @@ export const AdvancedMaterialNode: NodeDefinition<
  * Perform nonlinear FEA simulation
  */
 export const NonlinearAnalysisNode: NodeDefinition<
-  { mesh: any; material: any; boundaries: unknown[]; loads: unknown[] },
-  { results: any; convergence: any },
+  { mesh: FEMeshHandle; material: FEMaterialHandle; boundaries: unknown[]; loads: unknown[] },
+  { results: FEResultsHandle; convergence: ConvergenceData },
   {
     analysisType: 'geometric' | 'material' | 'both';
     solver: 'newton-raphson' | 'arc-length' | 'explicit';
@@ -328,7 +371,7 @@ export const NonlinearAnalysisNode: NodeDefinition<
  * Linear buckling eigenvalue analysis
  */
 export const BucklingAnalysisNode: NodeDefinition<
-  { mesh: any; material: any; boundaries: unknown[]; loads: unknown[] },
+  { mesh: FEMeshHandle; material: FEMaterialHandle; boundaries: unknown[]; loads: unknown[] },
   { bucklingFactors: number[]; modes: unknown[] },
   { numberOfModes: number; preStress: boolean }
 > = {
@@ -377,8 +420,8 @@ export const BucklingAnalysisNode: NodeDefinition<
  * Predict fatigue life under cyclic loading
  */
 export const FatigueAnalysisNode: NodeDefinition<
-  { stressResults: any; material: any },
-  { life: any; damage: any; safetyFactor: number },
+  { stressResults: FEResultsHandle; material: FEMaterialHandle },
+  { life: FatigueLifeData; damage: FatigueLifeData; safetyFactor: number },
   {
     method: 'stress-life' | 'strain-life' | 'lefm';
     loadType: 'constant' | 'variable' | 'random';
@@ -444,8 +487,8 @@ export const FatigueAnalysisNode: NodeDefinition<
  * Extract and visualize simulation results
  */
 export const ResultsPostProcessingNode: NodeDefinition<
-  { results: any },
-  { contourPlot: any; probePlot: any; maxValue: number; minValue: number },
+  { results: FEResultsHandle },
+  { contourPlot: PlotHandle; probePlot: PlotHandle; maxValue: number; minValue: number },
   {
     resultType: 'stress' | 'strain' | 'displacement' | 'temperature' | 'pressure';
     component: 'magnitude' | 'x' | 'y' | 'z' | 'von-mises' | 'principal';
