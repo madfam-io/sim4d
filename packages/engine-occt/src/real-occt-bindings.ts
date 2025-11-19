@@ -13,9 +13,10 @@ import type {
   HandleId as _HandleId,
 } from '@brepflow/types';
 import { createHandleId } from '@brepflow/types';
+import type { WASMModule, EmscriptenVector } from './occt-bindings';
 
 // Declare OCCT module interface - matches Emscripten output
-declare const Module: any;
+declare const Module: WASMModule;
 
 interface OCCTHandle {
   $$: { ptr: number };
@@ -43,7 +44,7 @@ interface _OCCTBuilder extends OCCTHandle {
   MakePrism(profile: OCCTShape, vec: OCCTVec3): OCCTShape;
   MakeRevolution(profile: OCCTShape, axis: OCCTVec3, angle: number): OCCTShape;
   MakePipe(profile: OCCTShape, path: OCCTShape): OCCTShape;
-  MakeLoft(profiles: any, solid: boolean): OCCTShape;
+  MakeLoft(profiles: EmscriptenVector<OCCTShape>, solid: boolean): OCCTShape;
 }
 
 interface _OCCTBoolean extends OCCTHandle {
@@ -84,7 +85,7 @@ interface PatternResult {
  * Real OCCT implementation using WebAssembly
  */
 export class RealOCCT implements WorkerAPI {
-  private occt: any;
+  private occt: WASMModule | null = null;
   private shapes = new Map<string, OCCTShape>();
   private assemblies = new Map<string, unknown>();
   private nextId = 1;
