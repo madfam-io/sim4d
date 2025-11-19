@@ -71,9 +71,20 @@ export interface PaginationOptions {
   sortOrder?: 'ASC' | 'DESC';
 }
 
+interface DatabaseConnection {
+  query: (sql: string, params?: unknown[]) => Promise<unknown[]>;
+  execute: (sql: string, params?: unknown[]) => Promise<unknown>;
+  transaction: (callback: () => Promise<void>) => Promise<void>;
+  close: () => Promise<void>;
+}
+
+interface DatabaseRow {
+  [key: string]: unknown;
+}
+
 export class CloudDatabaseService extends EventEmitter {
   private config: DatabaseConfig;
-  private connection?: any;
+  private connection?: DatabaseConnection;
   private queryCache = new Map<string, { data: unknown; expires: number }>();
   private activeTransactions = new Map<string, DatabaseTransaction>();
 
@@ -565,7 +576,11 @@ export class CloudDatabaseService extends EventEmitter {
   /**
    * Generic Query Interface
    */
-  private async query(sql: string, params: unknown[] = [], options: QueryOptions = {}): Promise<unknown[]> {
+  private async query(
+    sql: string,
+    params: unknown[] = [],
+    options: QueryOptions = {}
+  ): Promise<unknown[]> {
     const cacheKey = options.cache ? `${sql}:${JSON.stringify(params)}` : null;
 
     // Check cache
@@ -607,53 +622,53 @@ export class CloudDatabaseService extends EventEmitter {
   /**
    * Parsing Utilities
    */
-  private parseUser(row: any): User {
+  private parseUser(row: DatabaseRow): User {
     return {
-      id: row.id,
-      email: row.email,
-      name: row.name,
-      avatar: row.avatar,
-      isEmailVerified: row.is_email_verified,
-      preferences: JSON.parse(row.preferences),
-      subscription: JSON.parse(row.subscription),
-      teams: JSON.parse(row.teams),
-      createdAt: row.created_at,
-      lastLoginAt: row.last_login_at,
+      id: row.id as string,
+      email: row.email as string,
+      name: row.name as string,
+      avatar: row.avatar as string | undefined,
+      isEmailVerified: row.is_email_verified as boolean,
+      preferences: JSON.parse(row.preferences as string),
+      subscription: JSON.parse(row.subscription as string),
+      teams: JSON.parse(row.teams as string),
+      createdAt: row.created_at as Date,
+      lastLoginAt: row.last_login_at as Date | undefined,
     };
   }
 
-  private parseProject(row: any): ProjectMetadata {
+  private parseProject(row: DatabaseRow): ProjectMetadata {
     return {
-      id: row.id,
-      name: row.name,
-      description: row.description,
-      ownerId: row.owner_id,
-      teamId: row.team_id,
-      visibility: row.visibility,
-      collaborators: JSON.parse(row.collaborators),
-      tags: JSON.parse(row.tags),
-      thumbnail: row.thumbnail,
-      lastModified: row.last_modified,
-      size: row.size,
-      nodeCount: row.node_count,
-      cloudMetadata: JSON.parse(row.cloud_metadata),
+      id: row.id as ProjectId,
+      name: row.name as string,
+      description: row.description as string | undefined,
+      ownerId: row.owner_id as UserId,
+      teamId: row.team_id as TeamId | undefined,
+      visibility: row.visibility as 'private' | 'team' | 'public',
+      collaborators: JSON.parse(row.collaborators as string),
+      tags: JSON.parse(row.tags as string),
+      thumbnail: row.thumbnail as string | undefined,
+      lastModified: row.last_modified as Date,
+      size: row.size as number,
+      nodeCount: row.node_count as number,
+      cloudMetadata: JSON.parse(row.cloud_metadata as string),
     };
   }
 
-  private parseOperation(row: any): CloudOperation {
+  private parseOperation(row: DatabaseRow): CloudOperation {
     return {
-      id: row.id,
-      type: row.type,
-      data: JSON.parse(row.data),
-      deviceId: row.device_id,
-      userId: row.user_id,
-      timestamp: row.timestamp,
-      versionVector: JSON.parse(row.version_vector),
-      dependencies: JSON.parse(row.dependencies),
+      id: row.id as string,
+      type: row.type as string,
+      data: JSON.parse(row.data as string),
+      deviceId: row.device_id as string,
+      userId: row.user_id as UserId,
+      timestamp: row.timestamp as number,
+      versionVector: JSON.parse(row.version_vector as string),
+      dependencies: JSON.parse(row.dependencies as string),
     };
   }
 
-  private parseShareLink(row: any): ShareLink {
+  private parseShareLink(row: DatabaseRow): ShareLink {
     return {
       id: row.id,
       projectId: row.project_id,
@@ -669,22 +684,22 @@ export class CloudDatabaseService extends EventEmitter {
     };
   }
 
-  private parsePlugin(row: any): Plugin {
+  private parsePlugin(row: DatabaseRow): Plugin {
     return {
-      id: row.id,
-      name: row.name,
-      description: row.description,
-      version: row.version,
-      author: JSON.parse(row.author),
-      category: row.category,
-      tags: JSON.parse(row.tags),
-      manifest: JSON.parse(row.manifest),
-      bundle: JSON.parse(row.bundle),
-      marketplace: JSON.parse(row.marketplace),
-      security: JSON.parse(row.security),
-      stats: JSON.parse(row.stats),
-      createdAt: row.created_at,
-      updatedAt: row.updated_at,
+      id: row.id as PluginId,
+      name: row.name as string,
+      description: row.description as string,
+      version: row.version as string,
+      author: JSON.parse(row.author as string),
+      category: row.category as import('@brepflow/cloud-api/src/types').PluginCategory,
+      tags: JSON.parse(row.tags as string),
+      manifest: JSON.parse(row.manifest as string),
+      bundle: JSON.parse(row.bundle as string),
+      marketplace: JSON.parse(row.marketplace as string),
+      security: JSON.parse(row.security as string),
+      stats: JSON.parse(row.stats as string),
+      createdAt: row.created_at as Date,
+      updatedAt: row.updated_at as Date,
     };
   }
 
@@ -724,7 +739,11 @@ export class CloudDatabaseService extends EventEmitter {
     throw new Error('Database migration implementation required');
   }
 
-  private async executeQuery(sql: string, params: unknown[], options: QueryOptions): Promise<unknown[]> {
+  private async executeQuery(
+    sql: string,
+    params: unknown[],
+    options: QueryOptions
+  ): Promise<unknown[]> {
     throw new Error('Database query execution implementation required');
   }
 }

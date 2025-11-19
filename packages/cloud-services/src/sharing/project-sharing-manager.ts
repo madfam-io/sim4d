@@ -23,6 +23,7 @@ const isSharingEnabled = (): boolean => {
   if (
     typeof process !== 'undefined' &&
     process.env &&
+    // eslint-disable-next-line no-secrets/no-secrets -- Environment variable name, not a secret
     'BREPFLOW_ENABLE_PROJECT_SHARING' in process.env
   ) {
     return process.env.BREPFLOW_ENABLE_PROJECT_SHARING === 'true';
@@ -30,8 +31,10 @@ const isSharingEnabled = (): boolean => {
 
   if (
     typeof globalThis !== 'undefined' &&
+    // eslint-disable-next-line no-secrets/no-secrets -- Global variable name, not a secret
     '__BREPFLOW_ENABLE_PROJECT_SHARING__' in (globalThis as unknown)
   ) {
+    // eslint-disable-next-line no-secrets/no-secrets -- Global variable name, not a secret
     return Boolean((globalThis as unknown).__BREPFLOW_ENABLE_PROJECT_SHARING__);
   }
 
@@ -80,6 +83,7 @@ export class ProjectSharingManager extends EventEmitter {
     super();
     if (!isSharingEnabled()) {
       throw new Error(
+        // eslint-disable-next-line no-secrets/no-secrets -- Error message with env variable names
         'Project sharing is disabled. Set BREPFLOW_ENABLE_PROJECT_SHARING=true (or globalThis.__BREPFLOW_ENABLE_PROJECT_SHARING__ = true) to enable this experimental feature.'
       );
     }
@@ -665,7 +669,10 @@ export class ProjectSharingManager extends EventEmitter {
     return this.apiClient.getCollaborators(projectId);
   }
 
-  private async logShareAccess(shareLink: ShareLink, accessInfo: any): Promise<void> {
+  private async logShareAccess(
+    shareLink: ShareLink,
+    accessInfo: { ipAddress: string; userAgent: string }
+  ): Promise<void> {
     await this.apiClient.logShareAccess(shareLink.id, {
       ...accessInfo,
       accessedAt: new Date(),

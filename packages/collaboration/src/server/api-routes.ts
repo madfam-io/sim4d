@@ -3,18 +3,19 @@
  * Express/HTTP API endpoints for collaboration server
  */
 
-import type { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction, Application } from 'express';
 import type { CollaborationServer } from './collaboration-server';
 import * as crypto from 'crypto';
 
 // Type augmentation for express-session
 // This allows req.session to be used when express-session middleware is installed
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace -- Required for Express type augmentation
   namespace Express {
     interface Request {
       session?: {
         id?: string;
-        [key: string]: any;
+        [key: string]: unknown;
       };
     }
   }
@@ -64,7 +65,7 @@ function defaultSessionIdGenerator(): string {
  * ```
  */
 export function setupAPIRoutes(
-  app: any, // Express application
+  app: Application,
   collaborationServer: CollaborationServer,
   options: APIRoutesOptions = {}
 ): void {

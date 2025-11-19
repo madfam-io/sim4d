@@ -835,10 +835,12 @@ export class AuthenticationService extends EventEmitter {
   private async findUserById(userId: UserId): Promise<unknown> {
     return null;
   }
-  private async createUser(userData: any): Promise<User> {
+  private async createUser(
+    userData: Omit<User, 'id' | 'createdAt' | 'lastLoginAt'>
+  ): Promise<User> {
     throw new Error('Not implemented');
   }
-  private async updateUser(userId: UserId, updates: any): Promise<void> {}
+  private async updateUser(userId: UserId, updates: Partial<User>): Promise<void> {}
   private async updateLastLogin(userId: UserId, ipAddress: string): Promise<void> {}
   private async createSession(
     userId: UserId,

@@ -5,7 +5,7 @@
  * Reuses CLI export logic for STEP/STL generation
  */
 
-import type { GraphInstance, ExportFormat } from '@brepflow/types';
+import type { GraphInstance, ExportFormat, WorkerAPI } from '@brepflow/types';
 import { GraphManager, DAGEngine } from '@brepflow/engine-core';
 import { GeometryAPIFactory } from '@brepflow/engine-core/geometry-api-factory';
 
@@ -132,7 +132,11 @@ function unwrapOperationResult<T>(value: unknown): {
 /**
  * Invoke geometry operation with error handling
  */
-async function invokeOperation<T>(geometryAPI: any, operation: string, params: unknown): Promise<T> {
+async function invokeOperation<T>(
+  geometryAPI: WorkerAPI,
+  operation: string,
+  params: unknown
+): Promise<T> {
   const response = await geometryAPI.invoke(operation, params);
   const { success, result, error } = unwrapOperationResult<T>(response);
 

@@ -547,6 +547,7 @@ export class PluginRegistry extends EventEmitter {
 
   private validateVersion(version: string): void {
     if (this.config.versioning.semanticVersioningRequired) {
+      // eslint-disable-next-line security/detect-unsafe-regex -- Simple semver regex, not vulnerable to ReDoS
       if (!/^\d+\.\d+\.\d+(-[a-zA-Z0-9-]+)?$/.test(version)) {
         throw new Error('Invalid version format. Must follow semantic versioning (x.y.z).');
       }
@@ -567,7 +568,9 @@ export class PluginRegistry extends EventEmitter {
     }
   }
 
-  private async validatePermissions(permissions: any): Promise<void> {
+  private async validatePermissions(
+    permissions: import('@brepflow/cloud-api/src/types').PluginPermissions
+  ): Promise<void> {
     // Validate plugin permissions
     if (permissions.networkAccess && permissions.networkAccess.length > 100) {
       throw new Error('Too many network access permissions');

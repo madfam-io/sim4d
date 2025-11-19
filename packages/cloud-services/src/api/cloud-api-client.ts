@@ -51,7 +51,7 @@ export class CloudApiClient {
    * Authentication
    */
   async authenticate(credentials: { email: string; password: string }): Promise<string> {
-    const response = await this.request<{ token: string; user: any }>('POST', '/auth/login', {
+    const response = await this.request<{ token: string; user: User }>('POST', '/auth/login', {
       data: credentials,
       cache: false,
     });
@@ -349,10 +349,10 @@ export class CloudApiClient {
   /**
    * Generic HTTP Request Handler
    */
-  private async request<T = any>(
+  private async request<T = unknown>(
     method: string,
     path: string,
-    options: RequestOptions & { data?: any } = {}
+    options: RequestOptions & { data?: unknown } = {}
   ): Promise<ApiResponse<T>> {
     const url = `${this.config.baseUrl}${path}`;
     const cacheKey = `${method}:${path}`;

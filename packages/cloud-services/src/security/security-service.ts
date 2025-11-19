@@ -454,6 +454,7 @@ export class SecurityService extends EventEmitter {
       { pattern: /\b\d{3}-\d{2}-\d{4}\b/g, type: 'ssn' },
       { pattern: /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g, type: 'email' },
       {
+        // eslint-disable-next-line security/detect-unsafe-regex -- Phone regex is safe, false positive
         pattern: /\b(?:\+?1[-.\s]?)?\(?[0-9]{3}\)?[-.\s]?[0-9]{3}[-.\s]?[0-9]{4}\b/g,
         type: 'phone',
       },
@@ -869,7 +870,10 @@ export class SecurityService extends EventEmitter {
     return 20;
   }
   private async analyzeActivityAnomaly(userId: UserId, activity: AuditLog): Promise<void> {}
-  private async performDataClassification(data: unknown, context: unknown): Promise<DataClassification> {
+  private async performDataClassification(
+    data: unknown,
+    context: unknown
+  ): Promise<DataClassification> {
     return {
       level: 'internal',
       categories: ['user_data'],
@@ -886,7 +890,10 @@ export class SecurityService extends EventEmitter {
     return {};
   }
   private async createSecurityIncident(threat: SecurityThreat): Promise<void> {}
-  private async quarantineTarget(target: any): Promise<void> {}
+  private async quarantineTarget(target: {
+    type: 'user' | 'project' | 'plugin' | 'system';
+    identifier: string;
+  }): Promise<void> {}
   private async blockIpAddress(ipAddress: string): Promise<void> {}
   private async requireMfaForUser(userId: string): Promise<void> {}
   private async revokeUserSessions(userId: string): Promise<void> {}
@@ -896,10 +903,13 @@ export class SecurityService extends EventEmitter {
   private async getComplianceRequirements(standard: string): Promise<unknown[]> {
     return [];
   }
-  private getAuditLogsForPeriod(period: any): AuditLog[] {
+  private getAuditLogsForPeriod(period: { start: Date; end: Date }): AuditLog[] {
     return [];
   }
-  private async assessCompliance(requirement: any, auditData: AuditLog[]): Promise<unknown> {
+  private async assessCompliance(
+    requirement: { name: string; criteria: string[] },
+    auditData: AuditLog[]
+  ): Promise<unknown> {
     return {};
   }
   private async generateComplianceRecommendations(requirements: unknown[]): Promise<string[]> {

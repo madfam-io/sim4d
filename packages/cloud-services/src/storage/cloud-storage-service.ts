@@ -296,7 +296,10 @@ export class CloudStorageService extends EventEmitter {
           backups.push({
             backupId: manifest.backupId,
             createdAt: new Date(manifest.createdAt),
-            size: manifest.files.reduce((total: number, file: any) => total + file.size, 0),
+            size: manifest.files.reduce(
+              (total: number, file: { size: number }) => total + file.size,
+              0
+            ),
             fileCount: manifest.files.length,
           });
         } catch (error) {

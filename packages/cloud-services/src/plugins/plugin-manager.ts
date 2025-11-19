@@ -337,8 +337,8 @@ export class PluginManager extends EventEmitter {
   private async executePluginTask(task: PluginExecutionTask): Promise<PluginExecutionResult> {
     const startTime = Date.now();
     const logs: PluginLogEntry[] = [];
-    let memoryUsed = 0;
-    let networkRequests = 0;
+    const memoryUsed = 0;
+    const networkRequests = 0;
     let errors = 0;
 
     try {
