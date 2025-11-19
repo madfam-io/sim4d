@@ -82,41 +82,23 @@ export class IsolatedVMExecutor implements ScriptExecutor {
       }
 
       // Execute with timeout and memory limits
-      let scriptResult;
-      try {
-        scriptResult = await this.executeWithLimits(
-          compiledScript,
-          isolateContext,
-          permissions.timeoutMS
-        );
-      } catch (error) {
-        throw new Error(`Script execution failed: ${(error as Error).message}`);
-      }
+      const scriptResult = await this.executeWithLimits(
+        compiledScript,
+        isolateContext,
+        permissions.timeoutMS
+      );
 
       // Release the script result reference if it exists
       // (the script's return value is a Reference that needs cleanup)
-      try {
-        if (scriptResult && typeof scriptResult.release === 'function') {
-          scriptResult.release();
-        }
-      } catch (error) {
-        throw new Error(`Script result cleanup failed: ${(error as Error).message}`);
+      if (scriptResult && typeof scriptResult.release === 'function') {
+        scriptResult.release();
       }
 
       // Extract outputs from execution result
-      let outputs;
-      try {
-        outputs = await this.extractOutputs(isolateContext);
-      } catch (error) {
-        throw new Error(`Output extraction failed: ${(error as Error).message}`);
-      }
+      const outputs = await this.extractOutputs(isolateContext);
 
       // Extract logs from isolate
-      try {
-        await this.extractLogs(isolateContext, logs, context.runtime.nodeId);
-      } catch (error) {
-        throw new Error(`Log extraction failed: ${(error as Error).message}`);
-      }
+      await this.extractLogs(isolateContext, logs, context.runtime.nodeId);
 
       return {
         success: true,
@@ -162,7 +144,14 @@ export class IsolatedVMExecutor implements ScriptExecutor {
 
     // Security analysis
     const securityIssues = this.analyzeSecurityConcerns(script);
-    warnings.push(...securityIssues);
+    // Separate errors from warnings based on severity
+    securityIssues.forEach((issue) => {
+      if (issue.severity === 'error') {
+        errors.push(issue);
+      } else {
+        warnings.push(issue);
+      }
+    });
 
     // Syntax validation using isolate (safe - no execution)
     let isolate: ivm.Isolate | null = null;
@@ -489,6 +478,36 @@ async function evaluate(ctx, inputs, params) {
         }
         return { x, y, z };
       };
+
+      // Define Node.js globals for security (prevents ReferenceError while blocking access)
+      globalThis.global = undefined;
+      // process must be an object (not undefined) to prevent errors when accessed with .env, .cwd(), etc.
+      // but it should be empty and frozen to prevent any actual access
+      globalThis.process = Object.freeze({});
+      globalThis.require = undefined;
+
+      // Implement safe setTimeout for async operations
+      // Note: This is a simplified implementation that executes immediately
+      // Real timing is not supported in isolated-vm, but this allows Promise-based code to work
+      globalThis.setTimeout = function(callback, delay) {
+        if (typeof callback !== 'function') {
+          throw new Error('Callback must be a function');
+        }
+        // Execute callback asynchronously (but immediately in the microtask queue)
+        // This allows Promise-based code using setTimeout to work
+        Promise.resolve().then(() => {
+          try {
+            callback();
+          } catch (e) {
+            // Timer errors don't fail the script
+          }
+        });
+        return 1; // Return a dummy timer ID
+      };
+
+      globalThis.clearTimeout = function(timerId) {
+        // No-op since timers execute immediately
+      };
     `);
   }
 
@@ -529,11 +548,9 @@ async function evaluate(ctx, inputs, params) {
 
       return undefined;
     } catch (error: any) {
-      if (error.message?.includes('timeout')) {
-        throw new ScriptExecutionError(
-          `Script execution timed out after ${timeout}ms`,
-          '' as any // NodeId will be set by caller
-        );
+      if (error.message?.includes('timeout') || error.message?.includes('timed out')) {
+        // Create consistent timeout error message
+        throw new ScriptExecutionError(`Script execution timeout after ${timeout}ms`, '' as any);
       }
 
       // If the error is about non-transferable values, it's because the script
@@ -642,7 +659,13 @@ async function evaluate(ctx, inputs, params) {
         });
       }
 
-      if (line.includes('__proto__') || line.includes('constructor.prototype')) {
+      if (
+        line.includes('__proto__') ||
+        line.includes('constructor.prototype') ||
+        line.includes('Object.prototype') ||
+        line.includes('.prototype =') ||
+        line.includes('.constructor(')
+      ) {
         warnings.push({
           line: index + 1,
           column: 1,
@@ -718,8 +741,16 @@ async function evaluate(ctx, inputs, params) {
     message: string,
     nodeId: string
   ): void {
-    // SECURITY: Limit message length and sanitize
-    const sanitized = String(message).substring(0, 1000);
+    // SECURITY: Limit message length and sanitize HTML
+    let sanitized = String(message).substring(0, 1000);
+
+    // Escape HTML characters to prevent XSS in logs
+    sanitized = sanitized
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#x27;');
 
     logs.push({
       timestamp: Date.now(),
