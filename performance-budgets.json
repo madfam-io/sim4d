@@ -1,0 +1,309 @@
+{
+  "$schema": "https://json.schemastore.org/performance-budget.json",
+  "description": "Performance budgets for BrepFlow CAD application based on production targets from audit",
+  "version": "1.0.0",
+  "budgets": [
+    {
+      "resourceSizes": [
+        {
+          "resourceType": "script",
+          "budget": 500
+        },
+        {
+          "resourceType": "total",
+          "budget": 2000
+        }
+      ],
+      "resourceCounts": [
+        {
+          "resourceType": "script",
+          "budget": 20
+        },
+        {
+          "resourceType": "stylesheet",
+          "budget": 10
+        }
+      ],
+      "timings": [
+        {
+          "metric": "interactive",
+          "budget": 3000,
+          "tolerance": 200
+        },
+        {
+          "metric": "first-contentful-paint",
+          "budget": 1500,
+          "tolerance": 100
+        },
+        {
+          "metric": "largest-contentful-paint",
+          "budget": 2500,
+          "tolerance": 150
+        },
+        {
+          "metric": "total-blocking-time",
+          "budget": 300,
+          "tolerance": 50
+        },
+        {
+          "metric": "cumulative-layout-shift",
+          "budget": 0.1,
+          "tolerance": 0.02
+        }
+      ]
+    }
+  ],
+  "runtimeBudgets": {
+    "appLoad": {
+      "coldStart": {
+        "target": 3000,
+        "warning": 2500,
+        "critical": 3500,
+        "description": "App cold load time (ms)"
+      },
+      "hotReload": {
+        "target": 500,
+        "warning": 400,
+        "critical": 700,
+        "description": "Hot module reload time (ms)"
+      },
+      "wasmInit": {
+        "target": 800,
+        "warning": 600,
+        "critical": 1200,
+        "description": "WASM initialization time (ms)"
+      }
+    },
+    "dagEvaluation": {
+      "perNode": {
+        "p50": {
+          "target": 50,
+          "warning": 75,
+          "critical": 100,
+          "description": "Median node evaluation time (ms)"
+        },
+        "p95": {
+          "target": 500,
+          "warning": 1000,
+          "critical": 1500,
+          "description": "95th percentile node evaluation time (ms)"
+        },
+        "p99": {
+          "target": 1000,
+          "warning": 1500,
+          "critical": 2000,
+          "description": "99th percentile node evaluation time (ms)"
+        }
+      },
+      "totalGraph": {
+        "small": {
+          "target": 500,
+          "warning": 750,
+          "critical": 1000,
+          "description": "Total graph evaluation for <10 nodes (ms)"
+        },
+        "medium": {
+          "target": 2000,
+          "warning": 3000,
+          "critical": 5000,
+          "description": "Total graph evaluation for 10-50 nodes (ms)"
+        },
+        "large": {
+          "target": 5000,
+          "warning": 7500,
+          "critical": 10000,
+          "description": "Total graph evaluation for 50+ nodes (ms)"
+        }
+      }
+    },
+    "geometryOperations": {
+      "booleans": {
+        "simple": {
+          "target": 100,
+          "warning": 200,
+          "critical": 500,
+          "description": "Simple boolean operations <5k faces (ms)"
+        },
+        "complex": {
+          "target": 500,
+          "warning": 750,
+          "critical": 1000,
+          "description": "Complex boolean operations 5k-50k faces (ms)"
+        },
+        "p95": {
+          "target": 1000,
+          "warning": 1500,
+          "critical": 2000,
+          "description": "95th percentile boolean operation time (ms)"
+        }
+      },
+      "brepOperations": {
+        "fillet": {
+          "target": 200,
+          "warning": 400,
+          "critical": 800,
+          "description": "Fillet operations (ms)"
+        },
+        "loft": {
+          "target": 300,
+          "warning": 500,
+          "critical": 1000,
+          "description": "Loft operations (ms)"
+        },
+        "sweep": {
+          "target": 250,
+          "warning": 400,
+          "critical": 800,
+          "description": "Sweep operations (ms)"
+        }
+      },
+      "meshGeneration": {
+        "simple": {
+          "target": 50,
+          "warning": 100,
+          "critical": 200,
+          "description": "Mesh generation <10k triangles (ms)"
+        },
+        "complex": {
+          "target": 200,
+          "warning": 400,
+          "critical": 800,
+          "description": "Mesh generation 10k-100k triangles (ms)"
+        }
+      }
+    },
+    "viewport": {
+      "fps": {
+        "target": 60,
+        "warning": 45,
+        "critical": 30,
+        "description": "Frames per second"
+      },
+      "frameTime": {
+        "target": 16.67,
+        "warning": 22.22,
+        "critical": 33.33,
+        "description": "Frame time (ms) - inverse of FPS"
+      },
+      "triangleCount": {
+        "comfortable": 2000000,
+        "warning": 3000000,
+        "critical": 5000000,
+        "description": "Total triangle count in scene"
+      },
+      "drawCalls": {
+        "target": 100,
+        "warning": 200,
+        "critical": 500,
+        "description": "Draw calls per frame"
+      },
+      "renderTime": {
+        "target": 10,
+        "warning": 13,
+        "critical": 16,
+        "description": "Render time per frame (ms)"
+      }
+    },
+    "memory": {
+      "heapUsage": {
+        "comfortable": 1000,
+        "warning": 1500,
+        "critical": 2000,
+        "description": "JavaScript heap usage (MB)"
+      },
+      "wasmMemory": {
+        "comfortable": 500,
+        "warning": 750,
+        "critical": 1000,
+        "description": "WASM memory usage (MB)"
+      },
+      "totalPerTab": {
+        "comfortable": 1500,
+        "warning": 1800,
+        "critical": 2000,
+        "description": "Total memory per browser tab (MB)"
+      },
+      "workerMemory": {
+        "comfortable": 300,
+        "warning": 500,
+        "critical": 750,
+        "description": "Worker thread memory (MB)"
+      }
+    },
+    "cache": {
+      "hitRate": {
+        "target": 80,
+        "warning": 60,
+        "critical": 40,
+        "description": "Cache hit rate (%)"
+      },
+      "evictionRate": {
+        "target": 5,
+        "warning": 10,
+        "critical": 20,
+        "description": "Cache eviction rate (%)"
+      }
+    }
+  },
+  "testTargets": {
+    "ci": {
+      "description": "CI/CD performance regression test targets",
+      "tests": [
+        {
+          "name": "app-cold-load",
+          "budget": 3000,
+          "tolerance": 10,
+          "retries": 3
+        },
+        {
+          "name": "node-evaluation-simple",
+          "budget": 100,
+          "tolerance": 20,
+          "retries": 3
+        },
+        {
+          "name": "boolean-operation-simple",
+          "budget": 500,
+          "tolerance": 15,
+          "retries": 3
+        },
+        {
+          "name": "viewport-fps-2m-triangles",
+          "budget": 60,
+          "tolerance": 10,
+          "retries": 3
+        },
+        {
+          "name": "memory-usage-standard-scene",
+          "budget": 1500,
+          "tolerance": 10,
+          "retries": 3
+        }
+      ]
+    },
+    "local": {
+      "description": "Local development performance checks",
+      "tests": [
+        {
+          "name": "app-hot-reload",
+          "budget": 500,
+          "tolerance": 20
+        },
+        {
+          "name": "graph-evaluation-medium",
+          "budget": 2000,
+          "tolerance": 15
+        }
+      ]
+    }
+  },
+  "monitoring": {
+    "sampleInterval": 1000,
+    "historySize": 100,
+    "reportInterval": 60000,
+    "alertThresholds": {
+      "consecutiveViolations": 3,
+      "violationWindow": 30000
+    }
+  }
+}

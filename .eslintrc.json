@@ -43,7 +43,7 @@
         "minimumDescriptionLength": 20
       }
     ],
-    "no-console": ["warn", { "allow": [] }],
+    "no-console": "warn",
     "no-case-declarations": "off",
     "react-hooks/exhaustive-deps": "warn",
     "react/no-unescaped-entities": "warn",
@@ -65,7 +65,14 @@
   },
   "overrides": [
     {
-      "files": ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx", "**/tests/**/*", "**/test/**/*"],
+      "files": [
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "**/*.spec.ts",
+        "**/*.spec.tsx",
+        "**/tests/**/*",
+        "**/test/**/*"
+      ],
       "rules": {
         "security/detect-non-literal-fs-filename": "off",
         "no-secrets/no-secrets": "off"
