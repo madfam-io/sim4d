@@ -4,6 +4,9 @@
  */
 
 import { getConfig } from '@brepflow/engine-core';
+import { getLogger } from './production-logger';
+
+const logger = getLogger('OCCT');
 
 export class GeometryValidator {
   private enabled: boolean;
