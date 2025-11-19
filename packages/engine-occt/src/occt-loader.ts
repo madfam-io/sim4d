@@ -282,7 +282,6 @@ async function loadFullOCCTModule(config: OCCTConfig, _options: LoaderOptions): 
           console.log('[OCCT] BRepPrimAPI_MakeSphere available ✓');
         }
         if (this._BRepPrimAPI_MakeCylinder) {
-          // eslint-disable-next-line no-secrets/no-secrets -- False positive: OCCT API class name
           console.log('[OCCT] BRepPrimAPI_MakeCylinder available ✓');
         }
       },

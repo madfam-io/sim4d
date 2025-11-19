@@ -33,7 +33,6 @@ describe('HTML Sanitization', () => {
     });
 
     it('should remove javascript: protocol', () => {
-      // eslint-disable-next-line no-secrets/no-secrets -- Test case for XSS prevention
       const dirty = '<a href="javascript:alert(\'xss\')">Link</a>';
       const clean = sanitizeHTML(dirty, { allowLinks: true });
       expect(clean).not.toContain('javascript:');
@@ -299,7 +298,6 @@ describe('HTML Sanitization', () => {
   });
 
   describe('XSS Attack Vectors', () => {
-    /* eslint-disable no-secrets/no-secrets -- Test cases for XSS prevention */
     const xssVectors = [
       '<script>alert("XSS")</script>',
       '<img src=x onerror=alert("XSS")>',

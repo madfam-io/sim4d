@@ -13,7 +13,6 @@ const NODE_BUILTIN_WARNING_PATTERNS = [
   'Module "url" has been externalized for browser compatibility',
 ];
 
-// eslint-disable-next-line no-secrets/no-secrets -- False positive: documentation path
 const OCCT_ASSET_DOC_PATH = 'docs/implementation/OCCT_ASSET_STRATEGY.md';
 
 interface SuppressedLogDescriptor {
@@ -296,7 +295,6 @@ export default defineConfig({
 
         // Suppress WASM chunk warnings
         const shouldSuppressWasmChunkWarning =
-          // eslint-disable-next-line no-secrets/no-secrets -- False positive: Rollup warning code constant
           ['FILE_SIZE', 'LARGE_BUNDLE', 'LARGE_DYNAMIC_IMPORT_CHUNK'].includes(
             warning.code ?? ''
           ) && messageText.includes('.wasm');

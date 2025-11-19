@@ -61,7 +61,6 @@ describe('cloud services feature flags', () => {
     expect(() => new CloudSyncManager(syncConfig)).toThrow(/Cloud sync is disabled/);
   });
 
-  // eslint-disable-next-line no-secrets/no-secrets -- Test description with env variable name
   it('allows CloudSyncManager when BREPFLOW_ENABLE_CLOUD_SYNC=true', () => {
     process.env.BREPFLOW_ENABLE_CLOUD_SYNC = 'true';
     const manager = new CloudSyncManager(syncConfig);
@@ -72,7 +71,6 @@ describe('cloud services feature flags', () => {
     expect(() => new ProjectSharingManager(sharingConfig)).toThrow(/Project sharing is disabled/);
   });
 
-  // eslint-disable-next-line no-secrets/no-secrets -- Test description with env variable name
   it('allows ProjectSharingManager when BREPFLOW_ENABLE_PROJECT_SHARING=true', () => {
     process.env.BREPFLOW_ENABLE_PROJECT_SHARING = 'true';
     const manager = new ProjectSharingManager(sharingConfig);

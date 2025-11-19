@@ -23,7 +23,6 @@ export const validateCommand = new Command('validate')
       }
 
       // Load graph
-      // eslint-disable-next-line security/detect-non-literal-fs-filename -- CLI argument, validated by commander
       const graphContent = await fs.readFile(graphPath, 'utf-8');
       let graph: GraphInstance;
 

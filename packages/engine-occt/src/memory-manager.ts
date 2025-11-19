@@ -183,7 +183,7 @@ export class AdvancedMemoryManager {
   /**
    * Get cached operation result
    */
-  getResult(operationKey: string): any | null {
+  getResult(operationKey: string): unknown {
     const endMeasurement = this.performanceMonitor.startMeasurement('cache-result-get');
     const entry = this.resultCache.get(operationKey);
 

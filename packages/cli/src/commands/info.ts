@@ -19,7 +19,6 @@ export const infoCommand = new Command('info')
       }
 
       // Load graph
-      // eslint-disable-next-line security/detect-non-literal-fs-filename -- CLI argument, validated by commander
       const graphContent = await fs.readFile(graphPath, 'utf-8');
       const graph: GraphInstance = JSON.parse(graphContent);
 

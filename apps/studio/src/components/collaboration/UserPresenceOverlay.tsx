@@ -89,8 +89,7 @@ export const UserPresenceOverlay: React.FC<UserPresenceOverlayProps> = ({
   );
 
   // Update selection when user selects nodes
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const updateSelection = useCallback(
+  const _updateSelection = useCallback(
     (selectedNodes: string[], selectedEdges: string[]) => {
       if (!isTrackingCursor) return;
 

@@ -251,7 +251,6 @@ describe('XSS Prevention', () => {
       expect(container.querySelector('img')).toBeNull();
     });
 
-    // eslint-disable-next-line no-secrets/no-secrets
     it('should verify no dangerouslySetInnerHTML is used', () => {
       // This test ensures developers don't accidentally introduce the dangerous pattern
       // If someone adds it, this test serves as a reminder to sanitize
