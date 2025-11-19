@@ -46,17 +46,26 @@ export interface MarketplaceConfig {
   };
 }
 
+export interface PluginTestResults {
+  passed: number;
+  failed: number;
+  skipped: number;
+  coverage?: number;
+  timestamp: Date;
+  details?: string;
+}
+
 export interface PluginSubmission {
   pluginId: PluginId;
   version: string;
   submittedBy: UserId;
   submissionData: {
-    manifest: any;
+    manifest: import('@brepflow/cloud-api/src/types').PluginManifest;
     bundle: ArrayBuffer;
     documentation: string;
     screenshots: string[];
     changelog: string;
-    testResults?: any;
+    testResults?: PluginTestResults;
   };
   reviewStatus: 'pending' | 'approved' | 'rejected' | 'quarantined';
   reviewNotes?: string;
@@ -126,6 +135,16 @@ export interface MarketplaceAnalytics {
       subscriptionTiers: Record<string, number>;
     };
   };
+}
+
+export interface PluginReport {
+  id: string;
+  pluginId: PluginId;
+  reportedBy: UserId;
+  reason: string;
+  details: string;
+  reportedAt: Date;
+  status: 'pending' | 'reviewed' | 'resolved' | 'dismissed';
 }
 
 export class MarketplaceService extends EventEmitter {
@@ -333,7 +352,7 @@ export class MarketplaceService extends EventEmitter {
     };
 
     // Add to plugin reviews
-    let pluginReviews = this.reviews.get(review.pluginId) || [];
+    const pluginReviews = this.reviews.get(review.pluginId) || [];
     pluginReviews.push(pluginReview);
     this.reviews.set(review.pluginId, pluginReviews);
 
@@ -708,7 +727,12 @@ export class MarketplaceService extends EventEmitter {
   }
   private async uploadPluginToCdn(plugin: Plugin): Promise<void> {}
   private async updateMarketplaceListing(plugin: Plugin): Promise<void> {}
-  private async validateReview(review: any): Promise<void> {}
+  private async validateReview(
+    review: Omit<
+      PluginReview,
+      'id' | 'createdAt' | 'updatedAt' | 'helpfulCount' | 'reportCount' | 'moderationStatus'
+    >
+  ): Promise<void> {}
   private async checkVerifiedPurchase(userId: UserId, pluginId: PluginId): Promise<boolean> {
     return false;
   }
@@ -739,14 +763,21 @@ export class MarketplaceService extends EventEmitter {
   }
   private async calculatePluginAnalytics(
     pluginId: PluginId,
-    period: any
+    period: { start: Date; end: Date }
   ): Promise<MarketplaceAnalytics> {
     throw new Error('Not implemented');
   }
-  private async calculateMarketplaceOverview(period: any): Promise<unknown> {
+  private async calculateMarketplaceOverview(period: { start: Date; end: Date }): Promise<{
+    totalPlugins: number;
+    totalDownloads: number;
+    totalRevenue: number;
+    activeUsers: number;
+    topCategories: Array<{ category: PluginCategory; count: number }>;
+    revenueByCategory: Array<{ category: PluginCategory; revenue: number }>;
+  }> {
     throw new Error('Not implemented');
   }
-  private async saveReport(report: any): Promise<void> {}
+  private async saveReport(report: PluginReport): Promise<void> {}
   private async applyModerationAction(
     contentId: string,
     contentType: string,
