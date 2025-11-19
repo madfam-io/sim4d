@@ -20,6 +20,25 @@ export interface HistoryState {
   currentId?: string;
 }
 
+export interface HistoryTreeNode {
+  id: string;
+  label: string;
+  type: 'operation' | 'parameter' | 'feature';
+  operation: string;
+  parameters: Record<string, unknown>;
+  isActive: boolean;
+  isSuppressed: boolean;
+  timestamp: number;
+  error?: string;
+  children: HistoryTreeNode[];
+}
+
+export interface SerializedHistoryState {
+  nodes: Array<[string, HistoryNode]>;
+  rootIds: string[];
+  currentId?: string;
+}
+
 export class ParametricHistoryTree {
   private state: HistoryState;
   private listeners: Set<(state: HistoryState) => void> = new Set();
@@ -179,8 +198,8 @@ export class ParametricHistoryTree {
   /**
    * Get tree structure for UI display
    */
-  getTreeStructure(): any {
-    const buildTree = (id: string): any => {
+  getTreeStructure(): HistoryTreeNode[] {
+    const buildTree = (id: string): HistoryTreeNode | null => {
       const node = this.state.nodes.get(id);
       if (!node) return null;
 
@@ -194,11 +213,11 @@ export class ParametricHistoryTree {
         isSuppressed: node.isSuppressed,
         timestamp: node.timestamp,
         error: node.error,
-        children: node.childrenIds.map((childId) => buildTree(childId)).filter(Boolean),
+        children: node.childrenIds.map((childId) => buildTree(childId)).filter((n): n is HistoryTreeNode => n !== null),
       };
     };
 
-    return this.state.rootIds.map((rootId) => buildTree(rootId)).filter(Boolean);
+    return this.state.rootIds.map((rootId) => buildTree(rootId)).filter((n): n is HistoryTreeNode => n !== null);
   }
 
   /**
@@ -238,7 +257,7 @@ export class ParametricHistoryTree {
   /**
    * Serialize for persistence
    */
-  serialize(): any {
+  serialize(): SerializedHistoryState {
     return {
       nodes: Array.from(this.state.nodes.entries()),
       rootIds: this.state.rootIds,

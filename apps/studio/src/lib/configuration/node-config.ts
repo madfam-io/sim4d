@@ -8,6 +8,28 @@ import { createChildLogger } from '../logging/logger-instance';
 
 const logger = createChildLogger({ module: 'node-config' });
 
+// Serialized types for storage (Dates as strings)
+interface SerializedNodeMetadata extends Omit<NodeMetadata, 'usage'> {
+  usage?: {
+    timesUsed: number;
+    lastUsed: string;
+    averageRating?: number;
+  };
+}
+
+interface SerializedNodeConfiguration extends Omit<NodeConfiguration, 'createdAt' | 'updatedAt' | 'metadata'> {
+  createdAt: string;
+  updatedAt: string;
+  metadata: SerializedNodeMetadata;
+}
+
+interface SerializedConfigurationTemplate extends Omit<ConfigurationTemplate, 'configurations' | 'metadata'> {
+  configurations: SerializedNodeConfiguration[];
+  metadata: Omit<ConfigurationTemplate['metadata'], 'createdAt'> & {
+    createdAt: string;
+  };
+}
+
 export interface NodeConfiguration {
   id: string;
   name: string;
@@ -443,7 +465,7 @@ export class NodeConfigurationManager {
     }
   }
 
-  private serializeConfiguration(config: NodeConfiguration): any {
+  private serializeConfiguration(config: NodeConfiguration): SerializedNodeConfiguration {
     return {
       ...config,
       createdAt: config.createdAt.toISOString(),
@@ -460,7 +482,7 @@ export class NodeConfigurationManager {
     };
   }
 
-  private deserializeConfiguration(data: unknown): NodeConfiguration {
+  private deserializeConfiguration(data: SerializedNodeConfiguration): NodeConfiguration {
     return {
       ...data,
       createdAt: new Date(data.createdAt),
@@ -477,7 +499,7 @@ export class NodeConfigurationManager {
     };
   }
 
-  private serializeTemplate(template: ConfigurationTemplate): any {
+  private serializeTemplate(template: ConfigurationTemplate): SerializedConfigurationTemplate {
     return {
       ...template,
       configurations: template.configurations.map((config) => this.serializeConfiguration(config)),
@@ -488,10 +510,10 @@ export class NodeConfigurationManager {
     };
   }
 
-  private deserializeTemplate(data: unknown): ConfigurationTemplate {
+  private deserializeTemplate(data: SerializedConfigurationTemplate): ConfigurationTemplate {
     return {
       ...data,
-      configurations: data.configurations.map((config: any) =>
+      configurations: data.configurations.map((config) =>
         this.deserializeConfiguration(config)
       ),
       metadata: {
@@ -501,7 +523,7 @@ export class NodeConfigurationManager {
     };
   }
 
-  private isValidConfiguration(config: any): config is NodeConfiguration {
+  private isValidConfiguration(config: unknown): config is NodeConfiguration {
     return (
       typeof config === 'object' &&
       typeof config.nodeType === 'string' &&

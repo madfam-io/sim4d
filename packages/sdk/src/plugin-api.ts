@@ -179,9 +179,21 @@ export abstract class BrepFlowPlugin {
 }
 
 /**
+ * Parameter options based on type
+ */
+type ParamOptions = {
+  min?: number;
+  max?: number;
+  step?: number;
+  options?: string[];
+  unit?: string;
+  description?: string;
+};
+
+/**
  * Node builder for simplified node creation
  */
-export class NodeBuilder<I = any, O = any, P = any> {
+export class NodeBuilder<I = Record<string, unknown>, O = Record<string, unknown>, P = Record<string, unknown>> {
   private definition: Partial<NodeDefinition<I, O, P>> = {};
 
   constructor(id: string) {
@@ -222,8 +234,8 @@ export class NodeBuilder<I = any, O = any, P = any> {
   param<K extends keyof P>(
     name: K,
     type: 'number' | 'string' | 'boolean' | 'select',
-    defaultValue: any,
-    options?: any
+    defaultValue: P[K],
+    options?: ParamOptions
   ): this {
     if (!this.definition.params) {
       this.definition.params = {} as unknown;
@@ -317,10 +329,21 @@ export interface CameraState {
   far?: number;
 }
 
+/**
+ * Viewport overlay style options
+ */
+export interface ViewportOverlayStyle {
+  color?: string;
+  opacity?: number;
+  lineWidth?: number;
+  fontSize?: number;
+  [key: string]: string | number | boolean | undefined;
+}
+
 export interface ViewportOverlay {
   type: 'line' | 'text' | 'mesh';
   data: unknown;
-  style?: any;
+  style?: ViewportOverlayStyle;
 }
 
 /**

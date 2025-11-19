@@ -4,6 +4,7 @@ import ReactFlow, {
   Edge as RFEdge,
   addEdge,
   Background,
+  BackgroundVariant,
   Controls,
   MiniMap,
   useNodesState,
@@ -21,6 +22,20 @@ const nodeTypes = {
   input: CustomNode,
   output: CustomNode,
 };
+
+// Augment Window interface for studio API
+declare global {
+  interface Window {
+    studio?: {
+      createNode?: (type: string, position: { x: number; y: number }) => void;
+      evaluateGraph?: () => void;
+      clearGraph?: () => void;
+      undo?: () => void;
+      redo?: () => void;
+      [key: string]: unknown;
+    };
+  }
+}
 
 import { NodePanel } from './components/NodePanel';
 import { EnhancedNodePalette } from './components/node-palette/EnhancedNodePalette';
@@ -215,13 +230,13 @@ function AppContent() {
       return () => undefined;
     }
 
-    const existing = (window as any).studio ?? {};
+    const existing = window.studio ?? {};
     const combined = { ...existing, ...studioApi };
-    (window as any).studio = combined;
+    window.studio = combined;
 
     return () => {
-      if ((window as any).studio === combined) {
-        delete (window as any).studio;
+      if (window.studio === combined) {
+        delete window.studio;
       }
     };
   }, [addNode, evaluateGraph, clearGraph, undo, redo, errorTracker]);
@@ -455,7 +470,7 @@ function AppContent() {
                     },
                   }}
                 >
-                  <Background variant={'dots' as any} gap={12} size={1} />
+                  <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
                   <Controls />
                   <MiniMap />
                   <Panel position="top-left">

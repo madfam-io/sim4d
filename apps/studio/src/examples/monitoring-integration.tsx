@@ -10,6 +10,38 @@ import { createChildLogger } from '../lib/logging/logger-instance';
 
 const logger = createChildLogger({ module: 'monitoring-integration' });
 
+// Type definitions for monitoring integration examples
+interface GeometryData {
+  type: string;
+  width?: number;
+  height?: number;
+  depth?: number;
+  [key: string]: unknown;
+}
+
+interface GeometryResult {
+  vertices: number[];
+  faces: number[];
+}
+
+interface FormData {
+  name: string;
+  value: string;
+}
+
+interface DataItem {
+  [key: string]: unknown;
+}
+
+interface ProcessedDataItem extends DataItem {
+  processed: boolean;
+  processedAt: string;
+}
+
+interface FormSubmitData extends FormData {
+  id: number;
+}
+
 /**
  * Example: Monitored Button Component
  * Shows how to track user interactions and handle errors
@@ -70,12 +102,12 @@ export const MonitoredButton: React.FC<{
  * Shows how to handle WASM operations with specialized error boundaries
  */
 export const GeometryPreview: React.FC<{
-  geometryData: any;
+  geometryData: GeometryData;
   onError?: (error: Error) => void;
 }> = ({ geometryData, onError }) => {
   const { executeWasmOperation } = useMonitoring();
   const { measureAsync } = useOperationTiming();
-  const [geometry, setGeometry] = useState<any>(null);
+  const [geometry, setGeometry] = useState<GeometryResult | null>(null);
   const [isComputing, setIsComputing] = useState(false);
 
   // Track render performance
@@ -145,7 +177,7 @@ export const GeometryPreview: React.FC<{
  * Shows how to handle validation errors and user input tracking
  */
 export const MonitoredForm: React.FC<{
-  onSubmit: (data: any) => Promise<void>;
+  onSubmit: (data: FormData) => Promise<void>;
 }> = ({ onSubmit }) => {
   const { recordUserInteraction, executeNetworkOperation } = useMonitoring();
   const [formData, setFormData] = useState({ name: '', value: '' });
@@ -261,8 +293,8 @@ export const MonitoredForm: React.FC<{
 
         <MonitoredButton
           onClick={() => {
-            const formEvent = new Event('submit', { bubbles: true, cancelable: true }) as any;
-            handleSubmit(formEvent);
+            const formEvent = new Event('submit', { bubbles: true, cancelable: true });
+            handleSubmit(formEvent as unknown as React.FormEvent);
           }}
           operation="form_submit_button"
         >
@@ -278,10 +310,10 @@ export const MonitoredForm: React.FC<{
  * Shows how to create and handle custom errors
  */
 export const DataProcessor: React.FC<{
-  data: any[];
+  data: DataItem[];
 }> = ({ data }) => {
   const { recordUserInteraction } = useMonitoring();
-  const [processedData, setProcessedData] = useState<any[]>([]);
+  const [processedData, setProcessedData] = useState<ProcessedDataItem[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   // Track render performance
@@ -373,12 +405,12 @@ export const DataProcessor: React.FC<{
  * Shows how to integrate monitoring at the page level
  */
 export const MonitoredPage: React.FC = () => {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<FormSubmitData[]>([]);
 
   // Track page render performance
   useRenderTiming('MonitoredPage');
 
-  const handleFormSubmit = useCallback(async (formData: any) => {
+  const handleFormSubmit = useCallback(async (formData: FormData) => {
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000));
 

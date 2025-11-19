@@ -24,8 +24,16 @@ import type { GraphInstance, NodeId } from '@brepflow/types';
 import { createNodeId } from '@brepflow/types';
 
 // Lazy logger initialization to avoid constructor issues during module loading
-let logger: any = null;
-const getLogger = () => {
+interface Logger {
+  info(message: string, ...args: unknown[]): void;
+  error(message: string, ...args: unknown[]): void;
+  warn(message: string, ...args: unknown[]): void;
+  debug(message: string, ...args: unknown[]): void;
+  startTimer(label: string): () => void;
+}
+
+let logger: Logger | null = null;
+const getLogger = (): Logger => {
   if (!logger) {
     const { ProductionLogger } = require('@brepflow/engine-occt');
     logger = new ProductionLogger('GraphStore');
@@ -42,6 +50,28 @@ export type NodeData = {
   status: 'idle' | 'evaluating' | 'success' | 'error';
   error?: string;
 };
+
+export interface ExportedGraph {
+  version: string;
+  timestamp: string;
+  geometryVersion: string | null;
+  nodes: Array<{
+    id: string;
+    type: string;
+    position: { x: number; y: number };
+    data: {
+      params: Record<string, unknown>;
+      label: string;
+    };
+  }>;
+  edges: Array<{
+    id?: string;
+    source: string;
+    target: string;
+    sourceHandle?: string | null;
+    targetHandle?: string | null;
+  }>;
+}
 
 export type GraphState = {
   nodes: Node<NodeData>[];
@@ -71,7 +101,7 @@ export type GraphState = {
   selectNode: (nodeId: string | null) => void;
   evaluateGraph: () => Promise<void>;
   clearGraph: () => void;
-  exportGraph: () => any;
+  exportGraph: () => ExportedGraph;
   importGraph: (data: unknown) => void;
 };
 
@@ -322,7 +352,7 @@ export const useProductionGraphStore = create<GraphState>()(
 
         updateNode: (nodeId, data) => {
           set((state) => {
-            const node = state.nodes.find((n: any) => n.id === nodeId);
+            const node = state.nodes.find((n: Node<NodeData>) => n.id === nodeId);
             if (node) {
               Object.assign(node.data, data);
               syncGraph(state);
@@ -332,7 +362,7 @@ export const useProductionGraphStore = create<GraphState>()(
 
         updateNodeParam: (nodeId, paramName, value) => {
           set((state) => {
-            const node = state.nodes.find((n: any) => n.id === nodeId);
+            const node = state.nodes.find((n: Node<NodeData>) => n.id === nodeId);
             if (node) {
               node.data.params[paramName] = value;
               syncGraph(state);

@@ -191,7 +191,7 @@ export class OCCTOperationRouter implements WorkerAPI {
   /**
    * Route an operation to the correct OCCT worker method
    */
-  async invoke<T = any>(operation: string, params: unknown): Promise<T> {
+  async invoke<T = unknown>(operation: string, params: unknown): Promise<T> {
     // Map the operation name
     const occtOperation =
       this.operationMap[operation] ||
@@ -209,7 +209,7 @@ export class OCCTOperationRouter implements WorkerAPI {
   /**
    * Execute operation (alternative interface)
    */
-  async execute<T = any>(operation: string, params: unknown): Promise<T> {
+  async execute<T = unknown>(operation: string, params: unknown): Promise<T> {
     return this.invoke(operation, params);
   }
 
@@ -266,11 +266,11 @@ export class OCCTOperationRouter implements WorkerAPI {
     return this.invoke('revolve', params);
   }
 
-  async tessellate(shapeId: any, deflection: number): Promise<unknown> {
+  async tessellate(shapeId: string | number, deflection: number): Promise<unknown> {
     return this.invoke('tessellate', { shapeId, deflection });
   }
 
-  async dispose(handleId: any): Promise<void> {
+  async dispose(handleId: string | number): Promise<void> {
     await this.invoke('dispose', { handleId });
   }
 
@@ -313,10 +313,10 @@ export async function createRoutedOCCTWorker(): Promise<WorkerAPI> {
   try {
     // NOTE: Proper API initialization deferred - GeometryAPIFactory not exported from engine-core.
     // Get the actual worker API (real or mock)
-    const baseWorker: any = null; // Future: await GeometryAPIFactory.getAPI();
+    const baseWorker: WorkerAPI | null = null; // Future: await GeometryAPIFactory.getAPI();
 
     // Wrap it with the operation router
-    const routedWorker = new OCCTOperationRouter(baseWorker);
+    const routedWorker = new OCCTOperationRouter(baseWorker!);
 
     logger.info('[OCCTRouter] ✅ Routed worker created successfully');
     logger.info(

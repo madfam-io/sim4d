@@ -17,6 +17,8 @@ interface InspectorProps {
   onParamChange: (nodeId: NodeId, updates: Partial<NodeInstance>) => void;
 }
 
+type ParamValue = number | string | boolean | number[];
+
 interface ParamConfig {
   name: string;
   label: string;
@@ -27,7 +29,7 @@ interface ParamConfig {
   options?: string[];
   unit?: string;
   description?: string;
-  validation?: (value: any) => string | null;
+  validation?: (value: ParamValue) => string | null;
 }
 
 const getNodeParameterConfig = (nodeType: string): ParamConfig[] => {
@@ -267,8 +269,8 @@ const getNodeParameterConfig = (nodeType: string): ParamConfig[] => {
 
 interface ParameterFieldProps {
   config: ParamConfig;
-  value: any;
-  onChange: (value: any) => void;
+  value: ParamValue;
+  onChange: (value: ParamValue) => void;
   error?: string;
 }
 
@@ -473,7 +475,7 @@ export function Inspector({ selectedNode, onParamChange }: InspectorProps) {
 
   // Define hooks before early return
   const handleParamChange = useCallback(
-    (paramName: string, value: any) => {
+    (paramName: string, value: ParamValue) => {
       if (!selectedNode) return;
 
       const newParams = { ...selectedNode.params, [paramName]: value };

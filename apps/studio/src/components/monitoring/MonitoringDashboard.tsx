@@ -16,8 +16,18 @@ interface MonitoringDashboardProps {
   onClose: () => void;
 }
 
+interface DashboardData {
+  health: {
+    status: string;
+    checks: HealthAlert[];
+  };
+  errors: BrepFlowError[];
+  metrics: Record<string, unknown>;
+  logs: Array<{ level: string; message: string; timestamp: number }>;
+}
+
 export const MonitoringDashboard: React.FC<MonitoringDashboardProps> = ({ isVisible, onClose }) => {
-  const [dashboardData, setDashboardData] = useState<any>(null);
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
   const [selectedTab, setSelectedTab] = useState<'health' | 'errors' | 'metrics' | 'logs'>(
     'health'
   );
@@ -246,8 +256,8 @@ export const MonitoringDashboard: React.FC<MonitoringDashboardProps> = ({ isVisi
           <button
             onClick={() => {
               const newWindow = window.open('', '_blank');
-              if (newWindow && (newWindow as any).console) {
-                (newWindow as any).logger.debug('Console opened');
+              if (newWindow && newWindow.console) {
+                newWindow.console.log('Console opened');
               }
             }}
           >

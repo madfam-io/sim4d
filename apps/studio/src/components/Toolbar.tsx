@@ -12,6 +12,18 @@ import './Toolbar.css';
 
 const logger = createChildLogger({ module: 'Toolbar' });
 
+// DAG evaluation cache types
+interface EvaluationResult {
+  outputs?: {
+    shape?: unknown;
+    shapes?: unknown[];
+  };
+}
+
+interface DAGEngineWithCache {
+  evaluationCache?: Map<string, EvaluationResult>;
+}
+
 export function Toolbar() {
   const { evaluateGraph, clearGraph, exportGraph, importGraph, undo, redo, canUndo, canRedo } =
     useGraphStore();
@@ -61,10 +73,13 @@ export function Toolbar() {
       await new Promise((resolve) => setTimeout(resolve, 200));
 
       // Find geometry outputs from DAG engine evaluation
-      const geometryOutputs = dagEngine
-        ? Array.from((dagEngine as any).evaluationCache?.values() || [])
-            .filter((result: any) => result?.outputs?.shape || result?.outputs?.shapes)
-            .map((result: any) => result.outputs.shape || result.outputs.shapes)
+      const dagEngineWithCache = dagEngine as DAGEngineWithCache | null;
+      const geometryOutputs = dagEngineWithCache
+        ? Array.from(dagEngineWithCache.evaluationCache?.values() || [])
+            .filter((result): result is EvaluationResult =>
+              Boolean(result?.outputs?.shape || result?.outputs?.shapes)
+            )
+            .map((result) => result.outputs!.shape || result.outputs!.shapes)
             .flat()
             .filter(Boolean)
         : [];

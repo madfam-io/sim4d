@@ -20,7 +20,38 @@ import { createChildLogger } from '../../lib/logging/logger-instance';
 
 const logger = createChildLogger({ module: 'UserPresenceOverlay' });
 
-const collaborationEngine = new BrepFlowCollaborationEngine({} as any);
+// Collaboration event types
+interface CollaborationEvent {
+  sessionId: SessionId;
+  userId: UserId;
+  data: unknown;
+}
+
+interface UserJoinedEvent extends CollaborationEvent {
+  data: { user: CollaborationUser };
+}
+
+interface UserLeftEvent extends CollaborationEvent {
+  data: Record<string, never>;
+}
+
+interface CursorUpdatedEvent extends CollaborationEvent {
+  data: CursorPosition;
+}
+
+interface SelectionUpdatedEvent extends CollaborationEvent {
+  data: SelectionState;
+}
+
+interface UserUpdatedEvent extends CollaborationEvent {
+  data: { user: CollaborationUser };
+}
+
+const collaborationEngine = new BrepFlowCollaborationEngine({
+  serverUrl: '',
+  enableOfflineMode: false,
+  syncInterval: 1000,
+});
 
 interface UserPresenceOverlayProps {
   sessionId: SessionId;
@@ -112,13 +143,13 @@ export const UserPresenceOverlay: React.FC<UserPresenceOverlayProps> = ({
 
   // Setup collaboration event listeners
   useEffect(() => {
-    const handleUserJoined = (event: any) => {
+    const handleUserJoined = (event: UserJoinedEvent) => {
       if (event.sessionId === sessionId && event.userId !== currentUserId) {
         setUsers((prev) => new Map(prev.set(event.userId, event.data.user)));
       }
     };
 
-    const handleUserLeft = (event: any) => {
+    const handleUserLeft = (event: UserLeftEvent) => {
       if (event.sessionId === sessionId) {
         setUsers((prev) => {
           const newUsers = new Map(prev);
@@ -138,7 +169,7 @@ export const UserPresenceOverlay: React.FC<UserPresenceOverlayProps> = ({
       }
     };
 
-    const handleCursorUpdated = (event: any) => {
+    const handleCursorUpdated = (event: CursorUpdatedEvent) => {
       if (event.sessionId === sessionId && event.userId !== currentUserId) {
         const user = users.get(event.userId);
         if (user) {
@@ -168,7 +199,7 @@ export const UserPresenceOverlay: React.FC<UserPresenceOverlayProps> = ({
       }
     };
 
-    const handleSelectionUpdated = (event: any) => {
+    const handleSelectionUpdated = (event: SelectionUpdatedEvent) => {
       if (event.sessionId === sessionId && event.userId !== currentUserId) {
         const user = users.get(event.userId);
         if (user) {
@@ -187,7 +218,7 @@ export const UserPresenceOverlay: React.FC<UserPresenceOverlayProps> = ({
       }
     };
 
-    const handleUserUpdated = (event: any) => {
+    const handleUserUpdated = (event: UserUpdatedEvent) => {
       if (event.sessionId === sessionId) {
         setUsers((prev) => new Map(prev.set(event.userId, event.data.user)));
       }
