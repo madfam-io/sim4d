@@ -102,7 +102,6 @@
     {
       "files": [
         "**/nodes/generated/**/*",
-        "**/real-occt-bindings.ts",
         "**/plugin-manager.ts",
         "**/authentication-service.ts",
         "**/diff-merge.ts",
