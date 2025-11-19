@@ -42,7 +42,7 @@
         "ts-expect-error": "allow-with-description"
       }
     ],
-    "no-console": ["warn", { "allow": ["error", "warn"] }],
+    "no-console": ["warn", { "allow": [] }],
     "no-case-declarations": "off",
     "react-hooks/exhaustive-deps": "warn",
     "react/no-unescaped-entities": "warn",

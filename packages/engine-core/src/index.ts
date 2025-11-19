@@ -19,6 +19,7 @@ export {
   type ThresholdViolation,
   type PerformanceExporter,
 } from './performance-reporter';
+export { logger, createLogger, LogLevel, type LogContext, type ChildLogger } from './logger';
 
 // Collaboration types and interfaces
 // NOTE: Collaboration exports temporarily disabled due to DTS build issues
