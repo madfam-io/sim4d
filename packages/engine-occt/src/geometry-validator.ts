@@ -19,7 +19,7 @@ export class GeometryValidator {
   /**
    * Generic validation method
    */
-  async validate(result: any): Promise<{ valid: boolean; errors: string[] }> {
+  async validate(result: unknown): Promise<{ valid: boolean; errors: string[] }> {
     if (!this.enabled) {
       return { valid: true, errors: [] };
     }
@@ -107,7 +107,7 @@ export class GeometryValidator {
   /**
    * Validate boolean operation result
    */
-  validateBooleanResult(result: any, operation: string): void {
+  validateBooleanResult(result: unknown, operation: string): void {
     if (!this.enabled) return;
 
     this.validateShape(result, `boolean-${operation}`);
@@ -214,7 +214,7 @@ export class GeometryValidator {
   /**
    * Validate export data - returns validation result
    */
-  async validateExport(data: any, format: string): Promise<{ valid: boolean; message?: string }> {
+  async validateExport(data: unknown, format: string): Promise<{ valid: boolean; message?: string }> {
     try {
       this.validateExportInternal(data, format);
       return { valid: true };
@@ -229,7 +229,7 @@ export class GeometryValidator {
   /**
    * Internal export validation (throws on error)
    */
-  private validateExportInternal(data: any, format: string): void {
+  private validateExportInternal(data: unknown, format: string): void {
     if (!getConfig().enableExportValidation) return;
 
     switch (format) {
@@ -248,7 +248,7 @@ export class GeometryValidator {
     }
   }
 
-  private validateCADExport(data: any, format: string): void {
+  private validateCADExport(data: unknown, format: string): void {
     // Check for required headers
     if (format === 'step') {
       if (!data.includes('ISO-10303-21')) {
@@ -281,7 +281,7 @@ export class GeometryValidator {
     }
   }
 
-  private validateSTLExport(data: any): void {
+  private validateSTLExport(data: unknown): void {
     // Check for ASCII STL format
     if (typeof data === 'string') {
       if (!data.includes('solid') || !data.includes('facet normal')) {

@@ -82,7 +82,7 @@ async function testContextEnhancement(): Promise<boolean> {
   try {
     // Create a mock base context
     const mockWorker = {
-      invoke: async (op: string, params: any) => ({ id: 'test', op, params }),
+      invoke: async (op: string, params: unknown) => ({ id: 'test', op, params }),
     };
 
     const baseContext: EvalContext = {
@@ -157,7 +157,7 @@ async function testNodeExecution(): Promise<boolean> {
       },
       inputs: {},
       outputs: { solid: { type: 'Solid' } },
-      async evaluate(context: any, inputs: any, params: any) {
+      async evaluate(context: any, inputs: any, params: unknown) {
         if (!context.geometry) {
           throw new Error('No geometry in context!');
         }
@@ -182,7 +182,7 @@ async function testNodeExecution(): Promise<boolean> {
         b: { type: 'Solid' },
       },
       outputs: { result: { type: 'Solid' } },
-      async evaluate(context: any, inputs: any, _params: any) {
+      async evaluate(context: any, inputs: any, _params: unknown) {
         if (!context.geometry) {
           throw new Error('No geometry in context!');
         }
@@ -328,7 +328,7 @@ async function testPerformance(): Promise<boolean> {
 
     // Create mock worker for performance testing
     const mockWorker = {
-      invoke: async (op: string, params: any) => {
+      invoke: async (op: string, params: unknown) => {
         // Simulate some work
         await new Promise((resolve) => setTimeout(resolve, Math.random() * 5));
         return { id: `result_${op}`, op, params };

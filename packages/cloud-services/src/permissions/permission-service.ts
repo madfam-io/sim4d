@@ -59,7 +59,7 @@ export interface RoleAssignment {
   assignedBy: UserId;
   assignedAt: Date;
   expiresAt?: Date;
-  conditions?: Record<string, any>;
+  conditions?: Record<string, unknown>;
 }
 
 export interface PermissionAuditLog {
@@ -70,7 +70,7 @@ export interface PermissionAuditLog {
   granted: boolean;
   reason: string;
   timestamp: Date;
-  context: Record<string, any>;
+  context: Record<string, unknown>;
 }
 
 export class PermissionService extends EventEmitter {

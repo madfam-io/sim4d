@@ -79,7 +79,7 @@ export interface SecurityThreat {
   details: {
     description: string;
     indicators: string[];
-    evidence: Record<string, any>;
+    evidence: Record<string, unknown>;
     mitigation: string[];
   };
   status: 'detected' | 'investigating' | 'mitigated' | 'resolved' | 'false_positive';
@@ -121,7 +121,7 @@ export interface SecurityScan {
   startedAt: Date;
   completedAt?: Date;
   triggeredBy: 'schedule' | 'manual' | 'upload' | 'api';
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
 }
 
 export interface AuditLog {
@@ -133,7 +133,7 @@ export interface AuditLog {
     identifier: string;
   };
   outcome: 'success' | 'failure' | 'partial';
-  details: Record<string, any>;
+  details: Record<string, unknown>;
   ipAddress: string;
   userAgent: string;
   timestamp: Date;
@@ -428,7 +428,7 @@ export class SecurityService extends EventEmitter {
    * Data Protection and Privacy
    */
   async classifyData(
-    data: any,
+    data: unknown,
     context: { type: string; source: string }
   ): Promise<DataClassification> {
     const classification = await this.performDataClassification(data, context);
@@ -869,7 +869,7 @@ export class SecurityService extends EventEmitter {
     return 20;
   }
   private async analyzeActivityAnomaly(userId: UserId, activity: AuditLog): Promise<void> {}
-  private async performDataClassification(data: any, context: any): Promise<DataClassification> {
+  private async performDataClassification(data: unknown, context: any): Promise<DataClassification> {
     return {
       level: 'internal',
       categories: ['user_data'],
@@ -879,7 +879,7 @@ export class SecurityService extends EventEmitter {
     };
   }
   private async encryptSensitiveData(
-    data: any,
+    data: unknown,
     classification: DataClassification
   ): Promise<void> {}
   private async performThreatInvestigation(threat: SecurityThreat): Promise<any> {

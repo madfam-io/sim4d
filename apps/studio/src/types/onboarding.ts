@@ -27,7 +27,7 @@ export interface OnboardingEvent {
     | 'tour_started'
     | 'tour_skipped';
   timestamp: number;
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
 }
 
 export interface PlaygroundObjective {

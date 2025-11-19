@@ -108,7 +108,7 @@ export interface RegistryStats {
 export class PluginRegistry extends EventEmitter {
   private config: RegistryConfig;
   private registry = new Map<PluginId, PluginRegistryEntry>();
-  private indexCache = new Map<string, any>();
+  private indexCache = new Map<string, unknown>();
   private downloadCounters = new Map<string, number>();
 
   constructor(config: RegistryConfig) {

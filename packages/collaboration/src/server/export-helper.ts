@@ -110,7 +110,7 @@ export async function exportSessionGeometry(
 /**
  * Unwrap operation result from geometry API
  */
-function unwrapOperationResult<T>(value: any): {
+function unwrapOperationResult<T>(value: unknown): {
   success: boolean;
   result: T | undefined;
   error?: any;
@@ -132,7 +132,7 @@ function unwrapOperationResult<T>(value: any): {
 /**
  * Invoke geometry operation with error handling
  */
-async function invokeOperation<T>(geometryAPI: any, operation: string, params: any): Promise<T> {
+async function invokeOperation<T>(geometryAPI: any, operation: string, params: unknown): Promise<T> {
   const response = await geometryAPI.invoke(operation, params);
   const { success, result, error } = unwrapOperationResult<T>(response);
 

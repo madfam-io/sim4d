@@ -11,7 +11,7 @@ class WorkerMock {
     this.url = url;
   }
 
-  postMessage(data: any) {
+  postMessage(data: unknown) {
     // Simulate async worker response
     setTimeout(() => {
       if (this.onmessage) {

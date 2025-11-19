@@ -121,7 +121,7 @@ export class ComputeCache {
   /**
    * Estimate size of a value
    */
-  private estimateSize(value: any): number {
+  private estimateSize(value: unknown): number {
     // Simple estimation based on JSON serialization
     try {
       return JSON.stringify(value).length * 2; // 2 bytes per char

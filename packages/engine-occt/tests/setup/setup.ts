@@ -55,7 +55,7 @@ global.Worker = class MockWorker {
     console.log(`[TestWorker] Created worker for: ${scriptURL}`);
   }
 
-  postMessage(message: any): void {
+  postMessage(message: unknown): void {
     // Simulate async worker response
     setTimeout(() => {
       if (this.onmessage) {

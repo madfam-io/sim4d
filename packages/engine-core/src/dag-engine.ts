@@ -52,7 +52,7 @@ try {
     }
     private worker: WorkerAPI;
 
-    async execute(operation: { type: string; params: any }): Promise<any> {
+    async execute(operation: { type: string; params: unknown }): Promise<any> {
       // Mock implementation for tests
       return { type: operation.type, ...operation.params };
     }
@@ -152,7 +152,7 @@ export class DAGEngine {
         const baseContext: EvalContext = {
           nodeId,
           graph,
-          cache: this.cache as unknown as Map<string, any>,
+          cache: this.cache as unknown as Map<string, unknown>,
           worker: this.worker,
           abort: abortController,
         };

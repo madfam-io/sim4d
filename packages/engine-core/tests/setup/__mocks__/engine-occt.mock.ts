@@ -27,7 +27,7 @@ const createMockGeometryHandle = (type: ShapeType = 'SOLID'): GeometryHandle => 
 });
 
 const createMockWorkerAPI = (): WorkerAPI => ({
-  invoke: vi.fn().mockImplementation(async (operation: string, params: any) => {
+  invoke: vi.fn().mockImplementation(async (operation: string, params: unknown) => {
     switch (operation) {
       case 'MAKE_BOX':
       case 'MAKE_CYLINDER':
@@ -65,7 +65,7 @@ const createMockWorkerAPI = (): WorkerAPI => ({
 export const createGeometryAPI = vi.fn().mockImplementation((config?: any) => {
   return {
     init: vi.fn().mockResolvedValue(undefined),
-    invoke: vi.fn().mockImplementation(async (operation: string, params: any) => {
+    invoke: vi.fn().mockImplementation(async (operation: string, params: unknown) => {
       // Return OperationResult format
       switch (operation) {
         case 'HEALTH_CHECK':

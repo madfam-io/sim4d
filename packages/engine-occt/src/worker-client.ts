@@ -13,7 +13,7 @@ export class WorkerClient implements WorkerAPI {
   private pending = new Map<
     string,
     {
-      resolve: (value: any) => void;
+      resolve: (value: unknown) => void;
       reject: (error: any) => void;
     }
   >();
@@ -133,7 +133,7 @@ export class WorkerClient implements WorkerAPI {
   /**
    * Invoke geometry operation
    */
-  async invoke<T = any>(operation: string, params: any): Promise<T> {
+  async invoke<T = any>(operation: string, params: unknown): Promise<T> {
     await this.init();
 
     const result = await this.sendRequest({

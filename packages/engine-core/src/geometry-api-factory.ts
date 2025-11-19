@@ -174,7 +174,7 @@ export class GeometryAPIFactory {
         init: async () => {
           await integratedAPI.init();
         },
-        invoke: async <T = any>(operation: string, params: any): Promise<T> => {
+        invoke: async <T = any>(operation: string, params: unknown): Promise<T> => {
           const result = await integratedAPI.invoke(operation, params);
           if (!result.success) {
             throw new Error(result.error || `Operation ${operation} failed`);

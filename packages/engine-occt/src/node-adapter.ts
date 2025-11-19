@@ -32,7 +32,7 @@ export class GeometryProxy {
    * Execute a geometry operation through the worker
    * Maps node operation types to actual OCCT method names
    */
-  async execute(operation: { type: string; params: any }): Promise<any> {
+  async execute(operation: { type: string; params: unknown }): Promise<any> {
     // Map the operation type to the actual OCCT method name
     const actualMethod = this.operationMap[operation.type] || operation.type;
 
@@ -62,67 +62,67 @@ export class GeometryProxy {
    * Direct method proxies for common operations
    * These provide a more convenient API for nodes that want direct method calls
    */
-  async makeBox(params: any) {
+  async makeBox(params: unknown) {
     return this.execute({ type: 'makeBox', params });
   }
 
-  async makeSphere(params: any) {
+  async makeSphere(params: unknown) {
     return this.execute({ type: 'makeSphere', params });
   }
 
-  async makeCylinder(params: any) {
+  async makeCylinder(params: unknown) {
     return this.execute({ type: 'makeCylinder', params });
   }
 
-  async performUnion(params: any) {
+  async performUnion(params: unknown) {
     return this.execute({ type: 'performUnion', params });
   }
 
-  async performSubtract(params: any) {
+  async performSubtract(params: unknown) {
     return this.execute({ type: 'performSubtract', params });
   }
 
-  async performIntersect(params: any) {
+  async performIntersect(params: unknown) {
     return this.execute({ type: 'performIntersect', params });
   }
 
-  async translate(params: any) {
+  async translate(params: unknown) {
     return this.execute({ type: 'translate', params });
   }
 
-  async rotate(params: any) {
+  async rotate(params: unknown) {
     return this.execute({ type: 'rotate', params });
   }
 
-  async scale(params: any) {
+  async scale(params: unknown) {
     return this.execute({ type: 'scale', params });
   }
 
-  async fillet(params: any) {
+  async fillet(params: unknown) {
     return this.execute({ type: 'fillet', params });
   }
 
-  async chamfer(params: any) {
+  async chamfer(params: unknown) {
     return this.execute({ type: 'chamfer', params });
   }
 
-  async extrude(params: any) {
+  async extrude(params: unknown) {
     return this.execute({ type: 'extrude', params });
   }
 
-  async revolve(params: any) {
+  async revolve(params: unknown) {
     return this.execute({ type: 'revolve', params });
   }
 
-  async tessellate(params: any) {
+  async tessellate(params: unknown) {
     return this.execute({ type: 'tessellate', params });
   }
 
-  async calculateVolume(params: any) {
+  async calculateVolume(params: unknown) {
     return this.execute({ type: 'calculateVolume', params });
   }
 
-  async calculateArea(params: any) {
+  async calculateArea(params: unknown) {
     return this.execute({ type: 'calculateArea', params });
   }
 }

@@ -35,7 +35,7 @@ export class ProductionWorkerAPI implements WorkerAPI {
   private pendingRequests = new Map<
     number,
     {
-      resolve: (value: any) => void;
+      resolve: (value: unknown) => void;
       reject: (error: Error) => void;
       timeout: NodeJS.Timeout;
     }
@@ -184,7 +184,7 @@ export class ProductionWorkerAPI implements WorkerAPI {
     this.isInitialized = false;
   }
 
-  async invoke<T>(operation: string, params: any): Promise<T> {
+  async invoke<T>(operation: string, params: unknown): Promise<T> {
     if (!this.worker) {
       throw new Error('Worker not initialized');
     }

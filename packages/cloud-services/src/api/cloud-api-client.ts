@@ -40,7 +40,7 @@ export interface RequestOptions {
 
 export class CloudApiClient {
   private config: CloudApiConfig;
-  private cache = new Map<string, { data: any; expires: number }>();
+  private cache = new Map<string, { data: unknown; expires: number }>();
   private authToken?: string;
 
   constructor(config: CloudApiConfig) {
@@ -213,7 +213,7 @@ export class CloudApiClient {
     });
   }
 
-  async logShareAccess(shareId: ShareId, payload: any): Promise<void> {
+  async logShareAccess(shareId: ShareId, payload: unknown): Promise<void> {
     await this.request('POST', `/share/${shareId}/access`, {
       data: payload,
       cache: false,

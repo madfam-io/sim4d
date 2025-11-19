@@ -242,7 +242,7 @@ export class IntegratedGeometryAPI {
   /**
    * Enhanced invoke method with full integration
    */
-  async invoke<T = any>(operation: string, params: any): Promise<OperationResult<T>> {
+  async invoke<T = any>(operation: string, params: unknown): Promise<OperationResult<T>> {
     const startTime = Date.now();
     let memoryBefore = 0;
     let cacheHit = false;
@@ -715,7 +715,7 @@ Capabilities: ${this.capabilities ? 'Detected' : 'Not Available'}
    * Execute multiple operations in batch
    */
   async batchExecute(
-    operations: Array<{ operation: string; params: any }>
+    operations: Array<{ operation: string; params: unknown }>
   ): Promise<OperationResult[]> {
     const results: OperationResult[] = [];
 

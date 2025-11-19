@@ -79,7 +79,7 @@ export interface Logger {
 
 export interface Storage {
   get(key: string): Promise<any>;
-  set(key: string, value: any): Promise<void>;
+  set(key: string, value: unknown): Promise<void>;
   delete(key: string): Promise<void>;
   clear(): Promise<void>;
   keys(): Promise<string[]>;
@@ -319,7 +319,7 @@ export interface CameraState {
 
 export interface ViewportOverlay {
   type: 'line' | 'text' | 'mesh';
-  data: any;
+  data: unknown;
   style?: any;
 }
 

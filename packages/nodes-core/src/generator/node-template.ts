@@ -59,7 +59,7 @@ export interface NodeTemplate {
   // Examples
   examples?: {
     title: string;
-    parameters: Record<string, any>;
+    parameters: Record<string, unknown>;
     description?: string;
   }[];
 }

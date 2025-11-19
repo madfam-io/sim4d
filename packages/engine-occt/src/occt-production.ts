@@ -370,7 +370,7 @@ export class OCCTProductionAPI {
   }
 
   private toVector3(
-    value: any,
+    value: unknown,
     fallback: [number, number, number] = [0, 0, 0]
   ): [number, number, number] {
     if (Array.isArray(value) && value.length >= 3) {
@@ -494,7 +494,7 @@ export class OCCTProductionAPI {
     }
 
     try {
-      let result: any;
+      let result: unknown;
       const params = command.params ?? {};
       const operation = this.normalizeOperationType(command.type);
 

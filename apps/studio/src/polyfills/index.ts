@@ -36,7 +36,7 @@ if (typeof window !== 'undefined') {
   // Set up Buffer polyfill if needed
   if (!window.Buffer) {
     window.Buffer = {
-      from: (data: any) => new Uint8Array(data),
+      from: (data: unknown) => new Uint8Array(data),
       alloc: (size: number) => new Uint8Array(size),
       isBuffer: () => false,
     };

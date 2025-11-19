@@ -19,7 +19,7 @@ export interface SecureWebSocketOptions {
 
 export class SecureWebSocketClient {
   private socket: Socket | null = null;
-  private messageCallbacks: Set<(data: any) => void> = new Set();
+  private messageCallbacks: Set<(data: unknown) => void> = new Set();
   private reconnectCallbacks: Set<() => void> = new Set();
   private connected = false;
   private serverUrl: string;
@@ -111,7 +111,7 @@ export class SecureWebSocketClient {
   /**
    * Send a message through the WebSocket
    */
-  async send(event: string, data: any): Promise<void> {
+  async send(event: string, data: unknown): Promise<void> {
     if (!this.socket || !this.connected) {
       throw new Error('WebSocket not connected');
     }
@@ -130,14 +130,14 @@ export class SecureWebSocketClient {
   /**
    * Register a callback for incoming messages
    */
-  onMessage(callback: (data: any) => void): void {
+  onMessage(callback: (data: unknown) => void): void {
     this.messageCallbacks.add(callback);
   }
 
   /**
    * Remove a message callback
    */
-  offMessage(callback: (data: any) => void): void {
+  offMessage(callback: (data: unknown) => void): void {
     this.messageCallbacks.delete(callback);
   }
 
@@ -255,7 +255,7 @@ export class SecureWebSocketClient {
     });
 
     // Forward all messages to callbacks
-    this.socket.onAny((event: string, data: any) => {
+    this.socket.onAny((event: string, data: unknown) => {
       this.messageCallbacks.forEach((callback) => {
         callback({ event, data });
       });

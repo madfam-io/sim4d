@@ -24,7 +24,7 @@ import {
  */
 export type ConstraintFactory<T extends Constraint = Constraint> = (
   elements: GeometryElement[],
-  params: any
+  params: unknown
 ) => T;
 
 /**
@@ -32,7 +32,7 @@ export type ConstraintFactory<T extends Constraint = Constraint> = (
  */
 export type ConstraintValidator = (
   elements: GeometryElement[],
-  params: any
+  params: unknown
 ) => { valid: boolean; error?: string };
 
 /**
@@ -101,7 +101,7 @@ export class ConstraintRegistry {
   createConstraint(
     type: ConstraintType,
     elements: GeometryElement[],
-    params: any = {},
+    params: unknown = {},
     priority: number = 1
   ): Constraint | null {
     const definition = this.definitions.get(type);
@@ -132,7 +132,7 @@ export class ConstraintRegistry {
   validateConstraint(
     type: ConstraintType,
     elements: GeometryElement[],
-    params: any = {}
+    params: unknown = {}
   ): { valid: boolean; error?: string } {
     const definition = this.definitions.get(type);
     if (!definition) {
@@ -244,7 +244,7 @@ export class ConstraintRegistry {
   }
 
   // Constraint factory methods
-  private createDistanceConstraint(elements: GeometryElement[], params: any): DistanceConstraint {
+  private createDistanceConstraint(elements: GeometryElement[], params: unknown): DistanceConstraint {
     return {
       id: '',
       type: ConstraintType.DISTANCE,
@@ -257,7 +257,7 @@ export class ConstraintRegistry {
 
   private createCoincidentConstraint(
     elements: GeometryElement[],
-    params: any
+    params: unknown
   ): CoincidentConstraint {
     return {
       id: '',
@@ -268,7 +268,7 @@ export class ConstraintRegistry {
     };
   }
 
-  private createParallelConstraint(elements: GeometryElement[], params: any): ParallelConstraint {
+  private createParallelConstraint(elements: GeometryElement[], params: unknown): ParallelConstraint {
     return {
       id: '',
       type: ConstraintType.PARALLEL,
@@ -280,7 +280,7 @@ export class ConstraintRegistry {
 
   private createPerpendicularConstraint(
     elements: GeometryElement[],
-    params: any
+    params: unknown
   ): PerpendicularConstraint {
     return {
       id: '',
@@ -293,7 +293,7 @@ export class ConstraintRegistry {
 
   private createHorizontalConstraint(
     elements: GeometryElement[],
-    params: any
+    params: unknown
   ): HorizontalConstraint {
     return {
       id: '',
@@ -304,7 +304,7 @@ export class ConstraintRegistry {
     };
   }
 
-  private createVerticalConstraint(elements: GeometryElement[], params: any): VerticalConstraint {
+  private createVerticalConstraint(elements: GeometryElement[], params: unknown): VerticalConstraint {
     return {
       id: '',
       type: ConstraintType.VERTICAL,
@@ -314,7 +314,7 @@ export class ConstraintRegistry {
     };
   }
 
-  private createAngleConstraint(elements: GeometryElement[], params: any): AngleConstraint {
+  private createAngleConstraint(elements: GeometryElement[], params: unknown): AngleConstraint {
     return {
       id: '',
       type: ConstraintType.ANGLE,
@@ -325,7 +325,7 @@ export class ConstraintRegistry {
     };
   }
 
-  private createRadiusConstraint(elements: GeometryElement[], params: any): RadiusConstraint {
+  private createRadiusConstraint(elements: GeometryElement[], params: unknown): RadiusConstraint {
     return {
       id: '',
       type: ConstraintType.RADIUS,
@@ -339,7 +339,7 @@ export class ConstraintRegistry {
   // Validation methods
   private validateDistanceConstraint(
     elements: GeometryElement[],
-    params: any
+    params: unknown
   ): { valid: boolean; error?: string } {
     if (elements.length !== 2) {
       return { valid: false, error: 'Distance constraint requires exactly 2 points' };
@@ -358,7 +358,7 @@ export class ConstraintRegistry {
 
   private validateCoincidentConstraint(
     elements: GeometryElement[],
-    params: any
+    params: unknown
   ): { valid: boolean; error?: string } {
     if (elements.length !== 2) {
       return { valid: false, error: 'Coincident constraint requires exactly 2 points' };
@@ -373,7 +373,7 @@ export class ConstraintRegistry {
 
   private validateParallelConstraint(
     elements: GeometryElement[],
-    params: any
+    params: unknown
   ): { valid: boolean; error?: string } {
     if (elements.length !== 2) {
       return { valid: false, error: 'Parallel constraint requires exactly 2 lines' };
@@ -388,7 +388,7 @@ export class ConstraintRegistry {
 
   private validatePerpendicularConstraint(
     elements: GeometryElement[],
-    params: any
+    params: unknown
   ): { valid: boolean; error?: string } {
     if (elements.length !== 2) {
       return { valid: false, error: 'Perpendicular constraint requires exactly 2 lines' };
@@ -403,7 +403,7 @@ export class ConstraintRegistry {
 
   private validateHorizontalConstraint(
     elements: GeometryElement[],
-    params: any
+    params: unknown
   ): { valid: boolean; error?: string } {
     if (elements.length !== 1) {
       return { valid: false, error: 'Horizontal constraint requires exactly 1 line' };
@@ -418,7 +418,7 @@ export class ConstraintRegistry {
 
   private validateVerticalConstraint(
     elements: GeometryElement[],
-    params: any
+    params: unknown
   ): { valid: boolean; error?: string } {
     if (elements.length !== 1) {
       return { valid: false, error: 'Vertical constraint requires exactly 1 line' };
@@ -433,7 +433,7 @@ export class ConstraintRegistry {
 
   private validateAngleConstraint(
     elements: GeometryElement[],
-    params: any
+    params: unknown
   ): { valid: boolean; error?: string } {
     if (elements.length !== 2) {
       return { valid: false, error: 'Angle constraint requires exactly 2 lines' };
@@ -452,7 +452,7 @@ export class ConstraintRegistry {
 
   private validateRadiusConstraint(
     elements: GeometryElement[],
-    params: any
+    params: unknown
   ): { valid: boolean; error?: string } {
     if (elements.length !== 1) {
       return { valid: false, error: 'Radius constraint requires exactly 1 circle' };

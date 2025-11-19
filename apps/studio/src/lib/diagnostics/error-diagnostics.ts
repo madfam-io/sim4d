@@ -29,9 +29,9 @@ export interface NodeErrorDiagnostic {
   timestamp: Date;
   suggestions: DiagnosticSuggestion[];
   context: {
-    parameters?: Record<string, any>;
-    inputValues?: Record<string, any>;
-    systemState?: Record<string, any>;
+    parameters?: Record<string, unknown>;
+    inputValues?: Record<string, unknown>;
+    systemState?: Record<string, unknown>;
     relatedErrors?: string[]; // Other node IDs with related errors
   };
 }

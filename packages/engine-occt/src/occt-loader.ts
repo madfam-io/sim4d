@@ -530,7 +530,7 @@ ${performanceReport}
 class OCCTAdapter {
   constructor(private readonly occtModule: any) {}
 
-  async invoke<T>(operation: string, params: any): Promise<T> {
+  async invoke<T>(operation: string, params: unknown): Promise<T> {
     const op = operation?.toUpperCase?.() ?? operation;
 
     try {
@@ -590,7 +590,7 @@ class OCCTAdapter {
     };
   }
 
-  private getShapeId(input: any): string {
+  private getShapeId(input: unknown): string {
     if (!input) {
       throw new Error('Shape identifier not provided');
     }
@@ -697,7 +697,7 @@ class OCCTAdapter {
   }
 
   private normalizeMesh(mesh: any) {
-    const toFloat32 = (value: any) => {
+    const toFloat32 = (value: unknown) => {
       if (!value) return new Float32Array();
       if (value instanceof Float32Array) return value;
       if (typeof value.toTypedArray === 'function') {
@@ -717,7 +717,7 @@ class OCCTAdapter {
       return new Float32Array();
     };
 
-    const toUint32 = (value: any) => {
+    const toUint32 = (value: unknown) => {
       if (!value) return new Uint32Array();
       if (value instanceof Uint32Array) return value;
       if (typeof value.toTypedArray === 'function') {

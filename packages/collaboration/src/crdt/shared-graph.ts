@@ -189,7 +189,7 @@ export class SharedGraph {
   /**
    * Update graph metadata
    */
-  private updateMetadata(updates: Record<string, any>): void {
+  private updateMetadata(updates: Record<string, unknown>): void {
     Object.entries(updates).forEach(([key, value]) => {
       this.metadata.set(key, value);
     });
@@ -226,7 +226,7 @@ export class SharedGraph {
     });
 
     // Convert metadata
-    const metadata: any = {};
+    const metadata: unknown = {};
     this.metadata.forEach((value, key) => (metadata[key] = value));
 
     return {

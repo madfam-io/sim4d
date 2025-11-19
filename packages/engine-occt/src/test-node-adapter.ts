@@ -38,9 +38,9 @@ async function testGeometryProxy() {
 
   // Create a mock worker API for testing
   const mockWorker = {
-    makeBox: async (params: any) => ({ id: 'box-1', type: 'solid', ...params }),
-    makeSphere: async (params: any) => ({ id: 'sphere-1', type: 'solid', ...params }),
-    performUnion: async (params: any) => ({ id: 'union-1', type: 'solid', ...params }),
+    makeBox: async (params: unknown) => ({ id: 'box-1', type: 'solid', ...params }),
+    makeSphere: async (params: unknown) => ({ id: 'sphere-1', type: 'solid', ...params }),
+    performUnion: async (params: unknown) => ({ id: 'union-1', type: 'solid', ...params }),
     execute: async (op: any) => ({ id: `${op.type}-1`, type: 'result', ...op.params }),
   } as any as WorkerAPI;
 
@@ -118,7 +118,7 @@ async function testNodeEvaluation() {
       params: {},
       inputs: {},
       outputs: { solid: { type: 'Solid' } },
-      async evaluate(context: any, inputs: any, params: any) {
+      async evaluate(context: any, inputs: any, params: unknown) {
         // This mimics how generated nodes work - they expect context.geometry
         if (!context.geometry) {
           throw new Error('context.geometry not available - adapter not working!');

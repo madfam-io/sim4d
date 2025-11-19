@@ -30,7 +30,7 @@ export function useMonitoring() {
   }, []);
 
   const recordUserInteraction = useCallback(
-    (interaction: { type: string; target?: string; data?: Record<string, any> }) => {
+    (interaction: { type: string; target?: string; data?: Record<string, unknown> }) => {
       monitoringSystem?.recordUserInteraction(interaction);
     },
     [monitoringSystem]

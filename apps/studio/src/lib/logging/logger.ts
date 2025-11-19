@@ -17,7 +17,7 @@ export interface LogEntry {
   data?: any;
   timestamp: number;
   sessionId: string;
-  context?: Record<string, any>;
+  context?: Record<string, unknown>;
 }
 
 export class Logger {
@@ -51,35 +51,35 @@ export class Logger {
   /**
    * Log debug message
    */
-  public debug(message: string, data?: any, context?: Record<string, any>): void {
+  public debug(message: string, data?: any, context?: Record<string, unknown>): void {
     this.log(LogLevel.DEBUG, message, data, context);
   }
 
   /**
    * Log info message
    */
-  public info(message: string, data?: any, context?: Record<string, any>): void {
+  public info(message: string, data?: any, context?: Record<string, unknown>): void {
     this.log(LogLevel.INFO, message, data, context);
   }
 
   /**
    * Log warning message
    */
-  public warn(message: string, data?: any, context?: Record<string, any>): void {
+  public warn(message: string, data?: any, context?: Record<string, unknown>): void {
     this.log(LogLevel.WARN, message, data, context);
   }
 
   /**
    * Log error message
    */
-  public error(message: string, data?: any, context?: Record<string, any>): void {
+  public error(message: string, data?: any, context?: Record<string, unknown>): void {
     this.log(LogLevel.ERROR, message, data, context);
   }
 
   /**
    * Core logging method
    */
-  private log(level: LogLevel, message: string, data?: any, context?: Record<string, any>): void {
+  private log(level: LogLevel, message: string, data?: any, context?: Record<string, unknown>): void {
     // Check if we should log this level
     const configLevel = this.getLogLevelFromConfig();
     if (level < configLevel) {
@@ -257,14 +257,14 @@ export class Logger {
   /**
    * Create child logger with additional context
    */
-  public createChild(context: Record<string, any>): ChildLogger {
+  public createChild(context: Record<string, unknown>): ChildLogger {
     return new ChildLogger(this, context);
   }
 
   /**
    * Sanitize data to remove sensitive information
    */
-  private sanitizeData(data: any): any {
+  private sanitizeData(data: unknown): any {
     if (!data) return data;
 
     if (typeof data === 'string') {
@@ -320,22 +320,22 @@ export class Logger {
 export class ChildLogger {
   constructor(
     private parent: Logger,
-    private context: Record<string, any>
+    private context: Record<string, unknown>
   ) {}
 
-  public debug(message: string, data?: any, additionalContext?: Record<string, any>): void {
+  public debug(message: string, data?: any, additionalContext?: Record<string, unknown>): void {
     this.parent.debug(message, data, { ...this.context, ...additionalContext });
   }
 
-  public info(message: string, data?: any, additionalContext?: Record<string, any>): void {
+  public info(message: string, data?: any, additionalContext?: Record<string, unknown>): void {
     this.parent.info(message, data, { ...this.context, ...additionalContext });
   }
 
-  public warn(message: string, data?: any, additionalContext?: Record<string, any>): void {
+  public warn(message: string, data?: any, additionalContext?: Record<string, unknown>): void {
     this.parent.warn(message, data, { ...this.context, ...additionalContext });
   }
 
-  public error(message: string, data?: any, additionalContext?: Record<string, any>): void {
+  public error(message: string, data?: any, additionalContext?: Record<string, unknown>): void {
     this.parent.error(message, data, { ...this.context, ...additionalContext });
   }
 }
@@ -347,9 +347,9 @@ export class TimingLogger {
   private startTime: number;
   private logger: Logger;
   private operation: string;
-  private context: Record<string, any>;
+  private context: Record<string, unknown>;
 
-  constructor(logger: Logger, operation: string, context: Record<string, any> = {}) {
+  constructor(logger: Logger, operation: string, context: Record<string, unknown> = {}) {
     this.logger = logger;
     this.operation = operation;
     this.context = context;
@@ -358,7 +358,7 @@ export class TimingLogger {
     this.logger.debug(`Starting operation: ${operation}`, null, context);
   }
 
-  public finish(additionalContext?: Record<string, any>): void {
+  public finish(additionalContext?: Record<string, unknown>): void {
     const duration = performance.now() - this.startTime;
     const finalContext = {
       ...this.context,
@@ -369,7 +369,7 @@ export class TimingLogger {
     this.logger.info(`Completed operation: ${this.operation}`, null, finalContext);
   }
 
-  public error(error: Error, additionalContext?: Record<string, any>): void {
+  public error(error: Error, additionalContext?: Record<string, unknown>): void {
     const duration = performance.now() - this.startTime;
     const finalContext = {
       ...this.context,

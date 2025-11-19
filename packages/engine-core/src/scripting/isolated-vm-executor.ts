@@ -300,7 +300,7 @@ export class IsolatedVMExecutor implements ScriptExecutor {
       {
         label: 'ctx.script.setOutput',
         kind: 'function',
-        detail: '(name: string, value: any) => void',
+        detail: '(name: string, value: unknown) => void',
         documentation: 'Set output value by name',
         insertText: 'ctx.script.setOutput($1, $2)',
       },
@@ -566,7 +566,7 @@ async function evaluate(ctx, inputs, params) {
   /**
    * Extract outputs from isolate context
    */
-  private async extractOutputs(context: ivm.Context): Promise<Record<string, any>> {
+  private async extractOutputs(context: ivm.Context): Promise<Record<string, unknown>> {
     try {
       // Get the __outputs__ object from the isolate context
       const outputsRef = await context.global.get('__outputs__');

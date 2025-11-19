@@ -47,7 +47,7 @@ export interface WebSocketMessage {
   userId?: UserId;
   sessionId?: SessionId;
   projectId?: ProjectId;
-  data: any;
+  data: unknown;
 }
 
 export type MessageType =
@@ -567,7 +567,7 @@ export class WebSocketService extends EventEmitter {
   /**
    * Validation and Rate Limiting
    */
-  private validateMessage(message: any): boolean {
+  private validateMessage(message: unknown): boolean {
     return (
       message &&
       typeof message.id === 'string' &&

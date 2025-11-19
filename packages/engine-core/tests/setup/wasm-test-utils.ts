@@ -34,7 +34,7 @@ export const createMockGeometryHandle = (type: ShapeType = 'SOLID'): GeometryHan
 export const createMockWorkerAPI = (): WorkerAPI => {
   const mockAPI: WorkerAPI = {
     // Primitive creation
-    invoke: vi.fn().mockImplementation(async (operation: string, params: any) => {
+    invoke: vi.fn().mockImplementation(async (operation: string, params: unknown) => {
       // Simulate geometry operations
       switch (operation) {
         case 'MAKE_BOX':

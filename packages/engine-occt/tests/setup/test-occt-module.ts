@@ -14,7 +14,7 @@ export interface TestOCCTModule {
   _free: (ptr: number) => void;
   cwrap: (name: string, returnType: string, argTypes: string[]) => Function;
   ccall: (name: string, returnType: string, argTypes: string[], args: any[]) => any;
-  setValue: (ptr: number, value: any, type: string) => void;
+  setValue: (ptr: number, value: unknown, type: string) => void;
   getValue: (ptr: number, type: string) => any;
   UTF8ToString: (ptr: number) => string;
   stringToUTF8: (str: string, ptr: number, maxLength: number) => void;
@@ -99,7 +99,7 @@ class TestMemoryManager {
     this.allocated.delete(ptr);
   }
 
-  setValue(ptr: number, value: any, type: string): void {
+  setValue(ptr: number, value: unknown, type: string): void {
     switch (type) {
       case 'i32':
         this.heap32[ptr >> 2] = value;
@@ -173,7 +173,7 @@ export function createTestOCCTModule(): TestOCCTModule {
       return simulateOCCTOperation(name, args);
     },
 
-    setValue: (ptr: number, value: any, type: string) => {
+    setValue: (ptr: number, value: unknown, type: string) => {
       memoryManager.setValue(ptr, value, type);
     },
 

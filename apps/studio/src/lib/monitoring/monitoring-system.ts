@@ -289,7 +289,7 @@ export class MonitoringSystem {
   public recordUserInteraction(interaction: {
     type: string;
     target?: string;
-    data?: Record<string, any>;
+    data?: Record<string, unknown>;
   }): void {
     if (!this.config.enabledFeatures.userAnalytics) {
       return;

@@ -28,7 +28,7 @@ export class PresenceManager {
     documentId: string,
     userId: string,
     field: keyof Presence,
-    value: any
+    value: unknown
   ): Presence | undefined {
     const docPresence = this.presence.get(documentId);
     if (!docPresence) return undefined;

@@ -411,7 +411,7 @@ export function Inspector({ selectedNode, onParamChange }: InspectorProps) {
   }, [selectedNode?.type]);
 
   const validateParams = useCallback(
-    (paramValues: Record<string, any>): Record<string, string> => {
+    (paramValues: Record<string, unknown>): Record<string, string> => {
       const validationErrors: Record<string, string> = {};
 
       parameterConfigs.forEach((config) => {

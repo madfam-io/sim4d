@@ -368,7 +368,7 @@ async function evaluate(ctx, inputs, params) {
         {
           name: 'ctx.script.setOutput',
           type: 'function',
-          signature: 'setOutput(name: string, value: any): void',
+          signature: 'setOutput(name: string, value: unknown): void',
           description: 'Set output value by name',
           parameters: [
             { name: 'name', type: 'string', description: 'Output socket name' },
@@ -431,7 +431,7 @@ async function evaluate(ctx, inputs, params) {
         }
         return (context as any).params?.[name] ?? defaultValue;
       },
-      setOutput: (name: string, value: any) => {
+      setOutput: (name: string, value: unknown) => {
         if (typeof name !== 'string' || name.length > 100) {
           throw new Error('Invalid output name');
         }
@@ -771,7 +771,7 @@ async function evaluate(ctx, inputs, params) {
       {
         label: 'ctx.geom.invoke',
         kind: 'function',
-        detail: '(operation: string, params: any) => Promise<any>',
+        detail: '(operation: string, params: unknown) => Promise<any>',
         documentation: 'Invoke a geometry operation',
         insertText: 'ctx.geom.invoke($1)',
       },
@@ -790,7 +790,7 @@ async function evaluate(ctx, inputs, params) {
       {
         label: 'setOutput',
         kind: 'function',
-        detail: '(name: string, value: any) => void',
+        detail: '(name: string, value: unknown) => void',
         documentation: 'Set output value by name',
         insertText: 'setOutput($1, $2)',
       },

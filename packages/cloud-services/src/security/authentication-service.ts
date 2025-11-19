@@ -119,7 +119,7 @@ export interface SecurityEvent {
   ipAddress: string;
   userAgent: string;
   timestamp: Date;
-  details: Record<string, any>;
+  details: Record<string, unknown>;
   severity: 'low' | 'medium' | 'high' | 'critical';
 }
 

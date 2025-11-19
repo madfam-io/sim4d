@@ -33,7 +33,7 @@ export interface ScriptExample {
   title: string;
   description: string;
   code: string;
-  parameters?: Record<string, any>;
+  parameters?: Record<string, unknown>;
 }
 
 export interface ScriptValidationResult {
@@ -75,7 +75,7 @@ export interface ScriptContext extends EvalContext {
 
     // Node utilities
     getParameter: <T = any>(name: string, defaultValue?: T) => T;
-    setOutput: (name: string, value: any) => void;
+    setOutput: (name: string, value: unknown) => void;
     getInput: <T = any>(name: string) => T | undefined;
 
     // Async utilities
@@ -128,7 +128,7 @@ export interface ScriptedNodeDefinition extends NodeDefinition {
   };
 
   // Enhanced evaluation with script execution
-  evaluate: (ctx: ScriptContext, inputs: any, params: any) => Promise<any>;
+  evaluate: (ctx: ScriptContext, inputs: any, params: unknown) => Promise<any>;
 
   // Script lifecycle hooks
   onInitialize?: (ctx: ScriptContext) => Promise<void>;
@@ -153,7 +153,7 @@ export interface ScriptTemplate {
 
 export interface ScriptExecutionResult {
   success: boolean;
-  outputs: Record<string, any>;
+  outputs: Record<string, unknown>;
   logs: ScriptLogEntry[];
   metrics: ScriptMetric[];
   executionTime: number;

@@ -158,7 +158,7 @@ export class AdvancedMemoryManager {
   /**
    * Cache operation results for performance optimization
    */
-  cacheResult(operationKey: string, result: any, priority: number = 1): void {
+  cacheResult(operationKey: string, result: unknown, priority: number = 1): void {
     const endMeasurement = this.performanceMonitor.startMeasurement('cache-result-store');
     const size = this.estimateResultSize(result);
 
@@ -332,7 +332,7 @@ export class AdvancedMemoryManager {
   /**
    * Generate operation cache key with parameter hashing
    */
-  generateOperationKey(operation: string, params: any): string {
+  generateOperationKey(operation: string, params: unknown): string {
     // Simple hash of operation and parameters
     const paramStr = JSON.stringify(params, Object.keys(params).sort());
     return `${operation}_${this.simpleHash(paramStr)}`;
@@ -794,7 +794,7 @@ export class AdvancedMemoryManager {
   /**
    * Estimate memory size of operation result
    */
-  private estimateResultSize(result: any): number {
+  private estimateResultSize(result: unknown): number {
     try {
       // If result is a shape handle or mesh, estimate more accurately
       if (result && typeof result === 'object') {

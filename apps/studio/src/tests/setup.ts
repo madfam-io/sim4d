@@ -284,7 +284,7 @@ vi.mock('@brepflow/engine-core', () => {
     get(key: any) {
       return null;
     }
-    set(key: any, value: any) {}
+    set(key: any, value: unknown) {}
     clear() {}
   }
 

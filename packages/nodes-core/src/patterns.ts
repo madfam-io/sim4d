@@ -1,6 +1,6 @@
 import type { NodeDefinition, ShapeHandle, Vec3 } from '@brepflow/types';
 
-const extractPatternShapes = (result: any): ShapeHandle[] => {
+const extractPatternShapes = (result: unknown): ShapeHandle[] => {
   if (Array.isArray(result)) return result;
   if (result?.shapes && Array.isArray(result.shapes)) return result.shapes;
   return [];

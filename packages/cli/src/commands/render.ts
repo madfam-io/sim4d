@@ -261,7 +261,7 @@ export function collectShapeHandles(graph: GraphInstance): ShapeCandidate[] {
   const seen = new Set<string>();
   let index = 0;
 
-  const visit = (value: any, nodeId: string, outputKey: string) => {
+  const visit = (value: unknown, nodeId: string, outputKey: string) => {
     if (value == null) {
       return;
     }
@@ -348,7 +348,7 @@ function buildFileName(shape: ShapeCandidate, format: string, includeHash: boole
   return `${stem}${hash ? `-${hash}` : ''}.${format}`;
 }
 
-export function unwrapOperationResult<T>(value: any): {
+export function unwrapOperationResult<T>(value: unknown): {
   success: boolean;
   result: T | undefined;
   error?: any;
@@ -370,7 +370,7 @@ export function unwrapOperationResult<T>(value: any): {
 async function invokeOperation<T>(
   geometryAPI: WorkerAPI,
   operation: string,
-  params: any
+  params: unknown
 ): Promise<T> {
   const response = await geometryAPI.invoke(operation, params);
   const { success, result, error } = unwrapOperationResult<T>(response);

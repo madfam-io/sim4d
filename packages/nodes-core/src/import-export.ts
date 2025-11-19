@@ -119,7 +119,7 @@ export const ImportSTLNode: NodeDefinition<
 
 export const ExportSTEPNode: NodeDefinition<
   { shapes: ShapeHandle[] },
-  { result: any },
+  { result: unknown },
   { filePath: string; units: string; precision: string }
 > = {
   id: 'ImportExport::ExportSTEP',
@@ -164,7 +164,7 @@ export const ExportSTEPNode: NodeDefinition<
 
 export const ExportIGESNode: NodeDefinition<
   { shapes: ShapeHandle[] },
-  { result: any },
+  { result: unknown },
   { filePath: string; units: string; version: string }
 > = {
   id: 'ImportExport::ExportIGES',
@@ -209,7 +209,7 @@ export const ExportIGESNode: NodeDefinition<
 
 export const ExportSTLNode: NodeDefinition<
   { shapes: ShapeHandle[] },
-  { result: any },
+  { result: unknown },
   { filePath: string; quality: string; binary: boolean }
 > = {
   id: 'ImportExport::ExportSTL',
@@ -253,7 +253,7 @@ export const ExportSTLNode: NodeDefinition<
 
 export const ExportOBJNode: NodeDefinition<
   { shapes: ShapeHandle[] },
-  { result: any },
+  { result: unknown },
   { filePath: string; includeNormals: boolean; includeTextures: boolean }
 > = {
   id: 'ImportExport::ExportOBJ',

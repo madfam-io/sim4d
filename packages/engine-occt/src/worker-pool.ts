@@ -49,7 +49,7 @@ export interface PoolConfig {
 
   // DEPENDENCY INJECTION for testing
   // Allows tests to provide mock worker factory instead of real WorkerClient instantiation
-  workerFactory?: (url: string | undefined, options: any) => WorkerClient;
+  workerFactory?: (url: string | undefined, options: unknown) => WorkerClient;
   // Allows tests to provide mock capability detector
   capabilityDetector?: () => Promise<any>;
   // Allows tests to provide mock OCCT config provider
@@ -64,7 +64,7 @@ export class WorkerPool {
   private workers = new Map<string, PoolWorker>();
   private queue: Array<{
     request: any;
-    resolve: (value: any) => void;
+    resolve: (value: unknown) => void;
     reject: (error: any) => void;
     priority: number;
     timeout?: number;
@@ -79,7 +79,7 @@ export class WorkerPool {
   private optimalOCCTConfig: OCCTConfig | null = null;
 
   // Dependency injection - store injected or default implementations
-  private readonly workerFactory: (url: string | undefined, options: any) => WorkerClient;
+  private readonly workerFactory: (url: string | undefined, options: unknown) => WorkerClient;
   private readonly capabilityDetector: () => Promise<any>;
   private readonly configProvider: () => Promise<OCCTConfig | null>;
   private readonly performanceMonitor: {
@@ -311,7 +311,7 @@ export class WorkerPool {
    */
   async execute<T = any>(
     operation: string,
-    params: any,
+    params: unknown,
     options: {
       priority?: number;
       timeout?: number;

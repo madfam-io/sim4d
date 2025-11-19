@@ -4,7 +4,7 @@ export interface HistoryNode {
   id: string;
   type: 'operation' | 'parameter' | 'feature';
   operation: string;
-  parameters: Record<string, any>;
+  parameters: Record<string, unknown>;
   parentId?: string;
   childrenIds: string[];
   timestamp: number;
@@ -34,7 +34,7 @@ export class ParametricHistoryTree {
   /**
    * Add a new operation to the history tree
    */
-  addOperation(operation: string, parameters: Record<string, any>, parentId?: string): string {
+  addOperation(operation: string, parameters: Record<string, unknown>, parentId?: string): string {
     const id = uuidv4();
     const node: HistoryNode = {
       id,
@@ -67,7 +67,7 @@ export class ParametricHistoryTree {
   /**
    * Update parameters of an existing operation
    */
-  updateParameters(nodeId: string, parameters: Record<string, any>): void {
+  updateParameters(nodeId: string, parameters: Record<string, unknown>): void {
     const node = this.state.nodes.get(nodeId);
     if (!node) throw new Error(`Node ${nodeId} not found`);
 

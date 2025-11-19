@@ -404,18 +404,18 @@ export interface SocketSpec {
 }
 
 // Node types
-export interface NodeInstance<I = any, O = any, P = any> {
+export interface NodeInstance<I = Record<string, unknown>, O = Record<string, unknown>, P = Record<string, unknown>> {
   id: NodeId;
   type: string;
   position?: { x: number; y: number };
   inputs: Partial<Record<keyof I, SocketRef | SocketRef[]>>;
-  outputs?: Partial<Record<keyof O, any>>;
+  outputs?: Partial<Record<keyof O, unknown>>;
   params: P;
   state?: Record<string, unknown>;
   dirty?: boolean;
 }
 
-export interface NodeDefinition<I = any, O = any, P = any> {
+export interface NodeDefinition<I = Record<string, unknown>, O = Record<string, unknown>, P = Record<string, unknown>> {
   id: string;
   type: string; // Node type identifier (same as id for compatibility)
   category: string;
@@ -436,7 +436,7 @@ export interface ParamSpec {
 export interface ParamDefinition {
   type: 'number' | 'string' | 'boolean' | 'vec3' | 'enum' | 'expression';
   label?: string;
-  default?: any;
+  default?: ParamValue;
   min?: number;
   max?: number;
   step?: number;
@@ -447,7 +447,7 @@ export interface ParamDefinition {
 export interface ConstraintElement {
   id: string;
   type: 'point' | 'line' | 'circle' | 'arc';
-  data: any;
+  data: unknown;
 }
 
 export interface ConstraintInfo {
@@ -456,7 +456,7 @@ export interface ConstraintInfo {
 }
 
 // Enhanced output types for constraint-aware nodes
-export interface ParametricOutput<T = any> {
+export interface ParametricOutput<T = unknown> {
   geometry: T;
   constraints?: ConstraintInfo;
 }
@@ -465,7 +465,7 @@ export interface ParametricOutput<T = any> {
 export interface EvalContext {
   nodeId: NodeId;
   graph: GraphInstance;
-  cache: Map<string, any>;
+  cache: Map<string, unknown>;
   worker: WorkerAPI;
   constraintManager?: any; // ConstraintManager from engine-core
   abort?: AbortController;
@@ -473,8 +473,8 @@ export interface EvalContext {
 
 // Constraint system persistence
 export interface ConstraintSystemState {
-  geometry: Array<[string, any]>;
-  constraints: Array<[string, any]>;
+  geometry: Array<[string, unknown]>;
+  constraints: Array<[string, unknown]>;
   variables: Array<[string, number]>;
   solved: boolean;
   lastSolveTime: number;
@@ -533,11 +533,11 @@ export interface Edge {
 // Worker API
 export interface WorkerAPI {
   init?(): Promise<void>;
-  invoke<T = any>(operation: string, params: any): Promise<T>;
-  execute?<T = any>(operation: string, params: any): Promise<T>;
+  invoke<T = unknown>(operation: string, params: unknown): Promise<T>;
+  execute?<T = unknown>(operation: string, params: unknown): Promise<T>;
   tessellate(shapeId: HandleId, deflection: number): Promise<MeshData>;
   dispose(handleId: HandleId): Promise<void>;
-  healthCheck?(): Promise<any>;
+  healthCheck?(): Promise<{ status: string; timestamp: number }>;
   terminate?(): Promise<void>;
 }
 
@@ -560,17 +560,17 @@ export type WorkerMessageType =
 export interface WorkerRequest {
   id: number;
   type: WorkerMessageType;
-  params: any;
+  params: unknown;
 }
 
-export interface WorkerResponse {
+export interface WorkerResponse<T = unknown> {
   id?: number;
   success?: boolean;
-  result?: any;
+  result?: T;
   error?: {
     message: string;
     code?: string;
-    details?: any;
+    details?: unknown;
   };
   type?: string;
 }
@@ -587,7 +587,7 @@ export interface ShapeHandle {
   bbox_max_x?: number;
   bbox_max_y?: number;
   bbox_max_z?: number;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   volume?: number;
   area?: number;
   centerX?: number;
@@ -595,11 +595,23 @@ export interface ShapeHandle {
   centerZ?: number;
 }
 
+// Component handle (for assembly components)
+export interface ComponentHandle {
+  id: HandleId;
+  part: ShapeHandle;
+  name: string;
+  material?: string;
+  color?: string;
+  visible?: boolean;
+  transform?: Transform;
+  hash?: string;
+}
+
 // Assembly handle
 export interface AssemblyHandle {
   id: HandleId;
   name: string;
-  parts: ShapeHandle[];
+  parts: ComponentHandle[];
   mates: MateConstraint[];
   visible: boolean;
   hash?: string;
@@ -622,6 +634,66 @@ export interface MateConstraint {
   axis2?: Vec3;
   distance?: number;
   angle?: number;
+}
+
+// Joint handle for kinematic joints
+export interface JointHandle {
+  id: HandleId;
+  type: 'revolute' | 'prismatic' | 'cylindrical' | 'spherical' | 'planar' | 'fixed';
+  component1: HandleId;
+  component2: HandleId;
+  axis?: Vec3;
+  limits?: { min: number; max: number };
+  hash?: string;
+}
+
+// Motion analysis result
+export interface MotionHandle {
+  id: HandleId;
+  type: 'linear' | 'rotational' | 'complex';
+  trajectory: Vec3[];
+  duration: number;
+  velocity?: Vec3[];
+  acceleration?: Vec3[];
+  hash?: string;
+}
+
+// Bill of Materials entry
+export interface BOMEntry {
+  partId: HandleId;
+  name: string;
+  quantity: number;
+  material?: string;
+  weight?: number;
+  cost?: number;
+  supplier?: string;
+}
+
+// Bill of Materials
+export interface BillOfMaterials {
+  entries: BOMEntry[];
+  totalWeight: number;
+  totalCost: number;
+  currency?: string;
+}
+
+// Assembly sequence step
+export interface AssemblyStep {
+  stepNumber: number;
+  component: HandleId;
+  operation: 'place' | 'fasten' | 'align' | 'weld' | 'glue';
+  instruction: string;
+  toolsRequired?: string[];
+  duration?: number;
+}
+
+// Interference detection result
+export interface InterferenceData {
+  component1: HandleId;
+  component2: HandleId;
+  volume: number;
+  location: Vec3;
+  severity: 'warning' | 'error';
 }
 
 // Mesh data

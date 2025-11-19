@@ -69,7 +69,7 @@ self.addEventListener('message', async (event: MessageEvent<WorkerRequest>) => {
   const startTime = performance.now();
 
   try {
-    let result: any;
+    let result: unknown;
 
     switch (request.type) {
       case 'INIT':

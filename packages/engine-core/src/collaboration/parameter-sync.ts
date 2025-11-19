@@ -15,7 +15,7 @@ import {
 export interface ParameterChange {
   nodeId: NodeId;
   paramName: string;
-  value: any;
+  value: unknown;
   previousValue: any;
   userId: UserId;
   timestamp: number;
@@ -42,7 +42,7 @@ export class ParameterSynchronizer {
   private config: ParameterSyncConfig;
   private pendingChanges = new Map<string, ParameterChange>();
   private parameterLocks = new Map<string, ParameterLock>();
-  private throttleTimers = new Map<string, any>(); // Use any to support both browser and Node.js
+  private throttleTimers = new Map<string, unknown>(); // Use any to support both browser and Node.js
   private batchTimer: any = null; // Use any to support both browser and Node.js
   private changeListeners = new Map<string, ((change: ParameterChange) => void)[]>();
 
@@ -67,7 +67,7 @@ export class ParameterSynchronizer {
     sessionId: SessionId,
     nodeId: NodeId,
     paramName: string,
-    value: any,
+    value: unknown,
     userId: UserId
   ): Promise<void> {
     const lockKey = this.getLockKey(nodeId, paramName);
@@ -367,7 +367,7 @@ export class ParameterSynchronizer {
  * High-level manager for parameter synchronization
  */
 export interface ParameterSyncState {
-  value: any;
+  value: unknown;
   lastModified: number;
   lastModifiedBy: UserId;
   isLocked: boolean;
@@ -379,7 +379,7 @@ export class ParameterSyncManager {
   private sessionId: SessionId;
   private userId: UserId;
   private parameterStates = new Map<string, ParameterSyncState>();
-  private subscriptions = new Map<string, (value: any) => void>();
+  private subscriptions = new Map<string, (value: unknown) => void>();
 
   constructor(synchronizer: ParameterSynchronizer, sessionId: SessionId, userId: UserId) {
     this.synchronizer = synchronizer;
@@ -390,7 +390,7 @@ export class ParameterSyncManager {
   /**
    * Subscribe to parameter changes for a specific node parameter
    */
-  subscribe(nodeId: NodeId, paramName: string, callback: (value: any) => void): () => void {
+  subscribe(nodeId: NodeId, paramName: string, callback: (value: unknown) => void): () => void {
     const key = this.getStateKey(nodeId, paramName);
 
     // Store the callback
@@ -450,7 +450,7 @@ export class ParameterSyncManager {
   async updateParameter(
     nodeId: NodeId,
     paramName: string,
-    value: any,
+    value: unknown,
     options?: { autoLock?: boolean }
   ): Promise<void> {
     // Try to acquire lock first if auto-lock is enabled
@@ -490,8 +490,8 @@ export class ParameterSyncManager {
   /**
    * Get parameter state for all subscribed parameters
    */
-  getAllParameterStates(): Map<string, any> {
-    const state = new Map<string, any>();
+  getAllParameterStates(): Map<string, unknown> {
+    const state = new Map<string, unknown>();
     for (const [key, paramState] of this.parameterStates) {
       state.set(key, paramState.value);
     }

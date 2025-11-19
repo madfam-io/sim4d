@@ -75,7 +75,7 @@ const toFiniteNumber = (value: unknown, fallback = 0): number => {
 };
 
 const toVector3 = (
-  value: any,
+  value: unknown,
   fallback: [number, number, number] = [0, 0, 0]
 ): [number, number, number] => {
   if (Array.isArray(value) && value.length >= 3) {
@@ -94,7 +94,7 @@ const toVector3 = (
 };
 
 // Utility functions for future use
-// const toVec3Object = (value: any, fallback: { x: number; y: number; z: number } = { x: 0, y: 0, z: 0 }) => {
+// const toVec3Object = (value: unknown, fallback: { x: number; y: number; z: number } = { x: 0, y: 0, z: 0 }) => {
 //   const [x, y, z] = toVector3(value ?? fallback, [fallback.x, fallback.y, fallback.z]);
 //   return { x, y, z };
 // };
@@ -565,7 +565,7 @@ addHostMessageListener(async (event: { data: WorkerRequest }) => {
   const request = event.data;
 
   try {
-    let result: any;
+    let result: unknown;
 
     if (request.type === 'INIT') {
       if (!isInitialized) {

@@ -506,7 +506,7 @@ export class CollaborationServer {
   private async handlePresenceUpdate(
     socket: Socket,
     type: keyof Presence,
-    data: any
+    data: unknown
   ): Promise<void> {
     const session = this.sessionManager.getSessionByConnectionId(socket.id);
     if (!session) return;

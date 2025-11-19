@@ -20,8 +20,8 @@ export type ParameterId = string;
 export type User = ParticipantData;
 export type SessionState = {
   nodes: Map<NodeId, any>;
-  edges: Map<string, any>;
-  parameters: Map<string, any>;
+  edges: Map<string, unknown>;
+  parameters: Map<string, unknown>;
   version: number;
   lastModified: number;
 };
@@ -55,8 +55,8 @@ export class CollaborationError extends Error {
 interface WebSocketClient {
   connect(url: string): Promise<void>;
   disconnect(): Promise<void>;
-  send(message: any): Promise<void>;
-  onMessage(callback: (data: any) => void): void;
+  send(message: unknown): Promise<void>;
+  onMessage(callback: (data: unknown) => void): void;
   onReconnect(callback: () => void): void;
   isConnected(): boolean;
 }
@@ -72,7 +72,7 @@ export interface CollaborationEvents {
   'parameter-unlocked': { sessionId: SessionId; parameterId: ParameterId; userId: UserId };
   'connection-lost': { sessionId: SessionId };
   'connection-restored': { sessionId: SessionId };
-  broadcast: { sessionId: SessionId; userId: UserId; message: any };
+  broadcast: { sessionId: SessionId; userId: UserId; message: unknown };
 }
 
 /**
@@ -82,7 +82,7 @@ export class BrepFlowCollaborationEngine {
   private sessions = new Map<SessionId, CollaborationSession>();
   private userSessions = new Map<UserId, SessionId>();
   private wsClient: WebSocketClient | null = null;
-  private eventListeners = new Map<keyof CollaborationEvents, Array<(data: any) => void>>();
+  private eventListeners = new Map<keyof CollaborationEvents, Array<(data: unknown) => void>>();
   private lockManager = new LockManager();
   private reconnectAttempts = 0;
   private maxReconnectAttempts = 5;
@@ -547,7 +547,7 @@ export class BrepFlowCollaborationEngine {
     });
   }
 
-  private async handleWebSocketMessage(data: any): Promise<void> {
+  private async handleWebSocketMessage(data: unknown): Promise<void> {
     try {
       switch (data.type) {
         case 'collaboration-operation':
@@ -769,7 +769,7 @@ export class BrepFlowCollaborationEngine {
    */
   private async broadcastToSession(
     sessionId: SessionId,
-    message: any,
+    message: unknown,
     excludeUserId?: UserId
   ): Promise<void> {
     const session = this.sessions.get(sessionId);

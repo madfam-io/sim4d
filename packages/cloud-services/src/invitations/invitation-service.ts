@@ -40,7 +40,7 @@ export interface InvitationRequest {
   role: ProjectRole | TeamRole;
   message?: string;
   expiresAt?: Date;
-  customData?: Record<string, any>;
+  customData?: Record<string, unknown>;
 }
 
 export interface InvitationResponse {
@@ -65,7 +65,7 @@ export interface PendingInvitation {
   expiresAt: Date;
   respondedAt?: Date;
   remindersSent: number;
-  customData?: Record<string, any>;
+  customData?: Record<string, unknown>;
 }
 
 export class InvitationService extends EventEmitter {
@@ -626,7 +626,7 @@ export class InvitationService extends EventEmitter {
     throw new Error('Resource data access implementation required');
   }
 
-  private async sendEmail(templateName: string, data: any): Promise<void> {
+  private async sendEmail(templateName: string, data: unknown): Promise<void> {
     // Implementation depends on email service
     throw new Error('Email service implementation required');
   }

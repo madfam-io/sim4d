@@ -39,9 +39,9 @@ const getLogger = () => {
 export type NodeData = {
   label: string;
   type: string;
-  inputs: Record<string, any>;
-  outputs: Record<string, any>;
-  params: Record<string, any>;
+  inputs: Record<string, unknown>;
+  outputs: Record<string, unknown>;
+  params: Record<string, unknown>;
   status: 'idle' | 'evaluating' | 'success' | 'error';
   error?: string;
 };
@@ -66,16 +66,16 @@ export type GraphState = {
   onConnect: (connection: Connection) => void;
   addNode: (type: string, position: { x: number; y: number }) => void;
   removeNode: (nodeId: string) => void;
-  updateNode: (nodeId: string, data: any) => void;
+  updateNode: (nodeId: string, data: unknown) => void;
   deleteNode: (nodeId: string) => void;
-  updateNodeParam: (nodeId: string, paramName: string, value: any) => void;
+  updateNodeParam: (nodeId: string, paramName: string, value: unknown) => void;
   addEdge: (sourceId: string, sourcePort: string, targetId: string, targetPort: string) => void;
   removeEdge: (edgeId: string) => void;
   selectNode: (nodeId: string | null) => void;
   evaluateGraph: () => Promise<void>;
   clearGraph: () => void;
   exportGraph: () => any;
-  importGraph: (data: any) => void;
+  importGraph: (data: unknown) => void;
 };
 
 export const useProductionGraphStore = create<GraphState>()(
