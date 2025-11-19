@@ -1,8 +1,8 @@
 import type { NodeDefinition, ShapeHandle } from '@brepflow/types';
 
 export const MeshHealingNode: NodeDefinition<
-  { mesh: any },
-  { healedMesh: any },
+  { mesh: unknown },
+  { healedMesh: unknown },
   { tolerance: number; fillHoles: boolean; removeSpikes: boolean; smoothNormals: boolean }
 > = {
   id: 'MeshTopology::MeshHealing',
@@ -109,8 +109,8 @@ export const TopologyOptimizationNode: NodeDefinition<
 };
 
 export const MeshQualityAnalysisNode: NodeDefinition<
-  { mesh: any },
-  { qualityMetrics: any },
+  { mesh: unknown },
+  { qualityMetrics: unknown },
   {
     checkAspectRatio: boolean;
     checkSkewness: boolean;
@@ -209,8 +209,8 @@ export const NonManifoldRepairNode: NodeDefinition<
 };
 
 export const MeshRefinementNode: NodeDefinition<
-  { mesh: any },
-  { refinedMesh: any },
+  { mesh: unknown },
+  { refinedMesh: unknown },
   {
     refinementMethod: string;
     targetSize: number;
@@ -266,8 +266,8 @@ export const MeshRefinementNode: NodeDefinition<
 };
 
 export const MeshSmoothingNode: NodeDefinition<
-  { mesh: any },
-  { smoothedMesh: any },
+  { mesh: unknown },
+  { smoothedMesh: unknown },
   {
     smoothingMethod: string;
     iterations: number;

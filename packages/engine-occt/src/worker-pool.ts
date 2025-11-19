@@ -26,7 +26,7 @@ export interface PoolWorker {
   errorCount: number;
   memoryPressure: boolean;
   occtMode: 'full-occt' | 'optimized-occt';
-  capabilities: any;
+  capabilities: unknown;
   averageTaskDuration: number;
   lastHealthCheck: number;
   circuitBreakerTripped: boolean;
@@ -65,7 +65,7 @@ export class WorkerPool {
   private queue: Array<{
     request: unknown;
     resolve: (value: unknown) => void;
-    reject: (error: any) => void;
+    reject: (error: unknown) => void;
     priority: number;
     timeout?: number;
     operation: string;
@@ -75,7 +75,7 @@ export class WorkerPool {
   private healthCheckTimer: NodeJS.Timeout | null = null;
   private cleanupTimer: NodeJS.Timeout | null = null;
   private isShuttingDown = false;
-  private globalCapabilities: any = null;
+  private globalCapabilities: unknown = null;
   private optimalOCCTConfig: OCCTConfig | null = null;
 
   // Dependency injection - store injected or default implementations
@@ -309,7 +309,7 @@ export class WorkerPool {
   /**
    * Execute an operation on the pool with enhanced routing and monitoring
    */
-  async execute<T = any>(
+  async execute<T = unknown>(
     operation: string,
     params: unknown,
     options: {

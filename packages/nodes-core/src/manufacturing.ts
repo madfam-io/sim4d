@@ -1,8 +1,8 @@
 import type { NodeDefinition, ShapeHandle, Vec3 } from '@brepflow/types';
 
 export const ToolpathGenerationNode: NodeDefinition<
-  { shape: ShapeHandle; tool?: any },
-  { toolpath: any },
+  { shape: ShapeHandle; tool?: unknown },
+  { toolpath: unknown },
   {
     machiningOperation: string;
     toolDiameter: number;
@@ -146,7 +146,7 @@ export const PrintOptimizationNode: NodeDefinition<
 
 export const ManufacturingConstraintsNode: NodeDefinition<
   { shape: ShapeHandle },
-  { validationResult: any },
+  { validationResult: unknown },
   {
     manufacturingProcess: string;
     minWallThickness: number;
@@ -221,7 +221,7 @@ export const ManufacturingConstraintsNode: NodeDefinition<
 
 export const MaterialWasteOptimizationNode: NodeDefinition<
   { shapes: ShapeHandle[] },
-  { optimizedLayout: any },
+  { optimizedLayout: unknown },
   { materialDimensions: Vec3; nestingStrategy: string; margin: number; allowRotation: boolean }
 > = {
   id: 'Manufacturing::MaterialWasteOptimization',
@@ -273,7 +273,7 @@ export const MaterialWasteOptimizationNode: NodeDefinition<
 
 export const CostEstimationNode: NodeDefinition<
   { shape: ShapeHandle },
-  { costAnalysis: any },
+  { costAnalysis: unknown },
   {
     manufacturingProcess: string;
     material: string;
@@ -348,8 +348,8 @@ export const CostEstimationNode: NodeDefinition<
 };
 
 export const QualityControlNode: NodeDefinition<
-  { referenceShape: ShapeHandle; inspectionData?: any },
-  { qualityReport: any },
+  { referenceShape: ShapeHandle; inspectionData?: unknown },
+  { qualityReport: unknown },
   {
     toleranceType: string;
     toleranceValue: number;
