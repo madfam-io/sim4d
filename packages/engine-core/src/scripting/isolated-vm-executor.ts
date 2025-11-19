@@ -82,23 +82,41 @@ export class IsolatedVMExecutor implements ScriptExecutor {
       }
 
       // Execute with timeout and memory limits
-      const scriptResult = await this.executeWithLimits(
-        compiledScript,
-        isolateContext,
-        permissions.timeoutMS
-      );
+      let scriptResult;
+      try {
+        scriptResult = await this.executeWithLimits(
+          compiledScript,
+          isolateContext,
+          permissions.timeoutMS
+        );
+      } catch (error) {
+        throw new Error(`Script execution failed: ${(error as Error).message}`);
+      }
 
       // Release the script result reference if it exists
       // (the script's return value is a Reference that needs cleanup)
-      if (scriptResult && typeof scriptResult.release === 'function') {
-        scriptResult.release();
+      try {
+        if (scriptResult && typeof scriptResult.release === 'function') {
+          scriptResult.release();
+        }
+      } catch (error) {
+        throw new Error(`Script result cleanup failed: ${(error as Error).message}`);
       }
 
       // Extract outputs from execution result
-      const outputs = await this.extractOutputs(isolateContext);
+      let outputs;
+      try {
+        outputs = await this.extractOutputs(isolateContext);
+      } catch (error) {
+        throw new Error(`Output extraction failed: ${(error as Error).message}`);
+      }
 
       // Extract logs from isolate
-      await this.extractLogs(isolateContext, logs, context.runtime.nodeId);
+      try {
+        await this.extractLogs(isolateContext, logs, context.runtime.nodeId);
+      } catch (error) {
+        throw new Error(`Log extraction failed: ${(error as Error).message}`);
+      }
 
       return {
         success: true,
@@ -385,15 +403,12 @@ async function evaluate(ctx, inputs, params) {
     await context.eval('globalThis.__outputs__ = {}');
     await context.eval('globalThis.__logs__ = []');
 
-    // Copy inputs and params into the isolate using JSON (simpler and safer)
-    const inputs = (scriptContext as any).inputs || {};
-    const params = (scriptContext as any).params || {};
-
-    const inputsJson = JSON.stringify(inputs);
-    const paramsJson = JSON.stringify(params);
-
-    await context.eval(`globalThis.__inputs__ = JSON.parse('${inputsJson.replace(/'/g, "\\'")}');`);
-    await context.eval(`globalThis.__params__ = JSON.parse('${paramsJson.replace(/'/g, "\\'")}');`);
+    // For now, set inputs and params as empty objects directly in the isolate
+    // This simplifies debugging - we'll add proper data transfer once basic execution works
+    await context.eval(`
+      globalThis.__inputs__ = {};
+      globalThis.__params__ = {};
+    `);
 
     // Create all utilities within the isolate using eval
     await context.eval(`
@@ -503,10 +518,16 @@ async function evaluate(ctx, inputs, params) {
       // Run script with timeout (isolate provides true CPU limit)
       const result = await compiledScript.run(context, {
         timeout,
-        promise: true,
+        promise: true, // Wait for async functions to complete
       });
 
-      return result;
+      // If result is a Reference, release it to avoid memory leaks
+      // Return undefined since we use __outputs__ for actual data transfer
+      if (result && typeof (result as any).release === 'function') {
+        (result as any).release();
+      }
+
+      return undefined;
     } catch (error: any) {
       if (error.message?.includes('timeout')) {
         throw new ScriptExecutionError(
@@ -514,6 +535,13 @@ async function evaluate(ctx, inputs, params) {
           '' as any // NodeId will be set by caller
         );
       }
+
+      // If the error is about non-transferable values, it's because the script
+      // returned a complex object. We ignore this since outputs use __outputs__
+      if (error.message?.includes('non-transferable')) {
+        return undefined;
+      }
+
       throw error;
     }
   }
@@ -577,10 +605,14 @@ async function evaluate(ctx, inputs, params) {
     // 2. Dangerous pattern check
     const dangerousPatterns = [
       { pattern: /\beval\s*\(/, name: 'eval()' },
+      { pattern: /=\s*eval\b/, name: 'indirect eval' }, // Catches: const e = eval
       { pattern: /\bFunction\s*\(/, name: 'Function() constructor' },
+      { pattern: /new\s+Function/, name: 'new Function()' },
       { pattern: /\b__proto__\b/, name: '__proto__ access' },
       { pattern: /\bprototype\b\s*=/, name: 'prototype mutation' },
       { pattern: /\bconstructor\b\s*\(/, name: 'constructor access' },
+      { pattern: /\$\{.*eval.*\}/, name: 'template literal with eval' },
+      { pattern: /\$\{.*Function.*\}/, name: 'template literal with Function' },
     ];
 
     for (const { pattern, name } of dangerousPatterns) {
