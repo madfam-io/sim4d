@@ -1,0 +1,49 @@
+{
+  "name": "@brepflow/sdk",
+  "version": "0.1.0",
+  "description": "BrepFlow SDK for creating custom nodes and plugins",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest",
+    "lint": "eslint . --ext .ts",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@brepflow/types": "workspace:*"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.1",
+    "vitest": "^4.0.9"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "keywords": [
+    "brepflow",
+    "sdk",
+    "plugin",
+    "cad",
+    "parametric",
+    "node",
+    "extension"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aureolabs/brepflow.git",
+    "directory": "packages/sdk"
+  },
+  "author": "Aureo Labs (a MADFAM company)",
+  "license": "MPL-2.0"
+}
