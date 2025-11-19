@@ -4,7 +4,7 @@
  */
 
 // Avoid circular dependency - use dynamic import or fallback
-let getConfig: (() => any) | undefined;
+let getConfig: (() => unknown) | undefined;
 
 export type LogLevel = 'error' | 'warn' | 'info' | 'debug';
 
@@ -13,7 +13,7 @@ export interface LogEntry {
   level: LogLevel;
   context: string;
   message: string;
-  data?: any;
+  data?: unknown;
   error?: {
     message: string;
     stack?: string;
@@ -42,7 +42,7 @@ export class ProductionLogger {
     return messageIndex <= currentIndex;
   }
 
-  private createEntry(level: LogLevel, message: string, data?: any): LogEntry {
+  private createEntry(level: LogLevel, message: string, data?: unknown): LogEntry {
     const entry: LogEntry = {
       timestamp: new Date().toISOString(),
       level,
@@ -154,25 +154,25 @@ export class ProductionLogger {
   }
 
   // Public logging methods
-  error(message: string, error?: Error | any): void {
+  error(message: string, error?: Error | unknown): void {
     if (this.shouldLog('error')) {
       this.emit(this.createEntry('error', message, error));
     }
   }
 
-  warn(message: string, data?: any): void {
+  warn(message: string, data?: unknown): void {
     if (this.shouldLog('warn')) {
       this.emit(this.createEntry('warn', message, data));
     }
   }
 
-  info(message: string, data?: any): void {
+  info(message: string, data?: unknown): void {
     if (this.shouldLog('info')) {
       this.emit(this.createEntry('info', message, data));
     }
   }
 
-  debug(message: string, data?: any): void {
+  debug(message: string, data?: unknown): void {
     if (this.shouldLog('debug')) {
       this.emit(this.createEntry('debug', message, data));
     }
@@ -228,7 +228,7 @@ export function getLogger(context?: string): ProductionLogger {
 // Export convenience methods
 export const logger = {
   error: (message: string, error?: Error) => getLogger().error(message, error),
-  warn: (message: string, data?: any) => getLogger().warn(message, data),
-  info: (message: string, data?: any) => getLogger().info(message, data),
-  debug: (message: string, data?: any) => getLogger().debug(message, data),
+  warn: (message: string, data?: unknown) => getLogger().warn(message, data),
+  info: (message: string, data?: unknown) => getLogger().info(message, data),
+  debug: (message: string, data?: unknown) => getLogger().debug(message, data),
 };
