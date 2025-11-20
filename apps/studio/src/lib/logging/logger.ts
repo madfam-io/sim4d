@@ -132,37 +132,76 @@ export class Logger {
         ...(entry.context && { context: entry.context }),
       };
 
-      switch (entry.level) {
-        case LogLevel.DEBUG:
-          console.debug(prefix, structured);
-          break;
-        case LogLevel.INFO:
-          console.info(prefix, structured);
-          break;
-        case LogLevel.WARN:
-          console.warn(prefix, structured);
-          break;
-        case LogLevel.ERROR:
-          console.error(prefix, structured);
-          break;
+      // Stringify and sanitize to prevent log injection via object values
+      try {
+        const structuredStr = JSON.stringify(structured, null, 2);
+        const sanitizedStr = structuredStr
+          // eslint-disable-next-line no-control-regex -- Intentional control character removal for security
+          .replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/g, '') // Remove control chars
+          .replace(/[\r\n]+/g, ' '); // Replace newlines with spaces
+
+        switch (entry.level) {
+          case LogLevel.DEBUG:
+            console.debug(prefix, sanitizedStr);
+            break;
+          case LogLevel.INFO:
+            console.info(prefix, sanitizedStr);
+            break;
+          case LogLevel.WARN:
+            console.warn(prefix, sanitizedStr);
+            break;
+          case LogLevel.ERROR:
+            console.error(prefix, sanitizedStr);
+            break;
+        }
+      } catch {
+        // Fallback if JSON.stringify fails
+        const fallbackMessage = `${prefix} ${sanitizedMessage}`;
+        switch (entry.level) {
+          case LogLevel.DEBUG:
+            console.debug(fallbackMessage);
+            break;
+          case LogLevel.INFO:
+            console.info(fallbackMessage);
+            break;
+          case LogLevel.WARN:
+            console.warn(fallbackMessage);
+            break;
+          case LogLevel.ERROR:
+            console.error(fallbackMessage);
+            break;
+        }
       }
     } else {
       // Simple console output - avoid format strings with user data
       const message = `${prefix} ${sanitizedMessage}`;
-      const logData = entry.data ? [entry.data] : [];
+
+      // Sanitize data before logging to prevent log injection
+      let sanitizedData: string | undefined;
+      if (entry.data) {
+        try {
+          const dataStr = typeof entry.data === 'string' ? entry.data : JSON.stringify(entry.data);
+          sanitizedData = dataStr
+            // eslint-disable-next-line no-control-regex -- Intentional control character removal for security
+            .replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/g, '') // Remove control chars
+            .replace(/[\r\n]+/g, ' '); // Replace newlines with spaces
+        } catch {
+          sanitizedData = '[Data serialization failed]';
+        }
+      }
 
       switch (entry.level) {
         case LogLevel.DEBUG:
-          console.debug(message, ...logData);
+          console.debug(message, sanitizedData || '');
           break;
         case LogLevel.INFO:
-          console.info(message, ...logData);
+          console.info(message, sanitizedData || '');
           break;
         case LogLevel.WARN:
-          console.warn(message, ...logData);
+          console.warn(message, sanitizedData || '');
           break;
         case LogLevel.ERROR:
-          console.error(message, ...logData);
+          console.error(message, sanitizedData || '');
           break;
       }
     }
@@ -278,9 +317,12 @@ export class Logger {
     }
 
     // Remove control characters and limit line breaks to prevent log injection
-    return message
-      .replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/g, '') // Remove control chars
-      .replace(/[\r\n]+/g, ' '); // Replace newlines with spaces
+    return (
+      message
+        // eslint-disable-next-line no-control-regex -- Intentional control character removal for security
+        .replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/g, '') // Remove control chars
+        .replace(/[\r\n]+/g, ' ')
+    ); // Replace newlines with spaces
   }
 
   /**

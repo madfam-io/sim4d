@@ -1229,12 +1229,18 @@ var useProduction = false;
 var useMockForTesting = false;
 var mockGeometry = new MockGeometry();
 self.addEventListener("message", async (event) => {
-  // Security: Dedicated Web Workers can only receive messages from their creating context,
-  // so origin verification (event.origin) is not applicable here as it would be for
-  // window.postMessage or SharedWorker scenarios. Instead, we validate message structure
-  // to ensure it conforms to our expected protocol.
+  // Security Note: Origin verification for dedicated Web Workers
+  // -------------------------------------------------------------
+  // Unlike SharedWorker or BroadcastChannel, dedicated Web Workers (created via `new Worker()`)
+  // can ONLY receive messages from the script that created them. The `event.origin` property
+  // is not available in dedicated worker MessageEvents. This is a fundamental security property
+  // of the Worker API specification.
+  //
+  // Instead of origin verification, we perform rigorous message structure validation to ensure
+  // messages conform to our expected protocol and reject malformed or suspicious messages.
+  // This is the recommended approach per OWASP guidelines for dedicated workers.
 
-  // Verify message structure for security
+  // Step 1: Verify message structure for security
   if (!event.data || typeof event.data !== "object") {
     console.warn("[OCCT Worker] Invalid message format received - rejecting");
     return;
@@ -1242,19 +1248,32 @@ self.addEventListener("message", async (event) => {
 
   const request = event.data;
 
-  // Validate required message fields to ensure it's from a trusted source
+  // Step 2: Validate required message fields to ensure it's from a trusted source
   if (!request.type || typeof request.type !== "string") {
     console.warn("[OCCT Worker] Message missing required type field - rejecting");
     return;
   }
 
-  // Validate request ID if present
+  // Step 3: Validate request ID if present
   if (request.id !== undefined && typeof request.id !== "string" && typeof request.id !== "number") {
     console.warn("[OCCT Worker] Invalid request ID format - rejecting");
     return;
   }
 
-  // Additional validation: Ensure type matches expected patterns
+  // Step 4: Whitelist validation - only accept known command types
+  var validTypes = [
+    "INIT", "HEALTH_CHECK", "CREATE_LINE", "CREATE_CIRCLE", "CREATE_RECTANGLE",
+    "MAKE_BOX", "MAKE_CYLINDER", "MAKE_SPHERE", "MAKE_EXTRUDE",
+    "BOOLEAN_UNION", "BOOLEAN_SUBTRACT", "BOOLEAN_INTERSECT",
+    "TESSELLATE", "DISPOSE", "CLEANUP", "SHUTDOWN"
+  ];
+
+  if (!validTypes.includes(request.type)) {
+    console.warn("[OCCT Worker] Unknown or invalid request type: " + request.type + " - rejecting");
+    return;
+  }
+
+  // Step 5: Additional validation - ensure type matches expected patterns
   const validTypePattern = /^[A-Z_]+$/;
   if (!validTypePattern.test(request.type)) {
     console.warn("[OCCT Worker] Invalid request type pattern: " + request.type + " - rejecting");
