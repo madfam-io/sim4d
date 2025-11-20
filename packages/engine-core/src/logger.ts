@@ -145,14 +145,19 @@ class BrepFlowLogger {
             sanitizedContext[safeKey] = this.sanitizeForLogging(String(value));
           }
         }
-        const contextStr = JSON.stringify(sanitizedContext, null, 2);
-        consoleMethod(logPrefix, sanitizedMessage, contextStr);
+        // Sanitize JSON output to prevent log injection via formatted output
+        const contextJson = JSON.stringify(sanitizedContext, null, 2);
+        const safeContextStr = this.sanitizeForLogging(contextJson);
+        // Use explicit concatenation to prevent any potential format string injection
+        consoleMethod(logPrefix + ' ' + sanitizedMessage + ' ' + safeContextStr);
       } catch {
         // Fallback if JSON.stringify fails (e.g., circular references)
-        consoleMethod(logPrefix, sanitizedMessage, '[Context serialization failed]');
+        // Use explicit concatenation to prevent any potential format string injection
+        consoleMethod(logPrefix + ' ' + sanitizedMessage + ' [Context serialization failed]');
       }
     } else {
-      consoleMethod(logPrefix, sanitizedMessage);
+      // Use explicit concatenation to prevent any potential format string injection
+      consoleMethod(logPrefix + ' ' + sanitizedMessage);
     }
   }
 
