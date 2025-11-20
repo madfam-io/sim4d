@@ -98,12 +98,13 @@ class BrepFlowLogger {
       .replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/g, '') // Remove control chars
       .replace(/[\r\n]+/g, ' '); // Replace newlines with spaces
 
-    const formattedMessage = `${timestamp}${prefix}${levelStr} ${sanitizedMessage}`;
+    // Separate static log prefix from user-controlled message to prevent log injection
+    const logPrefix = `${timestamp}${prefix}${levelStr}`;
 
     const consoleMethod = this.getConsoleMethod(level);
 
     // Avoid format strings with user-controlled data to prevent log injection
-    // Pass sanitized strings directly to console methods
+    // Pass prefix and sanitized message as separate arguments
     if (context && Object.keys(context).length > 0) {
       try {
         const contextStr = JSON.stringify(context, null, 2);
@@ -112,13 +113,13 @@ class BrepFlowLogger {
           // eslint-disable-next-line no-control-regex -- Intentional control character removal for security
           .replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/g, '') // Remove control chars
           .replace(/[\r\n]+/g, ' '); // Replace newlines with spaces
-        consoleMethod(formattedMessage, sanitizedContextStr);
+        consoleMethod(logPrefix, sanitizedMessage, sanitizedContextStr);
       } catch {
         // Fallback if JSON.stringify fails (e.g., circular references)
-        consoleMethod(formattedMessage, '[Context serialization failed]');
+        consoleMethod(logPrefix, sanitizedMessage, '[Context serialization failed]');
       }
     } else {
-      consoleMethod(formattedMessage);
+      consoleMethod(logPrefix, sanitizedMessage);
     }
   }
 
