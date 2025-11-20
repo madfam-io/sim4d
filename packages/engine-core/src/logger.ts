@@ -82,6 +82,31 @@ class BrepFlowLogger {
     this.log(LogLevel.ERROR, message, errorContext);
   }
 
+  /**
+   * Sanitizes user input to prevent log injection attacks
+   * Removes control characters, ANSI escape sequences, and normalizes whitespace
+   * @param input - User-provided string to sanitize
+   * @returns Sanitized string safe for logging
+   */
+  private sanitizeForLogging(input: string): string {
+    return (
+      input
+        // Remove all control characters (0x00-0x1F, 0x7F-0x9F)
+        // eslint-disable-next-line no-control-regex -- Intentional control character removal for security
+        .replace(/[\x00-\x1F\x7F-\x9F]/g, '')
+        // Remove ANSI escape sequences to prevent terminal manipulation
+        .replace(/\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])/g, '')
+        // Normalize line breaks to prevent log entry forgery
+        .replace(/[\r\n]+/g, ' ')
+        // Remove zero-width and other invisible Unicode characters
+        .replace(/[\u200B-\u200D\uFEFF]/g, '')
+        // Limit consecutive spaces
+        .replace(/\s{2,}/g, ' ')
+        // Trim to prevent padding attacks
+        .trim()
+    );
+  }
+
   private log(level: LogLevel, message: string, context?: LogContext): void {
     if (level < this.config.level) {
       return;
@@ -91,12 +116,8 @@ class BrepFlowLogger {
     const prefix = this.config.prefix ? `[${this.config.prefix}]` : '';
     const levelStr = this.formatLevel(level);
 
-    // Sanitize message to prevent log injection attacks
-    // Remove control characters and limit line breaks
-    const sanitizedMessage = message
-      // eslint-disable-next-line no-control-regex -- Intentional control character removal for security
-      .replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/g, '') // Remove control chars
-      .replace(/[\r\n]+/g, ' '); // Replace newlines with spaces
+    // Sanitize user-provided message to prevent log injection attacks
+    const sanitizedMessage = this.sanitizeForLogging(message);
 
     // Separate static log prefix from user-controlled message to prevent log injection
     const logPrefix = `${timestamp}${prefix}${levelStr}`;
@@ -107,13 +128,24 @@ class BrepFlowLogger {
     // Pass prefix and sanitized message as separate arguments
     if (context && Object.keys(context).length > 0) {
       try {
-        const contextStr = JSON.stringify(context, null, 2);
-        // Sanitize context string to prevent log injection via object values
-        const sanitizedContextStr = contextStr
-          // eslint-disable-next-line no-control-regex -- Intentional control character removal for security
-          .replace(/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/g, '') // Remove control chars
-          .replace(/[\r\n]+/g, ' '); // Replace newlines with spaces
-        consoleMethod(logPrefix, sanitizedMessage, sanitizedContextStr);
+        // Create a sanitized copy of context to prevent injection via object values
+        const sanitizedContext: LogContext = {};
+        for (const [key, value] of Object.entries(context)) {
+          // Sanitize keys to prevent injection via property names
+          const safeKey = this.sanitizeForLogging(key);
+          // Sanitize values based on type
+          if (typeof value === 'string') {
+            sanitizedContext[safeKey] = this.sanitizeForLogging(value);
+          } else if (typeof value === 'number' || typeof value === 'boolean' || value === null) {
+            // Primitive types are safe
+            sanitizedContext[safeKey] = value;
+          } else {
+            // For objects/arrays, convert to string and sanitize
+            sanitizedContext[safeKey] = this.sanitizeForLogging(String(value));
+          }
+        }
+        const contextStr = JSON.stringify(sanitizedContext, null, 2);
+        consoleMethod(logPrefix, sanitizedMessage, contextStr);
       } catch {
         // Fallback if JSON.stringify fails (e.g., circular references)
         consoleMethod(logPrefix, sanitizedMessage, '[Context serialization failed]');
