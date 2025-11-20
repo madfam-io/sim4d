@@ -1236,9 +1236,18 @@ self.addEventListener("message", async (event) => {
   // is not available in dedicated worker MessageEvents. This is a fundamental security property
   // of the Worker API specification.
   //
-  // Instead of origin verification, we perform rigorous message structure validation to ensure
-  // messages conform to our expected protocol and reject malformed or suspicious messages.
+  // For dedicated workers, we implement defense-in-depth through:
+  // 1. Event trust verification (isTrusted check)
+  // 2. Rigorous message structure validation
+  // 3. Command type whitelisting
   // This is the recommended approach per OWASP guidelines for dedicated workers.
+
+  // Step 0: Verify event is trusted (browser-generated, not synthetic)
+  // This prevents messages created by malicious scripts from being processed
+  if (!event.isTrusted) {
+    console.warn("[OCCT Worker] Untrusted message event detected - rejecting");
+    return;
+  }
 
   // Step 1: Verify message structure for security
   if (!event.data || typeof event.data !== "object") {

@@ -17,68 +17,31 @@ import {
   SecurityScanResult,
   Ed25519Signature,
 } from '@brepflow/cloud-api/src/types';
+import {
+  PluginExecutionContext,
+  PluginCapability,
+  PluginSandbox,
+  PluginInstallOptions,
+  PluginExecutionResult,
+  PluginLogEntry,
+  PluginMetrics,
+  PluginBackup,
+  PluginExecutionTask,
+  PluginManagerConfig,
+} from './types';
 
-export interface PluginExecutionContext {
-  pluginId: PluginId;
-  userId: UserId;
-  projectId?: string;
-  nodeId?: string;
-  sessionId?: string;
-  capabilities: Map<string, PluginCapability>;
-  sandbox: PluginSandbox;
-}
-
-export interface PluginCapability {
-  name: string;
-  version: string;
-  permissions: string[];
-  handler: (context: PluginExecutionContext, ...args: unknown[]) => any;
-}
-
-export interface PluginSandbox {
-  workerId: string;
-  memoryLimit: number;
-  networkAllowlist: string[];
-  storageQuota: number;
-  timeoutMs: number;
-  isolated: boolean;
-}
-
-export interface PluginInstallOptions {
-  version?: string;
-  source: 'marketplace' | 'local' | 'url';
-  verify: boolean;
-  permissions?: Partial<PluginPermissions>;
-}
-
-export interface PluginExecutionResult {
-  success: boolean;
-  result?: unknown;
-  error?: string;
-  logs: PluginLogEntry[];
-  metrics: PluginMetrics;
-}
-
-export interface PluginLogEntry {
-  level: 'debug' | 'info' | 'warn' | 'error';
-  message: string;
-  timestamp: Date;
-  metadata?: Record<string, unknown>;
-}
-
-export interface PluginMetrics {
-  executionTime: number;
-  memoryUsed: number;
-  networkRequests: number;
-  storageUsed: number;
-  errors: number;
-}
-
-export interface PluginBackup {
-  timestamp: number;
-  plugin: Plugin;
-  storage: Record<string, string>;
-}
+// Re-export types for backward compatibility
+export type {
+  PluginExecutionContext,
+  PluginCapability,
+  PluginSandbox,
+  PluginInstallOptions,
+  PluginExecutionResult,
+  PluginLogEntry,
+  PluginMetrics,
+  PluginBackup,
+  PluginManagerConfig,
+};
 
 export class PluginManager extends EventEmitter {
   private installedPlugins = new Map<PluginId, Plugin>();
@@ -1306,23 +1269,4 @@ export class PluginManager extends EventEmitter {
       }
     };
   }
-}
-
-interface PluginExecutionTask {
-  id: string;
-  pluginId: PluginId;
-  functionName: string;
-  args: unknown[];
-  context: PluginExecutionContext;
-  createdAt: number;
-  resolve?: (result: PluginExecutionResult) => void;
-  reject?: (error: Error) => void;
-}
-
-interface PluginManagerConfig {
-  engineVersion: string;
-  defaultTimeout: number;
-  maxConcurrentExecutions: number;
-  sandboxMemoryLimit: number;
-  allowUnsignedPlugins: boolean;
 }
