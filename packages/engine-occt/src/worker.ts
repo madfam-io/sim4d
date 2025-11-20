@@ -35,7 +35,22 @@ const postMessageToHost = (message: WorkerResponse | unknown) => {
 
 const addHostMessageListener = (handler: (event: { data: WorkerRequest }) => void) => {
   if (isBrowserLikeWorker) {
-    (self as unknown).addEventListener('message', handler as unknown as EventListener);
+    (self as unknown).addEventListener('message', (event: MessageEvent) => {
+      // Security: Origin verification for Web Workers
+      // For dedicated workers, event.origin may not be set, but if it is, verify it
+      if (typeof event.origin === 'string' && event.origin !== self.location.origin) {
+        logger.warn('[OCCT Worker] Message from unexpected origin - rejecting:', event.origin);
+        return;
+      }
+
+      // Security: Verify event is trusted (browser-generated, not synthetic)
+      if (!event.isTrusted) {
+        logger.warn('[OCCT Worker] Untrusted message event detected - rejecting');
+        return;
+      }
+
+      handler({ data: event.data });
+    } as unknown as EventListener);
   } else if (parentPort) {
     parentPort.on('message', (data: WorkerRequest) => handler({ data }));
   } else {

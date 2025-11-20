@@ -1237,12 +1237,20 @@ self.addEventListener("message", async (event) => {
   // of the Worker API specification.
   //
   // For dedicated workers, we implement defense-in-depth through:
-  // 1. Event trust verification (isTrusted check)
-  // 2. Rigorous message structure validation
-  // 3. Command type whitelisting
+  // 1. Origin verification (when available)
+  // 2. Event trust verification (isTrusted check)
+  // 3. Rigorous message structure validation
+  // 4. Command type whitelisting
   // This is the recommended approach per OWASP guidelines for dedicated workers.
 
-  // Step 0: Verify event is trusted (browser-generated, not synthetic)
+  // Step 0a: Verify origin if available (defense-in-depth)
+  // For dedicated workers, event.origin may not be set, but if it is, verify it
+  if (typeof event.origin === 'string' && event.origin !== self.location.origin) {
+    console.warn("[OCCT Worker] Message from unexpected origin - rejecting:", event.origin);
+    return;
+  }
+
+  // Step 0b: Verify event is trusted (browser-generated, not synthetic)
   // This prevents messages created by malicious scripts from being processed
   if (!event.isTrusted) {
     console.warn("[OCCT Worker] Untrusted message event detected - rejecting");
