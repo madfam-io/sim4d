@@ -28,11 +28,42 @@ export class ProductionLogger {
   private maxBufferSize = 100;
 
   constructor(context: string) {
-    this.context = context;
+    // Sanitize context to prevent log injection attacks via logger context
+    this.context = this.sanitizeForContext(context);
     // Default to debug in development, error in production
     // Remove getConfig dependency to avoid circular imports
     const isDev = typeof process !== 'undefined' ? process.env?.NODE_ENV !== 'production' : true; // Assume development in browser
     this.logLevel = isDev ? 'debug' : 'error';
+  }
+
+  /**
+   * Sanitizes context strings to prevent log injection attacks
+   * Used for logger context which appears in every log entry
+   * @param input - Context string to sanitize
+   * @returns Sanitized context string
+   */
+  private sanitizeForContext(input: string): string {
+    if (typeof input !== 'string') {
+      return String(input);
+    }
+
+    return (
+      input
+        // Remove all control characters (0x00-0x1F, 0x7F-0x9F)
+        // eslint-disable-next-line no-control-regex -- Intentional control character removal for security
+        .replace(/[\x00-\x1F\x7F-\x9F]/g, '')
+        // Remove ANSI escape sequences
+        // eslint-disable-next-line no-control-regex -- Intentional ANSI escape sequence removal for security
+        .replace(/\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])/g, '')
+        // Normalize line breaks to prevent log entry forgery
+        .replace(/[\r\n]+/g, ' ')
+        // Remove zero-width characters
+        .replace(/[\u200B-\u200D\uFEFF]/g, '')
+        // Limit consecutive spaces
+        .replace(/\s{2,}/g, ' ')
+        // Trim
+        .trim()
+    );
   }
 
   private shouldLog(level: LogLevel): boolean {
@@ -81,9 +112,41 @@ export class ProductionLogger {
     }
   }
 
+  /**
+   * Sanitizes log messages to prevent log injection attacks
+   * Removes control characters, newlines, and ANSI escape sequences
+   * @param input - User-provided string to sanitize
+   * @returns Sanitized string safe for logging
+   */
+  private sanitizeLogMessage(input: string): string {
+    if (typeof input !== 'string') {
+      return String(input);
+    }
+
+    return (
+      input
+        // Remove all control characters (0x00-0x1F, 0x7F-0x9F)
+        // eslint-disable-next-line no-control-regex -- Intentional control character removal for security
+        .replace(/[\x00-\x1F\x7F-\x9F]/g, '')
+        // Remove ANSI escape sequences to prevent terminal manipulation
+        // eslint-disable-next-line no-control-regex -- Intentional ANSI escape sequence removal for security
+        .replace(/\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])/g, '')
+        // Normalize line breaks to prevent log entry forgery
+        .replace(/[\r\n]+/g, ' ')
+        // Remove zero-width and other invisible Unicode characters
+        .replace(/[\u200B-\u200D\uFEFF]/g, '')
+        // Limit consecutive spaces
+        .replace(/\s{2,}/g, ' ')
+        // Trim to prevent padding attacks
+        .trim()
+    );
+  }
+
   private logToConsole(entry: LogEntry): void {
     const prefix = `[${entry.timestamp}] [${entry.context}]`;
-    const message = `${prefix} ${entry.message}`;
+    // Sanitize message to prevent log injection attacks
+    const sanitizedMessage = this.sanitizeLogMessage(entry.message);
+    const message = `${prefix} ${sanitizedMessage}`;
 
     // Use fixed format string to prevent format string injection
     switch (entry.level) {
@@ -180,15 +243,17 @@ export class ProductionLogger {
 
   // Performance logging
   startTimer(label: string): () => void {
+    // Sanitize label to prevent log injection attacks
+    const sanitizedLabel = this.sanitizeLogMessage(label);
     const start = performance.now();
     return () => {
       const duration = performance.now() - start;
-      this.debug(`${label} took ${duration.toFixed(2)}ms`);
+      this.debug(`${sanitizedLabel} took ${duration.toFixed(2)}ms`);
 
       if (getConfig?.()?.enablePerformanceMonitoring) {
         this.emit(
           this.createEntry('info', 'performance', {
-            label,
+            label: sanitizedLabel,
             duration,
             timestamp: Date.now(),
           })
