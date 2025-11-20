@@ -216,7 +216,9 @@ class BrepFlowLogger {
   }
 
   public createChild(prefix: string, context?: LogContext): ChildLogger {
-    return new ChildLogger(this, prefix, context);
+    // Sanitize prefix to prevent log injection attacks via child logger prefix
+    const sanitizedPrefix = this.sanitizeForLogging(prefix);
+    return new ChildLogger(this, sanitizedPrefix, context);
   }
 }
 
