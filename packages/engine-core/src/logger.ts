@@ -88,13 +88,14 @@ class BrepFlowLogger {
    * @param input - User-provided string to sanitize
    * @returns Sanitized string safe for logging
    */
-  private sanitizeForLogging(input: string): string {
+  public sanitizeForLogging(input: string): string {
     return (
       input
         // Remove all control characters (0x00-0x1F, 0x7F-0x9F)
         // eslint-disable-next-line no-control-regex -- Intentional control character removal for security
         .replace(/[\x00-\x1F\x7F-\x9F]/g, '')
         // Remove ANSI escape sequences to prevent terminal manipulation
+        // eslint-disable-next-line no-control-regex -- Intentional ANSI escape sequence removal for security
         .replace(/\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])/g, '')
         // Normalize line breaks to prevent log entry forgery
         .replace(/[\r\n]+/g, ' ')
@@ -233,19 +234,30 @@ export class ChildLogger {
   ) {}
 
   public debug(message: string, context?: LogContext): void {
-    this.parent.debug(`[${this.prefix}] ${message}`, { ...this.baseContext, ...context });
+    // Sanitize message before concatenation to prevent log injection
+    const sanitizedMessage = this.parent.sanitizeForLogging(message);
+    this.parent.debug(`[${this.prefix}] ${sanitizedMessage}`, { ...this.baseContext, ...context });
   }
 
   public info(message: string, context?: LogContext): void {
-    this.parent.info(`[${this.prefix}] ${message}`, { ...this.baseContext, ...context });
+    // Sanitize message before concatenation to prevent log injection
+    const sanitizedMessage = this.parent.sanitizeForLogging(message);
+    this.parent.info(`[${this.prefix}] ${sanitizedMessage}`, { ...this.baseContext, ...context });
   }
 
   public warn(message: string, context?: LogContext): void {
-    this.parent.warn(`[${this.prefix}] ${message}`, { ...this.baseContext, ...context });
+    // Sanitize message before concatenation to prevent log injection
+    const sanitizedMessage = this.parent.sanitizeForLogging(message);
+    this.parent.warn(`[${this.prefix}] ${sanitizedMessage}`, { ...this.baseContext, ...context });
   }
 
   public error(message: string, error?: Error | unknown, context?: LogContext): void {
-    this.parent.error(`[${this.prefix}] ${message}`, error, { ...this.baseContext, ...context });
+    // Sanitize message before concatenation to prevent log injection
+    const sanitizedMessage = this.parent.sanitizeForLogging(message);
+    this.parent.error(`[${this.prefix}] ${sanitizedMessage}`, error, {
+      ...this.baseContext,
+      ...context,
+    });
   }
 }
 
