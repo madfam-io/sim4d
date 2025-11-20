@@ -50,8 +50,9 @@ if [ ! -d "$CURA_DIR" ]; then
     echo "   Cloning CuraEngine from GitHub..."
     cd "$THIRD_PARTY"
 
-    # Clone specific stable version (5.7.2 is latest stable as of 2024)
-    git clone --depth 1 --branch 5.7.2 https://github.com/Ultimaker/CuraEngine.git
+    # Clone main branch (latest stable code)
+    # Note: CuraEngine uses 'main' branch, not version tags for releases
+    git clone --depth 1 --branch main https://github.com/Ultimaker/CuraEngine.git
 
     echo "✅ CuraEngine cloned successfully"
 else
