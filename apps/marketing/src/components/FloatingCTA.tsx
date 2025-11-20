@@ -112,7 +112,7 @@ export function FloatingCTA({ showDelay = 3000, hideOnScroll = false }: Floating
               {/* Actions */}
               <div className="space-y-2">
                 <GlowButton
-                  href="http://localhost:5173"
+                  href={import.meta.env.VITE_STUDIO_URL || 'http://localhost:5173'}
                   variant="primary"
                   size="small"
                   className="w-full flex items-center justify-center gap-2"

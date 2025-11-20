@@ -72,7 +72,7 @@ export function Navigation() {
             className="hidden md:block"
           >
             <GlowButton
-              href="http://localhost:5173"
+              href={import.meta.env.VITE_STUDIO_URL || 'http://localhost:5173'}
               variant="primary"
               size="small"
               className="flex items-center gap-2"
@@ -118,7 +118,7 @@ export function Navigation() {
                 ))}
                 <div className="pt-4">
                   <GlowButton
-                    href="http://localhost:5173"
+                    href={import.meta.env.VITE_STUDIO_URL || 'http://localhost:5173'}
                     variant="primary"
                     size="small"
                     className="w-full flex items-center justify-center gap-2"

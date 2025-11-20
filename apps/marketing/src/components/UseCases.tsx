@@ -175,7 +175,7 @@ export function UseCases() {
             Start building with parametric CAD in your browser today.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <GlowButton href="http://localhost:5173" variant="primary" size="large">
+            <GlowButton href={import.meta.env.VITE_STUDIO_URL || 'http://localhost:5173'} variant="primary" size="large">
               Try BrepFlow Studio
             </GlowButton>
             <GlowButton href="#demo" variant="secondary" size="large">
