@@ -32,6 +32,6 @@
     "@types/uuid": "^9.0.7",
     "node-fetch": "2",
     "tsup": "^8.5.1",
-    "vitest": "^4.0.9"
+    "vitest": "^4.0.13"
   }
 }
