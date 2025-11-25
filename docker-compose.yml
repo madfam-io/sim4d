@@ -1,4 +1,11 @@
-version: '3.8'
+# =============================================================================
+# BREPFLOW (sim4d) - Docker Compose Configuration
+# =============================================================================
+# Web-first Parametric CAD Application
+# Integrates with MADFAM shared infrastructure
+# =============================================================================
+
+name: brepflow
 
 services:
   # Studio - Main React CAD application
@@ -6,6 +13,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.studio
+    container_name: brepflow-studio
     ports:
       - '5173:5173'
     volumes:
@@ -16,13 +24,23 @@ services:
     environment:
       - NODE_ENV=development
       - VITE_API_BASE_URL=http://localhost:3001
-      - VITE_COLLAB_WS_URL=ws://localhost:8080
+      - VITE_COLLAB_WS_URL=ws://localhost:8081
+      # Janua Auth Integration
+      - JANUA_ENABLED=true
+      - JANUA_JWT_SECRET=dev-shared-janua-secret-32chars!!
+      - JANUA_API_URL=http://janua-api:8001
       - ENABLE_MOCK_GEOMETRY=false
       - REQUIRE_REAL_OCCT=true
     networks:
-      - brepflow
+      - madfam-shared-network
     depends_on:
       - collaboration
+    healthcheck:
+      test: ['CMD', 'wget', '--no-verbose', '--tries=1', '--spider', 'http://localhost:5173']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
     command: pnpm --filter @brepflow/studio run dev --host 0.0.0.0
 
   # Marketing - Landing page
@@ -30,8 +48,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.marketing
+    container_name: brepflow-marketing
     ports:
-      - '3000:3000'
+      - '3040:3000' # Changed to avoid conflict with other marketing sites
     volumes:
       - ./apps/marketing:/app/apps/marketing
       - ./packages:/app/packages
@@ -40,7 +59,7 @@ services:
     environment:
       - NODE_ENV=development
     networks:
-      - brepflow
+      - madfam-shared-network
     command: pnpm --filter @brepflow/marketing run dev --host 0.0.0.0
 
   # Collaboration WebSocket Server
@@ -48,8 +67,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.collaboration
+    container_name: brepflow-collaboration
     ports:
-      - '8080:8080'
+      - '8081:8080' # Changed to avoid conflict with enclii
     volumes:
       - ./packages/collaboration/dist:/app/packages/collaboration/dist
     environment:
@@ -60,50 +80,30 @@ services:
       - ENABLE_RATE_LIMIT=${ENABLE_RATE_LIMIT:-true}
       - MAX_CONNECTIONS_PER_IP=${MAX_CONNECTIONS_PER_IP:-10}
       - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:5173}
+      # Use shared Redis for collaboration sessions
+      - REDIS_URL=redis://:redis_dev_password@madfam-redis-shared:6379/6
     networks:
-      - brepflow
+      - madfam-shared-network
+    healthcheck:
+      test: ['CMD', 'wget', '--no-verbose', '--tries=1', '--spider', 'http://localhost:8080/health']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     command: node packages/collaboration/dist/server/standalone-server.cjs
 
-  # Redis - Session storage and pub/sub for collaboration
-  redis:
-    image: redis:7-alpine
-    ports:
-      - '6379:6379'
-    volumes:
-      - redis_data:/data
-    networks:
-      - brepflow
-    command: redis-server --appendonly yes
-    healthcheck:
-      test: ['CMD', 'redis-cli', 'ping']
-      interval: 5s
-      timeout: 3s
-      retries: 5
-
-  # PostgreSQL - Optional persistence for collaboration sessions
-  postgres:
-    image: postgres:16-alpine
-    ports:
-      - '5432:5432'
-    environment:
-      - POSTGRES_DB=brepflow
-      - POSTGRES_USER=brepflow
-      - POSTGRES_PASSWORD=brepflow_dev_password
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init.sql
-    networks:
-      - brepflow
-    healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U brepflow']
-      interval: 5s
-      timeout: 3s
-      retries: 5
+# =============================================================================
+# SHARED INFRASTRUCTURE NOTE:
+# =============================================================================
+# This configuration uses the shared PostgreSQL and Redis from:
+#   ~/labspace/solarpunk-foundry/ops/local/docker-compose.shared.yml
+#
+# Redis: madfam-redis-shared:6379/6 (for collaboration sessions)
+#
+# Start shared infrastructure first:
+#   cd ~/labspace/solarpunk-foundry/ops/bin && ./madfam.sh start
+# =============================================================================
 
 networks:
-  brepflow:
-    driver: bridge
-
-volumes:
-  redis_data:
-  postgres_data:
+  madfam-shared-network:
+    external: true
