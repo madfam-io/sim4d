@@ -15,8 +15,6 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@madfam/ui": "file:../../../madfam-ui",
-    "@madfam/analytics": "file:../../../madfam-analytics",
     "@janua/react-sdk": "file:../../../janua/packages/react-sdk",
     "@brepflow/collaboration": "workspace:*",
     "@brepflow/engine-core": "workspace:*",
