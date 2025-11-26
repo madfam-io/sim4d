@@ -9,8 +9,8 @@ import { createChildLogger } from '../lib/logging/logger-instance';
 
 const logger = createChildLogger({ module: 'layout-recovery' });
 
-const STORAGE_KEY = 'brepflow-layout-state';
-const LAYOUTS_KEY = 'brepflow-saved-layouts';
+const STORAGE_KEY = 'sim4d-layout-state';
+const LAYOUTS_KEY = 'sim4d-saved-layouts';
 
 export interface LayoutValidationResult {
   isValid: boolean;

@@ -4,11 +4,11 @@ import ora from 'ora';
 import fs from 'fs-extra';
 import path from 'path';
 import Ajv from 'ajv';
-import type { GraphInstance } from '@brepflow/types';
-import { GraphManager } from '@brepflow/engine-core';
+import type { GraphInstance } from '@sim4d/types';
+import { GraphManager } from '@sim4d/engine-core';
 
 export const validateCommand = new Command('validate')
-  .description('Validate a BrepFlow graph file')
+  .description('Validate a Sim4D graph file')
   .argument('<graph>', 'path to .bflow.json graph file')
   .option('--schema <file>', 'custom schema file')
   .option('--strict', 'enable strict validation')

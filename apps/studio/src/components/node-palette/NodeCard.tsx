@@ -1,8 +1,8 @@
 import React, { useState, useRef, useMemo } from 'react';
 import { NodeIcon } from '../icons/IconSystem';
-import type { NodeDefinition } from '@brepflow/types';
+import type { NodeDefinition } from '@sim4d/types';
 import { highlightMatches } from '../../lib/fuzzy-search';
-// import type { NodeMetadata } from '@brepflow/nodes-core';
+// import type { NodeMetadata } from '@sim4d/nodes-core';
 
 // Node metadata interface for enhanced node discovery
 interface NodeMetadata {

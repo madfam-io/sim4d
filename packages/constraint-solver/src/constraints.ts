@@ -1,4 +1,4 @@
-import type { Vec3, Mat4, Quaternion } from '@brepflow/types';
+import type { Vec3, Mat4, Quaternion } from '@sim4d/types';
 
 // Define the ConstraintSolver namespace for constraint types
 export namespace ConstraintSolver {

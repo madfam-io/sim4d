@@ -1,10 +1,10 @@
 {
-  "name": "@brepflow/examples",
+  "name": "@sim4d/examples",
   "version": "0.1.0",
-  "description": "BrepFlow example graphs and fixtures",
+  "description": "Sim4D example graphs and fixtures",
   "private": true,
   "scripts": {
-    "validate": "brepflow validate graphs/*.bflow.json",
-    "render": "brepflow render graphs/simple-box.bflow.json"
+    "validate": "sim4d validate graphs/*.bflow.json",
+    "render": "sim4d render graphs/simple-box.bflow.json"
   }
 }

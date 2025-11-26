@@ -31,7 +31,7 @@ Successfully deployed collaboration server infrastructure (both Docker and stand
 ### Step 1: Build Collaboration Package ✅
 
 ```bash
-pnpm --filter @brepflow/collaboration run build
+pnpm --filter @sim4d/collaboration run build
 ```
 
 **Result**: Success
@@ -53,7 +53,7 @@ docker ps | grep collaboration
 
 ```
 CONTAINER ID   IMAGE                    PORTS
-99188d718399   brepflow-collaboration   0.0.0.0:8080->8080/tcp
+99188d718399   sim4d-collaboration   0.0.0.0:8080->8080/tcp
 ```
 
 **Health Check**:
@@ -93,7 +93,7 @@ Fixed missing `dompurify` dependency:
 
 ```bash
 pnpm add -w dompurify              # Workspace root
-pnpm --filter @brepflow/types add dompurify  # Types package
+pnpm --filter @sim4d/types add dompurify  # Types package
 ```
 
 **Result**: Resolved import errors in packages/types/src/sanitization.ts
@@ -446,7 +446,7 @@ VITE_COLLABORATION_API_URL=http://localhost:8080
 ```yaml
 services:
   collaboration:
-    image: brepflow-collaboration
+    image: sim4d-collaboration
     ports:
       - '8080:8080'
     environment:
@@ -464,7 +464,7 @@ PORT=8081 CORS_ORIGIN=http://localhost:5173 node dist/server/standalone-server.j
 # Production
 NODE_ENV=production \
 PORT=8080 \
-CORS_ORIGIN=https://studio.brepflow.com \
+CORS_ORIGIN=https://studio.sim4d.com \
 CSRF_TOKEN_SECRET=$SECRET \
 node dist/server/standalone-server.js
 ```

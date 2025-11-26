@@ -317,7 +317,7 @@ function simulateOCCTOperation(operation: string, args: unknown[]): any {
     return `ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('TestOCCT Generated STEP File'),'2;1');
-FILE_NAME('test.step','${new Date().toISOString()}',('Test'),('BrepFlow Test'),'','','');
+FILE_NAME('test.step','${new Date().toISOString()}',('Test'),('Sim4D Test'),'','','');
 FILE_SCHEMA(('AUTOMOTIVE_DESIGN'));
 ENDSEC;
 DATA;
@@ -347,7 +347,7 @@ END-ISO-10303-21;`;
 1H,,1H;,${shape.type},1H;,                                             G      1
      406       1       0       0       0       0       0       000000000D      1
      406       0       1       1                                        D      2
-406,1,BrepFlow Test Shape;                                             1P      1
+406,1,Sim4D Test Shape;                                             1P      1
 S      1G      1D      2P      1                                        T      1`;
   }
 

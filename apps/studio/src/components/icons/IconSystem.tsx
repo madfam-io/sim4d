@@ -100,7 +100,7 @@ export interface IconProps extends Omit<React.SVGProps<SVGSVGElement>, 'name'> {
   strokeWidth?: number;
 }
 
-// Professional icon mapping for all BrepFlow operations
+// Professional icon mapping for all Sim4D operations
 export const IconMap = {
   // Node Categories - Sketch
   'Sketch::Line': Pencil,

@@ -69,7 +69,7 @@
 ### 5. Three.js Vendor Chunk
 
 **Status**: Configuration improved, still investigating
-**Issue**: Source imports via `@brepflow/viewport` bypass node_modules detection
+**Issue**: Source imports via `@sim4d/viewport` bypass node_modules detection
 **Timeline**: 1-2 days for proper fix
 
 ### 6. Three.js Memory Leaks

@@ -1,6 +1,6 @@
 /**
  * WebSocket Service
- * Real-time communication hub for BrepFlow cloud services
+ * Real-time communication hub for Sim4D cloud services
  */
 
 import EventEmitter from 'events';
@@ -12,7 +12,7 @@ import {
   CloudOperation,
   SyncState,
   ConflictResolution,
-} from '@brepflow/cloud-api/src/types';
+} from '@sim4d/cloud-api/src/types';
 
 export interface WebSocketConfig {
   port: number;

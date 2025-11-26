@@ -1,5 +1,5 @@
-import type { GraphInstance, NodeInstance, Edge, NodeId, SocketRef } from '@brepflow/types';
-import { createNodeId, createEdgeId } from '@brepflow/types';
+import type { GraphInstance, NodeInstance, Edge, NodeId, SocketRef } from '@sim4d/types';
+import { createNodeId, createEdgeId } from '@sim4d/types';
 import { uuidv4 } from './utils/uuid';
 
 export class GraphManager {

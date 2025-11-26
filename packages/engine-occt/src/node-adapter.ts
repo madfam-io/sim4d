@@ -6,9 +6,9 @@ const logger = getLogger('OCCT');
  * Provides long-term stable solution for connecting nodes to real OCCT operations
  */
 
-import { EvalContext, WorkerAPI } from '@brepflow/types';
+import { EvalContext, WorkerAPI } from '@sim4d/types';
 // NOTE: GeometryAPIFactory not exported from engine-core - API design pending.
-// import { GeometryAPIFactory } from '@brepflow/engine-core';
+// import { GeometryAPIFactory } from '@sim4d/engine-core';
 import { NODE_TO_OCCT_OPERATION_MAP } from './occt-operation-router';
 
 /**

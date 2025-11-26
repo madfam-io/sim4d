@@ -1,7 +1,7 @@
 /**
  * Template Registry
  *
- * Central registry of example templates for BrepFlow.
+ * Central registry of example templates for Sim4D.
  * Provides metadata, thumbnails, and loading functionality.
  */
 

@@ -1,6 +1,6 @@
 /**
  * Cloud API Types
- * Shared type definitions for BrepFlow cloud services
+ * Shared type definitions for Sim4D cloud services
  */
 
 export type ProjectId = string;
@@ -295,7 +295,7 @@ export interface PluginManifest {
   license: string;
   keywords: string[];
   engines: {
-    brepflow: string; // Version compatibility
+    sim4d: string; // Version compatibility
     node?: string;
     npm?: string;
   };

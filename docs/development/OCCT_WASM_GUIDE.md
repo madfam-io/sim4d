@@ -8,7 +8,7 @@
 
 ## Overview
 
-BrepFlow uses Open CASCADE Technology (OCCT) compiled to WebAssembly to provide exact B-Rep/NURBS geometry operations in the browser and Node.js environments. The WASM binaries are **pre-compiled and production-ready** - no build step required for standard use.
+Sim4D uses Open CASCADE Technology (OCCT) compiled to WebAssembly to provide exact B-Rep/NURBS geometry operations in the browser and Node.js environments. The WASM binaries are **pre-compiled and production-ready** - no build step required for standard use.
 
 ## WASM Binary Artifacts
 
@@ -145,7 +145,7 @@ Loading OCCT module from: wasm/occt-core.node.mjs
 The Studio app automatically loads OCCT WASM on startup:
 
 ```typescript
-import { GeometryAPIFactory } from '@brepflow/engine-occt';
+import { GeometryAPIFactory } from '@sim4d/engine-occt';
 
 // Initialize with real OCCT
 const geometryAPI = await GeometryAPIFactory.getAPI({
@@ -165,10 +165,10 @@ The CLI automatically uses Node.js WASM binaries:
 
 ```bash
 # Render with OCCT geometry
-brepflow render mypart.bflow.json --export step,stl --out out/
+sim4d render mypart.bflow.json --export step,stl --out out/
 
 # Set parameters
-brepflow render enclosure.bflow.json --set L=160 --set wall=3.2
+sim4d render enclosure.bflow.json --set L=160 --set wall=3.2
 ```
 
 ### Manual WASM Loading
@@ -270,7 +270,7 @@ cd emsdk
 source ./emsdk_env.sh
 
 # Build OCCT WASM
-cd brepflow
+cd sim4d
 pnpm run build:wasm
 ```
 
@@ -300,7 +300,7 @@ See [OCCT_BUILD_PREREQS.md](./OCCT_BUILD_PREREQS.md) for detailed build instruct
 1. Run standalone test: `node packages/engine-occt/test-occt-direct.mjs`
 2. Check shape validity before operations
 3. Verify parameter values are within valid ranges
-4. Enable debug logging: `DEBUG=brepflow:* npm run dev`
+4. Enable debug logging: `DEBUG=sim4d:* npm run dev`
 
 ### Memory Issues
 
@@ -329,7 +329,7 @@ Before deploying:
 
 - **OCCT Documentation**: https://dev.opencascade.org/
 - **Emscripten Docs**: https://emscripten.org/docs/
-- **BrepFlow OCCT Source**: `packages/engine-occt/src/`
+- **Sim4D OCCT Source**: `packages/engine-occt/src/`
 - **Build Script**: `scripts/build-occt.sh`
 - **Test Suite**: `packages/engine-occt/test-occt-direct.mjs`
 

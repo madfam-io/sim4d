@@ -1,8 +1,8 @@
-# BrepFlow 300-Node Expansion Strategy
+# Sim4D 300-Node Expansion Strategy
 
 ## Executive Summary
 
-BrepFlow currently has ~30 core nodes across 6 categories. This document outlines a comprehensive strategy to reach 300 manufacturing-grade CAD nodes that cover the most essential operations used by engineers in practice.
+Sim4D currently has ~30 core nodes across 6 categories. This document outlines a comprehensive strategy to reach 300 manufacturing-grade CAD nodes that cover the most essential operations used by engineers in practice.
 
 **Current State Analysis:**
 

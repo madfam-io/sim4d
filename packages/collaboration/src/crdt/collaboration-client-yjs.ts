@@ -1,5 +1,5 @@
 import { YjsAdapter, type YjsAdapterOptions } from './yjs-adapter';
-import { createLogger } from '@brepflow/engine-core';
+import { createLogger } from '@sim4d/engine-core';
 
 const logger = createLogger('Collaboration');
 import { OfflineQueue, type QueuedOperation } from './offline-queue';
@@ -46,7 +46,7 @@ export class CollaborationClientYjs {
 
     // Initialize offline queue
     this.offlineQueue = new OfflineQueue({
-      storageKey: `brepflow-offline-${options.documentId}`,
+      storageKey: `sim4d-offline-${options.documentId}`,
       persistToStorage: true,
     });
 

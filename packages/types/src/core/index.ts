@@ -1,6 +1,6 @@
 /**
  * Core type module exports
- * Centralizes all core type definitions for BrepFlow
+ * Centralizes all core type definitions for Sim4D
  */
 
 // Export all types from each core module

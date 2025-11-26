@@ -4,7 +4,7 @@
 
 ## Overview
 
-Incremental implementation plan for transforming BrepFlow from single viewport to professional CAD multi-viewport system. This plan ensures backward compatibility while delivering enterprise-grade functionality.
+Incremental implementation plan for transforming Sim4D from single viewport to professional CAD multi-viewport system. This plan ensures backward compatibility while delivering enterprise-grade functionality.
 
 ## Development Phases
 

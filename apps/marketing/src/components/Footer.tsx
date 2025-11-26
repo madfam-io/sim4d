@@ -5,7 +5,7 @@ export function Footer() {
   const socialLinks = [
     {
       name: 'GitHub',
-      href: 'https://github.com/aureo-labs/brepflow',
+      href: 'https://github.com/aureo-labs/sim4d',
       icon: Github,
     },
     {
@@ -28,7 +28,7 @@ export function Footer() {
   const quickLinks = [
     { name: 'Features', href: '#features' },
     { name: 'Demo', href: '#demo' },
-    { name: 'GitHub', href: 'https://github.com/aureo-labs/brepflow' },
+    { name: 'GitHub', href: 'https://github.com/aureo-labs/sim4d' },
     { name: 'Documentation', href: '#docs' },
   ];
 
@@ -57,7 +57,7 @@ export function Footer() {
               <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-500 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm">B</span>
               </div>
-              <span className="text-white font-bold text-xl">BrepFlow</span>
+              <span className="text-white font-bold text-xl">Sim4D</span>
             </div>
             <p className="text-gray-400 mb-6 max-w-md">
               The future of parametric CAD. Browser-based, collaborative, and powered by

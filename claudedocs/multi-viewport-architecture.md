@@ -4,7 +4,7 @@
 
 ## Executive Summary
 
-Transform BrepFlow from single viewport to professional CAD multi-viewport system supporting simultaneous Front/Top/Right/ISO views with independent camera controls, view synchronization, and shared geometry rendering optimizations.
+Transform Sim4D from single viewport to professional CAD multi-viewport system supporting simultaneous Front/Top/Right/ISO views with independent camera controls, view synchronization, and shared geometry rendering optimizations.
 
 ## Current State Analysis
 
@@ -454,7 +454,7 @@ export const MultiViewportLayout: React.FC<MultiViewportLayoutProps> = ({
 
 ## Conclusion
 
-This multi-viewport architecture transforms BrepFlow into a professional CAD application with enterprise-grade viewport management. The design leverages existing Three.js infrastructure while adding sophisticated camera synchronization, shared geometry optimization, and flexible layout management.
+This multi-viewport architecture transforms Sim4D into a professional CAD application with enterprise-grade viewport management. The design leverages existing Three.js infrastructure while adding sophisticated camera synchronization, shared geometry optimization, and flexible layout management.
 
 Key innovations:
 

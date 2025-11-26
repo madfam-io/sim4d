@@ -1,4 +1,4 @@
-# BrepFlow Studio UI/UX Responsive Design Analysis
+# Sim4D Studio UI/UX Responsive Design Analysis
 
 ## Executive Summary
 

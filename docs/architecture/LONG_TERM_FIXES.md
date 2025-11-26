@@ -1,8 +1,8 @@
-# Long-Term Architecture Fixes for BrepFlow
+# Long-Term Architecture Fixes for Sim4D
 
 ## Executive Summary
 
-This document outlines sustainable, long-term solutions for the BrepFlow codebase, focusing on architectural integrity, maintainability, and scalability rather than quick fixes.
+This document outlines sustainable, long-term solutions for the Sim4D codebase, focusing on architectural integrity, maintainability, and scalability rather than quick fixes.
 
 ## 1. Type System Architecture
 
@@ -30,13 +30,13 @@ export * from './workers';
 #### 1.2 Type Hierarchy
 
 ```
-@brepflow/types (foundation)
+@sim4d/types (foundation)
   ├── Core Types (primitives, ids)
   ├── Geometry Types (Vec3, Mat4, Quaternion)
   ├── Graph Types (Node, Edge, Socket)
   └── Domain Types (Handle, Operation)
 
-@brepflow/schemas (validation)
+@sim4d/schemas (validation)
   └── JSON Schema definitions
 
 Package-specific types stay in packages
@@ -179,7 +179,7 @@ export const createTestContext = () => ({
 #### 5.1 Error Hierarchy
 
 ```typescript
-class BrepFlowError extends Error {
+class Sim4DError extends Error {
   constructor(
     message: string,
     public code: ErrorCode,
@@ -189,9 +189,9 @@ class BrepFlowError extends Error {
   }
 }
 
-class GeometryError extends BrepFlowError {}
-class ValidationError extends BrepFlowError {}
-class NetworkError extends BrepFlowError {}
+class GeometryError extends Sim4DError {}
+class ValidationError extends Sim4DError {}
+class NetworkError extends Sim4DError {}
 ```
 
 #### 5.2 Error Recovery Strategy
@@ -353,4 +353,4 @@ These long-term solutions prioritize:
 - **Developer Experience** over complexity
 - **User Experience** over feature count
 
-By implementing these architectural improvements, BrepFlow will have a solid foundation for growth and sustainability.
+By implementing these architectural improvements, Sim4D will have a solid foundation for growth and sustainability.

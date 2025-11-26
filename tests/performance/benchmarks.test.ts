@@ -14,9 +14,9 @@ import { describe, it, expect, beforeAll } from 'vitest';
 import { performance } from 'perf_hooks';
 
 // Import packages for testing
-import type { GraphInstance } from '@brepflow/types';
-import { SimpleSessionManager } from '@brepflow/collaboration';
-import { Solver2D } from '@brepflow/constraint-solver';
+import type { GraphInstance } from '@sim4d/types';
+import { SimpleSessionManager } from '@sim4d/collaboration';
+import { Solver2D } from '@sim4d/constraint-solver';
 
 /**
  * Performance measurement utility

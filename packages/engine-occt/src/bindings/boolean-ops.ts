@@ -7,7 +7,7 @@
  * - Intersect (Common): Find common volume of shapes
  */
 
-import type { ShapeHandle } from '@brepflow/types';
+import type { ShapeHandle } from '@sim4d/types';
 import type { WASMModule } from '../occt-bindings';
 import type { OCCTShape, OCCTHandle } from './types';
 import { ShapeHandleUtils, IDGenerator } from './utils';

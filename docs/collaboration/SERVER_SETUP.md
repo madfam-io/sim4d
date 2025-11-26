@@ -11,7 +11,7 @@
 ### 1. Install Dependencies
 
 ```bash
-pnpm add @brepflow/collaboration express express-session socket.io
+pnpm add @sim4d/collaboration express express-session socket.io
 pnpm add -D @types/express @types/express-session
 ```
 
@@ -22,7 +22,7 @@ pnpm add -D @types/express @types/express-session
 import express from 'express';
 import session from 'express-session';
 import http from 'http';
-import { CollaborationServer, setupAPIRoutes } from '@brepflow/collaboration/server';
+import { CollaborationServer, setupAPIRoutes } from '@sim4d/collaboration/server';
 
 const app = express();
 const server = http.createServer(app);
@@ -47,7 +47,7 @@ const collaborationServer = new CollaborationServer(server, {
   // REQUIRED: Specify allowed origins (NO wildcards!)
   corsOrigin: [
     'http://localhost:5173', // Development
-    'https://studio.brepflow.com', // Production
+    'https://studio.sim4d.com', // Production
   ],
 
   // REQUIRED: CSRF token secret (use environment variable)
@@ -110,7 +110,7 @@ import { collaborationAPI } from './collaboration';
 
 // Update server URL based on environment
 const serverUrl =
-  process.env.NODE_ENV === 'production' ? 'https://collab.brepflow.com' : 'http://localhost:8080';
+  process.env.NODE_ENV === 'production' ? 'https://collab.sim4d.com' : 'http://localhost:8080';
 
 collaborationAPI.updateConfig({ serverUrl });
 ```
@@ -177,7 +177,7 @@ function YourComponent() {
 - [ ] **Explicit Origins**: No wildcard CORS
 
   ```typescript
-  corsOrigin: ['https://studio.brepflow.com', 'https://app.brepflow.com'];
+  corsOrigin: ['https://studio.sim4d.com', 'https://app.sim4d.com'];
   // NEVER: corsOrigin: '*'
   ```
 
@@ -200,7 +200,7 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 const collaborationServer = new CollaborationServer(server, {
   corsOrigin: isDevelopment
     ? ['http://localhost:5173', 'http://localhost:3000']
-    : ['https://studio.brepflow.com'],
+    : ['https://studio.sim4d.com'],
 
   csrfTokenSecret: process.env.CSRF_TOKEN_SECRET!,
 
@@ -384,7 +384,7 @@ io.adapter(createAdapter(pubClient, subClient));
 
 ```typescript
 // Extend CSRF validation with additional auth
-import { requireCSRFToken } from '@brepflow/collaboration/server';
+import { requireCSRFToken } from '@sim4d/collaboration/server';
 
 const customAuth = async (req, res, next) => {
   // 1. Verify CSRF token
@@ -453,10 +453,10 @@ pnpm run server
 - **OWASP CSRF Prevention**: https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html
 - **Socket.IO Security**: https://socket.io/docs/v4/security/
 - **Express Session Guide**: https://github.com/expressjs/session
-- **BrepFlow Security Audit**: `docs/reports/COMPREHENSIVE_AUDIT_2025-11-13.md`
+- **Sim4D Security Audit**: `docs/reports/COMPREHENSIVE_AUDIT_2025-11-13.md`
 
 ---
 
-**Contact**: security@brepflow.com
+**Contact**: security@sim4d.com
 **Status**: Production-Ready
 **Next Review**: After load testing (1 week)

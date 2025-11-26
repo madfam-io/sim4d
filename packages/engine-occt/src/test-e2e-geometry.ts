@@ -4,10 +4,10 @@
  * Ensures long-term stable solution without duplication
  */
 
-import { DAGEngine } from '@brepflow/engine-core';
-import { NodeRegistry } from '@brepflow/engine-core';
+import { DAGEngine } from '@sim4d/engine-core';
+import { NodeRegistry } from '@sim4d/engine-core';
 // NOTE: GeometryAPIFactory not exported from engine-core - API design pending.
-// import { GeometryAPIFactory } from '@brepflow/engine-core';
+// import { GeometryAPIFactory } from '@sim4d/engine-core';
 import { GeometryProxy, createEnhancedContext } from './node-adapter';
 import {
   OCCTOperationRouter,
@@ -15,7 +15,7 @@ import {
   getRoutingStatistics,
 } from './occt-operation-router';
 import { WASMValidator } from './wasm-validation';
-import type { GraphInstance, NodeInstance, EvalContext } from '@brepflow/types';
+import type { GraphInstance, NodeInstance, EvalContext } from '@sim4d/types';
 
 // Test utilities
 const colors = {
@@ -381,7 +381,7 @@ async function testPerformance(): Promise<boolean> {
  * Main test runner
  */
 export async function runE2ETests(): Promise<void> {
-  log('\n🚀 BrepFlow End-to-End Geometry Test Suite', colors.magenta);
+  log('\n🚀 Sim4D End-to-End Geometry Test Suite', colors.magenta);
   log('================================================\n', colors.magenta);
 
   log('Testing complete chain: Node → Adapter → Router → Worker → OCCT', colors.blue);

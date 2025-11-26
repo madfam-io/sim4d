@@ -6,7 +6,7 @@
  */
 
 import * as fs from 'fs/promises';
-import { createLogger } from '@brepflow/engine-core';
+import { createLogger } from '@sim4d/engine-core';
 
 const logger = createLogger('NodesCore');
 import * as path from 'path';

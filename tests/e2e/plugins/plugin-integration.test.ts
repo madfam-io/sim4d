@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import { PluginTestHelper } from './plugin-test-helper';
 import { MockPluginServices, TEST_PLUGIN_CONFIGS } from './mock-services';
 
-test.describe('Plugin Integration with BrepFlow Core', () => {
+test.describe('Plugin Integration with Sim4D Core', () => {
   let pluginHelper: PluginTestHelper;
   let mockServices: MockPluginServices;
 
@@ -139,7 +139,7 @@ test.describe('Plugin Integration with BrepFlow Core', () => {
 
     // Verify graph data includes plugin information
     const graphData = await page.evaluate(() => {
-      return (window as any).brepflow?.graph?.serialize?.() || {};
+      return (window as any).sim4d?.graph?.serialize?.() || {};
     });
 
     expect(graphData.nodes).toBeTruthy();
@@ -220,7 +220,7 @@ test.describe('Plugin Integration with BrepFlow Core', () => {
     expect(remainingNodes.length).toBe(1);
   });
 
-  test('should integrate with BrepFlow export/import workflows', async ({ page }) => {
+  test('should integrate with Sim4D export/import workflows', async ({ page }) => {
     const pluginId = 'basic-geometry';
 
     await pluginHelper.installPlugin(pluginId);
@@ -262,7 +262,7 @@ test.describe('Plugin Integration with BrepFlow Core', () => {
         id: pluginId,
         name: 'Basic Geometry',
         version: '2.0.0',
-        author: 'BrepFlow Team',
+        author: 'Sim4D Team',
         description: 'Updated with new features',
         category: 'Geometry',
         rating: 4.5,
@@ -275,7 +275,7 @@ test.describe('Plugin Integration with BrepFlow Core', () => {
           commands: [],
           panels: [],
           permissions: ['read:graph', 'write:graph'],
-          engines: { brepflow: '>=0.1.0' },
+          engines: { sim4d: '>=0.1.0' },
         },
       },
     ]);
@@ -351,7 +351,7 @@ test.describe('Plugin Integration with BrepFlow Core', () => {
 
     // Check performance metrics are tracked
     const performanceMetrics = await page.evaluate(() => {
-      return (window as any).brepflow?.performance?.getMetrics?.() || {};
+      return (window as any).sim4d?.performance?.getMetrics?.() || {};
     });
 
     expect(performanceTime).toBeLessThan(5000); // Should complete within 5 seconds

@@ -1,12 +1,12 @@
 {
-  "name": "@brepflow/cli",
+  "name": "@sim4d/cli",
   "version": "0.1.0",
-  "description": "BrepFlow CLI for headless rendering",
+  "description": "Sim4D CLI for headless rendering",
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "bin": {
-    "brepflow": "./dist/index.mjs"
+    "sim4d": "./dist/index.mjs"
   },
   "scripts": {
     "build": "tsup",
@@ -17,11 +17,11 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@brepflow/engine-core": "workspace:*",
-    "@brepflow/engine-occt": "workspace:*",
-    "@brepflow/nodes-core": "workspace:*",
-    "@brepflow/schemas": "workspace:*",
-    "@brepflow/types": "workspace:*",
+    "@sim4d/engine-core": "workspace:*",
+    "@sim4d/engine-occt": "workspace:*",
+    "@sim4d/nodes-core": "workspace:*",
+    "@sim4d/schemas": "workspace:*",
+    "@sim4d/types": "workspace:*",
     "ajv": "^8.12.0",
     "chalk": "^5.3.0",
     "commander": "^11.1.0",

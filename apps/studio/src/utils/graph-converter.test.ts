@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { convertToReactFlow, convertFromReactFlow } from './graph-converter';
-import type { GraphInstance, NodeInstance, Edge } from '@brepflow/types';
+import type { GraphInstance, NodeInstance, Edge } from '@sim4d/types';
 
 describe('graph-converter', () => {
   const createMockGraph = (): GraphInstance => ({
@@ -205,7 +205,7 @@ describe('graph-converter', () => {
   });
 
   describe('convertFromReactFlow', () => {
-    it('converts ReactFlow format back to BrepFlow graph', () => {
+    it('converts ReactFlow format back to Sim4D graph', () => {
       const nodes = [
         {
           id: 'node1',

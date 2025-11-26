@@ -21,11 +21,11 @@ Successfully enabled TypeScript declaration file generation in all core packages
 
 | Package                     | DTS Size | Status               |
 | --------------------------- | -------- | -------------------- |
-| @brepflow/engine-core       | 19.29 KB | ✅ Generated         |
-| @brepflow/nodes-core        | 42.78 KB | ✅ Generated         |
-| @brepflow/engine-occt       | 17.90 KB | ✅ Generated         |
-| @brepflow/constraint-solver | 9.63 KB  | ✅ Generated         |
-| @brepflow/collaboration     | N/A      | ⚠️ DTS bundler error |
+| @sim4d/engine-core       | 19.29 KB | ✅ Generated         |
+| @sim4d/nodes-core        | 42.78 KB | ✅ Generated         |
+| @sim4d/engine-occt       | 17.90 KB | ✅ Generated         |
+| @sim4d/constraint-solver | 9.63 KB  | ✅ Generated         |
+| @sim4d/collaboration     | N/A      | ⚠️ DTS bundler error |
 
 **Build Times**: +5-10s per package for DTS generation (acceptable overhead)
 
@@ -44,7 +44,7 @@ Successfully enabled TypeScript declaration file generation in all core packages
 
 - ~40 TS7006: Implicit `any` parameters (mostly in test files)
 - ~20 TS18046: Unknown type in catch blocks
-- ~25 TS2339: Missing methods on BrepFlowCollaborationEngine (DTS bundler issue)
+- ~25 TS2339: Missing methods on Sim4DCollaborationEngine (DTS bundler issue)
 - ~15 TS2345/TS2322: Branded type conversions (string → NodeId/SessionId/UserId)
 - ~10 TS2551/TS2741: Geometry API signature mismatches (initialize/terminate/dispose)
 - ~4 TS2614: Missing ProductionLogger export from engine-occt

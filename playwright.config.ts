@@ -6,7 +6,7 @@ import path from 'path';
 dotenv.config({ path: path.resolve(__dirname, '.env.test') });
 
 /**
- * BrepFlow Studio Playwright Configuration
+ * Sim4D Studio Playwright Configuration
  * Optimized for CAD application testing with WebGL and Three.js
  */
 export default defineConfig({
@@ -34,7 +34,7 @@ export default defineConfig({
     video: 'retain-on-failure',
     screenshot: 'only-on-failure',
     viewport: { width: 1920, height: 1080 }, // Consistent CAD workspace
-    // Enable WebGL and required features for BrepFlow
+    // Enable WebGL and required features for Sim4D
     launchOptions: {
       args: [
         '--enable-webgl',
@@ -75,7 +75,7 @@ export default defineConfig({
   // Start dev server before running tests
   // TEMPORARILY DISABLED: Server already running
   // webServer: {
-  //   command: 'pnpm --filter @brepflow/studio run dev',
+  //   command: 'pnpm --filter @sim4d/studio run dev',
   //   url: 'http://127.0.0.1:5173',
   //   reuseExistingServer: !process.env.CI,
   //   timeout: 120000,

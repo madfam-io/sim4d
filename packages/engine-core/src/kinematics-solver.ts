@@ -3,7 +3,7 @@
  * Solves motion and constraints for mechanical assemblies
  */
 
-import { Vec3, Mat4, Quaternion } from '@brepflow/types';
+import { Vec3, Mat4, Quaternion } from '@sim4d/types';
 
 export enum JointType {
   FIXED = 'fixed',

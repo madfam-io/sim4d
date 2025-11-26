@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
-import { createNodeId, createEdgeId, type NodeId, type EdgeId } from '@brepflow/types';
+import { createNodeId, createEdgeId, type NodeId, type EdgeId } from '@sim4d/types';
 import type { Node, Edge } from '../types';
 import {
   useCollaboration as useCollaborationContext,

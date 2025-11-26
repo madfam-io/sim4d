@@ -51,7 +51,7 @@ Successfully implemented all immediate recommendations from the comprehensive au
 **Verification**:
 
 ```bash
-$ pnpm --filter @brepflow/studio run typecheck
+$ pnpm --filter @sim4d/studio run typecheck
 # Expected: 0 errors (previously 5 errors)
 ```
 
@@ -114,7 +114,7 @@ $ pnpm --filter @brepflow/studio run typecheck
 ### TypeScript Compilation
 
 ```bash
-$ pnpm --filter @brepflow/studio run typecheck
+$ pnpm --filter @sim4d/studio run typecheck
 ✅ 0 errors (previously 5 TS2578 errors)
 ```
 

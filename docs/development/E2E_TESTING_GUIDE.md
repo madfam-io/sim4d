@@ -1,8 +1,8 @@
-# BrepFlow E2E Testing Guide
+# Sim4D E2E Testing Guide
 
 ## Overview
 
-This guide covers the comprehensive End-to-End (E2E) testing framework for BrepFlow Studio, built with Playwright and optimized for CAD application testing. The framework ensures 100% reproducible user workflows across different browsers and environments.
+This guide covers the comprehensive End-to-End (E2E) testing framework for Sim4D Studio, built with Playwright and optimized for CAD application testing. The framework ensures 100% reproducible user workflows across different browsers and environments.
 
 ## 🚀 Quick Start
 
@@ -10,7 +10,7 @@ This guide covers the comprehensive End-to-End (E2E) testing framework for BrepF
 
 - Node.js 20.11.x
 - pnpm 8.6+
-- BrepFlow development environment set up
+- Sim4D development environment set up
 
 ### Installation
 
@@ -497,7 +497,7 @@ npx playwright test --list
 ## 📚 Additional Resources
 
 - [Playwright Documentation](https://playwright.dev/docs/intro)
-- [BrepFlow Architecture Guide](./technical/ARCHITECTURE.md)
+- [Sim4D Architecture Guide](./technical/ARCHITECTURE.md)
 - [Testing Strategy](./TESTING.md)
 - [Contributing Guidelines](./development/CONTRIBUTING.md)
 

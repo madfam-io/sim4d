@@ -1,7 +1,7 @@
 {
-  "name": "@brepflow/sdk",
+  "name": "@sim4d/sdk",
   "version": "0.1.0",
-  "description": "BrepFlow SDK for creating custom nodes and plugins",
+  "description": "Sim4D SDK for creating custom nodes and plugins",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -13,7 +13,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@brepflow/types": "workspace:*"
+    "@sim4d/types": "workspace:*"
   },
   "devDependencies": {
     "tsup": "^8.5.1",
@@ -31,7 +31,7 @@
     "README.md"
   ],
   "keywords": [
-    "brepflow",
+    "sim4d",
     "sdk",
     "plugin",
     "cad",
@@ -41,7 +41,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/aureolabs/brepflow.git",
+    "url": "https://github.com/aureolabs/sim4d.git",
     "directory": "packages/sdk"
   },
   "author": "Aureo Labs (a MADFAM company)",

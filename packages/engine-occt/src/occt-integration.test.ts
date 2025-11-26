@@ -11,7 +11,7 @@ import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest';
 import { loadOCCTModule } from './occt-loader';
 import { OCCTMemoryManager } from './occt-bindings';
 import { WASMLoader } from './wasm-loader';
-import type { ShapeHandle, _MeshData } from '@brepflow/types';
+import type { ShapeHandle, _MeshData } from '@sim4d/types';
 
 // Test configuration
 const TEST_CONFIG = {

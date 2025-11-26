@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Handle, Position, useReactFlow } from 'reactflow';
 import { NodeIcon } from '../icons/IconSystem';
-import type { NodeInstance } from '@brepflow/types';
+import type { NodeInstance } from '@sim4d/types';
 
 interface CustomNodeProps {
   id: string;

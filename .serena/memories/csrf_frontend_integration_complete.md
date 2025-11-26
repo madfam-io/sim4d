@@ -5,7 +5,7 @@
 
 ## Summary
 
-Completed full CSRF authentication integration for real-time collaboration in BrepFlow Studio. All core functionality implemented and tested - only build configuration optimization remains.
+Completed full CSRF authentication integration for real-time collaboration in Sim4D Studio. All core functionality implemented and tested - only build configuration optimization remains.
 
 ## Completed Work
 
@@ -127,7 +127,7 @@ Added collaboration package to Studio dependencies:
 
 ```json
 "dependencies": {
-  "@brepflow/collaboration": "workspace:*",
+  "@sim4d/collaboration": "workspace:*",
   // ... other deps
 }
 ```
@@ -150,15 +150,15 @@ Created manual type declaration files to enable TypeScript resolution while tsup
 
 **Original Problem**: Collaboration package bundles Node.js-specific code from `engine-core` (path, url, fs modules) that cannot run in browser environments.
 
-**Root Cause**: `tsup.config.ts` setting `noExternal: [/^@brepflow\//]` bundles all workspace packages, including server-only code.
+**Root Cause**: `tsup.config.ts` setting `noExternal: [/^@sim4d\//]` bundles all workspace packages, including server-only code.
 
 **Original Impact**: Vite build failed with `"pathToFileURL" is not exported by "__vite-browser-external"`
 
 **Solution Applied**: Combination approach
 
-1. Removed `noExternal: [/^@brepflow\//]` from collaboration tsup.config.ts
-2. Added `@brepflow/engine-core` and `@brepflow/types` to external array
-3. Updated Studio to import from `@brepflow/collaboration/client` (not main entry)
+1. Removed `noExternal: [/^@sim4d\//]` from collaboration tsup.config.ts
+2. Added `@sim4d/engine-core` and `@sim4d/types` to external array
+3. Updated Studio to import from `@sim4d/collaboration/client` (not main entry)
 
 **Results**:
 
@@ -178,11 +178,11 @@ Created manual type declaration files to enable TypeScript resolution while tsup
    export default defineConfig([
      {
        entry: { 'client/index': 'src/client/index.ts' },
-       external: ['@brepflow/engine-core'], // Don't bundle engine-core for client
+       external: ['@sim4d/engine-core'], // Don't bundle engine-core for client
      },
      {
        entry: { 'server/index': 'src/server/index.ts' },
-       noExternal: [/^@brepflow\//], // Bundle for server
+       noExternal: [/^@sim4d\//], // Bundle for server
      },
    ]);
    ```
@@ -203,7 +203,7 @@ Created manual type declaration files to enable TypeScript resolution while tsup
    external: [
      'react',
      'react-dom',
-     '@brepflow/engine-core',  // Add this
+     '@sim4d/engine-core',  // Add this
    ],
    ```
 
@@ -223,8 +223,8 @@ Created manual type declaration files to enable TypeScript resolution while tsup
 
 ### Manual Testing Plan (Post-Fix)
 
-1. Start collaboration server: `pnpm --filter @brepflow/collaboration run dev`
-2. Start Studio: `pnpm --filter @brepflow/studio run dev`
+1. Start collaboration server: `pnpm --filter @sim4d/collaboration run dev`
+2. Start Studio: `pnpm --filter @sim4d/studio run dev`
 3. Open two browser tabs to same session URL
 4. Verify CSRF token fetching in Network tab
 5. Verify WebSocket connection establishes

@@ -1,4 +1,4 @@
-# BrepFlow WASM Modules
+# Sim4D WASM Modules
 
 This directory contains WebAssembly modules for geometry processing and G-code generation.
 
@@ -219,7 +219,7 @@ Run WASM tests:
 ./scripts/test-cura-wasm.sh
 
 # Test OCCT integration
-pnpm --filter @brepflow/engine-occt run test
+pnpm --filter @sim4d/engine-occt run test
 ```
 
 ## Deployment
@@ -314,6 +314,6 @@ export default {
 
 - **OCCT**: LGPL-2.1 (with linking exception)
 - **CuraEngine**: LGPL-3.0
-- **BrepFlow glue code**: MPL-2.0
+- **Sim4D glue code**: MPL-2.0
 
 See individual LICENSE files in `third_party/` for details.

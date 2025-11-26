@@ -2,19 +2,19 @@
 
 **Status**: Planning Phase
 **Priority**: High
-**Target**: Enable direct G-code export for 3D printing from BrepFlow Studio
+**Target**: Enable direct G-code export for 3D printing from Sim4D Studio
 **Tracking Issue**: TBD
 
 ## Executive Summary
 
-This document outlines the architecture and implementation plan for integrating open-source slicing engines into BrepFlow, enabling users to generate G-code directly from parametric CAD models without requiring external slicer software.
+This document outlines the architecture and implementation plan for integrating open-source slicing engines into Sim4D, enabling users to generate G-code directly from parametric CAD models without requiring external slicer software.
 
 **Key Goals**:
 1. ✅ Support multiple open-source slicers (PrusaSlicer, CuraEngine)
 2. ✅ Provide slicer-specific configuration nodes
 3. ✅ Generate production-ready G-code for FDM printers
 4. ✅ Enable multi-material/multi-color workflows
-5. ✅ Maintain BrepFlow's web-first architecture
+5. ✅ Maintain Sim4D's web-first architecture
 
 ---
 
@@ -56,7 +56,7 @@ Compile open-source slicers to WebAssembly for in-browser execution.
 
 **Technical Stack**:
 ```
-BrepFlow Graph → STL Generation → WASM Slicer → G-code Output
+Sim4D Graph → STL Generation → WASM Slicer → G-code Output
      ↓               ↓                  ↓              ↓
   Parametric      OCCT.wasm        CuraEngine.wasm   Download
   Nodes           Worker           Worker            or Upload
@@ -109,7 +109,7 @@ git clone https://github.com/Ultimaker/CuraEngine.git
 emconfigure cmake . -DBUILD_WASM=ON
 emmake make
 
-# 3. Package for BrepFlow
+# 3. Package for Sim4D
 # Output: cura-engine.wasm + cura-engine.js glue code
 ```
 
@@ -140,7 +140,7 @@ Base class for all slicer implementations.
 ```typescript
 interface SlicerEngineNode extends NodeDefinition {
   inputs: {
-    geometry: Shape;        // From BrepFlow graph
+    geometry: Shape;        // From Sim4D graph
     profile: SlicerProfile; // Print settings
     material: Material[];   // For multi-material
   };
@@ -493,7 +493,7 @@ Pre-configured profiles for common scenarios:
   - Example workflows (multi-color vase, parametric enclosure)
   - Release announcement
 
-**Deliverable**: Full G-code generation in BrepFlow v0.3
+**Deliverable**: Full G-code generation in Sim4D v0.3
 
 ---
 
@@ -506,7 +506,7 @@ Pre-configured profiles for common scenarios:
 - Multi-material assignment
 
 ### Integration Tests
-- BrepFlow graph → STL → G-code pipeline
+- Sim4D graph → STL → G-code pipeline
 - Slicer profile loading
 - Worker message protocol
 
@@ -597,11 +597,11 @@ Pre-configured profiles for common scenarios:
 
 ### User Metrics
 - [ ] 80% of users successfully generate G-code on first try
-- [ ] < 5% fallback to external slicer after using BrepFlow slicer
+- [ ] < 5% fallback to external slicer after using Sim4D slicer
 - [ ] Positive user feedback on UX (NPS > 50)
 
 ### Business Metrics
-- [ ] 30% increase in user retention (users stay in BrepFlow ecosystem)
+- [ ] 30% increase in user retention (users stay in Sim4D ecosystem)
 - [ ] 50% of new users cite "G-code generation" as key feature
 - [ ] Featured in 3D printing community (r/3Dprinting, Prusa forums)
 

@@ -5,7 +5,7 @@
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { NodeRegistry } from '../node-registry';
-import type { NodeDefinition } from '@brepflow/types';
+import type { NodeDefinition } from '@sim4d/types';
 
 describe('NodeRegistry', () => {
   let registry: NodeRegistry;

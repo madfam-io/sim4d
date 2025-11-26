@@ -74,7 +74,7 @@
 
 **Command**: `pnpm typecheck`
 **Status**: FAILING (collaboration package)
-**Errors**: 14 type errors in `@brepflow/collaboration`
+**Errors**: 14 type errors in `@sim4d/collaboration`
 
 ### Key Errors:
 
@@ -96,7 +96,7 @@
    - Fix import path for geometry-api-factory
 
 2. **Verify fixes**:
-   - Run `pnpm --filter @brepflow/collaboration typecheck`
+   - Run `pnpm --filter @sim4d/collaboration typecheck`
    - Run full `pnpm typecheck`
 
 ### Clean up Artifacts (Per Roadmap)

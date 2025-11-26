@@ -4,7 +4,7 @@ import type {
   GraphInstance,
   NodeInstance,
   Edge as EdgeType,
-} from '@brepflow/types';
+} from '@sim4d/types';
 
 // Re-export types for convenience
 export type Graph = GraphInstance;

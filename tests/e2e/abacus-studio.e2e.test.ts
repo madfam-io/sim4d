@@ -26,7 +26,7 @@ test.describe('Parametric Abacus Studio E2E Tests', () => {
     });
     page = await context.newPage();
 
-    // Navigate to BrepFlow studio
+    // Navigate to Sim4D studio
     await page.goto(BASE_URL);
     await page.waitForLoadState('networkidle');
   });

@@ -55,8 +55,8 @@ class AnalyticsService {
   private sessionId: string;
   private sessionStart: number;
   private metrics: AnalyticsMetrics[] = [];
-  private readonly STORAGE_KEY = 'brepflow_analytics';
-  private readonly JOURNEY_KEY = 'brepflow_user_journey';
+  private readonly STORAGE_KEY = 'sim4d_analytics';
+  private readonly JOURNEY_KEY = 'sim4d_user_journey';
   private readonly MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
 
   constructor() {
@@ -76,7 +76,7 @@ class AnalyticsService {
    */
   private isOptedOut(): boolean {
     if (typeof localStorage === 'undefined') return true;
-    return localStorage.getItem('brepflow_analytics_opt_out') === 'true';
+    return localStorage.getItem('sim4d_analytics_opt_out') === 'true';
   }
 
   /**
@@ -84,7 +84,7 @@ class AnalyticsService {
    */
   optOut(): void {
     if (typeof localStorage === 'undefined') return;
-    localStorage.setItem('brepflow_analytics_opt_out', 'true');
+    localStorage.setItem('sim4d_analytics_opt_out', 'true');
     this.clearAllData();
   }
 
@@ -93,7 +93,7 @@ class AnalyticsService {
    */
   optIn(): void {
     if (typeof localStorage === 'undefined') return;
-    localStorage.removeItem('brepflow_analytics_opt_out');
+    localStorage.removeItem('sim4d_analytics_opt_out');
   }
 
   /**

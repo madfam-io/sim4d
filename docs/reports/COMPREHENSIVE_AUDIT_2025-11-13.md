@@ -1,4 +1,4 @@
-# BrepFlow Comprehensive Codebase Audit
+# Sim4D Comprehensive Codebase Audit
 
 **Date**: November 13, 2025
 **Version**: v0.1.0 (MVP - ~95% Complete)
@@ -352,7 +352,7 @@ types → schemas → engine-core → engine-occt → sdk → nodes-core → vie
 **Concerns**:
 
 - Strict mode disabled in studio
-- Path alias inconsistency (root: `@brepflow/*`, studio: `@/*`)
+- Path alias inconsistency (root: `@sim4d/*`, studio: `@/*`)
 
 #### Separation of Concerns (8/10)
 
@@ -879,7 +879,7 @@ private getDefaultRecoveryActions(code: ErrorCode): RecoveryAction[] {
 
 ## Conclusion
 
-BrepFlow demonstrates **solid architectural foundations** with modern tooling, clear separation of concerns, and comprehensive error handling. The monorepo structure, worker isolation, and plugin system are well-designed for long-term scalability.
+Sim4D demonstrates **solid architectural foundations** with modern tooling, clear separation of concerns, and comprehensive error handling. The monorepo structure, worker isolation, and plugin system are well-designed for long-term scalability.
 
 However, **critical security vulnerabilities and type safety issues create significant production risk** that must be addressed immediately. The codebase is currently in a "90% complete, 10% polish" state where the remaining work is essential for production deployment.
 
@@ -947,6 +947,6 @@ However, **critical security vulnerabilities and type safety issues create signi
 
 ---
 
-**Audit Contact**: security@brepflow.com
+**Audit Contact**: security@sim4d.com
 **Report Classification**: CONFIDENTIAL - Development Team Only
 **Next Review**: After Phase 1-2 completion (4 weeks)

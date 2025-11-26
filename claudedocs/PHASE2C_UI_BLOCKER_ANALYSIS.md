@@ -30,7 +30,7 @@ Error: @vitejs/plugin-react can't detect preamble. Something is wrong.
 ### 1. Initial Hypothesis: Missing Dependencies
 
 **Test**: Checked for missing `dompurify` dependency  
-**Result**: ✅ Fixed - Added to workspace and @brepflow/types package  
+**Result**: ✅ Fixed - Added to workspace and @sim4d/types package  
 **Outcome**: Resolved import errors but UI issue persisted
 
 ### 2. Second Hypothesis: ESM Module Compatibility
@@ -282,7 +282,7 @@ wscat -c ws://localhost:8080
 
 ```bash
 # All collaboration features have unit tests
-pnpm --filter @brepflow/collaboration run test
+pnpm --filter @sim4d/collaboration run test
 
 # Results:
 # ✅ 63/63 tests passing

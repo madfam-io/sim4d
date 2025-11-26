@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/performance-budget.json",
-  "description": "Performance budgets for BrepFlow CAD application based on production targets from audit",
+  "description": "Performance budgets for Sim4D CAD application based on production targets from audit",
   "version": "1.0.0",
   "budgets": [
     {

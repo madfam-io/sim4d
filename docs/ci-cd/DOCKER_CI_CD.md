@@ -1,6 +1,6 @@
 # Docker CI/CD Integration
 
-Comprehensive guide for BrepFlow's Docker-based CI/CD pipeline with GitHub Actions.
+Comprehensive guide for Sim4D's Docker-based CI/CD pipeline with GitHub Actions.
 
 ## Overview
 
@@ -407,7 +407,7 @@ The new Docker workflows complement existing CI workflows:
 Monitor workflows at:
 
 ```
-https://github.com/aureo-labs/brepflow/actions
+https://github.com/aureo-labs/sim4d/actions
 ```
 
 Key metrics:

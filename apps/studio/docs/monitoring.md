@@ -1,6 +1,6 @@
-# BrepFlow Studio - Monitoring & Error Handling System
+# Sim4D Studio - Monitoring & Error Handling System
 
-This document describes the comprehensive error handling and monitoring system implemented for BrepFlow Studio.
+This document describes the comprehensive error handling and monitoring system implemented for Sim4D Studio.
 
 ## Overview
 
@@ -441,4 +441,4 @@ When adding new monitoring features:
 
 ## License
 
-This monitoring system is part of BrepFlow Studio and follows the same license terms.
+This monitoring system is part of Sim4D Studio and follows the same license terms.

@@ -2,7 +2,7 @@
 
 ## Overview
 
-BrepFlow implements a comprehensive security testing strategy covering dependency vulnerabilities, secrets scanning, code analysis, worker sandboxing, and CSP enforcement.
+Sim4D implements a comprehensive security testing strategy covering dependency vulnerabilities, secrets scanning, code analysis, worker sandboxing, and CSP enforcement.
 
 ## Quick Start
 
@@ -175,7 +175,7 @@ pnpm exec eslint . --ext .ts,.tsx --format json | jq '[.[] | .messages[] | selec
 
 ```bash
 # Runs automatically in CI
-# View results: https://github.com/<org>/brepflow/security/code-scanning
+# View results: https://github.com/<org>/sim4d/security/code-scanning
 ```
 
 ### 4. License Compliance
@@ -231,10 +231,10 @@ npx license-checker --json | jq -r 'to_entries[] | select(.value.licenses | tost
 
 ```bash
 # Run security tests
-pnpm --filter @brepflow/engine-core run test tests/security/
+pnpm --filter @sim4d/engine-core run test tests/security/
 
 # Run specific sandboxing tests
-pnpm --filter @brepflow/engine-core run test tests/security/wasm-sandboxing.test.ts
+pnpm --filter @sim4d/engine-core run test tests/security/wasm-sandboxing.test.ts
 ```
 
 **Security Requirements**:
@@ -425,7 +425,7 @@ curl -I http://localhost:5173 | grep -i "cross-origin\|content-security"
 
 ### Reporting Security Issues
 
-**Email**: security@brepflow.com (or GitHub Security Advisories)
+**Email**: security@sim4d.com (or GitHub Security Advisories)
 
 **Do NOT**:
 
@@ -569,7 +569,7 @@ const value = obj[userInput];
 
 ## Security Contacts
 
-- **Security Issues**: security@brepflow.com
+- **Security Issues**: security@sim4d.com
 - **Security Team Lead**: [TBD]
 - **CISO**: [TBD]
-- **Security Advisories**: https://github.com/aureolabs/brepflow/security/advisories
+- **Security Advisories**: https://github.com/aureolabs/sim4d/security/advisories

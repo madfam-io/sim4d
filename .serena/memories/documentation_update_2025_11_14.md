@@ -190,4 +190,4 @@ All documentation updates:
 - Include specific dates and measurements
 - Provide actionable information
 - Maintain consistency across files
-- Follow BrepFlow documentation standards
+- Follow Sim4D documentation standards

@@ -9,7 +9,7 @@
 
 ## Overview
 
-BrepFlow Studio has a comprehensive structured logging system that provides:
+Sim4D Studio has a comprehensive structured logging system that provides:
 
 - **Log levels** (DEBUG, INFO, WARN, ERROR)
 - **Structured data** for better querying

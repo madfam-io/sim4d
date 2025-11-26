@@ -6,7 +6,7 @@
 
 ## Overview
 
-Successfully implemented a comprehensive template system for BrepFlow Studio that enables users to quickly start with pre-built parametric CAD examples. The system includes template discovery, loading, analytics tracking, and a professional gallery UI.
+Successfully implemented a comprehensive template system for Sim4D Studio that enables users to quickly start with pre-built parametric CAD examples. The system includes template discovery, loading, analytics tracking, and a professional gallery UI.
 
 ## Implementation Summary
 
@@ -219,7 +219,7 @@ interface TemplateLoadOptions {
 
 **Resolved Issues**:
 
-- Changed `BrepGraph` → `Graph` type import from `@brepflow/types`
+- Changed `BrepGraph` → `Graph` type import from `@sim4d/types`
 - Added explicit `any` types for node/edge iteration to satisfy strict mode
 - Changed icon from `"book-open"` → `"template"` for IconName compatibility
 
@@ -266,7 +266,7 @@ interface TemplateLoadOptions {
 }
 ```
 
-**Storage**: localStorage key `brepflow_template_events`  
+**Storage**: localStorage key `sim4d_template_events`  
 **Retention**: Last 100 events  
 **Access**: `getTemplateAnalytics()` function
 

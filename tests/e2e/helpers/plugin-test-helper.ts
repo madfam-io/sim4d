@@ -9,7 +9,7 @@ import {
 } from '../../../packages/cloud-services/src/plugins/types';
 
 /**
- * Plugin Test Helper for BrepFlow E2E Testing
+ * Plugin Test Helper for Sim4D E2E Testing
  * Provides utilities for testing plugin lifecycle, security, and collaboration
  */
 export class PluginTestHelper {
@@ -217,7 +217,7 @@ export class PluginTestHelper {
     // Check if plugin is running in isolated worker
     const workerInfo = await this.page.evaluate(async (id) => {
       // Access the plugin manager from window (if exposed for testing)
-      const pluginManager = (window as any).brepflow?.pluginManager;
+      const pluginManager = (window as any).sim4d?.pluginManager;
       if (!pluginManager) return null;
 
       const sandbox = pluginManager.getSandbox(id);
@@ -244,7 +244,7 @@ export class PluginTestHelper {
       const hasPermission = await this.page.evaluate(
         async (args) => {
           const { pluginId, permission } = args;
-          const pluginManager = (window as any).brepflow?.pluginManager;
+          const pluginManager = (window as any).sim4d?.pluginManager;
           if (!pluginManager) return false;
 
           return pluginManager.checkPermission(pluginId, permission);
@@ -263,7 +263,7 @@ export class PluginTestHelper {
     const blocked = await this.page.evaluate(
       async (args) => {
         const { pluginId, action } = args;
-        const pluginManager = (window as any).brepflow?.pluginManager;
+        const pluginManager = (window as any).sim4d?.pluginManager;
         if (!pluginManager) return false;
 
         try {
@@ -288,7 +288,7 @@ export class PluginTestHelper {
       await this.page.evaluate(
         async (args) => {
           const { pluginId, userId } = args;
-          const collaborationManager = (window as any).brepflow?.collaborationManager;
+          const collaborationManager = (window as any).sim4d?.collaborationManager;
           if (collaborationManager) {
             await collaborationManager.simulateUserPluginAction(pluginId, `user-${userId}`);
           }
@@ -301,7 +301,7 @@ export class PluginTestHelper {
   async verifyPluginSync(pluginId: PluginId): Promise<boolean> {
     // Verify plugin state is synchronized across sessions
     const syncStatus = await this.page.evaluate(async (id) => {
-      const syncManager = (window as any).brepflow?.cloudSyncManager;
+      const syncManager = (window as any).sim4d?.cloudSyncManager;
       if (!syncManager) return false;
 
       return syncManager.isPluginSynced(id);
@@ -318,7 +318,7 @@ export class PluginTestHelper {
     networkRequests: number;
   }> {
     const usage = await this.page.evaluate(async (id) => {
-      const pluginManager = (window as any).brepflow?.pluginManager;
+      const pluginManager = (window as any).sim4d?.pluginManager;
       if (!pluginManager) return { memory: 0, cpu: 0, networkRequests: 0 };
 
       return pluginManager.getResourceUsage(id);
@@ -329,7 +329,7 @@ export class PluginTestHelper {
 
   async verifyResourceLimits(pluginId: PluginId): Promise<boolean> {
     const withinLimits = await this.page.evaluate(async (id) => {
-      const pluginManager = (window as any).brepflow?.pluginManager;
+      const pluginManager = (window as any).sim4d?.pluginManager;
       if (!pluginManager) return false;
 
       return pluginManager.checkResourceLimits(id);
@@ -343,7 +343,7 @@ export class PluginTestHelper {
   async waitForPluginReady(pluginId: PluginId, timeout: number = 5000): Promise<void> {
     await this.page.waitForFunction(
       (id) => {
-        const pluginManager = (window as any).brepflow?.pluginManager;
+        const pluginManager = (window as any).sim4d?.pluginManager;
         return pluginManager && pluginManager.isPluginReady(id);
       },
       pluginId,
@@ -354,7 +354,7 @@ export class PluginTestHelper {
   async cleanupPlugins(): Promise<void> {
     // Remove all test plugins
     await this.page.evaluate(() => {
-      const pluginManager = (window as any).brepflow?.pluginManager;
+      const pluginManager = (window as any).sim4d?.pluginManager;
       if (pluginManager) {
         pluginManager.cleanup();
       }
@@ -379,7 +379,7 @@ export class PluginTestHelper {
       if (elements.length > 0) return false;
 
       // Check for any remaining workers or resources
-      const pluginManager = (window as any).brepflow?.pluginManager;
+      const pluginManager = (window as any).sim4d?.pluginManager;
       if (pluginManager && pluginManager.hasPluginResources(id)) return false;
 
       return true;

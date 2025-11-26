@@ -29,11 +29,11 @@ function runCommand(command: string, args: string[], cwd: string): void {
 }
 
 describe('Headless CLI smoke', () => {
-  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'brepflow-cli-smoke-'));
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'sim4d-cli-smoke-'));
 
   beforeAll(() => {
     ensureArtifacts();
-    runCommand('pnpm', ['--filter', '@brepflow/cli', 'run', 'build'], repoRoot);
+    runCommand('pnpm', ['--filter', '@sim4d/cli', 'run', 'build'], repoRoot);
   }, 120_000);
 
   afterAll(() => {
@@ -48,7 +48,7 @@ describe('Headless CLI smoke', () => {
       'pnpm',
       [
         '--filter',
-        '@brepflow/cli',
+        '@sim4d/cli',
         'exec',
         '--',
         'node',

@@ -4,9 +4,9 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { GeometryAPI } from '@brepflow/engine-occt';
+import { GeometryAPI } from '@sim4d/engine-occt';
 import { setupWASMTestEnvironment, GeometryPerformanceTracker } from '../wasm-test-setup';
-import type { ShapeHandle } from '@brepflow/engine-occt/src/occt-bindings';
+import type { ShapeHandle } from '@sim4d/engine-occt/src/occt-bindings';
 
 describe('Boolean Operations', () => {
   let geometryAPI: GeometryAPI;

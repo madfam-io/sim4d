@@ -1,10 +1,10 @@
-# @brepflow/cli
+# @sim4d/cli
 
-Command-line interface for BrepFlow - headless graph execution and batch processing.
+Command-line interface for Sim4D - headless graph execution and batch processing.
 
 ## Overview
 
-The BrepFlow CLI enables automation and batch processing of parametric CAD models. It provides:
+The Sim4D CLI enables automation and batch processing of parametric CAD models. It provides:
 
 - **Headless execution**: Run graphs without UI
 - **Parameter overrides**: Set values at runtime
@@ -18,13 +18,13 @@ The BrepFlow CLI enables automation and batch processing of parametric CAD model
 ### Global Installation
 
 ```bash
-npm install -g @brepflow/cli
+npm install -g @sim4d/cli
 ```
 
 ### Local Installation
 
 ```bash
-pnpm add @brepflow/cli
+pnpm add @sim4d/cli
 ```
 
 ### From Source
@@ -42,7 +42,7 @@ node dist/index.js --help
 Render a graph and export to various formats.
 
 ```bash
-brepflow render <graph.bflow.json> [options]
+sim4d render <graph.bflow.json> [options]
 ```
 
 **Options:**
@@ -59,23 +59,23 @@ brepflow render <graph.bflow.json> [options]
 
 ```bash
 # Basic rendering
-brepflow render enclosure.bflow.json --export step --out dist/
+sim4d render enclosure.bflow.json --export step --out dist/
 
 # Parameter overrides
-brepflow render parametric-box.bflow.json \
+sim4d render parametric-box.bflow.json \
   --set width=120 \
   --set height=80 \
   --set depth=40 \
   --export step,stl
 
 # High quality mesh
-brepflow render complex-part.bflow.json \
+sim4d render complex-part.bflow.json \
   --export stl \
   --quality 0.001 \
   --out high-quality/
 
 # Multiple formats
-brepflow render assembly.bflow.json \
+sim4d render assembly.bflow.json \
   --export step,iges,stl,obj \
   --out exports/
 ```
@@ -85,7 +85,7 @@ brepflow render assembly.bflow.json \
 Generate multiple variants using parameter matrices.
 
 ```bash
-brepflow sweep --graph <graph.bflow.json> --matrix <params.csv> [options]
+sim4d sweep --graph <graph.bflow.json> --matrix <params.csv> [options]
 ```
 
 **Options:**
@@ -110,21 +110,21 @@ width,height,depth,material
 
 ```bash
 # Basic sweep
-brepflow sweep \
+sim4d sweep \
   --graph parametric-bracket.bflow.json \
   --matrix variants.csv \
   --export step \
   --out variants/
 
 # Parallel processing
-brepflow sweep \
+sim4d sweep \
   --graph complex-assembly.bflow.json \
   --matrix large-matrix.csv \
   --parallel 4 \
   --export step,stl
 
 # Custom naming
-brepflow sweep \
+sim4d sweep \
   --graph part.bflow.json \
   --matrix params.csv \
   --naming "part_{width}x{height}x{depth}" \
@@ -136,7 +136,7 @@ brepflow sweep \
 Validate graph integrity and parameter consistency.
 
 ```bash
-brepflow validate <graph.bflow.json> [options]
+sim4d validate <graph.bflow.json> [options]
 ```
 
 **Options:**
@@ -151,16 +151,16 @@ brepflow validate <graph.bflow.json> [options]
 
 ```bash
 # Basic validation
-brepflow validate my-graph.bflow.json
+sim4d validate my-graph.bflow.json
 
 # Strict mode with detailed output
-brepflow validate complex-graph.bflow.json \
+sim4d validate complex-graph.bflow.json \
   --strict \
   --format json \
   > validation-report.json
 
 # Connection checking
-brepflow validate assembly.bflow.json \
+sim4d validate assembly.bflow.json \
   --check-connections \
   --check-cycles
 ```
@@ -170,7 +170,7 @@ brepflow validate assembly.bflow.json \
 Display graph information and statistics.
 
 ```bash
-brepflow info <graph.bflow.json> [options]
+sim4d info <graph.bflow.json> [options]
 ```
 
 **Options:**
@@ -184,16 +184,16 @@ brepflow info <graph.bflow.json> [options]
 
 ```bash
 # Basic info
-brepflow info my-model.bflow.json
+sim4d info my-model.bflow.json
 
 # Detailed statistics
-brepflow info complex-assembly.bflow.json \
+sim4d info complex-assembly.bflow.json \
   --stats \
   --dependencies \
   --format json
 
 # Parameter listing
-brepflow info parametric-part.bflow.json \
+sim4d info parametric-part.bflow.json \
   --parameters \
   --format yaml
 ```
@@ -202,7 +202,7 @@ brepflow info parametric-part.bflow.json \
 
 ### Global Config
 
-Create `~/.brepflow/config.json`:
+Create `~/.sim4d/config.json`:
 
 ```json
 {
@@ -213,11 +213,11 @@ Create `~/.brepflow/config.json`:
   "timeout": 300000,
   "logging": {
     "level": "info",
-    "file": "~/.brepflow/logs/cli.log"
+    "file": "~/.sim4d/logs/cli.log"
   },
   "cache": {
     "enabled": true,
-    "directory": "~/.brepflow/cache",
+    "directory": "~/.sim4d/cache",
     "maxSize": "1GB"
   }
 }
@@ -225,7 +225,7 @@ Create `~/.brepflow/config.json`:
 
 ### Project Config
 
-Create `.brepflow.json` in project root:
+Create `.sim4d.json` in project root:
 
 ```json
 {
@@ -278,7 +278,7 @@ export BREPFLOW_PARALLEL=8
 export BREPFLOW_LOG_LEVEL="debug"
 
 # Cache directory
-export BREPFLOW_CACHE_DIR="~/.cache/brepflow"
+export BREPFLOW_CACHE_DIR="~/.cache/sim4d"
 
 # Disable telemetry
 export BREPFLOW_TELEMETRY=false
@@ -307,12 +307,12 @@ jobs:
         with:
           node-version: 20
 
-      - run: npm install -g @brepflow/cli
+      - run: npm install -g @sim4d/cli
 
       - name: Build all models
         run: |
           for model in models/*.bflow.json; do
-            brepflow render "$model" \
+            sim4d render "$model" \
               --export step,stl \
               --out "dist/$(basename "$model" .bflow.json)"
           done
@@ -335,11 +335,11 @@ all: $(BUILDS)
 
 dist/%: models/%.bflow.json
 	@mkdir -p $@
-	brepflow render $< --export step,stl --out $@
+	sim4d render $< --export step,stl --out $@
 
 validate:
 	@for model in $(MODELS); do \
-		brepflow validate $$model || exit 1; \
+		sim4d validate $$model || exit 1; \
 	done
 
 clean:
@@ -347,7 +347,7 @@ clean:
 
 # Parameter sweep
 sweep:
-	brepflow sweep \
+	sim4d sweep \
 		--graph models/parametric-part.bflow.json \
 		--matrix configs/variants.csv \
 		--export step \
@@ -374,7 +374,7 @@ for model in "$MODELS_DIR"/*.bflow.json; do
     name=$(basename "$model" .bflow.json)
     echo "Building $name..."
 
-    brepflow render "$model" \
+    sim4d render "$model" \
         --export "$FORMATS" \
         --out "$OUTPUT_DIR/$name" \
         --verbose
@@ -411,7 +411,7 @@ def generate_variants():
 def build_variant(graph_file, params):
     """Build single variant"""
     cmd = [
-        'brepflow', 'render', graph_file,
+        'sim4d', 'render', graph_file,
         '--set', f'width={params["width"]}',
         '--set', f'height={params["height"]}',
         '--set', f'depth={params["depth"]}',
@@ -516,13 +516,13 @@ Each output directory contains a `manifest.json`:
 
 ```bash
 # Use all CPU cores
-brepflow sweep \
+sim4d sweep \
   --graph model.bflow.json \
   --matrix variants.csv \
   --parallel $(nproc)
 
 # Limit concurrent jobs
-brepflow sweep \
+sim4d sweep \
   --graph model.bflow.json \
   --matrix variants.csv \
   --parallel 4
@@ -532,13 +532,13 @@ brepflow sweep \
 
 ```bash
 # Enable persistent cache
-export BREPFLOW_CACHE_DIR="~/.cache/brepflow"
+export BREPFLOW_CACHE_DIR="~/.cache/sim4d"
 
 # Cache size limit
 export BREPFLOW_CACHE_SIZE="5GB"
 
 # Clear cache
-brepflow cache clear
+sim4d cache clear
 ```
 
 ### Memory Management
@@ -546,10 +546,10 @@ brepflow cache clear
 ```bash
 # Increase Node.js memory limit
 node --max-old-space-size=8192 \
-  $(which brepflow) render large-model.bflow.json
+  $(which sim4d) render large-model.bflow.json
 
 # Monitor memory usage
-brepflow render model.bflow.json --verbose --stats
+sim4d render model.bflow.json --verbose --stats
 ```
 
 ## Error Handling
@@ -570,32 +570,32 @@ brepflow render model.bflow.json --verbose --stats
 
 ```bash
 # Retry with increased timeout
-brepflow render model.bflow.json \
+sim4d render model.bflow.json \
   --timeout 600000 \
   --verbose
 
 # Skip failed variants in sweep
-brepflow sweep \
+sim4d sweep \
   --graph model.bflow.json \
   --matrix variants.csv \
   --continue-on-error
 
 # Validate before rendering
-brepflow validate model.bflow.json && \
-brepflow render model.bflow.json --export step
+sim4d validate model.bflow.json && \
+sim4d render model.bflow.json --export step
 ```
 
 ### Debugging
 
 ```bash
 # Enable debug logging
-DEBUG=* brepflow render model.bflow.json
+DEBUG=* sim4d render model.bflow.json
 
 # Dry run mode
-brepflow render model.bflow.json --dry-run
+sim4d render model.bflow.json --dry-run
 
 # Detailed error output
-brepflow render model.bflow.json \
+sim4d render model.bflow.json \
   --verbose \
   --format json 2> error.json
 ```
@@ -605,7 +605,7 @@ brepflow render model.bflow.json \
 The CLI can also be used programmatically:
 
 ```typescript
-import { CLI, RenderCommand, SweepCommand } from '@brepflow/cli';
+import { CLI, RenderCommand, SweepCommand } from '@sim4d/cli';
 
 // Programmatic rendering
 const cli = new CLI();

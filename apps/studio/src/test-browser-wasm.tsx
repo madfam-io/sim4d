@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import type { ShapeHandle, Vec3, MeshData } from '@brepflow/types';
+import type { ShapeHandle, Vec3, MeshData } from '@sim4d/types';
 
 interface TestResult {
   name: string;
@@ -225,7 +225,7 @@ export function BrowserWASMTestSuite() {
   return (
     <div style={{ padding: '20px', background: '#0a0a0a', color: '#e0e0e0', minHeight: '100vh' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        <h1 style={{ color: '#4CAF50' }}>🔧 BrepFlow WASM Integration Test Suite</h1>
+        <h1 style={{ color: '#4CAF50' }}>🔧 Sim4D WASM Integration Test Suite</h1>
 
         <div style={{ display: 'flex', gap: '20px', margin: '20px 0' }}>
           <div>Total: {stats.total}</div>

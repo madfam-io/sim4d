@@ -4,7 +4,7 @@
  */
 
 import { vi } from 'vitest';
-import type { OCCTModule, ShapeHandle, MeshData } from '@brepflow/engine-occt/src/occt-bindings';
+import type { OCCTModule, ShapeHandle, MeshData } from '@sim4d/engine-occt/src/occt-bindings';
 
 // WASM optimization flags
 const WASM_OPTIMIZATION_CONFIG = {
@@ -465,7 +465,7 @@ export async function setupWASMTestEnvironment(): Promise<{
   // Pre-warm critical dependencies
   const mockOCCT = createMockOCCTModule();
   // Import OCCT bindings for mocking WASM loader functions
-  const occtBindings = await import('@brepflow/engine-occt');
+  const occtBindings = await import('@sim4d/engine-occt');
 
   // Ensure a clean loader state before wiring spies
   occtBindings.resetWASMLoader();

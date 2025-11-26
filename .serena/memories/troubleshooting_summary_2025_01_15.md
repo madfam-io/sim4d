@@ -12,7 +12,7 @@
 
 ### 1. ProductionLogger Export Issue ✅
 
-**Package**: `@brepflow/engine-occt`  
+**Package**: `@sim4d/engine-occt`  
 **Problem**: Studio components couldn't import ProductionLogger  
 **Root Cause**: Export was disabled with "Node.js only" comment, but logger is actually browser-safe  
 **Solution**: Re-enabled ProductionLogger and type exports in `packages/engine-occt/src/index.ts`
@@ -146,7 +146,7 @@ const newMessage: ConsoleMessage = {
 
 ### 1. Collaboration Type Exports (Deferred) ⚠️
 
-**Package**: `@brepflow/engine-core`  
+**Package**: `@sim4d/engine-core`  
 **Root Cause**: `collaboration-engine.ts` has `@ts-nocheck` and branded type conflicts  
 **Current Status**: Exports disabled to allow builds to succeed
 
@@ -156,7 +156,7 @@ const newMessage: ConsoleMessage = {
 - Duplicate type definitions between `types.ts` and `collaboration-engine.ts`
 - Type circular dependency issues
 
-**Workaround**: Components import from `@brepflow/collaboration` package directly
+**Workaround**: Components import from `@sim4d/collaboration` package directly
 
 **Future Work** (4-6 hours):
 
@@ -169,7 +169,7 @@ const newMessage: ConsoleMessage = {
 
 ### 2. Scripting Type Exports (Deferred) ⚠️
 
-**Package**: `@brepflow/engine-core`  
+**Package**: `@sim4d/engine-core`  
 **Root Cause**: `script-engine.ts` has `@ts-nocheck` and type issues  
 **Current Status**: Exports disabled to allow builds to succeed
 
@@ -189,14 +189,14 @@ const newMessage: ConsoleMessage = {
 
 All packages building cleanly:
 
-- ✅ `@brepflow/types` - Clean build
-- ✅ `@brepflow/schemas` - Clean build
-- ✅ `@brepflow/engine-core` - Clean build with DTS generation
-- ✅ `@brepflow/engine-occt` - ProductionLogger exported
-- ✅ `@brepflow/collaboration` - Clean build
-- ✅ `@brepflow/nodes-core` - Clean build
-- ✅ `@brepflow/viewport` - Clean build
-- ✅ `@brepflow/studio` - Clean build
+- ✅ `@sim4d/types` - Clean build
+- ✅ `@sim4d/schemas` - Clean build
+- ✅ `@sim4d/engine-core` - Clean build with DTS generation
+- ✅ `@sim4d/engine-occt` - ProductionLogger exported
+- ✅ `@sim4d/collaboration` - Clean build
+- ✅ `@sim4d/nodes-core` - Clean build
+- ✅ `@sim4d/viewport` - Clean build
+- ✅ `@sim4d/studio` - Clean build
 
 ### Test Results: ✅ 99% PASS RATE
 

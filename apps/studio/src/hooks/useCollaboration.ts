@@ -4,7 +4,7 @@
  */
 
 import { useEffect, useState, useCallback, useRef } from 'react';
-import { BrepFlowCollaborationEngine } from '@brepflow/engine-core';
+import { Sim4DCollaborationEngine } from '@sim4d/engine-core';
 import { SecureWebSocketClient } from '../services/secure-websocket-client';
 import { createChildLogger } from '../lib/logging/logger-instance';
 
@@ -14,14 +14,14 @@ const logger = createChildLogger({ module: 'useCollaboration' });
 const secureWebSocketClient = new SecureWebSocketClient();
 
 // Create collaboration engine with secure WebSocket
-const collaborationEngine = new BrepFlowCollaborationEngine(secureWebSocketClient as unknown);
+const collaborationEngine = new Sim4DCollaborationEngine(secureWebSocketClient as unknown);
 import type {
   CollaborationUser,
   CursorPosition,
   SelectionState,
   Operation,
-} from '@brepflow/engine-core';
-import { SessionId, UserId, NodeId } from '@brepflow/types';
+} from '@sim4d/engine-core';
+import { SessionId, UserId, NodeId } from '@sim4d/types';
 
 // Selection type from collaboration engine
 type Selection = {

@@ -1,7 +1,7 @@
 {
-  "name": "@brepflow/engine-core",
+  "name": "@sim4d/engine-core",
   "version": "0.1.0",
-  "description": "BrepFlow DAG evaluation engine",
+  "description": "Sim4D DAG evaluation engine",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -26,7 +26,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@brepflow/types": "workspace:*",
+    "@sim4d/types": "workspace:*",
     "isolated-vm": "^6.0.2",
     "uuid": "^9.0.1",
     "xxhash-wasm": "^1.0.2"

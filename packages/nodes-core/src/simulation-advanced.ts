@@ -6,9 +6,9 @@ import type {
   FEBoundaryHandle,
   FELoadHandle,
   FEResultsHandle,
-} from '@brepflow/types';
+} from '@sim4d/types';
 
-// Additional advanced simulation types (temporary - could be moved to @brepflow/types)
+// Additional advanced simulation types (temporary - could be moved to @sim4d/types)
 interface MeshQualityMetrics {
   minQuality: number;
   maxQuality: number;

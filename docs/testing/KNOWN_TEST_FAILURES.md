@@ -10,7 +10,7 @@ This document tracks known test failures that are expected and non-blocking for 
 
 ### Overview
 
-4 tests in `@brepflow/engine-occt` fail when running in Node.js test environment due to WASM module loading limitations. These failures are expected and do not indicate issues with the production application.
+4 tests in `@sim4d/engine-occt` fail when running in Node.js test environment due to WASM module loading limitations. These failures are expected and do not indicate issues with the production application.
 
 ### Failed Tests
 
@@ -87,7 +87,7 @@ AssertionError: expected function to throw an error, but it didn't
 
 ## Test Results Summary
 
-**Package**: `@brepflow/engine-occt`
+**Package**: `@sim4d/engine-occt`
 
 ```
 Test Files: 3 failed | 3 passed (6 total)
@@ -194,7 +194,7 @@ describe('OCCT Integration Tests', () => {
 pnpm run test
 
 # Run engine-occt tests specifically
-pnpm --filter @brepflow/engine-occt run test
+pnpm --filter @sim4d/engine-occt run test
 
 # Run E2E tests (browser environment)
 pnpm run test:e2e

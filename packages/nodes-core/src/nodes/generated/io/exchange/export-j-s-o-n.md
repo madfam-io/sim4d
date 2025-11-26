@@ -9,7 +9,7 @@ Export geometry to JSON
 ### format
 
 - **Type:** enum
-- **Default:** "brepflow"
+- **Default:** "sim4d"
 
 ### precision
 

@@ -127,7 +127,7 @@ Updates to `packages/engine-occt/src/occt-loader.ts`:
 
 ## Conclusion
 
-**OCCT WASM compilation is COMPLETE**. The geometry kernel is fully operational and ready for integration into the BrepFlow studio application. The standalone test definitively proves that real CAD-grade geometry operations are working correctly.
+**OCCT WASM compilation is COMPLETE**. The geometry kernel is fully operational and ready for integration into the Sim4D studio application. The standalone test definitively proves that real CAD-grade geometry operations are working correctly.
 
 The integration test failures are due to test framework caching issues, NOT problems with the OCCT compilation itself. This can be addressed separately without blocking the use of real geometry in the application.
 

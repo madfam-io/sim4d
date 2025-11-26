@@ -4,7 +4,7 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { BrepFlowScriptEngine } from '../script-engine';
+import { Sim4DScriptEngine } from '../script-engine';
 import type {
   ScriptContext,
   ScriptPermissions,
@@ -13,10 +13,10 @@ import type {
 } from '../types';
 
 describe('ScriptEngine', () => {
-  let engine: BrepFlowScriptEngine;
+  let engine: Sim4DScriptEngine;
 
   beforeEach(() => {
-    engine = new BrepFlowScriptEngine();
+    engine = new Sim4DScriptEngine();
   });
 
   afterEach(() => {

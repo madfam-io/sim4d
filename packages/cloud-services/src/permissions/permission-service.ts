@@ -1,6 +1,6 @@
 /**
  * Permission Service
- * Role-based access control and permission management for BrepFlow cloud services
+ * Role-based access control and permission management for Sim4D cloud services
  */
 
 import EventEmitter from 'events';
@@ -14,7 +14,7 @@ import {
   TeamPermission,
   CollaboratorAccess,
   TeamMember,
-} from '@brepflow/cloud-api/src/types';
+} from '@sim4d/cloud-api/src/types';
 
 export interface PermissionConfig {
   defaultRoles: {

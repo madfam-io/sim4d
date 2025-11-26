@@ -16,7 +16,7 @@ export {
   useAsyncError,
 } from '../error-handling/error-boundary';
 export type {
-  BrepFlowError,
+  Sim4DError,
   ErrorCode,
   ErrorSeverity,
   ErrorCategory,

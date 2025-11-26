@@ -1,6 +1,6 @@
 # CI/CD Documentation
 
-Documentation for BrepFlow's Docker-based CI/CD pipeline with GitHub Actions.
+Documentation for Sim4D's Docker-based CI/CD pipeline with GitHub Actions.
 
 ## Quick Links
 
@@ -12,7 +12,7 @@ Documentation for BrepFlow's Docker-based CI/CD pipeline with GitHub Actions.
 
 ## Overview
 
-BrepFlow uses a Docker-based CI/CD pipeline that provides:
+Sim4D uses a Docker-based CI/CD pipeline that provides:
 
 - ✅ **100% Test Pass Rate**: All tests passing in containerized environment
 - ✅ **Automated Quality Gates**: PR validation and quality enforcement
@@ -238,9 +238,9 @@ Track these metrics in GitHub Actions dashboard:
 
 ### Dashboards
 
-- **Actions**: https://github.com/aureo-labs/brepflow/actions
-- **Security**: https://github.com/aureo-labs/brepflow/security
-- **Insights**: https://github.com/aureo-labs/brepflow/pulse
+- **Actions**: https://github.com/aureo-labs/sim4d/actions
+- **Security**: https://github.com/aureo-labs/sim4d/security
+- **Insights**: https://github.com/aureo-labs/sim4d/pulse
 
 ## Recent Changes
 

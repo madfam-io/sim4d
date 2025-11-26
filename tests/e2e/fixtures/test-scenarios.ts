@@ -1,5 +1,5 @@
 /**
- * Test Scenarios and Data Fixtures for BrepFlow E2E Tests
+ * Test Scenarios and Data Fixtures for Sim4D E2E Tests
  * Provides standardized test data for reproducible testing
  */
 

@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import type { NodeInstance } from '@brepflow/types';
+import type { NodeInstance } from '@sim4d/types';
 import { createChildLogger } from '../lib/logging/logger-instance';
 
 const logger = createChildLogger({ module: 'useClipboard' });
@@ -7,7 +7,7 @@ const logger = createChildLogger({ module: 'useClipboard' });
 interface ClipboardData {
   nodes: NodeInstance[];
   timestamp: number;
-  source: 'brepflow';
+  source: 'sim4d';
 }
 
 export function useClipboard() {
@@ -26,7 +26,7 @@ export function useClipboard() {
     const data: ClipboardData = {
       nodes: nodesToCopy,
       timestamp: Date.now(),
-      source: 'brepflow',
+      source: 'sim4d',
     };
 
     setClipboardData(data);

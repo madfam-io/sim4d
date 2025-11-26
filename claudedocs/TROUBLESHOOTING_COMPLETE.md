@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-**Objective**: Systematically resolve all ESLint errors and high-priority warnings across the BrepFlow monorepo.
+**Objective**: Systematically resolve all ESLint errors and high-priority warnings across the Sim4D monorepo.
 
 **Result**:
 
@@ -101,7 +101,7 @@ if (this._BRepPrimAPI_MakeCylinder) {
 ```typescript
 try {
   // eslint-disable-next-line @typescript-eslint/no-var-requires -- Optional dependency, fallback needed for tests
-  const { ProductionLogger } = require('@brepflow/engine-occt');
+  const { ProductionLogger } = require('@sim4d/engine-occt');
   loggerInstance = new ProductionLogger('DAGEngine');
 } catch (error) {
   // Fallback to console when OCCT unavailable
@@ -305,10 +305,10 @@ const missing = requiredArtifacts.filter((file) => !fs.existsSync(path.join(wasm
 pnpm run lint
 
 # Output:
-✅ @brepflow/cli: 0 errors, 2 warnings
-✅ @brepflow/engine-core: 0 errors, 77 warnings
-✅ @brepflow/engine-occt: 0 errors, 1 warning
-✅ @brepflow/nodes-core: 0 errors, 6 warnings
+✅ @sim4d/cli: 0 errors, 2 warnings
+✅ @sim4d/engine-core: 0 errors, 77 warnings
+✅ @sim4d/engine-occt: 0 errors, 1 warning
+✅ @sim4d/nodes-core: 0 errors, 6 warnings
 ✅ All other packages: 0 errors, 0 warnings
 
 Tasks: 8 successful, 8 total
@@ -464,7 +464,7 @@ BUILD STATUS: PASSING ✅
 
 **Status**: ✅ **MISSION ACCOMPLISHED**
 
-All critical errors and high-priority warnings have been systematically resolved. The BrepFlow codebase now passes all lint checks, enabling clean CI/CD pipelines and maintainable code quality.
+All critical errors and high-priority warnings have been systematically resolved. The Sim4D codebase now passes all lint checks, enabling clean CI/CD pipelines and maintainable code quality.
 
 **Key Outcomes**:
 

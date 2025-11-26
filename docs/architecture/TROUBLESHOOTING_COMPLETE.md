@@ -6,7 +6,7 @@
 
 ## Executive Summary
 
-Successfully transformed BrepFlow from a project with 400+ TypeScript compilation errors to a fully building, architecturally sound codebase with sustainable long-term solutions.
+Successfully transformed Sim4D from a project with 400+ TypeScript compilation errors to a fully building, architecturally sound codebase with sustainable long-term solutions.
 
 ## Issues Fixed
 

@@ -7,7 +7,7 @@ const logger = getLogger('OCCT');
  */
 
 import { WASMPerformanceMonitor } from './wasm-capability-detector';
-import type { ShapeHandle, MeshData } from '@brepflow/types';
+import type { ShapeHandle, MeshData } from '@sim4d/types';
 
 // Memory pressure levels
 export enum MemoryPressure {

@@ -9,7 +9,7 @@
  * - Get Center of Mass: Calculate centroid
  */
 
-import type { Vec3, MeshData, BoundingBox } from '@brepflow/types';
+import type { Vec3, MeshData, BoundingBox } from '@sim4d/types';
 import type { WASMModule } from '../occt-bindings';
 import type { OCCTShape } from './types';
 import { ShapeHandleUtils, IDGenerator } from './utils';

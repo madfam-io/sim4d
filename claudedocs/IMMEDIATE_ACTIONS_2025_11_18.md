@@ -12,7 +12,7 @@
 
 ```yaml
 Status: 18/18 tests FAILING in comprehensive test suite
-Package: @brepflow/constraint-solver
+Package: @sim4d/constraint-solver
 File: packages/constraint-solver/src/solver-2d.comprehensive.test.ts
 Impact: BLOCKS core parametric design functionality
 Timeline: 2 days maximum
@@ -62,7 +62,7 @@ Possible causes:
 
 ```bash
 # 1. Run tests with verbose output
-pnpm --filter @brepflow/constraint-solver run test -- solver-2d.comprehensive.test.ts --reporter=verbose
+pnpm --filter @sim4d/constraint-solver run test -- solver-2d.comprehensive.test.ts --reporter=verbose
 
 # 2. Check implementation completeness
 # Review: packages/constraint-solver/src/solver-2d.ts
@@ -114,7 +114,7 @@ console.log('Evaluating node:', nodeId);
 console.warn('Failed to load geometry');
 
 // GOOD: Use structured logger
-import { logger } from '@brepflow/types';
+import { logger } from '@sim4d/types';
 logger.debug('Evaluating node', { nodeId });
 logger.warn('Failed to load geometry', { error });
 ```
@@ -133,7 +133,7 @@ logger.warn('Failed to load geometry', { error });
 
 ```bash
 # 1. Add logger to all packages
-pnpm --filter @brepflow/engine-core add @brepflow/types
+pnpm --filter @sim4d/engine-core add @sim4d/types
 
 # 2. Replace console with logger (package by package)
 # Use find/replace with regex pattern
@@ -186,7 +186,7 @@ const nodesWithMetadata: (NodeDefinition<any, any, any> & { metadata: NodeMetada
 **Content Structure**:
 
 ```markdown
-# BrepFlow Strategic Positioning Decision
+# Sim4D Strategic Positioning Decision
 
 ## Context
 
@@ -364,7 +364,7 @@ Blocks parametric design functionality (core value prop)
 
 ## Solution
 
-Replace with structured logger (@brepflow/types)
+Replace with structured logger (@sim4d/types)
 
 ## Implementation Plan
 
@@ -652,7 +652,7 @@ Team Alignment:
 
 **v0.2 Announcement** (post-cleanup):
 
-- Blog post: "BrepFlow v0.2 - Production Ready"
+- Blog post: "Sim4D v0.2 - Production Ready"
 - Twitter/LinkedIn: Platform highlights
 - Documentation: Updated examples
 

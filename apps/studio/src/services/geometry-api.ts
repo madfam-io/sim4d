@@ -3,7 +3,7 @@
  * Wraps the geometry API factory for Studio-specific use
  */
 
-import { getGeometryAPI as getGeometryAPIBase, IntegratedGeometryAPI } from '@brepflow/engine-occt';
+import { getGeometryAPI as getGeometryAPIBase, IntegratedGeometryAPI } from '@sim4d/engine-occt';
 
 let apiInstance: IntegratedGeometryAPI | null = null;
 let initializationPromise: Promise<IntegratedGeometryAPI> | null = null;

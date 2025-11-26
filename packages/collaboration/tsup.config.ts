@@ -23,8 +23,8 @@ export default defineConfig({
     'socket.io-client',
     'express', // Standalone server dependency
     'cors', // Standalone server dependency
-    '@brepflow/engine-core', // Has Node.js modules (path, url, fs)
-    '@brepflow/types', // Type-only package, no need to bundle
+    '@sim4d/engine-core', // Has Node.js modules (path, url, fs)
+    '@sim4d/types', // Type-only package, no need to bundle
   ],
   tsconfig: 'tsconfig.json',
 });

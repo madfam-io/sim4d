@@ -1,10 +1,10 @@
 /**
- * Comprehensive BrepFlowCollaborationEngine Tests
+ * Comprehensive Sim4DCollaborationEngine Tests
  * Tests all aspects of real-time collaboration functionality
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { BrepFlowCollaborationEngine } from '../collaboration-engine';
+import { Sim4DCollaborationEngine } from '../collaboration-engine';
 import {
   SessionId,
   UserId,
@@ -37,14 +37,14 @@ vi.mock('../websocket-client', () => ({
   CollaborationWebSocketClient: vi.fn(),
 }));
 
-describe('BrepFlowCollaborationEngine', () => {
-  let engine: BrepFlowCollaborationEngine;
+describe('Sim4DCollaborationEngine', () => {
+  let engine: Sim4DCollaborationEngine;
   let mockWebSocketClient: ReturnType<typeof createMockWebSocketClient>;
 
   beforeEach(() => {
     // Create a fresh mock for each test
     mockWebSocketClient = createMockWebSocketClient();
-    engine = new BrepFlowCollaborationEngine(mockWebSocketClient);
+    engine = new Sim4DCollaborationEngine(mockWebSocketClient);
     vi.clearAllMocks();
   });
 

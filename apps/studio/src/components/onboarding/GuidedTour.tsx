@@ -42,7 +42,7 @@ const getTourSteps = (skillLevel: SkillLevel): TourStep[] => {
     return [
       {
         target: 'body',
-        title: '👋 Welcome to BrepFlow Studio!',
+        title: '👋 Welcome to Sim4D Studio!',
         content:
           "Let me show you around this powerful 3D modeling studio. Don't worry - it's easier than it looks!",
         placement: 'bottom',
@@ -64,9 +64,9 @@ const getTourSteps = (skillLevel: SkillLevel): TourStep[] => {
     return [
       {
         target: 'body',
-        title: '🚀 Quick BrepFlow Tour',
+        title: '🚀 Quick Sim4D Tour',
         content:
-          "Since you have some 3D experience, let me quickly show you BrepFlow's unique features.",
+          "Since you have some 3D experience, let me quickly show you Sim4D's unique features.",
         placement: 'bottom',
         disableBeacon: true,
       },

@@ -1,4 +1,4 @@
-# Dependency Injection Best Practices for BrepFlow
+# Dependency Injection Best Practices for Sim4D
 
 **Date**: 2025-11-16
 **Purpose**: Guidelines for implementing and using dependency injection
@@ -713,4 +713,4 @@ describe('WorkerPool with DI', () => {
 
 **Document Status**: Complete
 **Last Updated**: 2025-11-16
-**Maintained By**: BrepFlow Team
+**Maintained By**: Sim4D Team

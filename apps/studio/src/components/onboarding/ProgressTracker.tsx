@@ -23,7 +23,7 @@ const getMilestones = (skillLevel: SkillLevel): MilestoneData[] => {
     {
       id: 'interface-tour',
       title: 'Interface Mastery',
-      description: 'Learn your way around BrepFlow Studio',
+      description: 'Learn your way around Sim4D Studio',
       icon: '🧭',
       requiredSteps: ['interface_tour'],
     },

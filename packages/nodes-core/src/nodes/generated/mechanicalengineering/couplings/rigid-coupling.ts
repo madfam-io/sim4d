@@ -1,4 +1,4 @@
-import type { NodeDefinition } from '@brepflow/types';
+import type { NodeDefinition } from '@sim4d/types';
 
 interface RigidCouplingParams {
   shaft1Diameter: number;

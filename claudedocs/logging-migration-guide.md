@@ -666,7 +666,7 @@ export const getLoggingConfig = () => {
 // apps/studio/src/lib/logging/logger.ts (line 187)
 private async flushBuffer(): Promise<void> {
   // Production remote logging endpoint:
-  await fetch('https://logs.brepflow.com/api/logs', {
+  await fetch('https://logs.sim4d.com/api/logs', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -674,7 +674,7 @@ private async flushBuffer(): Promise<void> {
     },
     body: JSON.stringify({
       logs: logsToFlush,
-      source: 'brepflow-studio',
+      source: 'sim4d-studio',
       environment: import.meta.env.MODE
     })
   });

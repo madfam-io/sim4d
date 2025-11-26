@@ -1,5 +1,5 @@
 import * as Y from 'yjs';
-import { createLogger } from '@brepflow/engine-core';
+import { createLogger } from '@sim4d/engine-core';
 
 const logger = createLogger('Collaboration');
 import { WebsocketProvider } from 'y-websocket';
@@ -7,9 +7,9 @@ import { SharedGraph } from './shared-graph';
 import type { Operation, Graph, CollaborationOptions } from '../types';
 
 /**
- * YjsAdapter - Bridge between BrepFlow operations and Yjs CRDT
+ * YjsAdapter - Bridge between Sim4D operations and Yjs CRDT
  *
- * This adapter provides a clean interface between BrepFlow's operation-based
+ * This adapter provides a clean interface between Sim4D's operation-based
  * collaboration model and Yjs's CRDT-based synchronization. It handles:
  * - Operation submission and automatic sync
  * - Network connection management

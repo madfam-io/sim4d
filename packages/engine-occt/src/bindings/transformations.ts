@@ -9,7 +9,7 @@
  * - Mirror: Reflect shape across plane
  */
 
-import type { ShapeHandle } from '@brepflow/types';
+import type { ShapeHandle } from '@sim4d/types';
 import type { WASMModule } from '../occt-bindings';
 import type { OCCTShape } from './types';
 import { ShapeHandleUtils, Vec3Utils, IDGenerator } from './utils';

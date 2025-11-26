@@ -5,9 +5,9 @@
  * Reuses CLI export logic for STEP/STL generation
  */
 
-import type { GraphInstance, ExportFormat, WorkerAPI } from '@brepflow/types';
-import { GraphManager, DAGEngine } from '@brepflow/engine-core';
-import { GeometryAPIFactory } from '@brepflow/engine-core/geometry-api-factory';
+import type { GraphInstance, ExportFormat, WorkerAPI } from '@sim4d/types';
+import { GraphManager, DAGEngine } from '@sim4d/engine-core';
+import { GeometryAPIFactory } from '@sim4d/engine-core/geometry-api-factory';
 
 export interface ExportResult {
   content: string | Buffer;

@@ -78,7 +78,7 @@ export const TabletLayout: React.FC<TabletLayoutProps> = ({
       {/* Header Bar */}
       <div className="tablet-header">
         <div className="header-section">
-          <span className="app-title">BrepFlow Studio</span>
+          <span className="app-title">Sim4D Studio</span>
         </div>
         <div className="header-tabs">
           {Object.entries(panels).map(([id, panel]) => (

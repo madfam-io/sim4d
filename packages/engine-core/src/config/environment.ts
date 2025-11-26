@@ -82,7 +82,7 @@ class EnvironmentManager {
       // Security
       enableCSP: this.parseBoolean(processEnv.ENABLE_CSP, isProduction),
       requireCorsValidation: this.parseBoolean(processEnv.REQUIRE_CORS_VALIDATION, isProduction),
-      allowedOrigins: this.parseStringArray(processEnv.ALLOWED_ORIGINS, ['https://brepflow.com']),
+      allowedOrigins: this.parseStringArray(processEnv.ALLOWED_ORIGINS, ['https://sim4d.com']),
 
       // Logging
       logLevel: (processEnv.LOG_LEVEL || (isDevelopment ? 'debug' : 'error')) as

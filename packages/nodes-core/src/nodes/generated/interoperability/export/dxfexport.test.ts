@@ -12,7 +12,7 @@ describe('InteroperabilityExportDXFExportNode', () => {
     const params = {
       version: '2000',
       units: 'mm',
-      layerName: 'BrepFlow',
+      layerName: 'Sim4D',
     } as any;
 
     const result = await InteroperabilityExportDXFExportNode.evaluate(context, inputs, params);

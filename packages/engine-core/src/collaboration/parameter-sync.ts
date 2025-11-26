@@ -3,7 +3,7 @@
  * Handles synchronized editing of node parameters across multiple users
  */
 
-import type { NodeId } from '@brepflow/types';
+import type { NodeId } from '@sim4d/types';
 import {
   Operation,
   UpdateNodeParamsOperation,

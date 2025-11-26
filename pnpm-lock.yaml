@@ -188,22 +188,22 @@ importers:
 
   apps/studio:
     dependencies:
-      '@brepflow/collaboration':
+      '@sim4d/collaboration':
         specifier: workspace:*
         version: link:../../packages/collaboration
-      '@brepflow/engine-core':
+      '@sim4d/engine-core':
         specifier: workspace:*
         version: link:../../packages/engine-core
-      '@brepflow/engine-occt':
+      '@sim4d/engine-occt':
         specifier: workspace:*
         version: link:../../packages/engine-occt
-      '@brepflow/nodes-core':
+      '@sim4d/nodes-core':
         specifier: workspace:*
         version: link:../../packages/nodes-core
-      '@brepflow/types':
+      '@sim4d/types':
         specifier: workspace:*
         version: link:../../packages/types
-      '@brepflow/viewport':
+      '@sim4d/viewport':
         specifier: workspace:*
         version: link:../../packages/viewport
       '@dnd-kit/core':
@@ -327,19 +327,19 @@ importers:
 
   packages/cli:
     dependencies:
-      '@brepflow/engine-core':
+      '@sim4d/engine-core':
         specifier: workspace:*
         version: link:../engine-core
-      '@brepflow/engine-occt':
+      '@sim4d/engine-occt':
         specifier: workspace:*
         version: link:../engine-occt
-      '@brepflow/nodes-core':
+      '@sim4d/nodes-core':
         specifier: workspace:*
         version: link:../nodes-core
-      '@brepflow/schemas':
+      '@sim4d/schemas':
         specifier: workspace:*
         version: link:../schemas
-      '@brepflow/types':
+      '@sim4d/types':
         specifier: workspace:*
         version: link:../types
       ajv:
@@ -370,10 +370,10 @@ importers:
 
   packages/collaboration:
     dependencies:
-      '@brepflow/engine-core':
+      '@sim4d/engine-core':
         specifier: workspace:*
         version: link:../engine-core
-      '@brepflow/types':
+      '@sim4d/types':
         specifier: workspace:*
         version: link:../types
       cors:
@@ -434,7 +434,7 @@ importers:
 
   packages/constraint-solver:
     dependencies:
-      '@brepflow/types':
+      '@sim4d/types':
         specifier: workspace:*
         version: link:../types
       numeric:
@@ -459,7 +459,7 @@ importers:
 
   packages/engine-core:
     dependencies:
-      '@brepflow/types':
+      '@sim4d/types':
         specifier: workspace:*
         version: link:../types
       isolated-vm:
@@ -484,10 +484,10 @@ importers:
 
   packages/engine-occt:
     dependencies:
-      '@brepflow/engine-core':
+      '@sim4d/engine-core':
         specifier: workspace:*
         version: link:../engine-core
-      '@brepflow/types':
+      '@sim4d/types':
         specifier: workspace:*
         version: link:../types
       comlink:
@@ -514,10 +514,10 @@ importers:
 
   packages/nodes-core:
     dependencies:
-      '@brepflow/engine-core':
+      '@sim4d/engine-core':
         specifier: workspace:*
         version: link:../engine-core
-      '@brepflow/types':
+      '@sim4d/types':
         specifier: workspace:*
         version: link:../types
       uuid:
@@ -542,7 +542,7 @@ importers:
 
   packages/schemas:
     dependencies:
-      '@brepflow/types':
+      '@sim4d/types':
         specifier: workspace:*
         version: link:../types
       '@types/three':
@@ -564,7 +564,7 @@ importers:
 
   packages/sdk:
     dependencies:
-      '@brepflow/types':
+      '@sim4d/types':
         specifier: workspace:*
         version: link:../types
     devDependencies:
@@ -590,7 +590,7 @@ importers:
 
   packages/viewport:
     dependencies:
-      '@brepflow/types':
+      '@sim4d/types':
         specifier: workspace:*
         version: link:../types
       '@react-three/drei':

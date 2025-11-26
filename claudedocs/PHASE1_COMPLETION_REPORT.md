@@ -344,15 +344,15 @@ pnpm run test
 ### Verify nodes-core Fix
 
 ```bash
-pnpm --filter @brepflow/nodes-core run test
+pnpm --filter @sim4d/nodes-core run test
 # Expected: 7 test files, 136 tests, ~4s duration
 ```
 
 ### Check Coverage
 
 ```bash
-pnpm --filter @brepflow/engine-core run test -- --coverage
-pnpm --filter @brepflow/nodes-core run test -- --coverage
+pnpm --filter @sim4d/engine-core run test -- --coverage
+pnpm --filter @sim4d/nodes-core run test -- --coverage
 ```
 
 ---

@@ -55,7 +55,7 @@ import type {
   TessellateOptions,
 } from '@madfam/geom-core';
 
-import type { ShapeHandle, MeshData as Sim4dMeshData } from '@brepflow/types';
+import type { ShapeHandle, MeshData as Sim4dMeshData } from '@sim4d/types';
 import { getLogger } from './production-logger';
 
 const logger = getLogger('GeomCoreAdapter');

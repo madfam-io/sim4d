@@ -1,4 +1,4 @@
-# Next Actions - BrepFlow Testing & Quality
+# Next Actions - Sim4D Testing & Quality
 
 **Generated**: 2025-11-17  
 **Status**: Deep Dive Complete - Ready for Next Phase
@@ -322,7 +322,7 @@ tests/
 
 ```typescript
 import { readFileSync } from 'fs';
-import { parseSTEP } from '@brepflow/step-parser';
+import { parseSTEP } from '@sim4d/step-parser';
 
 it('should match golden STEP output for box', async () => {
   const result = await geometry.createBox({ width: 10, height: 10, depth: 10 });

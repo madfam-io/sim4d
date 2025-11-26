@@ -134,7 +134,7 @@ test.describe('Plugin Security and Sandboxing', () => {
         id: 'basic-geometry',
         name: 'Basic Geometry',
         version: '1.0.0',
-        author: 'BrepFlow Team',
+        author: 'Sim4D Team',
         description: 'Basic geometry operations',
         category: 'Geometry',
         rating: 4.5,
@@ -147,7 +147,7 @@ test.describe('Plugin Security and Sandboxing', () => {
           commands: [],
           panels: [],
           permissions: ['read:graph', 'write:graph'],
-          engines: { brepflow: '>=0.1.0' },
+          engines: { sim4d: '>=0.1.0' },
         },
       },
     ]);
@@ -230,7 +230,7 @@ test.describe('Plugin Security and Sandboxing', () => {
 
     // Check audit log for permission usage
     const auditLog = await page.evaluate(() => {
-      return (window as any).brepflow?.pluginManager?.getAuditLog?.(pluginId) || [];
+      return (window as any).sim4d?.pluginManager?.getAuditLog?.(pluginId) || [];
     });
 
     expect(auditLog.length).toBeGreaterThan(0);

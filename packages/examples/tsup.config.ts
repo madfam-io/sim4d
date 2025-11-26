@@ -7,5 +7,5 @@ export default defineConfig({
   splitting: false,
   sourcemap: true,
   clean: true,
-  external: ['@brepflow/types', '@brepflow/engine-core'],
+  external: ['@sim4d/types', '@sim4d/engine-core'],
 });

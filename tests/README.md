@@ -1,8 +1,8 @@
-# BrepFlow Testing Framework
+# Sim4D Testing Framework
 
 ## 🎯 Overview
 
-Comprehensive End-to-End testing framework for BrepFlow Studio using Playwright, designed to ensure 100% reproducible user workflows for CAD applications.
+Comprehensive End-to-End testing framework for Sim4D Studio using Playwright, designed to ensure 100% reproducible user workflows for CAD applications.
 
 ## 📊 Test Coverage
 

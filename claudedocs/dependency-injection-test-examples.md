@@ -8,7 +8,7 @@
 
 ## Overview
 
-This document provides concrete, copy-paste examples of how to use the new dependency injection pattern for testing BrepFlow's engine-occt components without complex Vitest mocking.
+This document provides concrete, copy-paste examples of how to use the new dependency injection pattern for testing Sim4D's engine-occt components without complex Vitest mocking.
 
 **Components Covered**:
 

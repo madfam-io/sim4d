@@ -2,8 +2,8 @@
  * Geometry validation utilities for integration tests
  */
 
-import type { ShapeHandle } from '@brepflow/types';
-import { GeometryAPI } from '@brepflow/engine-occt';
+import type { ShapeHandle } from '@sim4d/types';
+import { GeometryAPI } from '@sim4d/engine-occt';
 
 export interface GeometryProperties {
   volume: number;

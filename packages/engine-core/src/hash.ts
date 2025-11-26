@@ -1,4 +1,4 @@
-import type { NodeInstance } from '@brepflow/types';
+import type { NodeInstance } from '@sim4d/types';
 
 /**
  * Generate deterministic hash for a node

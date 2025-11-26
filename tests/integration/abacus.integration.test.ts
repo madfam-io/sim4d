@@ -4,7 +4,7 @@
  * Tests the complete workflow from node graph creation to geometrically
  * validated export files across multiple formats.
  *
- * This demonstrates BrepFlow's enterprise CAD capabilities with:
+ * This demonstrates Sim4D's enterprise CAD capabilities with:
  * - Complex parametric assemblies
  * - Constraint solving
  * - Pattern features
@@ -12,10 +12,10 @@
  */
 
 import { describe, test, expect, beforeAll, afterAll } from 'vitest';
-import { GeometryAPI } from '@brepflow/engine-occt';
-import { NodeRegistry, GraphEvaluator } from '@brepflow/engine-core';
-import { registerCoreNodes } from '@brepflow/nodes-core';
-import type { GraphDefinition, NodeInstance } from '@brepflow/types';
+import { GeometryAPI } from '@sim4d/engine-occt';
+import { NodeRegistry, GraphEvaluator } from '@sim4d/engine-core';
+import { registerCoreNodes } from '@sim4d/nodes-core';
+import type { GraphDefinition, NodeInstance } from '@sim4d/types';
 import fs from 'fs/promises';
 import path from 'path';
 
@@ -86,7 +86,7 @@ describe('Parametric Abacus Integration Tests', () => {
   let graphEvaluator: GraphEvaluator;
 
   beforeAll(async () => {
-    // Initialize BrepFlow components
+    // Initialize Sim4D components
     geometryAPI = new GeometryAPI();
     await geometryAPI.initialize();
 

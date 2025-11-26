@@ -1,28 +1,28 @@
-# BrepFlow
+# Sim4D
 
 **Web-first, node-based parametric CAD (alpha)**
 by **Aureo Labs** — a **MADFAM** company
 
-[![Docker Tests](https://github.com/aureo-labs/brepflow/actions/workflows/test-docker.yml/badge.svg)](https://github.com/aureo-labs/brepflow/actions/workflows/test-docker.yml)
-[![PR Quality Gate](https://github.com/aureo-labs/brepflow/actions/workflows/pr-quality-gate.yml/badge.svg)](https://github.com/aureo-labs/brepflow/actions/workflows/pr-quality-gate.yml)
-[![CI Pipeline](https://github.com/aureo-labs/brepflow/actions/workflows/ci.yml/badge.svg)](https://github.com/aureo-labs/brepflow/actions/workflows/ci.yml)
+[![Docker Tests](https://github.com/aureo-labs/sim4d/actions/workflows/test-docker.yml/badge.svg)](https://github.com/aureo-labs/sim4d/actions/workflows/test-docker.yml)
+[![PR Quality Gate](https://github.com/aureo-labs/sim4d/actions/workflows/pr-quality-gate.yml/badge.svg)](https://github.com/aureo-labs/sim4d/actions/workflows/pr-quality-gate.yml)
+[![CI Pipeline](https://github.com/aureo-labs/sim4d/actions/workflows/ci.yml/badge.svg)](https://github.com/aureo-labs/sim4d/actions/workflows/ci.yml)
 [![License: MPL‑2.0](https://img.shields.io/badge/license-MPL--2.0-blue.svg)](#license)
 
-> ✅ BrepFlow now runs on **real OCCT.wasm** geometry kernel. All 25 core OCCT operations verified and functional. WASM binaries are pre-compiled and included in the repository for immediate use.
+> ✅ Sim4D now runs on **real OCCT.wasm** geometry kernel. All 25 core OCCT operations verified and functional. WASM binaries are pre-compiled and included in the repository for immediate use.
 
-- **Site**: [https://brepflow.com](https://brepflow.com)
+- **Site**: [https://sim4d.com](https://sim4d.com)
 - **Studio (app)**: `/apps/studio`
 - **Docs**: `docs/`
 
 ---
 
-## Why BrepFlow?
+## Why Sim4D?
 
 - **Vision:** a web-first, node-based CAD environment backed by OCCT so designers and automation pipelines share the same geometry kernel.
 - **Reality today:** production-ready interactive graph editor with real OCCT.wasm geometry backend, CLI tools, STEP/STL/IGES export, and comprehensive testing infrastructure (99.6% test pass rate).
 - **Roadmap:** see [docs/project/ROADMAP.md](docs/project/ROADMAP.md) for security hardening, code quality improvements, and ecosystem features (collaboration, plugins, marketplace).
 
-If you come from OpenSCAD or Grasshopper, think of BrepFlow as bringing that node-based workflow to the web with industrial-grade OCCT geometry.
+If you come from OpenSCAD or Grasshopper, think of Sim4D as bringing that node-based workflow to the web with industrial-grade OCCT geometry.
 
 ---
 
@@ -98,8 +98,8 @@ For detailed setup instructions, see [docs/development/SETUP.md](./docs/developm
 ### Clone & Install
 
 ```bash
-git clone https://github.com/aureolabs/brepflow.git
-cd brepflow
+git clone https://github.com/aureolabs/sim4d.git
+cd sim4d
 pnpm i
 ```
 
@@ -128,7 +128,7 @@ pnpm run build:wasm
 ### CLI usage (real OCCT output)
 
 ```bash
-pnpm -w --filter @brepflow/cli run build
+pnpm -w --filter @sim4d/cli run build
 node packages/cli/dist/index.js render examples/enclosure.bflow.json --out out/
 # Generates real STEP/STL/IGES files with exact B-Rep/NURBS geometry from OCCT
 ```
@@ -138,7 +138,7 @@ node packages/cli/dist/index.js render examples/enclosure.bflow.json --out out/
 ## Monorepo Layout
 
 ```
-/ brepflow
+/ sim4d
   /apps
     /studio            # React app: node editor + viewport
   /packages
@@ -251,13 +251,13 @@ See [`/packages/schemas`](./packages/schemas) for the full JSON Schema.
 
 ```bash
 # render a graph and export STEP/STL
-brepflow render mypart.bflow.json --export step,stl --out out/
+sim4d render mypart.bflow.json --export step,stl --out out/
 
 # set parameters at runtime
-brepflow render enclosure.bflow.json --set L=160 --set wall=3.2
+sim4d render enclosure.bflow.json --set L=160 --set wall=3.2
 
 # sweep over a CSV matrix of variants
-brepflow sweep --graph enclosure.bflow.json --matrix variants.csv --out dist/
+sim4d sweep --graph enclosure.bflow.json --matrix variants.csv --out dist/
 ```
 
 Outputs include content‑addressed filenames and a `manifest.json` with provenance.

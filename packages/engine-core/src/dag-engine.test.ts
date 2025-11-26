@@ -8,7 +8,7 @@ import type {
   WorkerAPI,
   EvalContext,
   NodeDefinition,
-} from '@brepflow/types';
+} from '@sim4d/types';
 
 describe('DAGEngine', () => {
   let dagEngine: DAGEngine;

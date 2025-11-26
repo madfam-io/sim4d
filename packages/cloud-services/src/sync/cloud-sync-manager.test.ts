@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { CloudSyncConfig } from './cloud-sync-manager';
 import { CloudSyncManager } from './cloud-sync-manager';
-import type { GraphInstance } from '@brepflow/types';
+import type { GraphInstance } from '@sim4d/types';
 
 const baselineGraph: GraphInstance = {
   version: '0.1.0',

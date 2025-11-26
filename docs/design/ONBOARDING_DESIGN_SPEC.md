@@ -1,4 +1,4 @@
-# BrepFlow Studio Onboarding Design Specification
+# Sim4D Studio Onboarding Design Specification
 
 ## 🎯 Vision
 
@@ -60,7 +60,7 @@ OnboardingProvider
 
 **Components**:
 
-- **Animated Logo & Greeting**: "Welcome to BrepFlow Studio!"
+- **Animated Logo & Greeting**: "Welcome to Sim4D Studio!"
 - **Skill Level Selector**:
   - 🌱 "Complete Beginner" - Never used CAD/3D modeling
   - 📚 "Some Experience" - Used basic drawing tools or simple CAD
@@ -315,7 +315,7 @@ OnboardingProvider
 // apps/studio/src/store/onboarding-store.ts
 export const useOnboardingStore = create<OnboardingStore>((set, get) => ({
   state: {
-    isFirstVisit: !localStorage.getItem('brepflow-visited'),
+    isFirstVisit: !localStorage.getItem('sim4d-visited'),
     currentStep: 0,
     completedTutorials: [],
     userSkillLevel: 'neophyte',

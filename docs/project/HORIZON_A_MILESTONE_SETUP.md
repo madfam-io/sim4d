@@ -22,7 +22,7 @@ If you have the GitHub CLI (`gh`) installed and authenticated:
 
 ### Step 1: Create the Milestone
 
-1. Navigate to: `https://github.com/madfam-io/brepflow/milestones`
+1. Navigate to: `https://github.com/madfam-io/sim4d/milestones`
 
 2. Click **"New milestone"** button
 
@@ -67,7 +67,7 @@ Use the templates from `docs/project/HORIZON_A_GITHUB_ISSUES.md` to create each 
 
 #### Quick Create Process:
 
-1. Navigate to: `https://github.com/madfam-io/brepflow/issues/new`
+1. Navigate to: `https://github.com/madfam-io/sim4d/issues/new`
 
 2. For each issue:
    - Copy the **Title** from the template
@@ -110,7 +110,7 @@ Create these labels in your repository if they don't exist:
 - `week-7-8` (color: #C2E0C6)
 
 To create labels:
-1. Go to: `https://github.com/madfam-io/brepflow/labels`
+1. Go to: `https://github.com/madfam-io/sim4d/labels`
 2. Click **"New label"**
 3. Enter name and color
 4. Click **"Create label"**
@@ -129,7 +129,7 @@ export GITHUB_TOKEN="your_github_personal_access_token"
 curl -X POST \
   -H "Authorization: token $GITHUB_TOKEN" \
   -H "Accept: application/vnd.github.v3+json" \
-  https://api.github.com/repos/madfam-io/brepflow/milestones \
+  https://api.github.com/repos/madfam-io/sim4d/milestones \
   -d '{
     "title": "Horizon A: Geometry Hardening",
     "state": "open",
@@ -141,7 +141,7 @@ curl -X POST \
 curl -X POST \
   -H "Authorization: token $GITHUB_TOKEN" \
   -H "Accept: application/vnd.github.v3+json" \
-  https://api.github.com/repos/madfam-io/brepflow/issues \
+  https://api.github.com/repos/madfam-io/sim4d/issues \
   -d '{
     "title": "[Horizon A] OCCT Performance Profiling & Baseline",
     "body": "...",

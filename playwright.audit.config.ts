@@ -5,7 +5,7 @@ const PREVIEW_PORT = process.env.PREVIEW_PORT ?? '5173';
 const PREVIEW_URL = `http://${PREVIEW_HOST}:${PREVIEW_PORT}`;
 
 /**
- * BrepFlow Audit Playwright Configuration
+ * Sim4D Audit Playwright Configuration
  * Specifically optimized for comprehensive functionality and accessibility auditing
  */
 export default defineConfig({

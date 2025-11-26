@@ -1,11 +1,11 @@
 import { chromium, FullConfig } from '@playwright/test';
 
 /**
- * Global setup for BrepFlow E2E tests
+ * Global setup for Sim4D E2E tests
  * Prepares browser environment and validates app readiness
  */
 async function globalSetup(config: FullConfig) {
-  console.log('🚀 Starting BrepFlow E2E Test Global Setup...');
+  console.log('🚀 Starting Sim4D E2E Test Global Setup...');
 
   // Start a browser to pre-warm the application
   const browser = await chromium.launch();
@@ -13,12 +13,12 @@ async function globalSetup(config: FullConfig) {
 
   try {
     // Navigate to the app and wait for basic readiness
-    console.log('📱 Pre-warming BrepFlow Studio application...');
+    console.log('📱 Pre-warming Sim4D Studio application...');
     await page.goto('http://localhost:5173');
 
-    // Wait for the app to be ready - use actual BrepFlow Studio selectors
+    // Wait for the app to be ready - use actual Sim4D Studio selectors
     await page.waitForSelector(
-      'h1:has-text("Welcome to BrepFlow Studio!"), h2:has-text("What\'s your experience"), #root:not(:empty)',
+      'h1:has-text("Welcome to Sim4D Studio!"), h2:has-text("What\'s your experience"), #root:not(:empty)',
       {
         timeout: 30000,
       }
@@ -48,7 +48,7 @@ async function globalSetup(config: FullConfig) {
       console.log('✅ WebAssembly support confirmed');
     }
 
-    console.log('✅ BrepFlow Studio pre-warming complete');
+    console.log('✅ Sim4D Studio pre-warming complete');
   } catch (error) {
     console.error('❌ Global setup failed:', error);
     throw error;

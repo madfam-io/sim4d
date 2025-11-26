@@ -1,4 +1,4 @@
-import type { Vec3, ShapeHandle, MeshData, BoundingBox } from '@brepflow/types';
+import type { Vec3, ShapeHandle, MeshData, BoundingBox } from '@sim4d/types';
 
 // Worker message types
 export type WorkerRequest =

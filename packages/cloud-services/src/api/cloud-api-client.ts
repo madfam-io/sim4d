@@ -1,6 +1,6 @@
 /**
  * Cloud API Client
- * HTTP client for BrepFlow cloud services with authentication and caching
+ * HTTP client for Sim4D cloud services with authentication and caching
  */
 
 import {
@@ -19,7 +19,7 @@ import {
   SearchResult,
   CollaboratorAccess,
   User,
-} from '@brepflow/cloud-api/src/types';
+} from '@sim4d/cloud-api/src/types';
 
 export interface CloudApiConfig {
   baseUrl: string;

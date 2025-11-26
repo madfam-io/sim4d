@@ -333,7 +333,7 @@ export class JavaScriptExecutor implements ScriptExecutor {
     return {
       name: 'JavaScript',
       version: 'ES2022',
-      description: 'JavaScript scripting environment for BrepFlow custom nodes',
+      description: 'JavaScript scripting environment for Sim4D custom nodes',
       quickStart: `
 // Basic node script structure
 async function evaluate(ctx, inputs, params) {

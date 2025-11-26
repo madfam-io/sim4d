@@ -1,10 +1,10 @@
-# @brepflow/engine-core
+# @sim4d/engine-core
 
-Core execution engine for BrepFlow - handles DAG evaluation, caching, and node orchestration.
+Core execution engine for Sim4D - handles DAG evaluation, caching, and node orchestration.
 
 ## Overview
 
-The engine-core package provides the fundamental graph execution runtime for BrepFlow. It manages:
+The engine-core package provides the fundamental graph execution runtime for Sim4D. It manages:
 
 - Directed Acyclic Graph (DAG) evaluation with topological sorting
 - Dirty propagation for efficient re-computation
@@ -16,7 +16,7 @@ The engine-core package provides the fundamental graph execution runtime for Bre
 ## Installation
 
 ```bash
-pnpm add @brepflow/engine-core
+pnpm add @sim4d/engine-core
 ```
 
 ## Core Components
@@ -26,8 +26,8 @@ pnpm add @brepflow/engine-core
 The main execution engine that evaluates node graphs.
 
 ```typescript
-import { DAGEngine } from '@brepflow/engine-core';
-import { WorkerAPI } from '@brepflow/types';
+import { DAGEngine } from '@sim4d/engine-core';
+import { WorkerAPI } from '@sim4d/types';
 
 const engine = new DAGEngine({
   worker: workerAPI,
@@ -51,7 +51,7 @@ engine.clearCache();
 Manages node type definitions and instantiation.
 
 ```typescript
-import { NodeRegistry } from '@brepflow/engine-core';
+import { NodeRegistry } from '@sim4d/engine-core';
 
 const registry = NodeRegistry.getInstance();
 
@@ -84,7 +84,7 @@ const allNodes = registry.getAllNodes();
 Content-addressed cache for node evaluation results.
 
 ```typescript
-import { ComputeCache } from '@brepflow/engine-core';
+import { ComputeCache } from '@sim4d/engine-core';
 
 const cache = new ComputeCache(1000); // Max 1000 entries
 
@@ -105,7 +105,7 @@ console.log(`Hits: ${stats.hits}, Misses: ${stats.misses}`);
 Deterministic hashing for nodes and graphs.
 
 ```typescript
-import { hashNode, hashGraph, hashValue } from '@brepflow/engine-core';
+import { hashNode, hashGraph, hashValue } from '@sim4d/engine-core';
 
 // Hash a node with its inputs
 const nodeHash = hashNode(node, inputs);
@@ -122,7 +122,7 @@ const valueHash = hashValue({ data: [1, 2, 3] });
 High-level graph operations and validation.
 
 ```typescript
-import { GraphManager } from '@brepflow/engine-core';
+import { GraphManager } from '@sim4d/engine-core';
 
 const manager = new GraphManager();
 
@@ -149,7 +149,7 @@ await manager.saveGraph(graph, 'output.bflow.json');
 Command pattern implementation for undo/redo.
 
 ```typescript
-import { CommandSystem, Command } from '@brepflow/engine-core';
+import { CommandSystem, Command } from '@sim4d/engine-core';
 
 const commandSystem = new CommandSystem();
 
@@ -186,7 +186,7 @@ const canRedo = commandSystem.canRedo();
 Branching history for exploratory workflows.
 
 ```typescript
-import { HistoryTree } from '@brepflow/engine-core';
+import { HistoryTree } from '@sim4d/engine-core';
 
 const history = new HistoryTree();
 

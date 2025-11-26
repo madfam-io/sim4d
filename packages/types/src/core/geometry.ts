@@ -1,5 +1,5 @@
 /**
- * Core geometry types for BrepFlow
+ * Core geometry types for Sim4D
  * These types are fundamental to all geometric operations
  */
 

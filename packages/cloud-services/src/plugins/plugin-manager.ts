@@ -4,7 +4,7 @@
  */
 
 import EventEmitter from 'events';
-import { createLogger } from '@brepflow/engine-core';
+import { createLogger } from '@sim4d/engine-core';
 
 const logger = createLogger('CloudServices');
 import {
@@ -16,7 +16,7 @@ import {
   PluginBundle,
   SecurityScanResult,
   Ed25519Signature,
-} from '@brepflow/cloud-api/src/types';
+} from '@sim4d/cloud-api/src/types';
 import {
   PluginExecutionContext,
   PluginCapability,
@@ -459,11 +459,11 @@ export class PluginManager extends EventEmitter {
   }
 
   private async validatePlugin(plugin: Plugin, userId: UserId): Promise<void> {
-    // Check BrepFlow version compatibility
+    // Check Sim4D version compatibility
     const engineVersion = this.config.engineVersion;
-    if (!this.isVersionCompatible(plugin.manifest.engines.brepflow, engineVersion)) {
+    if (!this.isVersionCompatible(plugin.manifest.engines.sim4d, engineVersion)) {
       throw new Error(
-        `Plugin requires BrepFlow ${plugin.manifest.engines.brepflow}, current: ${engineVersion}`
+        `Plugin requires Sim4D ${plugin.manifest.engines.sim4d}, current: ${engineVersion}`
       );
     }
 
@@ -1020,7 +1020,7 @@ export class PluginManager extends EventEmitter {
     }
 
     // 3. Check for breaking changes in required engine version
-    const newEngineReq = newPlugin.manifest.engines.brepflow;
+    const newEngineReq = newPlugin.manifest.engines.sim4d;
 
     if (!this.isVersionCompatible(newEngineReq, this.config.engineVersion)) {
       throw new Error(
@@ -1114,7 +1114,7 @@ export class PluginManager extends EventEmitter {
       }
 
       // Dispatch geometry operations to engine
-      // In production, would integrate with @brepflow/engine-core
+      // In production, would integrate with @sim4d/engine-core
       switch (operation) {
         case 'createBox':
           return { type: 'shape', id: 'box_' + Date.now(), ...params };

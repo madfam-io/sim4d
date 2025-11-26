@@ -2,7 +2,7 @@
 
 ## Overview
 
-This implementation addresses critical feature gaps needed to reach enterprise CAD platform parity. These additions move BrepFlow from **45% to ~55% enterprise-ready**.
+This implementation addresses critical feature gaps needed to reach enterprise CAD platform parity. These additions move Sim4D from **45% to ~55% enterprise-ready**.
 
 ## 🎯 Implemented Features
 
@@ -107,7 +107,7 @@ packages/collaboration/
 pnpm install
 
 # Build the new constraint solver package
-pnpm --filter @brepflow/constraint-solver build
+pnpm --filter @sim4d/constraint-solver build
 
 # Rebuild all packages
 pnpm build
@@ -117,7 +117,7 @@ pnpm build
 
 ```typescript
 // Using constraint solver
-import { ConstraintSolver } from '@brepflow/constraint-solver';
+import { ConstraintSolver } from '@sim4d/constraint-solver';
 
 const solver = new ConstraintSolver({
   maxIterations: 100,
@@ -130,7 +130,7 @@ import {
   AssemblyComponentNode,
   MateConstraintNode,
   InterferenceCheckNode,
-} from '@brepflow/nodes-core';
+} from '@sim4d/nodes-core';
 ```
 
 ### 3. Example Usage
@@ -187,9 +187,9 @@ if (solution.success) {
 
 ## 🏁 Conclusion
 
-This implementation significantly advances BrepFlow toward enterprise parity by adding **fundamental parametric capabilities** that are essential for professional CAD work. The constraint solver and assembly management systems provide the foundation for complex mechanical design workflows.
+This implementation significantly advances Sim4D toward enterprise parity by adding **fundamental parametric capabilities** that are essential for professional CAD work. The constraint solver and assembly management systems provide the foundation for complex mechanical design workflows.
 
-**Key Achievement**: BrepFlow now has the **core architecture** to compete with established CAD platforms. The remaining work is primarily feature expansion rather than fundamental capability development.
+**Key Achievement**: Sim4D now has the **core architecture** to compete with established CAD platforms. The remaining work is primarily feature expansion rather than fundamental capability development.
 
 ---
 

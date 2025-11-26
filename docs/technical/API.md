@@ -1,4 +1,4 @@
-# BrepFlow API Documentation
+# Sim4D API Documentation
 
 ## Table of Contents
 
@@ -112,7 +112,7 @@ clearCache(): void
 ### Example Usage
 
 ```typescript
-import { DAGEngine } from '@brepflow/engine-core';
+import { DAGEngine } from '@sim4d/engine-core';
 
 const engine = new DAGEngine({
   maxConcurrency: 4,
@@ -219,7 +219,7 @@ fromJSON(json: string): void
 ### Example Usage
 
 ```typescript
-import { GraphManager } from '@brepflow/engine-core';
+import { GraphManager } from '@sim4d/engine-core';
 
 const manager = new GraphManager();
 
@@ -669,7 +669,7 @@ const {
 Render a graph file
 
 ```bash
-brepflow render <file> [options]
+sim4d render <file> [options]
   --output, -o     Output file path
   --format, -f     Output format (step|stl|obj)
   --params, -p     Parameter overrides (JSON)
@@ -680,7 +680,7 @@ brepflow render <file> [options]
 Validate a graph file
 
 ```bash
-brepflow validate <file> [options]
+sim4d validate <file> [options]
   --verbose, -v   Show detailed validation
 ```
 
@@ -689,7 +689,7 @@ brepflow validate <file> [options]
 Parameter sweep generation
 
 ```bash
-brepflow sweep <file> [options]
+sim4d sweep <file> [options]
   --param, -p     Parameter to sweep
   --values, -v    Values to sweep (comma-separated)
   --output, -o    Output directory
@@ -700,7 +700,7 @@ brepflow sweep <file> [options]
 Display graph information
 
 ```bash
-brepflow info <file> [options]
+sim4d info <file> [options]
   --nodes         List all nodes
   --params        List all parameters
   --stats         Show statistics

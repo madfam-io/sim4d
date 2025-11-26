@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import type { NodeDefinition } from '@brepflow/types';
+import type { NodeDefinition } from '@sim4d/types';
 import { createChildLogger } from '../lib/logging/logger-instance';
 import { fuzzySearchMultiField, tokenizeQuery, allTokensMatch } from '../lib/fuzzy-search';
 
@@ -16,7 +16,7 @@ interface NodeMetadata {
 
 // Enhanced fallback nodes with rich metadata for discovery
 // Type assertion: These are fallback/mock nodes with simplified string format for sockets/params
-// In production, real nodes from @brepflow/nodes-core will be used with proper type objects
+// In production, real nodes from @sim4d/nodes-core will be used with proper type objects
 // Using 'as any' cast for the entire array to bypass strict type checking on fallback data
 const ENHANCED_FALLBACK_NODES = [
   // Solid Operations
@@ -449,10 +449,10 @@ export function useResilientNodeDiscovery() {
       const discoveryErrors: string[] = [];
 
       try {
-        logger.debug('Attempting dynamic import of @brepflow/nodes-core');
+        logger.debug('Attempting dynamic import of @sim4d/nodes-core');
         // Try to dynamically import the nodes-core package and initialize the registry
-        // @ts-expect-error - DTS generation disabled in @brepflow/nodes-core due to TS4023 errors with generated nodes
-        const nodesCore = await import('@brepflow/nodes-core');
+        // @ts-expect-error - DTS generation disabled in @sim4d/nodes-core due to TS4023 errors with generated nodes
+        const nodesCore = await import('@sim4d/nodes-core');
         logger.debug('Dynamic import successful', { exportedKeys: Object.keys(nodesCore) });
 
         const { registerAllNodes, getEnhancedRegistry } = nodesCore;

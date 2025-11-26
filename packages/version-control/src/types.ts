@@ -1,9 +1,9 @@
 /**
- * BrepFlow Git-like Version Control Types
+ * Sim4D Git-like Version Control Types
  * Semantic versioning for parametric CAD models
  */
 
-import type { Graph, Node, Edge, Vec3 } from '@brepflow/types';
+import type { Graph, Node, Edge, Vec3 } from '@sim4d/types';
 
 // Core version control types
 

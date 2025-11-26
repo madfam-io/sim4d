@@ -1,10 +1,10 @@
-# @brepflow/viewport
+# @sim4d/viewport
 
-Three.js-based WebGL2/WebGPU renderer for 3D visualization in BrepFlow.
+Three.js-based WebGL2/WebGPU renderer for 3D visualization in Sim4D.
 
 ## Overview
 
-The viewport package provides high-performance 3D rendering capabilities for BrepFlow, built on Three.js with React Three Fiber integration. It supports:
+The viewport package provides high-performance 3D rendering capabilities for Sim4D, built on Three.js with React Three Fiber integration. It supports:
 
 - **Real-time rendering** - 60 FPS for ≤2M triangles
 - **Multiple viewports** - Quad layout with independent cameras
@@ -17,7 +17,7 @@ The viewport package provides high-performance 3D rendering capabilities for Bre
 ## Installation
 
 ```bash
-pnpm add @brepflow/viewport
+pnpm add @sim4d/viewport
 ```
 
 ## Quick Start
@@ -25,7 +25,7 @@ pnpm add @brepflow/viewport
 ### Basic Viewport
 
 ```typescript
-import { ViewportRenderer } from '@brepflow/viewport';
+import { ViewportRenderer } from '@sim4d/viewport';
 
 const renderer = new ViewportRenderer({
   canvas: document.getElementById('canvas'),
@@ -52,7 +52,7 @@ renderer.startRendering();
 ```tsx
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
-import { Enhanced3DViewport } from '@brepflow/viewport';
+import { Enhanced3DViewport } from '@sim4d/viewport';
 
 function App() {
   return (
@@ -287,7 +287,7 @@ renderer.on('error', (error: Error) => void)
 Advanced camera control for viewport navigation.
 
 ```typescript
-import { CameraController } from '@brepflow/viewport';
+import { CameraController } from '@sim4d/viewport';
 
 const controller = new CameraController(camera, domElement);
 
@@ -319,7 +319,7 @@ function animate() {
 Manage selection state and interactions.
 
 ```typescript
-import { SelectionManager } from '@brepflow/viewport';
+import { SelectionManager } from '@sim4d/viewport';
 
 const selectionManager = new SelectionManager(renderer);
 
@@ -353,7 +353,7 @@ selectionManager.on('changed', (selected: string[]) => {
 Main viewport component with built-in controls.
 
 ```tsx
-import { Enhanced3DViewport } from '@brepflow/viewport';
+import { Enhanced3DViewport } from '@sim4d/viewport';
 
 <Enhanced3DViewport
   geometryData={geometryData}
@@ -392,7 +392,7 @@ interface Enhanced3DViewportProps {
 Multi-viewport layout system.
 
 ```tsx
-import { ViewportLayoutManager } from '@brepflow/viewport';
+import { ViewportLayoutManager } from '@sim4d/viewport';
 
 <ViewportLayoutManager
   initialLayout="quad"
@@ -439,7 +439,7 @@ interface ViewportLayoutManagerProps {
 ### Example 1: Basic Mesh Rendering
 
 ```typescript
-import { ViewportRenderer } from '@brepflow/viewport';
+import { ViewportRenderer } from '@sim4d/viewport';
 
 const renderer = new ViewportRenderer({
   canvas: document.getElementById('canvas'),
@@ -476,7 +476,7 @@ renderer.startRendering();
 ### Example 2: Interactive Selection
 
 ```typescript
-import { ViewportRenderer, SelectionManager } from '@brepflow/viewport';
+import { ViewportRenderer, SelectionManager } from '@sim4d/viewport';
 
 const renderer = new ViewportRenderer({ canvas });
 const selection = new SelectionManager(renderer);
@@ -506,7 +506,7 @@ selection.on('changed', (selected) => {
 
 ```tsx
 import React, { useState } from 'react';
-import { ViewportLayoutManager } from '@brepflow/viewport';
+import { ViewportLayoutManager } from '@sim4d/viewport';
 
 export function CADWorkspace() {
   const [layout, setLayout] = useState('single');
@@ -538,7 +538,7 @@ export function CADWorkspace() {
 ### Example 4: Custom Render Pipeline
 
 ```typescript
-import { ViewportRenderer } from '@brepflow/viewport';
+import { ViewportRenderer } from '@sim4d/viewport';
 import * as THREE from 'three';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';

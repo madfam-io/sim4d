@@ -4,7 +4,7 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { GeometryAPI } from '@brepflow/engine-occt';
+import { GeometryAPI } from '@sim4d/engine-occt';
 import {
   setupWASMTestEnvironment,
   GeometryPerformanceTracker,

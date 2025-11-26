@@ -4,8 +4,8 @@
  */
 
 import { EnhancedNodeRegistry } from './enhanced-node-registry';
-import { NodeDefinition } from '@brepflow/types';
-import { createLogger } from '@brepflow/engine-core';
+import { NodeDefinition } from '@sim4d/types';
+import { createLogger } from '@sim4d/engine-core';
 
 const logger = createLogger('NodeDiscovery');
 // PRODUCTION-ONLY: Demonstration nodes removed - using generated nodes only

@@ -3,7 +3,7 @@
  * Enables access to all 1012+ generated nodes with search and categorization
  */
 
-import { NodeDefinition } from '@brepflow/types';
+import { NodeDefinition } from '@sim4d/types';
 
 export interface NodeMetadata {
   label: string;

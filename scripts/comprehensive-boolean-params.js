@@ -97,7 +97,7 @@ function main() {
     console.log('\n🎉 SUCCESS: Comprehensive BooleanParam solution implemented!');
     console.log('   ✓ All generated nodes will now have access to required parameter types');
     console.log('   ✓ Future-proofed for node generation expansion');
-    console.log('   ✓ Stable, long-term solution for BrepFlow Studio');
+    console.log('   ✓ Stable, long-term solution for Sim4D Studio');
     console.log('\n🔄 Next: Run `pnpm run build` to rebuild with new parameters');
   } catch (error) {
     console.error('❌ Error implementing comprehensive solution:', error.message);

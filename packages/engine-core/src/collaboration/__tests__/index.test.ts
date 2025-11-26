@@ -4,7 +4,7 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { BrepFlowCollaborationEngine } from '../collaboration-engine';
+import { Sim4DCollaborationEngine } from '../collaboration-engine';
 import {
   MockWebSocketClient,
   createTestUser,
@@ -51,7 +51,7 @@ class MockParameterSynchronizer {
 }
 
 describe('Collaboration Features Integration', () => {
-  let engine: BrepFlowCollaborationEngine;
+  let engine: Sim4DCollaborationEngine;
   let harness: CollaborationTestHarness;
 
   beforeEach(() => {

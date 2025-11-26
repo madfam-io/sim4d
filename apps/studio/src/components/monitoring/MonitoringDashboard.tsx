@@ -5,7 +5,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { MonitoringSystem } from '../../lib/monitoring/monitoring-system';
 import { HealthAlert } from '../../lib/monitoring/health-monitor';
-import { BrepFlowError } from '../../lib/error-handling/types';
+import { Sim4DError } from '../../lib/error-handling/types';
 import styles from './MonitoringDashboard.module.css';
 import { createChildLogger } from '../../lib/logging/logger-instance';
 
@@ -21,7 +21,7 @@ interface DashboardData {
     status: string;
     checks: HealthAlert[];
   };
-  errors: BrepFlowError[];
+  errors: Sim4DError[];
   metrics: Record<string, unknown>;
   logs: Array<{ level: string; message: string; timestamp: number }>;
 }
@@ -166,7 +166,7 @@ export const MonitoringDashboard: React.FC<MonitoringDashboardProps> = ({ isVisi
           <p className={styles['no-errors']}>✅ No active errors</p>
         ) : (
           <div className={styles['errors-list']}>
-            {dashboardData.activeErrors.slice(0, 10).map((error: BrepFlowError) => (
+            {dashboardData.activeErrors.slice(0, 10).map((error: Sim4DError) => (
               <div key={error.id} className={styles['error-item']}>
                 <div className={styles['error-header']}>
                   <span className={styles['error-code']}>{error.code}</span>

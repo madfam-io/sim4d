@@ -9,7 +9,7 @@ import type {
   AssemblyStep,
   JointHandle,
   InterferenceData,
-} from '@brepflow/types';
+} from '@sim4d/types';
 
 export const AssemblyComponentNode: NodeDefinition<
   { part: ShapeHandle },

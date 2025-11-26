@@ -265,8 +265,8 @@ export const dataExchangeTemplates: NodeTemplate[] = [
       {
         name: 'format',
         type: 'enum',
-        options: ['brepflow', 'three', 'custom'],
-        default: 'brepflow',
+        options: ['sim4d', 'three', 'custom'],
+        default: 'sim4d',
       },
     ],
     inputs: [{ name: 'jsonData', type: 'Data', required: true }],
@@ -287,8 +287,8 @@ export const dataExchangeTemplates: NodeTemplate[] = [
       {
         name: 'format',
         type: 'enum',
-        options: ['brepflow', 'three', 'custom'],
-        default: 'brepflow',
+        options: ['sim4d', 'three', 'custom'],
+        default: 'sim4d',
       },
       { name: 'precision', type: 'number', default: 6, min: 1, max: 15, step: 1 },
       { name: 'includeTopology', type: 'boolean', default: true },

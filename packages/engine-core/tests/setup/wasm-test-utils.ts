@@ -7,7 +7,7 @@
  */
 
 import { vi } from 'vitest';
-import type { WorkerAPI, GeometryHandle, ShapeType } from '@brepflow/types';
+import type { WorkerAPI, GeometryHandle, ShapeType } from '@sim4d/types';
 
 /**
  * Mock geometry handle generator
@@ -29,7 +29,7 @@ export const createMockGeometryHandle = (type: ShapeType = 'SOLID'): GeometryHan
 
 /**
  * Mock Worker API implementation
- * Simulates @brepflow/engine-occt Worker API for testing
+ * Simulates @sim4d/engine-occt Worker API for testing
  */
 export const createMockWorkerAPI = (): WorkerAPI => {
   const mockAPI: WorkerAPI = {
@@ -79,7 +79,7 @@ export const createMockWorkerAPI = (): WorkerAPI => {
 };
 
 /**
- * Mock @brepflow/engine-occt module
+ * Mock @sim4d/engine-occt module
  * Use with vi.mock() to stub the entire module
  */
 export const mockEngineOCCTModule = {
@@ -105,8 +105,8 @@ export const mockEngineOCCTModule = {
  * Call this in beforeEach() for WASM-dependent tests
  */
 export const setupWASMTestEnvironment = () => {
-  // Mock vi.mock() for @brepflow/engine-occt
-  vi.doMock('@brepflow/engine-occt', () => mockEngineOCCTModule);
+  // Mock vi.mock() for @sim4d/engine-occt
+  vi.doMock('@sim4d/engine-occt', () => mockEngineOCCTModule);
 
   // Reset mock counters
   mockHandleCounter = 1;
@@ -120,7 +120,7 @@ export const setupWASMTestEnvironment = () => {
  * Call this in afterEach() for WASM-dependent tests
  */
 export const teardownWASMTestEnvironment = () => {
-  vi.doUnmock('@brepflow/engine-occt');
+  vi.doUnmock('@sim4d/engine-occt');
   vi.clearAllMocks();
 };
 

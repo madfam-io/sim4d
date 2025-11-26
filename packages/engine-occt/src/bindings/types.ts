@@ -5,7 +5,7 @@
  * These types are used across all bindings modules (primitives, features, etc.)
  */
 
-import type { ShapeHandle } from '@brepflow/types';
+import type { ShapeHandle } from '@sim4d/types';
 import type { EmscriptenVector } from '../occt-bindings';
 
 /**

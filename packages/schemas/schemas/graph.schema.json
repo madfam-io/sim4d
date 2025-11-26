@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://brepflow.com/schemas/graph.schema.json",
-  "title": "BrepFlow Graph",
-  "description": "Schema for BrepFlow graph files (.bflow.json)",
+  "$id": "https://sim4d.com/schemas/graph.schema.json",
+  "title": "Sim4D Graph",
+  "description": "Schema for Sim4D graph files (.bflow.json)",
   "type": "object",
   "required": ["version", "units", "tolerance", "nodes", "edges"],
   "properties": {

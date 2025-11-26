@@ -1,9 +1,9 @@
 // @vitest-environment node
 
 import { describe, expect, it } from 'vitest';
-import { ConstraintManager, ConstraintType } from '@brepflow/engine-core/constraints';
-import type { Point2D } from '@brepflow/engine-core/constraints/types';
-import { GeometryAPI } from '@brepflow/engine-occt';
+import { ConstraintManager, ConstraintType } from '@sim4d/engine-core/constraints';
+import type { Point2D } from '@sim4d/engine-core/constraints/types';
+import { GeometryAPI } from '@sim4d/engine-occt';
 
 interface SolvedRectangle {
   p1: Point2D;

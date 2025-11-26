@@ -307,7 +307,7 @@ test.describe('Phase 4B - Performance Monitoring and Diagnostics', () => {
 
         // Verify configuration contains updated parameters
         const exportedConfig = await page.evaluate(() => {
-          const configs = localStorage.getItem('brepflow_node_configurations');
+          const configs = localStorage.getItem('sim4d_node_configurations');
           if (configs) {
             const parsed = JSON.parse(configs);
             const configKeys = Object.keys(parsed);

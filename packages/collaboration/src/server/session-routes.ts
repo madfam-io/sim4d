@@ -5,11 +5,11 @@
  */
 
 import type { Request, Response, Router } from 'express';
-import { createLogger } from '@brepflow/engine-core';
+import { createLogger } from '@sim4d/engine-core';
 
 const logger = createLogger('Collaboration');
 import { sessionManager } from '../simple-session';
-import type { GraphInstance } from '@brepflow/types';
+import type { GraphInstance } from '@sim4d/types';
 
 /**
  * Register session routes on Express router

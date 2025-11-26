@@ -4,7 +4,7 @@
  */
 
 import type { Request, Response, NextFunction, Application } from 'express';
-import { createLogger } from '@brepflow/engine-core';
+import { createLogger } from '@sim4d/engine-core';
 
 const logger = createLogger('Collaboration');
 import type { CollaborationServer } from './collaboration-server';
@@ -54,8 +54,8 @@ function defaultSessionIdGenerator(): string {
  * @example
  * ```typescript
  * import express from 'express';
- * import { CollaborationServer } from '@brepflow/collaboration';
- * import { setupAPIRoutes } from '@brepflow/collaboration/server';
+ * import { CollaborationServer } from '@sim4d/collaboration';
+ * import { setupAPIRoutes } from '@sim4d/collaboration/server';
  *
  * const app = express();
  * const server = http.createServer(app);

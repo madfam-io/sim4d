@@ -1,4 +1,4 @@
-import type { Vec3 } from '@brepflow/types';
+import type { Vec3 } from '@sim4d/types';
 
 // 2D solver primitives
 export interface Point2D {

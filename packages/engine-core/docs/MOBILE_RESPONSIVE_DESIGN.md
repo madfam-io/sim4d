@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-A comprehensive design for transforming BrepFlow Studio into a mobile-friendly, responsive CAD application that maintains professional capabilities while adapting to touch interfaces and smaller screens.
+A comprehensive design for transforming Sim4D Studio into a mobile-friendly, responsive CAD application that maintains professional capabilities while adapting to touch interfaces and smaller screens.
 
 ## Design Principles
 
@@ -462,8 +462,8 @@ const useBreakpoint = () => {
 
 ```json
 {
-  "name": "BrepFlow Studio",
-  "short_name": "BrepFlow",
+  "name": "Sim4D Studio",
+  "short_name": "Sim4D",
   "display": "standalone",
   "orientation": "any",
   "theme_color": "#0066cc",
@@ -509,4 +509,4 @@ const useBreakpoint = () => {
 
 ## Conclusion
 
-This design provides a comprehensive foundation for creating a mobile-friendly, responsive BrepFlow Studio that maintains professional CAD capabilities while adapting elegantly to mobile devices. The progressive enhancement approach ensures optimal experience across all device types while the gesture-based interactions and touch-optimized UI make mobile CAD work natural and efficient.
+This design provides a comprehensive foundation for creating a mobile-friendly, responsive Sim4D Studio that maintains professional CAD capabilities while adapting elegantly to mobile devices. The progressive enhancement approach ensures optimal experience across all device types while the gesture-based interactions and touch-optimized UI make mobile CAD work natural and efficient.

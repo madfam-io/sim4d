@@ -95,7 +95,7 @@ export const DesktopLayout: React.FC<DesktopLayoutProps> = ({
       {/* Top Menu Bar */}
       <div className="desktop-menubar">
         <div className="menubar-section">
-          <span className="app-logo">BrepFlow Studio</span>
+          <span className="app-logo">Sim4D Studio</span>
         </div>
         <div className="menubar-section">
           <select

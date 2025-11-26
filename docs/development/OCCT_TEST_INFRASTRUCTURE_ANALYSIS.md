@@ -172,7 +172,7 @@ test('OCCT integration - create box', async ({ page }) => {
   await page.goto('http://localhost:5173');
 
   const result = await page.evaluate(async () => {
-    const { getGeometryAPI } = await import('@brepflow/engine-occt');
+    const { getGeometryAPI } = await import('@sim4d/engine-occt');
     const api = await getGeometryAPI();
     await api.init();
 

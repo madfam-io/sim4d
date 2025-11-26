@@ -17,7 +17,7 @@ export interface NodeConnection {
 }
 
 /**
- * Helper class for node manipulation in BrepFlow Studio tests
+ * Helper class for node manipulation in Sim4D Studio tests
  * Provides high-level operations for creating, editing, and connecting nodes
  */
 export class NodeTestHelper {
@@ -174,8 +174,8 @@ export class NodeTestHelper {
    */
   async getNodeParameters(nodeId: string): Promise<Record<string, any>> {
     return await this.page.evaluate((id) => {
-      // This assumes there's a global brepflow object with graph access
-      const node = (window as any).brepflow?.graph?.getNode?.(id);
+      // This assumes there's a global sim4d object with graph access
+      const node = (window as any).sim4d?.graph?.getNode?.(id);
       return node?.params || {};
     }, nodeId);
   }
@@ -213,7 +213,7 @@ export class NodeTestHelper {
    */
   async verifyNodeConnected(connection: NodeConnection): Promise<void> {
     const isConnected = await this.page.evaluate((conn) => {
-      const graph = (window as any).brepflow?.graph;
+      const graph = (window as any).sim4d?.graph;
       if (!graph) return false;
 
       const edges = graph.getEdges?.() || [];

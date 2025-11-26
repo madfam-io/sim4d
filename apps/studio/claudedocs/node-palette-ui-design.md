@@ -2,7 +2,7 @@
 
 ## Overview
 
-Design for a comprehensive Node Palette interface that makes the 868+ generated nodes discoverable and accessible in BrepFlow Studio. This design bridges the accessibility gap between the enhanced node registry system and the Studio UI.
+Design for a comprehensive Node Palette interface that makes the 868+ generated nodes discoverable and accessible in Sim4D Studio. This design bridges the accessibility gap between the enhanced node registry system and the Studio UI.
 
 ## Current State Analysis
 

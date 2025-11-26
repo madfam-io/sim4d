@@ -13,7 +13,7 @@ import {
   SecurityInfo,
   PluginStats,
   Ed25519Signature,
-} from '@brepflow/cloud-api/src/types';
+} from '@sim4d/cloud-api/src/types';
 
 export interface RegistryConfig {
   storage: {
@@ -569,7 +569,7 @@ export class PluginRegistry extends EventEmitter {
   }
 
   private async validatePermissions(
-    permissions: import('@brepflow/cloud-api/src/types').PluginPermissions
+    permissions: import('@sim4d/cloud-api/src/types').PluginPermissions
   ): Promise<void> {
     // Validate plugin permissions
     if (permissions.networkAccess && permissions.networkAccess.length > 100) {

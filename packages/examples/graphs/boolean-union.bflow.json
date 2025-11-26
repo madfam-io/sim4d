@@ -4,7 +4,7 @@
   "tolerance": 0.001,
   "metadata": {
     "created": "2025-09-22T00:00:00Z",
-    "author": "BrepFlow Examples",
+    "author": "Sim4D Examples",
     "description": "Boolean union of primitive solids"
   },
   "nodes": [

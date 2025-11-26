@@ -12,7 +12,7 @@
  *
  * Usage:
  * ```typescript
- * import { CollaborationClientYjs } from '@brepflow/collaboration/crdt';
+ * import { CollaborationClientYjs } from '@sim4d/collaboration/crdt';
  *
  * const client = new CollaborationClientYjs({
  *   serverUrl: 'ws://localhost:3000',

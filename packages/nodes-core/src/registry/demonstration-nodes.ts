@@ -3,7 +3,7 @@
  * Creates a comprehensive set of example nodes to showcase the enhanced UI capabilities
  */
 
-import { NodeDefinition } from '@brepflow/types';
+import { NodeDefinition } from '@sim4d/types';
 
 /**
  * Creates a comprehensive set of demonstration nodes across multiple categories
@@ -207,7 +207,7 @@ function createDemoNode(
       complexity: 'intermediate',
       status: 'stable',
       version: '1.0.0',
-      author: 'BrepFlow Demo System',
+      author: 'Sim4D Demo System',
       documentation: `Documentation for ${name} node`,
       examples: [`Example usage of ${name}`],
     },

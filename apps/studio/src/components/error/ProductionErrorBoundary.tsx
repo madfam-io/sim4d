@@ -3,8 +3,8 @@
  */
 
 import React, { Component, ReactNode, ErrorInfo } from 'react';
-import { getConfig } from '@brepflow/engine-core';
-import ProductionLogger from '@brepflow/engine-occt';
+import { getConfig } from '@sim4d/engine-core';
+import ProductionLogger from '@sim4d/engine-occt';
 
 // Lazy logger initialization to avoid constructor issues during module loading
 let logger: any = null;

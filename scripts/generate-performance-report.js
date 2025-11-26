@@ -55,7 +55,7 @@ function generateHTMLReport(metrics, baselines) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BrepFlow Performance Report</title>
+  <title>Sim4D Performance Report</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     * {
@@ -180,7 +180,7 @@ function generateHTMLReport(metrics, baselines) {
 <body>
   <div class="container">
     <header>
-      <h1>🚀 BrepFlow Performance Report</h1>
+      <h1>🚀 Sim4D Performance Report</h1>
       <p class="subtitle">Performance metrics and trends over time</p>
       <p class="subtitle">Generated: ${new Date().toLocaleString()}</p>
     </header>
@@ -194,7 +194,7 @@ function generateHTMLReport(metrics, baselines) {
     </div>
 
     <footer>
-      <p>BrepFlow Performance Monitoring System</p>
+      <p>Sim4D Performance Monitoring System</p>
       <p>Tracking ${Object.keys(metrics).length} performance metrics</p>
     </footer>
   </div>

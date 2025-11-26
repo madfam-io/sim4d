@@ -4,14 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-BrepFlow is a web-first, node-based parametric CAD application with exact B-Rep/NURBS geometry. It's built by Aureo Labs (a MADFAM company) and provides Grasshopper-style visual parametrics with manufacturing-grade geometry that runs in the browser.
+Sim4D is a web-first, node-based parametric CAD application with exact B-Rep/NURBS geometry. It's built by Aureo Labs (a MADFAM company) and provides Grasshopper-style visual parametrics with manufacturing-grade geometry that runs in the browser.
 
 ## Architecture
 
 The project uses a monorepo structure with the following layout:
 
 ```
-/brepflow
+/sim4d
   /apps
     /studio            # React app: node editor + viewport
     /marketing         # Marketing website
@@ -54,15 +54,15 @@ pnpm run typecheck                  # TypeScript compilation check
 pnpm run format                     # Format code with Prettier
 
 # Single package development
-pnpm --filter @brepflow/studio run test      # Test specific package
-pnpm --filter @brepflow/engine-core run build
-pnpm --filter @brepflow/nodes-core run typecheck
+pnpm --filter @sim4d/studio run test      # Test specific package
+pnpm --filter @sim4d/engine-core run build
+pnpm --filter @sim4d/nodes-core run typecheck
 
 # WASM geometry core (optional - app works with mock geometry)
 pnpm run build:wasm                 # Compile OCCT.wasm (requires Emscripten)
 
 # CLI usage
-pnpm --filter @brepflow/cli run build
+pnpm --filter @sim4d/cli run build
 node packages/cli/dist/index.js render examples/enclosure.bflow.json \
   --set L=120 --set W=80 --set H=35 \
   --export step,stl --out out/
@@ -206,8 +206,8 @@ pnpm run test:e2e:debug             # Step-by-step debugging
 pnpm run test:all                   # All tests
 
 # Package-specific testing
-pnpm --filter @brepflow/engine-core run test
-pnpm --filter @brepflow/studio run test:coverage
+pnpm --filter @sim4d/engine-core run test
+pnpm --filter @sim4d/studio run test:coverage
 ```
 
 ## Package Architecture
@@ -231,7 +231,7 @@ types → schemas → engine-core → engine-occt → sdk → nodes-core → vie
 ### TypeScript Configuration
 
 - **Strict mode**: Disabled for gradual adoption
-- **Path aliases**: `@brepflow/*` packages mapped in tsconfig
+- **Path aliases**: `@sim4d/*` packages mapped in tsconfig
 - **Target**: ES2022 with bundler module resolution
 
 ## Important Notes

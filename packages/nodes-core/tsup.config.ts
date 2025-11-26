@@ -5,7 +5,7 @@ import { createLibraryConfig } from '../../config/tsup.base.config';
 
 /**
  * Nodes Core build configuration
- * Built-in node definitions for BrepFlow
+ * Built-in node definitions for Sim4D
  */
 const nodeExtensionResolver: Plugin = {
   name: 'generated-node-extension-resolver',

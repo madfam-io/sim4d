@@ -15,7 +15,7 @@ test.describe('Plugin Lifecycle Management', () => {
       marketplace: TEST_PLUGIN_CONFIGS.BASIC_MARKETPLACE,
     });
 
-    // Navigate to BrepFlow Studio
+    // Navigate to Sim4D Studio
     await page.goto('/');
 
     // Wait for app to be ready
@@ -130,7 +130,7 @@ test.describe('Plugin Lifecycle Management', () => {
     const context = await pluginHelper.installPlugin(pluginId);
 
     // Verify compatibility check passed
-    expect(context.manifest.engines?.brepflow).toBeTruthy();
+    expect(context.manifest.engines?.sim4d).toBeTruthy();
   });
 
   test('should handle plugin updates', async () => {
@@ -145,7 +145,7 @@ test.describe('Plugin Lifecycle Management', () => {
         id: pluginId,
         name: 'Basic Geometry',
         version: '2.0.0', // Newer version
-        author: 'BrepFlow Team',
+        author: 'Sim4D Team',
         description: 'Updated basic geometry operations',
         category: 'Geometry',
         rating: 4.5,
@@ -158,7 +158,7 @@ test.describe('Plugin Lifecycle Management', () => {
           commands: [],
           panels: [],
           permissions: ['read:graph', 'write:graph'],
-          engines: { brepflow: '>=0.1.0' },
+          engines: { sim4d: '>=0.1.0' },
         },
       },
     ]);
@@ -195,7 +195,7 @@ test.describe('Plugin Lifecycle Management', () => {
         id: pluginId,
         name: 'Basic Geometry',
         version: '2.0.0',
-        author: 'BrepFlow Team',
+        author: 'Sim4D Team',
         description: 'Corrupted version',
         category: 'Geometry',
         rating: 4.5,
@@ -208,7 +208,7 @@ test.describe('Plugin Lifecycle Management', () => {
           commands: [],
           panels: [],
           permissions: ['read:graph', 'write:graph'],
-          engines: { brepflow: '>=0.1.0' },
+          engines: { sim4d: '>=0.1.0' },
           signature: 'invalid_signature',
         },
       },

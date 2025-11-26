@@ -5,7 +5,7 @@
  * for the higher-level geometry APIs.
  */
 
-import type { MeshData, ShapeHandle } from '@brepflow/types';
+import type { MeshData, ShapeHandle } from '@sim4d/types';
 import { loadOCCT, getOCCTModule as _getOCCTModule, type OCCTModule } from './occt-bindings';
 
 export type RawShapeHandle = ShapeHandle & {

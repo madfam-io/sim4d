@@ -11,7 +11,7 @@ describe('InteroperabilityMessagingSlackNotificationNode', () => {
     const params = {
       webhookUrl: '',
       channel: '#general',
-      username: 'BrepFlow',
+      username: 'Sim4D',
     } as any;
 
     const result = await InteroperabilityMessagingSlackNotificationNode.evaluate(

@@ -20,10 +20,10 @@ jobs:
           context: .
           file: Dockerfile.ci
           load: true
-          tags: brepflow-ci:latest
+          tags: sim4d-ci:latest
 
       - name: Run build verification in container
-        run: docker run --rm brepflow-ci:latest pnpm run build
+        run: docker run --rm sim4d-ci:latest pnpm run build
 
       - name: Run test verification in container
-        run: docker run --rm brepflow-ci:latest pnpm run test
+        run: docker run --rm sim4d-ci:latest pnpm run test

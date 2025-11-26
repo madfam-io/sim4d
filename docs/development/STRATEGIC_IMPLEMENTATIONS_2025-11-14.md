@@ -105,7 +105,7 @@ for (const nodeId of evalOrder) {
 
 **Fix Strategy**:
 
-1. Run `pnpm --filter @brepflow/studio typecheck > errors.txt`
+1. Run `pnpm --filter @sim4d/studio typecheck > errors.txt`
 2. Group errors by file
 3. Fix systematically:
    - Add `| null | undefined` to type declarations
@@ -249,7 +249,7 @@ export interface Operation<TState = unknown, TResult = TState> {
 
 ### Success Criteria
 
-- ✅ `pnpm --filter @brepflow/studio typecheck` passes
+- ✅ `pnpm --filter @sim4d/studio typecheck` passes
 - ✅ `pnpm typecheck` (root) passes
 - ✅ `< 50 any` usages in entire codebase
 - ✅ Zero `@ts-ignore` comments
@@ -565,7 +565,7 @@ Refs: ROADMAP.md Horizon A, Audit 2025-11-14"
 ````markdown
 ## OCCT WASM Build (Required)
 
-BrepFlow requires OCCT WASM binaries for geometry operations. The mock geometry mode has been removed.
+Sim4D requires OCCT WASM binaries for geometry operations. The mock geometry mode has been removed.
 
 ### Quick Start
 
@@ -631,10 +631,10 @@ Git revert the teardown commit if:
 
 ```bash
 # Run node generator
-pnpm --filter @brepflow/nodes-core run generate 2>&1 | tee generator-errors.txt
+pnpm --filter @sim4d/nodes-core run generate 2>&1 | tee generator-errors.txt
 
 # Try to compile generated output
-pnpm --filter @brepflow/nodes-core run build 2>&1 | tee compile-errors.txt
+pnpm --filter @sim4d/nodes-core run build 2>&1 | tee compile-errors.txt
 
 # Analyze error patterns
 grep -E "error TS[0-9]+" compile-errors.txt | sort | uniq -c
@@ -695,11 +695,11 @@ inputs: {
 
 ```typescript
 // Generator template (broken)
-import { NodeDefinition } from '@brepflow/types'; // ❌ Missing GeometryAPI
+import { NodeDefinition } from '@sim4d/types'; // ❌ Missing GeometryAPI
 
 // Fixed template
-import { NodeDefinition, EvalContext, ShapeHandle } from '@brepflow/types';
-import type { GeometryAPI } from '@brepflow/engine-core';
+import { NodeDefinition, EvalContext, ShapeHandle } from '@sim4d/types';
+import type { GeometryAPI } from '@sim4d/engine-core';
 ```
 
 ### Implementation Timeline (3 weeks)
@@ -727,8 +727,8 @@ import type { GeometryAPI } from '@brepflow/engine-core';
 
 ### Success Criteria
 
-- ✅ `pnpm --filter @brepflow/nodes-core run generate` succeeds
-- ✅ `pnpm --filter @brepflow/nodes-core run build` passes
+- ✅ `pnpm --filter @sim4d/nodes-core run generate` succeeds
+- ✅ `pnpm --filter @sim4d/nodes-core run build` passes
 - ✅ CI compiles generated catalogue automatically
 - ✅ All 1000+ generated nodes have working evaluate handlers
 - ✅ Studio palette loads and displays generated nodes
@@ -1079,7 +1079,7 @@ client.disconnect();
 
 ```bash
 # Run CSRF integration tests
-pnpm --filter @brepflow/studio test collaboration-csrf
+pnpm --filter @sim4d/studio test collaboration-csrf
 
 # Manual test: verify CSRF token fetch
 curl http://localhost:3000/api/collaboration/csrf-token --cookie-jar cookies.txt
@@ -1190,8 +1190,8 @@ pnpm test 2>&1 | grep "Test Files\|Tests "
 ## Questions and Support
 
 **Implementation Questions**: Open GitHub issue with label `implementation-guide`
-**Blockers**: Tag @core-platform-team in #brepflow-dev Slack
-**Progress Updates**: Post weekly to #brepflow-status
+**Blockers**: Tag @core-platform-team in #sim4d-dev Slack
+**Progress Updates**: Post weekly to #sim4d-status
 **Roadmap Alignment**: See `docs/project/ROADMAP.md` Horizon A
 
 ---

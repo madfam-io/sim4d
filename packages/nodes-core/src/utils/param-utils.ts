@@ -1,6 +1,6 @@
 // Core parameter utilities for node definitions
 
-import type { ParamDefinition } from '@brepflow/types';
+import type { ParamDefinition } from '@sim4d/types';
 
 // Parameter constructor functions for node definitions
 export function BoolParam(options: { default?: boolean } = {}): ParamDefinition {

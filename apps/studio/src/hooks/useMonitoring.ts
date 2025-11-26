@@ -7,7 +7,7 @@ import { MonitoringSystem } from '../lib/monitoring/monitoring-system';
 import { ErrorManager } from '../lib/error-handling/error-manager';
 import { MetricsCollector } from '../lib/monitoring/metrics-collector';
 import { HealthAlert } from '../lib/monitoring/health-monitor';
-import { BrepFlowError } from '../lib/error-handling/types';
+import { Sim4DError } from '../lib/error-handling/types';
 import { createChildLogger } from '../lib/logging/logger-instance';
 
 const logger = createChildLogger({ module: 'useMonitoring' });
@@ -100,7 +100,7 @@ export function useHealthMonitoring() {
     };
 
     // Listen for health alerts
-    window.addEventListener('brepflow:health-alert', handleHealthAlert as EventListener);
+    window.addEventListener('sim4d:health-alert', handleHealthAlert as EventListener);
 
     // Periodic health update
     const interval = setInterval(() => {
@@ -118,7 +118,7 @@ export function useHealthMonitoring() {
     }, 10000); // Update every 10 seconds
 
     return () => {
-      window.removeEventListener('brepflow:health-alert', handleHealthAlert as EventListener);
+      window.removeEventListener('sim4d:health-alert', handleHealthAlert as EventListener);
       clearInterval(interval);
     };
   }, []);
@@ -138,8 +138,8 @@ export function useHealthMonitoring() {
  * Hook for error monitoring
  */
 export function useErrorMonitoring() {
-  const [errors, setErrors] = useState<BrepFlowError[]>([]);
-  const [criticalErrors, setCriticalErrors] = useState<BrepFlowError[]>([]);
+  const [errors, setErrors] = useState<Sim4DError[]>([]);
+  const [criticalErrors, setCriticalErrors] = useState<Sim4DError[]>([]);
 
   useEffect(() => {
     let errorManager: ErrorManager;
@@ -150,7 +150,7 @@ export function useErrorMonitoring() {
       return; // Error manager not initialized
     }
 
-    const handleError = (error: BrepFlowError) => {
+    const handleError = (error: Sim4DError) => {
       setErrors((prev) => {
         // Add new error if not already present
         if (!prev.find((e) => e.id === error.id)) {
@@ -169,7 +169,7 @@ export function useErrorMonitoring() {
       }
     };
 
-    const handleErrorResolved = (error: BrepFlowError) => {
+    const handleErrorResolved = (error: Sim4DError) => {
       setErrors((prev) =>
         prev.map((e) => (e.id === error.id ? { ...e, resolvedAt: new Date() } : e))
       );

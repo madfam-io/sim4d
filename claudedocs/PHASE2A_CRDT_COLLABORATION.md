@@ -34,7 +34,7 @@ Successfully implemented **Phase 2A: Enhanced Real-Time Collaboration** using CR
 ```
 packages/collaboration/src/crdt/
 ├── shared-graph.ts                    (337 lines) - Yjs CRDT graph wrapper
-├── yjs-adapter.ts                     (189 lines) - BrepFlow ↔ Yjs bridge
+├── yjs-adapter.ts                     (189 lines) - Sim4D ↔ Yjs bridge
 ├── offline-queue.ts                   (238 lines) - Offline operation management
 ├── optimistic-state.ts                (337 lines) - Optimistic UI with rollback
 ├── collaboration-client-yjs.ts        (367 lines) - Enhanced collaboration client
@@ -51,7 +51,7 @@ packages/collaboration/src/crdt/
 
 ### 1. SharedGraph (CRDT Layer)
 
-**Purpose**: Wraps Yjs shared types to represent BrepFlow graph structure with automatic conflict resolution.
+**Purpose**: Wraps Yjs shared types to represent Sim4D graph structure with automatic conflict resolution.
 
 **Key Features**:
 
@@ -86,7 +86,7 @@ sharedGraph.applySnapshot(snapshot);
 
 ### 2. YjsAdapter (Bridge Layer)
 
-**Purpose**: Bridges BrepFlow operations with Yjs WebSocket provider.
+**Purpose**: Bridges Sim4D operations with Yjs WebSocket provider.
 
 **Key Features**:
 
@@ -203,7 +203,7 @@ const reconciledGraph = manager.applyRemoteOperation(remoteOp);
 
 ```typescript
 // Drop-in replacement
-import { CollaborationClientYjs } from '@brepflow/collaboration/crdt';
+import { CollaborationClientYjs } from '@sim4d/collaboration/crdt';
 
 const client = new CollaborationClientYjs({
   serverUrl: 'ws://localhost:3000',
@@ -320,7 +320,7 @@ console.log(`Document size: ${stats.documentSize} bytes`);
 **Before (OT-based)**:
 
 ```typescript
-import { CollaborationClient } from '@brepflow/collaboration';
+import { CollaborationClient } from '@sim4d/collaboration';
 
 const client = new CollaborationClient({
   /* ... */
@@ -330,7 +330,7 @@ const client = new CollaborationClient({
 **After (CRDT-based)**:
 
 ```typescript
-import { CollaborationClientYjs } from '@brepflow/collaboration/crdt';
+import { CollaborationClientYjs } from '@sim4d/collaboration/crdt';
 
 const client = new CollaborationClientYjs({
   /* ... */

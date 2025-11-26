@@ -1,10 +1,10 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import fs from 'fs-extra';
-import type { GraphInstance } from '@brepflow/types';
+import type { GraphInstance } from '@sim4d/types';
 
 export const infoCommand = new Command('info')
-  .description('Display information about a BrepFlow graph')
+  .description('Display information about a Sim4D graph')
   .argument('<graph>', 'path to .bflow.json graph file')
   .option('--nodes', 'list all nodes')
   .option('--edges', 'list all edges')
@@ -150,7 +150,7 @@ function displayInfo(info: {
     }>
   >;
 }): void {
-  console.log(chalk.blue('\n📊 BrepFlow Graph Information\n'));
+  console.log(chalk.blue('\n📊 Sim4D Graph Information\n'));
 
   // Basic info
   console.log(chalk.gray('File:'), info.file);

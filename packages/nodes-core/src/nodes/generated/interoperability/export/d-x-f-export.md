@@ -19,7 +19,7 @@ Export 2D geometry to DXF format
 ### layerName
 
 - **Type:** string
-- **Default:** "BrepFlow"
+- **Default:** "Sim4D"
 
 ## Inputs
 

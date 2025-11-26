@@ -1,14 +1,14 @@
 import * as Y from 'yjs';
-import { createLogger } from '@brepflow/engine-core';
+import { createLogger } from '@sim4d/engine-core';
 
 const logger = createLogger('Collaboration');
 import type { Graph, Node, Edge, Operation } from '../types';
-import { createNodeId, createEdgeId } from '@brepflow/types';
+import { createNodeId, createEdgeId } from '@sim4d/types';
 
 /**
  * SharedGraph - Yjs CRDT-based graph structure for real-time collaboration
  *
- * This class wraps Yjs shared types to represent the BrepFlow graph structure.
+ * This class wraps Yjs shared types to represent the Sim4D graph structure.
  * It provides automatic conflict resolution, offline support, and guaranteed
  * eventual consistency across all connected clients.
  *
@@ -55,7 +55,7 @@ export class SharedGraph {
   }
 
   /**
-   * Apply a BrepFlow operation to the shared graph
+   * Apply a Sim4D operation to the shared graph
    * Operations are automatically synced to all connected clients
    */
   applyOperation(operation: Operation): void {
@@ -199,7 +199,7 @@ export class SharedGraph {
   }
 
   /**
-   * Convert the shared graph to a BrepFlow Graph object
+   * Convert the shared graph to a Sim4D Graph object
    */
   toGraph(): Graph {
     const nodes: Node[] = [];
@@ -243,7 +243,7 @@ export class SharedGraph {
   }
 
   /**
-   * Initialize from a BrepFlow Graph
+   * Initialize from a Sim4D Graph
    * Used for bootstrapping from existing graph data
    */
   fromGraph(graph: Graph): void {

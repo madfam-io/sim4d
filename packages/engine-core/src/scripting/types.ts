@@ -3,7 +3,7 @@
  * Provides type-safe interfaces for creating custom nodes through scripts
  */
 
-import type { NodeDefinition, EvalContext, NodeId, ShapeHandle, Vec3 } from '@brepflow/types';
+import type { NodeDefinition, EvalContext, NodeId, ShapeHandle, Vec3 } from '@sim4d/types';
 
 export type ScriptLanguage = 'javascript' | 'python' | 'lua';
 

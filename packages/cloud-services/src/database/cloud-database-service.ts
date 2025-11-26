@@ -1,6 +1,6 @@
 /**
  * Cloud Database Service
- * Data persistence and querying for BrepFlow cloud services
+ * Data persistence and querying for Sim4D cloud services
  */
 
 import EventEmitter from 'events';
@@ -20,7 +20,7 @@ import {
   SyncState,
   SearchQuery,
   SearchResult,
-} from '@brepflow/cloud-api/src/types';
+} from '@sim4d/cloud-api/src/types';
 
 export interface DatabaseConfig {
   provider: 'postgresql' | 'mysql' | 'mongodb' | 'sqlite';
@@ -691,7 +691,7 @@ export class CloudDatabaseService extends EventEmitter {
       description: row.description as string,
       version: row.version as string,
       author: JSON.parse(row.author as string),
-      category: row.category as import('@brepflow/cloud-api/src/types').PluginCategory,
+      category: row.category as import('@sim4d/cloud-api/src/types').PluginCategory,
       tags: JSON.parse(row.tags as string),
       manifest: JSON.parse(row.manifest as string),
       bundle: JSON.parse(row.bundle as string),

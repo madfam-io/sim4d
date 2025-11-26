@@ -1,8 +1,8 @@
-# BrepFlow Project Overview
+# Sim4D Project Overview
 
 ## Purpose
 
-BrepFlow is a web-first, node-based parametric CAD application with exact B-Rep/NURBS geometry. Built by Aureo Labs (a MADFAM company), it provides Grasshopper-style visual parametrics with manufacturing-grade geometry that runs in the browser.
+Sim4D is a web-first, node-based parametric CAD application with exact B-Rep/NURBS geometry. Built by Aureo Labs (a MADFAM company), it provides Grasshopper-style visual parametrics with manufacturing-grade geometry that runs in the browser.
 
 ## Key Features
 

@@ -23,7 +23,7 @@ Session 5 successfully completed the critical WASM test harness infrastructure t
 ### Infrastructure Delivered
 
 1. Complete WASM test utilities module
-2. Mock @brepflow/engine-occt module with Vite path aliasing
+2. Mock @sim4d/engine-occt module with Vite path aliasing
 3. Mock Worker API with IntegratedGeometryAPI interface
 4. Mock fs/promises and fetch for asset verification
 5. Comprehensive test suite for geometry-api-factory.ts
@@ -37,10 +37,10 @@ Session 5 successfully completed the critical WASM test harness infrastructure t
 Previous attempt to test geometry-api-factory.ts failed with:
 
 ```
-Error: Failed to resolve import "@brepflow/engine-occt" from "src/geometry-api-factory.ts"
+Error: Failed to resolve import "@sim4d/engine-occt" from "src/geometry-api-factory.ts"
 ```
 
-**Root Cause**: Vite attempts to resolve `import('@brepflow/engine-occt')` at build time, even with vi.mock(). Dynamic imports in source code cannot be stubbed with traditional mocking approaches.
+**Root Cause**: Vite attempts to resolve `import('@sim4d/engine-occt')` at build time, even with vi.mock(). Dynamic imports in source code cannot be stubbed with traditional mocking approaches.
 
 ### Solution Architecture
 
@@ -49,7 +49,7 @@ Error: Failed to resolve import "@brepflow/engine-occt" from "src/geometry-api-f
 **Implementation Strategy**:
 
 1. Create a mock module file at a known path
-2. Configure Vite to alias `@brepflow/engine-occt` to the mock during test builds
+2. Configure Vite to alias `@sim4d/engine-occt` to the mock during test builds
 3. Implement proper IntegratedGeometryAPI interface in the mock
 4. Mock additional dependencies (fs/promises, fetch) for asset verification
 
@@ -88,7 +88,7 @@ expectValidGeometryHandle(handle)
 
 ### 2. Mock Engine-OCCT Module (`tests/setup/__mocks__/engine-occt.mock.ts`)
 
-**Purpose**: Drop-in replacement for @brepflow/engine-occt during tests
+**Purpose**: Drop-in replacement for @sim4d/engine-occt during tests
 
 **Critical Feature - IntegratedGeometryAPI Interface**:
 
@@ -127,7 +127,7 @@ export default defineConfig({
   test: {
     // ...existing config...
     alias: {
-      '@brepflow/engine-occt': path.resolve(
+      '@sim4d/engine-occt': path.resolve(
         __dirname,
         './tests/setup/__mocks__/engine-occt.mock.ts'
       ),
@@ -135,7 +135,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@brepflow/engine-occt': path.resolve(
+      '@sim4d/engine-occt': path.resolve(
         __dirname,
         './tests/setup/__mocks__/engine-occt.mock.ts'
       ),

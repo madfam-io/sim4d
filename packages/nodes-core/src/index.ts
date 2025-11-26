@@ -1,6 +1,6 @@
 // NOTE: Known type system issues - NodeDefinition mismatches and duplicate exports (non-blocking).
 // See packages/types for branded type requirements and registry type definitions.
-import { NodeRegistry, createLogger } from '@brepflow/engine-core';
+import { NodeRegistry, createLogger } from '@sim4d/engine-core';
 
 const logger = createLogger('NodesCore');
 

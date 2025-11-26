@@ -1,6 +1,6 @@
 # Multi-Viewport System Implementation
 
-This document describes the implementation of the multi-viewport system for BrepFlow Studio.
+This document describes the implementation of the multi-viewport system for Sim4D Studio.
 
 ## Overview
 
@@ -140,7 +140,7 @@ viewport3d: (
 - Uses react-resizable-panels for smooth resizing
 - Integrates with existing Enhanced3DViewport component
 - Maintains compatibility with WorkbenchLayoutManager
-- Follows BrepFlow design system tokens
+- Follows Sim4D design system tokens
 - Includes comprehensive accessibility support
 - Mobile-responsive with graceful degradation to single viewport
 
@@ -153,4 +153,4 @@ The implementation can be tested by:
 3. Using the layout controls in the viewport area
 4. Testing keyboard shortcuts and viewport interactions
 
-The multi-viewport system is now fully integrated and ready for use in BrepFlow Studio.
+The multi-viewport system is now fully integrated and ready for use in Sim4D Studio.

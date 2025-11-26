@@ -1,10 +1,10 @@
-# BrepFlow Marketing Website
+# Sim4D Marketing Website
 
-Modern, engaging marketing frontend for BrepFlow - the web-first parametric CAD platform.
+Modern, engaging marketing frontend for Sim4D - the web-first parametric CAD platform.
 
 ## 🎨 Design Philosophy
 
-The marketing site embodies BrepFlow's revolutionary approach to CAD with:
+The marketing site embodies Sim4D's revolutionary approach to CAD with:
 
 - **Dark, Professional Aesthetic**: Reflects the technical nature of CAD software
 - **Gradient Accents**: Blue → Purple → Pink gradients for modern appeal
@@ -40,7 +40,7 @@ The marketing site embodies BrepFlow's revolutionary approach to CAD with:
 
 - Side-by-side competitor analysis
 - Visual indicators (✓/✗) for quick scanning
-- BrepFlow advantages highlighting
+- Sim4D advantages highlighting
 - Responsive table design
 
 ### Community Section
@@ -134,9 +134,9 @@ pnpm preview
 ### Environment Variables
 
 ```env
-VITE_API_URL=https://api.brepflow.com
-VITE_STUDIO_URL=https://studio.brepflow.com
-VITE_DOCS_URL=https://docs.brepflow.com
+VITE_API_URL=https://api.sim4d.com
+VITE_STUDIO_URL=https://studio.sim4d.com
+VITE_DOCS_URL=https://docs.sim4d.com
 ```
 
 ### Performance Optimizations

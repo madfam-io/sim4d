@@ -1,7 +1,7 @@
 {
-  "name": "@brepflow/types",
+  "name": "@sim4d/types",
   "version": "0.1.0",
-  "description": "BrepFlow shared TypeScript types",
+  "description": "Sim4D shared TypeScript types",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",

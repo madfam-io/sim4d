@@ -1,4 +1,4 @@
-import { NodeDefinition } from '@brepflow/types';
+import { NodeDefinition } from '@sim4d/types';
 
 interface Params {
   format: string;
@@ -26,8 +26,8 @@ export const ExportJSONNode: NodeDefinition<ExportJSONInputs, ExportJSONOutputs,
 
     params: {
       format: {
-        default: 'brepflow',
-        options: ['brepflow', 'three', 'custom'],
+        default: 'sim4d',
+        options: ['sim4d', 'three', 'custom'],
       },
       precision: {
         default: 6,

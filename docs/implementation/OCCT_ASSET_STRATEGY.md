@@ -4,7 +4,7 @@ _Last updated: 2025-09-22_
 
 ## Why node polyfill warnings are suppressed
 
-Studio consumes the OCCT engine packages directly from source so that we can ship the production-ready browser mocks that guard shared-memory and filesystem access. Rollup still scans the published build outputs (for dependency analysis) and reports that built-in modules such as `fs`, `path`, and `url` are being externalised. These modules are immediately remapped to the mocks provided in `apps/studio/src/polyfills`, and the runtime never attempts to load the Node implementations. Because the warnings are noisy but intentional, `apps/studio/vite.config.ts` installs `brepflow-occt-warning-filter` to silence them while leaving a breadcrumb to this document. If the engine packages drop their Node imports in future we can remove the filter.
+Studio consumes the OCCT engine packages directly from source so that we can ship the production-ready browser mocks that guard shared-memory and filesystem access. Rollup still scans the published build outputs (for dependency analysis) and reports that built-in modules such as `fs`, `path`, and `url` are being externalised. These modules are immediately remapped to the mocks provided in `apps/studio/src/polyfills`, and the runtime never attempts to load the Node implementations. Because the warnings are noisy but intentional, `apps/studio/vite.config.ts` installs `sim4d-occt-warning-filter` to silence them while leaving a breadcrumb to this document. If the engine packages drop their Node imports in future we can remove the filter.
 
 ## Large OCCT WASM bundles
 

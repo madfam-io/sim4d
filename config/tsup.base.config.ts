@@ -66,8 +66,8 @@ export const createBaseConfig = (options: Partial<Options> = {}): Options => {
     // Banner for license/metadata
     banner: {
       js: `/**
- * @brepflow
- * (c) ${new Date().getFullYear()} BrepFlow - Mozilla Public License 2.0
+ * @sim4d
+ * (c) ${new Date().getFullYear()} Sim4D - Mozilla Public License 2.0
  */`,
     },
 
@@ -85,7 +85,7 @@ export const createLibraryConfig = (options: Partial<Options> = {}): Options => 
       resolve: true,
       entry: ['src/index.ts'],
     },
-    external: ['react', 'react-dom', 'react/jsx-runtime', /^@brepflow\//],
+    external: ['react', 'react-dom', 'react/jsx-runtime', /^@sim4d\//],
     ...options,
   });
 };

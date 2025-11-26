@@ -5,7 +5,7 @@
 
 import { getConfig } from './config/environment';
 import { shouldUseRealWASM, getWASMConfig } from './config/wasm-config';
-import type { WorkerAPI } from '@brepflow/types';
+import type { WorkerAPI } from '@sim4d/types';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { createLogger } from './logger';
@@ -24,7 +24,7 @@ const resolveEngineOCCTDistPath = () =>
 
 const requireEngineOCCTSafely = (): unknown | null => {
   try {
-    return require('@brepflow/engine-occt');
+    return require('@sim4d/engine-occt');
   } catch (primaryError) {
     try {
       const distPath = resolveEngineOCCTDistPath();
@@ -42,13 +42,13 @@ const importEngineOCCTSafely = async (): Promise<unknown> => {
   }
 
   try {
-    return await import('@brepflow/engine-occt');
+    return await import('@sim4d/engine-occt');
   } catch (primaryError) {
     const distPath = resolveEngineOCCTDistPath();
     try {
       return await import(pathToFileURL(distPath).href);
     } catch (fallbackError) {
-      const error = new Error('Failed to load @brepflow/engine-occt module');
+      const error = new Error('Failed to load @sim4d/engine-occt module');
       (error as unknown).cause = primaryError;
       throw error;
     }

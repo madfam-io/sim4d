@@ -256,7 +256,7 @@ pnpm run test:e2e tests/e2e/mvp-workflow.test.ts
 ./scripts/docker-dev.sh up
 
 # Option 2: Local development
-pnpm --filter @brepflow/studio run dev &
+pnpm --filter @sim4d/studio run dev &
 node packages/collaboration/dist/server/standalone-server.js &
 
 # Access application

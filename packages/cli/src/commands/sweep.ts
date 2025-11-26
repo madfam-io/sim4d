@@ -3,8 +3,8 @@ import chalk from 'chalk';
 import ora from 'ora';
 import fs from 'fs-extra';
 import path from 'path';
-import type { GraphInstance } from '@brepflow/types';
-import { GeometryEvaluationError } from '@brepflow/engine-core';
+import type { GraphInstance } from '@sim4d/types';
+import { GeometryEvaluationError } from '@sim4d/engine-core';
 import {
   applyParameters,
   collectShapeHandles,
@@ -224,9 +224,9 @@ async function renderVariant(
   params: string[],
   options: { export?: string }
 ): Promise<void> {
-  const { GraphManager, DAGEngine } = await import('@brepflow/engine-core');
-  const { GeometryAPIFactory } = await import('@brepflow/engine-core/geometry-api-factory');
-  const { registerCoreNodes } = await import('@brepflow/nodes-core');
+  const { GraphManager, DAGEngine } = await import('@sim4d/engine-core');
+  const { GeometryAPIFactory } = await import('@sim4d/engine-core/geometry-api-factory');
+  const { registerCoreNodes } = await import('@sim4d/nodes-core');
 
   // Load graph
   const graphContent = await fs.readFile(graphPath, 'utf-8');

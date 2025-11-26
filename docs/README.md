@@ -1,6 +1,6 @@
-# BrepFlow Documentation
+# Sim4D Documentation
 
-Welcome to the BrepFlow documentation. This directory contains all technical documentation, guides, and specifications for the BrepFlow parametric CAD platform.
+Welcome to the Sim4D documentation. This directory contains all technical documentation, guides, and specifications for the Sim4D parametric CAD platform.
 
 ## 📚 Documentation Structure
 

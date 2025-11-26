@@ -5,8 +5,8 @@
 
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { GraphManager } from '../graph-manager';
-import type { GraphInstance, NodeInstance, Edge, NodeId } from '@brepflow/types';
-import { createNodeId, createEdgeId } from '@brepflow/types';
+import type { GraphInstance, NodeInstance, Edge, NodeId } from '@sim4d/types';
+import { createNodeId, createEdgeId } from '@sim4d/types';
 
 describe('GraphManager', () => {
   let manager: GraphManager;

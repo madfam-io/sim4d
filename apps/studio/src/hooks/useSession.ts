@@ -6,7 +6,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import type { GraphInstance } from '@brepflow/types';
+import type { GraphInstance } from '@sim4d/types';
 import { createChildLogger } from '../lib/logging/logger-instance';
 
 const logger = createChildLogger({ module: 'useSession' });

@@ -6,7 +6,7 @@
 
 #### 1. ProductionLogger Export (engine-occt)
 
-**Problem**: Studio components couldn't import ProductionLogger from `@brepflow/engine-occt`  
+**Problem**: Studio components couldn't import ProductionLogger from `@sim4d/engine-occt`  
 **Root Cause**: ProductionLogger was commented out in index.ts with note "Node.js only"  
 **Solution**: ProductionLogger is actually browser-safe (has process.env fallbacks), so enabled export  
 **Files Modified**:
@@ -33,8 +33,8 @@
 #### 1. Collaboration Type Exports
 
 **Problem**: collaboration-engine.ts has `@ts-nocheck` and branded type issues  
-**Impact**: Types like `CollaborationUser`, `BrepFlowCollaborationEngine` cannot be exported from engine-core  
-**Workaround**: Studio components will need to import from `@brepflow/collaboration` package directly  
+**Impact**: Types like `CollaborationUser`, `Sim4DCollaborationEngine` cannot be exported from engine-core  
+**Workaround**: Studio components will need to import from `@sim4d/collaboration` package directly  
 **Next Steps**:
 
 1. Remove `@ts-nocheck` from collaboration-engine.ts
@@ -45,7 +45,7 @@
 #### 2. Script Engine Type Exports
 
 **Problem**: script-engine.ts has `@ts-nocheck` and type issues  
-**Impact**: Types like `BrepFlowScriptEngine`, `ScriptedNodeDefinition` cannot be exported from engine-core  
+**Impact**: Types like `Sim4DScriptEngine`, `ScriptedNodeDefinition` cannot be exported from engine-core  
 **Workaround**: Script IDE components currently fail typecheck  
 **Next Steps**:
 
@@ -125,9 +125,9 @@
 
 ### ✅ Successfully Building
 
-- `@brepflow/engine-core` - Clean build with DTS generation
-- `@brepflow/engine-occt` - ProductionLogger now exported
-- `@brepflow/collaboration` - Builds successfully (separate package)
+- `@sim4d/engine-core` - Clean build with DTS generation
+- `@sim4d/engine-occt` - ProductionLogger now exported
+- `@sim4d/collaboration` - Builds successfully (separate package)
 
 ### ⚠️ TypeScript Errors Remaining
 

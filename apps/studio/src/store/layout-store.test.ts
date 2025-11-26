@@ -321,7 +321,7 @@ describe('layout-store', () => {
 
       expect(useLayoutStore.getState().currentLayout).toEqual(newLayout);
       expect(window.localStorage.setItem).toHaveBeenCalledWith(
-        'brepflow-layout-state',
+        'sim4d-layout-state',
         JSON.stringify(newLayout)
       );
     });
@@ -487,7 +487,7 @@ describe('layout-store', () => {
       expect(savedLayouts[0].metadata.isDefault).toBe(false);
 
       expect(window.localStorage.setItem).toHaveBeenCalledWith(
-        'brepflow-saved-layouts',
+        'sim4d-saved-layouts',
         JSON.stringify(savedLayouts)
       );
     });

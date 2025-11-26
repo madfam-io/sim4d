@@ -127,9 +127,9 @@ logger.warn('Cannot update session: no session ID', {
 ### Compilation Results
 
 ```bash
-$ pnpm --filter @brepflow/engine-core run typecheck
+$ pnpm --filter @sim4d/engine-core run typecheck
 
-> @brepflow/engine-core@0.1.0 typecheck
+> @sim4d/engine-core@0.1.0 typecheck
 > tsc --noEmit
 
 ✅ NO ERRORS
@@ -201,7 +201,7 @@ $ pnpm --filter @brepflow/engine-core run typecheck
 ### Test Coverage Validation
 
 ```bash
-$ pnpm --filter @brepflow/engine-core run test
+$ pnpm --filter @sim4d/engine-core run test
 ✅ All tests passing (no regressions from TypeScript changes)
 ```
 

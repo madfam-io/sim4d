@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
-import type { NodeInstance, NodeId } from '@brepflow/types';
+import type { NodeInstance, NodeId } from '@sim4d/types';
 import { StatusIcon } from './icons/IconSystem';
 import { Icon } from './icons/IconSystem';
 import { Button } from './ui/Button';

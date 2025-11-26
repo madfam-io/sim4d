@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { OfflineQueue } from '../offline-queue';
 import type { Operation } from '../../types';
-import { createNodeId } from '@brepflow/types';
+import { createNodeId } from '@sim4d/types';
 
 describe('OfflineQueue', () => {
   let queue: OfflineQueue;

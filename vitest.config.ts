@@ -39,10 +39,10 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@brepflow/types': path.resolve(__dirname, './packages/types/src'),
-      '@brepflow/engine-core': path.resolve(__dirname, './packages/engine-core/src'),
-      '@brepflow/engine-occt': path.resolve(__dirname, './packages/engine-occt/src'),
-      '@brepflow/nodes-core': path.resolve(__dirname, './packages/nodes-core/src'),
+      '@sim4d/types': path.resolve(__dirname, './packages/types/src'),
+      '@sim4d/engine-core': path.resolve(__dirname, './packages/engine-core/src'),
+      '@sim4d/engine-occt': path.resolve(__dirname, './packages/engine-occt/src'),
+      '@sim4d/nodes-core': path.resolve(__dirname, './packages/nodes-core/src'),
     },
   },
 });

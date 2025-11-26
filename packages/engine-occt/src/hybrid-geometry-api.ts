@@ -24,7 +24,7 @@ import {
   OPERATION_MAP,
   DEFAULT_ADAPTER_CONFIG,
 } from './geom-core-adapter';
-import type { ShapeHandle, MeshData } from '@brepflow/types';
+import type { ShapeHandle, MeshData } from '@sim4d/types';
 import { getLogger } from './production-logger';
 
 const logger = getLogger('HybridGeometryAPI');

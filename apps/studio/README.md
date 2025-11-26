@@ -1,4 +1,4 @@
-# BrepFlow Studio
+# Sim4D Studio
 
 Interactive web-based parametric CAD application with node-based visual programming.
 
@@ -6,7 +6,7 @@ Interactive web-based parametric CAD application with node-based visual programm
 
 ## Overview
 
-BrepFlow Studio is the main user interface for BrepFlow, providing:
+Sim4D Studio is the main user interface for Sim4D, providing:
 
 - **Node Editor**: Visual programming canvas with drag-and-drop interface
 - **3D Viewport**: Real-time geometry visualization with Three.js

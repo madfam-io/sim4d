@@ -3,8 +3,8 @@
  * Manages Web Worker communication with real OCCT geometry operations
  */
 
-import { getConfig } from '@brepflow/engine-core';
-import type { WorkerAPI, WorkerRequest, WorkerResponse } from '@brepflow/types';
+import { getConfig } from '@sim4d/engine-core';
+import type { WorkerAPI, WorkerRequest, WorkerResponse } from '@sim4d/types';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 

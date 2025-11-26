@@ -7,7 +7,7 @@
 
 ## Overview
 
-BrepFlow implements a comprehensive security model for custom script execution using **isolated-vm** (V8 isolates) to provide true sandboxing. This document describes the security architecture, threat model, and best practices.
+Sim4D implements a comprehensive security model for custom script execution using **isolated-vm** (V8 isolates) to provide true sandboxing. This document describes the security architecture, threat model, and best practices.
 
 ## Security Architecture
 
@@ -72,7 +72,7 @@ Even within the isolate, scripts have restricted access:
 - `Array`, `Object`, `String`, `Number`, `Boolean` - Standard types
 - `Promise`, `async/await` - Async operations
 - `console.log/warn/error` - Sanitized logging
-- `ctx.script.*` - BrepFlow script context API
+- `ctx.script.*` - Sim4D script context API
 
 **Blocked APIs**:
 - `global`, `globalThis` (restricted)
@@ -312,7 +312,7 @@ If a security issue is detected:
 
 ## Security Contact
 
-For security issues, contact: security@brepflow.com
+For security issues, contact: security@sim4d.com
 
 **Do not** file public GitHub issues for security vulnerabilities.
 

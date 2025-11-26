@@ -1,4 +1,4 @@
-import type { NodeDefinition, ShapeHandle, AssemblyHandle } from '@brepflow/types';
+import type { NodeDefinition, ShapeHandle, AssemblyHandle } from '@sim4d/types';
 
 export const CoincidentConstraintNode: NodeDefinition<
   {

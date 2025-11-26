@@ -1,10 +1,10 @@
 # Performance Monitoring and Metrics
 
-Comprehensive performance monitoring system for BrepFlow to track, analyze, and optimize application performance.
+Comprehensive performance monitoring system for Sim4D to track, analyze, and optimize application performance.
 
 ## Overview
 
-The BrepFlow performance monitoring system provides:
+The Sim4D performance monitoring system provides:
 
 - **Real-time metrics collection** for DAG evaluation, geometry operations, viewport rendering, and memory usage
 - **Performance budgets** with automated threshold detection
@@ -85,7 +85,7 @@ The BrepFlow performance monitoring system provides:
 ### Basic Monitoring
 
 ```typescript
-import { performanceMonitor } from '@brepflow/engine-core';
+import { performanceMonitor } from '@sim4d/engine-core';
 
 // Start timing measurement
 const stopEval = performanceMonitor.startMeasure('evaluation');
@@ -114,7 +114,7 @@ if (violations.length > 0) {
 ### Performance Reporting
 
 ```typescript
-import { PerformanceReporter, JSONPerformanceExporter } from '@brepflow/engine-core';
+import { PerformanceReporter, JSONPerformanceExporter } from '@sim4d/engine-core';
 
 // Create reporter with exporters
 const reporter = new PerformanceReporter(60000, [
@@ -134,7 +134,7 @@ await reporter.exportReport();
 ### DAG Evaluation Profiling
 
 ```typescript
-import { EvaluationProfiler } from '@brepflow/engine-core/diagnostics';
+import { EvaluationProfiler } from '@sim4d/engine-core/diagnostics';
 
 const profiler = new EvaluationProfiler();
 
@@ -158,7 +158,7 @@ console.log(`Category breakdown:`, summary.categoryBreakdown);
 ### React Integration
 
 ```typescript
-import { usePerformanceMonitor } from '@brepflow/engine-core';
+import { usePerformanceMonitor } from '@sim4d/engine-core';
 
 function PerformancePanel() {
   const { metrics, reset, snapshot, report } = usePerformanceMonitor();

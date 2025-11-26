@@ -1,4 +1,4 @@
-# BrepFlow Test Suite - Phase 2 Action Plan
+# Sim4D Test Suite - Phase 2 Action Plan
 
 ## Current Status
 
@@ -328,4 +328,4 @@ pnpm run build
 3. **Proceed to core engine** fixes if foundational layer stable
 4. **Iterate and measure** progress against success criteria
 
-Total estimated completion: **24-48 hours from current state** to achieve 100% test pass rate across entire BrepFlow test suite.
+Total estimated completion: **24-48 hours from current state** to achieve 100% test pass rate across entire Sim4D test suite.

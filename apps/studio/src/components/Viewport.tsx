@@ -15,7 +15,7 @@ type Measurement = {
   value: number;
   unit: string;
 };
-import type { MeshData, ShapeHandle } from '@brepflow/types';
+import type { MeshData, ShapeHandle } from '@sim4d/types';
 
 export function Viewport() {
   const mountRef = useRef<HTMLDivElement>(null);

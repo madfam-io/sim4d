@@ -1,4 +1,4 @@
-import type { NodeId, NodeInstance, GraphInstance, EvalContext, WorkerAPI } from '@brepflow/types';
+import type { NodeId, NodeInstance, GraphInstance, EvalContext, WorkerAPI } from '@sim4d/types';
 import { NodeRegistry } from './node-registry';
 import { ComputeCache } from './cache';
 import { hashNode } from './hash';
@@ -23,7 +23,7 @@ function getLogger(): LoggerLike {
   }
 
   try {
-    const { ProductionLogger } = require('@brepflow/engine-occt');
+    const { ProductionLogger } = require('@sim4d/engine-occt');
     loggerInstance = new ProductionLogger('DAGEngine');
   } catch (error) {
     // Fallback to structured logger when OCCT logger is unavailable
@@ -42,7 +42,7 @@ function getLogger(): LoggerLike {
 let GeometryProxy: unknown;
 try {
   // eslint-disable-next-line @typescript-eslint/no-var-requires -- Optional dependency, fallback needed for tests
-  const occtModule = require('@brepflow/engine-occt');
+  const occtModule = require('@sim4d/engine-occt');
   GeometryProxy = occtModule.GeometryProxy;
 } catch (error) {
   // Fallback for test environments or when OCCT is not available

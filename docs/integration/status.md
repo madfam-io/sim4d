@@ -1,4 +1,4 @@
-# BrepFlow OCCT.wasm Integration Status
+# Sim4D OCCT.wasm Integration Status
 
 ## ✅ PHASE 1 COMPLETED: OCCT Integration Framework
 
@@ -11,7 +11,7 @@
 - **Implementation**: OCCT WASM module successfully loaded and initialized
 - **API**: Emscripten-generated ExpToCasExe.wasm with `createOCCTModule()` factory function
 
-#### 2. Enhanced BrepFlow Engine Architecture
+#### 2. Enhanced Sim4D Engine Architecture
 
 - **Status**: ✅ **COMPLETE**
 - **Key Updates**:
@@ -216,7 +216,7 @@ const updateSceneGeometry = async () => {
 ### Integration Completed ✅
 
 - [x] OCCT WASM module successfully loads and initializes
-- [x] BrepFlow engine architecture supports real geometry operations
+- [x] Sim4D engine architecture supports real geometry operations
 - [x] 3D viewport renders tessellated geometry in real-time
 - [x] Node graph evaluation pipeline works end-to-end
 - [x] Development build system functional for core packages
@@ -236,7 +236,7 @@ const updateSceneGeometry = async () => {
 
 **Phase 1 Integration: SUCCESSFULLY COMPLETED**
 
-The BrepFlow OCCT.wasm integration framework is fully operational. The architecture supports:
+The Sim4D OCCT.wasm integration framework is fully operational. The architecture supports:
 
 - ✅ Hybrid OCCT/Mock geometry operations with graceful fallback
 - ✅ Real-time 3D visualization of parametric CAD models

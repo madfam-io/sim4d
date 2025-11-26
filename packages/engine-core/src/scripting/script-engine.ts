@@ -1,5 +1,5 @@
 /**
- * Script Engine for BrepFlow Custom Nodes
+ * Script Engine for Sim4D Custom Nodes
  * Provides secure JavaScript execution environment
  */
 
@@ -24,7 +24,7 @@ import {
 
 import { JavaScriptExecutor } from './javascript-executor';
 
-export class BrepFlowScriptEngine implements ScriptEngine {
+export class Sim4DScriptEngine implements ScriptEngine {
   private executors = new Map<ScriptLanguage, ScriptExecutor>();
   private templates: ScriptTemplate[] = [];
   private sandboxes = new Map<string, ScriptSandbox>();

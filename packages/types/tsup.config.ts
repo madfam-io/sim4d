@@ -2,7 +2,7 @@ import { defineConfig } from 'tsup';
 
 /**
  * Types package build configuration
- * Core type definitions for the entire BrepFlow monorepo
+ * Core type definitions for the entire Sim4D monorepo
  */
 export default defineConfig({
   entry: ['src/index.ts'],

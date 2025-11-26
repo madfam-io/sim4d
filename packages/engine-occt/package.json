@@ -1,7 +1,7 @@
 {
-  "name": "@brepflow/engine-occt",
+  "name": "@sim4d/engine-occt",
   "version": "0.1.0",
-  "description": "BrepFlow OCCT.wasm worker bindings",
+  "description": "Sim4D OCCT.wasm worker bindings",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -27,8 +27,8 @@
     "build:wasm": "bash scripts/build-bindings.sh"
   },
   "dependencies": {
-    "@brepflow/engine-core": "workspace:*",
-    "@brepflow/types": "workspace:*",
+    "@sim4d/engine-core": "workspace:*",
+    "@sim4d/types": "workspace:*",
     "comlink": "^4.4.1",
     "uuid": "^9.0.1"
   },

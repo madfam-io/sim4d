@@ -48,7 +48,7 @@ Status: failure
 Branch: feat/new-feature
 Commit: abc1234
 
-Repository: aureo-labs/brepflow
+Repository: aureo-labs/sim4d
 
 [View Workflow Run] (button)
 ```

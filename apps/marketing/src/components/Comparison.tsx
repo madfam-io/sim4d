@@ -5,7 +5,7 @@ import { Check, X, Minus } from 'lucide-react';
 
 const competitors = [
   {
-    name: 'BrepFlow',
+    name: 'Sim4D',
     logo: '🌊',
     highlight: true,
     features: {
@@ -122,7 +122,7 @@ export function Comparison() {
             </span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            See how BrepFlow stacks up against traditional desktop-based parametric CAD solutions
+            See how Sim4D stacks up against traditional desktop-based parametric CAD solutions
           </p>
         </motion.div>
 

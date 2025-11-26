@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { SharingConfig } from './project-sharing-manager';
 import { ProjectSharingManager } from './project-sharing-manager';
-import type { ShareLink, ProjectMetadata, VersionVector } from '@brepflow/cloud-api/src/types';
+import type { ShareLink, ProjectMetadata, VersionVector } from '@sim4d/cloud-api/src/types';
 
 const shareLink: ShareLink = {
   id: 'share-1',

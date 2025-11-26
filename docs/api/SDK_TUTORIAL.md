@@ -1,6 +1,6 @@
-# BrepFlow SDK Tutorial: Getting Started
+# Sim4D SDK Tutorial: Getting Started
 
-This tutorial will guide you through creating your first custom node and plugin for BrepFlow.
+This tutorial will guide you through creating your first custom node and plugin for Sim4D.
 
 ## Table of Contents
 
@@ -18,22 +18,22 @@ Before starting, ensure you have:
 - **Node.js** 20.11.0 or later
 - **pnpm** 8.6.7 or later
 - **TypeScript** knowledge
-- **BrepFlow** installed locally or access to a BrepFlow instance
+- **Sim4D** installed locally or access to a Sim4D instance
 
 ## Project Setup
 
 ### Step 1: Create Project Directory
 
 ```bash
-mkdir my-brepflow-plugin
-cd my-brepflow-plugin
+mkdir my-sim4d-plugin
+cd my-sim4d-plugin
 pnpm init
 ```
 
 ### Step 2: Install Dependencies
 
 ```bash
-pnpm add @brepflow/sdk
+pnpm add @sim4d/sdk
 pnpm add -D typescript tsup @types/node
 ```
 
@@ -76,7 +76,7 @@ export default defineConfig({
   splitting: false,
   sourcemap: true,
   clean: true,
-  external: ['@brepflow/sdk'],
+  external: ['@sim4d/sdk'],
   target: 'es2022',
 });
 ```
@@ -85,9 +85,9 @@ export default defineConfig({
 
 ```json
 {
-  "name": "my-brepflow-plugin",
+  "name": "my-sim4d-plugin",
   "version": "1.0.0",
-  "description": "My first BrepFlow plugin",
+  "description": "My first Sim4D plugin",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -97,7 +97,7 @@ export default defineConfig({
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "pnpm build"
   },
-  "keywords": ["brepflow", "plugin", "cad"],
+  "keywords": ["sim4d", "plugin", "cad"],
   "author": "Your Name",
   "license": "MIT"
 }
@@ -110,7 +110,7 @@ export default defineConfig({
 Create `src/nodes/scalable-box.ts`:
 
 ```typescript
-import { NodeBuilder } from '@brepflow/sdk';
+import { NodeBuilder } from '@sim4d/sdk';
 
 export const ScalableBoxNode = new NodeBuilder(
   'Tutorial::ScalableBox'
@@ -171,7 +171,7 @@ export const ScalableBoxNode = new NodeBuilder(
 Create `src/nodes/pattern-array.ts`:
 
 ```typescript
-import { NodeBuilder } from '@brepflow/sdk';
+import { NodeBuilder } from '@sim4d/sdk';
 
 export const PatternArrayNode = new NodeBuilder(
   'Tutorial::PatternArray'
@@ -245,7 +245,7 @@ export const PatternArrayNode = new NodeBuilder(
 Create `src/nodes/parametric-bracket.ts`:
 
 ```typescript
-import { NodeBuilder } from '@brepflow/sdk';
+import { NodeBuilder } from '@sim4d/sdk';
 
 export const ParametricBracketNode = new NodeBuilder(
   'Tutorial::ParametricBracket'
@@ -345,20 +345,20 @@ export const ParametricBracketNode = new NodeBuilder(
 Create `src/plugin.ts`:
 
 ```typescript
-import { BrepFlowPlugin, PluginManifest, PluginPermission } from '@brepflow/sdk';
+import { Sim4DPlugin, PluginManifest, PluginPermission } from '@sim4d/sdk';
 import { ScalableBoxNode } from './nodes/scalable-box';
 import { PatternArrayNode } from './nodes/pattern-array';
 import { ParametricBracketNode } from './nodes/parametric-bracket';
 
-export default class TutorialPlugin extends BrepFlowPlugin {
+export default class TutorialPlugin extends Sim4DPlugin {
   get manifest(): PluginManifest {
     return {
       id: 'tutorial-plugin',
       name: 'Tutorial Plugin',
       version: '1.0.0',
       author: 'Your Name',
-      description: 'Example plugin demonstrating BrepFlow SDK capabilities',
-      homepage: 'https://github.com/yourusername/my-brepflow-plugin',
+      description: 'Example plugin demonstrating Sim4D SDK capabilities',
+      homepage: 'https://github.com/yourusername/my-sim4d-plugin',
       license: 'MIT',
 
       // Declare nodes
@@ -491,11 +491,11 @@ Create `test/index.html`:
   <title>Plugin Test</title>
 </head>
 <body>
-  <h1>BrepFlow Plugin Test</h1>
+  <h1>Sim4D Plugin Test</h1>
   <div id="app"></div>
 
   <script type="module">
-    import { pluginManager } from '@brepflow/sdk';
+    import { pluginManager } from '@sim4d/sdk';
     import TutorialPlugin from '../dist/index.js';
 
     // Load plugin
@@ -562,7 +562,7 @@ Create `test/integration.test.ts`:
 
 ```typescript
 import { describe, it, expect, beforeEach } from 'vitest';
-import { pluginManager } from '@brepflow/sdk';
+import { pluginManager } from '@sim4d/sdk';
 import TutorialPlugin from '../src/index';
 
 describe('Tutorial Plugin Integration', () => {
@@ -602,15 +602,15 @@ describe('Tutorial Plugin Integration', () => {
 
 ```json
 {
-  "name": "@yourscope/brepflow-tutorial-plugin",
+  "name": "@yourscope/sim4d-tutorial-plugin",
   "version": "1.0.0",
-  "description": "Example plugin for BrepFlow",
+  "description": "Example plugin for Sim4D",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/my-brepflow-plugin.git"
+    "url": "https://github.com/yourusername/my-sim4d-plugin.git"
   },
   "keywords": [
-    "brepflow",
+    "sim4d",
     "plugin",
     "cad",
     "parametric"
@@ -626,21 +626,21 @@ describe('Tutorial Plugin Integration', () => {
 2. **Create README.md**:
 
 ```markdown
-# BrepFlow Tutorial Plugin
+# Sim4D Tutorial Plugin
 
-Example plugin demonstrating BrepFlow SDK capabilities.
+Example plugin demonstrating Sim4D SDK capabilities.
 
 ## Installation
 
 \`\`\`bash
-pnpm add @yourscope/brepflow-tutorial-plugin
+pnpm add @yourscope/sim4d-tutorial-plugin
 \`\`\`
 
 ## Usage
 
 \`\`\`typescript
-import TutorialPlugin from '@yourscope/brepflow-tutorial-plugin';
-import { pluginManager } from '@brepflow/sdk';
+import TutorialPlugin from '@yourscope/sim4d-tutorial-plugin';
+import { pluginManager } from '@sim4d/sdk';
 
 const plugin = new TutorialPlugin();
 await pluginManager.loadPlugin(plugin);
@@ -682,12 +682,12 @@ pnpm publish --access public
 mkdir test-install
 cd test-install
 pnpm init
-pnpm add @yourscope/brepflow-tutorial-plugin
+pnpm add @yourscope/sim4d-tutorial-plugin
 ```
 
 ## Next Steps
 
-Congratulations! You've created your first BrepFlow plugin. Here are some ideas for extending it:
+Congratulations! You've created your first Sim4D plugin. Here are some ideas for extending it:
 
 1. **Add More Nodes** - Create additional parametric operations
 2. **Add UI Panels** - Create custom UI panels for your plugin
@@ -697,10 +697,10 @@ Congratulations! You've created your first BrepFlow plugin. Here are some ideas 
 
 ## Resources
 
-- [BrepFlow SDK API Reference](./API_OVERVIEW.md)
+- [Sim4D SDK API Reference](./API_OVERVIEW.md)
 - [Node Development Guide](./NODE_DEVELOPMENT.md)
 - [Plugin Examples](../../packages/examples/plugins/)
-- [BrepFlow Documentation](../../docs/README.md)
+- [Sim4D Documentation](../../docs/README.md)
 
 ## Troubleshooting
 
@@ -724,6 +724,6 @@ Congratulations! You've created your first BrepFlow plugin. Here are some ideas 
 
 ## Support
 
-- [GitHub Issues](https://github.com/aureolabs/brepflow/issues)
-- [Discord Community](https://discord.gg/brepflow)
-- [Documentation](https://docs.brepflow.com)
+- [GitHub Issues](https://github.com/aureolabs/sim4d/issues)
+- [Discord Community](https://discord.gg/sim4d)
+- [Documentation](https://docs.sim4d.com)

@@ -57,7 +57,7 @@ export interface CollaborationSession {
 }
 
 /**
- * Comprehensive helper class for plugin ecosystem testing in BrepFlow Studio
+ * Comprehensive helper class for plugin ecosystem testing in Sim4D Studio
  * Provides methods for plugin lifecycle, security validation, marketplace simulation,
  * multi-user collaboration, and execution isolation testing
  */
@@ -287,7 +287,7 @@ export class PluginTestHelper {
     signatureInfo?: any;
   }> {
     return await this.page.evaluate(async (id) => {
-      const pluginManager = (window as any).brepflow?.pluginManager;
+      const pluginManager = (window as any).sim4d?.pluginManager;
       if (!pluginManager) return { isValid: false, trusted: false };
 
       return await pluginManager.verifyPluginSignature(id);
@@ -461,7 +461,7 @@ export class PluginTestHelper {
       const result = await this.page.evaluate(
         async (data) => {
           const { pluginId, functionName, args } = data;
-          const pluginManager = (window as any).brepflow?.pluginManager;
+          const pluginManager = (window as any).sim4d?.pluginManager;
 
           if (!pluginManager) throw new Error('Plugin manager not available');
 
@@ -702,14 +702,14 @@ export class PluginTestHelper {
 
   private async getInstalledPluginManifest(pluginId: string): Promise<PluginManifest> {
     return await this.page.evaluate((id) => {
-      const pluginManager = (window as any).brepflow?.pluginManager;
+      const pluginManager = (window as any).sim4d?.pluginManager;
       return pluginManager?.getPlugin(id)?.manifest || {};
     }, pluginId);
   }
 
   private async getPluginSandboxConfig(pluginId: string): Promise<PluginSandboxConfig> {
     return await this.page.evaluate((id) => {
-      const pluginManager = (window as any).brepflow?.pluginManager;
+      const pluginManager = (window as any).sim4d?.pluginManager;
       return (
         pluginManager?.getPluginSandbox(id) || {
           memoryLimit: 64 * 1024 * 1024,
@@ -768,13 +768,13 @@ export class PluginTestHelper {
 
   private async initializeCollaborationSession(session: CollaborationSession): Promise<void> {
     await this.page.evaluate((sessionData) => {
-      (window as any).brepflowTestSession = sessionData;
+      (window as any).sim4dTestSession = sessionData;
     }, session);
   }
 
   private async switchToUser(userId: string): Promise<void> {
     await this.page.evaluate((id) => {
-      (window as any).brepflowCurrentUser = id;
+      (window as any).sim4dCurrentUser = id;
     }, userId);
   }
 
@@ -784,7 +784,7 @@ export class PluginTestHelper {
 
   private async getPluginState(pluginId: string): Promise<any> {
     return await this.page.evaluate((id) => {
-      const pluginManager = (window as any).brepflow?.pluginManager;
+      const pluginManager = (window as any).sim4d?.pluginManager;
       return pluginManager?.getPluginState(id) || {};
     }, pluginId);
   }
@@ -793,7 +793,7 @@ export class PluginTestHelper {
     await this.page.evaluate(
       (data) => {
         const { pluginId, state } = data;
-        const pluginManager = (window as any).brepflow?.pluginManager;
+        const pluginManager = (window as any).sim4d?.pluginManager;
         pluginManager?.setPluginState(pluginId, state);
       },
       { pluginId, state }
@@ -802,7 +802,7 @@ export class PluginTestHelper {
 
   private async getPluginMemoryUsage(pluginId: string): Promise<number> {
     return await this.page.evaluate((id) => {
-      const pluginManager = (window as any).brepflow?.pluginManager;
+      const pluginManager = (window as any).sim4d?.pluginManager;
       return pluginManager?.getPluginMemoryUsage(id) || 0;
     }, pluginId);
   }
@@ -816,7 +816,7 @@ export class PluginTestHelper {
       if (elements.length > 0) resources.push('DOM elements');
 
       // Check for remaining event listeners
-      const listeners = (window as any).brepflowPluginListeners?.[id];
+      const listeners = (window as any).sim4dPluginListeners?.[id];
       if (listeners && listeners.length > 0) resources.push('Event listeners');
 
       // Check for remaining storage
@@ -829,7 +829,7 @@ export class PluginTestHelper {
 
   private async hasViewportOverlay(pluginId: string): Promise<boolean> {
     return await this.page.evaluate((id) => {
-      const viewport = (window as any).brepflow?.viewport;
+      const viewport = (window as any).sim4d?.viewport;
       return viewport?.hasPluginOverlay(id) || false;
     }, pluginId);
   }

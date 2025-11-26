@@ -1,5 +1,5 @@
 import { Server, Socket } from 'socket.io';
-import { createLogger } from '@brepflow/engine-core';
+import { createLogger } from '@sim4d/engine-core';
 
 const logger = createLogger('Collaboration');
 import type { Server as HTTPServer } from 'http';

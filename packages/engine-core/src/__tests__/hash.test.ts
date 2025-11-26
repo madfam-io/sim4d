@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { hashNode, hash, hashGeometry } from '../hash';
-import type { NodeInstance } from '@brepflow/types';
+import type { NodeInstance } from '@sim4d/types';
 
 describe('Hash Functions', () => {
   describe('hash()', () => {

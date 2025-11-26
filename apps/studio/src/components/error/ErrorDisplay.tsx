@@ -3,7 +3,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { BrepFlowError, ErrorSeverity, RecoveryAction } from '../../lib/error-handling/types';
+import { Sim4DError, ErrorSeverity, RecoveryAction } from '../../lib/error-handling/types';
 import { ErrorManager } from '../../lib/error-handling/error-manager';
 
 interface ErrorDisplayProps {
@@ -21,7 +21,7 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
   isolated = false,
   specializedFor,
 }) => {
-  const [brepFlowError, setBrepFlowError] = useState<BrepFlowError | null>(null);
+  const [brepFlowError, setSim4DError] = useState<Sim4DError | null>(null);
   const [isExecutingRecovery, setIsExecutingRecovery] = useState<string | null>(null);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
       const errorManager = ErrorManager.getInstance();
       const errors = errorManager.getErrors();
       const foundError = errors.find((e) => e.id === errorId);
-      setBrepFlowError(foundError || null);
+      setSim4DError(foundError || null);
     }
   }, [errorId]);
 

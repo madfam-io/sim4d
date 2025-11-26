@@ -464,7 +464,7 @@ const collaborationServer = new CollaborationServer(httpServer, {
 ```typescript
 // .env.production
 const collaborationServer = new CollaborationServer(httpServer, {
-  corsOrigin: ['https://studio.brepflow.com', 'https://app.brepflow.com'],
+  corsOrigin: ['https://studio.sim4d.com', 'https://app.sim4d.com'],
   csrfTokenSecret: process.env.CSRF_TOKEN_SECRET, // From vault
   enableRateLimiting: true,
   maxConnectionsPerIP: 10,
@@ -482,17 +482,17 @@ const collaborationServer = new CollaborationServer(httpServer, {
 
 ```bash
 # Run security-focused tests
-pnpm --filter @brepflow/engine-core test src/scripting/__tests__/javascript-executor.security.test.ts
+pnpm --filter @sim4d/engine-core test src/scripting/__tests__/javascript-executor.security.test.ts
 ```
 
 ### Collaboration Server Tests
 
 ```bash
 # Test CSRF protection
-pnpm --filter @brepflow/collaboration test src/server/__tests__/csrf-protection.test.ts
+pnpm --filter @sim4d/collaboration test src/server/__tests__/csrf-protection.test.ts
 
 # Test rate limiting
-pnpm --filter @brepflow/collaboration test src/server/__tests__/rate-limiting.test.ts
+pnpm --filter @sim4d/collaboration test src/server/__tests__/rate-limiting.test.ts
 ```
 
 ---
@@ -549,4 +549,4 @@ console.warn('SECURITY: IP blacklisted for excessive connections:', ip);
 
 **Last Updated**: 2025-11-13
 **Next Review**: After Phase 2 implementation (2 weeks)
-**Contact**: security@brepflow.com
+**Contact**: security@sim4d.com

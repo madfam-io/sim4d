@@ -1,5 +1,5 @@
 // Enhanced UI Component Library Exports
-// Professional CAD-grade components for BrepFlow Studio
+// Professional CAD-grade components for Sim4D Studio
 
 // Core Components
 export { Button, IconButton } from './Button';

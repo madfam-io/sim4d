@@ -1,5 +1,5 @@
-import { createHandleId } from '@brepflow/types';
-import type { WorkerAPI, ShapeHandle, MeshData, BoundingBox } from '@brepflow/types';
+import { createHandleId } from '@sim4d/types';
+import type { WorkerAPI, ShapeHandle, MeshData, BoundingBox } from '@sim4d/types';
 import { getOCCTWrapper, type RawShapeHandle } from './occt-wrapper';
 
 interface TessellatePayload {

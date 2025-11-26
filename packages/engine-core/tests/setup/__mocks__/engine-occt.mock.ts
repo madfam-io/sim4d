@@ -1,5 +1,5 @@
 /**
- * Mock @brepflow/engine-occt module
+ * Mock @sim4d/engine-occt module
  *
  * This file is aliased in vitest.config.ts to replace the real engine-occt module
  * during test execution, allowing us to test geometry-api-factory.ts without
@@ -7,7 +7,7 @@
  */
 
 import { vi } from 'vitest';
-import type { WorkerAPI, GeometryHandle, ShapeType } from '@brepflow/types';
+import type { WorkerAPI, GeometryHandle, ShapeType } from '@sim4d/types';
 
 // Mock geometry handle counter
 let handleCounter = 1;

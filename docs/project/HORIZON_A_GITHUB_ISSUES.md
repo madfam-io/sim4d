@@ -1149,7 +1149,7 @@ See: `docs/project/HORIZON_A_GEOMETRY_HARDENING.md` (Section 2.5, Milestone 4)
 
 ### Creating Issues via GitHub Web UI
 
-1. Go to: `https://github.com/madfam-io/brepflow/issues/new`
+1. Go to: `https://github.com/madfam-io/sim4d/issues/new`
 2. Copy the title and body from each issue template above
 3. Add the specified labels
 4. Assign to the "Horizon A: Geometry Hardening" milestone

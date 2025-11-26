@@ -15,7 +15,7 @@ export function FloatingCTA({ showDelay = 3000, hideOnScroll = false }: Floating
 
   useEffect(() => {
     // Check if user has previously dismissed the CTA
-    const dismissed = localStorage.getItem('brepflow-cta-dismissed');
+    const dismissed = localStorage.getItem('sim4d-cta-dismissed');
     if (dismissed) {
       setIsDismissed(true);
       return;
@@ -41,7 +41,7 @@ export function FloatingCTA({ showDelay = 3000, hideOnScroll = false }: Floating
   const handleDismiss = () => {
     setIsVisible(false);
     setIsDismissed(true);
-    localStorage.setItem('brepflow-cta-dismissed', 'true');
+    localStorage.setItem('sim4d-cta-dismissed', 'true');
   };
 
   const handleDemoClick = () => {

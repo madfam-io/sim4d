@@ -4,7 +4,7 @@ import { NodeSearchBar } from './NodeSearchBar';
 import { CategoryTreeSidebar } from './CategoryTreeSidebar';
 import { CurationModeSelector } from './CurationModeSelector';
 import { NodeCard, NodeListItem, NodeCompactItem } from './NodeCard';
-import type { NodeDefinition } from '@brepflow/types';
+import type { NodeDefinition } from '@sim4d/types';
 import { createChildLogger } from '../../lib/logging/logger-instance';
 
 const logger = createChildLogger({ module: 'EnhancedNodePalette' });
@@ -116,7 +116,7 @@ export function EnhancedNodePalette({
               <h4>Node catalogue build required</h4>
               <p>
                 Generated nodes stay hidden until the registry validates the latest build. Run{' '}
-                <code>pnpm --filter @brepflow/nodes-core build</code> (or the full workspace build)
+                <code>pnpm --filter @sim4d/nodes-core build</code> (or the full workspace build)
                 and refresh Studio to enable the complete palette.
               </p>
               {discoveryErrors.length > 0 && (
@@ -258,7 +258,7 @@ export function EnhancedNodePalette({
         >
           {isCatalogInitializing
             ? 'The enhanced node registry is still initializing. Generated nodes will appear once validation completes.'
-            : 'Fallback catalogue detected. Run a fresh build for @brepflow/nodes-core so the enhanced node registry can load real nodes.'}
+            : 'Fallback catalogue detected. Run a fresh build for @sim4d/nodes-core so the enhanced node registry can load real nodes.'}
         </div>
       )}
 

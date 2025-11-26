@@ -21,7 +21,7 @@ Send Slack notifications
 ### Username
 
 - **Type:** string
-- **Default:** "BrepFlow"
+- **Default:** "Sim4D"
 
 ## Inputs
 

@@ -2,7 +2,7 @@
 
 ## Overview
 
-The OCCT Node Adapter System provides a **long-term stable solution** for connecting BrepFlow's 1,827+ generated nodes to real OCCT (Open CASCADE Technology) geometry operations. This system bridges the gap between what nodes expect (`context.geometry`) and what the DAG engine provides (`context.worker`), ensuring seamless integration without duplicating existing infrastructure.
+The OCCT Node Adapter System provides a **long-term stable solution** for connecting Sim4D's 1,827+ generated nodes to real OCCT (Open CASCADE Technology) geometry operations. This system bridges the gap between what nodes expect (`context.geometry`) and what the DAG engine provides (`context.worker`), ensuring seamless integration without duplicating existing infrastructure.
 
 ## Architecture
 
@@ -264,7 +264,7 @@ localStorage.setItem('OCCT_DEBUG', 'true');
 
 ## Conclusion
 
-The OCCT Node Adapter System successfully bridges the gap between BrepFlow's node system and real OCCT geometry operations. It provides a **stable, long-term solution** that:
+The OCCT Node Adapter System successfully bridges the gap between Sim4D's node system and real OCCT geometry operations. It provides a **stable, long-term solution** that:
 
 - Works with all 1,827 generated nodes without modification
 - Automatically switches between real and mock geometry
@@ -272,4 +272,4 @@ The OCCT Node Adapter System successfully bridges the gap between BrepFlow's nod
 - Provides excellent performance through worker-based execution
 - Offers easy extensibility for future operations
 
-The system is production-ready and ensures BrepFlow can achieve feature parity with Grasshopper's 400+ nodes while maintaining code quality and avoiding duplication.
+The system is production-ready and ensures Sim4D can achieve feature parity with Grasshopper's 400+ nodes while maintaining code quality and avoiding duplication.

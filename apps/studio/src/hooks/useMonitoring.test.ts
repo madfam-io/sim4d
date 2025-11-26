@@ -153,7 +153,7 @@ describe('useHealthMonitoring', () => {
     };
 
     act(() => {
-      const event = new CustomEvent('brepflow:health-alert', { detail: mockAlert });
+      const event = new CustomEvent('sim4d:health-alert', { detail: mockAlert });
       window.dispatchEvent(event);
     });
 
@@ -173,8 +173,8 @@ describe('useHealthMonitoring', () => {
     };
 
     act(() => {
-      const event1 = new CustomEvent('brepflow:health-alert', { detail: mockAlert });
-      const event2 = new CustomEvent('brepflow:health-alert', { detail: mockAlert });
+      const event1 = new CustomEvent('sim4d:health-alert', { detail: mockAlert });
+      const event2 = new CustomEvent('sim4d:health-alert', { detail: mockAlert });
       window.dispatchEvent(event1);
       window.dispatchEvent(event2);
     });
@@ -206,7 +206,7 @@ describe('useHealthMonitoring', () => {
     };
 
     act(() => {
-      const event = new CustomEvent('brepflow:health-alert', { detail: mockAlert });
+      const event = new CustomEvent('sim4d:health-alert', { detail: mockAlert });
       window.dispatchEvent(event);
     });
 
@@ -226,7 +226,7 @@ describe('useHealthMonitoring', () => {
     unmount();
 
     expect(removeEventListenerSpy).toHaveBeenCalledWith(
-      'brepflow:health-alert',
+      'sim4d:health-alert',
       expect.any(Function)
     );
   });

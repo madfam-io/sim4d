@@ -235,8 +235,8 @@ function createMesh(data: { geometry: BufferGeometry; material: Material }): Mes
 **5. Validate** (15 minutes)
 
 ```bash
-pnpm --filter @brepflow/viewport run typecheck
-pnpm --filter @brepflow/viewport run test
+pnpm --filter @sim4d/viewport run typecheck
+pnpm --filter @sim4d/viewport run test
 ```
 
 ---
@@ -389,8 +389,8 @@ grep -r "\bany\b" packages/PACKAGE/src --include="*.ts" -n
 # Edit packages/PACKAGE/tsconfig.json, add "noImplicitAny": true
 
 # 3. Validate
-pnpm --filter @brepflow/PACKAGE run typecheck
-pnpm --filter @brepflow/PACKAGE run test
+pnpm --filter @sim4d/PACKAGE run typecheck
+pnpm --filter @sim4d/PACKAGE run test
 ```
 
 ### Progress Tracking

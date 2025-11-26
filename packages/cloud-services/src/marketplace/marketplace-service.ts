@@ -1,6 +1,6 @@
 /**
  * Marketplace Service
- * Plugin marketplace and distribution platform for BrepFlow ecosystem
+ * Plugin marketplace and distribution platform for Sim4D ecosystem
  */
 
 import EventEmitter from 'events';
@@ -15,7 +15,7 @@ import {
   SearchResult,
   FacetResult,
   SecurityScanResult,
-} from '@brepflow/cloud-api/src/types';
+} from '@sim4d/cloud-api/src/types';
 
 export interface MarketplaceConfig {
   monetization: {
@@ -60,7 +60,7 @@ export interface PluginSubmission {
   version: string;
   submittedBy: UserId;
   submissionData: {
-    manifest: import('@brepflow/cloud-api/src/types').PluginManifest;
+    manifest: import('@sim4d/cloud-api/src/types').PluginManifest;
     bundle: ArrayBuffer;
     documentation: string;
     screenshots: string[];

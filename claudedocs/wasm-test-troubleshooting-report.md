@@ -348,7 +348,7 @@ export function validateProductionSafety(occtModule: any, context?: string) {
 
 ## Conclusion
 
-Successfully diagnosed and partially resolved WASM test environment issues in `@brepflow/engine-occt`:
+Successfully diagnosed and partially resolved WASM test environment issues in `@sim4d/engine-occt`:
 
 **✅ Completed**:
 

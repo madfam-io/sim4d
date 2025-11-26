@@ -7,7 +7,7 @@ import type {
   OnboardingEvent,
 } from '../types/onboarding';
 
-const STORAGE_KEY = 'brepflow-onboarding-state';
+const STORAGE_KEY = 'sim4d-onboarding-state';
 
 function generateSessionId(): string {
   // Use cryptographically secure random generation
@@ -18,7 +18,7 @@ function generateSessionId(): string {
 
 function getInitialState(): OnboardingState {
   const stored = localStorage.getItem(STORAGE_KEY);
-  const hasVisited = localStorage.getItem('brepflow-visited');
+  const hasVisited = localStorage.getItem('sim4d-visited');
 
   if (stored) {
     const parsedState = JSON.parse(stored);
@@ -52,7 +52,7 @@ function getInitialState(): OnboardingState {
 
 function saveState(state: OnboardingState) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  localStorage.setItem('brepflow-visited', 'true');
+  localStorage.setItem('sim4d-visited', 'true');
 }
 
 export const useOnboardingStore = create<OnboardingStore>()(
@@ -171,7 +171,7 @@ export const useOnboardingStore = create<OnboardingStore>()(
 
       resetOnboarding: () => {
         localStorage.removeItem(STORAGE_KEY);
-        localStorage.removeItem('brepflow-visited');
+        localStorage.removeItem('sim4d-visited');
 
         set({
           state: {

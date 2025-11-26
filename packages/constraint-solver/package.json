@@ -1,5 +1,5 @@
 {
-  "name": "@brepflow/constraint-solver",
+  "name": "@sim4d/constraint-solver",
   "version": "0.1.0",
   "type": "module",
   "main": "./dist/index.js",
@@ -17,7 +17,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@brepflow/types": "workspace:*",
+    "@sim4d/types": "workspace:*",
     "numeric": "^1.2.6"
   },
   "devDependencies": {

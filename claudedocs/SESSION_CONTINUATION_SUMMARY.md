@@ -65,10 +65,10 @@ volumes:
 **Evidence**:
 
 ```bash
-$ docker exec brepflow-collaboration-1 printenv | grep ENABLE_RATE
+$ docker exec sim4d-collaboration-1 printenv | grep ENABLE_RATE
 ENABLE_RATE_LIMIT=false
 
-$ docker logs brepflow-collaboration-1 | grep "Rate limit"
+$ docker logs sim4d-collaboration-1 | grep "Rate limit"
 (no output = success - no rate limiting active)
 
 $ curl http://localhost:8080/health

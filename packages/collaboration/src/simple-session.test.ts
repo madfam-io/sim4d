@@ -11,7 +11,7 @@
 
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { SimpleSessionManager } from './simple-session';
-import type { GraphInstance } from '@brepflow/types';
+import type { GraphInstance } from '@sim4d/types';
 
 describe('SimpleSessionManager - Comprehensive Tests', () => {
   let manager: SimpleSessionManager;

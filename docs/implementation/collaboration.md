@@ -2,7 +2,7 @@
 
 ## 🎯 Overview
 
-BrepFlow now has **enterprise-grade real-time collaboration** capabilities, positioning it as "The Figma of CAD" - the first web-native parametric CAD platform with true multi-user editing.
+Sim4D now has **enterprise-grade real-time collaboration** capabilities, positioning it as "The Figma of CAD" - the first web-native parametric CAD platform with true multi-user editing.
 
 ## 🚀 Key Features Implemented
 
@@ -67,7 +67,7 @@ packages/collaboration/
 
 ```typescript
 import { createServer } from 'http';
-import { CollaborationServer } from '@brepflow/collaboration/server';
+import { CollaborationServer } from '@sim4d/collaboration/server';
 
 const httpServer = createServer(app);
 const collabServer = new CollaborationServer(httpServer, {
@@ -82,8 +82,8 @@ httpServer.listen(3001);
 ### Client Integration
 
 ```tsx
-import { CollaborationProvider } from '@brepflow/collaboration/client';
-import { Cursors, PresenceList } from '@brepflow/collaboration/client';
+import { CollaborationProvider } from '@sim4d/collaboration/client';
+import { Cursors, PresenceList } from '@sim4d/collaboration/client';
 
 function App() {
   const user = {
@@ -118,7 +118,7 @@ import {
   useSelection,
   useNodeOperations,
   usePresence,
-} from '@brepflow/collaboration/client';
+} from '@sim4d/collaboration/client';
 
 function NodeEditor() {
   const { setCursor } = useCursor();
@@ -226,7 +226,7 @@ describe('Collaboration', () => {
 
 ## 🏆 Competitive Advantage
 
-BrepFlow is now the **ONLY** web-native parametric CAD with:
+Sim4D is now the **ONLY** web-native parametric CAD with:
 
 - Real-time multi-user editing
 - Conflict-free concurrent operations
@@ -234,7 +234,7 @@ BrepFlow is now the **ONLY** web-native parametric CAD with:
 - Zero installation required
 - Cross-platform by default
 
-This positions BrepFlow **5+ years ahead** of desktop CAD solutions that cannot easily add web-based collaboration.
+This positions Sim4D **5+ years ahead** of desktop CAD solutions that cannot easily add web-based collaboration.
 
 ## 📈 Business Impact
 
@@ -254,7 +254,7 @@ This positions BrepFlow **5+ years ahead** of desktop CAD solutions that cannot 
 
 ## 🎉 Conclusion
 
-With this real-time collaboration implementation, BrepFlow has taken a **massive leap** toward enterprise readiness. The platform now offers a collaboration experience that **desktop CAD cannot match**, establishing BrepFlow as the future of cloud-native parametric design.
+With this real-time collaboration implementation, Sim4D has taken a **massive leap** toward enterprise readiness. The platform now offers a collaboration experience that **desktop CAD cannot match**, establishing Sim4D as the future of cloud-native parametric design.
 
 **Achievement Unlocked**: 🏆 First Web-Native Collaborative CAD Platform
 

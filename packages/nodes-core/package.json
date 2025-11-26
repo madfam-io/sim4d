@@ -1,7 +1,7 @@
 {
-  "name": "@brepflow/nodes-core",
+  "name": "@sim4d/nodes-core",
   "version": "0.1.0",
-  "description": "BrepFlow core geometry nodes",
+  "description": "Sim4D core geometry nodes",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -22,8 +22,8 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@brepflow/engine-core": "workspace:*",
-    "@brepflow/types": "workspace:*",
+    "@sim4d/engine-core": "workspace:*",
+    "@sim4d/types": "workspace:*",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

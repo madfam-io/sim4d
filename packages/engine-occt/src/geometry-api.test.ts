@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { GeometryAPI } from './geometry-api';
-import type { ShapeHandle, MeshData } from '@brepflow/types';
+import type { ShapeHandle, MeshData } from '@sim4d/types';
 
 let shapeCounter = 0;
 

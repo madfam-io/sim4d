@@ -27,7 +27,7 @@ export { logger, createLogger, LogLevel, type LogContext, type ChildLogger } fro
 // that prevent successful TypeScript declaration generation.
 // Requires: Fix branded type usage and remove @ts-nocheck from collaboration files.
 // export * from './collaboration/types';
-// export { BrepFlowCollaborationEngine } from './collaboration/collaboration-engine';
+// export { Sim4DCollaborationEngine } from './collaboration/collaboration-engine';
 // export { OperationalTransformEngine } from './collaboration/operational-transform';
 // export { ParameterSynchronizer, ParameterSyncManager } from './collaboration/parameter-sync';
 // export { CollaborationWebSocketClient } from './collaboration/websocket-client';
@@ -37,5 +37,5 @@ export { logger, createLogger, LogLevel, type LogContext, type ChildLogger } fro
 // The script-engine.ts file has @ts-nocheck and needs type cleanup.
 // Requires: Fix type issues and remove @ts-nocheck from scripting files.
 // export * from './scripting/types';
-// export { BrepFlowScriptEngine } from './scripting/script-engine';
+// export { Sim4DScriptEngine } from './scripting/script-engine';
 // export * from './scripting/javascript-executor';

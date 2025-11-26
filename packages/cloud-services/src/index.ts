@@ -1,5 +1,5 @@
 /**
- * BrepFlow Cloud Services
+ * Sim4D Cloud Services
  * Main export file for cloud synchronization, storage, and collaboration services
  */
 
@@ -17,11 +17,11 @@ export { CloudStorageService } from './storage/cloud-storage-service';
 export { CloudDatabaseService } from './database/cloud-database-service';
 
 // Collaboration Engine (re-export from engine-core)
-export { BrepFlowCollaborationEngine } from '@brepflow/engine-core/src/collaboration/collaboration-engine';
-export { ParameterSynchronizer } from '@brepflow/engine-core/src/collaboration/parameter-sync';
+export { Sim4DCollaborationEngine } from '@sim4d/engine-core/src/collaboration/collaboration-engine';
+export { ParameterSynchronizer } from '@sim4d/engine-core/src/collaboration/parameter-sync';
 
 // Types (re-export from cloud-api)
-export * from '@brepflow/cloud-api/src/types';
+export * from '@sim4d/cloud-api/src/types';
 
 // Configuration interfaces
 export type { CloudSyncConfig, SyncResult } from './sync/cloud-sync-manager';

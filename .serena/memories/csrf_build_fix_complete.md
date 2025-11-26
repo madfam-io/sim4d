@@ -8,7 +8,7 @@ All issues resolved. Studio can now build for production and run in development 
 
 ### Problem
 
-Studio production build failed because collaboration package bundled Node.js-only code from `@brepflow/engine-core`:
+Studio production build failed because collaboration package bundled Node.js-only code from `@sim4d/engine-core`:
 
 ```
 error: "pathToFileURL" is not exported by "__vite-browser-external"
@@ -16,7 +16,7 @@ error: "pathToFileURL" is not exported by "__vite-browser-external"
 
 ### Root Cause
 
-1. Collaboration's `tsup.config.ts` had `noExternal: [/^@brepflow\//]` which bundled ALL workspace packages
+1. Collaboration's `tsup.config.ts` had `noExternal: [/^@sim4d\//]` which bundled ALL workspace packages
 2. This included `engine-core` with Node.js modules (`path`, `url`, `fs`, `crypto`)
 3. Vite cannot bundle Node.js built-ins for browser builds
 
@@ -24,13 +24,13 @@ error: "pathToFileURL" is not exported by "__vite-browser-external"
 
 #### 1. Updated `packages/collaboration/tsup.config.ts`
 
-**Removed**: `noExternal: [/^@brepflow\//]` pattern
+**Removed**: `noExternal: [/^@sim4d\//]` pattern
 
 **Added to external array**:
 
 ```typescript
-'@brepflow/engine-core', // Has Node.js modules (path, url, fs)
-'@brepflow/types', // Type-only package, no need to bundle
+'@sim4d/engine-core', // Has Node.js modules (path, url, fs)
+'@sim4d/types', // Type-only package, no need to bundle
 ```
 
 **Result**: Collaboration package now 90% smaller (79KB vs 884KB)
@@ -40,15 +40,15 @@ error: "pathToFileURL" is not exported by "__vite-browser-external"
 **Changed imports from**:
 
 ```typescript
-import { CollaborationProvider } from '@brepflow/collaboration';
-import type { Operation, Conflict } from '@brepflow/collaboration';
+import { CollaborationProvider } from '@sim4d/collaboration';
+import type { Operation, Conflict } from '@sim4d/collaboration';
 ```
 
 **Changed to**:
 
 ```typescript
-import { CollaborationProvider } from '@brepflow/collaboration/client';
-import type { Operation, Conflict } from '@brepflow/collaboration/client';
+import { CollaborationProvider } from '@sim4d/collaboration/client';
+import type { Operation, Conflict } from '@sim4d/collaboration/client';
 ```
 
 **Reason**: Use client-only entry point to avoid pulling in server-side dependencies
@@ -58,7 +58,7 @@ import type { Operation, Conflict } from '@brepflow/collaboration/client';
 ### Build Success
 
 ```bash
-$ pnpm --filter @brepflow/studio run build
+$ pnpm --filter @sim4d/studio run build
 
 vite v5.4.20 building for production...
 transforming...
@@ -111,26 +111,26 @@ The collaboration package uses three entry points:
 
 ### Import Guidelines
 
-- **Browser apps** (Studio): Import from `@brepflow/collaboration/client`
-- **Node.js servers**: Import from `@brepflow/collaboration/server`
+- **Browser apps** (Studio): Import from `@sim4d/collaboration/client`
+- **Node.js servers**: Import from `@sim4d/collaboration/server`
 - **Shared types**: Can import from main entry or specific entry points
 
 ### Dependency Flow
 
 ```
 Studio (Browser)
-  ├─ @brepflow/collaboration/client
+  ├─ @sim4d/collaboration/client
   │   ├─ socket.io-client ✅ (browser-compatible)
   │   ├─ react ✅ (browser-compatible)
   │   └─ NO engine-core dependency
-  └─ @brepflow/engine-core (direct import)
+  └─ @sim4d/engine-core (direct import)
       └─ Node.js modules handled separately by Vite
 
 Collaboration Server (Node.js)
-  ├─ @brepflow/collaboration/server
+  ├─ @sim4d/collaboration/server
   │   ├─ socket.io ✅ (Node.js)
   │   ├─ express ✅ (Node.js)
-  │   └─ @brepflow/engine-core ✅ (Node.js)
+  │   └─ @sim4d/engine-core ✅ (Node.js)
   └─ All Node.js modules available
 ```
 

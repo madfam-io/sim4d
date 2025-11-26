@@ -4,7 +4,7 @@
 
 ## Overview
 
-This document outlines the remaining architectural improvements needed after completing Phase 1 of the long-term solutions for BrepFlow.
+This document outlines the remaining architectural improvements needed after completing Phase 1 of the long-term solutions for Sim4D.
 
 ## Current Status
 
@@ -106,7 +106,7 @@ const nodeId: string = 'node-123';
 const pos = [1, 2, 3];
 
 // After
-import { NodeId, createNodeId, Vec3 } from '@brepflow/types';
+import { NodeId, createNodeId, Vec3 } from '@sim4d/types';
 const nodeId: NodeId = createNodeId('node-123');
 const pos: Vec3 = { x: 1, y: 2, z: 3 };
 ```

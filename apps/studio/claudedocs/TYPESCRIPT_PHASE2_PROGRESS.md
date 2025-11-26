@@ -11,7 +11,7 @@ Successfully reduced TypeScript strict mode errors from **120 to 31 errors** (74
 
 ### 1. Root Cause Analysis ✅
 
-- **21 TS7016 errors**: Missing declaration files for @brepflow packages
+- **21 TS7016 errors**: Missing declaration files for @sim4d packages
 - **86 TS7006 errors**: Implicit `any` types on parameters
 - **11 TS18046 errors**: Catch blocks with `unknown` type
 - **2 other errors**: API signature mismatches
@@ -20,10 +20,10 @@ Successfully reduced TypeScript strict mode errors from **120 to 31 errors** (74
 
 Successfully enabled TypeScript declaration file generation in:
 
-- `@brepflow/engine-core` - Core DAG engine and graph management
-- `@brepflow/nodes-core` - Built-in node definitions
-- `@brepflow/engine-occt` - OCCT geometry engine bindings
-- `@brepflow/constraint-solver` - 2D parametric constraint solving
+- `@sim4d/engine-core` - Core DAG engine and graph management
+- `@sim4d/nodes-core` - Built-in node definitions
+- `@sim4d/engine-occt` - OCCT geometry engine bindings
+- `@sim4d/constraint-solver` - 2D parametric constraint solving
 
 ### 3. Package Builds Successful ✅
 
@@ -54,8 +54,8 @@ packages/constraint-solver/dist/
 
 **Affected Exports**:
 
-- `BrepFlowCollaborationEngine` - Real-time collaboration engine
-- `BrepFlowScriptEngine` - Script node execution engine
+- `Sim4DCollaborationEngine` - Real-time collaboration engine
+- `Sim4DScriptEngine` - Script node execution engine
 - Collaboration types: `CollaborationUser`, `CursorPosition`, `SelectionState`, `SessionId`, `UserId`
 - Scripting types: `ScriptedNodeDefinition`, `ScriptTemplate`, `ScriptValidationResult`, `ScriptExecutionResult`, `ScriptLanguage`, `ScriptPermissions`, `ScriptMetadata`
 
@@ -132,7 +132,7 @@ export default createLibraryConfig({
     compilerOptions: {
       composite: false,
       paths: {
-        /* resolve @brepflow/* */
+        /* resolve @sim4d/* */
       },
     },
   },

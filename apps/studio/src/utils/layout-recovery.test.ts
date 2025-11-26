@@ -325,14 +325,14 @@ describe('layout-recovery', () => {
 
   describe('clearLayoutStorage', () => {
     it('removes layout-related keys from localStorage', () => {
-      mockLocalStorage['brepflow-layout-state'] = 'some-data';
-      mockLocalStorage['brepflow-saved-layouts'] = 'some-layouts';
+      mockLocalStorage['sim4d-layout-state'] = 'some-data';
+      mockLocalStorage['sim4d-saved-layouts'] = 'some-layouts';
       mockLocalStorage['other-key'] = 'should-remain';
 
       clearLayoutStorage();
 
-      expect(window.localStorage.removeItem).toHaveBeenCalledWith('brepflow-layout-state');
-      expect(window.localStorage.removeItem).toHaveBeenCalledWith('brepflow-saved-layouts');
+      expect(window.localStorage.removeItem).toHaveBeenCalledWith('sim4d-layout-state');
+      expect(window.localStorage.removeItem).toHaveBeenCalledWith('sim4d-saved-layouts');
       expect(mockLocalStorage['other-key']).toBe('should-remain');
     });
   });
@@ -385,7 +385,7 @@ describe('layout-recovery', () => {
         metadata: { created: new Date(), modified: new Date() },
       };
 
-      mockLocalStorage['brepflow-layout-state'] = JSON.stringify(validLayout);
+      mockLocalStorage['sim4d-layout-state'] = JSON.stringify(validLayout);
 
       const layout = getSafeLayout();
       expect(layout.id).toBe('stored-layout');
@@ -394,7 +394,7 @@ describe('layout-recovery', () => {
 
     it('recovers corrupted layout and saves the recovery', () => {
       const corruptedLayout = { id: 'corrupted', panels: { nodePanel: { visible: false } } };
-      mockLocalStorage['brepflow-layout-state'] = JSON.stringify(corruptedLayout);
+      mockLocalStorage['sim4d-layout-state'] = JSON.stringify(corruptedLayout);
 
       const layout = getSafeLayout();
 
@@ -405,21 +405,21 @@ describe('layout-recovery', () => {
 
       // Should save the recovered layout
       expect(window.localStorage.setItem).toHaveBeenCalledWith(
-        'brepflow-layout-state',
+        'sim4d-layout-state',
         JSON.stringify(layout)
       );
     });
 
     it('handles JSON parsing errors gracefully', () => {
-      mockLocalStorage['brepflow-layout-state'] = 'invalid-json{';
+      mockLocalStorage['sim4d-layout-state'] = 'invalid-json{';
 
       const layout = getSafeLayout();
 
       // Logger error assertion removed - implementation uses logger.error, fallback to default layout is the important behavior
 
       expect(layout.id).toBe('desktop-default');
-      expect(window.localStorage.removeItem).toHaveBeenCalledWith('brepflow-layout-state');
-      expect(window.localStorage.removeItem).toHaveBeenCalledWith('brepflow-saved-layouts');
+      expect(window.localStorage.removeItem).toHaveBeenCalledWith('sim4d-layout-state');
+      expect(window.localStorage.removeItem).toHaveBeenCalledWith('sim4d-saved-layouts');
     });
 
     it('works in non-browser environment', () => {
@@ -437,20 +437,20 @@ describe('layout-recovery', () => {
 
   describe('forceResetLayout', () => {
     it('clears storage and returns default layout', () => {
-      mockLocalStorage['brepflow-layout-state'] = 'existing-data';
-      mockLocalStorage['brepflow-saved-layouts'] = 'existing-layouts';
+      mockLocalStorage['sim4d-layout-state'] = 'existing-data';
+      mockLocalStorage['sim4d-saved-layouts'] = 'existing-layouts';
 
       const layout = forceResetLayout();
 
-      expect(window.localStorage.removeItem).toHaveBeenCalledWith('brepflow-layout-state');
-      expect(window.localStorage.removeItem).toHaveBeenCalledWith('brepflow-saved-layouts');
+      expect(window.localStorage.removeItem).toHaveBeenCalledWith('sim4d-layout-state');
+      expect(window.localStorage.removeItem).toHaveBeenCalledWith('sim4d-saved-layouts');
 
       expect(layout.id).toBe('desktop-default');
       expect(layout.name).toBe('Desktop Default');
 
       // Should save the default layout
       expect(window.localStorage.setItem).toHaveBeenCalledWith(
-        'brepflow-layout-state',
+        'sim4d-layout-state',
         JSON.stringify(layout)
       );
     });

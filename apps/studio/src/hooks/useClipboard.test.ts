@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import { useClipboard } from './useClipboard';
-import type { NodeInstance } from '@brepflow/types';
+import type { NodeInstance } from '@sim4d/types';
 
 // Mock logger
 vi.mock('../lib/logging/logger-instance', () => ({
@@ -198,7 +198,7 @@ describe('useClipboard', () => {
     const clipboardData = JSON.parse(writeTextCall);
 
     expect(clipboardData.nodes[0].originalId).toBe('node1');
-    expect(clipboardData.source).toBe('brepflow');
+    expect(clipboardData.source).toBe('sim4d');
     expect(clipboardData.timestamp).toBeGreaterThan(0);
   });
 });

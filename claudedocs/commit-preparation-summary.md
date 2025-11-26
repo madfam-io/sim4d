@@ -119,7 +119,7 @@
 
 ```bash
 # This commit's changes:
-pnpm --filter @brepflow/engine-occt run test
+pnpm --filter @sim4d/engine-occt run test
 # Result: 69/92 tests passing (expected during debugging)
 
 # Unrelated issue:

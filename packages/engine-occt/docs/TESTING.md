@@ -1,6 +1,6 @@
 # OCCT WASM Testing Guide
 
-**Package**: `@brepflow/engine-occt`  
+**Package**: `@sim4d/engine-occt`  
 **Purpose**: Documentation of testing strategies for OpenCASCADE WebAssembly integration  
 **Last Updated**: 2025-11-17
 
@@ -12,14 +12,14 @@ The `engine-occt` package provides WebAssembly bindings to OpenCASCADE Technolog
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    BrepFlow Application                  │
+│                    Sim4D Application                  │
 ├─────────────────────────────────────────────────────────┤
 │  Browser Environment          │  Node.js Environment     │
 │  ├─ Main Thread              │  ├─ Test Runner (Vitest) │
 │  ├─ Web Workers              │  └─ CLI Tools            │
 │  └─ WASM (with threads)      │                          │
 ├─────────────────────────────────────────────────────────┤
-│         @brepflow/engine-occt (This Package)            │
+│         @sim4d/engine-occt (This Package)            │
 │  ├─ OCCTGeometryProvider (Real WASM)                   │
 │  ├─ MockGeometryProvider (Pure JS fallback)            │
 │  └─ ProductionSafetyValidator (Real vs Mock detection)  │
@@ -142,7 +142,7 @@ test('should create box geometry', async ({ page }) => {
   await page.goto('http://localhost:5173');
 
   const result = await page.evaluate(async () => {
-    const { GeometryContext, OCCTGeometryProvider } = window.BrepFlow;
+    const { GeometryContext, OCCTGeometryProvider } = window.Sim4D;
     const provider = await OCCTGeometryProvider.create();
     const context = new GeometryContext(provider);
 
@@ -289,7 +289,7 @@ ProductionSafetyError: Real OCCT geometry system failed
 ### 1. Use Production Safety Validator
 
 ```typescript
-import { ProductionSafetyValidator } from '@brepflow/engine-occt';
+import { ProductionSafetyValidator } from '@sim4d/engine-occt';
 
 // In tests
 const validator = new ProductionSafetyValidator();
@@ -332,7 +332,7 @@ describe.skipIf(process.env.NODE_ENV === 'test')('OCCT-specific tests', () => {
 
 ```typescript
 import { readFileSync } from 'fs';
-import { parseSTEP } from '@brepflow/step-parser';
+import { parseSTEP } from '@sim4d/step-parser';
 
 it('should match golden STEP output', async () => {
   const result = await context.exportSTEP(geometry);

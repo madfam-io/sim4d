@@ -9,7 +9,7 @@ Import geometry from JSON
 ### format
 
 - **Type:** enum
-- **Default:** "brepflow"
+- **Default:** "sim4d"
 
 ## Inputs
 

@@ -4,7 +4,7 @@
  */
 
 import { WebSocketServer, WebSocket } from 'ws';
-import { createLogger } from '@brepflow/engine-core';
+import { createLogger } from '@sim4d/engine-core';
 
 const logger = createLogger('Collaboration');
 import { createServer } from 'http';

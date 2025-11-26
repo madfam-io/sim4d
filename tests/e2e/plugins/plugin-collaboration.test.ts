@@ -218,7 +218,7 @@ test.describe('Plugin Multi-User Collaboration', () => {
 
     // Check analytics data
     const analytics = await page.evaluate((sessionId) => {
-      return (window as any).brepflow?.analytics?.getSessionData?.(sessionId) || {};
+      return (window as any).sim4d?.analytics?.getSessionData?.(sessionId) || {};
     }, session.sessionId);
 
     expect(analytics.totalOperations).toBeGreaterThan(0);
@@ -265,7 +265,7 @@ test.describe('Plugin Multi-User Collaboration', () => {
         id: pluginId,
         name: 'Basic Geometry',
         version: '2.0.0',
-        author: 'BrepFlow Team',
+        author: 'Sim4D Team',
         description: 'Updated basic geometry operations',
         category: 'Geometry',
         rating: 4.5,
@@ -278,7 +278,7 @@ test.describe('Plugin Multi-User Collaboration', () => {
           commands: [],
           panels: [],
           permissions: ['read:graph', 'write:graph'],
-          engines: { brepflow: '>=0.1.0' },
+          engines: { sim4d: '>=0.1.0' },
         },
       },
     ]);
@@ -286,7 +286,7 @@ test.describe('Plugin Multi-User Collaboration', () => {
     // Should handle version compatibility in collaboration
     const compatibilityCheck = await page.evaluate(() => {
       return (
-        (window as any).brepflow?.collaboration?.checkPluginCompatibility?.() || {
+        (window as any).sim4d?.collaboration?.checkPluginCompatibility?.() || {
           compatible: false,
         }
       );

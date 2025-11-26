@@ -10,8 +10,8 @@ const program = new Command();
 
 // CLI configuration
 program
-  .name('brepflow')
-  .description('BrepFlow CLI - Headless parametric CAD rendering')
+  .name('sim4d')
+  .description('Sim4D CLI - Headless parametric CAD rendering')
   .version('0.1.0')
   .option('-v, --verbose', 'verbose output')
   .option('-q, --quiet', 'suppress non-error output');

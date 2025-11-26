@@ -11,7 +11,7 @@ import {
   ProjectRole,
   TeamRole,
   ShareInvitation,
-} from '@brepflow/cloud-api/src/types';
+} from '@sim4d/cloud-api/src/types';
 
 export interface InvitationConfig {
   defaultExpiration: number; // ms

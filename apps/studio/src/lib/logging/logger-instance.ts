@@ -1,5 +1,5 @@
 /**
- * Global logger instance for BrepFlow Studio
+ * Global logger instance for Sim4D Studio
  *
  * This module provides a centralized logger instance that can be imported
  * throughout the application for consistent structured logging.
@@ -33,7 +33,7 @@ const DEFAULT_LOGGING_CONFIG: MonitoringConfig['logging'] = {
  * Uses sessionStorage to persist across page reloads within the same session
  */
 function getOrCreateSessionId(): string {
-  const SESSION_KEY = 'brepflow_session_id';
+  const SESSION_KEY = 'sim4d_session_id';
 
   let sessionId = sessionStorage.getItem(SESSION_KEY);
 

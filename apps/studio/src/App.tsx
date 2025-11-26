@@ -51,8 +51,8 @@ import { useGraphStore } from './store/graph-store';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { useErrorTracking } from './hooks/useErrorTracking';
 import { convertToReactFlow, convertFromReactFlow } from './utils/graph-converter';
-import type { NodeId, SocketId } from '@brepflow/types';
-import { createNodeId, createSocketId } from '@brepflow/types';
+import type { NodeId, SocketId } from '@sim4d/types';
+import { createNodeId, createSocketId } from '@sim4d/types';
 import {
   ErrorBoundary,
   WASMErrorBoundary,
@@ -67,10 +67,10 @@ import { ViewportLayoutManager } from './components/viewport/ViewportLayoutManag
 import './App.css';
 import { BrowserWASMTestSuite } from './test-browser-wasm';
 import { SessionControls } from './components/SessionControls';
-// @ts-expect-error - DTS generation disabled in @brepflow/collaboration due to complex type issues (tracked in technical debt)
-import { CollaborationProvider } from '@brepflow/collaboration/client';
-// @ts-expect-error - DTS generation disabled in @brepflow/collaboration due to complex type issues (tracked in technical debt)
-import type { Operation, Conflict } from '@brepflow/collaboration/client';
+// @ts-expect-error - DTS generation disabled in @sim4d/collaboration due to complex type issues (tracked in technical debt)
+import { CollaborationProvider } from '@sim4d/collaboration/client';
+// @ts-expect-error - DTS generation disabled in @sim4d/collaboration due to complex type issues (tracked in technical debt)
+import type { Operation, Conflict } from '@sim4d/collaboration/client';
 import { useSession } from './hooks/useSession';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { createChildLogger } from './lib/logging/logger-instance';
@@ -474,7 +474,7 @@ function AppContent() {
                   <Controls />
                   <MiniMap />
                   <Panel position="top-left">
-                    <div className="logo">BrepFlow Studio</div>
+                    <div className="logo">Sim4D Studio</div>
                   </Panel>
                   <Panel position="bottom-left">
                     <div className="status">
@@ -664,7 +664,7 @@ function App() {
       >
         <div>
           <div style={{ marginBottom: '1rem', textAlign: 'center' }}>
-            🔧 Initializing BrepFlow Studio...
+            🔧 Initializing Sim4D Studio...
           </div>
           <div style={{ fontSize: '0.875rem', textAlign: 'center' }}>
             Setting up monitoring and error handling systems

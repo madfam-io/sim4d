@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 import { devtools, subscribeWithSelector } from 'zustand/middleware';
-import type { GraphInstance, NodeInstance, Edge, NodeId } from '@brepflow/types';
-import { createNodeId } from '@brepflow/types';
+import type { GraphInstance, NodeInstance, Edge, NodeId } from '@sim4d/types';
+import { createNodeId } from '@sim4d/types';
 import {
   GraphManager,
   DAGEngine,
-} from '@brepflow/engine-core';
+} from '@sim4d/engine-core';
 import { getGeometryAPI } from '../services/geometry-api';
 import { ErrorManager } from '../lib/error-handling/error-manager';
 import { ErrorCode } from '../lib/error-handling/types';
@@ -30,13 +30,13 @@ async function ensureCoreNodesRegistered(): Promise<void> {
     return registerNodesPromise;
   }
 
-  // @ts-expect-error - DTS generation disabled in @brepflow/nodes-core due to TS4023 errors with generated nodes
-  registerNodesPromise = import('@brepflow/nodes-core')
+  // @ts-expect-error - DTS generation disabled in @sim4d/nodes-core due to TS4023 errors with generated nodes
+  registerNodesPromise = import('@sim4d/nodes-core')
     .then((module) => {
       const registerCoreNodes = module.registerCoreNodes as (() => void) | undefined;
 
       if (!registerCoreNodes) {
-        throw new Error('registerCoreNodes export missing from @brepflow/nodes-core');
+        throw new Error('registerCoreNodes export missing from @sim4d/nodes-core');
       }
 
       registerCoreNodes();

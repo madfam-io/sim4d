@@ -1,8 +1,8 @@
-# Sim4D Technical Gap Analysis - BrepFlow Strategic Pivot Assessment
+# Sim4D Technical Gap Analysis - Sim4D Strategic Pivot Assessment
 
 **Date**: November 18, 2025  
 **Analyst**: SuperClaude (Evidence-Based Architecture Audit)  
-**Mission**: Validate BrepFlow readiness for Sim4D strategic pivot to "Code-CAD" IDE integrating Design, Slicing, and Manufacturing
+**Mission**: Validate Sim4D readiness for Sim4D strategic pivot to "Code-CAD" IDE integrating Design, Slicing, and Manufacturing
 
 ---
 
@@ -10,7 +10,7 @@
 
 **Overall Readiness Score**: 2.4 / 5.0 (Moderate Gaps, Strategic Foundation Present)
 
-BrepFlow has **strong foundational architecture** for parametric CAD but requires **significant pivots** across all 5 technical pillars to achieve Sim4D vision. The platform is production-ready for traditional CAD workflows but underprepared for "Continuous Manufacturing" and "Code-CAD IDE" positioning.
+Sim4D has **strong foundational architecture** for parametric CAD but requires **significant pivots** across all 5 technical pillars to achieve Sim4D vision. The platform is production-ready for traditional CAD workflows but underprepared for "Continuous Manufacturing" and "Code-CAD IDE" positioning.
 
 **Critical Finding**: The codebase has **placeholder infrastructure** for slicing/manufacturing (nodes exist but lack real implementations) and **no integration with modern 3D printing protocols** (Moonraker/Klipper). CRDT collaboration (Yjs) is **implemented** but graph determinism needs hardening for CI/CD pipelines.
 
@@ -322,8 +322,8 @@ BrepFlow has **strong foundational architecture** for parametric CAD but require
 1. **Headless CLI Operational**
    - Location: `packages/cli/src/index.ts`
    - Commands: `render`, `sweep`, `validate`, `info`
-   - Example: `brepflow render my-graph.bflow.json --export step,stl`
-   - Evidence of decoupling: CLI uses `@brepflow/engine-core` **without** React dependencies
+   - Example: `sim4d render my-graph.bflow.json --export step,stl`
+   - Evidence of decoupling: CLI uses `@sim4d/engine-core` **without** React dependencies
    - Confirmed: Can run `node packages/cli/dist/index.js` without browser
 
 2. **Worker Abstraction** (Headless-compatible)
@@ -398,7 +398,7 @@ BrepFlow has **strong foundational architecture** for parametric CAD but require
     }
   }
   ```
-- **Integration**: Add to CLI commands: `brepflow print my-part.bflow.json --printer http://octopi.local:7125`
+- **Integration**: Add to CLI commands: `sim4d print my-part.bflow.json --printer http://octopi.local:7125`
 - **Success Criteria**: Send gcode to Klipper, monitor print progress
 
 #### **TICKET #9: Printer Hardware Abstraction Layer**
@@ -651,7 +651,7 @@ BrepFlow has **strong foundational architecture** for parametric CAD but require
 
 3. **Headless Backend Decoupling**
    - CLI **already** swaps OCCT worker implementation (Node.js vs Web)
-   - Evidence: `packages/cli/` uses `@brepflow/engine-core` without React
+   - Evidence: `packages/cli/` uses `@sim4d/engine-core` without React
    - Interface exists: `WorkerAPI` is **already** a swap point
 
 #### ❌ Critical Gaps
@@ -659,7 +659,7 @@ BrepFlow has **strong foundational architecture** for parametric CAD but require
 1. **NO Private/Proprietary Node Packs**
    - Plugin manifest supports `nodes: string[]` array
    - **BUT**: No build-time injection mechanism for proprietary nodes
-   - Missing: `@brepflow/nodes-enterprise` package pattern
+   - Missing: `@sim4d/nodes-enterprise` package pattern
    - Evidence gap: No conditional imports or feature flags
 
 2. **NO Cloud Runner Interface**
@@ -689,7 +689,7 @@ BrepFlow has **strong foundational architecture** for parametric CAD but require
 
   ```typescript
   // packages/nodes-enterprise/src/index.ts
-  import { NodeRegistry } from '@brepflow/engine-core';
+  import { NodeRegistry } from '@sim4d/engine-core';
   import { AdvancedSlicingNode } from './advanced-slicing';
   import { AIInfillNode } from './ai-infill';
 
@@ -704,12 +704,12 @@ BrepFlow has **strong foundational architecture** for parametric CAD but require
 
   // Build-time injection in apps/studio/src/main.tsx
   if (import.meta.env.VITE_ENTERPRISE_LICENSE) {
-    const { registerEnterpriseNodes } = await import('@brepflow/nodes-enterprise');
+    const { registerEnterpriseNodes } = await import('@sim4d/nodes-enterprise');
     registerEnterpriseNodes(import.meta.env.VITE_ENTERPRISE_LICENSE);
   }
   ```
 
-- **Success Criteria**: Build separate `brepflow-community` vs `brepflow-enterprise` bundles
+- **Success Criteria**: Build separate `sim4d-community` vs `sim4d-enterprise` bundles
 
 #### **TICKET #15: Remote Cloud Worker Implementation**
 
@@ -760,7 +760,7 @@ BrepFlow has **strong foundational architecture** for parametric CAD but require
     private features = new Set<string>();
 
     async activate(licenseKey: string): Promise<void> {
-      const response = await fetch('https://api.brepflow.com/v1/licenses/validate', {
+      const response = await fetch('https://api.sim4d.com/v1/licenses/validate', {
         method: 'POST',
         body: JSON.stringify({ key: licenseKey }),
       });
@@ -927,23 +927,23 @@ BrepFlow has **strong foundational architecture** for parametric CAD but require
 
 ### vs. Grasshopper (Rhino)
 
-- **BrepFlow Advantage**: Web-native, real-time collaboration (Yjs)
-- **Gap**: Grasshopper has mature plugin ecosystem - BrepFlow needs **marketplace** (#17)
+- **Sim4D Advantage**: Web-native, real-time collaboration (Yjs)
+- **Gap**: Grasshopper has mature plugin ecosystem - Sim4D needs **marketplace** (#17)
 
 ### vs. Fusion 360 (Autodesk)
 
-- **BrepFlow Advantage**: Open Core, headless API (#8, #9)
-- **Gap**: Fusion has integrated CAM/slicing - BrepFlow needs **real slicing** (#3, #6)
+- **Sim4D Advantage**: Open Core, headless API (#8, #9)
+- **Gap**: Fusion has integrated CAM/slicing - Sim4D needs **real slicing** (#3, #6)
 
 ### vs. Onshape
 
-- **BrepFlow Advantage**: Parametric node graph, Git-like versioning (#11, #13)
-- **Gap**: Onshape has cloud-native architecture - BrepFlow needs **cloud compute** (#15)
+- **Sim4D Advantage**: Parametric node graph, Git-like versioning (#11, #13)
+- **Gap**: Onshape has cloud-native architecture - Sim4D needs **cloud compute** (#15)
 
 ### vs. PrusaSlicer/Cura
 
-- **BrepFlow Advantage**: **Parametric** slicing (slicing AS node in graph) - unique!
-- **Gap**: No printer integration - BrepFlow needs **Moonraker** (#8)
+- **Sim4D Advantage**: **Parametric** slicing (slicing AS node in graph) - unique!
+- **Gap**: No printer integration - Sim4D needs **Moonraker** (#8)
 
 ---
 
@@ -963,7 +963,7 @@ BrepFlow has **strong foundational architecture** for parametric CAD but require
 
 ## 🔚 Conclusion
 
-BrepFlow has a **solid architectural foundation** but requires **significant manufacturing-focused development** to achieve Sim4D vision. The CRDT infrastructure (Yjs) and headless CLI are **strategic assets**, but the lack of **real slicing implementations** and **printer protocol integration** are immediate blockers.
+Sim4D has a **solid architectural foundation** but requires **significant manufacturing-focused development** to achieve Sim4D vision. The CRDT infrastructure (Yjs) and headless CLI are **strategic assets**, but the lack of **real slicing implementations** and **printer protocol integration** are immediate blockers.
 
 **Recommendation**: Proceed with Sim4D pivot **ONLY if** the team commits to **6-9 month roadmap** with **17 tickets** (13 critical). The hybrid kernel strategy (#1, #2, #3) and fabrication metadata (#4) are **non-negotiable** for competitive parity.
 

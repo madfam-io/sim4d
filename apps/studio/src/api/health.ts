@@ -2,7 +2,7 @@
  * Health check endpoints for production monitoring
  */
 
-import { getConfig } from '@brepflow/engine-core';
+import { getConfig } from '@sim4d/engine-core';
 import { createChildLogger } from '../lib/logging/logger-instance';
 
 const logger = createChildLogger({ module: 'health' });

@@ -122,7 +122,7 @@ export function Toolbar() {
 
         // Download the file
         const timestamp = new Date().toISOString().split('T')[0];
-        const filename = `brepflow-export-${timestamp}.${format}`;
+        const filename = `sim4d-export-${timestamp}.${format}`;
         downloadFile(blob, filename);
 
         // Complete
@@ -201,8 +201,8 @@ export function Toolbar() {
 
   const handleSave = () => {
     const graph = useGraphStore.getState().graph;
-    localStorage.setItem('brepflow_autosave', JSON.stringify(graph));
-    localStorage.setItem('brepflow_autosave_time', Date.now().toString());
+    localStorage.setItem('sim4d_autosave', JSON.stringify(graph));
+    localStorage.setItem('sim4d_autosave_time', Date.now().toString());
 
     // Show toast notification
     const toast = document.createElement('div');
@@ -213,11 +213,11 @@ export function Toolbar() {
   };
 
   const handleLoad = () => {
-    const saved = localStorage.getItem('brepflow_autosave');
+    const saved = localStorage.getItem('sim4d_autosave');
     if (saved) {
       try {
         const graph = JSON.parse(saved);
-        const time = localStorage.getItem('brepflow_autosave_time');
+        const time = localStorage.getItem('sim4d_autosave_time');
         const date = time ? new Date(parseInt(time)).toLocaleString() : 'unknown';
 
         if (window.confirm(`Load autosaved project from ${date}?`)) {
@@ -432,7 +432,7 @@ export function Toolbar() {
                   setShowExportMenu(false);
                 }}
               >
-                BrepFlow (.bflow.json)
+                Sim4D (.bflow.json)
               </button>
               <button
                 role="menuitem"
@@ -480,7 +480,7 @@ export function Toolbar() {
         >
           ⌨️ Shortcuts
         </span>
-        <span aria-label="Application version">BrepFlow Studio v0.1.0</span>
+        <span aria-label="Application version">Sim4D Studio v0.1.0</span>
       </div>
 
       {/* Template Gallery Modal */}

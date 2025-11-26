@@ -1,8 +1,8 @@
-# BrepFlow Investor Pitch Deck
+# Sim4D Investor Pitch Deck
 
 ## Slide 1: Title
 
-# **BrepFlow**
+# **Sim4D**
 
 ### The Figma of CAD
 
@@ -27,10 +27,10 @@ _Real-time collaborative parametric design in the browser_
 
 ## Slide 3: The Solution
 
-### ✨ **BrepFlow: Web-Native Parametric CAD**
+### ✨ **Sim4D: Web-Native Parametric CAD**
 
 ```
-Traditional CAD              BrepFlow
+Traditional CAD              Sim4D
 ━━━━━━━━━━━━━━              ━━━━━━━━
 Install 2GB app      →      Open browser
 Work alone           →      Collaborate real-time
@@ -110,7 +110,7 @@ const revenueModel = {
 
 - Free for universities
 - 1M student users target
-- Future workforce trained on BrepFlow
+- Future workforce trained on Sim4D
 
 **Phase 2: Developers (Months 6-12)**
 
@@ -151,7 +151,7 @@ Beta Results (3 months):
 
 ### ⚔️ **Competitive Advantage**
 
-|                      | BrepFlow | Grasshopper | Fusion 360 | Onshape      |
+|                      | Sim4D | Grasshopper | Fusion 360 | Onshape      |
 | -------------------- | -------- | ----------- | ---------- | ------------ |
 | **Platform**         | ✅ Web   | ❌ Desktop  | ❌ Desktop | ⚠️ Web       |
 | **Real-time Collab** | ✅ Yes   | ❌ No       | ❌ No      | ⚠️ Basic     |
@@ -391,7 +391,7 @@ const unitEconomics = {
 
 **MIT Architecture Department**
 
-> "BrepFlow transformed how our students collaborate on projects. The real-time features are game-changing."
+> "Sim4D transformed how our students collaborate on projects. The real-time features are game-changing."
 
 - 500 students
 - 90% adoption rate
@@ -411,9 +411,9 @@ const unitEconomics = {
 
 # **Let's Build the Future Together**
 
-### 📧 investors@brepflow.com
+### 📧 investors@sim4d.com
 
-### 🌐 brepflow.com
+### 🌐 sim4d.com
 
 ### 📱 +1 (555) 123-4567
 
@@ -427,4 +427,4 @@ Twitter: @[username]
 
 ---
 
-_Confidential and Proprietary. Copyright © 2025 BrepFlow, Inc._
+_Confidential and Proprietary. Copyright © 2025 Sim4D, Inc._

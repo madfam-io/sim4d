@@ -102,7 +102,7 @@ await actions.joinSession(sessionId, user);
 **Usage**:
 
 ```typescript
-import { setupAPIRoutes } from '@brepflow/collaboration/server';
+import { setupAPIRoutes } from '@sim4d/collaboration/server';
 
 setupAPIRoutes(app, collaborationServer, {
   basePath: '/api/collaboration',
@@ -265,10 +265,10 @@ export PORT=8080
 
 ```typescript
 // server.ts (production)
-import { CollaborationServer, setupAPIRoutes } from '@brepflow/collaboration/server';
+import { CollaborationServer, setupAPIRoutes } from '@sim4d/collaboration/server';
 
 const collaborationServer = new CollaborationServer(server, {
-  corsOrigin: ['https://studio.brepflow.com', 'https://app.brepflow.com'],
+  corsOrigin: ['https://studio.sim4d.com', 'https://app.sim4d.com'],
   csrfTokenSecret: process.env.CSRF_TOKEN_SECRET!,
   enableRateLimiting: true,
   maxConnectionsPerIP: 10,
@@ -285,7 +285,7 @@ server.listen(process.env.PORT || 8080);
 // apps/studio/vite.config.production.ts
 export default defineConfig({
   define: {
-    'process.env.COLLABORATION_SERVER': JSON.stringify('https://collab.brepflow.com'),
+    'process.env.COLLABORATION_SERVER': JSON.stringify('https://collab.sim4d.com'),
   },
 });
 ```
@@ -294,10 +294,10 @@ export default defineConfig({
 
 ```bash
 # Point domain to server
-collab.brepflow.com → <server-ip>
+collab.sim4d.com → <server-ip>
 
 # Enable HTTPS (Let's Encrypt)
-sudo certbot --nginx -d collab.brepflow.com
+sudo certbot --nginx -d collab.sim4d.com
 ```
 
 ### 5. Monitoring
@@ -375,13 +375,13 @@ setupMonitoring(collaborationServer, {
 ## 📞 Support
 
 - **Documentation**: `docs/collaboration/SERVER_SETUP.md`
-- **Security Questions**: security@brepflow.com
-- **Bug Reports**: https://github.com/brepflow/brepflow/issues
+- **Security Questions**: security@sim4d.com
+- **Bug Reports**: https://github.com/sim4d/sim4d/issues
 - **Implementation Help**: Team lead or senior engineer
 
 ---
 
-**Congratulations! Phase 1 is complete. BrepFlow is now ready for secure production deployment.**
+**Congratulations! Phase 1 is complete. Sim4D is now ready for secure production deployment.**
 
 🔒 **Security Status**: OWASP A01:2021 Compliant
 ✅ **Implementation Status**: Production-Ready

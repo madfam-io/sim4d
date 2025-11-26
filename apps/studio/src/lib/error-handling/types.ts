@@ -1,5 +1,5 @@
 /**
- * Comprehensive error handling types for BrepFlow Studio
+ * Comprehensive error handling types for Sim4D Studio
  */
 
 export enum ErrorSeverity {
@@ -101,7 +101,7 @@ export interface ErrorContext {
   errorBoundary?: string;
 }
 
-export interface BrepFlowError {
+export interface Sim4DError {
   id: string;
   code: ErrorCode;
   category: ErrorCategory;
@@ -210,7 +210,7 @@ export interface MonitoringSystemConfig {
 
 export interface MonitoringSystem {
   initialize(config: MonitoringSystemConfig): Promise<void>;
-  reportError(error: BrepFlowError): void;
+  reportError(error: Sim4DError): void;
   recordMetric(metric: PerformanceMetric): void;
   recordUserEvent(event: UserEvent): void;
   getSystemHealth(): SystemHealth;

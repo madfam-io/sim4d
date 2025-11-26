@@ -248,9 +248,9 @@ logger.error('Failed to refresh CSRF token on connection error', {
 **Result**:
 
 ```bash
-$ pnpm --filter @brepflow/collaboration run typecheck
+$ pnpm --filter @sim4d/collaboration run typecheck
 
-> @brepflow/collaboration@0.1.0 typecheck
+> @sim4d/collaboration@0.1.0 typecheck
 > tsc --noEmit
 
 ✅ NO ERRORS
@@ -259,7 +259,7 @@ $ pnpm --filter @brepflow/collaboration run typecheck
 **Test Validation**:
 
 ```bash
-$ pnpm --filter @brepflow/collaboration run test
+$ pnpm --filter @sim4d/collaboration run test
 
  ✓ src/index.test.ts (2 tests) 3ms
    ✓ Collaboration Package (2)

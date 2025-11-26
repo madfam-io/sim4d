@@ -1,4 +1,4 @@
-# BrepFlow Studio - Test Results Summary
+# Sim4D Studio - Test Results Summary
 
 **Date**: 2025-11-14
 **Fixes Applied**: Double Node Placement Bug + Vite Worker Import Error
@@ -58,10 +58,10 @@ The `graph-store.test.ts` suite validates the **core fix** for the double node b
 
 #### Graph Converter Tests ✅
 
-The `graph-converter.test.ts` suite tests ReactFlow ↔ BrepFlow conversion:
+The `graph-converter.test.ts` suite tests ReactFlow ↔ Sim4D conversion:
 
-- ✅ Converts BrepFlow graph to ReactFlow format
-- ✅ Converts ReactFlow format to BrepFlow graph
+- ✅ Converts Sim4D graph to ReactFlow format
+- ✅ Converts ReactFlow format to Sim4D graph
 - ✅ Handles selected nodes correctly
 - ✅ Processes error states
 - ✅ Node type mapping

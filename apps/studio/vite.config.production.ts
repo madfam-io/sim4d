@@ -13,7 +13,7 @@ export default defineConfig({
       // Force production implementations
       './App': path.resolve(__dirname, 'src/App.production.tsx'),
       './store/graph-store': path.resolve(__dirname, 'src/store/production-graph-store.ts'),
-      '@brepflow/engine-occt/worker': path.resolve(
+      '@sim4d/engine-occt/worker': path.resolve(
         __dirname,
         '../../packages/engine-occt/src/production-worker.ts'
       ),
@@ -37,7 +37,7 @@ export default defineConfig({
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
           'reactflow-vendor': ['reactflow'],
           'three-vendor': ['three'],
-          'geometry-core': ['@brepflow/engine-core', '@brepflow/engine-occt'],
+          'geometry-core': ['@sim4d/engine-core', '@sim4d/engine-occt'],
         },
       },
     },
@@ -60,7 +60,7 @@ export default defineConfig({
         "script-src 'self' 'wasm-unsafe-eval'",
         "style-src 'self' 'unsafe-inline'",
         "img-src 'self' data: blob:",
-        "connect-src 'self' https://api.brepflow.com",
+        "connect-src 'self' https://api.sim4d.com",
         "worker-src 'self' blob:",
         "frame-src 'none'",
         "object-src 'none'",
@@ -72,7 +72,7 @@ export default defineConfig({
   },
 
   optimizeDeps: {
-    exclude: ['@brepflow/engine-occt'],
+    exclude: ['@sim4d/engine-occt'],
     include: ['three', 'reactflow'],
   },
 

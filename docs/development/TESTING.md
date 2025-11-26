@@ -1,10 +1,10 @@
 # Testing Guide
 
-Comprehensive testing documentation for BrepFlow development.
+Comprehensive testing documentation for Sim4D development.
 
 ## Overview
 
-BrepFlow uses a multi-layered testing strategy to ensure reliability and maintainability:
+Sim4D uses a multi-layered testing strategy to ensure reliability and maintainability:
 
 - **Unit Tests**: Individual component and function testing
 - **Integration Tests**: Cross-component interaction testing
@@ -42,7 +42,7 @@ npx vitest run path/to/test.ts
 npx vitest run --grep "DAGEngine"
 
 # Run tests for specific package
-pnpm --filter @brepflow/engine-core test
+pnpm --filter @sim4d/engine-core test
 ```
 
 ### Coverage Reports
@@ -78,7 +78,7 @@ As of latest run (2025-11-14):
 | `engine-core/dag-engine.ts`       | 98.1%    | ✅ Excellent                   |
 | `studio/lib/undo-redo.ts`         | 100%     | ✅ Perfect                     |
 | `studio/store/graph-store.ts`     | ✅       | Core operations validated      |
-| `studio/utils/graph-converter.ts` | ✅       | ReactFlow↔BrepFlow conversion |
+| `studio/utils/graph-converter.ts` | ✅       | ReactFlow↔Sim4D conversion |
 | `engine-core/cache.ts`            | 60.22%   | ⚠️ Good                        |
 | `engine-core/node-registry.ts`    | 56.36%   | ⚠️ Good                        |
 | `engine-core/hash.ts`             | 65.78%   | ⚠️ Good                        |
@@ -365,7 +365,7 @@ describe('Node Evaluation', () => {
 ```typescript
 // bench/dag-engine.bench.ts
 import { bench, describe } from 'vitest';
-import { DAGEngine } from '@brepflow/engine-core';
+import { DAGEngine } from '@sim4d/engine-core';
 
 describe('DAGEngine Performance', () => {
   bench('evaluate 100 nodes', async () => {

@@ -15,7 +15,7 @@ export default defineConfig([
         resolve: true,
       },
       shims: false, // Disable ESM shims to avoid Node.js module imports
-      external: ['fs', 'path', 'url', 'node:fs', 'node:path', 'node:url', /^@brepflow\//],
+      external: ['fs', 'path', 'url', 'node:fs', 'node:path', 'node:url', /^@sim4d\//],
       // Override tsconfig to use DTS-specific config (disables strict checks)
       tsconfig: './tsconfig.dts.json',
     }),

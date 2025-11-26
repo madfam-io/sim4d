@@ -1,4 +1,4 @@
-import type { NodeDefinition } from '@brepflow/types';
+import type { NodeDefinition } from '@sim4d/types';
 
 interface DXFExportParams {
   version: string;
@@ -63,7 +63,7 @@ export const InteroperabilityExportDXFExportNode: NodeDefinition<
     layerName: {
       type: 'string',
       label: 'Layer Name',
-      default: 'BrepFlow',
+      default: 'Sim4D',
     },
   },
   async evaluate(context, inputs, params) {

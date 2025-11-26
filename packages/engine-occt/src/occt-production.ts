@@ -6,7 +6,7 @@ const logger = getLogger('OCCT');
  */
 
 import type { WorkerResponse } from './worker-types';
-import type { ShapeHandle, MeshData, BoundingBox } from '@brepflow/types';
+import type { ShapeHandle, MeshData, BoundingBox } from '@sim4d/types';
 
 // Type definitions for the OCCT WASM module
 export interface OCCTModule {

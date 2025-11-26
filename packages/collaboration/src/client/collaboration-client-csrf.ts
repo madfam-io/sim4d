@@ -5,7 +5,7 @@
  */
 
 import { io, Socket } from 'socket.io-client';
-import { createLogger } from '@brepflow/engine-core';
+import { createLogger } from '@sim4d/engine-core';
 
 const logger = createLogger('Collaboration');
 import type {

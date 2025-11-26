@@ -1,5 +1,5 @@
 /**
- * Core identifier types for BrepFlow
+ * Core identifier types for Sim4D
  * Using branded types for type safety
  */
 

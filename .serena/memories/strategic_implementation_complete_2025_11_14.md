@@ -101,7 +101,7 @@
 #### Multiplayer Infrastructure - READY FOR UI INTEGRATION
 
 - [x] CollaborationServer (554 lines)
-- [x] BrepFlowCollaborationEngine (900 lines)
+- [x] Sim4DCollaborationEngine (900 lines)
 - [x] CSRFCollaborationClient (520 lines) ✅ NEW
 - [x] WebSocketClient with CSRF auth ✅ NEW
 - [x] Operational Transform

@@ -2,7 +2,7 @@
 
 ## Overview
 
-BrepFlow takes security seriously. This document outlines our security architecture, threat model, and responsible disclosure process.
+Sim4D takes security seriously. This document outlines our security architecture, threat model, and responsible disclosure process.
 
 ## Security Architecture
 
@@ -40,7 +40,7 @@ BrepFlow takes security seriously. This document outlines our security architect
 
 **Last Audit**: 2025-11-18 - Zero XSS vulnerabilities found
 
-BrepFlow is protected against XSS attacks through:
+Sim4D is protected against XSS attacks through:
 
 1. **React Auto-Escaping**: All user-generated content rendered via React JSX (automatic escaping)
 2. **No Direct HTML Injection**: Zero uses of `dangerouslySetInnerHTML` in production code
@@ -208,7 +208,7 @@ form-action 'self';
 
 **DO NOT** create public GitHub issues for security vulnerabilities.
 
-Instead, please email security@brepflow.com with:
+Instead, please email security@sim4d.com with:
 
 - Description of the vulnerability
 - Steps to reproduce
@@ -429,5 +429,5 @@ Headers configured in `apps/studio/public/_headers`:
 ---
 
 **Last Updated**: 2025-11-17  
-**Security Contact**: security@brepflow.com  
+**Security Contact**: security@sim4d.com  
 **PGP Key**: [To be added]

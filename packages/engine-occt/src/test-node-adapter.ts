@@ -11,10 +11,10 @@ import {
 } from './node-adapter';
 import { WASMValidator } from './wasm-validation';
 // NOTE: GeometryAPIFactory not exported from engine-core - API design pending.
-// import { GeometryAPIFactory } from '@brepflow/engine-core';
-import { DAGEngine } from '@brepflow/engine-core';
-import { NodeRegistry } from '@brepflow/engine-core';
-import type { GraphInstance, NodeInstance, WorkerAPI } from '@brepflow/types';
+// import { GeometryAPIFactory } from '@sim4d/engine-core';
+import { DAGEngine } from '@sim4d/engine-core';
+import { NodeRegistry } from '@sim4d/engine-core';
+import type { GraphInstance, NodeInstance, WorkerAPI } from '@sim4d/types';
 
 // Test colors for output
 const colors = {

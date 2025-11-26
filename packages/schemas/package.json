@@ -1,7 +1,7 @@
 {
-  "name": "@brepflow/schemas",
+  "name": "@sim4d/schemas",
   "version": "0.1.0",
-  "description": "BrepFlow JSON schemas",
+  "description": "Sim4D JSON schemas",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -12,7 +12,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@brepflow/types": "workspace:*",
+    "@sim4d/types": "workspace:*",
     "@types/three": "^0.180.0",
     "ajv": "^8.12.0",
     "three": "^0.181.1",

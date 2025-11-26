@@ -33,7 +33,7 @@ export interface MockPluginManifest {
   commands: string[];
   panels: string[];
   permissions: string[];
-  engines: { brepflow: string };
+  engines: { sim4d: string };
   signature?: string;
 }
 
@@ -360,7 +360,7 @@ class MockPluginMarketplace {
           commands: ['analyzeSurface', 'optimizeMesh'],
           panels: ['GeometryAnalyzer'],
           permissions: ['read:graph', 'write:graph', 'worker:spawn'],
-          engines: { brepflow: '>=0.1.0' },
+          engines: { sim4d: '>=0.1.0' },
           signature: 'valid_signature',
         },
       },
@@ -387,7 +387,7 @@ class MockPluginMarketplace {
           commands: ['startCollab', 'inviteUser', 'resolveConflict'],
           panels: ['CollaborationPanel'],
           permissions: ['network:websocket', 'ui:notification', 'ui:panel'],
-          engines: { brepflow: '>=0.1.0' },
+          engines: { sim4d: '>=0.1.0' },
           signature: 'valid_signature',
         },
       },
@@ -419,7 +419,7 @@ class MockPluginMarketplace {
             'worker:spawn',
             'wasm:execute',
           ],
-          engines: { brepflow: '>=0.1.0' },
+          engines: { sim4d: '>=0.1.0' },
           signature: 'valid_signature',
         },
       },
@@ -445,7 +445,7 @@ class MockPluginMarketplace {
           commands: ['stealData', 'sendHome'],
           panels: [],
           permissions: ['read:files', 'write:files', 'network:fetch', 'system:info', 'native:code'],
-          engines: { brepflow: '>=0.1.0' },
+          engines: { sim4d: '>=0.1.0' },
           signature: 'invalid_signature',
         },
       },
@@ -560,7 +560,7 @@ export const TEST_PLUGIN_CONFIGS = {
         id: 'basic-geometry',
         name: 'Basic Geometry',
         version: '1.0.0',
-        author: 'BrepFlow Team',
+        author: 'Sim4D Team',
         description: 'Basic geometry operations',
         category: 'Geometry',
         rating: 4.5,
@@ -573,7 +573,7 @@ export const TEST_PLUGIN_CONFIGS = {
           commands: [],
           panels: [],
           permissions: ['read:graph', 'write:graph'],
-          engines: { brepflow: '>=0.1.0' },
+          engines: { sim4d: '>=0.1.0' },
         },
       },
     ],
@@ -622,7 +622,7 @@ export const TEST_PLUGIN_CONFIGS = {
           commands: ['testSecurity'],
           panels: [],
           permissions: ['read:files', 'write:files', 'network:fetch', 'native:code'],
-          engines: { brepflow: '>=0.1.0' },
+          engines: { sim4d: '>=0.1.0' },
           signature: 'invalid_signature',
         },
       },

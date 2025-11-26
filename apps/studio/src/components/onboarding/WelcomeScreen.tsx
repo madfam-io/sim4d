@@ -82,7 +82,7 @@ export const WelcomeScreen: React.FC = () => {
           >
             🏗️
           </motion.div>
-          <h1 className="welcome-title">Welcome to BrepFlow Studio!</h1>
+          <h1 className="welcome-title">Welcome to Sim4D Studio!</h1>
           <p className="welcome-subtitle">
             Transform your ideas into 3D models using simple, visual building blocks
             <br />
@@ -112,7 +112,7 @@ export const WelcomeScreen: React.FC = () => {
               level="beginner"
               icon="📚"
               title="I Know Some 3D"
-              description="Skip the basics, show me BrepFlow specifics"
+              description="Skip the basics, show me Sim4D specifics"
               onClick={() => handleSkillSelect('beginner')}
             />
 

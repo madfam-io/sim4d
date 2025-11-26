@@ -137,7 +137,7 @@ class CuraSlicerWorker {
   }
 
   /**
-   * Convert BrepFlow settings to Cura JSON format
+   * Convert Sim4D settings to Cura JSON format
    */
   private convertSettingsToJson(settings: CuraSettings): string {
     // CuraEngine expects specific setting names

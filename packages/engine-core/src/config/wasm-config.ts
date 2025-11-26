@@ -1,5 +1,5 @@
 /**
- * WASM Configuration for BrepFlow
+ * WASM Configuration for Sim4D
  * Forces real OCCT WASM in development and production
  */
 

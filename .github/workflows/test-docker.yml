@@ -43,7 +43,7 @@ jobs:
           context: .
           file: Dockerfile.test-unit
           load: true
-          tags: brepflow-test-unit:latest
+          tags: sim4d-test-unit:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
           build-args: |
@@ -55,7 +55,7 @@ jobs:
             -v ${{ github.workspace }}/coverage:/app/coverage:rw \
             -e CI=true \
             -e NODE_ENV=test \
-            brepflow-test-unit:latest
+            sim4d-test-unit:latest
 
       - name: Upload coverage reports
         uses: actions/upload-artifact@v5
@@ -111,7 +111,7 @@ jobs:
           context: .
           file: Dockerfile.test-wasm
           load: true
-          tags: brepflow-test-wasm:latest
+          tags: sim4d-test-wasm:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
 
@@ -124,7 +124,7 @@ jobs:
             -e CI=true \
             -e PLAYWRIGHT_BROWSERS_PATH=/ms-playwright \
             -e COOP_COEP_ENABLED=true \
-            brepflow-test-wasm:latest
+            sim4d-test-wasm:latest
 
       - name: Upload WASM test results
         uses: actions/upload-artifact@v5
@@ -304,7 +304,7 @@ jobs:
       - name: Benchmark unit test build (cold)
         run: |
           START_TIME=$(date +%s)
-          docker build -f Dockerfile.test-unit -t brepflow-test-unit:bench .
+          docker build -f Dockerfile.test-unit -t sim4d-test-unit:bench .
           END_TIME=$(date +%s)
           DURATION=$((END_TIME - START_TIME))
           echo "UNIT_BUILD_TIME=$DURATION" >> $GITHUB_ENV
@@ -313,7 +313,7 @@ jobs:
       - name: Benchmark unit test build (cached)
         run: |
           START_TIME=$(date +%s)
-          docker build -f Dockerfile.test-unit -t brepflow-test-unit:bench-cached .
+          docker build -f Dockerfile.test-unit -t sim4d-test-unit:bench-cached .
           END_TIME=$(date +%s)
           DURATION=$((END_TIME - START_TIME))
           echo "UNIT_BUILD_CACHED_TIME=$DURATION" >> $GITHUB_ENV
@@ -322,7 +322,7 @@ jobs:
       - name: Benchmark WASM test build
         run: |
           START_TIME=$(date +%s)
-          docker build -f Dockerfile.test-wasm -t brepflow-test-wasm:bench .
+          docker build -f Dockerfile.test-wasm -t sim4d-test-wasm:bench .
           END_TIME=$(date +%s)
           DURATION=$((END_TIME - START_TIME))
           echo "WASM_BUILD_TIME=$DURATION" >> $GITHUB_ENV
@@ -384,7 +384,7 @@ jobs:
 
       - name: Start dev server in background
         run: |
-          pnpm --filter @brepflow/studio run dev --port 5173 &
+          pnpm --filter @sim4d/studio run dev --port 5173 &
           echo "DEV_SERVER_PID=$!" >> $GITHUB_ENV
 
       - name: Wait for dev server

@@ -27,7 +27,7 @@
     "composite": false,
     "baseUrl": ".",
     "paths": {
-      "@brepflow/*": ["packages/*/src"]
+      "@sim4d/*": ["packages/*/src"]
     },
     "useUnknownInCatchVariables": true,
     "exactOptionalPropertyTypes": true,

@@ -1,8 +1,8 @@
-# BrepFlow Node Availability Analysis
+# Sim4D Node Availability Analysis
 
 ## Executive Summary
 
-**🚨 Critical Finding**: BrepFlow has **913 generated nodes** ready in the codebase, but only **27 nodes** are directly visible in the Studio UI's Node Panel.
+**🚨 Critical Finding**: Sim4D has **913 generated nodes** ready in the codebase, but only **27 nodes** are directly visible in the Studio UI's Node Panel.
 
 ## Detailed Node Count
 
@@ -183,7 +183,7 @@ Only these nodes are directly draggable from the side panel:
 
 - Grasshopper: ~1000 nodes, all visible in categorized panels
 - Dynamo: ~2000 nodes, searchable library
-- BrepFlow: 913 nodes built, 27 visible = **major competitive disadvantage**
+- Sim4D: 913 nodes built, 27 visible = **major competitive disadvantage**
 
 ## Conclusion
 

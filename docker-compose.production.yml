@@ -5,19 +5,19 @@
 # Uses shared infrastructure from madfam-infrastructure
 # =============================================================================
 
-name: brepflow-production
+name: sim4d-production
 
 services:
   # React Studio (Vite SSR)
   studio:
-    image: ${DOCKER_REGISTRY:-ghcr.io/madfam-io}/brepflow-studio:${IMAGE_TAG:-latest}
-    container_name: brepflow-studio
+    image: ${DOCKER_REGISTRY:-ghcr.io/madfam-io}/sim4d-studio:${IMAGE_TAG:-latest}
+    container_name: sim4d-studio
     ports:
       - '${BREPFLOW_STUDIO_PORT:-5173}:3000'
     environment:
       NODE_ENV: production
       VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:3001}
-      VITE_COLLAB_WS_URL: ${VITE_COLLAB_WS_URL:-wss://collab.brepflow.io}
+      VITE_COLLAB_WS_URL: ${VITE_COLLAB_WS_URL:-wss://collab.sim4d.io}
       JANUA_ENABLED: "true"
       JANUA_JWT_SECRET: ${JANUA_JWT_SECRET}
       JANUA_API_URL: ${JANUA_API_URL:-http://janua-api:8001}
@@ -41,8 +41,8 @@ services:
 
   # Marketing Landing Page
   marketing:
-    image: ${DOCKER_REGISTRY:-ghcr.io/madfam-io}/brepflow-marketing:${IMAGE_TAG:-latest}
-    container_name: brepflow-marketing
+    image: ${DOCKER_REGISTRY:-ghcr.io/madfam-io}/sim4d-marketing:${IMAGE_TAG:-latest}
+    container_name: sim4d-marketing
     ports:
       - '${BREPFLOW_MARKETING_PORT:-3040}:3000'
     environment:
@@ -67,8 +67,8 @@ services:
 
   # Collaboration WebSocket Server
   collaboration:
-    image: ${DOCKER_REGISTRY:-ghcr.io/madfam-io}/brepflow-collaboration:${IMAGE_TAG:-latest}
-    container_name: brepflow-collaboration
+    image: ${DOCKER_REGISTRY:-ghcr.io/madfam-io}/sim4d-collaboration:${IMAGE_TAG:-latest}
+    container_name: sim4d-collaboration
     ports:
       - '${BREPFLOW_COLLAB_PORT:-8081}:8080'
     environment:
@@ -78,7 +78,7 @@ services:
       LOCK_TIMEOUT: 60000
       ENABLE_RATE_LIMIT: "true"
       MAX_CONNECTIONS_PER_IP: 10
-      CORS_ORIGIN: ${CORS_ORIGIN:-https://studio.brepflow.io}
+      CORS_ORIGIN: ${CORS_ORIGIN:-https://studio.sim4d.io}
       REDIS_URL: ${REDIS_URL:-redis://:${REDIS_PASSWORD}@madfam-redis-shared:6379/6}
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/health"]

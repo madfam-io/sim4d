@@ -9,7 +9,7 @@ describe('IOExchangeExportJSONNode', () => {
       shapes: undefined,
     } as any;
     const params = {
-      format: 'brepflow',
+      format: 'sim4d',
       precision: 6,
       includeTopology: true,
     } as any;

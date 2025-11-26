@@ -1,5 +1,5 @@
 /**
- * Core BrepFlow types
+ * Core Sim4D types
  * Centralized type definitions for the entire monorepo
  */
 
@@ -239,9 +239,9 @@ export interface ErrorContext {
 }
 
 /**
- * Base error class for all BrepFlow errors
+ * Base error class for all Sim4D errors
  */
-export class BrepFlowError extends Error {
+export class Sim4DError extends Error {
   public readonly code: ErrorCode;
   public readonly severity: ErrorSeverity;
   public readonly context: ErrorContext;
@@ -255,7 +255,7 @@ export class BrepFlowError extends Error {
     isRetryable: boolean = false
   ) {
     super(message);
-    this.name = 'BrepFlowError';
+    this.name = 'Sim4DError';
     this.code = code;
     this.severity = severity;
     this.context = {
@@ -266,7 +266,7 @@ export class BrepFlowError extends Error {
     this.isRetryable = isRetryable;
 
     if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, BrepFlowError);
+      Error.captureStackTrace(this, Sim4DError);
     }
   }
 }
@@ -274,7 +274,7 @@ export class BrepFlowError extends Error {
 /**
  * Geometry-specific errors
  */
-export class GeometryError extends BrepFlowError {
+export class GeometryError extends Sim4DError {
   constructor(
     message: string,
     code: ErrorCode = ErrorCode.GEOMETRY_OPERATION_FAILED,
@@ -288,7 +288,7 @@ export class GeometryError extends BrepFlowError {
 /**
  * Validation errors
  */
-export class ValidationError extends BrepFlowError {
+export class ValidationError extends Sim4DError {
   constructor(
     message: string,
     code: ErrorCode = ErrorCode.VALIDATION_FAILED,
@@ -302,7 +302,7 @@ export class ValidationError extends BrepFlowError {
 /**
  * Network errors
  */
-export class NetworkError extends BrepFlowError {
+export class NetworkError extends Sim4DError {
   constructor(
     message: string,
     code: ErrorCode = ErrorCode.NETWORK_SERVER_ERROR,
@@ -316,7 +316,7 @@ export class NetworkError extends BrepFlowError {
 /**
  * State management errors
  */
-export class StateError extends BrepFlowError {
+export class StateError extends Sim4DError {
   constructor(
     message: string,
     code: ErrorCode = ErrorCode.STATE_INCONSISTENT,
@@ -331,17 +331,17 @@ export class StateError extends BrepFlowError {
  * Error recovery strategies
  */
 export interface ErrorRecoveryStrategy {
-  recover(error: BrepFlowError): Promise<void>;
-  canRecover(error: BrepFlowError): boolean;
+  recover(error: Sim4DError): Promise<void>;
+  canRecover(error: Sim4DError): boolean;
 }
 
 /**
  * Error handler interface
  */
 export interface ErrorHandler {
-  handle(error: Error | BrepFlowError): void;
-  report(error: Error | BrepFlowError): Promise<void>;
-  log(error: Error | BrepFlowError): void;
+  handle(error: Error | Sim4DError): void;
+  report(error: Error | Sim4DError): Promise<void>;
+  log(error: Error | Sim4DError): void;
 }
 
 // Legacy type exports for backward compatibility

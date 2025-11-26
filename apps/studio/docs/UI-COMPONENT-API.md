@@ -1,8 +1,8 @@
-# BrepFlow Studio UI Component API Documentation
+# Sim4D Studio UI Component API Documentation
 
 ## Overview
 
-The BrepFlow Studio UI library provides enterprise-grade components designed specifically for parametric CAD applications. All components follow professional design standards with full TypeScript support, WCAG 2.1 AA accessibility compliance, and optimized performance.
+The Sim4D Studio UI library provides enterprise-grade components designed specifically for parametric CAD applications. All components follow professional design standards with full TypeScript support, WCAG 2.1 AA accessibility compliance, and optimized performance.
 
 ## Core Components
 
@@ -11,7 +11,7 @@ The BrepFlow Studio UI library provides enterprise-grade components designed spe
 Professional button system with multiple variants and states.
 
 ```typescript
-import { Button, IconButton } from '@brepflow/studio/components/ui';
+import { Button, IconButton } from '@sim4d/studio/components/ui';
 ```
 
 #### Button Props
@@ -65,7 +65,7 @@ Extends Button props with required `icon` and `aria-label`.
 Collapsible and resizable container system for organizing UI sections.
 
 ```typescript
-import { Panel, PanelSection } from '@brepflow/studio/components/ui';
+import { Panel, PanelSection } from '@sim4d/studio/components/ui';
 ```
 
 #### Panel Props
@@ -136,7 +136,7 @@ import { Panel, PanelSection } from '@brepflow/studio/components/ui';
 Professional form controls with validation and CAD-specific variants.
 
 ```typescript
-import { Input, NumberInput, CoordinateInput } from '@brepflow/studio/components/ui';
+import { Input, NumberInput, CoordinateInput } from '@sim4d/studio/components/ui';
 ```
 
 #### Input Props
@@ -224,7 +224,7 @@ Extends Input props with:
 Professional CAD viewport with navigation tools and measurement capabilities.
 
 ```typescript
-import { Enhanced3DViewport } from '@brepflow/studio/components/viewport';
+import { Enhanced3DViewport } from '@sim4d/studio/components/viewport';
 ```
 
 #### ViewportProps
@@ -323,7 +323,7 @@ Use the built-in performance monitor to track UI performance:
 import {
   PerformanceMonitor,
   usePerformanceMonitor
-} from '@brepflow/studio/utils/performance-monitor';
+} from '@sim4d/studio/utils/performance-monitor';
 
 // React Hook
 function MyComponent() {
@@ -389,7 +389,7 @@ import type {
   ViewportProps,
   ViewportToolConfig,
   PerformanceMetrics,
-} from '@brepflow/studio/components/ui';
+} from '@sim4d/studio/components/ui';
 ```
 
 ---
@@ -439,6 +439,6 @@ If upgrading from previous UI system:
 
 For issues or questions:
 
-- GitHub Issues: [github.com/aureo-labs/brepflow/issues](https://github.com/aureo-labs/brepflow/issues)
-- Documentation: [docs.brepflow.com](https://docs.brepflow.com)
-- Discord: [discord.gg/brepflow](https://discord.gg/brepflow)
+- GitHub Issues: [github.com/aureo-labs/sim4d/issues](https://github.com/aureo-labs/sim4d/issues)
+- Documentation: [docs.sim4d.com](https://docs.sim4d.com)
+- Discord: [discord.gg/sim4d](https://discord.gg/sim4d)

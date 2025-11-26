@@ -1,5 +1,5 @@
 /**
- * Structured logging system for BrepFlow Studio
+ * Structured logging system for Sim4D Studio
  */
 
 import { MonitoringConfig } from '../error-handling/types';
@@ -255,7 +255,7 @@ export class Logger {
         },
         body: JSON.stringify({
           logs: logsToFlush,
-          source: 'brepflow-studio'
+          source: 'sim4d-studio'
         })
       });
       */

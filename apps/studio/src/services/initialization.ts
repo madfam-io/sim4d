@@ -3,8 +3,8 @@
  * Handles startup sequence, validation, and health checks
  */
 
-import { getGeometryAPI } from '@brepflow/engine-occt';
-import { getConfig } from '@brepflow/engine-core';
+import { getGeometryAPI } from '@sim4d/engine-occt';
+import { getConfig } from '@sim4d/engine-core';
 import { healthCheckService } from '../api/health';
 import { createChildLogger } from '../lib/logging/logger-instance';
 

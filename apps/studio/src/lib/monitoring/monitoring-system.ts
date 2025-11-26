@@ -58,7 +58,7 @@ export class MonitoringSystem {
       return;
     }
 
-    logger.debug('🔧 Initializing BrepFlow Monitoring System...');
+    logger.debug('🔧 Initializing Sim4D Monitoring System...');
 
     try {
       // Initialize logger first
@@ -361,7 +361,7 @@ export class MonitoringSystem {
 
     // Emit event for UI components to handle
     window.dispatchEvent(
-      new CustomEvent('brepflow:health-alert', {
+      new CustomEvent('sim4d:health-alert', {
         detail: alert,
       })
     );
@@ -372,7 +372,7 @@ export class MonitoringSystem {
    */
   private setupGlobalErrorHandlers(): void {
     // These are already set up in ErrorManager, but we can add additional handling here
-    window.addEventListener('brepflow:monitoring-event', (event: unknown) => {
+    window.addEventListener('sim4d:monitoring-event', (event: unknown) => {
       this.logger.info('Custom monitoring event', { event: event.detail });
     });
   }

@@ -16,12 +16,12 @@ import {
   NodeChange,
   EdgeChange,
 } from 'reactflow';
-import { DAGEngine } from '@brepflow/engine-core';
+import { DAGEngine } from '@sim4d/engine-core';
 import { getGeometryAPI } from '../services/geometry-api';
 import { v4 as uuidv4 } from 'uuid';
-import { getConfig } from '@brepflow/engine-core';
-import type { GraphInstance, NodeId } from '@brepflow/types';
-import { createNodeId } from '@brepflow/types';
+import { getConfig } from '@sim4d/engine-core';
+import type { GraphInstance, NodeId } from '@sim4d/types';
+import { createNodeId } from '@sim4d/types';
 
 // Lazy logger initialization to avoid constructor issues during module loading
 interface Logger {
@@ -35,7 +35,7 @@ interface Logger {
 let logger: Logger | null = null;
 const getLogger = (): Logger => {
   if (!logger) {
-    const { ProductionLogger } = require('@brepflow/engine-occt');
+    const { ProductionLogger } = require('@sim4d/engine-occt');
     logger = new ProductionLogger('GraphStore');
   }
   return logger;
@@ -539,7 +539,7 @@ export const useProductionGraphStore = create<GraphState>()(
       };
     }),
     {
-      name: 'brepflow-graph',
+      name: 'sim4d-graph',
       partialize: (state) => ({
         // Only persist graph structure, not engine state
         nodes: state.nodes,

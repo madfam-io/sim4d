@@ -9,7 +9,7 @@ describe('IOExchangeImportJSONNode', () => {
       jsonData: undefined,
     } as any;
     const params = {
-      format: 'brepflow',
+      format: 'sim4d',
     } as any;
 
     const result = await IOExchangeImportJSONNode.evaluate(context, inputs, params);

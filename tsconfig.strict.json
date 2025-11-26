@@ -79,22 +79,22 @@
     // Path Mapping
     "baseUrl": ".",
     "paths": {
-      "@brepflow/types": ["packages/types/src"],
-      "@brepflow/types/*": ["packages/types/src/*"],
-      "@brepflow/engine-core": ["packages/engine-core/src"],
-      "@brepflow/engine-core/*": ["packages/engine-core/src/*"],
-      "@brepflow/engine-occt": ["packages/engine-occt/src"],
-      "@brepflow/engine-occt/*": ["packages/engine-occt/src/*"],
-      "@brepflow/nodes-core": ["packages/nodes-core/src"],
-      "@brepflow/nodes-core/*": ["packages/nodes-core/src/*"],
-      "@brepflow/viewport": ["packages/viewport/src"],
-      "@brepflow/viewport/*": ["packages/viewport/src/*"],
-      "@brepflow/constraint-solver": ["packages/constraint-solver/src"],
-      "@brepflow/constraint-solver/*": ["packages/constraint-solver/src/*"],
-      "@brepflow/collaboration": ["packages/collaboration/src"],
-      "@brepflow/collaboration/*": ["packages/collaboration/src/*"],
-      "@brepflow/schemas": ["packages/schemas/src"],
-      "@brepflow/schemas/*": ["packages/schemas/src/*"]
+      "@sim4d/types": ["packages/types/src"],
+      "@sim4d/types/*": ["packages/types/src/*"],
+      "@sim4d/engine-core": ["packages/engine-core/src"],
+      "@sim4d/engine-core/*": ["packages/engine-core/src/*"],
+      "@sim4d/engine-occt": ["packages/engine-occt/src"],
+      "@sim4d/engine-occt/*": ["packages/engine-occt/src/*"],
+      "@sim4d/nodes-core": ["packages/nodes-core/src"],
+      "@sim4d/nodes-core/*": ["packages/nodes-core/src/*"],
+      "@sim4d/viewport": ["packages/viewport/src"],
+      "@sim4d/viewport/*": ["packages/viewport/src/*"],
+      "@sim4d/constraint-solver": ["packages/constraint-solver/src"],
+      "@sim4d/constraint-solver/*": ["packages/constraint-solver/src/*"],
+      "@sim4d/collaboration": ["packages/collaboration/src"],
+      "@sim4d/collaboration/*": ["packages/collaboration/src/*"],
+      "@sim4d/schemas": ["packages/schemas/src"],
+      "@sim4d/schemas/*": ["packages/schemas/src/*"]
     }
   },
   "exclude": [

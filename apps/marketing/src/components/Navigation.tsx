@@ -19,7 +19,7 @@ export function Navigation() {
   const navItems = [
     { label: 'Features', href: '#features' },
     { label: 'Demo', href: '#demo' },
-    { label: 'GitHub', href: 'https://github.com/aureo-labs/brepflow', external: true },
+    { label: 'GitHub', href: 'https://github.com/aureo-labs/sim4d', external: true },
   ];
 
   return (
@@ -42,7 +42,7 @@ export function Navigation() {
             <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-500 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">B</span>
             </div>
-            <span className="text-white font-bold text-xl">BrepFlow</span>
+            <span className="text-white font-bold text-xl">Sim4D</span>
           </motion.div>
 
           {/* Desktop Navigation */}

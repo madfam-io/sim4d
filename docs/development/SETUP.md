@@ -1,6 +1,6 @@
-# BrepFlow Setup Guide
+# Sim4D Setup Guide
 
-This guide will help you get BrepFlow up and running on your local machine.
+This guide will help you get Sim4D up and running on your local machine.
 
 ## Prerequisites
 
@@ -65,7 +65,7 @@ pnpm run build
 ## Project Structure
 
 ```
-brepflow/
+sim4d/
 ├── apps/
 │   ├── studio/          # React-based node editor application
 │   └── marketing/       # Marketing website
@@ -105,8 +105,8 @@ pnpm build        # Build all packages
 pnpm build:wasm   # Build OCCT.wasm
 
 # Package-specific commands
-pnpm build --filter @brepflow/engine-core    # Build specific package
-pnpm test --filter @brepflow/nodes-core      # Test specific package
+pnpm build --filter @sim4d/engine-core    # Build specific package
+pnpm test --filter @sim4d/nodes-core      # Test specific package
 
 # Utilities
 pnpm clean        # Clean build artifacts
@@ -218,7 +218,7 @@ VITE_API_BASE_URL=http://localhost:3001
 ### TypeScript errors
 
 - Clear TypeScript cache: `rm -rf apps/studio/.vite`
-- Rebuild type packages: `pnpm build --filter @brepflow/types`
+- Rebuild type packages: `pnpm build --filter @sim4d/types`
 - Check for circular dependencies
 
 ### Worker loading issues

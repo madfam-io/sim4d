@@ -1,4 +1,4 @@
-import { NodeDefinition, SocketType } from '@brepflow/types';
+import { NodeDefinition, SocketType } from '@sim4d/types';
 import { NumberParam, BoolParam, StringParam } from './utils/param-utils';
 
 /**

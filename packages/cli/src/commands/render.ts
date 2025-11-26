@@ -3,10 +3,10 @@ import chalk from 'chalk';
 import ora from 'ora';
 import fs from 'fs-extra';
 import path from 'path';
-import type { GraphInstance, ExportFormat, WorkerAPI } from '@brepflow/types';
-import { GraphManager, DAGEngine, GeometryEvaluationError } from '@brepflow/engine-core';
-import { GeometryAPIFactory } from '@brepflow/engine-core/geometry-api-factory';
-import { registerCoreNodes } from '@brepflow/nodes-core';
+import type { GraphInstance, ExportFormat, WorkerAPI } from '@sim4d/types';
+import { GraphManager, DAGEngine, GeometryEvaluationError } from '@sim4d/engine-core';
+import { GeometryAPIFactory } from '@sim4d/engine-core/geometry-api-factory';
+import { registerCoreNodes } from '@sim4d/nodes-core';
 
 export const SUPPORTED_FORMATS: ExportFormat[] = [
   'step',
@@ -41,7 +41,7 @@ export type ExportRecord = {
 };
 
 export const renderCommand = new Command('render')
-  .description('Render a BrepFlow graph and export results')
+  .description('Render a Sim4D graph and export results')
   .argument('<graph>', 'path to .bflow.json graph file')
   .option('-o, --out <dir>', 'output directory', './output')
   .option('-e, --export <formats>', 'export formats (step,stl,obj)', 'step,stl')

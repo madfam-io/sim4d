@@ -4,10 +4,10 @@
  */
 
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
-import { GeometryAPIFactory } from '@brepflow/engine-core';
+import { GeometryAPIFactory } from '@sim4d/engine-core';
 import { ProductionGeometryService } from '../apps/studio/src/services/geometry-service.production';
 import { HealthService } from '../apps/studio/src/services/health-service';
-import { WorkerAPI } from '@brepflow/engine-occt';
+import { WorkerAPI } from '@sim4d/engine-occt';
 
 describe('Production Geometry Integration', () => {
   let geometryService: ProductionGeometryService;

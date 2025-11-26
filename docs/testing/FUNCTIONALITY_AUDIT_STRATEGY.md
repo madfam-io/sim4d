@@ -1,8 +1,8 @@
-# BrepFlow Comprehensive Functionality Audit Strategy
+# Sim4D Comprehensive Functionality Audit Strategy
 
 ## Executive Summary
 
-Yes, we have the means to perform a complete programmatic functionality audit of BrepFlow through browser automation. This document outlines a comprehensive strategy to achieve 100% coverage of all platform capabilities, ensuring accessibility and usability for all users.
+Yes, we have the means to perform a complete programmatic functionality audit of Sim4D through browser automation. This document outlines a comprehensive strategy to achieve 100% coverage of all platform capabilities, ensuring accessibility and usability for all users.
 
 ## Current Testing Infrastructure
 
@@ -63,7 +63,7 @@ tests/
 ```typescript
 // tests/audit/functionality/all-nodes.test.ts
 import { test, expect } from '@playwright/test';
-import { NodeRegistry } from '@brepflow/nodes-core';
+import { NodeRegistry } from '@sim4d/nodes-core';
 
 test.describe('Complete Node Functionality Audit', () => {
   for (const [nodeType, nodeDef] of NodeRegistry.entries()) {
@@ -200,7 +200,7 @@ export function AuditDashboard() {
 
   return (
     <div className="audit-dashboard">
-      <h2>BrepFlow Functionality Coverage</h2>
+      <h2>Sim4D Functionality Coverage</h2>
       <div className="coverage-grid">
         <CoverageMetric label="Node Operations" value={coverage.nodes} />
         <CoverageMetric label="Accessibility" value={coverage.accessibility} />
@@ -307,7 +307,7 @@ pnpm run audit:ci
 
 ## Conclusion
 
-With this comprehensive strategy, BrepFlow can achieve 100% programmatic functionality audit coverage. The combination of Playwright's browser automation, accessibility testing tools, and systematic test generation ensures every capability is accessible and usable by all users.
+With this comprehensive strategy, Sim4D can achieve 100% programmatic functionality audit coverage. The combination of Playwright's browser automation, accessibility testing tools, and systematic test generation ensures every capability is accessible and usable by all users.
 
 ### Next Steps
 
@@ -317,4 +317,4 @@ With this comprehensive strategy, BrepFlow can achieve 100% programmatic functio
 4. Set up monitoring infrastructure
 5. Establish coverage baseline
 
-This approach ensures BrepFlow meets the highest standards of functionality, accessibility, and usability for all users.
+This approach ensures Sim4D meets the highest standards of functionality, accessibility, and usability for all users.

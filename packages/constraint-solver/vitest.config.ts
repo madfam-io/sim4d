@@ -31,8 +31,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@brepflow/types': path.resolve(__dirname, '../types/src'),
-      '@brepflow/engine-core': path.resolve(__dirname, '../engine-core/src'),
+      '@sim4d/types': path.resolve(__dirname, '../types/src'),
+      '@sim4d/engine-core': path.resolve(__dirname, '../engine-core/src'),
     },
   },
 });

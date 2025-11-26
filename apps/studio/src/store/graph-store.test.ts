@@ -3,12 +3,12 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 const dagInstances: any[] = [];
 const dagEvaluateMock = vi.fn();
 
-vi.mock('@brepflow/nodes-core', () => ({
+vi.mock('@sim4d/nodes-core', () => ({
   registerCoreNodes: vi.fn(),
 }));
 
-vi.mock('@brepflow/engine-core', async () => {
-  const actual = await vi.importActual<any>('@brepflow/engine-core');
+vi.mock('@sim4d/engine-core', async () => {
+  const actual = await vi.importActual<any>('@sim4d/engine-core');
 
   class MockComputeCache {
     private cache = new Map<string, any>();

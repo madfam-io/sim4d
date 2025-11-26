@@ -7,8 +7,8 @@ import {
   getAdvancedNodes,
   getCuratedCatalogStats,
   // @ts-expect-error - nodes-core doesn't generate .d.ts files yet (dts: false in tsup config)
-} from '@brepflow/nodes-core';
-import type { NodeDefinition } from '@brepflow/types';
+} from '@sim4d/nodes-core';
+import type { NodeDefinition } from '@sim4d/types';
 
 export type CurationMode = 'all' | 'curated' | 'beginner' | 'intermediate' | 'advanced';
 

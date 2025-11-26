@@ -182,9 +182,9 @@ jobs:
         if: failure()
         run: |
           echo "=== Studio Logs ==="
-          docker logs brepflow-studio-1 --tail 100
+          docker logs sim4d-studio-1 --tail 100
           echo "=== Collaboration Logs ==="
-          docker logs brepflow-collaboration-1 --tail 100
+          docker logs sim4d-collaboration-1 --tail 100
 
       - name: Cleanup services
         if: always()

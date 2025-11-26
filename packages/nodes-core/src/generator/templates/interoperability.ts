@@ -302,7 +302,7 @@ export const interoperabilityNodes: NodeTemplate[] = [
         default: '2000',
       },
       { name: 'units', type: 'enum', options: ['mm', 'cm', 'm', 'inch'], default: 'mm' },
-      { name: 'layerName', type: 'string', default: 'BrepFlow' },
+      { name: 'layerName', type: 'string', default: 'Sim4D' },
     ],
     inputs: [
       { name: 'curves', type: 'Wire[]', required: true },
@@ -552,7 +552,7 @@ export const interoperabilityNodes: NodeTemplate[] = [
     parameters: [
       { name: 'webhookUrl', type: 'string', default: '', description: 'Slack webhook URL' },
       { name: 'channel', type: 'string', default: '#general' },
-      { name: 'username', type: 'string', default: 'BrepFlow' },
+      { name: 'username', type: 'string', default: 'Sim4D' },
     ],
     inputs: [
       { name: 'message', type: 'string', required: true },

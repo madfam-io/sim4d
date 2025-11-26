@@ -1,5 +1,5 @@
 {
-  "name": "@brepflow/collaboration",
+  "name": "@sim4d/collaboration",
   "version": "0.1.0",
   "type": "module",
   "main": "./dist/index.js",
@@ -25,8 +25,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@brepflow/engine-core": "workspace:*",
-    "@brepflow/types": "workspace:*",
+    "@sim4d/engine-core": "workspace:*",
+    "@sim4d/types": "workspace:*",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "socket.io": "^4.7.0",

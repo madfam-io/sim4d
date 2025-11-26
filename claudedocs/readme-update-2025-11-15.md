@@ -13,7 +13,7 @@ Updated README.md to remove all outdated references to "mock geometry" and align
 
 ## Changes Made
 
-### 1. Updated "Why BrepFlow?" Section (Line 19)
+### 1. Updated "Why Sim4D?" Section (Line 19)
 
 **Before**:
 
@@ -34,13 +34,13 @@ Updated README.md to remove all outdated references to "mock geometry" and align
 **Before**:
 
 ```markdown
-If you come from OpenSCAD or Grasshopper, think of BrepFlow as an experiment toward that fusion rather than a finished replacement.
+If you come from OpenSCAD or Grasshopper, think of Sim4D as an experiment toward that fusion rather than a finished replacement.
 ```
 
 **After**:
 
 ```markdown
-If you come from OpenSCAD or Grasshopper, think of BrepFlow as bringing that node-based workflow to the web with industrial-grade OCCT geometry.
+If you come from OpenSCAD or Grasshopper, think of Sim4D as bringing that node-based workflow to the web with industrial-grade OCCT geometry.
 ```
 
 **Rationale**: Removed "experiment" framing and emphasized production-ready status with real OCCT geometry.
@@ -121,7 +121,7 @@ pnpm run build:wasm
 ### CLI smoke test (mock output)
 
 ```bash
-pnpm -w --filter @brepflow/cli run build
+pnpm -w --filter @sim4d/cli run build
 node packages/cli/dist/index.js render examples/enclosure.bflow.json --out out/
 # STEP/STL files are placeholders for now.
 ````
@@ -133,7 +133,7 @@ node packages/cli/dist/index.js render examples/enclosure.bflow.json --out out/
 ### CLI usage (real OCCT output)
 
 ```bash
-pnpm -w --filter @brepflow/cli run build
+pnpm -w --filter @sim4d/cli run build
 node packages/cli/dist/index.js render examples/enclosure.bflow.json --out out/
 # Generates real STEP/STL/IGES files with exact B-Rep/NURBS geometry from OCCT
 ````
@@ -152,7 +152,7 @@ The README contained **documentation rot** from before the OCCT.wasm migration w
 
 ### Evidence of Outdated Content
 
-1. **Line 8**: Correctly stated "✅ BrepFlow now runs on **real OCCT.wasm** geometry kernel"
+1. **Line 8**: Correctly stated "✅ Sim4D now runs on **real OCCT.wasm** geometry kernel"
 2. **Line 19**: Incorrectly stated "mocked geometry backend"
 3. **Lines 106-126**: Entire quick start section described mock geometry
 4. **Line 114**: Claimed "real bindings are finished" (contradicting line 8's claim they ARE finished)

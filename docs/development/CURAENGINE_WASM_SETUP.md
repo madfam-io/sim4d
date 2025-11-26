@@ -7,7 +7,7 @@
 
 ## Overview
 
-This guide walks through compiling CuraEngine to WebAssembly (WASM) for integration into BrepFlow. This enables direct G-code generation in the browser without requiring external slicer software.
+This guide walks through compiling CuraEngine to WebAssembly (WASM) for integration into Sim4D. This enables direct G-code generation in the browser without requiring external slicer software.
 
 ## Prerequisites
 
@@ -28,7 +28,7 @@ This guide walks through compiling CuraEngine to WebAssembly (WASM) for integrat
 Run the provided setup script:
 
 ```bash
-cd /path/to/brepflow
+cd /path/to/sim4d
 ./scripts/setup-cura-wasm.sh
 ```
 
@@ -176,7 +176,7 @@ This will:
 ✅ WASM binaries copied to: packages/engine-occt/wasm
 ```
 
-## Integration into BrepFlow
+## Integration into Sim4D
 
 ### File Structure
 
@@ -194,7 +194,7 @@ packages/engine-occt/wasm/
 ### Next Steps
 
 1. **Implement Worker Integration**:
-   - Wire `cura-slicer-worker.ts` into BrepFlow's worker system
+   - Wire `cura-slicer-worker.ts` into Sim4D's worker system
    - Add `CURA_SLICE` operation to worker protocol
    - Test STL → G-code pipeline
 
@@ -225,7 +225,7 @@ source third_party/emsdk/emsdk_env.sh
 
 Add to `~/.bashrc` for permanent activation:
 ```bash
-echo 'source /path/to/brepflow/third_party/emsdk/emsdk_env.sh' >> ~/.bashrc
+echo 'source /path/to/sim4d/third_party/emsdk/emsdk_env.sh' >> ~/.bashrc
 ```
 
 ### Error: CMake configuration fails
@@ -385,7 +385,7 @@ Add to GitHub Actions workflow:
 - **CuraEngine GitHub**: https://github.com/Ultimaker/CuraEngine
 - **Emscripten Documentation**: https://emscripten.org/docs/
 - **G-code Reference**: https://marlinfw.org/meta/gcode/
-- **BrepFlow G-code Plan**: `docs/technical/GCODE_GENERATION_PLAN.md`
+- **Sim4D G-code Plan**: `docs/technical/GCODE_GENERATION_PLAN.md`
 
 ## FAQ
 

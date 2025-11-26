@@ -1,8 +1,8 @@
-# BrepFlow Architecture Documentation
+# Sim4D Architecture Documentation
 
 ## 🏗️ System Architecture
 
-BrepFlow is a web-first, node-based parametric CAD system built on exact B-Rep/NURBS geometry. It leverages WebAssembly for high-performance geometry operations while maintaining a modern, responsive web interface.
+Sim4D is a web-first, node-based parametric CAD system built on exact B-Rep/NURBS geometry. It leverages WebAssembly for high-performance geometry operations while maintaining a modern, responsive web interface.
 
 ## 📐 Core Design Principles
 
@@ -18,7 +18,7 @@ BrepFlow is a web-first, node-based parametric CAD system built on exact B-Rep/N
 
 ```
 ┌─────────────────────────────────────────────┐
-│            BrepFlow Studio (React)          │
+│            Sim4D Studio (React)          │
 ├─────────────────────────────────────────────┤
 │  • ReactFlow (Node Editor)                  │
 │  • Three.js (3D Viewport)                   │
@@ -88,7 +88,7 @@ graph TD
 ### Monorepo Structure
 
 ```
-brepflow/
+sim4d/
 ├── apps/
 │   └── studio/                 # Main web application
 ├── packages/
@@ -105,22 +105,22 @@ brepflow/
 ### Package Dependencies
 
 ```
-@brepflow/studio
-    ├── @brepflow/engine-core
-    ├── @brepflow/engine-occt
-    ├── @brepflow/nodes-core
-    ├── @brepflow/viewport
-    └── @brepflow/types
+@sim4d/studio
+    ├── @sim4d/engine-core
+    ├── @sim4d/engine-occt
+    ├── @sim4d/nodes-core
+    ├── @sim4d/viewport
+    └── @sim4d/types
 
-@brepflow/engine-core
-    └── @brepflow/types
+@sim4d/engine-core
+    └── @sim4d/types
 
-@brepflow/engine-occt
-    └── @brepflow/types
+@sim4d/engine-occt
+    └── @sim4d/types
 
-@brepflow/nodes-core
-    ├── @brepflow/types
-    └── @brepflow/engine-core
+@sim4d/nodes-core
+    ├── @sim4d/types
+    └── @sim4d/engine-core
 ```
 
 ## 🧩 Component Architecture

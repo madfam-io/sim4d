@@ -1,4 +1,4 @@
-import { createNodeId, createEdgeId } from '@brepflow/types';
+import { createNodeId, createEdgeId } from '@sim4d/types';
 import type { Operation, Conflict, Node } from '../types';
 
 export class OperationalTransform {

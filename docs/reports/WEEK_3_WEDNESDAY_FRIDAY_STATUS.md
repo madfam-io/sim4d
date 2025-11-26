@@ -288,10 +288,10 @@ Use **one** of these approaches:
 find apps/studio/src -type f \( -name "*.ts" -o -name "*.tsx" \) ! -name "*test*" ! -name "logger.ts" ! -name "logger-instance.ts" -exec grep -l "console\.\(log\|error\|warn\)" {} \;
 
 # Run tests
-pnpm --filter @brepflow/studio run test
+pnpm --filter @sim4d/studio run test
 
 # Typecheck
-pnpm --filter @brepflow/studio run typecheck
+pnpm --filter @sim4d/studio run typecheck
 ```
 
 ### Step 4: Generate Completion Report (5 minutes)

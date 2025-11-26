@@ -1,5 +1,5 @@
 /**
- * Lightweight structured logger for BrepFlow packages
+ * Lightweight structured logger for Sim4D packages
  * Production-ready with log levels, context, and filtering
  */
 
@@ -22,8 +22,8 @@ export interface LoggerConfig {
   enableTimestamps?: boolean;
 }
 
-class BrepFlowLogger {
-  private static instance: BrepFlowLogger;
+class Sim4DLogger {
+  private static instance: Sim4DLogger;
   private config: LoggerConfig = {
     level: LogLevel.INFO,
     enableColors: true,
@@ -40,11 +40,11 @@ class BrepFlowLogger {
     }
   }
 
-  public static getInstance(): BrepFlowLogger {
-    if (!BrepFlowLogger.instance) {
-      BrepFlowLogger.instance = new BrepFlowLogger();
+  public static getInstance(): Sim4DLogger {
+    if (!Sim4DLogger.instance) {
+      Sim4DLogger.instance = new Sim4DLogger();
     }
-    return BrepFlowLogger.instance;
+    return Sim4DLogger.instance;
   }
 
   public configure(config: Partial<LoggerConfig>): void {
@@ -233,7 +233,7 @@ class BrepFlowLogger {
  */
 export class ChildLogger {
   constructor(
-    private parent: BrepFlowLogger,
+    private parent: Sim4DLogger,
     private prefix: string,
     private baseContext?: LogContext
   ) {}
@@ -267,7 +267,7 @@ export class ChildLogger {
 }
 
 // Export singleton instance
-export const logger = BrepFlowLogger.getInstance();
+export const logger = Sim4DLogger.getInstance();
 
 // Export convenience function for creating child loggers
 export function createLogger(prefix: string, context?: LogContext): ChildLogger {

@@ -18,14 +18,14 @@ export function Community() {
       icon: Github,
       title: 'Open Source',
       description: 'Contribute to the codebase and shape the future of CAD',
-      link: 'https://github.com/aureo-labs/brepflow',
+      link: 'https://github.com/aureo-labs/sim4d',
       color: 'from-gray-600 to-gray-700',
     },
     {
       icon: MessageCircle,
       title: 'Discord Community',
       description: 'Join discussions, get help, and share your creations',
-      link: 'https://discord.gg/brepflow',
+      link: 'https://discord.gg/sim4d',
       color: 'from-indigo-500 to-purple-600',
     },
     {
@@ -39,7 +39,7 @@ export function Community() {
       icon: Users,
       title: 'Forum',
       description: 'Ask questions, share knowledge, and showcase projects',
-      link: 'https://forum.brepflow.com',
+      link: 'https://forum.sim4d.com',
       color: 'from-blue-500 to-cyan-600',
     },
   ];
@@ -154,7 +154,7 @@ export function Community() {
                 placeholder="Enter your email"
                 className="flex-1 px-6 py-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               />
-              <GlowButton href="mailto:hello@brepflow.com" variant="primary">
+              <GlowButton href="mailto:hello@sim4d.com" variant="primary">
                 Contact Us
               </GlowButton>
             </form>

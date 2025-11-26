@@ -51,7 +51,7 @@ export function Hero({ onDemoClick }: HeroProps) {
 
         {/* Subtitle */}
         <p className="max-w-3xl mb-12 text-xl md:text-2xl text-gray-300">
-          BrepFlow brings <span className="text-accent-400 font-semibold">Grasshopper-style</span>{' '}
+          Sim4D brings <span className="text-accent-400 font-semibold">Grasshopper-style</span>{' '}
           visual programming with{' '}
           <span className="text-accent-400 font-semibold">manufacturing-grade geometry</span> to the
           web. No plugins. No installations. Just powerful CAD in your browser.
@@ -79,7 +79,7 @@ export function Hero({ onDemoClick }: HeroProps) {
           </GlowButton>
 
           <GlowButton
-            href="https://github.com/aureo-labs/brepflow"
+            href="https://github.com/aureo-labs/sim4d"
             variant="secondary"
             size="large"
           >

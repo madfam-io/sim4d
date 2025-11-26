@@ -1,4 +1,4 @@
-# BrepFlow Performance Analysis Report
+# Sim4D Performance Analysis Report
 
 **Analysis Date**: 2025-11-13
 **Target**: Cold load ≤3s, Viewport ≥60fps for 2M triangles, Memory ≤2GB per tab
@@ -203,7 +203,7 @@ renderer.dispose();
 
 **Grep Results**: Only 4 dynamic imports found:
 
-1. `@brepflow/nodes-core` in graph-store.ts (good!)
+1. `@sim4d/nodes-core` in graph-store.ts (good!)
 2. Test files (irrelevant)
 
 **Heavy Components NOT Lazy Loaded**:
@@ -375,7 +375,7 @@ Total: ~2000ms (⭐ Under target!)
    - Blocks render until monitoring ready
    - ~100-200ms overhead
 
-3. **Node Registry**: Dynamic import of @brepflow/nodes-core
+3. **Node Registry**: Dynamic import of @sim4d/nodes-core
    - Good: Lazy loaded
    - Bad: Blocks first graph evaluation
 

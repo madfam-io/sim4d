@@ -4,7 +4,7 @@
  */
 
 import type {
-import { createLogger } from '@brepflow/engine-core';
+import { createLogger } from '@sim4d/engine-core';
 
 const logger = createLogger('NodesCore');
   NodeDefinition,
@@ -13,7 +13,7 @@ const logger = createLogger('NodesCore');
   EvalContext,
   ConstraintElement,
   ConstraintInfo,
-} from '@brepflow/types';
+} from '@sim4d/types';
 
 /**
  * Enhanced LineNode with constraint integration

@@ -20,7 +20,7 @@ export function ThemeProvider({ children, defaultTheme = 'dark' }: ThemeProvider
 
   // Load theme from localStorage on mount
   useEffect(() => {
-    const savedTheme = localStorage.getItem('brepflow-theme') as Theme;
+    const savedTheme = localStorage.getItem('sim4d-theme') as Theme;
     if (savedTheme && (savedTheme === 'dark' || savedTheme === 'light')) {
       setThemeState(savedTheme);
     }
@@ -28,7 +28,7 @@ export function ThemeProvider({ children, defaultTheme = 'dark' }: ThemeProvider
 
   // Update localStorage and document class when theme changes
   useEffect(() => {
-    localStorage.setItem('brepflow-theme', theme);
+    localStorage.setItem('sim4d-theme', theme);
     document.documentElement.classList.remove('light', 'dark');
     document.documentElement.classList.add(theme);
   }, [theme]);

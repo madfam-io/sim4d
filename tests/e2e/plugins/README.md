@@ -1,6 +1,6 @@
-# BrepFlow Plugin Testing Infrastructure
+# Sim4D Plugin Testing Infrastructure
 
-This directory contains comprehensive browser-based testing infrastructure for BrepFlow's plugin ecosystem. The testing framework validates plugin installation, security sandboxing, marketplace workflows, multi-user collaboration, and core system integration.
+This directory contains comprehensive browser-based testing infrastructure for Sim4D's plugin ecosystem. The testing framework validates plugin installation, security sandboxing, marketplace workflows, multi-user collaboration, and core system integration.
 
 ## Overview
 
@@ -159,13 +159,13 @@ The testing infrastructure includes predefined plugin configurations:
 
 Tests require:
 
-1. BrepFlow Studio running on `http://localhost:5173`
+1. Sim4D Studio running on `http://localhost:5173`
 2. Mock services initialized before each test
 3. Proper browser configuration for WebGL and WASM support
 
 ## Integration with Existing Helpers
 
-The plugin testing infrastructure integrates with existing BrepFlow test helpers:
+The plugin testing infrastructure integrates with existing Sim4D test helpers:
 
 - **NodeTestHelper**: Node creation, parameter editing, graph evaluation
 - **ViewportTestHelper**: 3D viewport interaction, rendering validation

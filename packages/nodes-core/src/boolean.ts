@@ -1,4 +1,4 @@
-import type { NodeDefinition, ShapeHandle } from '@brepflow/types';
+import type { NodeDefinition, ShapeHandle } from '@sim4d/types';
 
 export const UnionNode: NodeDefinition<
   { shapes: ShapeHandle[] },

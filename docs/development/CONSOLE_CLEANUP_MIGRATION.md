@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide documents the migration from console statements to structured logging in BrepFlow.
+This guide documents the migration from console statements to structured logging in Sim4D.
 
 ## Progress
 
@@ -49,7 +49,7 @@ This guide documents the migration from console statements to structured logging
 ### For Packages (engine-core, engine-occt, etc.)
 
 ```typescript
-import { createLogger } from '@brepflow/engine-core';
+import { createLogger } from '@sim4d/engine-core';
 
 const logger = createLogger('MyModule');
 

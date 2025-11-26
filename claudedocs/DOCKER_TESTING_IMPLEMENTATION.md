@@ -17,7 +17,7 @@ Successfully implemented comprehensive Docker-based testing infrastructure that 
 ### Before Implementation
 
 - **Test Pass Rate**: 95.7% (179/185 tests)
-- **Failed Tests**: 4 WASM tests in `@brepflow/engine-occt`
+- **Failed Tests**: 4 WASM tests in `@sim4d/engine-occt`
 - **Root Cause**: `fetch()`-based WASM loading not available in Node.js test environment
 - **Impact**: Tests pass in browser but fail in `vitest` (Node.js runner)
 

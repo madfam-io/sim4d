@@ -4,8 +4,8 @@
  * Common helper functions used across all bindings modules
  */
 
-import type { ShapeHandle, Vec3, BoundingBox } from '@brepflow/types';
-import { createHandleId } from '@brepflow/types';
+import type { ShapeHandle, Vec3, BoundingBox } from '@sim4d/types';
+import { createHandleId } from '@sim4d/types';
 import type { WASMModule } from '../occt-bindings';
 import type { OCCTShape, OCCTVec3, OCCTHandle } from './types';
 

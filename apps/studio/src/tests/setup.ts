@@ -134,7 +134,7 @@ vi.mock('three', () => ({
 }));
 
 // Mock the worker modules to prevent issues in test environment
-vi.mock('@brepflow/engine-occt', () => ({
+vi.mock('@sim4d/engine-occt', () => ({
   createOCCTEngine: vi.fn(() => ({
     execute: vi.fn(),
     dispose: vi.fn(),
@@ -149,8 +149,8 @@ vi.mock('@brepflow/engine-occt', () => ({
   })),
 }));
 
-// Mock @brepflow/engine-core
-vi.mock('@brepflow/engine-core', () => {
+// Mock @sim4d/engine-core
+vi.mock('@sim4d/engine-core', () => {
   // Store instances to allow reset between tests
   const graphManagerInstances: unknown[] = [];
 
@@ -296,8 +296,8 @@ vi.mock('@brepflow/engine-core', () => {
   };
 });
 
-// Mock @brepflow/nodes-core
-vi.mock('@brepflow/nodes-core', () => ({
+// Mock @sim4d/nodes-core
+vi.mock('@sim4d/nodes-core', () => ({
   registerCoreNodes: vi.fn(),
 }));
 

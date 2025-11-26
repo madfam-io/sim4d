@@ -1,10 +1,10 @@
-# @brepflow/nodes-core
+# @sim4d/nodes-core
 
-Built-in node library for BrepFlow - comprehensive set of parametric CAD operations.
+Built-in node library for Sim4D - comprehensive set of parametric CAD operations.
 
 ## Overview
 
-The nodes-core package provides the standard node library for BrepFlow, including:
+The nodes-core package provides the standard node library for Sim4D, including:
 
 - **Sketch nodes**: 2D primitives and curves
 - **Solid nodes**: 3D primitives and operations
@@ -16,7 +16,7 @@ The nodes-core package provides the standard node library for BrepFlow, includin
 ## Installation
 
 ```bash
-pnpm add @brepflow/nodes-core
+pnpm add @sim4d/nodes-core
 ```
 
 ## Node Categories
@@ -684,7 +684,7 @@ Import and export operations for file formats.
 Create custom nodes by extending the base node types:
 
 ```typescript
-import { registerNode, NumberParam, StringParam } from '@brepflow/nodes-core';
+import { registerNode, NumberParam, StringParam } from '@sim4d/nodes-core';
 
 registerNode({
   type: 'Custom::MyNode',
@@ -788,7 +788,7 @@ ColorParam({
 All nodes are automatically registered when the package is imported:
 
 ```typescript
-import '@brepflow/nodes-core';
+import '@sim4d/nodes-core';
 
 // Nodes are now available in the registry
 const registry = NodeRegistry.getInstance();
@@ -798,7 +798,7 @@ const boxNode = registry.getNode('Solid::Box');
 ## Testing Nodes
 
 ```typescript
-import { testNode } from '@brepflow/nodes-core/test-utils';
+import { testNode } from '@sim4d/nodes-core/test-utils';
 
 describe('Custom::MyNode', () => {
   it('should process input correctly', async () => {

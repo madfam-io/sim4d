@@ -6,7 +6,7 @@ import {
   DEFAULT_API_CONFIG,
 } from './integrated-geometry-api';
 import type { GeometryAPIConfig, _OperationResult } from './integrated-geometry-api';
-import type { ShapeHandle, _MeshData } from '@brepflow/types';
+import type { ShapeHandle, _MeshData } from '@sim4d/types';
 import { resetOCCTCircuitBreaker } from './occt-loader';
 import { shutdownGlobalMemoryManager } from './memory-manager';
 import { shutdownGlobalPool } from './worker-pool';

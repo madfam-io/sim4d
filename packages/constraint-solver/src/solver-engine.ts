@@ -1,7 +1,7 @@
 import type { Constraint, ConstraintEntity, ConstraintSolution, SolverOptions } from './types';
 import { GeometricConstraint } from './geometry-constraints';
 import { DimensionalConstraint } from './dimensional-constraints';
-import { logger } from '@brepflow/engine-core';
+import { logger } from '@sim4d/engine-core';
 
 export class ConstraintSolverEngine {
   private constraints: Map<string, Constraint> = new Map();

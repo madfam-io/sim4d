@@ -6,7 +6,7 @@
  */
 
 import express, { type Express } from 'express';
-import { createLogger } from '@brepflow/engine-core';
+import { createLogger } from '@sim4d/engine-core';
 
 const logger = createLogger('Collaboration');
 import { createServer, type Server as HTTPServer } from 'http';

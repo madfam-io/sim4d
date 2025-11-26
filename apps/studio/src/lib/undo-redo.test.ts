@@ -8,7 +8,7 @@ import {
   AddEdgeCommand,
   RemoveEdgeCommand,
 } from './undo-redo';
-import type { NodeInstance, Edge } from '@brepflow/types';
+import type { NodeInstance, Edge } from '@sim4d/types';
 
 describe('UndoRedoManager', () => {
   let manager: UndoRedoManager;

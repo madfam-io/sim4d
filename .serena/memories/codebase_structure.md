@@ -1,9 +1,9 @@
-# BrepFlow Codebase Structure
+# Sim4D Codebase Structure
 
 ## Monorepo Layout
 
 ```
-/brepflow
+/sim4d
   /apps
     /studio            # React app: node editor + viewport
     /marketing         # Marketing website

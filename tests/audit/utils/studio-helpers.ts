@@ -59,8 +59,8 @@ export async function bootstrapStudio(page: Page): Promise<void> {
     };
 
     try {
-      window.localStorage.setItem('brepflow-visited', 'true');
-      window.localStorage.setItem('brepflow-onboarding-state', JSON.stringify(onboardingState));
+      window.localStorage.setItem('sim4d-visited', 'true');
+      window.localStorage.setItem('sim4d-onboarding-state', JSON.stringify(onboardingState));
     } catch (error) {
       // Local storage may be unavailable in some contexts; swallow errors for tests
     }

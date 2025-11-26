@@ -29,7 +29,7 @@ export default defineConfig({
       statements: 80,
     },
     alias: {
-      '@brepflow/engine-occt': path.resolve(
+      '@sim4d/engine-occt': path.resolve(
         __dirname,
         './tests/setup/__mocks__/engine-occt.mock.ts'
       ),
@@ -37,7 +37,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@brepflow/engine-occt': path.resolve(
+      '@sim4d/engine-occt': path.resolve(
         __dirname,
         './tests/setup/__mocks__/engine-occt.mock.ts'
       ),

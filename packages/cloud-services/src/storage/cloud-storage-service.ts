@@ -1,10 +1,10 @@
 /**
  * Cloud Storage Service
- * Handles file storage, versioning, and content delivery for BrepFlow projects
+ * Handles file storage, versioning, and content delivery for Sim4D projects
  */
 
 import EventEmitter from 'events';
-import { ProjectId, UserId, CloudMetadata, VersionVector } from '@brepflow/cloud-api/src/types';
+import { ProjectId, UserId, CloudMetadata, VersionVector } from '@sim4d/cloud-api/src/types';
 
 export interface StorageConfig {
   provider: 'aws' | 'gcp' | 'azure' | 'local';

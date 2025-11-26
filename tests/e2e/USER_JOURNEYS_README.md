@@ -21,7 +21,7 @@ Real-time browser-based validation of complete user workflows with visual regres
 1. **Development Server Running**
 
    ```bash
-   pnpm --filter @brepflow/studio run dev
+   pnpm --filter @sim4d/studio run dev
    # Server: http://localhost:5173
    ```
 
@@ -472,7 +472,7 @@ jobs:
         run: npx playwright install chromium
 
       - name: Start dev server
-        run: pnpm --filter @brepflow/studio run dev &
+        run: pnpm --filter @sim4d/studio run dev &
 
       - name: Run user journey tests
         run: npx playwright test --config=playwright.user-journeys.config.ts
@@ -534,7 +534,7 @@ Average API response time: 1234ms
 ## 📚 Additional Resources
 
 - **Playwright Docs**: https://playwright.dev/docs/intro
-- **BrepFlow Architecture**: docs/technical/ARCHITECTURE.md
+- **Sim4D Architecture**: docs/technical/ARCHITECTURE.md
 - **Testing Strategy**: docs/development/TESTING.md
 - **CI/CD Guide**: docs/deployment/CICD.md
 

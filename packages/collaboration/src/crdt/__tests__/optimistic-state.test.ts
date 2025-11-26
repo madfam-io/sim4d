@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { OptimisticStateManager } from '../optimistic-state';
 import type { Operation, Graph, Node } from '../../types';
-import { createNodeId } from '@brepflow/types';
+import { createNodeId } from '@sim4d/types';
 
 describe('OptimisticStateManager', () => {
   let manager: OptimisticStateManager;

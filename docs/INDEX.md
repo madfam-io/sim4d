@@ -1,4 +1,4 @@
-# BrepFlow Documentation Index
+# Sim4D Documentation Index
 
 ## Quick Links
 
@@ -57,6 +57,6 @@ For AI-assisted development context and analysis, see [/claudedocs](../claudedoc
 
 ## External Resources
 
-- [BrepFlow Website](https://brepflow.com)
-- [GitHub Repository](https://github.com/aureo-labs/brepflow)
+- [Sim4D Website](https://sim4d.com)
+- [GitHub Repository](https://github.com/aureo-labs/sim4d)
 - [Discord Community](#)

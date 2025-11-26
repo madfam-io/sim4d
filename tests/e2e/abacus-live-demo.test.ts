@@ -2,18 +2,18 @@ import { test, expect } from '@playwright/test';
 
 /**
  * Live Abacus Integration Test Demo
- * Demonstrates real browser interaction with BrepFlow Studio
+ * Demonstrates real browser interaction with Sim4D Studio
  */
 test.describe('Abacus Integration Test - Live Demo', () => {
   test('Create parametric abacus with real studio interactions', async ({ page }) => {
     console.log('🧮 Starting Live Abacus Integration Test Demo...');
 
-    // Navigate to BrepFlow Studio
+    // Navigate to Sim4D Studio
     await page.goto('http://localhost:5173');
-    console.log('📱 Loaded BrepFlow Studio');
+    console.log('📱 Loaded Sim4D Studio');
 
     // Wait for studio to be ready
-    await page.waitForSelector('h1:has-text("Welcome to BrepFlow Studio!")');
+    await page.waitForSelector('h1:has-text("Welcome to Sim4D Studio!")');
     console.log('✅ Studio welcome screen loaded');
 
     // Take initial screenshot
@@ -103,7 +103,7 @@ test.describe('Abacus Integration Test - Live Demo', () => {
 
     // Verify we're running against real frontend
     const pageTitle = await page.title();
-    expect(pageTitle).toContain('BrepFlow Studio');
+    expect(pageTitle).toContain('Sim4D Studio');
 
     console.log('✅ Abacus Integration Test Demo Complete');
     console.log('📷 Screenshots saved to test-results/');
@@ -114,7 +114,7 @@ test.describe('Abacus Integration Test - Live Demo', () => {
     console.log('⚡ Testing Real-Time Parameter Updates...');
 
     await page.goto('http://localhost:5173');
-    await page.waitForSelector('h1:has-text("Welcome to BrepFlow Studio!")');
+    await page.waitForSelector('h1:has-text("Welcome to Sim4D Studio!")');
 
     // This test would demonstrate how parameter changes trigger geometry updates
     console.log('📐 Parameter Update Scenarios:');
@@ -139,7 +139,7 @@ test.describe('Abacus Integration Test - Live Demo', () => {
     console.log('📦 Testing Manufacturing Export Validation...');
 
     await page.goto('http://localhost:5173');
-    await page.waitForSelector('h1:has-text("Welcome to BrepFlow Studio!")');
+    await page.waitForSelector('h1:has-text("Welcome to Sim4D Studio!")');
 
     // Demo the export validation that would happen
     const exportFormats = [

@@ -41,11 +41,11 @@ const logger = createChildLogger({ module: 'useResilientNodeDiscovery' });
 
 ```typescript
 // Before
-console.log('🔍 DEBUG: Attempting dynamic import of @brepflow/nodes-core...');
+console.log('🔍 DEBUG: Attempting dynamic import of @sim4d/nodes-core...');
 console.log('🔍 DEBUG: Dynamic import successful:', Object.keys(nodesCore));
 
 // After
-logger.debug('Attempting dynamic import of @brepflow/nodes-core');
+logger.debug('Attempting dynamic import of @sim4d/nodes-core');
 logger.debug('Dynamic import successful', { exportedKeys: Object.keys(nodesCore) });
 ```
 
@@ -266,7 +266,7 @@ grep -c "logger\." apps/studio/src/hooks/useResilientNodeDiscovery.ts
 | Line | Original                                                        | New                                                                  | Level |
 | ---- | --------------------------------------------------------------- | -------------------------------------------------------------------- | ----- |
 | 447  | `console.log('🔍 useResilientNodeDiscovery hook called...')`    | `logger.info('Node discovery process started')`                      | info  |
-| 451  | `console.log('🔍 DEBUG: Attempting dynamic import...')`         | `logger.debug('Attempting dynamic import of @brepflow/nodes-core')`  | debug |
+| 451  | `console.log('🔍 DEBUG: Attempting dynamic import...')`         | `logger.debug('Attempting dynamic import of @sim4d/nodes-core')`  | debug |
 | 455  | `console.log('🔍 DEBUG: Dynamic import successful:', ...)`      | `logger.debug('Dynamic import successful', { exportedKeys })`        | debug |
 | 460  | `console.log('🔍 Starting dynamic node discovery...')`          | `logger.info('Starting dynamic node discovery')`                     | info  |
 | 461  | `console.log('🔍 DEBUG: registerAllNodes type:', ...)`          | `logger.debug('Function types resolved', { ... })`                   | debug |

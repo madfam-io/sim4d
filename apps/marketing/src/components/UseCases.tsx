@@ -91,7 +91,7 @@ export function UseCases() {
             <span className="text-white">Use Case</span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            From rapid prototyping to manufacturing-grade design, BrepFlow adapts to your workflow.
+            From rapid prototyping to manufacturing-grade design, Sim4D adapts to your workflow.
             Discover how teams across industries are revolutionizing their design process.
           </p>
         </motion.div>
@@ -171,12 +171,12 @@ export function UseCases() {
         >
           <h3 className="text-2xl font-bold text-white mb-4">Ready to Transform Your Workflow?</h3>
           <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
-            Join teams worldwide who are already using BrepFlow to accelerate their design process.
+            Join teams worldwide who are already using Sim4D to accelerate their design process.
             Start building with parametric CAD in your browser today.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <GlowButton href={import.meta.env.VITE_STUDIO_URL || 'http://localhost:5173'} variant="primary" size="large">
-              Try BrepFlow Studio
+              Try Sim4D Studio
             </GlowButton>
             <GlowButton href="#demo" variant="secondary" size="large">
               Watch Demo

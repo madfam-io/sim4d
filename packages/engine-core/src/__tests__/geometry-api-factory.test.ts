@@ -1,7 +1,7 @@
 /**
  * Tests for GeometryAPIFactory
  *
- * Uses WASM test harness to mock @brepflow/engine-occt module
+ * Uses WASM test harness to mock @sim4d/engine-occt module
  * Tests factory initialization, API creation, error handling, and configuration
  */
 
@@ -13,7 +13,7 @@ import {
   getProductionAPI,
   isRealGeometryAvailable,
 } from '../geometry-api-factory';
-import type { WorkerAPI } from '@brepflow/types';
+import type { WorkerAPI } from '@sim4d/types';
 
 // Mock config modules
 vi.mock('../config/environment', () => ({

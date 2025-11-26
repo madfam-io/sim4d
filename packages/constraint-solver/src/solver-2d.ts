@@ -1,5 +1,5 @@
 import type { Point2D, Constraint2D, Variable, SolveResult } from './types';
-import { logger } from '@brepflow/engine-core';
+import { logger } from '@sim4d/engine-core';
 
 export class Solver2D {
   private constraints: Constraint2D[] = [];

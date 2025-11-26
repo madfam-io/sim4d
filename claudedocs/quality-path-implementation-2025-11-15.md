@@ -134,7 +134,7 @@ They WILL FAIL in v10.0.0
 
 **Recommendation**: Update `.husky/pre-commit` before Husky v10 release
 
-**File**: `/Users/aldoruizluna/labspace/brepflow/.husky/pre-commit`
+**File**: `/Users/aldoruizluna/labspace/sim4d/.husky/pre-commit`
 
 ---
 
@@ -154,7 +154,7 @@ They WILL FAIL in v10.0.0
 
 **Approach**:
 
-- Start with `@brepflow/studio` package (pilot)
+- Start with `@sim4d/studio` package (pilot)
 - Create `eslint.config.js` alongside existing `.eslintrc.json`
 - Test migration validates all current rules
 - Systematic rollout to remaining packages
@@ -322,18 +322,18 @@ export default [
 #### Rollout Strategy for Remaining Packages
 
 1. **Phase 1**: Test packages (simple configs)
-   - `@brepflow/types`
-   - `@brepflow/schemas`
+   - `@sim4d/types`
+   - `@sim4d/schemas`
 
 2. **Phase 2**: Core packages (moderate complexity)
-   - `@brepflow/engine-core`
-   - `@brepflow/nodes-core`
-   - `@brepflow/viewport`
+   - `@sim4d/engine-core`
+   - `@sim4d/nodes-core`
+   - `@sim4d/viewport`
 
 3. **Phase 3**: Complex packages
-   - `@brepflow/collaboration`
-   - `@brepflow/engine-occt`
-   - `@brepflow/cloud-services`
+   - `@sim4d/collaboration`
+   - `@sim4d/engine-occt`
+   - `@sim4d/cloud-services`
 
 4. **Phase 4**: Root config migration
    - Migrate root `.eslintrc.json`

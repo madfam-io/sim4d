@@ -3,7 +3,7 @@
  * Type definitions for collaborative editing of node graphs
  */
 
-import type { NodeId, EdgeId } from '@brepflow/types';
+import type { NodeId, EdgeId } from '@sim4d/types';
 
 export type UserId = string;
 export type SessionId = string;

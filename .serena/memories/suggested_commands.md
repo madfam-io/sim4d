@@ -1,4 +1,4 @@
-# BrepFlow Suggested Commands
+# Sim4D Suggested Commands
 
 ## Essential Development Commands
 
@@ -29,7 +29,7 @@ pnpm lockfile:update                # Update lockfile
 pnpm run build:wasm                 # Compile OCCT.wasm (requires Emscripten)
 
 # CLI Usage
-pnpm --filter @brepflow/cli run build
+pnpm --filter @sim4d/cli run build
 node packages/cli/dist/index.js render examples/enclosure.bflow.json --export step,stl
 
 # Cleanup
@@ -40,9 +40,9 @@ pnpm run clean                      # Clean all build artifacts
 
 ```bash
 # Work with specific packages
-pnpm --filter @brepflow/studio run dev
-pnpm --filter @brepflow/engine-core run build
-pnpm --filter @brepflow/cli run test
+pnpm --filter @sim4d/studio run dev
+pnpm --filter @sim4d/engine-core run build
+pnpm --filter @sim4d/cli run test
 ```
 
 ## macOS-Specific Commands

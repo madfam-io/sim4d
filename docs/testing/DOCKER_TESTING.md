@@ -3,7 +3,7 @@
 **Last Updated**: 2025-11-17  
 **Status**: Production Ready
 
-This guide explains BrepFlow's Docker-based testing strategy, which achieves **100% test pass rate** by running WASM tests in proper browser environments.
+This guide explains Sim4D's Docker-based testing strategy, which achieves **100% test pass rate** by running WASM tests in proper browser environments.
 
 ---
 
@@ -102,7 +102,7 @@ This will run:
 ### Docker Configuration
 
 ```
-/brepflow
+/sim4d
 ├── Dockerfile.test-unit         # Node.js test runner (Alpine)
 ├── Dockerfile.test-wasm         # Browser test runner (Playwright)
 ├── docker-compose.test.yml      # Test orchestration
@@ -379,5 +379,5 @@ After Docker:
 
 ---
 
-**Maintained By**: BrepFlow Platform Team  
+**Maintained By**: Sim4D Platform Team  
 **Questions**: Check troubleshooting section or open an issue

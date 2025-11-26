@@ -54,7 +54,7 @@ jobs:
 
     - name: Start dev server in background
       run: |
-        pnpm --filter @brepflow/studio run dev --port 5173 &
+        pnpm --filter @sim4d/studio run dev --port 5173 &
         echo "DEV_SERVER_PID=$!" >> $GITHUB_ENV
 
     - name: Wait for dev server

@@ -1,5 +1,5 @@
 /**
- * Example integration of monitoring system with BrepFlow components
+ * Example integration of monitoring system with Sim4D components
  * This file demonstrates best practices for using the monitoring system
  */
 
@@ -425,7 +425,7 @@ export const MonitoredPage: React.FC = () => {
   return (
     <ErrorBoundary>
       <div className="monitored-page">
-        <h1>Monitored BrepFlow Component Examples</h1>
+        <h1>Monitored Sim4D Component Examples</h1>
 
         <section>
           <h2>Form Example</h2>

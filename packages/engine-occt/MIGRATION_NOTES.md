@@ -69,7 +69,7 @@ The `HybridGeometryAPI` and related types are not being exported in the main `in
 
 **Workaround**: Import from the hybrid subpath:
 ```typescript
-import { HybridGeometryAPI } from '@brepflow/engine-occt/hybrid';
+import { HybridGeometryAPI } from '@sim4d/engine-occt/hybrid';
 ```
 
 Or use `IntegratedGeometryAPI` directly until resolved.

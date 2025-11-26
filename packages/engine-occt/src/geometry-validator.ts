@@ -3,7 +3,7 @@
  * Ensures all geometry operations produce valid results
  */
 
-import { getConfig } from '@brepflow/engine-core';
+import { getConfig } from '@sim4d/engine-core';
 import { getLogger } from './production-logger';
 
 const logger = getLogger('OCCT');

@@ -12,6 +12,6 @@ export default createLibraryConfig({
     'three',
     '@react-three/fiber',
     '@react-three/drei',
-    /^@brepflow\//,
+    /^@sim4d\//,
   ],
 });

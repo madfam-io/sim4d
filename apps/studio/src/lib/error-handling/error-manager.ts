@@ -1,10 +1,10 @@
 /**
- * Central error management system for BrepFlow Studio
+ * Central error management system for Sim4D Studio
  */
 
 import { v4 as uuidv4 } from 'uuid';
 import {
-  BrepFlowError,
+  Sim4DError,
   ErrorCode,
   ErrorCategory,
   ErrorSeverity,
@@ -53,7 +53,7 @@ class SimpleEventEmitter {
 
 export class ErrorManager extends SimpleEventEmitter {
   private static instance: ErrorManager | null = null;
-  private errors: Map<string, BrepFlowError> = new Map();
+  private errors: Map<string, Sim4DError> = new Map();
   private config: MonitoringConfig;
   private logger: Logger;
   private metrics: MetricsCollector;
@@ -96,8 +96,8 @@ export class ErrorManager extends SimpleEventEmitter {
       recoverable?: boolean;
       recoveryActions?: RecoveryAction[];
     } = {}
-  ): BrepFlowError {
-    const error: BrepFlowError = {
+  ): Sim4DError {
+    const error: Sim4DError = {
       id: uuidv4(),
       code,
       category: options.category || this.inferCategory(code),
@@ -126,7 +126,7 @@ export class ErrorManager extends SimpleEventEmitter {
   /**
    * Register an error and handle reporting/logging
    */
-  private registerError(error: BrepFlowError): void {
+  private registerError(error: Sim4DError): void {
     this.errors.set(error.id, error);
     this.emit('error', error);
 
@@ -196,7 +196,7 @@ export class ErrorManager extends SimpleEventEmitter {
     error: Error,
     code: ErrorCode = ErrorCode.RUNTIME,
     options: Partial<Parameters<typeof this.createError>[2]> = {}
-  ): BrepFlowError {
+  ): Sim4DError {
     return this.createError(code, error.message, {
       ...options,
       technicalDetails: error.stack,
@@ -227,21 +227,21 @@ export class ErrorManager extends SimpleEventEmitter {
   /**
    * Get all errors
    */
-  public getErrors(): BrepFlowError[] {
+  public getErrors(): Sim4DError[] {
     return Array.from(this.errors.values());
   }
 
   /**
    * Get active (unresolved) errors
    */
-  public getActiveErrors(): BrepFlowError[] {
+  public getActiveErrors(): Sim4DError[] {
     return this.getErrors().filter((error) => !error.resolvedAt);
   }
 
   /**
    * Get errors by severity
    */
-  public getErrorsBySeverity(severity: ErrorSeverity): BrepFlowError[] {
+  public getErrorsBySeverity(severity: ErrorSeverity): Sim4DError[] {
     return this.getErrors().filter((error) => error.severity === severity);
   }
 
@@ -294,7 +294,7 @@ export class ErrorManager extends SimpleEventEmitter {
   /**
    * Report error to external monitoring service
    */
-  private async reportErrorToService(error: BrepFlowError): Promise<void> {
+  private async reportErrorToService(error: Sim4DError): Promise<void> {
     if (!this.config.errorReporting.endpoint || !this.config.errorReporting.apiKey) {
       return;
     }
@@ -331,7 +331,7 @@ export class ErrorManager extends SimpleEventEmitter {
   /**
    * Handle critical errors that require immediate attention
    */
-  private handleCriticalError(error: BrepFlowError): void {
+  private handleCriticalError(error: Sim4DError): void {
     // Show notification to user
     this.emit('criticalError', error);
 

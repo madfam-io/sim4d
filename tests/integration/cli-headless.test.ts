@@ -20,7 +20,7 @@ const geometryInvoke = vi.fn(async (operation: string) => {
   return { success: true, result: { id: 'mock-shape' } };
 });
 
-vi.mock('@brepflow/engine-core', () => ({
+vi.mock('@sim4d/engine-core', () => ({
   GraphManager: class {
     private graph: any;
 
@@ -93,14 +93,14 @@ vi.mock('@brepflow/engine-core', () => ({
   },
 }));
 
-vi.mock('@brepflow/nodes-core', () => ({
+vi.mock('@sim4d/nodes-core', () => ({
   registerCoreNodes: vi.fn(),
 }));
 
 type RenderCommandModule = typeof import('../../packages/cli/src/commands/render');
 
 describe('CLI integration', () => {
-  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'brepflow-cli-'));
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sim4d-cli-'));
   let renderCommand: RenderCommandModule['renderCommand'];
 
   beforeAll(async () => {

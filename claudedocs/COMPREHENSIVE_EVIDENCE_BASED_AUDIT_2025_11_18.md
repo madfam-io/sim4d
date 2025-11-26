@@ -1,6 +1,6 @@
 # Comprehensive Evidence-Based Codebase Audit - 2025-11-18
 
-**Project**: BrepFlow v0.2  
+**Project**: Sim4D v0.2  
 **Audit Type**: Full quantitative and qualitative analysis  
 **Methodology**: Evidence-based measurement across all dimensions  
 **Confidence Level**: 98% (all metrics directly measured)
@@ -392,7 +392,7 @@ Test Status:
   Skipped: 2 tests
 
 Failed Tests Breakdown:
-  Package: @brepflow/constraint-solver
+  Package: @sim4d/constraint-solver
   File: src/solver-2d.comprehensive.test.ts
   Tests: 18 failures
   Reason: All tests in comprehensive suite failing

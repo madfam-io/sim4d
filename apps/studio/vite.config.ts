@@ -49,7 +49,7 @@ const SUPPRESSED_BUILD_LOGS: SuppressedLogDescriptor[] = [
 
 function suppressOcctWarnings(): Plugin {
   return {
-    name: 'brepflow-occt-warning-filter',
+    name: 'sim4d-occt-warning-filter',
     apply: 'build',
     configResolved(config) {
       const originalWarn = config.logger.warn.bind(config.logger);
@@ -228,12 +228,12 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),
-      // BrepFlow package aliases for monorepo - point to source index files
-      '@brepflow/nodes-core': resolve(__dirname, '../../packages/nodes-core/src/index.ts'),
-      '@brepflow/engine-core': resolve(__dirname, '../../packages/engine-core/src/index.ts'),
-      '@brepflow/engine-occt': resolve(__dirname, '../../packages/engine-occt/src/index.ts'),
-      '@brepflow/types': resolve(__dirname, '../../packages/types/src/index.ts'),
-      '@brepflow/viewport': resolve(__dirname, '../../packages/viewport/src/index.ts'),
+      // Sim4D package aliases for monorepo - point to source index files
+      '@sim4d/nodes-core': resolve(__dirname, '../../packages/nodes-core/src/index.ts'),
+      '@sim4d/engine-core': resolve(__dirname, '../../packages/engine-core/src/index.ts'),
+      '@sim4d/engine-occt': resolve(__dirname, '../../packages/engine-occt/src/index.ts'),
+      '@sim4d/types': resolve(__dirname, '../../packages/types/src/index.ts'),
+      '@sim4d/viewport': resolve(__dirname, '../../packages/viewport/src/index.ts'),
       // Polyfills
       'xxhash-wasm': resolve(__dirname, './src/polyfills/xxhash-mock.ts'),
       uuid: resolve(__dirname, './src/polyfills/uuid-mock.ts'),
@@ -244,7 +244,7 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    exclude: ['@brepflow/engine-occt'], // Exclude WASM modules from optimization
+    exclude: ['@sim4d/engine-occt'], // Exclude WASM modules from optimization
     include: ['path', 'url', 'fs', 'crypto', 'uuid', 'xxhash-wasm'], // Force inclusion of polyfilled modules
   },
   ssr: {
@@ -367,23 +367,23 @@ export default defineConfig({
             return 'state-vendor';
           }
 
-          // BrepFlow engine packages - split into separate chunks
-          if (id.includes('@brepflow/engine-core')) {
+          // Sim4D engine packages - split into separate chunks
+          if (id.includes('@sim4d/engine-core')) {
             return 'engine-core';
           }
 
-          if (id.includes('@brepflow/engine-occt')) {
+          if (id.includes('@sim4d/engine-occt')) {
             return 'engine-occt';
           }
 
-          // BrepFlow nodes - large package, separate chunk
-          if (id.includes('@brepflow/nodes-core')) {
+          // Sim4D nodes - large package, separate chunk
+          if (id.includes('@sim4d/nodes-core')) {
             return 'nodes-core';
           }
 
-          // Other BrepFlow packages
-          if (id.includes('@brepflow/')) {
-            return 'brepflow-vendor';
+          // Other Sim4D packages
+          if (id.includes('@sim4d/')) {
+            return 'sim4d-vendor';
           }
         },
         // Optimize chunk names for better caching

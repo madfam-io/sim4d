@@ -14,7 +14,7 @@ import type {
   SelectionState,
   CollaborationConfig,
 } from '../types';
-import { BrepFlowCollaborationEngine } from '../collaboration-engine';
+import { Sim4DCollaborationEngine } from '../collaboration-engine';
 
 export class MockWebSocketClient {
   private eventListeners = new Map<string, ((...args: any[]) => void)[]>();
@@ -449,7 +449,7 @@ export function createTestCollaborationEngine(harness: CollaborationTestHarness)
   const mockWebSocketClient = new MockWebSocketClient();
 
   // Use the imported engine class with the mock client
-  const engine = new BrepFlowCollaborationEngine(mockWebSocketClient);
+  const engine = new Sim4DCollaborationEngine(mockWebSocketClient);
 
   // Override WebSocket broadcasting to use harness
   const originalBroadcastOperation = engine.broadcastOperation?.bind(engine);

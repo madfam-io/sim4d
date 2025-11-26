@@ -1,6 +1,6 @@
-# @brepflow/engine-occt
+# @sim4d/engine-occt
 
-OpenCASCADE Technology (OCCT) WebAssembly bindings for BrepFlow - provides exact B-Rep/NURBS geometry operations.
+OpenCASCADE Technology (OCCT) WebAssembly bindings for Sim4D - provides exact B-Rep/NURBS geometry operations.
 
 **Status**: ✅ Production Ready (Verified November 14, 2025)  
 **WASM Binaries**: 55MB pre-compiled (no build required)  
@@ -8,7 +8,7 @@ OpenCASCADE Technology (OCCT) WebAssembly bindings for BrepFlow - provides exact
 
 ## Overview
 
-The engine-occt package provides the **production-ready geometry kernel** for BrepFlow, wrapping OCCT in WebAssembly for browser-based CAD operations.
+The engine-occt package provides the **production-ready geometry kernel** for Sim4D, wrapping OCCT in WebAssembly for browser-based CAD operations.
 
 **✅ Verified Capabilities** (November 14, 2025):
 
@@ -30,7 +30,7 @@ The engine-occt package provides the **production-ready geometry kernel** for Br
 ## Installation
 
 ```bash
-pnpm add @brepflow/engine-occt
+pnpm add @sim4d/engine-occt
 ```
 
 ## Architecture
@@ -48,7 +48,7 @@ The package uses a three-layer architecture:
 Main interface for geometry operations.
 
 ```typescript
-import { GeometryAPI, createGeometryAPI } from '@brepflow/engine-occt';
+import { GeometryAPI, createGeometryAPI } from '@sim4d/engine-occt';
 
 // Create API instance
 const api = createGeometryAPI(false); // false = use real OCCT, true = use mock
@@ -239,7 +239,7 @@ const stlData = await api.invoke('EXPORT_STL', {
 Development and testing interface that simulates OCCT operations.
 
 ```typescript
-import { MockGeometry } from '@brepflow/engine-occt';
+import { MockGeometry } from '@sim4d/engine-occt';
 
 const mock = new MockGeometry();
 

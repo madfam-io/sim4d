@@ -1,7 +1,7 @@
 {
-  "name": "@brepflow/viewport",
+  "name": "@sim4d/viewport",
   "version": "0.1.0",
-  "description": "BrepFlow 3D viewport renderer",
+  "description": "Sim4D 3D viewport renderer",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -13,7 +13,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@brepflow/types": "workspace:*",
+    "@sim4d/types": "workspace:*",
     "@react-three/drei": "^9.92.0",
     "@react-three/fiber": "^8.15.0",
     "three": "^0.181.1"

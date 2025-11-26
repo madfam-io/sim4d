@@ -4,7 +4,7 @@
  */
 
 import type { Server as SocketIOServer } from 'socket.io';
-import { createLogger } from '@brepflow/engine-core';
+import { createLogger } from '@sim4d/engine-core';
 
 const logger = createLogger('Collaboration');
 import http, { type IncomingMessage } from 'http';

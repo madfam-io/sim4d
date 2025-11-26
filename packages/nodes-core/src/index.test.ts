@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 // Mock the NodeRegistry
-vi.mock('@brepflow/engine-core', () => ({
+vi.mock('@sim4d/engine-core', () => ({
   NodeRegistry: {
     getInstance: vi.fn().mockReturnValue({
       registerNodes: vi.fn(),
@@ -10,7 +10,7 @@ vi.mock('@brepflow/engine-core', () => ({
 }));
 
 import { registerCoreNodes } from './index';
-import { NodeRegistry } from '@brepflow/engine-core';
+import { NodeRegistry } from '@sim4d/engine-core';
 
 describe('Core Nodes Index', () => {
   beforeEach(() => {

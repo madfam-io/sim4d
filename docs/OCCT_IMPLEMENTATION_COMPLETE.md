@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-The BrepFlow OCCT geometry implementation is now **complete, production-ready, and fully verified**. We have successfully created a **long-term stable solution** that connects all 1,827 generated nodes to real OCCT geometry operations **without any duplication** of existing infrastructure.
+The Sim4D OCCT geometry implementation is now **complete, production-ready, and fully verified**. We have successfully created a **long-term stable solution** that connects all 1,827 generated nodes to real OCCT geometry operations **without any duplication** of existing infrastructure.
 
 **Latest Verification** (November 14, 2025):
 

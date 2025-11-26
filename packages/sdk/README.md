@@ -1,10 +1,10 @@
-# @brepflow/sdk
+# @sim4d/sdk
 
-Official SDK for creating custom nodes and plugins for BrepFlow.
+Official SDK for creating custom nodes and plugins for Sim4D.
 
 ## Overview
 
-The BrepFlow SDK enables developers to extend BrepFlow with:
+The Sim4D SDK enables developers to extend Sim4D with:
 
 - **Custom Nodes**: Create parametric geometry operations
 - **Plugins**: Add new functionality and UI panels
@@ -14,7 +14,7 @@ The BrepFlow SDK enables developers to extend BrepFlow with:
 ## Installation
 
 ```bash
-pnpm add @brepflow/sdk
+pnpm add @sim4d/sdk
 ```
 
 ## Quick Start
@@ -22,7 +22,7 @@ pnpm add @brepflow/sdk
 ### Creating a Custom Node
 
 ```typescript
-import { NodeBuilder } from '@brepflow/sdk';
+import { NodeBuilder } from '@sim4d/sdk';
 
 const customBox = new NodeBuilder<
   { scale: number },
@@ -55,16 +55,16 @@ const customBox = new NodeBuilder<
 ### Creating a Plugin
 
 ```typescript
-import { BrepFlowPlugin, PluginManifest, PluginPermission } from '@brepflow/sdk';
+import { Sim4DPlugin, PluginManifest, PluginPermission } from '@sim4d/sdk';
 
-export class MyPlugin extends BrepFlowPlugin {
+export class MyPlugin extends Sim4DPlugin {
   get manifest(): PluginManifest {
     return {
       id: 'my-plugin',
       name: 'My Custom Plugin',
       version: '1.0.0',
       author: 'Your Name',
-      description: 'Adds custom functionality to BrepFlow',
+      description: 'Adds custom functionality to Sim4D',
       nodes: ['Custom::ScalableBox'],
       permissions: [
         PluginPermission.READ_GRAPH,
@@ -169,7 +169,7 @@ Fluent API for creating custom nodes.
 })
 ```
 
-### BrepFlowPlugin
+### Sim4DPlugin
 
 Base class for plugins.
 
@@ -361,7 +361,7 @@ enum PluginPermission {
 ### Example 1: Parametric Bracket
 
 ```typescript
-import { NodeBuilder } from '@brepflow/sdk';
+import { NodeBuilder } from '@sim4d/sdk';
 
 const bracketNode = new NodeBuilder('Custom::ParametricBracket')
   .name('Parametric Bracket')
@@ -413,9 +413,9 @@ const bracketNode = new NodeBuilder('Custom::ParametricBracket')
 ### Example 2: Text Engraving Plugin
 
 ```typescript
-import { BrepFlowPlugin, PluginPermission } from '@brepflow/sdk';
+import { Sim4DPlugin, PluginPermission } from '@sim4d/sdk';
 
-export class TextEngravingPlugin extends BrepFlowPlugin {
+export class TextEngravingPlugin extends Sim4DPlugin {
   get manifest() {
     return {
       id: 'text-engraving',
@@ -485,9 +485,9 @@ export class TextEngravingPlugin extends BrepFlowPlugin {
 ### Example 3: Export to External Service
 
 ```typescript
-import { BrepFlowPlugin, PluginPermission } from '@brepflow/sdk';
+import { Sim4DPlugin, PluginPermission } from '@sim4d/sdk';
 
-export class CloudExportPlugin extends BrepFlowPlugin {
+export class CloudExportPlugin extends Sim4DPlugin {
   get manifest() {
     return {
       id: 'cloud-export',
@@ -558,10 +558,10 @@ export class CloudExportPlugin extends BrepFlowPlugin {
 ### 1. Project Setup
 
 ```bash
-mkdir my-brepflow-plugin
-cd my-brepflow-plugin
+mkdir my-sim4d-plugin
+cd my-sim4d-plugin
 pnpm init
-pnpm add @brepflow/sdk
+pnpm add @sim4d/sdk
 pnpm add -D typescript tsup
 ```
 
@@ -603,7 +603,7 @@ export default defineConfig({
   splitting: false,
   sourcemap: true,
   clean: true,
-  external: ['@brepflow/sdk'],
+  external: ['@sim4d/sdk'],
 });
 ```
 
@@ -613,7 +613,7 @@ Update `package.json`:
 
 ```json
 {
-  "name": "my-brepflow-plugin",
+  "name": "my-sim4d-plugin",
   "version": "1.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -630,9 +630,9 @@ Update `package.json`:
 Create `src/index.ts`:
 
 ```typescript
-import { BrepFlowPlugin } from '@brepflow/sdk';
+import { Sim4DPlugin } from '@sim4d/sdk';
 
-export default class MyPlugin extends BrepFlowPlugin {
+export default class MyPlugin extends Sim4DPlugin {
   // Implementation here
 }
 ```
@@ -641,11 +641,11 @@ export default class MyPlugin extends BrepFlowPlugin {
 
 ```bash
 # Link locally
-cd my-brepflow-plugin
+cd my-sim4d-plugin
 pnpm link
 
-# In BrepFlow project
-pnpm link my-brepflow-plugin
+# In Sim4D project
+pnpm link my-sim4d-plugin
 ```
 
 ### 7. Publishing
@@ -718,7 +718,7 @@ pnpm publish
 - [API Documentation](../../docs/api/API_OVERVIEW.md)
 - [Node Development Guide](../../docs/api/NODE_DEVELOPMENT.md)
 - [Example Plugins](../../examples/plugins/)
-- [BrepFlow Types](../types/README.md)
+- [Sim4D Types](../types/README.md)
 
 ## License
 

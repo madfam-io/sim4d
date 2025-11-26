@@ -5,7 +5,7 @@
 # Integrates with MADFAM shared infrastructure
 # =============================================================================
 
-name: brepflow
+name: sim4d
 
 services:
   # Studio - Main React CAD application
@@ -13,7 +13,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.studio
-    container_name: brepflow-studio
+    container_name: sim4d-studio
     ports:
       - '5173:5173'
     volumes:
@@ -41,14 +41,14 @@ services:
       timeout: 10s
       retries: 3
       start_period: 60s
-    command: pnpm --filter @brepflow/studio run dev --host 0.0.0.0
+    command: pnpm --filter @sim4d/studio run dev --host 0.0.0.0
 
   # Marketing - Landing page
   marketing:
     build:
       context: .
       dockerfile: Dockerfile.marketing
-    container_name: brepflow-marketing
+    container_name: sim4d-marketing
     ports:
       - '3040:3000' # Changed to avoid conflict with other marketing sites
     volumes:
@@ -60,14 +60,14 @@ services:
       - NODE_ENV=development
     networks:
       - madfam-shared-network
-    command: pnpm --filter @brepflow/marketing run dev --host 0.0.0.0
+    command: pnpm --filter @sim4d/marketing run dev --host 0.0.0.0
 
   # Collaboration WebSocket Server
   collaboration:
     build:
       context: .
       dockerfile: Dockerfile.collaboration
-    container_name: brepflow-collaboration
+    container_name: sim4d-collaboration
     ports:
       - '8081:8080' # Changed to avoid conflict with enclii
     volumes:

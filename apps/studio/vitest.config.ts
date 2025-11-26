@@ -49,11 +49,11 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),
-      '@brepflow/engine-core': resolve(__dirname, '../../packages/engine-core/src'),
-      '@brepflow/engine-occt': resolve(__dirname, '../../packages/engine-occt/src'),
-      '@brepflow/nodes-core': resolve(__dirname, '../../packages/nodes-core/src'),
-      '@brepflow/types': resolve(__dirname, '../../packages/types/src'),
-      '@brepflow/viewport': resolve(__dirname, '../../packages/viewport/src'),
+      '@sim4d/engine-core': resolve(__dirname, '../../packages/engine-core/src'),
+      '@sim4d/engine-occt': resolve(__dirname, '../../packages/engine-occt/src'),
+      '@sim4d/nodes-core': resolve(__dirname, '../../packages/nodes-core/src'),
+      '@sim4d/types': resolve(__dirname, '../../packages/types/src'),
+      '@sim4d/viewport': resolve(__dirname, '../../packages/viewport/src'),
     },
   },
 });

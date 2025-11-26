@@ -1,5 +1,5 @@
 /**
- * Node Template System for BrepFlow
+ * Node Template System for Sim4D
  * Generates consistent node implementations from templates
  */
 
@@ -169,7 +169,7 @@ export function generateNodeImplementation(template: NodeTemplate): string {
   const constantName = `${exportIdentifier}Node`;
 
   const sections = [
-    `import type { NodeDefinition } from '@brepflow/types';`,
+    `import type { NodeDefinition } from '@sim4d/types';`,
     '',
     renderParamInterface(paramsTypeName, template.parameters),
     '',

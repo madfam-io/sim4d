@@ -1,6 +1,6 @@
-# BrepFlow Testing Strategy
+# Sim4D Testing Strategy
 
-**Document Purpose**: Comprehensive testing strategy across the BrepFlow monorepo  
+**Document Purpose**: Comprehensive testing strategy across the Sim4D monorepo  
 **Scope**: Unit, Integration, E2E, and Performance testing  
 **Last Updated**: 2025-11-17
 
@@ -45,10 +45,10 @@
 
 **Packages with High Unit Test Coverage**:
 
-- `@brepflow/engine-core`: 93 tests (100% pass rate)
-- `@brepflow/constraint-solver`: 2 tests (needs expansion)
-- `@brepflow/collaboration`: 2 tests (needs expansion)
-- `@brepflow/viewport`: 2 tests (needs expansion)
+- `@sim4d/engine-core`: 93 tests (100% pass rate)
+- `@sim4d/constraint-solver`: 2 tests (needs expansion)
+- `@sim4d/collaboration`: 2 tests (needs expansion)
+- `@sim4d/viewport`: 2 tests (needs expansion)
 
 **Current Status**: 231/235 tests passing (98.3%)
 
@@ -116,7 +116,7 @@
 
 ## Package-Specific Testing Strategies
 
-### @brepflow/engine-core
+### @sim4d/engine-core
 
 **Focus**: DAG evaluation, dirty propagation, content-addressed hashing
 
@@ -132,7 +132,7 @@
 
 **Integration**: Node chain evaluation with mock geometry
 
-### @brepflow/engine-occt
+### @sim4d/engine-occt
 
 **Focus**: WASM bindings, geometry operations
 
@@ -149,7 +149,7 @@
 
 **Integration**: Full geometry operations in browser E2E tests
 
-### @brepflow/collaboration
+### @sim4d/collaboration
 
 **Focus**: Real-time collaboration, CSRF protection, WebSocket management
 
@@ -167,7 +167,7 @@
 
 **Priority**: Add unit tests for operation transforms, conflict resolution, session state
 
-### @brepflow/viewport
+### @sim4d/viewport
 
 **Focus**: Three.js rendering, WebGL/WebGPU, camera controls
 
@@ -182,7 +182,7 @@
 
 **Priority**: Add tests for camera controls, selection, rendering optimizations
 
-### @brepflow/constraint-solver
+### @sim4d/constraint-solver
 
 **Focus**: Parametric constraints, geometric constraint solving
 
@@ -195,7 +195,7 @@
 
 **Priority**: High - critical for parametric design functionality
 
-### @brepflow/nodes-core
+### @sim4d/nodes-core
 
 **Focus**: Built-in node implementations (30+ geometry nodes)
 
@@ -207,7 +207,7 @@
 
 **Priority**: Medium - well-covered by E2E tests, add unit tests for complex nodes
 
-### @brepflow/studio
+### @sim4d/studio
 
 **Focus**: React UI, node editor, inspector panel
 
@@ -317,7 +317,7 @@ services:
     environment:
       - NODE_ENV=test
       - ENABLE_RATE_LIMIT=false # KEY: Disable for testing
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/brepflow
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/sim4d
       - REDIS_URL=redis://redis:6379
 ```
 
@@ -350,7 +350,7 @@ tests/
 
 ```typescript
 import { readFileSync } from 'fs';
-import { parseSTEP } from '@brepflow/step-parser';
+import { parseSTEP } from '@sim4d/step-parser';
 
 it('should match golden STEP output', async () => {
   const result = await geometry.exportSTEP();

@@ -7,7 +7,7 @@ describe('CLI Package', () => {
 
   it('should have CLI functionality ready', () => {
     // Basic test to ensure the package structure is valid
-    const cliName = 'brepflow';
-    expect(cliName).toBe('brepflow');
+    const cliName = 'sim4d';
+    expect(cliName).toBe('sim4d');
   });
 });

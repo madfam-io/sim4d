@@ -1,4 +1,4 @@
-# Strategic Positioning Decision: BrepFlow Market Direction
+# Strategic Positioning Decision: Sim4D Market Direction
 
 **Date**: 2025-11-18  
 **Decision Type**: Critical Strategic Direction  
@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-BrepFlow must choose between two strategic paths:
+Sim4D must choose between two strategic paths:
 
 1. **Enterprise CAD Platform** - Compete directly with Grasshopper/Dynamo with enterprise features
 2. **Web-Native Computational Design** - Create new market category as first web-native parametric platform
@@ -22,7 +22,7 @@ BrepFlow must choose between two strategic paths:
 
 ### Option A: Enterprise CAD Platform
 
-**Positioning**: "BrepFlow is the enterprise-grade web CAD platform"
+**Positioning**: "Sim4D is the enterprise-grade web CAD platform"
 
 #### Strengths
 
@@ -60,7 +60,7 @@ BrepFlow must choose between two strategic paths:
 
 ### Option B: Web-Native Computational Design
 
-**Positioning**: "BrepFlow is the first truly collaborative, web-native parametric design platform"
+**Positioning**: "Sim4D is the first truly collaborative, web-native parametric design platform"
 
 #### Strengths
 
@@ -107,7 +107,7 @@ High Price │ Grasshopper ($995)  Dynamo ($2,400)
            │      ▼                    ▼
            │   ESTABLISHED          ENTERPRISE
            │
-Low Price  │ BrepFlow ($29-$79)
+Low Price  │ Sim4D ($29-$79)
            │      │
            │      ▼
            │  WEB-NATIVE (New Category)
@@ -404,7 +404,7 @@ Dec 2026: Enterprise GA
 ### Messaging Framework
 
 **Core Message:**  
-_"BrepFlow is the first truly collaborative parametric design platform - create together in real-time, from anywhere, on any device."_
+_"Sim4D is the first truly collaborative parametric design platform - create together in real-time, from anywhere, on any device."_
 
 **Key Differentiators:**
 

@@ -1,6 +1,6 @@
 /**
  * Performance Monitoring System
- * Tracks and reports performance metrics for BrepFlow operations
+ * Tracks and reports performance metrics for Sim4D operations
  */
 
 export interface PerformanceMetrics {

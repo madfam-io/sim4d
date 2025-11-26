@@ -73,7 +73,7 @@ src/hooks/useResilientNodeDiscovery.ts (90 errors) ⚠️ HOTSPOT
 
 **Problem**: `NodeDefinition` missing `type` property (70+ errors)
 
-**Root Cause**: Type definition in `@brepflow/types` may not include `type`, or it's optional
+**Root Cause**: Type definition in `@sim4d/types` may not include `type`, or it's optional
 
 **Fix Approach**:
 
@@ -209,10 +209,10 @@ interface ResponsiveLayoutProps {
 
 ```bash
 # Check current error count
-pnpm --filter @brepflow/studio typecheck 2>&1 | grep "^src/" | wc -l
+pnpm --filter @sim4d/studio typecheck 2>&1 | grep "^src/" | wc -l
 
 # Check affected files
-pnpm --filter @brepflow/studio typecheck 2>&1 | grep "^src/" | cut -d'(' -f1 | sort -u | wc -l
+pnpm --filter @sim4d/studio typecheck 2>&1 | grep "^src/" | cut -d'(' -f1 | sort -u | wc -l
 
 # Progress calculation
 # Baseline: 160 errors

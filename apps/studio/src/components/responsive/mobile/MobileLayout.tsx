@@ -113,7 +113,7 @@ export const MobileLayout: React.FC<MobileLayoutProps> = ({
     <div className="mobile-layout" data-orientation={capabilities.orientation}>
       {/* Status Bar */}
       <div className="mobile-status-bar">
-        <span className="app-title">BrepFlow</span>
+        <span className="app-title">Sim4D</span>
         <div className="status-actions">
           <button onClick={onFullscreenToggle} className="icon-button">
             {isFullscreen ? '⛶' : '⛶'}

@@ -1,4 +1,4 @@
-import type { NodeDefinition, ShapeHandle, Vec3, AssemblyHandle } from '@brepflow/types';
+import type { NodeDefinition, ShapeHandle, Vec3, AssemblyHandle } from '@sim4d/types';
 
 export const AssemblyNode: NodeDefinition<
   { parts: ShapeHandle[] },

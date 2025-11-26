@@ -1,4 +1,4 @@
-# BrepFlow Tech Stack
+# Sim4D Tech Stack
 
 ## Languages & Frameworks
 

@@ -1,11 +1,11 @@
-# BrepFlow — SOFTWARE_SPEC.md
+# Sim4D — SOFTWARE_SPEC.md
 
 _Owner:_ Aureo Labs (a MADFAM company)
-_Product:_ **BrepFlow** — Web‑first, node‑based parametric CAD on exact B‑Rep/NURBS
+_Product:_ **Sim4D** — Web‑first, node‑based parametric CAD on exact B‑Rep/NURBS
 _Doc:_ Software Specification
 _Status:_ Draft v0.1 · 2025‑09‑13
 
-> **Purpose** — This spec defines the architecture, modules, data formats, APIs, performance budgets, and non‑functional requirements to deliver BrepFlow MVP (v0.1) and set foundations for v0.5.
+> **Purpose** — This spec defines the architecture, modules, data formats, APIs, performance budgets, and non‑functional requirements to deliver Sim4D MVP (v0.1) and set foundations for v0.5.
 
 ---
 
@@ -60,7 +60,7 @@ _Status:_ Draft v0.1 · 2025‑09‑13
 **Monorepo:** pnpm workspaces + Turborepo
 
 ```
-/ brepflow
+/ sim4d
   /apps
     /studio          # React app (editor)
   /packages
@@ -234,14 +234,14 @@ Each node exposes: **preview toggle**, **error badge**, **compute time**.
 
 ## 11. CLI & Automation
 
-**Package:** `@brepflow/cli`
+**Package:** `@sim4d/cli`
 
 ```
-$ brepflow render graph.bflow.json \
+$ sim4d render graph.bflow.json \
     --set L=120 --set W=80 --out out/ --export step,stl \
     --quality high --hash
 
-$ brepflow sweep variants.json --graph enclosure.bflow.json --matrix params.csv
+$ sim4d sweep variants.json --graph enclosure.bflow.json --matrix params.csv
 ```
 
 - Headless Node.js; loads same WASM builds.
@@ -275,7 +275,7 @@ registerNode<Inputs, Outputs, Params>({
 
 ### 12.2 Plugin Packaging
 
-- `package.json` with `brepflow` manifest block (node list, version range).
+- `package.json` with `sim4d` manifest block (node list, version range).
 - Signed bundle (ed25519) for registry distribution; local dev bypass via flag.
 - Sandboxed execution in a dedicated worker with a **capability whitelist**.
 

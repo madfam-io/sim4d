@@ -6,7 +6,7 @@
 
 ## Overview
 
-Implementing automated performance benchmarking to track and prevent regressions as the codebase grows. This ensures BrepFlow maintains its performance targets over time.
+Implementing automated performance benchmarking to track and prevent regressions as the codebase grows. This ensures Sim4D maintains its performance targets over time.
 
 ## Performance Targets
 
@@ -104,7 +104,7 @@ performance-tests:
       run: npx playwright install --with-deps chromium
 
     - name: Start dev server
-      run: pnpm --filter @brepflow/studio run dev --port 5173 &
+      run: pnpm --filter @sim4d/studio run dev --port 5173 &
 
     - name: Wait for server
       run: timeout 120 bash -c 'until curl -f http://localhost:5173; do sleep 2; done'

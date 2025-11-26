@@ -6,7 +6,7 @@
 
 ## Summary
 
-Successfully added 21 new unit tests to the BrepFlow monorepo, focusing on the collaboration package which had the lowest test coverage. The collaboration tests now provide comprehensive coverage of session management, lifecycle, and edge cases.
+Successfully added 21 new unit tests to the Sim4D monorepo, focusing on the collaboration package which had the lowest test coverage. The collaboration tests now provide comprehensive coverage of session management, lifecycle, and edge cases.
 
 ## Test Coverage Additions
 
@@ -117,7 +117,7 @@ Pass rate: 98.4%
 **Collaboration Package**:
 
 ```bash
-$ pnpm --filter @brepflow/collaboration run test
+$ pnpm --filter @sim4d/collaboration run test
 
 ✓ src/index.test.ts (2 tests) 13ms
 ✓ src/simple-session.test.ts (21 tests) 29ms
@@ -174,15 +174,15 @@ describe('SimpleSessionManager - Comprehensive Tests', () => {
 ### Before Phase 5
 
 ```
-@brepflow/collaboration: ~10% estimated (2 tests)
-@brepflow/constraint-solver: 3.9% measured (2 tests)
+@sim4d/collaboration: ~10% estimated (2 tests)
+@sim4d/constraint-solver: 3.9% measured (2 tests)
 ```
 
 ### After Phase 5 (Expected)
 
 ```
-@brepflow/collaboration: ~60-70% estimated (23 tests)
-@brepflow/constraint-solver: 3.9% (awaiting API fix)
+@sim4d/collaboration: ~60-70% estimated (23 tests)
+@sim4d/constraint-solver: 3.9% (awaiting API fix)
 ```
 
 **Note**: Actual coverage percentages will be measured once tests run in CI/CD with coverage reporting.

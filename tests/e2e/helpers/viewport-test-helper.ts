@@ -13,7 +13,7 @@ export interface ViewportBounds {
 }
 
 /**
- * Helper class for 3D viewport interaction and testing in BrepFlow Studio
+ * Helper class for 3D viewport interaction and testing in Sim4D Studio
  * Provides methods for camera control, viewport manipulation, and visual verification
  */
 export class ViewportTestHelper {
@@ -36,7 +36,7 @@ export class ViewportTestHelper {
     await this.page.waitForFunction(
       () => {
         return (
-          (window as any).brepflow?.viewport?.isInitialized?.() === true ||
+          (window as any).sim4d?.viewport?.isInitialized?.() === true ||
           (window as any).THREE !== undefined
         );
       },
@@ -171,7 +171,7 @@ export class ViewportTestHelper {
     } else {
       // Fallback: programmatic reset
       await this.page.evaluate(() => {
-        const viewport = (window as any).brepflow?.viewport;
+        const viewport = (window as any).sim4d?.viewport;
         if (viewport?.resetCamera) {
           viewport.resetCamera();
         }
@@ -196,7 +196,7 @@ export class ViewportTestHelper {
     } else {
       // Fallback: programmatic mode change
       await this.page.evaluate((renderMode) => {
-        const viewport = (window as any).brepflow?.viewport;
+        const viewport = (window as any).sim4d?.viewport;
         if (viewport?.setRenderingMode) {
           viewport.setRenderingMode(renderMode);
         }
@@ -238,7 +238,7 @@ export class ViewportTestHelper {
     triangleCount: number;
   }> {
     return await this.page.evaluate(() => {
-      const viewport = (window as any).brepflow?.viewport;
+      const viewport = (window as any).sim4d?.viewport;
       return {
         fps: viewport?.getFPS?.() || 0,
         renderTime: viewport?.getLastRenderTime?.() || 0,
@@ -298,7 +298,7 @@ export class ViewportTestHelper {
    */
   async verifyGeometryVisible(): Promise<void> {
     const hasGeometry = await this.page.evaluate(() => {
-      const viewport = (window as any).brepflow?.viewport;
+      const viewport = (window as any).sim4d?.viewport;
       return viewport?.hasGeometry?.() || false;
     });
 
@@ -351,7 +351,7 @@ export class ViewportTestHelper {
    */
   async verifyObjectCount(expectedCount: number): Promise<void> {
     const objectCount = await this.page.evaluate(() => {
-      const viewport = (window as any).brepflow?.viewport;
+      const viewport = (window as any).sim4d?.viewport;
       return viewport?.getObjectCount?.() || 0;
     });
 

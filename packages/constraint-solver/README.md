@@ -1,6 +1,6 @@
-# @brepflow/constraint-solver
+# @sim4d/constraint-solver
 
-Parametric constraint solving engine for 2D/3D geometric constraints in BrepFlow.
+Parametric constraint solving engine for 2D/3D geometric constraints in Sim4D.
 
 ## Overview
 
@@ -17,7 +17,7 @@ The constraint solver package provides Newton-Raphson based constraint solving f
 ## Installation
 
 ```bash
-pnpm add @brepflow/constraint-solver
+pnpm add @sim4d/constraint-solver
 ```
 
 ## Quick Start
@@ -29,7 +29,7 @@ import {
   Solver2D,
   createDistanceConstraint,
   createParallelConstraint,
-} from '@brepflow/constraint-solver';
+} from '@sim4d/constraint-solver';
 
 // Create solver
 const solver = new Solver2D();
@@ -155,7 +155,7 @@ interface SolveResult {
 Maintains fixed distance between two points.
 
 ```typescript
-import { createDistanceConstraint } from '@brepflow/constraint-solver';
+import { createDistanceConstraint } from '@sim4d/constraint-solver';
 
 const constraint = createDistanceConstraint(
   'distance-1',
@@ -169,7 +169,7 @@ const constraint = createDistanceConstraint(
 Maintains angle between two lines.
 
 ```typescript
-import { createAngleConstraint } from '@brepflow/constraint-solver';
+import { createAngleConstraint } from '@sim4d/constraint-solver';
 
 const constraint = createAngleConstraint(
   'angle-1',
@@ -183,7 +183,7 @@ const constraint = createAngleConstraint(
 Makes two lines parallel.
 
 ```typescript
-import { createParallelConstraint } from '@brepflow/constraint-solver';
+import { createParallelConstraint } from '@sim4d/constraint-solver';
 
 const constraint = createParallelConstraint(
   'parallel-1',
@@ -196,7 +196,7 @@ const constraint = createParallelConstraint(
 Makes two lines perpendicular.
 
 ```typescript
-import { createPerpendicularConstraint } from '@brepflow/constraint-solver';
+import { createPerpendicularConstraint } from '@sim4d/constraint-solver';
 
 const constraint = createPerpendicularConstraint('perpendicular-1', [line1, line2]);
 ```
@@ -206,7 +206,7 @@ const constraint = createPerpendicularConstraint('perpendicular-1', [line1, line
 Makes two points coincident (same position).
 
 ```typescript
-import { createCoincidentConstraint } from '@brepflow/constraint-solver';
+import { createCoincidentConstraint } from '@sim4d/constraint-solver';
 
 const constraint = createCoincidentConstraint('coincident-1', [point1, point2]);
 ```
@@ -216,7 +216,7 @@ const constraint = createCoincidentConstraint('coincident-1', [point1, point2]);
 Makes line tangent to circle or arc.
 
 ```typescript
-import { createTangentConstraint } from '@brepflow/constraint-solver';
+import { createTangentConstraint } from '@sim4d/constraint-solver';
 
 const constraint = createTangentConstraint('tangent-1', [line, circle]);
 ```
@@ -240,7 +240,7 @@ const constraint = {
 Makes line horizontal.
 
 ```typescript
-import { createHorizontalConstraint } from '@brepflow/constraint-solver';
+import { createHorizontalConstraint } from '@sim4d/constraint-solver';
 
 const constraint = createHorizontalConstraint('horizontal-1', [point1, point2]);
 ```
@@ -250,7 +250,7 @@ const constraint = createHorizontalConstraint('horizontal-1', [point1, point2]);
 Makes line vertical.
 
 ```typescript
-import { createVerticalConstraint } from '@brepflow/constraint-solver';
+import { createVerticalConstraint } from '@sim4d/constraint-solver';
 
 const constraint = createVerticalConstraint('vertical-1', [point1, point2]);
 ```
@@ -260,7 +260,7 @@ const constraint = createVerticalConstraint('vertical-1', [point1, point2]);
 Fixes point or entity position.
 
 ```typescript
-import { createFixedConstraint } from '@brepflow/constraint-solver';
+import { createFixedConstraint } from '@sim4d/constraint-solver';
 
 const constraint = createFixedConstraint(
   'fixed-1',
@@ -274,7 +274,7 @@ const constraint = createFixedConstraint(
 Makes two dimensions equal.
 
 ```typescript
-import { createEqualConstraint } from '@brepflow/constraint-solver';
+import { createEqualConstraint } from '@sim4d/constraint-solver';
 
 const constraint = createEqualConstraint('equal-1', [length1, length2]);
 ```
@@ -284,7 +284,7 @@ const constraint = createEqualConstraint('equal-1', [length1, length2]);
 Fixes circle/arc radius.
 
 ```typescript
-import { createRadiusConstraint } from '@brepflow/constraint-solver';
+import { createRadiusConstraint } from '@sim4d/constraint-solver';
 
 const constraint = createRadiusConstraint(
   'radius-1',
@@ -298,7 +298,7 @@ const constraint = createRadiusConstraint(
 For 3D spatial constraints.
 
 ```typescript
-import { ConstraintSolver, ConstraintEntity, Constraint } from '@brepflow/constraint-solver';
+import { ConstraintSolver, ConstraintEntity, Constraint } from '@sim4d/constraint-solver';
 
 const solver = new ConstraintSolver({
   maxIterations: 200,
@@ -351,7 +351,7 @@ import {
   Solver2D,
   createDistanceConstraint,
   createFixedConstraint,
-} from '@brepflow/constraint-solver';
+} from '@sim4d/constraint-solver';
 
 const solver = new Solver2D();
 
@@ -384,7 +384,7 @@ console.log('Rectangle solved:', result.success);
 ### Example 2: Parametric Slot
 
 ```typescript
-import { Solver2D } from '@brepflow/constraint-solver';
+import { Solver2D } from '@sim4d/constraint-solver';
 
 function createSlot(centerX: number, centerY: number, length: number, width: number) {
   const solver = new Solver2D();
@@ -445,7 +445,7 @@ import {
   Solver2D,
   createTangentConstraint,
   createRadiusConstraint,
-} from '@brepflow/constraint-solver';
+} from '@sim4d/constraint-solver';
 
 function createTangentCircles(count: number, baseRadius: number) {
   const solver = new Solver2D();
@@ -511,7 +511,7 @@ const pattern = createTangentCircles(6, 10);
 ### Example 4: Interactive Constraint Solving
 
 ```typescript
-import { Solver2D } from '@brepflow/constraint-solver';
+import { Solver2D } from '@sim4d/constraint-solver';
 
 class InteractiveSketch {
   private solver = new Solver2D({ verbose: true });
@@ -589,7 +589,7 @@ console.log('Updated points:', sketch.getPoints());
 ### Custom Constraint Implementation
 
 ```typescript
-import { Constraint2D, Point2D } from '@brepflow/constraint-solver';
+import { Constraint2D, Point2D } from '@sim4d/constraint-solver';
 
 // Create custom midpoint constraint
 function createMidpointConstraint(
@@ -618,7 +618,7 @@ function createMidpointConstraint(
 ### Conflict Detection
 
 ```typescript
-import { Solver2D } from '@brepflow/constraint-solver';
+import { Solver2D } from '@sim4d/constraint-solver';
 
 const solver = new Solver2D({ verbose: true });
 
@@ -647,7 +647,7 @@ if (dof.status === 'over-constrained') {
 ### Incremental Solving
 
 ```typescript
-import { Solver2D } from '@brepflow/constraint-solver';
+import { Solver2D } from '@sim4d/constraint-solver';
 
 const solver = new Solver2D();
 
@@ -669,7 +669,7 @@ if (!result.success) {
 ### Performance Optimization
 
 ```typescript
-import { Solver2D } from '@brepflow/constraint-solver';
+import { Solver2D } from '@sim4d/constraint-solver';
 
 // For large systems
 const solver = new Solver2D({
@@ -845,7 +845,7 @@ pnpm test --watch
 ### Example Test
 
 ```typescript
-import { Solver2D, createDistanceConstraint } from '@brepflow/constraint-solver';
+import { Solver2D, createDistanceConstraint } from '@sim4d/constraint-solver';
 import { describe, it, expect } from 'vitest';
 
 describe('Constraint Solver', () => {

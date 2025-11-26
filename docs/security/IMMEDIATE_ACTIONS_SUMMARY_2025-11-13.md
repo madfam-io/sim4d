@@ -118,7 +118,7 @@ const socket = io('http://localhost:8080', {
 - Root `tsconfig.json` has `strict: true`
 - Studio `tsconfig.json` has `strict: false` (line 11)
 - Enabling strict mode causes 100+ type errors across:
-  - Missing declaration files for `@brepflow/engine-core`, `@brepflow/engine-occt`
+  - Missing declaration files for `@sim4d/engine-core`, `@sim4d/engine-occt`
   - Implicit `any` types in function parameters (ScriptNodeIDE.tsx, etc.)
   - Missing properties on interfaces
   - Type compatibility issues
@@ -152,8 +152,8 @@ const socket = io('http://localhost:8080', {
 
 **Root Cause Analysis**:
 
-- Three.js may be imported through source aliases (`@brepflow/viewport`) instead of node_modules
-- Vite config uses source imports (line 170): `'@brepflow/viewport': resolve(__dirname, '../../packages/viewport/src/index.ts')`
+- Three.js may be imported through source aliases (`@sim4d/viewport`) instead of node_modules
+- Vite config uses source imports (line 170): `'@sim4d/viewport': resolve(__dirname, '../../packages/viewport/src/index.ts')`
 - This bypasses node_modules entirely, preventing manualChunks matching
 
 **Recommendations**:
@@ -245,7 +245,7 @@ useEffect(() => {
 ---
 
 **Last Updated**: 2025-11-13  
-**Contact**: BrepFlow Engineering Team  
+**Contact**: Sim4D Engineering Team  
 **Related Documents**:
 
 - `docs/security/IMMEDIATE_SECURITY_FIXES_2025-11-13.md`

@@ -79,7 +79,7 @@ export function Features() {
             </span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            BrepFlow combines the power of desktop CAD with the accessibility of the web, bringing
+            Sim4D combines the power of desktop CAD with the accessibility of the web, bringing
             professional parametric modeling to everyone.
           </p>
         </motion.div>

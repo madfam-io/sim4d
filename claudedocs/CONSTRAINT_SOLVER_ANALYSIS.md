@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-The `@brepflow/constraint-solver` package has a **fundamental implementation gap**: comprehensive tests were written for an API that doesn't fully exist yet. The 3.9% coverage is masking a deeper problem - the tests themselves are broken because they reference unimplemented methods and expect behavior that isn't coded.
+The `@sim4d/constraint-solver` package has a **fundamental implementation gap**: comprehensive tests were written for an API that doesn't fully exist yet. The 3.9% coverage is masking a deeper problem - the tests themselves are broken because they reference unimplemented methods and expect behavior that isn't coded.
 
 ---
 
@@ -239,7 +239,7 @@ clear();
 1. Document implementation gaps (this file)
 2. Disable `solver-2d.comprehensive.test.ts` temporarily
 3. Add to technical debt backlog
-4. Set coverage exception for `@brepflow/constraint-solver`
+4. Set coverage exception for `@sim4d/constraint-solver`
 5. Focus on other packages with clearer paths to 80%
 
 **Rationale**:

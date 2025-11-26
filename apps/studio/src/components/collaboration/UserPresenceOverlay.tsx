@@ -4,8 +4,8 @@
  */
 
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import type { CollaborationUser, CursorPosition, SelectionState } from '@brepflow/engine-core';
-import { SessionId, UserId, NodeId } from '@brepflow/types';
+import type { CollaborationUser, CursorPosition, SelectionState } from '@sim4d/engine-core';
+import { SessionId, UserId, NodeId } from '@sim4d/types';
 
 // Selection type from collaboration engine
 type Selection = {
@@ -15,7 +15,7 @@ type Selection = {
 import './UserPresenceOverlay.css';
 
 // Import the actual collaboration engine
-import { BrepFlowCollaborationEngine } from '@brepflow/engine-core';
+import { Sim4DCollaborationEngine } from '@sim4d/engine-core';
 import { createChildLogger } from '../../lib/logging/logger-instance';
 
 const logger = createChildLogger({ module: 'UserPresenceOverlay' });
@@ -47,7 +47,7 @@ interface UserUpdatedEvent extends CollaborationEvent {
   data: { user: CollaborationUser };
 }
 
-const collaborationEngine = new BrepFlowCollaborationEngine({
+const collaborationEngine = new Sim4DCollaborationEngine({
   serverUrl: '',
   enableOfflineMode: false,
   syncInterval: 1000,

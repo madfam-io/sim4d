@@ -191,10 +191,10 @@ Decision: Deferred to Phase 2
 
 ```bash
 # Target packages:
-pnpm --filter @brepflow/engine-core run test -- --coverage
-pnpm --filter @brepflow/collaboration run test -- --coverage
-pnpm --filter @brepflow/viewport run test -- --coverage
-pnpm --filter @brepflow/nodes-core run test -- --coverage
+pnpm --filter @sim4d/engine-core run test -- --coverage
+pnpm --filter @sim4d/collaboration run test -- --coverage
+pnpm --filter @sim4d/viewport run test -- --coverage
+pnpm --filter @sim4d/nodes-core run test -- --coverage
 
 # Goal: Identify gaps, achieve 80%+ coverage
 ```

@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide provides step-by-step instructions for enabling all integration tests in the BrepFlow project. Based on recent test analysis, there are two main areas requiring attention:
+This guide provides step-by-step instructions for enabling all integration tests in the Sim4D project. Based on recent test analysis, there are two main areas requiring attention:
 
 1. **OCCT WASM Compilation** (High Priority) - Enables geometry operations
 2. **Collaboration Service Setup** (Medium Priority) - Enables real-time collaboration tests
@@ -145,7 +145,7 @@ Docker collaboration service is **running** but tests cannot connect:
 ```bash
 # Service status
 docker-compose ps
-# brepflow-collaboration-1   Up (port 8080)
+# sim4d-collaboration-1   Up (port 8080)
 
 # Health check fails
 curl http://localhost:8080/health
@@ -318,7 +318,7 @@ pnpm run build:wasm
 
 ```bash
 # Rebuild engine-occt package
-pnpm --filter @brepflow/engine-occt run build
+pnpm --filter @sim4d/engine-occt run build
 
 # Verify WASM module loading
 node -e "require('./packages/engine-occt/dist/index.js')"

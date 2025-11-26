@@ -127,7 +127,7 @@ function formatVulnerability(vuln) {
 // ═══════════════════════════════════════════════════════════════════════════
 
 async function main() {
-  logSection('BrepFlow Security Vulnerability Check');
+  logSection('Sim4D Security Vulnerability Check');
 
   log(`Running npm audit...`, 'info');
   log(

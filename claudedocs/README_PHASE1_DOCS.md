@@ -150,7 +150,7 @@ pnpm run test
 ### nodes-core Fix
 
 ```bash
-pnpm --filter @brepflow/nodes-core run test
+pnpm --filter @sim4d/nodes-core run test
 # Expected: 7 files, 136 tests, ~4s
 ```
 

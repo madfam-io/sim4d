@@ -1,6 +1,6 @@
-# Contributing to BrepFlow
+# Contributing to Sim4D
 
-Thank you for your interest in contributing to BrepFlow! This document provides guidelines and information for contributors.
+Thank you for your interest in contributing to Sim4D! This document provides guidelines and information for contributors.
 
 ## Table of Contents
 
@@ -54,8 +54,8 @@ Before contributing, ensure you have:
 ```bash
 # Fork the repository on GitHub
 # Clone your fork
-git clone https://github.com/YOUR-USERNAME/brepflow.git
-cd brepflow
+git clone https://github.com/YOUR-USERNAME/sim4d.git
+cd sim4d
 
 # Install dependencies
 pnpm install
@@ -511,7 +511,7 @@ If applicable, add screenshots.
 - OS: [e.g. macOS 13.0]
 - Browser: [e.g. Chrome 118]
 - Node.js: [e.g. 20.5.0]
-- BrepFlow version: [e.g. 0.2.0]
+- Sim4D version: [e.g. 0.2.0]
 
 **Additional context**
 Console errors, logs, etc.
@@ -539,7 +539,7 @@ Mockups, examples, etc.
 
 **Do not** create public issues for security vulnerabilities. Instead:
 
-- Email security@brepflow.com
+- Email security@sim4d.com
 - Include detailed description
 - Include reproduction steps
 - We'll respond within 48 hours
@@ -696,13 +696,13 @@ We follow [Semantic Versioning](https://semver.org/):
 - **GitHub Discussions**: For questions and feature discussions
 - **Discord**: Real-time chat with community
 - **Documentation**: Comprehensive guides and API reference
-- **Stack Overflow**: Tag questions with `brepflow`
+- **Stack Overflow**: Tag questions with `sim4d`
 
 ### Maintainer Contact
 
 - **General Questions**: GitHub Discussions
 - **Bug Reports**: GitHub Issues
-- **Security Issues**: security@brepflow.com
-- **Partnership/Business**: business@brepflow.com
+- **Security Issues**: security@sim4d.com
+- **Partnership/Business**: business@sim4d.com
 
-Thank you for contributing to BrepFlow! Your efforts help make parametric CAD more accessible to everyone.
+Thank you for contributing to Sim4D! Your efforts help make parametric CAD more accessible to everyone.

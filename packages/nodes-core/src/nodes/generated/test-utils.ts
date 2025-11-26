@@ -3,8 +3,8 @@
  * NO MOCK GEOMETRY - All tests use real OCCT WASM
  */
 
-import { EvaluationContext } from '@brepflow/types';
-import { IntegratedGeometryAPI } from '@brepflow/engine-occt';
+import { EvaluationContext } from '@sim4d/types';
+import { IntegratedGeometryAPI } from '@sim4d/engine-occt';
 
 let geometryAPI: IntegratedGeometryAPI | null = null;
 let initPromise: Promise<void> | null = null;

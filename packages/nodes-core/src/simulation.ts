@@ -7,7 +7,7 @@ import type {
   FEBoundaryHandle,
   FELoadHandle,
   FEResultsHandle,
-} from '@brepflow/types';
+} from '@sim4d/types';
 
 export const MeshNode: NodeDefinition<
   { shape: ShapeHandle },

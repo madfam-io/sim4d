@@ -1,6 +1,6 @@
 # Node Development Guide
 
-Complete guide to developing custom nodes for BrepFlow.
+Complete guide to developing custom nodes for Sim4D.
 
 ## Table of Contents
 
@@ -18,7 +18,7 @@ Complete guide to developing custom nodes for BrepFlow.
 
 ### What is a Node?
 
-A node in BrepFlow is a reusable computational unit that:
+A node in Sim4D is a reusable computational unit that:
 - Takes typed inputs from other nodes
 - Has configurable parameters
 - Performs geometry operations or calculations
@@ -40,7 +40,7 @@ A node in BrepFlow is a reusable computational unit that:
 ### Basic Node Definition
 
 ```typescript
-import { NodeBuilder } from '@brepflow/sdk';
+import { NodeBuilder } from '@sim4d/sdk';
 
 const MyNode = new NodeBuilder('Category::NodeName')
   .name('Display Name')
@@ -417,7 +417,7 @@ describe('MyCustomNode', () => {
 
 ```typescript
 import { describe, it, expect } from 'vitest';
-import { DAGEngine } from '@brepflow/engine-core';
+import { DAGEngine } from '@sim4d/engine-core';
 import { MyCustomNode } from './my-node';
 
 describe('MyCustomNode Integration', () => {
@@ -705,11 +705,11 @@ Organize nodes into logical categories:
 - [SDK Tutorial](./SDK_TUTORIAL.md)
 - [API Reference](./API_OVERVIEW.md)
 - [Example Nodes](../../packages/nodes-core/src/)
-- [BrepFlow Documentation](../../docs/README.md)
+- [Sim4D Documentation](../../docs/README.md)
 
 ## Next Steps
 
-1. Study existing nodes in `@brepflow/nodes-core`
+1. Study existing nodes in `@sim4d/nodes-core`
 2. Create simple nodes first
 3. Add complexity gradually
 4. Write tests for your nodes
@@ -717,6 +717,6 @@ Organize nodes into logical categories:
 
 ## Support
 
-- [GitHub Issues](https://github.com/aureolabs/brepflow/issues)
-- [Discord Community](https://discord.gg/brepflow)
-- [Documentation](https://docs.brepflow.com)
+- [GitHub Issues](https://github.com/aureolabs/sim4d/issues)
+- [Discord Community](https://discord.gg/sim4d)
+- [Documentation](https://docs.sim4d.com)

@@ -1,6 +1,6 @@
 /**
  * Security Service
- * Comprehensive security monitoring, threat detection, and protection for BrepFlow cloud services
+ * Comprehensive security monitoring, threat detection, and protection for Sim4D cloud services
  */
 
 import EventEmitter from 'events';
@@ -12,7 +12,7 @@ import {
   SecurityScanResult,
   SecurityVulnerability,
   SecurityIssue,
-} from '@brepflow/cloud-api/src/types';
+} from '@sim4d/cloud-api/src/types';
 
 export interface SecurityConfig {
   scanning: {

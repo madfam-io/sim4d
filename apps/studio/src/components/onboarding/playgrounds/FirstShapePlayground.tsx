@@ -76,7 +76,7 @@ export const FirstShapePlayground: React.FC = () => {
     {
       id: 'celebrate',
       title: 'Celebrate Your Success!',
-      description: "You've created your first 3D shape in BrepFlow! 🎉",
+      description: "You've created your first 3D shape in Sim4D! 🎉",
     },
   ];
 
@@ -208,7 +208,7 @@ export const FirstShapePlayground: React.FC = () => {
             <div className="workspace-message">
               <h3>🏗️ Your Workspace</h3>
               <p>
-                This is where the main BrepFlow interface will be integrated.
+                This is where the main Sim4D interface will be integrated.
                 <br />
                 For now, follow the steps on the left to simulate the experience!
               </p>

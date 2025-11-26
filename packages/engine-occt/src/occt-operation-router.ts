@@ -4,10 +4,10 @@
  * Ensures long-term stable solution without duplication
  */
 
-import type { WorkerAPI } from '@brepflow/types';
+import type { WorkerAPI } from '@sim4d/types';
 import type { ProductionWorkerAPI as _ProductionWorkerAPI } from './production-api';
 // NOTE: GeometryAPIFactory not exported from engine-core - API design pending.
-// import { GeometryAPIFactory } from '@brepflow/engine-core';
+// import { GeometryAPIFactory } from '@sim4d/engine-core';
 
 /**
  * Comprehensive operation mapping from node operations to OCCT worker operations

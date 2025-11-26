@@ -204,14 +204,14 @@ find apps/studio/src -type f \( -name "*.ts" -o -name "*.tsx" \) \
 ### Run Tests
 
 ```bash
-pnpm --filter @brepflow/studio run test
+pnpm --filter @sim4d/studio run test
 # Expected: 224/232 passing (same as before)
 ```
 
 ### TypeScript Check
 
 ```bash
-pnpm --filter @brepflow/studio run typecheck
+pnpm --filter @sim4d/studio run typecheck
 # Expected: 19 pre-existing errors (no new errors)
 ```
 

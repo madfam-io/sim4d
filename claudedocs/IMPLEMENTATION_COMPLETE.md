@@ -293,7 +293,7 @@ Breakdown:
 ## GitHub Actions Status
 
 **Workflow File**: `.github/workflows/test.yml`  
-**Location**: `https://github.com/madfam-io/brepflow/actions`  
+**Location**: `https://github.com/madfam-io/sim4d/actions`  
 **Status**: Deployed and ready
 
 **Jobs**:

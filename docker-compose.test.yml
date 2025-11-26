@@ -13,9 +13,9 @@ services:
       context: .
       dockerfile: Dockerfile.test-unit
       cache_from:
-        - brepflow/test-unit:latest
-    image: brepflow/test-unit:latest
-    container_name: brepflow-test-unit
+        - sim4d/test-unit:latest
+    image: sim4d/test-unit:latest
+    container_name: sim4d-test-unit
     environment:
       - NODE_ENV=test
       - CI=true
@@ -37,9 +37,9 @@ services:
       context: .
       dockerfile: Dockerfile.test-wasm
       cache_from:
-        - brepflow/test-wasm:latest
-    image: brepflow/test-wasm:latest
-    container_name: brepflow-test-wasm
+        - sim4d/test-wasm:latest
+    image: sim4d/test-wasm:latest
+    container_name: sim4d-test-wasm
     environment:
       - NODE_ENV=test
       - CI=true
@@ -69,9 +69,9 @@ services:
       context: .
       dockerfile: Dockerfile.test-wasm
       cache_from:
-        - brepflow/test-wasm:latest
-    image: brepflow/test-e2e:latest
-    container_name: brepflow-test-e2e
+        - sim4d/test-wasm:latest
+    image: sim4d/test-e2e:latest
+    container_name: sim4d-test-e2e
     environment:
       - NODE_ENV=test
       - CI=true
@@ -103,7 +103,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.studio
-    container_name: brepflow-studio-test
+    container_name: sim4d-studio-test
     ports:
       - "5174:5173"  # Different port to avoid conflicts
     environment:
@@ -120,14 +120,14 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
-    command: pnpm --filter @brepflow/studio run dev --host 0.0.0.0
+    command: pnpm --filter @sim4d/studio run dev --host 0.0.0.0
 
   # Collaboration instance for E2E testing
   collaboration-test:
     build:
       context: .
       dockerfile: Dockerfile.collaboration
-    container_name: brepflow-collaboration-test
+    container_name: sim4d-collaboration-test
     ports:
       - "8081:8080"  # Different port to avoid conflicts
     environment:
@@ -152,7 +152,7 @@ services:
   # Redis for collaboration tests
   redis-test:
     image: redis:7-alpine
-    container_name: brepflow-redis-test
+    container_name: sim4d-redis-test
     networks:
       - test-network
     healthcheck:

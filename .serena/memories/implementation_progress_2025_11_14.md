@@ -105,7 +105,7 @@ Implement critical fixes for:
 **Infrastructure** (Already Complete):
 
 - ✅ CollaborationServer (554 lines)
-- ✅ BrepFlowCollaborationEngine (900 lines)
+- ✅ Sim4DCollaborationEngine (900 lines)
 - ✅ WebSocketClient
 - ✅ Operational Transform
 - ✅ ParameterSync

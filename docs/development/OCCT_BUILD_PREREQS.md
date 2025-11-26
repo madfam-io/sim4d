@@ -1,6 +1,6 @@
 # OCCT Build Prerequisites
 
-The BrepFlow geometry runtime depends on a WebAssembly build of **Open CASCADE Technology (OCCT)**. This document lists the tooling, environment variables, and outputs you need in place before running `scripts/build-occt.sh` or `pnpm run build:wasm`.
+The Sim4D geometry runtime depends on a WebAssembly build of **Open CASCADE Technology (OCCT)**. This document lists the tooling, environment variables, and outputs you need in place before running `scripts/build-occt.sh` or `pnpm run build:wasm`.
 
 > **TL;DR**: Install Emscripten, point the build scripts at a local OCCT checkout, and make sure the generated artefacts appear under `packages/engine-occt/wasm/`.
 
@@ -16,7 +16,7 @@ The BrepFlow geometry runtime depends on a WebAssembly build of **Open CASCADE T
 ## 2. Directory layout
 
 ```
-brepflow/
+sim4d/
   third_party/
     emsdk/           # Optional – auto-sourced if present
     occt/            # OCCT source checkout (git clone https://github.com/Open-Cascade-SAS/OCCT.git)

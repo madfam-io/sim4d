@@ -3,7 +3,7 @@
  * Complete Functionality Audit Runner
  *
  * This script executes all audit tests and generates a comprehensive report
- * to verify that 100% of BrepFlow's capabilities are accessible to all users.
+ * to verify that 100% of Sim4D's capabilities are accessible to all users.
  */
 
 import { chromium, Browser, Page } from 'playwright';
@@ -236,7 +236,7 @@ class AuditRunner {
     console.log('📝 Generating report...');
 
     const report = `
-# BrepFlow Functionality Audit Report
+# Sim4D Functionality Audit Report
 Generated: ${this.results.timestamp}
 
 ## 📊 Overall Coverage: ${this.results.coverage.overall.toFixed(1)}%
@@ -306,7 +306,7 @@ ${this.getRecommendations()
 5. Set up continuous monitoring with this audit suite
 
 ---
-*This report was generated automatically by the BrepFlow Audit Runner*
+*This report was generated automatically by the Sim4D Audit Runner*
     `;
 
     // Save report

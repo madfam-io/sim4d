@@ -1,8 +1,8 @@
-# BrepFlow — Product Requirements Document
+# Sim4D — Product Requirements Document
 
 _Owner:_ Aureo Labs (a MADFAM company)
-_Product:_ **BrepFlow** — web-first, node-based parametric CAD with exact B‑Rep/NURBS
-_Domains:_ brepflow\.com · aureolabs.dev · madfam.io
+_Product:_ **Sim4D** — web-first, node-based parametric CAD with exact B‑Rep/NURBS
+_Domains:_ sim4d\.com · aureolabs.dev · madfam.io
 _Doc status:_ Draft v0.1 (2025‑09‑13)
 
 ---
@@ -11,7 +11,7 @@ _Doc status:_ Draft v0.1 (2025‑09‑13)
 
 **Problem:** Engineers and designers need Grasshopper‑like visual parametrics with **manufacturing‑grade** geometry (exact B‑Rep/NURBS) that runs in the **browser**, collaborates natively, and integrates cleanly with CAD/CAM/PLM.
 
-**Solution:** **BrepFlow** — a web‑native node graph editor backed by an industrial geometry kernel (OCCT‑class), delivering exact solids/surfaces, STEP/3DM/USD I/O, and a **headless CLI/SDK** for automation.
+**Solution:** **Sim4D** — a web‑native node graph editor backed by an industrial geometry kernel (OCCT‑class), delivering exact solids/surfaces, STEP/3DM/USD I/O, and a **headless CLI/SDK** for automation.
 
 **Who it’s for:** Product/industrial/mechanical designers, computational designers, R\&D, fixtures/jigs makers, and teams building configurable product families.
 
@@ -29,7 +29,7 @@ _Doc status:_ Draft v0.1 (2025‑09‑13)
 
 **Success (12 months):**
 
-- ≥10 internal MADFAM/Aureo projects shipped with BrepFlow;
+- ≥10 internal MADFAM/Aureo projects shipped with Sim4D;
 - ≥3 external pilot teams;
 - 80% of target users complete a parametric part → STEP in <30 min;
 - Mean compute <1.5s for typical part edits;
@@ -121,7 +121,7 @@ _Doc status:_ Draft v0.1 (2025‑09‑13)
 - **Compute (WASM Workers):** OCCT.wasm for B‑Rep/NURBS & STEP/IGES; openNURBS.wasm Phase 2; separate **tesselation worker** returning vertex buffers.
 - **Rendering:** WebGPU via wgpu‑rs bindings or Three.js (WebGL2) fallback; frustum culling + LOD.
 - **Data:** `.bflow.json` graph (schema‑versioned) + binary mesh cache; deterministic content hashes.
-- **Automation:** `brepflow-cli` (Node) loads graphs, injects params (JSON), exports STEP/STL/USD.
+- **Automation:** `sim4d-cli` (Node) loads graphs, injects params (JSON), exports STEP/STL/USD.
 - **Extensibility:** Node SDK (TS) + Python bridge (server‑side or Pyodide) for custom nodes.
 
 ---
@@ -184,9 +184,9 @@ _Doc status:_ Draft v0.1 (2025‑09‑13)
 
 ## 12) Packaging, Licensing, Pricing (prelim)
 
-- **Model:** **Open‑core**. Core BrepFlow under **MPL‑2.0** (or LGPL‑3.0); pro features (cloud sync, team spaces, private registry) under commercial license by Aureo Labs.
-- **SKU:** BrepFlow Studio (free), Studio Pro (teams), CLI (free for OSS graphs, pro for private registries).
-- **Brand:** “BrepFlow by Aureo Labs, a MADFAM company.”
+- **Model:** **Open‑core**. Core Sim4D under **MPL‑2.0** (or LGPL‑3.0); pro features (cloud sync, team spaces, private registry) under commercial license by Aureo Labs.
+- **SKU:** Sim4D Studio (free), Studio Pro (teams), CLI (free for OSS graphs, pro for private registries).
+- **Brand:** “Sim4D by Aureo Labs, a MADFAM company.”
 
 ---
 
@@ -241,4 +241,4 @@ _Doc status:_ Draft v0.1 (2025‑09‑13)
 
 - **Glossary:** B‑Rep, NURBS, STEP AP242, 3DM, USD, Tesselation, Dirty‑prop.
 - **Design tokens (draft):** neutral dark UI, accent color for node categories, dyslexia‑friendly fonts optional.
-- **Brand seeds:** Wordmark “BrepFlow”; mark evokes knot vector grid + flow lines; sub‑brands: Studio, CLI, SDK, Registry, Loom (viewer).
+- **Brand seeds:** Wordmark “Sim4D”; mark evokes knot vector grid + flow lines; sub‑brands: Studio, CLI, SDK, Registry, Loom (viewer).

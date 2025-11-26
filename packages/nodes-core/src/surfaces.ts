@@ -1,9 +1,9 @@
 /**
- * Advanced Surface Nodes for BrepFlow
+ * Advanced Surface Nodes for Sim4D
  * Implements NURBS surfaces, analysis, and manipulation operations
  */
 
-import { NodeDefinition } from '@brepflow/types';
+import { NodeDefinition } from '@sim4d/types';
 
 // NURBS Surface Creation
 export const nurbsSurfaceNode: NodeDefinition = {

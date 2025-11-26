@@ -8,16 +8,16 @@
 
 ## 🎯 What You're About To Do
 
-Compile CuraEngine (the slicing engine from Ultimaker's Cura slicer) to WebAssembly so BrepFlow can generate G-code for 3D printers **directly in the browser**.
+Compile CuraEngine (the slicing engine from Ultimaker's Cura slicer) to WebAssembly so Sim4D can generate G-code for 3D printers **directly in the browser**.
 
-**Before**: BrepFlow → Export STL → Open in Cura/PrusaSlicer → Slice → Upload to printer
-**After**: BrepFlow → Click "Export G-code" → Upload to printer ✨
+**Before**: Sim4D → Export STL → Open in Cura/PrusaSlicer → Slice → Upload to printer
+**After**: Sim4D → Click "Export G-code" → Upload to printer ✨
 
 ---
 
 ## 🚀 One-Command Setup
 
-Run this from the BrepFlow root directory:
+Run this from the Sim4D root directory:
 
 ```bash
 ./scripts/setup-cura-wasm.sh
@@ -138,13 +138,13 @@ const gcode = await worker.slice(stlData, plaSettings);
 
 ---
 
-## 🔧 Next Steps: Integration into BrepFlow
+## 🔧 Next Steps: Integration into Sim4D
 
 You've completed **Week 1** of the G-code generation roadmap! 🎉
 
 ### Week 2-3: Worker Integration
 
-**Goal**: Wire CuraEngine WASM into BrepFlow's worker system
+**Goal**: Wire CuraEngine WASM into Sim4D's worker system
 
 **Tasks**:
 1. Extend worker protocol to support `CURA_SLICE` operation
@@ -157,7 +157,7 @@ You've completed **Week 1** of the G-code generation roadmap! 🎉
 
 ### Week 4: Create CuraSlicerNode
 
-**Goal**: Add slicer node to BrepFlow graph editor
+**Goal**: Add slicer node to Sim4D graph editor
 
 **Tasks**:
 1. Create `packages/nodes-core/src/fabrication/cura-slicer.ts`
@@ -170,7 +170,7 @@ You've completed **Week 1** of the G-code generation roadmap! 🎉
 {
   id: 'Fabrication::CuraSlicer',
   inputs: {
-    geometry: 'Shape',        // From BrepFlow graph
+    geometry: 'Shape',        // From Sim4D graph
     profile: 'SlicerProfile'  // PLA Standard, etc.
   },
   outputs: {
@@ -310,7 +310,7 @@ Cache Emscripten environment:
 ```bash
 # Add to ~/.bashrc
 export EMSDK_QUIET=1
-source /path/to/brepflow/third_party/emsdk/emsdk_env.sh
+source /path/to/sim4d/third_party/emsdk/emsdk_env.sh
 ```
 
 Now `emcc` is always available in new terminals.

@@ -1,8 +1,8 @@
-# BrepFlow Go-to-Market Playbook
+# Sim4D Go-to-Market Playbook
 
 ## 🎯 Quick Start Guide
 
-This playbook provides actionable steps to execute BrepFlow's go-to-market strategy. Each section includes specific tasks, timelines, and success metrics.
+This playbook provides actionable steps to execute Sim4D's go-to-market strategy. Each section includes specific tasks, timelines, and success metrics.
 
 ## 📅 Week 1: Launch Preparation
 
@@ -51,19 +51,19 @@ This playbook provides actionable steps to execute BrepFlow's go-to-market strat
   - Roadmap in Projects
 
 - [ ] **Social Media**
-  - Twitter/X: @BrepFlow
+  - Twitter/X: @Sim4D
   - LinkedIn: Company page
   - YouTube: Channel with intro video
-  - Instagram: @BrepFlowDesign
+  - Instagram: @Sim4DDesign
 
 ### Day 5-7: Content Pipeline
 
 - [ ] **Blog Posts** (Pre-written)
-  1. "Why We Built BrepFlow"
-  2. "BrepFlow vs Grasshopper: Complete Comparison"
+  1. "Why We Built Sim4D"
+  2. "Sim4D vs Grasshopper: Complete Comparison"
   3. "Getting Started with Parametric Design"
   4. "Real-time Collaboration in CAD"
-  5. "Building Your First BrepFlow Plugin"
+  5. "Building Your First Sim4D Plugin"
 
 - [ ] **Email Templates**
   - Welcome email series (5 emails)
@@ -155,11 +155,11 @@ Timeline:
 ### University Partnership Template
 
 ```
-Email Subject: Free BrepFlow Enterprise for [University Name]
+Email Subject: Free Sim4D Enterprise for [University Name]
 
 Dear [Department Head],
 
-We're offering complimentary BrepFlow Enterprise licenses for your
+We're offering complimentary Sim4D Enterprise licenses for your
 design/engineering program, including:
 - Unlimited seats for students and faculty
 - Curriculum integration support
@@ -183,7 +183,7 @@ const ambassadorBenefits = {
   resume_reference: true,
   internship_priority: true,
   swag_package: 'T-shirt, stickers, notebook',
-  certificate: 'BrepFlow Certified Ambassador',
+  certificate: 'Sim4D Certified Ambassador',
 };
 ```
 
@@ -231,7 +231,7 @@ Hi [Name],
 
 Noticed [Company] uses Grasshopper for parametric design.
 
-[Similar Company] switched to BrepFlow and saw:
+[Similar Company] switched to Sim4D and saw:
 • 40% faster design iteration
 • 50% reduction in version conflicts
 • 100% remote collaboration capability
@@ -409,7 +409,7 @@ exp1 = Experiment(
 ### Twitter Thread Template
 
 ```
-1/ 🚀 BrepFlow is now LIVE!
+1/ 🚀 Sim4D is now LIVE!
 
 The first web-based, real-time collaborative parametric CAD platform.
 
@@ -435,7 +435,7 @@ Here's why this changes everything for designers 🧵
 ### LinkedIn Post Template
 
 ```
-🎯 Announcing BrepFlow: The Future of Collaborative CAD
+🎯 Announcing Sim4D: The Future of Collaborative CAD
 
 After 18 months of development, we're excited to launch the first
 web-native parametric design platform.
@@ -452,7 +452,7 @@ Who's it for?
 • Students learning computational design
 • Teams working remotely
 
-Try it free: brepflow.com
+Try it free: sim4d.com
 
 #CAD #ParametricDesign #Engineering #Architecture #StartupLaunch
 ```
@@ -492,11 +492,11 @@ Try it free: brepflow.com
 
 ## 🎬 Action Items (Next 24 Hours)
 
-1. **Register domains**: brepflow.com, .io, .app
+1. **Register domains**: sim4d.com, .io, .app
 2. **Create social accounts**: All platforms
 3. **Set up analytics**: GA4, Mixpanel
 4. **Deploy landing page**: With email capture
-5. **Write first blog post**: "Why We're Building BrepFlow"
+5. **Write first blog post**: "Why We're Building Sim4D"
 6. **Contact first university**: Start partnership discussions
 7. **Schedule team standup**: Daily 9 AM PST during launch
 
@@ -506,4 +506,4 @@ _"A goal without a plan is just a wish." - Antoine de Saint-Exupéry_
 
 **Remember**: Execution beats strategy. Start now, iterate fast, learn constantly.
 
-**Launch Hotline**: launch@brepflow.com | Slack: #gtm-war-room
+**Launch Hotline**: launch@sim4d.com | Slack: #gtm-war-room

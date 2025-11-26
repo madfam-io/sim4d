@@ -1,5 +1,5 @@
 /**
- * Janua Authentication Provider for BrepFlow Studio
+ * Janua Authentication Provider for Sim4D Studio
  *
  * Integrates with MADFAM's centralized identity system (Janua)
  * for single sign-on across the Solarpunk ecosystem.

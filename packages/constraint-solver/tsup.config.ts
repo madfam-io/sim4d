@@ -7,6 +7,6 @@ import { createLibraryConfig } from '../../config/tsup.base.config';
 export default createLibraryConfig({
   entry: ['src/index.ts'],
   dts: true, // Generate TypeScript declaration files
-  external: ['@brepflow/types', 'kiwi.js'],
+  external: ['@sim4d/types', 'kiwi.js'],
   tsconfig: './tsconfig.json', // Use local tsconfig instead of strict
 });

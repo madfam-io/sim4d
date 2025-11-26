@@ -1,14 +1,14 @@
 {
-  "name": "brepflow",
+  "name": "sim4d",
   "version": "0.1.0",
   "private": true,
   "description": "Web-first, node-based parametric CAD on exact B-Rep/NURBS",
   "author": "Aureo Labs (a MADFAM company)",
   "license": "MPL-2.0",
-  "homepage": "https://brepflow.com",
+  "homepage": "https://sim4d.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/aureolabs/brepflow.git"
+    "url": "https://github.com/aureolabs/sim4d.git"
   },
   "engines": {
     "node": ">=20.11.0",

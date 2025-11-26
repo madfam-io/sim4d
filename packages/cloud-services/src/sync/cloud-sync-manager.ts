@@ -4,7 +4,7 @@
  */
 
 import EventEmitter from 'events';
-import { createLogger } from '@brepflow/engine-core';
+import { createLogger } from '@sim4d/engine-core';
 
 const logger = createLogger('CloudServices');
 import {
@@ -18,10 +18,10 @@ import {
   ConflictResolution,
   ConflictResolutionStrategy,
   SyncStatus,
-} from '@brepflow/cloud-api/src/types';
+} from '@sim4d/cloud-api/src/types';
 import { CloudApiClient } from '../api/cloud-api-client';
-import { OperationalTransformEngine } from '@brepflow/engine-core';
-import { GraphInstance } from '@brepflow/types';
+import { OperationalTransformEngine } from '@sim4d/engine-core';
+import { GraphInstance } from '@sim4d/types';
 
 const isCloudSyncEnabled = (): boolean => {
   if (
@@ -746,11 +746,11 @@ export class CloudSyncManager extends EventEmitter {
 
   private convertToCollaborationOperation(
     cloudOp: CloudOperation
-  ): import('@brepflow/collaboration/src/types').BaseOperation {
+  ): import('@sim4d/collaboration/src/types').BaseOperation {
     // Convert cloud operation to collaboration operation format
     return {
       id: cloudOp.id,
-      type: cloudOp.type as import('@brepflow/collaboration/src/types').OperationType,
+      type: cloudOp.type as import('@sim4d/collaboration/src/types').OperationType,
       userId: cloudOp.userId,
       timestamp: cloudOp.timestamp,
       documentId: '', // Document ID will be set by caller
@@ -759,7 +759,7 @@ export class CloudSyncManager extends EventEmitter {
   }
 
   private convertFromCollaborationOperation(
-    collabOp: import('@brepflow/collaboration/src/types').BaseOperation
+    collabOp: import('@sim4d/collaboration/src/types').BaseOperation
   ): CloudOperation {
     // Convert collaboration operation back to cloud operation format
     return {

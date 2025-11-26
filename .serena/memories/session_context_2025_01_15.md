@@ -1,8 +1,8 @@
 # Session Context - 2025-01-15
 
-## Project: BrepFlow v0.2 - Production Ready
+## Project: Sim4D v0.2 - Production Ready
 
-**Working Directory**: `/Users/aldoruizluna/labspace/brepflow`  
+**Working Directory**: `/Users/aldoruizluna/labspace/sim4d`  
 **Git Status**: Clean (main branch, up to date with origin)  
 **Last Commits**:
 
@@ -46,7 +46,7 @@
 ### Monorepo Structure (pnpm workspaces + Turborepo)
 
 ```
-/brepflow
+/sim4d
   /apps
     /studio            # React app: node editor + viewport
     /marketing         # Marketing website
@@ -106,8 +106,8 @@ pnpm run lint                       # ESLint
 pnpm run format                     # Prettier check
 
 # Package-specific
-pnpm --filter @brepflow/studio run typecheck
-pnpm --filter @brepflow/engine-core run test
+pnpm --filter @sim4d/studio run typecheck
+pnpm --filter @sim4d/engine-core run test
 ```
 
 ## Recent Major Accomplishments
@@ -186,7 +186,7 @@ pnpm --filter @brepflow/engine-core run test
 
 ## Session Readiness Checklist
 
-✅ Serena MCP activated (brepflow project)  
+✅ Serena MCP activated (sim4d project)  
 ✅ Git status verified (clean working tree)  
 ✅ Recent commits reviewed (documentation updates)  
 ✅ Project memories loaded (33 available)  

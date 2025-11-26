@@ -4,7 +4,7 @@
   "tolerance": 0.001,
   "metadata": {
     "created": "2025-11-17T12:00:00Z",
-    "author": "BrepFlow Examples",
+    "author": "Sim4D Examples",
     "description": "Simple parametric spur gear",
     "difficulty": "intermediate",
     "tags": ["mechanical", "gear", "parametric"],

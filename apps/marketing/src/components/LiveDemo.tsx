@@ -80,7 +80,7 @@ export function LiveDemo({ isVisible }: LiveDemoProps) {
                 </span>
               </h2>
               <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-                Watch how BrepFlow transforms visual node graphs into precise CAD geometry in
+                Watch how Sim4D transforms visual node graphs into precise CAD geometry in
                 real-time
               </p>
             </div>
@@ -111,7 +111,7 @@ export function LiveDemo({ isVisible }: LiveDemoProps) {
 
               {/* Demo content area */}
               <div className="relative aspect-video bg-black/20">
-                {/* Placeholder for actual BrepFlow iframe or video */}
+                {/* Placeholder for actual Sim4D iframe or video */}
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center">
                     <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center">
@@ -163,8 +163,8 @@ export function LiveDemo({ isVisible }: LiveDemoProps) {
                 Ready to experience the future of parametric CAD?
               </p>
               <div className="flex justify-center gap-4">
-                <GlowButton href="https://studio.brepflow.com" variant="primary" size="large">
-                  Launch BrepFlow Studio
+                <GlowButton href="https://studio.sim4d.com" variant="primary" size="large">
+                  Launch Sim4D Studio
                 </GlowButton>
                 <GlowButton href="/docs/getting-started" variant="secondary" size="large">
                   Read Documentation

@@ -1,4 +1,4 @@
-import type { NodeDefinition, Vec3, ShapeHandle } from '@brepflow/types';
+import type { NodeDefinition, Vec3, ShapeHandle } from '@sim4d/types';
 
 export const LineNode: NodeDefinition<
   { start?: Vec3; end?: Vec3 },

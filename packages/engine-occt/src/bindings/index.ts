@@ -11,7 +11,7 @@
  * - assembly: CreateAssembly, CreateMate, CreatePattern
  */
 
-import type { WorkerAPI } from '@brepflow/types';
+import type { WorkerAPI } from '@sim4d/types';
 import type { WASMModule } from '../occt-bindings';
 import type { OCCTShape } from './types';
 import { IDGenerator } from './utils';

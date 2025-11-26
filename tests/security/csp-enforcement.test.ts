@@ -4,7 +4,7 @@
  * Validates that the application enforces proper Content Security Policy
  * to prevent XSS, code injection, and other client-side attacks.
  *
- * CSP Requirements for BrepFlow:
+ * CSP Requirements for Sim4D:
  * - No inline scripts (except with nonce)
  * - No eval() or Function() constructor
  * - Restrict resource loading to trusted origins

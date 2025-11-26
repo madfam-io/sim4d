@@ -1,4 +1,4 @@
-import type { GraphInstance, NodeInstance, Edge } from '@brepflow/types';
+import type { GraphInstance, NodeInstance, Edge } from '@sim4d/types';
 
 export interface Command {
   execute: () => void;

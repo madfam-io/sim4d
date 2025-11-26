@@ -20,11 +20,11 @@ Updated vitest.config.ts for 5 key packages with proper coverage configuration:
 
 #### Packages Fixed:
 
-1. ✅ `@brepflow/engine-core`
-2. ✅ `@brepflow/engine-occt`
-3. ✅ `@brepflow/constraint-solver`
-4. ✅ `@brepflow/viewport`
-5. ✅ `@brepflow/collaboration`
+1. ✅ `@sim4d/engine-core`
+2. ✅ `@sim4d/engine-occt`
+3. ✅ `@sim4d/constraint-solver`
+4. ✅ `@sim4d/viewport`
+5. ✅ `@sim4d/collaboration`
 
 #### Configuration Changes:
 
@@ -272,7 +272,7 @@ coverage: {
 
 ```bash
 # Terminal 1 - Start dev server
-cd /Users/aldoruizluna/labspace/brepflow
+cd /Users/aldoruizluna/labspace/sim4d
 pnpm run dev
 
 # Wait for startup message, then in Terminal 2:

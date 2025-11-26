@@ -1,6 +1,6 @@
 # Docker Development Setup
 
-Complete Docker-based local development environment for BrepFlow with all services.
+Complete Docker-based local development environment for Sim4D with all services.
 
 ## Quick Start
 
@@ -89,9 +89,9 @@ Database for collaboration sessions and operation history.
 
 **Credentials:**
 
-- Database: `brepflow`
-- User: `brepflow`
-- Password: `brepflow_dev_password`
+- Database: `sim4d`
+- User: `sim4d`
+- Password: `sim4d_dev_password`
 
 **Schema:**
 
@@ -214,7 +214,7 @@ pnpm run test:e2e
 
 ## Network
 
-All services are connected via the `brepflow` bridge network:
+All services are connected via the `sim4d` bridge network:
 
 - Services can communicate using service names
 - Studio → `http://collaboration:8080`
@@ -260,7 +260,7 @@ If ports are already in use:
 
 ```bash
 # Check PostgreSQL health
-docker-compose exec postgres pg_isready -U brepflow
+docker-compose exec postgres pg_isready -U sim4d
 
 # Check Redis
 docker-compose exec redis redis-cli ping
@@ -318,7 +318,7 @@ For production builds:
 
 ```bash
 # Use Dockerfile.ci for complete build
-docker build -f Dockerfile.ci -t brepflow:latest .
+docker build -f Dockerfile.ci -t sim4d:latest .
 
 # Or build production images
 docker-compose -f docker-compose.prod.yml build

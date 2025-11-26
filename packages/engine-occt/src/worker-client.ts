@@ -1,6 +1,6 @@
 // NOTE: ShapeHandle interface alignment deferred - types package vs local occt-bindings (non-blocking).
-import type { WorkerAPI, ShapeHandle as _ShapeHandle, MeshData } from '@brepflow/types';
-import { createHandleId } from '@brepflow/types';
+import type { WorkerAPI, ShapeHandle as _ShapeHandle, MeshData } from '@sim4d/types';
+import { createHandleId } from '@sim4d/types';
 import type {
   WorkerRequest,
   WorkerResponse,

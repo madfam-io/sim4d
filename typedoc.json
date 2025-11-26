@@ -1,6 +1,6 @@
 {
   "$schema": "https://typedoc.org/schema.json",
-  "name": "BrepFlow API Documentation",
+  "name": "Sim4D API Documentation",
   "entryPoints": [
     "packages/engine-core/src/index.ts",
     "packages/engine-occt/src/index.ts",

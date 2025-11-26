@@ -1,4 +1,4 @@
-# BrepFlow Docker Setup
+# Sim4D Docker Setup
 
 Complete Docker-based development environment with all services orchestrated.
 
@@ -120,7 +120,7 @@ Complete Docker-based development environment with all services orchestrated.
 | Studio        | http://localhost:5173 | Main CAD application      |
 | Marketing     | http://localhost:3000 | Landing page              |
 | Collaboration | ws://localhost:8080   | WebSocket server          |
-| PostgreSQL    | localhost:5432        | Database (user: brepflow) |
+| PostgreSQL    | localhost:5432        | Database (user: sim4d) |
 | Redis         | localhost:6379        | Cache and pub/sub         |
 
 ## 📊 Environment Variables
@@ -146,9 +146,9 @@ LOCK_TIMEOUT=60000
 ### PostgreSQL
 
 ```env
-POSTGRES_DB=brepflow
-POSTGRES_USER=brepflow
-POSTGRES_PASSWORD=brepflow_dev_password
+POSTGRES_DB=sim4d
+POSTGRES_USER=sim4d
+POSTGRES_PASSWORD=sim4d_dev_password
 ```
 
 ## 🗄️ Database Schema
@@ -185,7 +185,7 @@ Stop services using ports 5173, 3000, 8080, 5432, 6379 or modify `docker-compose
 
 ```bash
 # Check PostgreSQL
-docker-compose exec postgres pg_isready -U brepflow
+docker-compose exec postgres pg_isready -U sim4d
 
 # Check Redis
 docker-compose exec redis redis-cli ping

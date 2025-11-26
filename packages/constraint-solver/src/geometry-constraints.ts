@@ -1,4 +1,4 @@
-import type { Vec3 } from '@brepflow/types';
+import type { Vec3 } from '@sim4d/types';
 import type { Constraint, ConstraintEntity } from './types';
 
 export class GeometricConstraint {

@@ -1,11 +1,11 @@
 import type { Node as RFNode, Edge as RFEdge } from 'reactflow';
 import { MarkerType } from 'reactflow';
-import type { GraphInstance, NodeInstance, Edge, NodeId, EdgeId, SocketId } from '@brepflow/types';
-import { createNodeId, createEdgeId, createSocketId } from '@brepflow/types';
+import type { GraphInstance, NodeInstance, Edge, NodeId, EdgeId, SocketId } from '@sim4d/types';
+import { createNodeId, createEdgeId, createSocketId } from '@sim4d/types';
 import type { ErrorInfo } from '../hooks/useErrorTracking';
 
 /**
- * Convert BrepFlow graph to ReactFlow format
+ * Convert Sim4D graph to ReactFlow format
  */
 export function convertToReactFlow(
   graph: GraphInstance,
@@ -54,7 +54,7 @@ export function convertToReactFlow(
 }
 
 /**
- * Convert ReactFlow format to BrepFlow graph
+ * Convert ReactFlow format to Sim4D graph
  */
 export function convertFromReactFlow(nodes: RFNode[], edges: RFEdge[]): GraphInstance {
   const graphNodes: NodeInstance[] = nodes.map((node) => ({
@@ -86,10 +86,10 @@ export function convertFromReactFlow(nodes: RFNode[], edges: RFEdge[]): GraphIns
 }
 
 /**
- * Get ReactFlow node type from BrepFlow node type
+ * Get ReactFlow node type from Sim4D node type
  */
 function getReactFlowNodeType(type: string): string {
-  // Map BrepFlow node types to ReactFlow node types
+  // Map Sim4D node types to ReactFlow node types
   if (type.startsWith('IO::Import')) return 'input';
   if (type.startsWith('IO::Export')) return 'output';
   return 'default';

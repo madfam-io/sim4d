@@ -17,7 +17,7 @@ import type {
   WorkerResponse as _WorkerResponse,
   HealthCheckResult,
 } from './worker-types';
-import type { ShapeHandle as _ShapeHandle, MeshData as _MeshData } from '@brepflow/types';
+import type { ShapeHandle as _ShapeHandle, MeshData as _MeshData } from '@sim4d/types';
 
 export interface PoolWorker {
   id: string;

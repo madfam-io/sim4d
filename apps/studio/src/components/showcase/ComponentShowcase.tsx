@@ -58,7 +58,7 @@ export const ComponentShowcase: React.FC = () => {
     <div className="component-showcase">
       {/* Header with Navigation */}
       <div className="showcase-header">
-        <h1 className="showcase-title">BrepFlow UI Component Showcase</h1>
+        <h1 className="showcase-title">Sim4D UI Component Showcase</h1>
         <div className="showcase-nav">
           {demoSections.map((section) => (
             <Button

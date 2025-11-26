@@ -2,7 +2,7 @@
 
 ## Overview
 
-Systematically fixed all ESLint errors and high-priority warnings across the BrepFlow monorepo.
+Systematically fixed all ESLint errors and high-priority warnings across the Sim4D monorepo.
 
 ## Results
 
@@ -52,7 +52,7 @@ console.log('[OCCT] BRepPrimAPI_MakeCylinder available ✓');
 
 ```typescript
 // eslint-disable-next-line @typescript-eslint/no-var-requires -- Optional dependency, fallback needed for tests
-const { ProductionLogger } = require('@brepflow/engine-occt');
+const { ProductionLogger } = require('@sim4d/engine-occt');
 ```
 
 #### 2. script-engine.ts: non-literal-regexp (1 warning)
@@ -192,10 +192,10 @@ const missing = requiredArtifacts.filter((file) => !fs.existsSync(path.join(wasm
 pnpm run lint
 
 # Results:
-# ✅ @brepflow/cli: 0 errors, 2 warnings
-# ✅ @brepflow/engine-core: 0 errors, 77 warnings
-# ✅ @brepflow/engine-occt: 0 errors, 1 warning
-# ✅ @brepflow/nodes-core: 0 errors, 6 warnings
+# ✅ @sim4d/cli: 0 errors, 2 warnings
+# ✅ @sim4d/engine-core: 0 errors, 77 warnings
+# ✅ @sim4d/engine-occt: 0 errors, 1 warning
+# ✅ @sim4d/nodes-core: 0 errors, 6 warnings
 # ✅ All other packages: 0 errors, 0 warnings
 
 # Total: 0 errors, 85 warnings

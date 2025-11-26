@@ -1,6 +1,6 @@
 # CI/CD Monitoring Guide
 
-Comprehensive guide for monitoring and maintaining BrepFlow's CI/CD infrastructure.
+Comprehensive guide for monitoring and maintaining Sim4D's CI/CD infrastructure.
 
 ## Overview
 
@@ -37,7 +37,7 @@ Real-time workflow status and performance metrics.
 
 ```
 ════════════════════════════════════════════════════════════════
-           BrepFlow CI/CD Monitoring Dashboard
+           Sim4D CI/CD Monitoring Dashboard
 ════════════════════════════════════════════════════════════════
 
 📊 Docker Testing

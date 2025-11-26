@@ -187,7 +187,7 @@ Failed to load resource: net::ERR_CONNECTION_REFUSED
    curl http://localhost:8080/api/sessions
 
    # Review collaboration service logs
-   docker logs brepflow-collaboration-1
+   docker logs sim4d-collaboration-1
    ```
 
 3. **Reduce Test Parallelism**

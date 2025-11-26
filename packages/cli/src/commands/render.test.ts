@@ -3,7 +3,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import type { GraphInstance } from '@brepflow/types';
+import type { GraphInstance } from '@sim4d/types';
 
 import { collectShapeHandles, exportFormat } from './render.ts';
 
@@ -38,7 +38,7 @@ const baseGraph: GraphInstance = {
 };
 
 const createTempDir = async () => {
-  const dir = await fs.mkdtemp(path.join(tmpdir(), 'brepflow-render-'));
+  const dir = await fs.mkdtemp(path.join(tmpdir(), 'sim4d-render-'));
   return dir;
 };
 

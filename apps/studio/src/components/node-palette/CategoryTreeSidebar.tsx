@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import type { CategoryTree } from '@brepflow/nodes-core';
+// import type { CategoryTree } from '@sim4d/nodes-core';
 
 // Temporary fallback type until build issues are resolved
 type CategoryTree = Record<string, { nodes: any[]; subcategories: Record<string, any[]> }>;

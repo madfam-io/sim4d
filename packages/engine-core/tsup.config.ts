@@ -15,7 +15,7 @@ export default createLibraryConfig({
   },
   shims: false, // Disable ESM shims to avoid Node.js module imports
   // Engine-specific externals
-  external: ['react', 'react-dom', /^@brepflow\//, 'vitest'],
+  external: ['react', 'react-dom', /^@sim4d\//, 'vitest'],
   // Override tsconfig to use DTS-specific config (excludes collaboration, disables strict checks)
   tsconfig: './tsconfig.dts.json',
 });

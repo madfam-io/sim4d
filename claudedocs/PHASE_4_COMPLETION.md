@@ -88,7 +88,7 @@ The vulnerability existed in 10 dependency paths, all through the following chai
 
 ### Changes Applied
 
-**File Modified**: `/Users/aldoruizluna/labspace/brepflow/package.json`
+**File Modified**: `/Users/aldoruizluna/labspace/sim4d/package.json`
 
 ```diff
   "pnpm": {
@@ -141,7 +141,7 @@ No known vulnerabilities found
 **Exploitability**: LOW (requires attacker control of glob patterns)  
 **Impact**: Code execution via shell injection
 
-**Actual Risk in BrepFlow**: LOW
+**Actual Risk in Sim4D**: LOW
 
 - glob used only during build process (development time)
 - Not exposed to user input in production

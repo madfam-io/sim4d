@@ -43,7 +43,7 @@ Successfully completed **Phase 2: Enhanced Real-Time Collaboration** in a single
 
 **2. YjsAdapter (189 lines)**
 
-- BrepFlow ↔ Yjs bridge
+- Sim4D ↔ Yjs bridge
 - WebSocket provider integration
 - Presence awareness API
 - Automatic reconnection

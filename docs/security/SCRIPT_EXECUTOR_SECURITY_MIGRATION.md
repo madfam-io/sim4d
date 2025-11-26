@@ -271,7 +271,7 @@ private async executeInSecureContext(
        "default-src 'self'",
        "script-src 'self' 'wasm-unsafe-eval'", // For WASM, no unsafe-eval
        "worker-src 'self' blob:",
-       "connect-src 'self' https://api.brepflow.com",
+       "connect-src 'self' https://api.sim4d.com",
        "style-src 'self' 'unsafe-inline'", // Minimize inline styles
      ].join('; '),
    }
@@ -578,4 +578,4 @@ describe('Penetration Tests', () => {
 
 **Last Updated**: 2025-11-13
 **Next Review**: After Phase 2 completion (2 weeks)
-**Contact**: security@brepflow.com
+**Contact**: security@sim4d.com

@@ -7,7 +7,7 @@
  * routes stable operations to geom-core while falling back to legacy for others.
  */
 
-import { GeometryValidator, IntegratedGeometryAPI, getGeometryAPI } from '@brepflow/engine-occt';
+import { GeometryValidator, IntegratedGeometryAPI, getGeometryAPI } from '@sim4d/engine-occt';
 
 // Use IntegratedGeometryAPI directly for now - HybridGeometryAPI will be integrated
 // once the DTS export resolution is fixed. The IntegratedGeometryAPI provides the
@@ -27,7 +27,7 @@ export class ProductionGeometryService {
   private getLogger() {
     if (!this.logger) {
       // eslint-disable-next-line @typescript-eslint/no-var-requires -- Lazy loading logger to avoid circular dependencies in initialization
-      const { ProductionLogger } = require('@brepflow/engine-occt');
+      const { ProductionLogger } = require('@sim4d/engine-occt');
       this.logger = new ProductionLogger('GeometryService');
     }
     return this.logger;

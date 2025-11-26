@@ -1,7 +1,7 @@
 /**
  * Studio Analytics Hook
  *
- * Integrates @madfam/analytics with BrepFlow Studio for ecosystem-wide telemetry.
+ * Integrates @madfam/analytics with Sim4D Studio for ecosystem-wide telemetry.
  * Tracks CAD-specific events: node operations, model exports, collaboration sessions.
  */
 

@@ -1,9 +1,9 @@
 /**
- * Advanced Curve Nodes for BrepFlow
+ * Advanced Curve Nodes for Sim4D
  * Implements NURBS curves, analysis, and manipulation operations
  */
 
-import { NodeDefinition } from '@brepflow/types';
+import { NodeDefinition } from '@sim4d/types';
 
 // NURBS Curve Creation
 export const nurbsCurveNode: NodeDefinition = {

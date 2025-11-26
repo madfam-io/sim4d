@@ -1,5 +1,5 @@
 import type { Operation } from '../types';
-import { createLogger } from '@brepflow/engine-core';
+import { createLogger } from '@sim4d/engine-core';
 
 const logger = createLogger('Collaboration');
 
@@ -23,7 +23,7 @@ export class OfflineQueue {
   constructor(options: OfflineQueueOptions = {}) {
     this.maxQueueSize = options.maxQueueSize ?? 1000;
     this.maxOperationAge = options.maxOperationAge ?? 24 * 60 * 60 * 1000; // 24 hours
-    this.storageKey = options.storageKey ?? 'brepflow-offline-queue';
+    this.storageKey = options.storageKey ?? 'sim4d-offline-queue';
     this.persistToStorage = options.persistToStorage ?? true;
 
     // Load persisted queue from storage

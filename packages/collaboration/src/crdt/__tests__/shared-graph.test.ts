@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { SharedGraph } from '../shared-graph';
 import type { Graph, Operation, Node, Edge } from '../../types';
-import { createNodeId, createEdgeId } from '@brepflow/types';
+import { createNodeId, createEdgeId } from '@sim4d/types';
 
 describe('SharedGraph', () => {
   let sharedGraph: SharedGraph;

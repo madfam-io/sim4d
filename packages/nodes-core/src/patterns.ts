@@ -1,4 +1,4 @@
-import type { NodeDefinition, ShapeHandle, Vec3 } from '@brepflow/types';
+import type { NodeDefinition, ShapeHandle, Vec3 } from '@sim4d/types';
 
 const extractPatternShapes = (result: unknown): ShapeHandle[] => {
   if (Array.isArray(result)) return result;

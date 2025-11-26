@@ -5,7 +5,7 @@
  * Provides analytics tracking for template usage and validation.
  */
 
-import type { Graph } from '@brepflow/types';
+import type { Graph } from '@sim4d/types';
 import { createChildLogger } from '../lib/logging/logger-instance';
 import type { Template } from '../templates/template-registry';
 
@@ -243,7 +243,7 @@ function trackTemplateLoad(template: Template): void {
     }
 
     // Store in localStorage for analytics dashboard
-    const existingEvents = localStorage.getItem('brepflow_template_events');
+    const existingEvents = localStorage.getItem('sim4d_template_events');
     const events = existingEvents ? JSON.parse(existingEvents) : [];
     events.push(event);
 
@@ -252,7 +252,7 @@ function trackTemplateLoad(template: Template): void {
       events.splice(0, events.length - 100);
     }
 
-    localStorage.setItem('brepflow_template_events', JSON.stringify(events));
+    localStorage.setItem('sim4d_template_events', JSON.stringify(events));
 
     logger.debug('Template load tracked', {
       templateId: template.id,
@@ -274,7 +274,7 @@ export function getTemplateAnalytics(): {
   recentLoads: Array<{ templateId: string; templateName: string; timestamp: string }>;
 } {
   try {
-    const existingEvents = localStorage.getItem('brepflow_template_events');
+    const existingEvents = localStorage.getItem('sim4d_template_events');
     const events = existingEvents ? JSON.parse(existingEvents) : [];
 
     const templateUsage: Record<string, number> = {};

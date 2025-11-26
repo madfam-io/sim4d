@@ -141,7 +141,7 @@ npx playwright test --config=playwright.user-journeys.config.ts --ui
 1. **Dev Server Running**:
 
    ```bash
-   pnpm --filter @brepflow/studio run dev
+   pnpm --filter @sim4d/studio run dev
    # http://localhost:5173
    ```
 

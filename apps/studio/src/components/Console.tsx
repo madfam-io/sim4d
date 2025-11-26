@@ -86,7 +86,7 @@ export const Console: React.FC = () => {
       id: 'welcome',
       timestamp: new Date(),
       level: 'info',
-      message: 'BrepFlow Studio Console Ready',
+      message: 'Sim4D Studio Console Ready',
       source: 'system',
     };
     setMessages([welcomeMessage]);

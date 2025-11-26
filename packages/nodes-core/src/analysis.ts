@@ -1,9 +1,9 @@
 /**
- * Analysis and Measurement Nodes for BrepFlow
+ * Analysis and Measurement Nodes for Sim4D
  * Implements geometric analysis, measurements, and evaluation operations
  */
 
-import { NodeDefinition } from '@brepflow/types';
+import { NodeDefinition } from '@sim4d/types';
 
 // Distance Measurement
 export const distanceNode: NodeDefinition = {

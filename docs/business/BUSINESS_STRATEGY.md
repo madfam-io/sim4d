@@ -1,8 +1,8 @@
-# BrepFlow Business Strategy & Go-to-Market Plan
+# Sim4D Business Strategy & Go-to-Market Plan
 
 ## Executive Summary
 
-BrepFlow is positioned to disrupt the $8B CAD market by becoming the first web-native, collaborative parametric design platform. Our strategy focuses on aggressive freemium pricing, ecosystem development, and network effects to achieve a $1B valuation within 5 years.
+Sim4D is positioned to disrupt the $8B CAD market by becoming the first web-native, collaborative parametric design platform. Our strategy focuses on aggressive freemium pricing, ecosystem development, and network effects to achieve a $1B valuation within 5 years.
 
 **Key Differentiators:**
 
@@ -24,7 +24,7 @@ BrepFlow is positioned to disrupt the $8B CAD market by becoming the first web-n
 
 | Product      | Price    | Platform | Collaboration | Ecosystem |
 | ------------ | -------- | -------- | ------------- | --------- |
-| **BrepFlow** | Free-$79 | Web      | ✅ Real-time  | Open      |
+| **Sim4D** | Free-$79 | Web      | ✅ Real-time  | Open      |
 | Grasshopper  | $995     | Desktop  | ❌ None       | Limited   |
 | Dynamo       | $2,400   | Desktop  | ❌ None       | Closed    |
 | Fusion 360   | $545/yr  | Desktop  | ⚠️ Basic      | Limited   |
@@ -202,7 +202,7 @@ More Users → More Designs → More Plugins → More Value
 
 ### Community Programs
 
-#### 1. **BrepFlow Champions**
+#### 1. **Sim4D Champions**
 
 - Recognition program for top contributors
 - Early access to features
@@ -528,16 +528,16 @@ Optimization Targets:
 
 ## 📞 Call to Action
 
-**For Investors**: BrepFlow represents a once-in-a-generation opportunity to disrupt an $8B market with 10x better technology and distribution.
+**For Investors**: Sim4D represents a once-in-a-generation opportunity to disrupt an $8B market with 10x better technology and distribution.
 
-**For Users**: Join the future of design. Start free at [brepflow.com](https://brepflow.com)
+**For Users**: Join the future of design. Start free at [sim4d.com](https://sim4d.com)
 
 **For Developers**: Build the next generation of design tools. Apply for our $10M developer fund.
 
-**For Enterprises**: Schedule a demo and see how BrepFlow can transform your design workflow.
+**For Enterprises**: Schedule a demo and see how Sim4D can transform your design workflow.
 
 ---
 
 _"The best time to plant a tree was 20 years ago. The second best time is now."_
 
-**Contact**: strategy@brepflow.com | investors@brepflow.com
+**Contact**: strategy@sim4d.com | investors@sim4d.com

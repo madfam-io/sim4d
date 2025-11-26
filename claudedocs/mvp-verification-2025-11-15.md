@@ -1,6 +1,6 @@
 # MVP Production Readiness Verification - 2025-11-15
 
-**Session Goal**: Systematic verification that user-testable MVP works locally and at studio.brepflow.com
+**Session Goal**: Systematic verification that user-testable MVP works locally and at studio.sim4d.com
 
 **Approach**: Evidence-based verification with comprehensive testing and documentation
 
@@ -20,15 +20,15 @@
 
 **Build Status**:
 
-- ✅ `@brepflow/types` - Build success
-- ✅ `@brepflow/schemas` - Build success
-- ✅ `@brepflow/viewport` - Build success
-- ✅ `@brepflow/engine-core` - Build success (ESM + DTS)
-- ✅ `@brepflow/engine-occt` - Build success (fixed TypeScript errors)
-- ✅ `@brepflow/nodes-core` - Build success (1.54 MB)
-- ✅ `@brepflow/collaboration` - Build success
-- ✅ `@brepflow/constraint-solver` - Build success
-- ✅ `@brepflow/cli` - Build success
+- ✅ `@sim4d/types` - Build success
+- ✅ `@sim4d/schemas` - Build success
+- ✅ `@sim4d/viewport` - Build success
+- ✅ `@sim4d/engine-core` - Build success (ESM + DTS)
+- ✅ `@sim4d/engine-occt` - Build success (fixed TypeScript errors)
+- ✅ `@sim4d/nodes-core` - Build success (1.54 MB)
+- ✅ `@sim4d/collaboration` - Build success
+- ✅ `@sim4d/constraint-solver` - Build success
+- ✅ `@sim4d/cli` - Build success
 
 **Warnings (Non-blocking)**:
 
@@ -49,7 +49,7 @@
 
 - 🔄 GitHub Actions CI: In progress (typecheck running)
 - ⏳ Vercel Build: Waiting for commit `d98b32f5`
-- ⏳ Deploy to: `https://studio.brepflow.com`
+- ⏳ Deploy to: `https://studio.sim4d.com`
 
 **TypeScript Fixes Applied (engine-occt)**:
 
@@ -66,4 +66,4 @@
 
 - ⏳ Wait for GitHub Actions CI to complete
 - ⏳ Monitor Vercel deployment status
-- ⏳ Verify production deployment at studio.brepflow.com
+- ⏳ Verify production deployment at studio.sim4d.com

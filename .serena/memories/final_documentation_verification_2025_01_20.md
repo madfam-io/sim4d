@@ -27,7 +27,7 @@
 ## Current Accurate Structure
 
 ```
-/brepflow
+/sim4d
 ├── apps/
 │   ├── studio/           # Node editor + viewport
 │   └── marketing/        # Marketing website

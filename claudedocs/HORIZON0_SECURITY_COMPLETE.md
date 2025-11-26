@@ -221,8 +221,8 @@ Content-Security-Policy:
 
 ```bash
 # All tests passing
-pnpm --filter @brepflow/engine-core run typecheck  # ✅ 0 errors
-pnpm --filter @brepflow/types run typecheck        # ✅ 0 errors
+pnpm --filter @sim4d/engine-core run typecheck  # ✅ 0 errors
+pnpm --filter @sim4d/types run typecheck        # ✅ 0 errors
 pnpm run test                                       # ✅ 185/185 passing
 ```
 
@@ -456,7 +456,7 @@ All changes are internal to the script execution engine. Public APIs remain unch
 - [DOMPurify](https://github.com/cure53/DOMPurify)
 - [OWASP Top 10](https://owasp.org/www-project-top-ten/)
 - [CSP Level 3](https://www.w3.org/TR/CSP3/)
-- [BrepFlow Security Policy](../SECURITY.md)
+- [Sim4D Security Policy](../SECURITY.md)
 
 ---
 

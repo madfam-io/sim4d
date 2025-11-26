@@ -16,7 +16,7 @@ export * from './geometry-validator';
 export * from './production-safety'; // CRITICAL: Production safety utilities
 
 // Re-export WorkerAPI type from types package
-export type { WorkerAPI } from '@brepflow/types';
+export type { WorkerAPI } from '@sim4d/types';
 
 // Default export is the new IntegratedGeometryAPI
 export {

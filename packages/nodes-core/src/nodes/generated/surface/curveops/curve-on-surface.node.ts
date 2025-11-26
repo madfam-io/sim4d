@@ -1,4 +1,4 @@
-import { NodeDefinition } from '@brepflow/types';
+import { NodeDefinition } from '@sim4d/types';
 
 type Params = {};
 interface Inputs {

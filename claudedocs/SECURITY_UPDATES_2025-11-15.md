@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-Successfully resolved **critical and high-severity security vulnerabilities** in BrepFlow dependencies. Vulnerability count reduced from **1 high + 3 moderate to 0 high + 1 moderate**.
+Successfully resolved **critical and high-severity security vulnerabilities** in Sim4D dependencies. Vulnerability count reduced from **1 high + 3 moderate to 0 high + 1 moderate**.
 
 **Security Status:**
 

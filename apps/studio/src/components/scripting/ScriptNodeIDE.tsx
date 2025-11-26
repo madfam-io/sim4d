@@ -18,14 +18,14 @@ import type {
   ScriptError,
   ScriptWarning,
   ScriptLogEntry,
-} from '@brepflow/engine-core';
+} from '@sim4d/engine-core';
 import './ScriptNodeIDE.css';
 
 // Import the actual script engine
-import { BrepFlowScriptEngine } from '@brepflow/engine-core';
+import { Sim4DScriptEngine } from '@sim4d/engine-core';
 import { createChildLogger } from '../../lib/logging/logger-instance';
 
-const scriptEngine = new BrepFlowScriptEngine();
+const scriptEngine = new Sim4DScriptEngine();
 const logger = createChildLogger({ module: 'ScriptNodeIDE' });
 
 interface ScriptNodeIDEProps {

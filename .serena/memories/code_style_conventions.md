@@ -1,4 +1,4 @@
-# BrepFlow Code Style & Conventions
+# Sim4D Code Style & Conventions
 
 ## TypeScript Configuration
 
@@ -7,7 +7,7 @@
 - **Strict**: false (gradual adoption)
 - **JSX**: react-jsx transform
 - **Decorators**: Experimental decorators enabled
-- **Path mapping**: @brepflow/_ aliases to packages/_/src
+- **Path mapping**: @sim4d/_ aliases to packages/_/src
 
 ## ESLint Rules
 
@@ -36,7 +36,7 @@
 - **Variables/Functions**: camelCase
 - **Types/Interfaces**: PascalCase
 - **Constants**: UPPER_SNAKE_CASE
-- **Package names**: @brepflow/package-name format
+- **Package names**: @sim4d/package-name format
 
 ## Project Structure Patterns
 

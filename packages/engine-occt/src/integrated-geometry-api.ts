@@ -20,7 +20,7 @@ import {
   ProductionSafetyError,
   type EnvironmentConfig,
 } from './production-safety';
-import type { ShapeHandle, MeshData } from '@brepflow/types';
+import type { ShapeHandle, MeshData } from '@sim4d/types';
 
 export interface GeometryAPIConfig {
   enableRealOCCT: boolean;

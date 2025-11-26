@@ -124,7 +124,7 @@ The codebase follows security best practices:
 
 ### Industry Standards Comparison
 
-| Standard           | Requirement                               | BrepFlow Status |
+| Standard           | Requirement                               | Sim4D Status |
 | ------------------ | ----------------------------------------- | --------------- |
 | OWASP Top 10 (XSS) | Escape/sanitize user input                | ✅ PASS         |
 | React Security     | No dangerouslySetInnerHTML with user data | ✅ PASS         |
@@ -182,7 +182,7 @@ If team wants maximum assurance for future-proofing:
    card.innerHTML = `<div>${content}</div>`;
 
    // After
-   import { sanitizeHTML } from '@brepflow/types/security';
+   import { sanitizeHTML } from '@sim4d/types/security';
    card.innerHTML = sanitizeHTML(`<div>${content}</div>`);
    ```
 
@@ -211,7 +211,7 @@ Add section:
 ```markdown
 ## XSS Protection
 
-BrepFlow is protected against XSS attacks through:
+Sim4D is protected against XSS attacks through:
 
 1. **React Auto-Escaping**: All user-generated content rendered via React JSX
 2. **No Direct HTML Injection**: Zero uses of `dangerouslySetInnerHTML` in production code

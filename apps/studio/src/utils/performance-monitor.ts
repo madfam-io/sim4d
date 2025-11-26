@@ -1,5 +1,5 @@
 /**
- * Performance Monitoring System for BrepFlow Studio
+ * Performance Monitoring System for Sim4D Studio
  * Tracks FPS, memory usage, render times, and component performance
  */
 

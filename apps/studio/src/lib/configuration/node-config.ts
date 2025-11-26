@@ -2,8 +2,8 @@
  * Node configuration management for export/import and templates
  */
 
-import type { NodeInstance, NodeId } from '@brepflow/types';
-import { createNodeId } from '@brepflow/types';
+import type { NodeInstance, NodeId } from '@sim4d/types';
+import { createNodeId } from '@sim4d/types';
 import { createChildLogger } from '../logging/logger-instance';
 
 const logger = createChildLogger({ module: 'node-config' });
@@ -89,8 +89,8 @@ export class NodeConfigurationManager {
   private static instance: NodeConfigurationManager | null = null;
   private configurations: Map<string, NodeConfiguration> = new Map();
   private templates: Map<string, ConfigurationTemplate> = new Map();
-  private readonly STORAGE_KEY_CONFIGS = 'brepflow_node_configurations';
-  private readonly STORAGE_KEY_TEMPLATES = 'brepflow_configuration_templates';
+  private readonly STORAGE_KEY_CONFIGS = 'sim4d_node_configurations';
+  private readonly STORAGE_KEY_TEMPLATES = 'sim4d_configuration_templates';
 
   private constructor() {
     this.loadFromStorage();

@@ -1,6 +1,6 @@
 # CI/CD Quick Reference
 
-Quick reference guide for BrepFlow's Docker-based CI/CD workflows.
+Quick reference guide for Sim4D's Docker-based CI/CD workflows.
 
 ## Workflows Overview
 
@@ -203,7 +203,7 @@ pnpm run test -- --watch
 
 ### Viewing Results
 
-1. **Navigate to Actions tab**: `https://github.com/aureo-labs/brepflow/actions`
+1. **Navigate to Actions tab**: `https://github.com/aureo-labs/sim4d/actions`
 2. **Select workflow**: Click on workflow name
 3. **View run**: Click on specific run
 4. **Check summary**: Review job summaries and artifacts
@@ -214,8 +214,8 @@ pnpm run test -- --watch
 Add to README.md:
 
 ```markdown
-![Docker Tests](https://github.com/aureo-labs/brepflow/actions/workflows/test-docker.yml/badge.svg)
-![PR Quality Gate](https://github.com/aureo-labs/brepflow/actions/workflows/pr-quality-gate.yml/badge.svg)
+![Docker Tests](https://github.com/aureo-labs/sim4d/actions/workflows/test-docker.yml/badge.svg)
+![PR Quality Gate](https://github.com/aureo-labs/sim4d/actions/workflows/pr-quality-gate.yml/badge.svg)
 ```
 
 ## Best Practices

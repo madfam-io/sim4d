@@ -1,12 +1,12 @@
-# BrepFlow API Documentation
+# Sim4D API Documentation
 
 ## Overview
 
-BrepFlow provides a comprehensive API for building parametric CAD applications with exact B-Rep/NURBS geometry. The API is organized into several packages, each focused on specific functionality.
+Sim4D provides a comprehensive API for building parametric CAD applications with exact B-Rep/NURBS geometry. The API is organized into several packages, each focused on specific functionality.
 
 ## Core Packages
 
-### @brepflow/engine-core
+### @sim4d/engine-core
 
 The core DAG evaluation engine with dirty propagation, memoization, and graph management.
 
@@ -20,7 +20,7 @@ The core DAG evaluation engine with dirty propagation, memoization, and graph ma
 
 **Example:**
 ```typescript
-import { DAGEngine, GraphManager } from '@brepflow/engine-core';
+import { DAGEngine, GraphManager } from '@sim4d/engine-core';
 
 const engine = new DAGEngine();
 const manager = new GraphManager(engine);
@@ -30,7 +30,7 @@ const graph = await manager.loadGraph('path/to/graph.bflow.json');
 await engine.evaluateNode(nodeId);
 ```
 
-### @brepflow/engine-occt
+### @sim4d/engine-occt
 
 WebAssembly bindings to OCCT (Open CASCADE Technology) geometry kernel.
 
@@ -41,7 +41,7 @@ WebAssembly bindings to OCCT (Open CASCADE Technology) geometry kernel.
 
 **Example:**
 ```typescript
-import { GeometryAPIFactory } from '@brepflow/engine-occt';
+import { GeometryAPIFactory } from '@sim4d/engine-occt';
 
 const geometryAPI = await GeometryAPIFactory.getAPI();
 const boxHandle = await geometryAPI.invoke('MAKE_BOX', {
@@ -51,7 +51,7 @@ const boxHandle = await geometryAPI.invoke('MAKE_BOX', {
 });
 ```
 
-### @brepflow/nodes-core
+### @sim4d/nodes-core
 
 Built-in node library with 30+ geometry nodes.
 
@@ -61,7 +61,7 @@ Built-in node library with 30+ geometry nodes.
 
 **Example:**
 ```typescript
-import { registerCoreNodes } from '@brepflow/nodes-core';
+import { registerCoreNodes } from '@sim4d/nodes-core';
 
 // Register all core nodes
 registerCoreNodes();
@@ -69,7 +69,7 @@ registerCoreNodes();
 // Now you can use nodes like 'Primitives::Box', 'Operations::Union', etc.
 ```
 
-### @brepflow/sdk
+### @sim4d/sdk
 
 Public SDK for creating custom nodes and plugins.
 
@@ -80,7 +80,7 @@ Public SDK for creating custom nodes and plugins.
 
 **Example:**
 ```typescript
-import { registerNode, NumberParam } from '@brepflow/sdk';
+import { registerNode, NumberParam } from '@sim4d/sdk';
 
 registerNode({
   type: 'Custom::MyNode',
@@ -103,7 +103,7 @@ registerNode({
 });
 ```
 
-### @brepflow/viewport
+### @sim4d/viewport
 
 Three.js-based WebGL2/WebGPU renderer for 3D visualization.
 
@@ -114,7 +114,7 @@ Three.js-based WebGL2/WebGPU renderer for 3D visualization.
 
 **Example:**
 ```typescript
-import { ViewportRenderer } from '@brepflow/viewport';
+import { ViewportRenderer } from '@sim4d/viewport';
 
 const renderer = new ViewportRenderer({
   canvas: document.getElementById('canvas'),
@@ -127,7 +127,7 @@ renderer.addMesh(meshData);
 renderer.render();
 ```
 
-### @brepflow/cli
+### @sim4d/cli
 
 Command-line interface for headless rendering and batch processing.
 
@@ -139,13 +139,13 @@ Command-line interface for headless rendering and batch processing.
 **Example:**
 ```bash
 # Render a graph with parameter overrides
-brepflow render enclosure.bflow.json \
+sim4d render enclosure.bflow.json \
   --set L=120 --set W=80 --set H=35 \
   --export step,stl \
   --out ./output/
 ```
 
-### @brepflow/constraint-solver
+### @sim4d/constraint-solver
 
 2D/3D parametric constraint solving.
 
@@ -155,7 +155,7 @@ brepflow render enclosure.bflow.json \
 
 **Example:**
 ```typescript
-import { Solver2D } from '@brepflow/constraint-solver';
+import { Solver2D } from '@sim4d/constraint-solver';
 
 const solver = new Solver2D();
 solver.addConstraint({
@@ -170,14 +170,14 @@ console.log('Converged:', result.success);
 
 ## Performance Monitoring
 
-BrepFlow includes comprehensive performance monitoring capabilities:
+Sim4D includes comprehensive performance monitoring capabilities:
 
 ```typescript
 import {
   PerformanceMonitor,
   PerformanceReporter,
   ConsolePerformanceExporter
-} from '@brepflow/engine-core';
+} from '@sim4d/engine-core';
 
 // Monitor individual operations
 const monitor = new PerformanceMonitor();
@@ -199,14 +199,14 @@ reporter.startAutoExport();
 
 ## Type Safety
 
-BrepFlow is written in TypeScript and provides full type definitions for all APIs. Enable strict mode for maximum type safety:
+Sim4D is written in TypeScript and provides full type definitions for all APIs. Enable strict mode for maximum type safety:
 
 ```json
 {
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@brepflow/*": ["node_modules/@brepflow/*/src"]
+      "@sim4d/*": ["node_modules/@sim4d/*/src"]
     }
   }
 }
@@ -217,7 +217,7 @@ BrepFlow is written in TypeScript and provides full type definitions for all API
 All async operations return Promises and throw typed errors:
 
 ```typescript
-import { GeometryEvaluationError } from '@brepflow/engine-core';
+import { GeometryEvaluationError } from '@sim4d/engine-core';
 
 try {
   await engine.evaluateNode(nodeId);

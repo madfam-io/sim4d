@@ -23,7 +23,7 @@ import type {
   Viewport,
   Conflict,
 } from '../types';
-import { createNodeId, createEdgeId, type NodeId, type EdgeId } from '@brepflow/types';
+import { createNodeId, createEdgeId, type NodeId, type EdgeId } from '@sim4d/types';
 
 export interface CollaborationContextValue {
   client: CSRFCollaborationClient | null;

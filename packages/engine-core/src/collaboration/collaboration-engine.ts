@@ -1,16 +1,16 @@
 // NOTE: SessionId branded type usage and unknown assertions require type system refactor.
 // File currently has @ts-nocheck due to type incompatibilities with collaboration package.
 /**
- * Comprehensive Real-time Collaboration System for BrepFlow
+ * Comprehensive Real-time Collaboration System for Sim4D
  * Handles real-time multi-user collaboration with conflict resolution, presence awareness, and optimistic updates
  */
 
-import type { SessionId, UserId, NodeId } from '@brepflow/types';
+import type { SessionId, UserId, NodeId } from '@sim4d/types';
 import { createLogger } from '../../logger';
 
 const logger = createLogger('EngineCore');
 
-// NOTE: CollaborationSession import deferred - @brepflow/collaboration package incomplete.
+// NOTE: CollaborationSession import deferred - @sim4d/collaboration package incomplete.
 export type CollaborationSession = any;
 export type Operation = any;
 export type OperationConflict = any;
@@ -82,7 +82,7 @@ export interface CollaborationEvents {
 /**
  * Main collaboration engine that manages real-time multi-user collaboration
  */
-export class BrepFlowCollaborationEngine {
+export class Sim4DCollaborationEngine {
   private sessions = new Map<SessionId, CollaborationSession>();
   private userSessions = new Map<UserId, SessionId>();
   private wsClient: WebSocketClient | null = null;

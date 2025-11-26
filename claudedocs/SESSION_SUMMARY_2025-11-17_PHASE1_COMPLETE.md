@@ -340,16 +340,16 @@ pnpm run test
 ### Verify nodes-core Fix
 
 ```bash
-pnpm --filter @brepflow/nodes-core run test
+pnpm --filter @sim4d/nodes-core run test
 # Expected: 7 test files, 136 tests, ~4.25s duration
 ```
 
 ### Check Package-Specific Coverage
 
 ```bash
-pnpm --filter @brepflow/engine-core run test -- --coverage
-pnpm --filter @brepflow/nodes-core run test -- --coverage
-pnpm --filter @brepflow/collaboration run test -- --coverage
+pnpm --filter @sim4d/engine-core run test -- --coverage
+pnpm --filter @sim4d/nodes-core run test -- --coverage
+pnpm --filter @sim4d/collaboration run test -- --coverage
 ```
 
 ### Verify Build Passes
@@ -591,7 +591,7 @@ Total:                      ~2.5 hours
 4. ✅ Created comprehensive documentation
 5. ✅ Established clear path forward
 
-The BrepFlow codebase is now in a **stable, verified, production-ready state** for Phase 2 coverage improvements.
+The Sim4D codebase is now in a **stable, verified, production-ready state** for Phase 2 coverage improvements.
 
 **Session Quality**: �� EXCELLENT  
 **Delivery Status**: ✅ PHASE 1 COMPLETE  

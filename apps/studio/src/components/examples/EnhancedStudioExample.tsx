@@ -81,7 +81,7 @@ export const EnhancedStudioExample: React.FC = () => {
               margin: 0,
             }}
           >
-            BrepFlow Studio
+            Sim4D Studio
           </h1>
         </div>
 
@@ -333,7 +333,7 @@ export const EnhancedStudioExample: React.FC = () => {
             }}
           >
             <div style={{ color: DESIGN_TOKENS.colors.engineering[600] }}>
-              [INFO] BrepFlow Studio initialized
+              [INFO] Sim4D Studio initialized
             </div>
             <div style={{ color: DESIGN_TOKENS.colors.technical[600] }}>
               [DEBUG] Node editor ready

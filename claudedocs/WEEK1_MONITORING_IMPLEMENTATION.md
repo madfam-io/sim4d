@@ -210,7 +210,7 @@ SLACK_WEBHOOK_URL: https://hooks.slack.com/services/...
 ### 5. Visual Status Indicators
 
 ```markdown
-[![Docker Tests](https://github.com/aureo-labs/brepflow/actions/workflows/test-docker.yml/badge.svg)]
+[![Docker Tests](https://github.com/aureo-labs/sim4d/actions/workflows/test-docker.yml/badge.svg)]
 ```
 
 **Benefits**:

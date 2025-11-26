@@ -10,7 +10,7 @@
 
 ## Executive Summary
 
-The BrepFlow codebase has **254 occurrences of `any` type** in `packages/engine-core`, primarily in:
+The Sim4D codebase has **254 occurrences of `any` type** in `packages/engine-core`, primarily in:
 
 - Collaboration system (parameter-sync, operational-transform, types)
 - Scripting system (javascript-executor, script-engine, types)
@@ -408,10 +408,10 @@ grep -r "\bany\b" packages/engine-core/src --include="*.ts" -C 2
 
 ```bash
 # Check impact of noImplicitAny
-pnpm --filter @brepflow/engine-core run typecheck 2>&1 | grep "error TS7006"
+pnpm --filter @sim4d/engine-core run typecheck 2>&1 | grep "error TS7006"
 
 # Count errors
-pnpm --filter @brepflow/engine-core run typecheck 2>&1 | grep "error TS" | wc -l
+pnpm --filter @sim4d/engine-core run typecheck 2>&1 | grep "error TS" | wc -l
 ```
 
 ### Type Coverage Tool
@@ -433,8 +433,8 @@ npx type-coverage --at-least 90
 
 ### Before Each Change
 
-1. Run existing tests: `pnpm --filter @brepflow/engine-core run test`
-2. Check type compilation: `pnpm --filter @brepflow/engine-core run typecheck`
+1. Run existing tests: `pnpm --filter @sim4d/engine-core run test`
+2. Check type compilation: `pnpm --filter @sim4d/engine-core run typecheck`
 3. Verify no runtime behavior changes
 
 ### After Each Change

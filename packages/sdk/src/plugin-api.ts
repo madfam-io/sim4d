@@ -1,9 +1,9 @@
 /**
- * BrepFlow Plugin SDK
+ * Sim4D Plugin SDK
  * Provides API for third-party developers to create custom nodes and extensions
  */
 
-import type { NodeDefinition, EvalContext, WorkerAPI } from '@brepflow/types';
+import type { NodeDefinition, EvalContext, WorkerAPI } from '@sim4d/types';
 
 export interface PluginManifest {
   id: string;
@@ -122,7 +122,7 @@ export interface FileSystemContext {
 /**
  * Plugin base class
  */
-export abstract class BrepFlowPlugin {
+export abstract class Sim4DPlugin {
   protected context!: PluginContext;
 
   abstract get manifest(): PluginManifest;
@@ -350,14 +350,14 @@ export interface ViewportOverlay {
  * Plugin loader and manager
  */
 export class PluginManager {
-  private plugins = new Map<string, BrepFlowPlugin>();
+  private plugins = new Map<string, Sim4DPlugin>();
   private contexts = new Map<string, PluginContext>();
 
   /**
    * Load a plugin from URL or package
    */
-  async loadPlugin(source: string | BrepFlowPlugin): Promise<void> {
-    let plugin: BrepFlowPlugin;
+  async loadPlugin(source: string | Sim4DPlugin): Promise<void> {
+    let plugin: Sim4DPlugin;
 
     if (typeof source === 'string') {
       // Load from URL
@@ -563,7 +563,7 @@ export class PluginManager {
     return {} as NetworkContext;
   }
 
-  private registerPluginComponents(plugin: BrepFlowPlugin): void {
+  private registerPluginComponents(plugin: Sim4DPlugin): void {
     // Register nodes, commands, panels
     const nodes = plugin.getNodes();
     const commands = plugin.getCommands();

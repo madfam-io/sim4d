@@ -1,9 +1,9 @@
 /**
- * Data Manipulation Nodes for BrepFlow
+ * Data Manipulation Nodes for Sim4D
  * Implements list operations, tree structures, and data management
  */
 
-import { NodeDefinition } from '@brepflow/types';
+import { NodeDefinition } from '@sim4d/types';
 
 // List Item
 export const listItemNode: NodeDefinition = {

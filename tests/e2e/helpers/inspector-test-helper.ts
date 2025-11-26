@@ -17,7 +17,7 @@ export interface DiagnosticInfo {
 }
 
 /**
- * Helper class for Inspector panel testing in BrepFlow Studio
+ * Helper class for Inspector panel testing in Sim4D Studio
  * Supports Phase 4A (live parameter editing) and Phase 4B (performance/diagnostics)
  */
 export class InspectorTestHelper {
@@ -307,7 +307,7 @@ export class InspectorTestHelper {
   async verifyConfigurationExported(): Promise<void> {
     // Check if configuration appears in localStorage or shows success message
     const configExists = await this.page.evaluate(() => {
-      const configs = localStorage.getItem('brepflow_node_configurations');
+      const configs = localStorage.getItem('sim4d_node_configurations');
       return configs && JSON.parse(configs) && Object.keys(JSON.parse(configs)).length > 0;
     });
 

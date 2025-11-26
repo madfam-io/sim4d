@@ -10,7 +10,7 @@ import {
   PluginPermissions,
   PluginBundle,
   Ed25519Signature,
-} from '@brepflow/cloud-api/src/types';
+} from '@sim4d/cloud-api/src/types';
 
 /**
  * Plugin execution context

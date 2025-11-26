@@ -1,4 +1,4 @@
-# BrepFlow 1000+ Node Expansion Roadmap
+# Sim4D 1000+ Node Expansion Roadmap
 
 ## Current Status: 380 Nodes Generated
 
@@ -150,7 +150,7 @@ const gearTypes = [
 - **Grasshopper Parity**: Match 95% of common nodes
 - **Manufacturing Focus**: 200+ fabrication nodes
 - **Domain Expertise**: 150+ per major domain
-- **Innovation**: 100+ unique to BrepFlow
+- **Innovation**: 100+ unique to Sim4D
 
 ### Performance Targets
 
@@ -209,7 +209,7 @@ const gearTypes = [
 
 ## Conclusion
 
-With 460 nodes complete and a clear roadmap to 1000+, BrepFlow is positioned to become the most comprehensive web-based parametric CAD platform. The combination of systematic template generation, AI assistance, and community contribution will enable rapid scaling while maintaining quality.
+With 460 nodes complete and a clear roadmap to 1000+, Sim4D is positioned to become the most comprehensive web-based parametric CAD platform. The combination of systematic template generation, AI assistance, and community contribution will enable rapid scaling while maintaining quality.
 
 **Next Steps**:
 

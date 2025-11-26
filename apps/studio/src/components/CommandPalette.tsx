@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useGraphStore } from '../store/graph-store';
-import { NodeRegistry } from '@brepflow/engine-core';
-import { createNodeId } from '@brepflow/types';
+import { NodeRegistry } from '@sim4d/engine-core';
+import { createNodeId } from '@sim4d/types';
 import './CommandPalette.css';
 
 interface CommandPaletteProps {

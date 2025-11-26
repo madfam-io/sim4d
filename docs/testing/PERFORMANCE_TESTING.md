@@ -2,7 +2,7 @@
 
 ## Overview
 
-BrepFlow's performance testing infrastructure ensures the application maintains acceptable performance characteristics across releases. This guide covers running tests, interpreting results, managing baselines, and troubleshooting issues.
+Sim4D's performance testing infrastructure ensures the application maintains acceptable performance characteristics across releases. This guide covers running tests, interpreting results, managing baselines, and troubleshooting issues.
 
 ## Performance Targets
 
@@ -245,7 +245,7 @@ Reports are automatically published to GitHub Pages on every `main` branch push:
     publish_dir: ./performance-report
 ```
 
-**View Reports**: `https://<org>.github.io/brepflow/performance-report/`
+**View Reports**: `https://<org>.github.io/sim4d/performance-report/`
 
 ## Troubleshooting
 

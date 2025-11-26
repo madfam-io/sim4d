@@ -1,6 +1,6 @@
 /**
  * Authentication Service
- * Comprehensive authentication and session management for BrepFlow cloud services
+ * Comprehensive authentication and session management for Sim4D cloud services
  */
 
 import EventEmitter from 'events';
@@ -12,7 +12,7 @@ import {
   UserPreferences,
   SubscriptionInfo,
   TeamMembership,
-} from '@brepflow/cloud-api/src/types';
+} from '@sim4d/cloud-api/src/types';
 
 const pbkdf2Async = promisify(pbkdf2);
 

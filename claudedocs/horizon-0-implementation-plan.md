@@ -54,7 +54,7 @@ Branded type usage and type assertion cleanup
 
 // packages/engine-core/src/collaboration/collaboration-engine.ts
 5. Line 1: TODO: Fix SessionId branded type usage and unknown type assertions
-6. Line X: TODO: Import from @brepflow/collaboration when available
+6. Line X: TODO: Import from @sim4d/collaboration when available
 
 // packages/engine-core/src/index.ts
 7. TODO: Fix branded type usage and remove @ts-nocheck from collaboration files
@@ -92,7 +92,7 @@ Interface alignment and export cleanup
 15. TODO: Align ShapeHandle.id usage with HandleId branded type requirements
 
 // packages/engine-occt/src/worker-client.ts
-16. TODO: Align ShapeHandle interface between @brepflow/types and local occt-bindings.ts
+16. TODO: Align ShapeHandle interface between @sim4d/types and local occt-bindings.ts
 
 // packages/engine-occt/src/occt-wrapper.ts
 17. TODO: Add exportIGES and exportOBJ as optional properties to OCCTModule interface
@@ -297,7 +297,7 @@ Context: <surrounding code context>
 
 ```typescript
 // Initialize logger (once per app)
-import { Logger } from '@brepflow/studio/lib/logging';
+import { Logger } from '@sim4d/studio/lib/logging';
 const logger = Logger.getInstance(
   {
     console: true,

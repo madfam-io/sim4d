@@ -1,4 +1,4 @@
-# BrepFlow Design Patterns & Guidelines
+# Sim4D Design Patterns & Guidelines
 
 ## Core Architecture Patterns
 

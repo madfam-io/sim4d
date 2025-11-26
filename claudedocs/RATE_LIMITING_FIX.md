@@ -118,7 +118,7 @@ ENABLE_RATE_LIMIT=true docker-compose up -d
 ### 1. Environment Variables Loaded Correctly
 
 ```bash
-$ docker exec brepflow-collaboration-1 printenv | grep -E "ENABLE_RATE|MAX_CONN"
+$ docker exec sim4d-collaboration-1 printenv | grep -E "ENABLE_RATE|MAX_CONN"
 ENABLE_RATE_LIMIT=false
 MAX_CONNECTIONS_PER_IP=100
 ```
@@ -126,7 +126,7 @@ MAX_CONNECTIONS_PER_IP=100
 ### 2. No Rate Limiting Messages in Logs
 
 ```bash
-$ docker logs brepflow-collaboration-1 --tail 30 | grep -i "rate\|SECURITY"
+$ docker logs sim4d-collaboration-1 --tail 30 | grep -i "rate\|SECURITY"
 (no output = success)
 ```
 
