@@ -2,7 +2,7 @@
 
 **Status**: CRITICAL - IN PROGRESS
 **Priority**: P0 (Blocks Production Deployment)
-**Issue**: CVE-2025-BREPFLOW-001 - Arbitrary Code Execution via Function() Constructor
+**Issue**: CVE-2025-SIM4D-001 - Arbitrary Code Execution via Function() Constructor
 
 ---
 

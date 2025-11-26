@@ -266,22 +266,22 @@ Create `.sim4d.json` in project root:
 
 ```bash
 # Output directory
-export BREPFLOW_OUT_DIR="./builds"
+export SIM4D_OUT_DIR="./builds"
 
 # Default format
-export BREPFLOW_EXPORT="step,stl"
+export SIM4D_EXPORT="step,stl"
 
 # Parallel jobs
-export BREPFLOW_PARALLEL=8
+export SIM4D_PARALLEL=8
 
 # Logging level
-export BREPFLOW_LOG_LEVEL="debug"
+export SIM4D_LOG_LEVEL="debug"
 
 # Cache directory
-export BREPFLOW_CACHE_DIR="~/.cache/sim4d"
+export SIM4D_CACHE_DIR="~/.cache/sim4d"
 
 # Disable telemetry
-export BREPFLOW_TELEMETRY=false
+export SIM4D_TELEMETRY=false
 ```
 
 ## Batch Processing
@@ -532,10 +532,10 @@ sim4d sweep \
 
 ```bash
 # Enable persistent cache
-export BREPFLOW_CACHE_DIR="~/.cache/sim4d"
+export SIM4D_CACHE_DIR="~/.cache/sim4d"
 
 # Cache size limit
-export BREPFLOW_CACHE_SIZE="5GB"
+export SIM4D_CACHE_SIZE="5GB"
 
 # Clear cache
 sim4d cache clear

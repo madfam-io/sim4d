@@ -34,7 +34,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     // Create error through ErrorManager
-    const brepFlowError = this.errorManager.fromJavaScriptError(
+    const sim4dError = this.errorManager.fromJavaScriptError(
       error,
       ErrorCode.COMPONENT_RENDER_ERROR,
       {
@@ -66,7 +66,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       }
     );
 
-    this.setState({ errorId: brepFlowError.id ?? null });
+    this.setState({ errorId: sim4dError.id ?? null });
 
     // Call custom error handler if provided
     this.props.onError?.(error, errorInfo);
@@ -160,7 +160,7 @@ export class WASMErrorBoundary extends Component<ErrorBoundaryProps, ErrorBounda
       ? ErrorCode.WASM_EXECUTION_ERROR
       : ErrorCode.COMPONENT_RENDER_ERROR;
 
-    const brepFlowError = this.errorManager.fromJavaScriptError(error, errorCode, {
+    const sim4dError = this.errorManager.fromJavaScriptError(error, errorCode, {
       severity: isWASMError ? ErrorSeverity.CRITICAL : ErrorSeverity.HIGH,
       context: {
         componentStack: errorInfo.componentStack ?? undefined,
@@ -187,7 +187,7 @@ export class WASMErrorBoundary extends Component<ErrorBoundaryProps, ErrorBounda
       },
     });
 
-    this.setState({ errorId: brepFlowError.id ?? null });
+    this.setState({ errorId: sim4dError.id ?? null });
     this.props.onError?.(error, errorInfo);
   }
 
@@ -246,7 +246,7 @@ export class GeometryErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    const brepFlowError = this.errorManager.fromJavaScriptError(
+    const sim4dError = this.errorManager.fromJavaScriptError(
       error,
       ErrorCode.GEOMETRY_COMPUTATION_FAILED,
       {
@@ -277,7 +277,7 @@ export class GeometryErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
       }
     );
 
-    this.setState({ errorId: brepFlowError.id ?? null });
+    this.setState({ errorId: sim4dError.id ?? null });
     this.props.onError?.(error, errorInfo);
   }
 

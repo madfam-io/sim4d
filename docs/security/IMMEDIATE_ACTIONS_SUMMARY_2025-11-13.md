@@ -8,7 +8,7 @@
 
 ## ✅ Completed Actions
 
-### 1. Script Executor Security (CVE-2025-BREPFLOW-001) - COMPLETED
+### 1. Script Executor Security (CVE-2025-SIM4D-001) - COMPLETED
 
 **Priority**: 🔴 CRITICAL  
 **CVSS Score**: 9.8 (Critical)  
@@ -37,7 +37,7 @@
 
 ---
 
-### 2. Collaboration Server CSRF Protection (CVE-2025-BREPFLOW-002) - COMPLETED
+### 2. Collaboration Server CSRF Protection (CVE-2025-SIM4D-002) - COMPLETED
 
 **Priority**: 🔴 CRITICAL  
 **CVSS Score**: 8.1 (High)  

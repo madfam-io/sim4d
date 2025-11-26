@@ -27,16 +27,16 @@ const isCloudSyncEnabled = (): boolean => {
   if (
     typeof process !== 'undefined' &&
     process.env &&
-    'BREPFLOW_ENABLE_CLOUD_SYNC' in process.env
+    'SIM4D_ENABLE_CLOUD_SYNC' in process.env
   ) {
-    return process.env.BREPFLOW_ENABLE_CLOUD_SYNC === 'true';
+    return process.env.SIM4D_ENABLE_CLOUD_SYNC === 'true';
   }
 
   if (
     typeof globalThis !== 'undefined' &&
-    '__BREPFLOW_ENABLE_CLOUD_SYNC__' in (globalThis as unknown)
+    '__SIM4D_ENABLE_CLOUD_SYNC__' in (globalThis as unknown)
   ) {
-    return Boolean((globalThis as unknown).__BREPFLOW_ENABLE_CLOUD_SYNC__);
+    return Boolean((globalThis as unknown).__SIM4D_ENABLE_CLOUD_SYNC__);
   }
 
   return false;
@@ -79,7 +79,7 @@ export class CloudSyncManager extends EventEmitter {
     super();
     if (!isCloudSyncEnabled()) {
       throw new Error(
-        'Cloud sync is disabled. Set BREPFLOW_ENABLE_CLOUD_SYNC=true (or window.__BREPFLOW_ENABLE_CLOUD_SYNC__ = true) to enable this experimental feature.'
+        'Cloud sync is disabled. Set SIM4D_ENABLE_CLOUD_SYNC=true (or window.__SIM4D_ENABLE_CLOUD_SYNC__ = true) to enable this experimental feature.'
       );
     }
     this.config = config;

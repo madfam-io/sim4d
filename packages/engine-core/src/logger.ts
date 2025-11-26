@@ -33,7 +33,7 @@ class Sim4DLogger {
   private constructor() {
     // Initialize from environment if available
     if (typeof process !== 'undefined' && process.env) {
-      const envLevel = process.env.BREPFLOW_LOG_LEVEL;
+      const envLevel = process.env.SIM4D_LOG_LEVEL;
       if (envLevel) {
         this.setLevel(this.parseLogLevel(envLevel));
       }

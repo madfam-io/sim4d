@@ -88,7 +88,7 @@ const makeApiMock = () => ({
 
 describe('ProjectSharingManager', () => {
   beforeEach(() => {
-    process.env.BREPFLOW_ENABLE_PROJECT_SHARING = 'true';
+    process.env.SIM4D_ENABLE_PROJECT_SHARING = 'true';
   });
 
   it('creates share links via API client and caches the result', async () => {

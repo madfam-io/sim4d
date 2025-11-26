@@ -118,13 +118,13 @@ Real-time cloud sync and project sharing remain experimental. They are disabled 
 
 ```bash
 # Enable experimental cloud sync APIs
-export BREPFLOW_ENABLE_CLOUD_SYNC=true
+export SIM4D_ENABLE_CLOUD_SYNC=true
 
 # Enable experimental project sharing APIs
-export BREPFLOW_ENABLE_PROJECT_SHARING=true
+export SIM4D_ENABLE_PROJECT_SHARING=true
 ```
 
-When running in a browser-only sandbox (for example inside Playwright or Storybook), the same flags can be toggled by assigning to `globalThis.__BREPFLOW_ENABLE_CLOUD_SYNC__` and `globalThis.__BREPFLOW_ENABLE_PROJECT_SHARING__` before your app bootstraps. If the flags are omitted, the constructors for the cloud managers throw immediately, preventing half-configured deployments from silently dropping user operations.
+When running in a browser-only sandbox (for example inside Playwright or Storybook), the same flags can be toggled by assigning to `globalThis.__SIM4D_ENABLE_CLOUD_SYNC__` and `globalThis.__SIM4D_ENABLE_PROJECT_SHARING__` before your app bootstraps. If the flags are omitted, the constructors for the cloud managers throw immediately, preventing half-configured deployments from silently dropping user operations.
 
 ## Browser Requirements
 

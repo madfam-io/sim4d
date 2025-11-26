@@ -54,7 +54,7 @@ class EnvironmentManager {
     const isBrowser = typeof window !== 'undefined';
     const processEnv = isBrowser ? {} : typeof process !== 'undefined' ? process.env : {};
 
-    const mode = (processEnv.BREPFLOW_MODE || processEnv.NODE_ENV || 'development') as
+    const mode = (processEnv.SIM4D_MODE || processEnv.NODE_ENV || 'development') as
       | 'production'
       | 'development'
       | 'test';

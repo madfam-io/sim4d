@@ -20,14 +20,14 @@ describe('cloud services feature flags', () => {
 
   beforeEach(() => {
     Object.assign(originalGlobals, {
-      __BREPFLOW_ENABLE_CLOUD_SYNC__: (globalThis as any).__BREPFLOW_ENABLE_CLOUD_SYNC__,
-      __BREPFLOW_ENABLE_PROJECT_SHARING__: (globalThis as any).__BREPFLOW_ENABLE_PROJECT_SHARING__,
+      __SIM4D_ENABLE_CLOUD_SYNC__: (globalThis as any).__SIM4D_ENABLE_CLOUD_SYNC__,
+      __SIM4D_ENABLE_PROJECT_SHARING__: (globalThis as any).__SIM4D_ENABLE_PROJECT_SHARING__,
     });
-    delete (globalThis as any).__BREPFLOW_ENABLE_CLOUD_SYNC__;
-    delete (globalThis as any).__BREPFLOW_ENABLE_PROJECT_SHARING__;
+    delete (globalThis as any).__SIM4D_ENABLE_CLOUD_SYNC__;
+    delete (globalThis as any).__SIM4D_ENABLE_PROJECT_SHARING__;
     process.env = { ...originalEnv };
-    delete process.env.BREPFLOW_ENABLE_CLOUD_SYNC;
-    delete process.env.BREPFLOW_ENABLE_PROJECT_SHARING;
+    delete process.env.SIM4D_ENABLE_CLOUD_SYNC;
+    delete process.env.SIM4D_ENABLE_PROJECT_SHARING;
   });
 
   afterEach(() => {
@@ -61,8 +61,8 @@ describe('cloud services feature flags', () => {
     expect(() => new CloudSyncManager(syncConfig)).toThrow(/Cloud sync is disabled/);
   });
 
-  it('allows CloudSyncManager when BREPFLOW_ENABLE_CLOUD_SYNC=true', () => {
-    process.env.BREPFLOW_ENABLE_CLOUD_SYNC = 'true';
+  it('allows CloudSyncManager when SIM4D_ENABLE_CLOUD_SYNC=true', () => {
+    process.env.SIM4D_ENABLE_CLOUD_SYNC = 'true';
     const manager = new CloudSyncManager(syncConfig);
     expect(manager).toBeInstanceOf(CloudSyncManager);
   });
@@ -71,8 +71,8 @@ describe('cloud services feature flags', () => {
     expect(() => new ProjectSharingManager(sharingConfig)).toThrow(/Project sharing is disabled/);
   });
 
-  it('allows ProjectSharingManager when BREPFLOW_ENABLE_PROJECT_SHARING=true', () => {
-    process.env.BREPFLOW_ENABLE_PROJECT_SHARING = 'true';
+  it('allows ProjectSharingManager when SIM4D_ENABLE_PROJECT_SHARING=true', () => {
+    process.env.SIM4D_ENABLE_PROJECT_SHARING = 'true';
     const manager = new ProjectSharingManager(sharingConfig);
     expect(manager).toBeInstanceOf(ProjectSharingManager);
   });

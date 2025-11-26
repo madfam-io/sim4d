@@ -23,16 +23,16 @@ const isSharingEnabled = (): boolean => {
   if (
     typeof process !== 'undefined' &&
     process.env &&
-    'BREPFLOW_ENABLE_PROJECT_SHARING' in process.env
+    'SIM4D_ENABLE_PROJECT_SHARING' in process.env
   ) {
-    return process.env.BREPFLOW_ENABLE_PROJECT_SHARING === 'true';
+    return process.env.SIM4D_ENABLE_PROJECT_SHARING === 'true';
   }
 
   if (
     typeof globalThis !== 'undefined' &&
-    '__BREPFLOW_ENABLE_PROJECT_SHARING__' in (globalThis as unknown)
+    '__SIM4D_ENABLE_PROJECT_SHARING__' in (globalThis as unknown)
   ) {
-    return Boolean((globalThis as unknown).__BREPFLOW_ENABLE_PROJECT_SHARING__);
+    return Boolean((globalThis as unknown).__SIM4D_ENABLE_PROJECT_SHARING__);
   }
 
   return false;
@@ -80,7 +80,7 @@ export class ProjectSharingManager extends EventEmitter {
     super();
     if (!isSharingEnabled()) {
       throw new Error(
-        'Project sharing is disabled. Set BREPFLOW_ENABLE_PROJECT_SHARING=true (or globalThis.__BREPFLOW_ENABLE_PROJECT_SHARING__ = true) to enable this experimental feature.'
+        'Project sharing is disabled. Set SIM4D_ENABLE_PROJECT_SHARING=true (or globalThis.__SIM4D_ENABLE_PROJECT_SHARING__ = true) to enable this experimental feature.'
       );
     }
     this.config = config;

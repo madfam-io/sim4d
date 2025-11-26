@@ -21,7 +21,7 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
   isolated = false,
   specializedFor,
 }) => {
-  const [brepFlowError, setSim4DError] = useState<Sim4DError | null>(null);
+  const [sim4dError, setSim4DError] = useState<Sim4DError | null>(null);
   const [isExecutingRecovery, setIsExecutingRecovery] = useState<string | null>(null);
 
   useEffect(() => {
@@ -140,7 +140,7 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
     }
   };
 
-  const displayError = brepFlowError || {
+  const displayError = sim4dError || {
     id: 'unknown',
     code: 'UNKNOWN_ERROR' as any,
     category: 'runtime' as any,

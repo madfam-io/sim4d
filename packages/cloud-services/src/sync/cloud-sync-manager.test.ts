@@ -75,7 +75,7 @@ const createApiMock = () => ({
 
 describe('CloudSyncManager', () => {
   beforeEach(() => {
-    process.env.BREPFLOW_ENABLE_CLOUD_SYNC = 'true';
+    process.env.SIM4D_ENABLE_CLOUD_SYNC = 'true';
   });
 
   it('initializes projects and stores graph snapshots', async () => {

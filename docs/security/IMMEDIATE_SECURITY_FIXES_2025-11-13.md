@@ -9,14 +9,14 @@
 
 Two **CRITICAL security vulnerabilities** have been addressed with immediate defensive measures:
 
-1. ✅ **CVE-2025-BREPFLOW-001**: Arbitrary Code Execution (Script Executor)
-2. ✅ **CVE-2025-BREPFLOW-002**: CSRF / Cross-Site WebSocket Hijacking (Collaboration Server)
+1. ✅ **CVE-2025-SIM4D-001**: Arbitrary Code Execution (Script Executor)
+2. ✅ **CVE-2025-SIM4D-002**: CSRF / Cross-Site WebSocket Hijacking (Collaboration Server)
 
 **Impact**: These fixes block the most critical attack vectors but **require Phase 2 implementation** for full production deployment.
 
 ---
 
-## 1. Script Executor Security (CVE-2025-BREPFLOW-001)
+## 1. Script Executor Security (CVE-2025-SIM4D-001)
 
 ### Vulnerability Details
 
@@ -172,7 +172,7 @@ private async executeInSecureContext(...): Promise<...> {
 
 ---
 
-## 2. Collaboration Server CSRF Protection (CVE-2025-BREPFLOW-002)
+## 2. Collaboration Server CSRF Protection (CVE-2025-SIM4D-002)
 
 ### Vulnerability Details
 

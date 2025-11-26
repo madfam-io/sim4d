@@ -44,12 +44,12 @@
 
 ### ✅ Completed
 
-1. **CVE-2025-BREPFLOW-001 (Script Executor)** - Phase 1 defensive measures complete
+1. **CVE-2025-SIM4D-001 (Script Executor)** - Phase 1 defensive measures complete
    - Added pattern detection, frozen sandbox, size limits, blacklist system
    - Temporarily disabled execution until isolated-vm/worker implemented (Phase 2)
    - **Timeline**: 1-2 weeks for Phase 2 completion
 
-2. **CVE-2025-BREPFLOW-002 (CSRF Protection)** - Backend implementation complete
+2. **CVE-2025-SIM4D-002 (CSRF Protection)** - Backend implementation complete
    - HMAC-SHA256 tokens, rate limiting, required origin whitelist
    - **Requires**: Frontend integration to pass CSRF tokens
    - **Timeline**: 1 week for frontend completion
