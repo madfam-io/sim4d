@@ -118,7 +118,7 @@ export class ErrorRecoverySystem {
     // Apply relevant validation rules
     for (const rule of this.validationRules) {
       try {
-        const ruleResult = rule.validate({ operation, ...params });
+        const ruleResult = rule.validate({ operation, ...(params as Record<string, unknown>) });
 
         if (!ruleResult.valid) {
           result.valid = false;
@@ -288,23 +288,29 @@ export class ErrorRecoverySystem {
       category: ErrorCategory.VALIDATION_ERROR,
       severity: ErrorSeverity.MEDIUM,
       validate: (params) => {
+        const p = params as Record<string, unknown>;
         const errors: string[] = [];
         const warnings: string[] = [];
 
         // Check for reasonable geometric bounds
-        if (params.width && (params.width <= 0 || params.width > 10000)) {
-          errors.push(`Invalid width: ${params.width}. Must be between 0 and 10000.`);
+        const width = p.width as number | undefined;
+        const height = p.height as number | undefined;
+        const radius = p.radius as number | undefined;
+        const tolerance = p.tolerance as number | undefined;
+
+        if (width && (width <= 0 || width > 10000)) {
+          errors.push(`Invalid width: ${width}. Must be between 0 and 10000.`);
         }
-        if (params.height && (params.height <= 0 || params.height > 10000)) {
-          errors.push(`Invalid height: ${params.height}. Must be between 0 and 10000.`);
+        if (height && (height <= 0 || height > 10000)) {
+          errors.push(`Invalid height: ${height}. Must be between 0 and 10000.`);
         }
-        if (params.radius && (params.radius <= 0 || params.radius > 5000)) {
-          errors.push(`Invalid radius: ${params.radius}. Must be between 0 and 5000.`);
+        if (radius && (radius <= 0 || radius > 5000)) {
+          errors.push(`Invalid radius: ${radius}. Must be between 0 and 5000.`);
         }
 
         // Check for very small values that might cause precision issues
-        if (params.tolerance && params.tolerance < 0.001) {
-          warnings.push(`Very small tolerance: ${params.tolerance}. May cause precision issues.`);
+        if (tolerance && tolerance < 0.001) {
+          warnings.push(`Very small tolerance: ${tolerance}. May cause precision issues.`);
         }
 
         return {
@@ -321,6 +327,7 @@ export class ErrorRecoverySystem {
       category: ErrorCategory.MEMORY_ERROR,
       severity: ErrorSeverity.HIGH,
       validate: (params) => {
+        const p = params as Record<string, unknown>;
         const memoryManager = getMemoryManager();
         const stats = memoryManager.getStats();
         const errors: string[] = [];
@@ -339,10 +346,11 @@ export class ErrorRecoverySystem {
           fixablе: stats.pressureLevel === 'high',
           suggestedFix: () => {
             // Suggest reduced parameters for high memory pressure
-            const fixedParams = { ...params };
-            if (fixedParams.tolerance)
-              fixedParams.tolerance = Math.max(fixedParams.tolerance * 2, 0.1);
-            if (fixedParams.detail) fixedParams.detail = Math.max(fixedParams.detail - 1, 1);
+            const fixedParams = { ...p };
+            const tolerance = fixedParams.tolerance as number | undefined;
+            const detail = fixedParams.detail as number | undefined;
+            if (tolerance) fixedParams.tolerance = Math.max(tolerance * 2, 0.1);
+            if (detail) fixedParams.detail = Math.max(detail - 1, 1);
             return fixedParams;
           },
         };
@@ -355,27 +363,28 @@ export class ErrorRecoverySystem {
       category: ErrorCategory.VALIDATION_ERROR,
       severity: ErrorSeverity.MEDIUM,
       validate: (params) => {
+        const p = params as Record<string, unknown>;
         const errors: string[] = [];
         const warnings: string[] = [];
 
-        switch (params.operation) {
+        switch (p.operation) {
           case 'MAKE_BOX':
-            if (!params.width || !params.height || !params.depth) {
+            if (!p.width || !p.height || !p.depth) {
               errors.push('Box creation requires width, height, and depth parameters.');
             }
             break;
 
           case 'MAKE_SPHERE':
-            if (!params.radius) {
+            if (!p.radius) {
               errors.push('Sphere creation requires radius parameter.');
             }
             break;
 
           case 'TESSELLATE': {
-            if (!params.shape) {
+            if (!p.shape) {
               errors.push('Tessellation requires a shape parameter.');
             }
-            const tolerance = params.tolerance || params.deflection;
+            const tolerance = (p.tolerance || p.deflection) as number | undefined;
             if (!tolerance || tolerance <= 0) {
               errors.push('Tessellation requires a positive tolerance/deflection parameter.');
             }
@@ -385,7 +394,7 @@ export class ErrorRecoverySystem {
           case 'BOOLEAN_UNION':
           case 'BOOLEAN_INTERSECT':
             // Union and intersect expect shapes array
-            if (!params.shapes || !Array.isArray(params.shapes) || params.shapes.length < 2) {
+            if (!p.shapes || !Array.isArray(p.shapes) || p.shapes.length < 2) {
               errors.push(
                 'Boolean union/intersect operations require at least two shapes in shapes array.'
               );
@@ -393,12 +402,7 @@ export class ErrorRecoverySystem {
             break;
           case 'BOOLEAN_SUBTRACT':
             // Subtract expects base and tools
-            if (
-              !params.base ||
-              !params.tools ||
-              !Array.isArray(params.tools) ||
-              params.tools.length === 0
-            ) {
+            if (!p.base || !p.tools || !Array.isArray(p.tools) || p.tools.length === 0) {
               errors.push('Boolean subtract operation requires base shape and tools array.');
             }
             break;
@@ -498,17 +502,19 @@ export class ErrorRecoverySystem {
   /**
    * Simplify operation parameters to reduce complexity
    */
-  private simplifyParameters(params: unknown, operation: string): any {
-    const simplified = { ...params };
+  private simplifyParameters(params: unknown, operation: string): Record<string, unknown> {
+    const simplified = { ...(params as Record<string, unknown>) };
 
     // Increase tolerance for geometry operations
-    if (simplified.tolerance) {
-      simplified.tolerance = Math.min(simplified.tolerance * 2, 1.0);
+    const tolerance = simplified.tolerance as number | undefined;
+    if (tolerance) {
+      simplified.tolerance = Math.min(tolerance * 2, 1.0);
     }
 
     // Reduce mesh detail
-    if (simplified.detail) {
-      simplified.detail = Math.max(simplified.detail - 1, 1);
+    const detail = simplified.detail as number | undefined;
+    if (detail) {
+      simplified.detail = Math.max(detail - 1, 1);
     }
 
     // Simplify boolean operations by using less precise algorithms
@@ -518,8 +524,8 @@ export class ErrorRecoverySystem {
 
     // Reduce tessellation quality
     if (operation === 'TESSELLATE') {
-      if (!simplified.tolerance) simplified.tolerance = 0.1;
-      simplified.tolerance = Math.max(simplified.tolerance * 1.5, 0.1);
+      const tol = (simplified.tolerance as number | undefined) || 0.1;
+      simplified.tolerance = Math.max(tol * 1.5, 0.1);
     }
 
     return simplified;

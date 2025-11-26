@@ -15,6 +15,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
+    "@madfam/ui": "file:../../../madfam-ui",
     "@brepflow/collaboration": "workspace:*",
     "@brepflow/engine-core": "workspace:*",
     "@brepflow/engine-occt": "workspace:*",

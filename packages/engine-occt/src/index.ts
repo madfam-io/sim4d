@@ -28,3 +28,39 @@ export {
 
 // Legacy exports for backward compatibility
 export { GeometryAPI } from './geometry-api';
+
+// GeomCore adapter for gradual migration to @madfam/geom-core
+export {
+  GeomCoreAdapter,
+  getGeomCoreAdapter,
+  createGeomCoreAdapter,
+  shutdownGlobalAdapter,
+  OPERATION_MAP,
+  DEFAULT_ADAPTER_CONFIG,
+  type GeomCoreAdapterConfig,
+  type Sim4dOperationResult,
+} from './geom-core-adapter';
+
+// GeomCore worker bridge for Web Worker usage
+export {
+  GeomCoreWorkerHandler,
+  GeomCoreWorkerClient,
+  GeomCoreWorkerPool,
+  setupGeomCoreWorker,
+  getGeomCoreWorkerPool,
+  createGeomCoreWorkerPool,
+  shutdownGlobalPool,
+  DEFAULT_BRIDGE_CONFIG,
+  type WorkerBridgeConfig,
+} from './geom-core-worker-bridge';
+
+// Hybrid API for gradual migration with A/B testing support
+export {
+  HybridGeometryAPI,
+  getHybridGeometryAPI,
+  createHybridGeometryAPI,
+  shutdownGlobalHybridAPI,
+  DEFAULT_HYBRID_CONFIG,
+  type HybridAPIConfig,
+  type BackendPreference,
+} from './hybrid-geometry-api';

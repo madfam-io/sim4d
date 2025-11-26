@@ -9,7 +9,7 @@ export default defineConfig([
   {
     // Main entry - Library configuration for ESM
     ...createLibraryConfig({
-      entry: ['src/index.ts'],
+      entry: ['src/index.ts', 'src/hybrid-geometry-api.ts'],
       format: ['esm'], // ESM only - import.meta.url required for WASM loading
       dts: {
         resolve: true,

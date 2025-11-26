@@ -13,11 +13,16 @@ const isTestMode = typeof process !== 'undefined' && process.env?.NODE_ENV === '
 const isBrowserLikeWorker = typeof importScripts === 'function';
 const isNodeWorker = typeof process !== 'undefined' && !!process.versions?.node;
 
-let parentPort: unknown = null;
+interface NodeParentPort {
+  postMessage(message: unknown): void;
+  on(event: 'message', handler: (data: unknown) => void): void;
+}
+
+let parentPort: NodeParentPort | null = null;
 if (!isBrowserLikeWorker) {
   try {
     const workerThreads = await import('node:worker_threads');
-    parentPort = workerThreads.parentPort;
+    parentPort = workerThreads.parentPort as NodeParentPort | null;
   } catch (error) {
     logger.error('[OCCT Worker] Failed to load worker_threads parent port', error);
   }

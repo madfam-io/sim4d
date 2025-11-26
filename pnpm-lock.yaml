@@ -12,6 +12,9 @@ importers:
 
   .:
     dependencies:
+      '@madfam/geom-core':
+        specifier: file:../geom-core
+        version: file:../geom-core
       dompurify:
         specifier: ^3.3.0
         version: 3.3.0
@@ -212,6 +215,9 @@ importers:
       '@dnd-kit/utilities':
         specifier: ^3.2.2
         version: 3.2.2(react@18.3.1)
+      '@madfam/ui':
+        specifier: file:../../../madfam-ui
+        version: file:../madfam-ui(@types/react@18.3.24)(react-dom@18.3.1)(react@18.3.1)
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -2369,6 +2375,33 @@ packages:
     resolution: {integrity: sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==}
     dev: true
 
+  /@radix-ui/react-compose-refs@1.1.2(@types/react@18.3.24)(react@18.3.1):
+    resolution: {integrity: sha512-z4eqJvfiNnFMHIIvXP3CY57y2WJs5g2v3X0zm9mEJkrkNv4rDxu+sg9Jh8EkXyeqBkB7SOcboo9dMVqhyrACIg==}
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@types/react': 18.3.24
+      react: 18.3.1
+    dev: false
+
+  /@radix-ui/react-slot@1.2.4(@types/react@18.3.24)(react@18.3.1):
+    resolution: {integrity: sha512-Jl+bCv8HxKnlTLVrcDE8zTMJ09R9/ukw4qBs/oZClOfoQk/cOTbDn+NceXfV7j09YPVQUryJPHurafcSg6EVKA==}
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@radix-ui/react-compose-refs': 1.1.2(@types/react@18.3.24)(react@18.3.1)
+      '@types/react': 18.3.24
+      react: 18.3.1
+    dev: false
+
   /@react-spring/animated@9.7.5(react@18.3.1):
     resolution: {integrity: sha512-Tqrwz7pIlsSDITzxoLS3n/v/YCUHQdOIKtOJf4yL6kYVSDTSmVK1LI1Q3M/uu2Sx4X3pIWF3xLUhlsA6SPNTNg==}
     peerDependencies:
@@ -4371,6 +4404,12 @@ packages:
 
   /chownr@1.1.4:
     resolution: {integrity: sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg==}
+    dev: false
+
+  /class-variance-authority@0.7.1:
+    resolution: {integrity: sha512-Ka+9Trutv7G8M6WT6SeiRWz792K5qEqIGEGzXKhAE6xOWAY6pPH8U+9IY3oCMv6kqTmLsv7Xh/2w2RigkePMsg==}
+    dependencies:
+      clsx: 2.1.1
     dev: false
 
   /classcat@5.0.5:
@@ -8821,6 +8860,10 @@ packages:
     resolution: {integrity: sha512-P+Vu1qXfzediirmHOC3xKGAYeZtPcV9g76X+xg2FD4tYgR71ewMA35Y3sCz3zhiN/dwefRpJX0yBcgwi1fXNQA==}
     dev: false
 
+  /tailwind-merge@3.4.0:
+    resolution: {integrity: sha512-uSaO4gnW+b3Y2aWoWfFpX62vn2sR3skfhbjsEnaBI81WD1wBLlHZe5sWf0AqjksNdYTbGBEd0UasQMT3SNV15g==}
+    dev: false
+
   /tailwindcss@3.4.17:
     resolution: {integrity: sha512-w33E2aCvSDP0tW9RZuNXadXlkHXqFzSkQew/aIa2i/Sj8fThxwovwlXHSPXTbAHwEIhBFXAedUhP2tueAKP8Og==}
     engines: {node: '>=14.0.0'}
@@ -9835,4 +9878,33 @@ packages:
     dependencies:
       '@types/react': 18.3.24
       react: 18.3.1
+    dev: false
+
+  file:../geom-core:
+    resolution: {directory: ../geom-core, type: directory}
+    name: '@madfam/geom-core'
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      opencascade.js: ^2.0.0
+    peerDependenciesMeta:
+      opencascade.js:
+        optional: true
+    dev: false
+
+  file:../madfam-ui(@types/react@18.3.24)(react-dom@18.3.1)(react@18.3.1):
+    resolution: {directory: ../madfam-ui, type: directory}
+    id: file:../madfam-ui
+    name: '@madfam/ui'
+    peerDependencies:
+      react: '>=18'
+      react-dom: '>=18'
+    dependencies:
+      '@radix-ui/react-slot': 1.2.4(@types/react@18.3.24)(react@18.3.1)
+      class-variance-authority: 0.7.1
+      clsx: 2.1.1
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      tailwind-merge: 3.4.0
+    transitivePeerDependencies:
+      - '@types/react'
     dev: false
