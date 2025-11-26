@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@madfam/ui": "file:../../../madfam-ui",
+    "@janua/react-sdk": "file:../../../janua/packages/react-sdk",
     "@brepflow/collaboration": "workspace:*",
     "@brepflow/engine-core": "workspace:*",
     "@brepflow/engine-occt": "workspace:*",

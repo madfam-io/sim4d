@@ -5,6 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
+import { JanuaAuthProvider } from './providers/JanuaAuthProvider';
 import './design-system/tokens.css';
 import './index.css';
 import { createChildLogger } from './lib/logging/logger-instance';
@@ -22,7 +23,9 @@ if (!crossOriginIsolated) {
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <JanuaAuthProvider>
+        <App />
+      </JanuaAuthProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
