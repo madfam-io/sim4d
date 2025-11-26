@@ -1,0 +1,125 @@
+# Sim4D - Real-Time Simulation Platform
+# Deploy via Enclii
+
+apiVersion: enclii.dev/v1
+kind: Service
+metadata:
+  name: sim4d
+  project: madfam-platform
+  description: Real-time 4D simulation engine with WebGPU acceleration
+
+spec:
+  build:
+    type: dockerfile
+    dockerfile: Dockerfile
+    context: .
+    source:
+      git:
+        repository: https://github.com/madfam-io/sim4d
+        branch: main
+        autoDeploy: true
+
+  runtime:
+    port: 3000
+    replicas: 2
+    resources:
+      requests:
+        cpu: "500m"
+        memory: "1Gi"
+      limits:
+        cpu: "4000m"
+        memory: "4Gi"
+
+    healthCheck: /api/health
+    readinessProbe:
+      path: /api/health
+      initialDelaySeconds: 20
+      periodSeconds: 5
+    livenessProbe:
+      path: /api/health
+      initialDelaySeconds: 45
+      periodSeconds: 10
+
+  env:
+    - name: PORT
+      value: "3000"
+    - name: NODE_ENV
+      value: production
+
+    - name: DATABASE_URL
+      valueFrom:
+        secretKeyRef:
+          name: sim4d-secrets
+          key: database-url
+
+    - name: REDIS_URL
+      valueFrom:
+        secretKeyRef:
+          name: sim4d-secrets
+          key: redis-url
+
+    # Janua SSO
+    - name: NEXT_PUBLIC_JANUA_URL
+      value: https://auth.madfam.io
+    - name: NEXT_PUBLIC_JANUA_CLIENT_ID
+      value: sim4d
+    - name: JANUA_CLIENT_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: sim4d-secrets
+          key: janua-client-secret
+
+    # MADFAM Analytics
+    - name: NEXT_PUBLIC_ANALYTICS_URL
+      value: https://analytics.madfam.io
+    - name: NEXT_PUBLIC_ANALYTICS_SITE_ID
+      value: sim4d
+
+    # Coforma Feedback
+    - name: NEXT_PUBLIC_COFORMA_URL
+      value: https://coforma.madfam.io
+    - name: NEXT_PUBLIC_COFORMA_PRODUCT_ID
+      value: sim4d
+
+    # Object Storage for simulation data
+    - name: R2_ENDPOINT
+      valueFrom:
+        secretKeyRef:
+          name: sim4d-secrets
+          key: r2-endpoint
+    - name: R2_ACCESS_KEY_ID
+      valueFrom:
+        secretKeyRef:
+          name: sim4d-secrets
+          key: r2-access-key-id
+    - name: R2_SECRET_ACCESS_KEY
+      valueFrom:
+        secretKeyRef:
+          name: sim4d-secrets
+          key: r2-secret-access-key
+    - name: R2_BUCKET
+      value: sim4d-simulations
+
+  volumes:
+    - name: simulation-cache
+      mountPath: /var/cache/sim4d
+      size: 100Gi
+      storageClassName: hetzner-ssd
+      accessMode: ReadWriteOnce
+
+  domains:
+    - domain: sim4d.madfam.io
+      tls: true
+      tlsIssuer: cloudflare
+
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 12
+    targetCPUUtilizationPercentage: 60
+    targetMemoryUtilizationPercentage: 70
+
+  slo:
+    availability: 99.9
+    latencyP95: 1000
+    errorRate: 1.0

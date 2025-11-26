@@ -218,6 +218,9 @@ importers:
       '@janua/react-sdk':
         specifier: file:../../../janua/packages/react-sdk
         version: file:../janua/packages/react-sdk(react-dom@18.3.1)(react@18.3.1)
+      '@madfam/analytics':
+        specifier: file:../../../madfam-analytics
+        version: file:../madfam-analytics(react@18.3.1)
       '@madfam/ui':
         specifier: file:../../../madfam-ui
         version: file:../madfam-ui(@types/react@18.3.24)(react-dom@18.3.1)(react@18.3.1)
@@ -7350,6 +7353,12 @@ packages:
       pathe: 2.0.3
     dev: true
 
+  /plausible-tracker@0.3.9:
+    resolution: {integrity: sha512-hMhneYm3GCPyQon88SZrVJx+LlqhM1kZFQbuAgXPoh/Az2YvO1B6bitT9qlhpiTdJlsT5lsr3gPmzoVjb5CDXA==}
+    engines: {node: '>=10'}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+    dev: false
+
   /playwright-core@1.56.1:
     resolution: {integrity: sha512-hutraynyn31F+Bifme+Ps9Vq59hKuUCz7H1kDOcBs+2oGguKkWTU50bBWrtz34OUWmIwpBTWDxaRPXrIXkgvmQ==}
     engines: {node: '>=18'}
@@ -9930,6 +9939,20 @@ packages:
         optional: true
       graphql-ws:
         optional: true
+    dev: false
+
+  file:../madfam-analytics(react@18.3.1):
+    resolution: {directory: ../madfam-analytics, type: directory}
+    id: file:../madfam-analytics
+    name: '@madfam/analytics'
+    peerDependencies:
+      react: '>=17.0.0'
+    peerDependenciesMeta:
+      react:
+        optional: true
+    dependencies:
+      plausible-tracker: 0.3.9
+      react: 18.3.1
     dev: false
 
   file:../madfam-ui(@types/react@18.3.24)(react-dom@18.3.1)(react@18.3.1):
