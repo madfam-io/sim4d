@@ -1,0 +1,53 @@
+# CODEOWNERS file for Sim4D (B-Rep/NURBS CAD Engine)
+#
+# Code owners are automatically requested for review when someone opens a pull request
+# that modifies code that they own.
+
+# Default owners for everything in the repo
+* @madfam-io/developers
+
+# GitHub configuration and workflows
+/.github/ @madfam-io/devops @madfam-io/developers
+
+# Root configuration files
+/*.config.* @madfam-io/developers
+/*.json @madfam-io/developers
+
+# Documentation
+/docs/ @madfam-io/developers
+README.md @madfam-io/developers
+
+# Apps
+/apps/studio/ @madfam-io/cad-team @madfam-io/web-team
+/apps/collaboration/ @madfam-io/backend-team @madfam-io/web-team
+/apps/marketing/ @madfam-io/web-team
+
+# Core Geometry Engine (C++/WASM)
+/packages/geom-core/ @madfam-io/geometry-team
+/packages/geom-wasm/ @madfam-io/geometry-team
+**/*.cpp @madfam-io/geometry-team
+**/*.hpp @madfam-io/geometry-team
+**/*.wasm @madfam-io/geometry-team
+
+# UI Components
+/packages/ui/ @madfam-io/design-team @madfam-io/web-team
+/packages/components/ @madfam-io/design-team @madfam-io/web-team
+
+# Testing & Audits
+/tests/ @madfam-io/qa-team
+/audit/ @madfam-io/qa-team
+playwright.config.ts @madfam-io/qa-team
+vitest.config.* @madfam-io/qa-team
+
+# Infrastructure
+/deployment/ @madfam-io/devops
+Dockerfile* @madfam-io/devops
+docker-compose*.yml @madfam-io/devops
+**/*deploy*.yml @madfam-io/devops
+
+# Security-sensitive
+**/.env.* @madfam-io/security-team @madfam-io/devops
+
+# Dependencies
+package.json @madfam-io/security-team @madfam-io/developers
+pnpm-lock.yaml @madfam-io/security-team @madfam-io/developers
