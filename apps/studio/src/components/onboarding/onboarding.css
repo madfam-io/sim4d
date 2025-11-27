@@ -79,7 +79,9 @@
 
 .skill-card.recommended {
   border-color: #10b981;
-  box-shadow: 0 0 0 1px #10b981, 0 4px 15px rgba(16, 185, 129, 0.3);
+  box-shadow:
+    0 0 0 1px #10b981,
+    0 4px 15px rgba(16, 185, 129, 0.3);
 }
 
 .skill-icon {
@@ -122,6 +124,94 @@
 .welcome-promise {
   font-size: 1rem;
   margin: 0;
+}
+
+/* Sample Projects Section */
+.sample-projects-section {
+  margin-top: 1.5rem;
+}
+
+.sample-projects-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.sample-projects-divider::before,
+.sample-projects-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.sample-projects-divider span {
+  font-size: 0.9rem;
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.browse-samples-button {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 1rem;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.browse-samples-button:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.browse-samples-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.browse-samples-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.browse-samples-text strong {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.browse-samples-text small {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+/* Template Gallery Container in Welcome Screen */
+.welcome-template-gallery-container {
+  width: 90vw;
+  max-width: 1200px;
+  max-height: 85vh;
+  background: #1a1a2e;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
+
+.welcome-template-gallery-container .template-gallery {
+  height: 85vh;
+  overflow-y: auto;
 }
 
 /* Playground Manager Styles */
@@ -187,12 +277,16 @@
 
 .playground-card.active {
   border-color: #10b981;
-  box-shadow: 0 0 0 1px #10b981, 0 4px 15px rgba(16, 185, 129, 0.3);
+  box-shadow:
+    0 0 0 1px #10b981,
+    0 4px 15px rgba(16, 185, 129, 0.3);
 }
 
 .playground-card.completed {
   border-color: #6366f1;
-  box-shadow: 0 0 0 1px #6366f1, 0 4px 15px rgba(99, 102, 241, 0.3);
+  box-shadow:
+    0 0 0 1px #6366f1,
+    0 4px 15px rgba(99, 102, 241, 0.3);
 }
 
 .playground-encouragement {
@@ -246,7 +340,9 @@
 
 .hint-card.hint-high {
   border-color: rgba(239, 68, 68, 0.3);
-  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.2), 0 10px 25px rgba(0, 0, 0, 0.15);
+  box-shadow:
+    0 0 0 1px rgba(239, 68, 68, 0.2),
+    0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 /* Progress Tracker Styles */
