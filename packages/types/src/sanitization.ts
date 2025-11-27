@@ -55,7 +55,7 @@ export function sanitizeHTML(dirty: string, config: SanitizationConfig = {}): st
 
   // Strip all tags if requested
   if (mergedConfig.stripAllTags) {
-    return sanitizeText(dirty);
+    return sanitizeText(dirty, mergedConfig.maxLength || 0);
   }
 
   // Build allowed tags list
@@ -127,17 +127,25 @@ export function sanitizeText(text: string, maxLength: number = 0): string {
 
 /**
  * Sanitize node name for safe display
- * Allows basic formatting but no links or scripts
+ * Strips all HTML tags and returns plain text only
  *
  * @param name - Node name from user or template
- * @returns Sanitized node name
+ * @returns Sanitized node name (plain text, max 100 chars)
  */
 export function sanitizeNodeName(name: string): string {
-  return sanitizeHTML(name, {
-    allowFormatting: false, // No formatting in node names
-    stripAllTags: true, // Plain text only
-    maxLength: 100,
+  if (!name || typeof name !== 'string') {
+    return '';
+  }
+
+  // Use DOMPurify to strip ALL tags and get plain text content
+  const stripped = DOMPurify.sanitize(name, {
+    ALLOWED_TAGS: [], // No tags allowed
+    ALLOWED_ATTR: [], // No attributes allowed
+    KEEP_CONTENT: true, // Keep text content
   });
+
+  // Enforce max length
+  return stripped.substring(0, 100);
 }
 
 /**
