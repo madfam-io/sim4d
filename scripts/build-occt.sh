@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# BrepFlow OCCT build orchestrator
+# Sim4D OCCT build orchestrator
 # Produces threaded web bundles and Node.js bundles from the same OCCT toolchain
 
 set -euo pipefail
@@ -178,8 +178,8 @@ post_build_summary() {
 }
 
 run_node_smoke_tests() {
-  log "$YELLOW" "\nRunning @brepflow/engine-occt smoke tests..."
-  if pnpm --filter @brepflow/engine-occt test node-occt-smoke; then
+  log "$YELLOW" "\nRunning @sim4d/engine-occt smoke tests..."
+  if pnpm --filter @sim4d/engine-occt test node-occt-smoke; then
     log "$GREEN" "✓ node-occt smoke suite passed"
   else
     log "$RED" "✗ node-occt smoke suite failed"
@@ -188,7 +188,7 @@ run_node_smoke_tests() {
 }
 
 main() {
-  log "$GREEN" "BrepFlow OCCT build orchestrator"
+  log "$GREEN" "Sim4D OCCT build orchestrator"
   echo "================================"
 
   mkdir -p "$OUTPUT_DIR"

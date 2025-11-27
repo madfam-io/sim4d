@@ -21,14 +21,14 @@ COPY scripts ./scripts
 RUN pnpm install --frozen-lockfile
 
 # Build dependencies (types, engine-core, etc.)
-RUN pnpm --filter @brepflow/types run build
-RUN pnpm --filter @brepflow/schemas run build
-RUN pnpm --filter @brepflow/engine-core run build
-RUN pnpm --filter @brepflow/engine-occt run build
-RUN pnpm --filter @brepflow/nodes-core run build
-RUN pnpm --filter @brepflow/viewport run build
+RUN pnpm --filter @sim4d/types run build
+RUN pnpm --filter @sim4d/schemas run build
+RUN pnpm --filter @sim4d/engine-core run build
+RUN pnpm --filter @sim4d/engine-occt run build
+RUN pnpm --filter @sim4d/nodes-core run build
+RUN pnpm --filter @sim4d/viewport run build
 
 EXPOSE 5173
 
 # Development server with hot reload
-CMD ["pnpm", "--filter", "@brepflow/studio", "run", "dev", "--host", "0.0.0.0"]
+CMD ["pnpm", "--filter", "@sim4d/studio", "run", "dev", "--host", "0.0.0.0"]

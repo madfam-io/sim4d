@@ -20,9 +20,9 @@ COPY config ./config
 RUN pnpm install --frozen-lockfile
 
 # Build shared packages
-RUN pnpm --filter @brepflow/types run build
+RUN pnpm --filter @sim4d/types run build
 
 EXPOSE 3000
 
 # Development server
-CMD ["pnpm", "--filter", "@brepflow/marketing", "run", "dev", "--host", "0.0.0.0"]
+CMD ["pnpm", "--filter", "@sim4d/marketing", "run", "dev", "--host", "0.0.0.0"]

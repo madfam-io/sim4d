@@ -15,7 +15,7 @@ GRAPHS=(
 )
 
 echo "🔧 Building CLI package"
-pnpm --filter @brepflow/cli run build
+pnpm --filter @sim4d/cli run build
 
 echo "🧹 Preparing output directory at $OUTPUT_ROOT"
 rm -rf "$OUTPUT_ROOT"
@@ -25,7 +25,7 @@ run_render() {
   local graph_path="$1"
   local output_dir="$2"
   shift 2
-  pnpm --filter @brepflow/cli exec -- node -r ../../scripts/node-worker-polyfill.cjs dist/index.mjs render "$graph_path" \
+  pnpm --filter @sim4d/cli exec -- node -r ../../scripts/node-worker-polyfill.cjs dist/index.mjs render "$graph_path" \
     --out "$output_dir" \
     --export step,stl \
     --manifest "$@"

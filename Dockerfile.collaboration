@@ -23,11 +23,11 @@ COPY config ./config
 RUN pnpm install --frozen-lockfile
 
 # Build packages in dependency order
-RUN pnpm --filter @brepflow/types run build
-RUN pnpm --filter @brepflow/schemas run build || true
-RUN pnpm --filter @brepflow/engine-occt run build
-RUN pnpm --filter @brepflow/engine-core run build
-RUN pnpm --filter @brepflow/collaboration run build
+RUN pnpm --filter @sim4d/types run build
+RUN pnpm --filter @sim4d/schemas run build || true
+RUN pnpm --filter @sim4d/engine-occt run build
+RUN pnpm --filter @sim4d/engine-core run build
+RUN pnpm --filter @sim4d/collaboration run build
 
 EXPOSE 8080
 

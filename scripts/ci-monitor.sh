@@ -13,7 +13,7 @@ NC='\033[0m' # No Color
 
 # Configuration
 REPO_OWNER="${GITHUB_REPO_OWNER:-aureo-labs}"
-REPO_NAME="${GITHUB_REPO_NAME:-brepflow}"
+REPO_NAME="${GITHUB_REPO_NAME:-sim4d}"
 DAYS_BACK="${CI_MONITOR_DAYS:-7}"
 
 # Check if gh CLI is installed
@@ -31,7 +31,7 @@ if ! gh auth status &> /dev/null; then
 fi
 
 echo "════════════════════════════════════════════════════════════════"
-echo "           BrepFlow CI/CD Monitoring Dashboard"
+echo "           Sim4D CI/CD Monitoring Dashboard"
 echo "════════════════════════════════════════════════════════════════"
 echo ""
 
@@ -217,7 +217,7 @@ main() {
             echo ""
             echo "Environment variables:"
             echo "  GITHUB_REPO_OWNER - Repository owner (default: aureo-labs)"
-            echo "  GITHUB_REPO_NAME  - Repository name (default: brepflow)"
+            echo "  GITHUB_REPO_NAME  - Repository name (default: sim4d)"
             echo "  CI_MONITOR_DAYS   - Days of history (default: 7)"
             ;;
         *)

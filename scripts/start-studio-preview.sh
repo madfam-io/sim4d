@@ -21,7 +21,7 @@ SKIP_BUILD="${SKIP_STUDIO_BUILD:-0}"
 if [[ "$SKIP_BUILD" != "1" ]]; then
   if [[ ! -d "$DIST_DIR" || -z "$(ls -A "$DIST_DIR" 2>/dev/null)" ]]; then
     echo "[start-studio-preview] dist/ missing or empty – running build"
-    pnpm --filter @brepflow/studio run build
+    pnpm --filter @sim4d/studio run build
   else
     echo "[start-studio-preview] Using existing dist/ (set SKIP_STUDIO_BUILD=1 to bypass check)"
   fi
@@ -31,4 +31,4 @@ fi
 
 echo "[start-studio-preview] Starting Vite preview on $HOST:$PORT"
 # Use pnpm exec so Vite respects the explicit host/port flags without an extra "--" arg
-exec pnpm --filter @brepflow/studio exec -- vite preview --host "$HOST" --port "$PORT" --strictPort
+exec pnpm --filter @sim4d/studio exec -- vite preview --host "$HOST" --port "$PORT" --strictPort

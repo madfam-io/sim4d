@@ -8,14 +8,14 @@ set -e
 echo "Building production packages..."
 
 # Build core packages first
-pnpm --filter @brepflow/types build
-pnpm --filter @brepflow/engine-core build
-pnpm --filter @brepflow/engine-occt build
-pnpm --filter @brepflow/nodes-core build
-pnpm --filter @brepflow/viewport build
-pnpm --filter @brepflow/sdk build
+pnpm --filter @sim4d/types build
+pnpm --filter @sim4d/engine-core build
+pnpm --filter @sim4d/engine-occt build
+pnpm --filter @sim4d/nodes-core build
+pnpm --filter @sim4d/viewport build
+pnpm --filter @sim4d/sdk build
 
 # Build the studio app
-pnpm --filter @brepflow/studio build
+pnpm --filter @sim4d/studio build
 
 echo "Production build complete!"
