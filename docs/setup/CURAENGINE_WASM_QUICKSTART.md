@@ -24,6 +24,7 @@ Run this from the Sim4D root directory:
 ```
 
 **That's it!** The script will:
+
 1. ✅ Download and install Emscripten SDK (~500MB, takes ~5 minutes)
 2. ✅ Clone CuraEngine 5.7.2 source (~50MB, takes ~1 minute)
 3. ✅ Configure CMake for WASM build (~30 seconds)
@@ -31,6 +32,7 @@ Run this from the Sim4D root directory:
 5. ✅ Verify output and create binaries
 
 **Expected output**:
+
 ```
 🎉 CuraEngine WASM Setup Complete!
 ====================================
@@ -51,6 +53,7 @@ Run the test script:
 ```
 
 **You should see**:
+
 ```
 🧪 Testing CuraEngine WASM Compilation
 ======================================
@@ -81,6 +84,7 @@ If you see this, **you're done with compilation!** ✨
 ## 📦 What Was Created
 
 ### WASM Binaries (Ready to Use)
+
 ```
 packages/engine-occt/wasm/
 ├── cura-engine.wasm        # CuraEngine WASM binary (15MB)
@@ -88,6 +92,7 @@ packages/engine-occt/wasm/
 ```
 
 ### Worker Implementation (Already Written)
+
 ```
 packages/engine-occt/wasm/
 ├── cura-slicer-worker.ts   # TypeScript worker (handles slicing)
@@ -96,6 +101,7 @@ packages/engine-occt/wasm/
 ```
 
 ### Scripts
+
 ```
 scripts/
 ├── setup-cura-wasm.sh      # One-command setup
@@ -103,6 +109,7 @@ scripts/
 ```
 
 ### Documentation
+
 ```
 docs/
 ├── technical/GCODE_GENERATION_PLAN.md           # Full roadmap (12 weeks)
@@ -115,17 +122,18 @@ docs/
 
 The WASM integration comes with 7 ready-to-use profiles:
 
-| Profile | Material | Layer Height | Infill | Speed | Use Case |
-|---------|----------|--------------|--------|-------|----------|
-| **PLA Standard** | PLA | 0.2mm | 20% | 60mm/s | General purpose |
-| **PLA Draft** | PLA | 0.3mm | 15% | 80mm/s | Fast prototyping |
-| **PLA Fine** | PLA | 0.12mm | 25% | 45mm/s | High detail |
-| **PETG Standard** | PETG | 0.2mm | 25% | 50mm/s | Strong parts |
-| **ABS Engineering** | ABS | 0.2mm | 30% | 50mm/s | Heat-resistant |
-| **TPU Flexible** | TPU | 0.2mm | 10% | 25mm/s | Flexible prints |
-| **Vase Mode** | PLA | 0.2mm | 0% | 60mm/s | Single-wall vases |
+| Profile             | Material | Layer Height | Infill | Speed  | Use Case          |
+| ------------------- | -------- | ------------ | ------ | ------ | ----------------- |
+| **PLA Standard**    | PLA      | 0.2mm        | 20%    | 60mm/s | General purpose   |
+| **PLA Draft**       | PLA      | 0.3mm        | 15%    | 80mm/s | Fast prototyping  |
+| **PLA Fine**        | PLA      | 0.12mm       | 25%    | 45mm/s | High detail       |
+| **PETG Standard**   | PETG     | 0.2mm        | 25%    | 50mm/s | Strong parts      |
+| **ABS Engineering** | ABS      | 0.2mm        | 30%    | 50mm/s | Heat-resistant    |
+| **TPU Flexible**    | TPU      | 0.2mm        | 10%    | 25mm/s | Flexible prints   |
+| **Vase Mode**       | PLA      | 0.2mm        | 0%     | 60mm/s | Single-wall vases |
 
 **Usage**:
+
 ```typescript
 import { SLICER_PROFILES } from './cura-types';
 
@@ -147,11 +155,13 @@ You've completed **Week 1** of the G-code generation roadmap! 🎉
 **Goal**: Wire CuraEngine WASM into Sim4D's worker system
 
 **Tasks**:
+
 1. Extend worker protocol to support `CURA_SLICE` operation
 2. Connect `cura-slicer-worker.ts` to main geometry worker
 3. Test STL → G-code pipeline
 
 **Files to modify**:
+
 - `packages/engine-occt/src/worker/geometry-worker.ts`
 - `packages/engine-core/src/worker-protocol.ts`
 
@@ -160,12 +170,14 @@ You've completed **Week 1** of the G-code generation roadmap! 🎉
 **Goal**: Add slicer node to Sim4D graph editor
 
 **Tasks**:
+
 1. Create `packages/nodes-core/src/fabrication/cura-slicer.ts`
 2. Register node with enhanced registry
 3. Add to curated catalog (advanced tier)
 4. Write unit tests
 
 **Node interface**:
+
 ```typescript
 {
   id: 'Fabrication::CuraSlicer',
@@ -190,12 +202,14 @@ You've completed **Week 1** of the G-code generation roadmap! 🎉
 **Goal**: Create slicer settings panel in Studio
 
 **Tasks**:
+
 1. Build collapsible parameter panel
 2. Add profile selector dropdown
 3. Implement G-code preview (toolpath visualization)
 4. Add download button
 
 **Components**:
+
 - `apps/studio/src/components/slicer/SlicerSettings.tsx`
 - `apps/studio/src/components/slicer/GcodePreview.tsx`
 - `apps/studio/src/components/slicer/ProfileSelector.tsx`
@@ -207,11 +221,13 @@ You've completed **Week 1** of the G-code generation roadmap! 🎉
 ### Error: "emcc: command not found"
 
 **Fix**: Activate Emscripten environment
+
 ```bash
 source third_party/emsdk/emsdk_env.sh
 ```
 
 Then run setup again:
+
 ```bash
 ./scripts/setup-cura-wasm.sh
 ```
@@ -221,6 +237,7 @@ Then run setup again:
 **Problem**: Out of memory (each compile process uses ~1.5GB)
 
 **Fix**: Reduce parallel jobs
+
 ```bash
 # Edit scripts/setup-cura-wasm.sh
 # Change: emmake make -j$(nproc)
@@ -232,6 +249,7 @@ Then run setup again:
 **Fix**: Compilation didn't complete successfully
 
 **Solution**:
+
 1. Check setup script output for errors
 2. Look in `third_party/CuraEngine/build-wasm/`
 3. Manually verify: `ls -lh third_party/CuraEngine/build-wasm/CuraEngine.wasm`
@@ -248,11 +266,11 @@ Then run setup again:
 
 Based on testing with Chrome on modern hardware:
 
-| Model Complexity | STL Size | Slice Time | G-code Size |
-|------------------|----------|------------|-------------|
-| Simple cube | 1.5 KB | 120ms | 25 KB |
-| Benchy (boat) | 4.7 MB | 2.8s | 18 MB |
-| Complex enclosure | 850 KB | 980ms | 4.2 MB |
+| Model Complexity  | STL Size | Slice Time | G-code Size |
+| ----------------- | -------- | ---------- | ----------- |
+| Simple cube       | 1.5 KB   | 120ms      | 25 KB       |
+| Benchy (boat)     | 4.7 MB   | 2.8s       | 18 MB       |
+| Complex enclosure | 850 KB   | 980ms      | 4.2 MB      |
 
 **Memory usage**: 150-300 MB (isolated in worker)
 
@@ -297,6 +315,7 @@ location /wasm/ {
 ```
 
 Then compress:
+
 ```bash
 brotli -9 packages/engine-occt/wasm/cura-engine.wasm
 ```
