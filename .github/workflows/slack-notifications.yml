@@ -23,7 +23,7 @@ jobs:
 
       - name: Send failure notification to Slack
         if: ${{ secrets.SLACK_WEBHOOK_URL != '' }}
-        uses: slackapi/slack-github-action@v1.25.0
+        uses: slackapi/slack-github-action@v2.1.1
         with:
           payload: |
             {
@@ -96,7 +96,7 @@ jobs:
     steps:
       - name: Send success notification to Slack
         if: ${{ secrets.SLACK_WEBHOOK_URL != '' }}
-        uses: slackapi/slack-github-action@v1.25.0
+        uses: slackapi/slack-github-action@v2.1.1
         with:
           payload: |
             {
